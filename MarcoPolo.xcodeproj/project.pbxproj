@@ -126,7 +126,6 @@
 		8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefsWindowController.h; path = src/PrefsWindowController.h; sourceTree = "<group>"; };
 		8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefsWindowController.m; path = src/PrefsWindowController.m; sourceTree = "<group>"; };
 		8D8B65A10B855DA1003870A1 /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
-		8D8B65A30B855DBD003870A1 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Apple80211.h; path = src/Apple80211.h; sourceTree = "<group>"; };
 		8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apple80211.framework; path = /System/Library/PrivateFrameworks/Apple80211.framework; sourceTree = "<absolute>"; };
 		8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvidenceSource.h; path = src/EvidenceSource.h; sourceTree = "<group>"; };
@@ -137,7 +136,7 @@
 		8D8C9E330BBB89320074D5B3 /* DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB.m; path = src/DB.m; sourceTree = "<group>"; };
 		8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IPEvidenceSource.h; path = src/IPEvidenceSource.h; sourceTree = "<group>"; };
 		8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IPEvidenceSource.m; path = src/IPEvidenceSource.m; sourceTree = "<group>"; };
-		8D909D0F0B86D3BA00D806DF /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = appcast.xml; path = web/appcast.xml; sourceTree = "<group>"; };
+		8D909D0F0B86D3BA00D806DF /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = appcast.xml; path = ../web/appcast.xml; sourceTree = "<group>"; };
 		8D90E51D0B71C4C9007D39FD /* MPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPController.h; path = src/MPController.h; sourceTree = "<group>"; };
 		8D90E51E0B71C4C9007D39FD /* MPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPController.m; path = src/MPController.m; sourceTree = "<group>"; };
 		8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-arrow.png"; path = "graphics/plus-arrow.png"; sourceTree = "<group>"; };
@@ -311,7 +310,6 @@
 				8DEF42780BAA05CD00F87273 /* MarcoPolo Help */,
 				8D909D0F0B86D3BA00D806DF /* appcast.xml */,
 				8D8B65A10B855DA1003870A1 /* NOTES.txt */,
-				8D8B65A30B855DBD003870A1 /* TODO.txt */,
 				8D14E1190BF3DADE00FDD12C /* HACKING.txt */,
 			);
 			name = Docs;
