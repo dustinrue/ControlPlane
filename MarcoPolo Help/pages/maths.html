@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
+<html>
+<head>
+	<title>The maths behind MarcoPolo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="maths details">
+	<meta name="description" content="Learn how MarcoPolo works behind-the-scenes.">
+	<link media="all" rel="stylesheet" href="../css/topicPage.css" />
+</head>
+<body>
+	<div id="banner">
+		<div id="machelp">
+			<a class="bread" href="help:anchor='access' bookID=MarcoPolo Help">MarcoPolo Help</a>
+			<!-- The above links back to the index page -->
+		</div>
+	</div>
+	<div id="mainbox">
+		<div id="caticon">
+			<img class="icon" src="../gfx/icon.png" alt="MarcoPolo Icon" />
+		</div>
+		<div id="pagetitle">
+			<h1>The maths behind MarcoPolo</h1>
+		</div>
+		<p style="font-style: italic;">Note: this is fairly technical,
+		and is aimed at an undergraduate mathematics level. It is not
+		necessary to understand the following content to use MarcoPolo;
+		it is provided for the curious.
+		</p>
+		<p>Every time MarcoPolo decides to evaluate the best guess, it
+		finds all the rules that match, groups them based on the
+		location that they provide evidence for, and then aggregates
+		the confidence values for each location. The location with the
+		highest aggregated confidence is then taken to be the best
+		guess.
+		</p>
+		<p>Confidence values are assumed to be independent, and are
+		aggregated according to the following equation:
+		</p>
+		<p style="text-align: center;">
+			<img src="../gfx/equation-0.png" alt="Equation 0" />
+		</p>
+		<p>For example, if two rules match for a specific location, one
+		having 50% confidence and the other having 70% confidence:
+		</p>
+		<p style="text-align: center;">
+			<img src="../gfx/equation-1.png" alt="Equation 1" />
+		</p>
+
+		<h2 class="seealso">See also</h2>
+		<p class="seealso">
+			<a href="rules.html">Setting up MarcoPolo's rules</a><br />
+		</p>
+	</div>
+</body>
+</html>

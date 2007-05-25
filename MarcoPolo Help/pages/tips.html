@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
+<html>
+<head>
+	<title>Tips and Tricks</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="tips, tricks, examples, samples">
+	<meta name="description" content="Get the most out of MarcoPolo.">
+	<link media="all" rel="stylesheet" href="../css/topicPage.css" />
+</head>
+<body>
+<div id="banner">
+	<div id="machelp">
+		<a class="bread" href="help:anchor='access' bookID=MarcoPolo Help">MarcoPolo Help</a>
+		<!-- The above links back to the index page -->
+	</div>
+</div>
+<div id="mainbox">
+	<div id="caticon">
+		<img class="icon" src="../gfx/icon.png" alt="MarcoPolo Icon" />
+	</div>
+	<div id="pagetitle">
+		<h1>Tips and Tricks</h1>
+	</div>
+	<p>This page gives examples of useful ways that
+	MarcoPolo can be used, especially via actions.
+	</p>
+
+			
+	<div summary="How to cause Adium to connect and set your status" class="taskbox">
+		<p>
+		<strong>To cause Adium to connect and set your status:</strong>
+		<ol>
+		<li>Use <em>Script Editor</em> to create an AppleScript such as:
+<pre>
+tell application "Adium"
+	activate
+	set my status message to "At home."
+	set my status type to available
+end tell
+</pre>
+		</li>
+		<li>Save it as an <em>application</em>, unchecking <em>Startup Screen</em>, <em>Run Only</em> and <em>Stay Open</em>.</li>
+		<li>Create an <em>Open</em> action in MarcoPolo, giving the full path to the saved application (including the ".app" extension) as its parameter.</li>
+		</ol>
+		</p>
+		<p>
+		You may replace <em>available</em> with <em>away</em> to have
+		Adium set your status as busy.
+		</p>
+	</div>
+
+	<div summary="How to mount network drives" class="taskbox">
+		<p>
+		<strong>To mount a set of network drives:</strong>
+		<ol>
+		<li>Use <em>Script Editor</em> to create an AppleScript such as:
+<pre>
+tell application "Finder"
+	activate
+	try
+		mount volume "smb://server1/share1"
+	end try
+	try
+		mount volume "smb://server2/share2"
+	end try
+end tell
+</pre>
+		</li>
+		<li>Save it as an <em>application</em>, unchecking <em>Startup Screen</em>, <em>Run Only</em> and <em>Stay Open</em>.</li>
+			<li>Create an <em>Open</em> action in MarcoPolo, giving the full path to the saved application (including the ".app" extension) as its parameter.</li>
+		</ol>
+		</p>
+		<p>
+		You may need to use <tt>"smb://username@server/share"</tt> or
+		<tt>"smb://username:password@server/share"</tt> to fully
+		automate it, unless you store your username and password in the
+		Keychain.
+		</p>
+	</div>
+
+	<h2 class="seealso">See also</h2>
+	<p class="seealso">
+		<a href="actions.html">Setting up MarcoPolo's actions</a><br />
+	</p>
+</div>
+</body>
+</html>

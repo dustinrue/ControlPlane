@@ -1,0 +1,780 @@
+1003|Atmel Corporation
+1006|Mitsumi
+1008|Hewlett Packard
+1012|Diebold, Inc.
+1020|Elitegroup Computer Systems
+1021|Xilinx Inc.
+1024|National Semiconductor
+1026|ALi Corporation
+1027|Future Technology Devices International Limited
+1033|NEC Corporation
+1034|Kodak Co.
+1035|Weltrend Semiconductor
+1037|VIA Technologies, Inc.
+1038|MCCI
+1041|BUFFALO INC.
+1046|Winbond Electronics Corp.
+1050|Phoenix Technologies Ltd.
+1054|Creative Labs
+1057|Nokia Corporation
+1060|SMSC
+1068|Innovative Semiconductors, Inc.
+1071|Molex Inc.
+1074|Unisys Corp.
+1080|Advanced Micro Devices
+1085|Lexmark International Inc.
+1088|EIZO NANAO CORPORATION
+1094|NMB Technologies Corporation
+1102|Alps Electric Co., Ltd.
+1105|Texas Instruments
+1110|Analog Devices, Inc.
+1111|Silicon Integrated Systems Corp.
+1112|KYE Systems Corp. (Mouse Systems)
+1115|Renesas Technology Corp.
+1118|Microsoft Corporation
+1121|Primax Electronics
+1123|MGE UPS SYSTEMS
+1128|Wieson Technologies Co., Ltd.
+1130|CHERRY GmbH
+1131|American Megatrends
+1133|Logitech Inc.
+1134|Behavior Tech Computer Corporation
+1137|Philips
+1140|Sanyo Electric Co. Ltd.
+1149|Kensington
+1150|Agere Systems Inc.
+1154|Kyocera Corporation
+1155|STMicroelectronics
+1161|Foxconn / Hon Hai
+1165|ITE Tech. Inc.
+1168|United Microelectronic Corporation (UMC)
+1177|Yamaha Corporation
+1188|Hitachi, Ltd.
+1189|Benq Corporation
+1193|Canon Inc.
+1200|Nikon Corporation
+1204|Cypress Semiconductor
+1205|ROHM Co., Ltd.
+1207|Compal Electronics, Inc.
+1208|Seiko Epson Corp.
+1209|SafeNet, Inc.
+1211|I-O Data Device, Inc.
+1215|TDK Corporation
+1221|Fujitsu Ltd.
+1226|Lite-On Technology Corp.
+1227|FUJIFILM Corporation
+1228|NXP Semiconductors
+1231|Myson Century, Inc.
+1236|LSI Logic Inc.
+1238|Mentor Graphics
+1241|Holtek Semiconductor, Inc.
+1242|Panasonic (Matsushita)
+1244|Huan Hsin Holdings Ltd.
+1245|Sharp Corporation
+1247|Interlink Electronics
+1250|Exar Corporation
+1254|SCM Microsystems
+1255|Elo TouchSystems
+1256|Samsung Electronics Co., Ltd.
+1259|Northstar Systems Corp.
+1260|Tokyo Electron Device Limited
+1265|Victor Company of Japan, Limited
+1266|Chicony Electronics Co., Ltd.
+1267|Elan Microelectronics Corportation
+1271|Newnex Technology Corp.
+1273|Brother Industries, Ltd.
+1276|SUNPLUS TECHNOLOGY CO., LTD.
+1278|PFU Limited
+1281|Fujikura/DDK
+1287|Hosiden Corporation
+1293|Belkin Corporation
+1300|FCI Electronics
+1302|Longwell Electronics/Longwell Company
+1305|Star Micronics Co., LTD
+1308|Shuttle Inc.
+1309|American Power Conversion
+1312|Taiwan Semiconductor Manufacturing Co.
+1314|ACON, Advanced-Connectek, Inc.
+1317|PLX Technology, Inc.
+1320|ATI Technologies, Inc.
+1321|Aladdin Knowledge Systems
+1324|Canon Development Americas
+1329|Wacom Technology Corp.
+1335|Inventec Corporation
+1337|Shyh Shiun Terminals Co. LTD
+1338|Preh KeyTec GmbH
+1343|Synopsys, Inc.
+1345|Sirf Technology, Inc
+1356|Sony Corporation
+1360|Fuji Xerox Co., Ltd.
+1367|ATEN International Co. Ltd.
+1386|WACOM Co., Ltd.
+1390|Elecom Co., Ltd.
+1394|Conexant Systems, Inc.
+1395|Zoran Corporation
+1398|BAFO/Quality Computer Accessories
+1403|Y-E Data, Inc.
+1404|AVM GmbH
+1410|Roland Corporation
+1412|RATOC System Inc.
+1419|Infineon Technologies
+1421|Micrel Semiconductor
+1423|Alcor Micro, Corp.
+1424|OMRON Corporation
+1435|Iomega Corporation
+1439|LaCie
+1447|Bose Corporation
+1449|OmniVision Technologies, Inc.
+1452|Apple, Inc.
+1453|Y.C. Cable U.S.A., Inc
+14627|National Instruments
+1470|Tyco Electronics
+1473|Kawasaki Microelectronics, Inc.
+1478|Qualcomm, Inc
+1480|Foxlink/Cheng Uei Precision Industry Co., Ltd
+1482|Ricoh Company Ltd.
+1498|Microtek International Inc.
+1500|Lexar Media, Inc.
+1501|Delta Electronics Inc.
+1504|Symbol Technologies
+1507|Genesys Logic, Inc.
+1509|Fuji Electric FA Components & Systems Co.,Ltd.
+1513|Kawasaki Microelectronics America, Inc.
+1520|Canopus Co., Ltd.
+1525|Unixtar Technology Inc.
+1529|PSC Scanning, Inc.
+1534|CHIC TECHNOLOGY CORP
+1535|LeCroy Corporation
+1539|Novatek Microelectronics Corp.
+1545|SMK Manufacturing Inc.
+1551|Joinsoon Electronics Mfg. Co., Ltd.
+1553|Totoku Electric Co., LTD.
+1555|TransAct Technologies Incorporated
+1556|Bio-Rad Laboratories
+1561|Seiko Instruments Inc.
+1578|MosArt Semiconductor Corp.
+1582|MAIN SUPER ENTERPRISES CO.,LTD.
+1588|Micron Technology, Inc.
+1592|Avision, Inc.
+1604|TEAC Corporation
+1611|Analog Devices, Inc. Development Tools
+1612|Ji-Haw Industrial Co., Ltd
+1615|WIBU-Systems AG
+1621|Space Shuttle Hi-Tech Co.,Ltd.
+1623|Tekcon Electronics Corp.
+1624|Sigma Designs, Inc.
+1631|Good Way Technology Co., Ltd. & GWC technology Inc
+1632|TSAY-E (BVI) International Inc.
+1633|Hamamatsu Photonics K.K.
+1642|Total Technologies, Ltd.
+1647|SigmaTel, Inc.
+1652|Key Mouse Electronic Enterprise Co., Ltd.
+1656|ACARD Technology Corp.
+1659|Prolific Technology, Inc.
+1662|Intermec Technologies (S) Pte Ltd.
+1665|Siemens Information and Communication Products
+16700|Dell Inc.
+1680|Golden Bridge Electech Inc.
+1689|Tektronix, Inc.
+1690|Askey Computer Corporation
+1699|Saitek PLC
+1709|Greatland Electronics Taiwan Ltd.
+1710|Professional Multimedia Testing Centre
+1720|Pixela Corporation
+1724|Oki Data Corporation
+1727|Leoco Corporation
+1732|Bizlink International Corporation
+1736|SIIG, Inc.
+1741|Keyspan
+1747|Mitsubishi Electric Corporation
+1758|Heisei Electronics Co. Ltd.
+1802|Oki Electric Industry Co., Ltd.
+1806|Excel Cell Electronic Co., Ltd.
+1809|Magic Control Technology Corp.
+1816|Imation Corp.
+1821|Eicon Networks Corporation
+1846|Lorom Industrial Co., Ltd.
+1848|Mad Catz, Inc.
+1862|ONKYO Corporation
+1869|Micronas GmbH
+1886|ABIT Corporation
+1891|M-Audio
+1892|Cyber Power Systems, Inc.
+1894|Jess-Link Products Co., Ltd. (JPC)
+1899|OMNIKEY
+1901|Denso Corporation
+1904|Welch Allyn, Inc - Medical Division
+1911|Comda Enterprise Corporation
+1913|Fairchild Semiconductor
+1917|Griffin Technology
+1921|SanDisk Corporation
+1929|Logitec Corporation
+1936|Pro-Image Manufacturing Co., Ltd
+1937|Copartner Technology Corporation
+1954|National Technical Systems
+1970|Motorola BCS
+1971|Plustek, Inc.
+1972|OLYMPUS CORPORATION
+1975|TIME Interconnect Ltd.
+1988|Datafab Systems Inc.
+1994|AVerMedia Technologies, Inc.
+1999|Casio Computer Co., Ltd.
+2001|D-Link Corporation
+2039|Century Corporation
+2041|Dotop Technology, Inc.
+2058|Evermuch Technology Co., Ltd.
+2088|Sato Corporation
+2096|Palm Inc.
+2101|Action Star Enterprise Co., Ltd.
+2112|Argosy Research Inc.
+2118|NETGEAR, Inc.
+2159|MEC IMEX INC/HPT
+2164|A-Tec Subsystem, Inc.
+21930|OnSpec Electronic Inc.
+2205|Icron Technologies Corporation
+2222|Macally (Mace Group, Inc.)
+2233|RadioShack Corporation
+2235|Texas Instruments Japan
+2247|TAI TWUN ENTERPRISE CO., LTD.
+2269|Billionton Systems, Inc.
+2276|Pioneer Corporation
+2278|GEMPLUS
+2284|M-Systems Flash Disk Pioneers
+2288|CardScan Inc.
+2294|Logic 3 International Limited
+2297|Wipro Technologies
+2310|FARADAY Technology Corp.
+2313|Audio-Technica Corp.
+2316|Silicon Motion, Inc. - Taiwan
+2319|Fujitsu Devices Inc.
+2334|Garmin International
+2338|Dymo Corporation
+2344|Oxford Semiconductor Ltd.
+2352|Toshiba Corporation
+2362|Pixart Imaging, Inc.
+2363|Plextor LLC
+2366|J.S.T. Mfg. Co., Ltd.
+2385|Kingston Technology Company
+2389|NVIDIA
+2390|BSquare Corporation
+2391|Agilent Technologies, Inc.
+2395|Medialogic Corporation
+2397|Polycom, Inc.
+2419|Axalto
+2438|Matsushita Electric Works, Ltd.
+2468|Contech Research, Inc.
+2472|Lin Shiung Enterprise Co., Ltd.
+2475|Japan Cash Machine Co., Ltd.
+2498|NISCA Corporation
+2508|Workbit Corporation
+2511|Electronics Testing Center, Taiwan
+2521|Jungo
+2522|A-FOUR TECH CO., LTD.
+2533|Jo-Dan International, Inc.
+25452|CoreLogic, Inc.
+2554|Mtek Vision
+2578|Cambridge Silicon Radio Ltd.
+2580|Spacelabs Healthcare
+2582|Trek Technology (S) Pte Ltd
+2583|PENTAX Corporation
+2593|Medtronic Physio Control Corp.
+2631|Hirose Electric
+2632|I/O Interconnect
+2636|COMPUTEX Co., Ltd.
+2640|Mimaki Engineering Co., Ltd.
+2643|Portable Peripheral Co., Ltd.
+2652|Broadcom Corp.
+2667|Green House Co., Ltd.
+2685|NSTL, Inc.
+2689|CHESEN ELECTRONICS CORP.
+2690|SYSCAN
+2702|Japan Aviation Electronics Industry Ltd. (JAE)
+2704|Candy Technology Co., Ltd.
+27253|Shanghai Jujo Electronics Co., Ltd.
+2727|Wincor Nixdorf GmbH & Co KG
+2760|Vimicro Corporation
+2787|Allion Test Labs, Inc.
+2788|Taito Corporation
+2816|INGENICO
+2821|ASUSTek Computer Inc.
+2846|Electronic Warfare Assoc., Inc. (EWA)
+2849|Yokogawa Electric Corporation
+2851|Pan-Asia Electronics Co., Ltd.
+2856|Kenwood Corporation
+2871|Hitachi ULSI Systems Co., Ltd.
+2876|Olivetti S.p.A
+2888|TechnoTrend AG
+2894|Musical Electronics Ltd.
+2900|Sinbon Electronics Co., Ltd.
+2913|NEC Viewtechnology, Ltd.
+2922|Maxim Integrated Products
+2928|PortalPlayer, Inc.
+2965|ASIX Electronics Corporation
+2967|O2 Micro, Inc.
+2996|High Tech Computer, Corp. (HTC)
+2997|Murata Manufacturing Co., Ltd.
+3034|Realtek Semiconductor Corp.
+3035|Ericsson AB
+3044|Elka International Ltd.
+3046|Dong Guan Humen Wonderful Wire Cable Factory
+3054|LTK Industries Ltd.
+3062|Addonics Technologies, Inc.
+3064|Fujitsu Siemens Computers
+3078|Hasbro, Inc.
+3100|Hang Zhou Silan Electronics Co. Ltd
+3106|TallyGenicom L.P.
+3108|Taiyo Yuden
+3132|Radius Co., Ltd.
+3140|Motorola iDEN
+3141|Sonix Technology Co., Ltd.
+3156|GLORY LTD.
+3157|Spectrum Digital Inc.
+3158|Billion Bright Limited
+3161|Dong Guan Shinko Wire Co., Ltd.
+3170|Chant Sincere Co., Ltd
+3172|Signality System Engineering Co., Ltd.
+3194|Wing-Span Enterprise Co., Ltd.
+3245|Motorola GEMS
+3255|Singatron Enterprise Co. Ltd.
+3259|Shanghai Darong Electronics Co., Ltd.
+3263|Union Genius Computer Co., Ltd
+3268|emsys GmbH
+32902|Intel Corporation
+3294|Z-Com INC.
+3313|e-CONN ELECTRONIC CO., LTD.
+3314|ENE Technology Inc.
+3315|Atheros Communications, Inc.
+3351|NALTEC, Inc.
+3386|Posiflex Technologies, Inc.
+3393|Ta Yun Terminals Industrial Co., Ltd.
+3394|FULL DER CO., LTD.
+3402|NF Corporation
+3403|Grape Systems Inc.
+3413|ASKA Technologies Inc.
+3425|MEILU ELECTRONICS (SHENZHEN) CO., LTD.
+3426|Darfon Electronics Corp.
+3434|eMegaTech International Corp.
+3440|Try Computer Co. LTD.
+3450|MARX CryptoTech LP
+3452|Taiwan Line Tek Electronic Co., Ltd.
+3468|C-MEDIA ELECTRONICS INC.
+3471|Pitney Bowes
+3489|Suzhou Peter's Precise Industrial Co., Ltd.
+3495|IOGEAR, Inc.
+3504|Micro-Star International Co., Ltd.
+3519|Jess-Link International
+3524|Macpower & Tytech Technology Co., LTD.
+3525|SDK Co, Ltd.
+3537|Contek Electronics Co., Ltd.
+3538|Power Quotient International Co., Ltd.
+3540|Custom Engineering SPA
+3546|Integrated Silicon Solution, Inc
+3552|BD Consumer Healthcare
+3562|UTECH Electronic (D.G.) Co., Ltd.
+3574|Sitecom Europe B.V.
+3607|Walex Electronic Ltd.
+3618|Symbian Ltd.
+3619|Liou Yuane Enterprise Co., Ltd.
+3621|VinChip Systems, Inc.
+3630|Brady Corporation
+3636|Micro Computer Control Corp.
+3640|Stratitec, Inc.
+3641|Smart Modular Technologies, Inc.
+3642|Neostar Technology Co., Ltd.
+3652|Sun-Riseful Technology Co., Ltd.
+3654|Delphi Corporation
+3675|Union Power Information Industrial Co., Ltd.
+3677|Neltron Industrial Co., Ltd.
+3690|Megawin Technology Co., Ltd.
+3714|Ching Tai Electric Wire & Cable Co., Ltd.
+3723|KAO SHIN PRECISION INDUSTRY CO., LTD.
+3724|Well Force Electronic Co., Ltd
+3730|C'S GLORY ENTERPRISE CO., LTD.
+3739|ADTEC CORPORATION
+3744|Ours Technology Inc.
+3751|MSL Enterprises Corp.
+3762|Y-S ELECTRONIC CO., LTD.
+3775|Omega Technology Inc.
+3778|Sweetray Industrial Ltd.
+3779|AXELL CO., LTD.
+3782|InnoVISION Multimedia Limited
+3838|WEM TECHNOLOGY INC.
+3848|CSL Wire & Plug (Shen Zhen) Company
+3854|Energyfull & Hi-Top International Ltd.
+38672|Moschip Semiconductor Technology
+3868|Funai Electric Co., Ltd.
+3886|Good Man Corporation
+3888|Jess Technology Co., Ltd.
+3890|YFC-BonEagle Electric Co., Ltd.
+3896|Nien-Yi Industrial Corp.
+3922|WING KEI ELECTRICAL CO., LTD.
+3923|Taiyo Cable (Dongguan) Co. Ltd.
+3924|Kawai Musical Instruments Mfg. Co., Ltd.
+3944|TEPCO UQUEST, LTD.
+3945|DIONEX CORPORATION
+3976|VTech Holdings Ltd.
+3979|Yazaki Corporation
+3991|CviLux Corporation
+4004|ATL Technology
+4016|Haurtian Wire & Cable Co., Ltd.
+4018|Conteck Co., Ltd.
+4024|Wistron Corporation
+4038|Dataplus Supplies, Inc.
+4046|Sony Ericsson Mobile Communications AB
+4049|Giant Electronics Ltd.
+4087|CHI SHING COMPUTER ACCESSORIES CO., LTD.
+4096|Speed Tech Corp.
+4100|LG Electronics Inc.
+4105|Lumanate, Inc.
+4114|SDKM Fibres, Wires & Cables Berhad
+4130|Shinko Shoji Co., Ltd.
+4134|Newly Corporation
+4139|Infotronic America, Inc.
+4145|Comax Technology Inc.
+4146|C-One Technology Corp.
+4168|Targus Group International
+4172|AMCO TEC International Inc.
+4184|Western Digital Technologies, Inc.
+4185|Giesecke & Devrient GmbH
+4188|Freeway Electronic Wire & Cable (Dongguan) Co., Ltd.
+4189|Delkin Devices, Inc.
+4191|Chin Shong Enterprise Co., Ltd.
+4227|CANON ELECTRONICS INC.
+4228|PANTECH CO., LTD.
+4235|Grand-tek Technology Co., Ltd.
+4236|Robert Bosch GmbH
+4267|USI Co., Ltd.
+4270|Princeton Technology Corp.
+4280|DIBCOM
+4283|TM Technology Inc.
+4292|Silicon Laboratories, Inc.
+4301|Kycon Inc.
+4310|Actions Semiconductor Co., Ltd.
+4349|Animation Technologies Inc.
+4370|YM ELECTRIC CO., LTD.
+4371|Medion AG
+4381|Centon Electronics
+4382|VSO Electric Co., Ltd.
+4398|Master Hill Electric Wire and Cable Co., Ltd.
+4400|Tenx Technology, Inc.
+4422|Shimane SANYO Electric Co., Ltd.
+4429|Alpha Imaging Technology Corp.
+4443|Salix Technology Co., Ltd.
+4463|Silicon 10 Technology Corp.
+4469|Sheng Yih Technologies Co., Ltd.
+4488|Bloomberg L.P.
+4506|ZHAN QI Technology Co., Ltd.
+4522|GlobalMedia Group, LLC
+4528|ATECH FLASH TECHNOLOGY
+4582|K.I. Technology Co. Ltd.
+4622|HUDSON SOFT CO., LTD.
+4643|SKYCABLE ENTERPRISE. CO., LTD.
+4655|Takimaging
+4656|Chipidea-Microelectronica, S.A.
+4703|A-DATA Technology Co., Ltd.
+4706|MICRO VISION CO., LTD.
+4708|Valleylab
+4716|Aristocrat Technologies
+4717|Bel Stewart
+4719|TwinMOS Technologies Inc.
+4742|MARVELL SEMICONDUCTOR, INC.
+4756|RISO KAGAKU CORP.
+4763|CyberTAN Technology Inc.
+4779|Honey Bee Electronic International Ltd.
+4792|Zhejiang Xinya Electronic Technology Co., Ltd.
+4794|Sony Computer Entertainment America
+4818|LINE TECH INDUSTRIAL CO., LTD.
+4823|BETTER WIRE FACTORY CO., LTD.
+4841|Mindspeed Technologies
+4853|Dynamic System Electronics Corp.
+4855|Memorex Products, Inc.
+4871|USBest Technology Inc.
+4907|Konica Minolta Holdings, Inc.
+4908|Le Prestique International (H.K.) Ltd.
+4936|Katsuragawa Electric Co., Ltd.
+4971|STEC
+4976|Swissbit AG
+4982|Vimtron Electronics Co., Ltd.
+5008|TOMTOM B.V.
+5014|Silicon Storage Technology, Inc.
+5041|Cisco-Linksys, LLC
+5043|Nippon Dics Co., Ltd.
+5054|Ricoh Printing Systems, Ltd.
+5066|JyeTai Precision Industrial Co., Ltd.
+5071|Wisair Ltd.
+5084|ALEREON, INC.
+5085|i.Tech Dynamic Limited
+5089|Kaibo Wire & Cable (Shenzhen) Co., Ltd.
+5094|TechnoScope Co., Ltd.
+5117|Initio Corporation
+5118|Phison Electronics Corp.
+5119|VIEWCON ELECTRONIC LTD.
+5120|Axxion Group Corp.
+5122|Bowe Bell & Howell
+5123|Sitronix Technology Corp.
+5134|Telechips, Inc.
+5136|Novatel Wireless, Inc.
+5145|ABILITY ENTERPRISE CO., LTD.
+5161|Vega Technologies Industrial (Austria) Co.
+5168|RedOctane
+5169|Pertech Resources, Inc.
+5173|Wistron NeWeb Corp.
+5174|Denali Software, Inc.
+5180|Altek Corporation
+5206|Extending Wire & Cable Co., Ltd.
+5217|Staccato Communications
+5230|ClearOne Communications
+5234|Hangzhou Huawei-3Com Tech. Co., Ltd.
+5242|Formosa21 Inc.
+5247|Hama GmbH & Co., KG
+5255|DSP Group, Ltd.
+5271|Panstrong Company Ltd.
+5293|CTK Corporation
+5295|ATP Electronics Inc.
+5312|Rockwell Automation, Inc.
+5314|Gemlight Computer Ltd.
+5325|MOAI ELECTRONICS CORPORATION
+5341|Raritan Computer, Inc.
+5349|SAIN Information & Communications Co., Ltd.
+5357|Shure Inc.
+5376|Ellisys
+5377|Pine-Tum Enterprise Co., Ltd.
+5393|BridgeCo, AG
+5395|Hypercom
+5396|ACTEL CORPORATION
+5397|Hexon Media Pte Ltd
+5398|Skymedi Corporation
+5404|VeriSilicon, Inc.
+5421|JMicron Technology Corp.
+5422|HLDS (Hitachi-LG Data Storage, Inc.)
+5443|Buxco Research Systems
+5451|PNY Technologies Inc.
+5453|ConnectCounty Holdings Berhad
+5454|D & M Holdings, Inc.
+5463|OQO
+5477|Advance Modules
+5480|Sunf Pu Technology Co., Ltd
+5487|Quantum Corporation
+5488|ALLTOP TECHNOLOGY CO., LTD.
+5497|Reputed Industrial Company Limited
+5499|Ketron SRL
+5502|U-MEDIA Communications, Inc.
+5510|Sitor Electronics (Shenzhen) Co., Ltd.
+5511|SMA Technologie AG
+5517|Oakley Inc.
+5528|Kunshan Guoji Electronics Co., Ltd.
+5538|Freescale Semiconductor, Inc.
+5544|Teams Power Limited
+5545|Gemtek Technology Co., Ltd.
+5546|Gearway Electronics (Dong Guan) Co., Ltd.
+5560|Serome Electronics, Inc.
+5576|KTF Technologies
+5577|D-Box Technologies
+5589|Coulomb Electronics Ltd.
+5596|Hynix Semiconductor Inc.
+5600|Seong Ji Industrial Co., Ltd.
+5612|Belcarra Technologies Corp.
+5622|ASICS World Services Ltd.
+5645|Samtec
+5657|L & K Precision Technology Co., Ltd.
+5658|Celeraise Investments Ltd.
+5665|Wionics Research
+5672|Stonestreet One, Inc.
+5674|Airgo Networks Inc.
+5679|WiQuest Communications, Inc.
+5681|Focus Enhancements
+5694|HongLin Electronics Co., Ltd.
+5706|ChipX
+5728|Creatix Polymedia GmbH
+5753|Total Phase
+5764|Godspeed Computer Corp.
+5766|ZOOM Corporation
+5767|Kingmax Digital Inc.
+5782|Hitachi Advanced Digital, Inc.
+5804|Dongguan ChingLung Wire & Cable Co., Ltd.
+5836|silex technology, Inc.
+5843|Frontline Test Equipment, Inc.
+5848|CMOTECH CO., LTD.
+5877|Futurelogic Inc.
+5895|ARTIMI
+5926|Axesstel, Inc.
+5942|CANON IMAGING SYSTEM TECHNOLOGIES INC.
+5955|General Atomics
+5964|ASMedia Technology Inc.
+5973|Electronics and Telecommunication Research Institute
+5977|LucidPort Technology, Inc.
+5982|AT KidSystems Inc.
+5988|KANOMAX JAPAN INC.
+5998|UD electronic corp.
+6000|precisionWave Corporation
+6001|Shenzhen Alex Connector Co., Ltd.
+6002|System Level Solutions, Inc.
+6003|InSync Speech Technologies, Inc.
+6018|Spreadtrum Communications Inc.
+60186|Empia Technology, Inc.
+6020|TopSeed Technology Corp.
+6024|ShenZhen Litkconn Technology Co., Ltd.
+6028|URTEK TECHNOLOGIES INC.
+6038|Printrex, Inc.
+6039|JALCO CO., LTD.
+6049|Taiwan Advanced Sensors Corporation
+6053|Advanced Connection Technology Inc.
+6055|MICOMSOFT CO., LTD.
+6078|Dongguan Yangming Precision of Plastic Metal Elec.Co.Lt
+6079|Ampere Inc.
+6083|Singim International Corp.
+6095|Hip Hing Cable & Plug Mfy. Ltd.
+6096|Sanford L.P.
+6099|Korea Techtron Co., Ltd.
+6121|DisplayLink (UK) Ltd.
+6123|Cornice, Inc.
+6127|Lenovo
+6130|Xmultiple Technologies Inc.
+6133|K.K. Rocky
+6134|Unicomp, Inc
+6184|TSR Silicon Resources, Inc.
+6185|Suzhou YuQiu Technology Co., Ltd.
+6193|Gwo Jinn Industries Co., Ltd.
+6194|Huizhou Shenghua Industrial Co., Ltd.
+6226|TENOR ELECTRONICS CORP.
+6228|Memory Devices Ltd.
+6242|Teridian Semiconductor Corp.
+6257|Aveo Technology Corp.
+6259|Etrovision Technology
+6271|Siano Mobile Silicon Ltd.
+6285|Across Techno, Inc.
+6295|Evertop Wire Cable Co.
+6296|Summit Microelectronics
+6326|Mikkon Technology Limited
+6327|Zotek Electronic Co., Ltd.
+6328|Securewave SA
+6357|Starline International Group Limited
+6371|Fitipower Integrated Technology Inc
+6397|FineArch Inc.
+6420|Alco Digital Devices Limited
+6421|Nordic Semiconductor ASA
+6447|Avago Technologies, Pte.
+6448|Shenzhen Xianhe Technology Co., Ltd.
+6449|Ningbo Broad Telecommunication Co., Ltd.
+6473|Lab126
+6481|Hyperstone AG
+6483|Ironkey Inc.
+6484|Radiient Technologies
+6503|CASIO HITACHI Mobile Communications Co., Ltd.
+6507|Wispro Technology Inc.
+6517|Dongguan Guneetal Wire & Cable Co., Ltd.
+6518|Chipsbrand Microelectronics (HK) Co., Ltd.
+6543|Beceem Communications Inc.
+6544|Acron Precision Industrial Co., Ltd.
+6558|The Imaging Source Europe GmbH
+6559|Benica Corporation
+6568|Biforst Technology Inc.
+6582|Infotech Logistic, LLC
+6607|Parrot SA
+6625|WeiDuan Electronic Accessory (S.Z.) Co., Ltd.
+6632|Industrial Technology Research Institute
+6639|Pak Heng Technology (Shenzhen) Co., Ltd.
+6655|Best Buy
+6656|Polymax Precision Industry Co., Ltd.
+6664|Bellwood International, Inc.
+6666|USB-IF non-workshop
+6674|KES Co., Ltd.
+6675|Plasmon
+6677|Amphenol-Tuchel Electronics GmbH
+6687|Ikanos Communications Inc.
+6693|Amphenol East Asia Ltd.
+6698|Seagate Branded Solutions
+6709|Astec Power, a division of Emerson Network Power
+6710|Biwin Technology Ltd.
+6720|TERMINUS TECHNOLOGY INC.
+6721|Action Electronics Co., Ltd.
+6730|Silicon Image
+6731|SafeBoot International B.V.
+6739|SANDBOX Co., Ltd
+6753|Abbott Diabetes Care
+6760|Double Top Technology Ltd.
+6761|Kalon Semiconductor, Inc.
+6762|Spansion Inc.
+6763|Taiwin Electronics Co., Ltd.
+6765|SamYoung Electronics Co., Ltd
+6766|Global Unichip Corp.
+6767|Sagem Orga GmbH
+6768|Items Technology Co., Ltd.
+6779|Lumberg Connect  GmbH & Co. KG
+6781|Systex Corporation
+6784|Zhong Ming Wire Cable Technology (Xiamen) Co., Ltd.
+6785|G.Tech Technology Ltd.
+6786|Proconn Technology Co., Ltd.
+6793|Dynalith Systems Co., Ltd.
+6794|Simula Technology Inc.
+6795|SGS Taiwan Ltd.
+6807|XM Satellite Radio Inc.
+6808|Leica Camera AG
+6809|Asia Tai Technology (Dongguan) Co., Ltd.
+6810|Verari Systems, Inc.
+6820|Data Drive Thru, Inc.
+6821|UBeacon Technologies, Inc.
+6822|eFortune Technology Corp.
+6830|Johnson Component & Equipments Co., Ltd.
+6831|Intellectual Property Library Company
+6832|DAEWOO ELECTRONIC COMPONENTS CO., LTD.
+6849|LIANHE TECHNOLOGIES, INC.
+6859|Salcomp Plc
+6865|Desay Wire Co., Ltd.
+6867|Advanced Technetix, Inc.
+6884|ic-design Reinhard Gottinger GmbH
+6885|ShenZhen Jian Duan Hardware Electronic Co., Ltd.
+6893|High Top Precision Electronic Co., Ltd.
+6894|Dongguan Chang'an Jinxia Rex Electronics Factory
+6895|Conntech Electronic (Suzhou) Corporation
+6902|SL International Ltd.
+6925|SmarDTV
+6939|Shenzhen MD Electric Co., Ltd.
+6940|CORSAIR MEMORY INC.
+6944|MStar Semiconductor, Inc.
+6946|WiLinx Corp.
+6950|Cellex Power Products, Inc.
+6951|Current Electronics Inc.
+6952|NAVIsis Inc.
+6962|Ugobe Life Forms, Inc.
+6966|ViXS Systems, Inc.
+6975|Generalplus Technology Inc.
+6983|Energizer Holdings, Inc.
+6984|Plastron Precision Co., Ltd.
+7001|K.S. Terminals Inc.
+7002|Chao Zhou Kai Yuan Electric Co., Ltd.
+7013|The Hong Kong Standards and Testing Centre Ltd.
+7026|ATERGI TECHNOLOGY CO., LTD.
+7030|Legend Silicon Corp.
+7046|Dongguan Guanshang Electronics Co., Ltd.
+7048|ShenMing Electron (Dong Guan) Co., Ltd.
+7052|Altium Limited
+7053|e-MOVE Technology Co., Ltd.
+7054|Amlogic, Inc.
+7055|MA LABS, Inc.
+7064|YMax Communications Corp.
+7065|Shenzhen Yuanchuan Electronic
+7073|JINQ CHERN ENTERPRISE CO., LTD.
+7074|Lite Metals & Plastic (Shenzhen) Co., Ltd.
+7080|China Telecommunication Technology Labs
+7099|T & A Mobile Phones
+7108|Ford Motor Co.
+7109|AVIXE Technology (China) Ltd.
+7118|Contac Cable Industrial Limited
+7119|Sunplus Innovation Technology Inc.
+7120|Hangzhou Riyue Electronic Co., Ltd.
+7134|P-TWO INDUSTRIES, INC.
+7151|Shenzhen Tongyuan Network-Communication Cables Co., Ltd
+7152|RealVision Inc.
+7157|Extranet Systems Inc.
+7158|Orient Semiconductor Electronics, Ltd.
+7170|Kreton Corporation
+7172|QNAP System Inc.
+7181|Relm Wireless
+7184|Lanterra Industrial Co., Ltd.
+7187|ALECTRONIC LIMITED
+7867|NuCORE Technology, Inc.
+8256|Hauppauge Computer Works, Inc.
+8888|Motorola MDS
+8964|Pinnacle Systems GmbH
+9224|Catalyst Enterprises, Inc.

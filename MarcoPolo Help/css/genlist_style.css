@@ -1,0 +1,28 @@
+/*  This Apple Help template put together by Andy Matuschak
+	http://www.andymatuschak.org
+	andy@andymatuschak.org
+	Version 1.0
+	
+	Adapted from the Safari help book--thanks, Apple!
+	Adapted more directly from Pixen's help book.
+	Licensed under MIT. */
+
+ /* APD CSS Genlist Style 2.0c*/
+ /* <html><head><meta name="robots" content="noindex"></head></html> */
+body { margin: 2px 12px 12px }
+h1   { font-size: 11pt; font-family: "Lucida Grande", Arial, sans-serif; margin-bottom: -4px }
+p   { font-size: 9pt; line-height: 12pt;  font-family: "Lucida Grande", Arial, sans-serif; margin-bottom: -4px }
+a  {
+	color: #00f;
+	font-size: 9pt;
+	font-family: "Lucida Grande", Arial, sans-serif;
+	line-height: 12pt;
+	text-decoration: none
+	}
+a:hover { color: #00f; text-decoration: underline }
+#banner   { background-color: #f2f2f2; background-repeat: no-repeat; padding: -2px 6px 0; position: fixed; top: 0; left: 0; width: 100%; height: 1.2em; float: left; border-bottom: 1px solid #bfbfbf }
+#machelp { position: absolute; top: 2px; left: 10px }
+#index  { background-color: #f2f2f2; padding-right: 25px; position: absolute; top: 2px; right: 12px; width: auto; float: right }
+#list { margin-top: 36px; padding-right: 6px; width: 100% }
+.bread { color: #00f; font-size: 8pt; margin: -9px 0 -6px }
+.leftborder { color: #00f; font-size: 8pt; margin: -9px 0 -6px; padding-top: 2px; padding-bottom: 3px; padding-left: 8px; border-left: 1px solid #bfbfbf}

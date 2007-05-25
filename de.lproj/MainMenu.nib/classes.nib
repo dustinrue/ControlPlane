@@ -1,0 +1,82 @@
+{
+    IBClasses = (
+        {CLASS = Action; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = ActionSetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {prefsWindowController = NSWindowController; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = DNDArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = EvidenceSource; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = EvidenceSourceSetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {prefsWindowController = NSWindowController; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {doUpdate = id; showInStatusBar = id; }; 
+            CLASS = MPController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                actionsController = NSArrayController; 
+                evidenceSources = EvidenceSourceSetController; 
+                rulesController = NSArrayController; 
+                sbMenu = NSMenu; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = PopButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {
+            ACTIONS = {
+                addAction = id; 
+                addRule = id; 
+                doAddActionWithLimitedOptions = id; 
+                doAddRule = id; 
+                runAbout = id; 
+                runPreferences = id; 
+            }; 
+            CLASS = PrefsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                actionsController = NSArrayController; 
+                actionsPrefsView = NSView; 
+                advancedPrefsView = NSView; 
+                drawer = NSDrawer; 
+                evidenceSourcesPrefsView = NSView; 
+                generalPrefsView = NSView; 
+                mpController = MPController; 
+                newActionLimitedOptionsController = NSArrayController; 
+                newActionWindowLimitedOptions = NSWindow; 
+                newLocationController = NSArrayController; 
+                newRuleConfidenceSlider = NSSlider; 
+                newRuleParameterController = NSArrayController; 
+                newRuleWindow = NSWindow; 
+                prefsWindow = NSWindow; 
+                rulesController = NSArrayController; 
+                rulesPrefsView = NSView; 
+                whenActionController = NSArrayController; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {checkForUpdates = id; }; 
+            CLASS = SUUpdater; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

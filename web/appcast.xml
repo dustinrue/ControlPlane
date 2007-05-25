@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+	<title>MarcoPolo Changelog</title>
+	<link>http://www.symonds.id.au/marcopolo/appcast.xml</link>
+	<description>Most recent changes with links to updates.</description>
+	<language>en</language>
+	<item>
+	    <title>Version 1.2</title>
+	    <description><![CDATA[
+	    <p>
+	    This is MarcoPolo version 1.2.
+	    </p>
+	    <ul>
+	    <li>Significantly improved Action creation UI</li>
+	    <li>Bluetooth bug workaround added that prevented laptops from going to sleep (Trac ticket:45)</li>
+	    <li>Memory leak fixed in Power evidence source</li>
+	    <li>IP evidence source made asynchronous (faster and more responsive)</li>
+	    <li>German translation added, courtesy of Christoph Schmitz</li>
+	    <li>Support hiding from status bar (Trac ticket:40)</li>
+	    <li>Advanced preferences tab added</li>
+	    <li>Updated USB vendor and OUI databases</li>
+	    </ul>
+	    ]]></description>
+	    <pubDate>Wed, 16 May 2007 08:41:00 +1000</pubDate>
+	    <enclosure
+		url="http://www.symonds.id.au/marcopolo/dist/MarcoPolo-1.2.dmg"
+		sparkle:version="1.2" sparkle:shortVersionString="1.2"
+		sparkle:md5Sum="cfbc5d84fdadcb7d3f0f3e6f0fe2f04b"
+		length="546760" type="application/octet-stream" />
+	</item>
+	<item>
+	    <title>Version 1.1.5</title>
+	    <description><![CDATA[
+	    <p>
+	    This is MarcoPolo version 1.1.5. It is primarily a bug-fix release with no significantly new features
+	    except for switch smoothing (see below).
+	    </p>
+	    <ul>
+	    <li>Bluetooth crashing fixes for PPC; for safety, Bluetooth is now disabled by default</li>
+	    <li>Reworked, more responsive Bluetooth evidence source</li>
+	    <li>Switch smoothing (Trac ticket:4) to prevent unreliable devices or evidence sources from
+		triggering incorrect location switching</li>
+	    </ul>
+	    ]]></description>
+	    <pubDate>Mon, 07 May 2007 23:04:00 +1000</pubDate>
+	    <enclosure
+		url="http://www.symonds.id.au/marcopolo/dist/MarcoPolo-1.1.5.dmg"
+		sparkle:version="1.1.5" sparkle:shortVersionString="1.1.5"
+		sparkle:md5Sum="2bd9bea59fda57a5c547a1ef48d49092"
+		length="493993" type="application/octet-stream" />
+	</item>
+	<item>
+	    <title>Version 1.1</title>
+	    <description><![CDATA[
+	    <p>
+	    This is MarcoPolo version 1.1.
+	    </p>
+	    <ul>
+	    <li>New evidence sources for rules: FireWire and Power</li>
+	    <li>New actions: ShellScript, ToggleBluetooth and ToggleWiFi</li>
+	    <li>Paired Bluetooth devices are supported</li>
+	    <li>WiFi evidence source doesn't scan when associated, unless explicitly configured</li>
+	    <li>Location names with Unicode characters are supported</li>
+	    <li>Wake-from-sleep triggers an immediate update</li>
+	    <li>Updated USB vendor and OUI databases</li>
+	    <li>UI improvements, including better rule/action options and better icons</li>
+	    <li>Credits section added to About dialog</li>
+	    </ul>
+	    ]]></description>
+	    <pubDate>Fri, 04 May 2007 21:57:00 +1000</pubDate>
+	    <enclosure
+		url="http://www.symonds.id.au/marcopolo/dist/MarcoPolo-1.1.dmg"
+		sparkle:version="1.1" sparkle:shortVersionString="1.1"
+		sparkle:md5Sum="681ae82c6b7572e5797d219744f2763f"
+		length="492987" type="application/octet-stream" />
+	</item>
+	<item>
+	    <title>Version 1.0</title>
+	    <description><![CDATA[
+	    <p>
+	    This is MarcoPolo version 1.0. We are now officially out of beta,
+	    and ready for World Domination!
+	    </p>
+	    <ul>
+	    <li>Many UI tweaks and polish</li>
+	    <li>Complete (though not exhaustive) manual</li>
+	    <li>Currently-associated WiFi AP included in WiFi SSID list</li>
+	    <li>Bluetooth fixes</li>
+	    <li>Open action crashing bug fix</li>
+	    </ul>
+	    ]]></description>
+	    <pubDate>Sat, 21 Apr 2007 21:23:00 +1000</pubDate>
+	    <enclosure
+		url="http://www.symonds.id.au/marcopolo/dist/MarcoPolo-1.0.dmg"
+		sparkle:version="1.0" sparkle:shortVersionString="1.0"
+		sparkle:md5Sum="6c951cb949de1ae6864ff2e336900810"
+		length="476910" type="application/octet-stream" />
+	</item>
+	<item>
+	    <title>Version 0.9.1</title>
+	    <description><![CDATA[
+	    <ul>
+	    <li>Fixed a bad memory leak in USB evidence source</li>
+	    <li>Disable Bluetooth evidence source by default</li>
+	    <li>Updated USB vendor and OUI databases</li>
+	    </ul>
+	    ]]></description>
+	    <pubDate>Mon, 09 Apr 2007 17:23:00 +1000</pubDate>
+	    <enclosure
+		url="http://www.symonds.id.au/marcopolo/dist/MarcoPolo-0.9.1.dmg"
+		sparkle:version="0.9.1" sparkle:shortVersionString="0.9.1"
+		sparkle:md5Sum="7d9b4e8f8bec5ba3436a78162defe081"
+		length="446395" type="application/octet-stream" />
+	</item>
+	<item>
+	    <title>Version 0.9</title>
+	    <description><![CDATA[
+	    <ul>
+	    <li>Actions now have Arrival/Departure modes</li>
+	    <li>New-and-improved rule-adding UI</li>
+	    <li>New 'MailSMTPServer' action</li>
+	    <li>Preferences window now comes to front properly</li>
+	    <li>Some Bluetooth scanning bugs fixed</li>
+	    </ul>
+	    ]]></description>
+	    <pubDate>Sat, 07 Apr 2007 00:06:00 +1000</pubDate>
+	    <enclosure
+		url="http://www.symonds.id.au/marcopolo/dist/MarcoPolo-0.9.dmg"
+		sparkle:version="0.9" sparkle:shortVersionString="0.9"
+		sparkle:md5Sum="8cdd8c24ec4a4338fa212622e4d96f7f"
+		length="446110" type="application/octet-stream" />
+	</item>
+    </channel>
+</rss>

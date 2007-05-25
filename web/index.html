@@ -1,0 +1,319 @@
+<html>
+<head>
+	<title>MarcoPolo - Automatic location switching for Mac OS X</title>
+	<link rel="shortcut icon" href="mp-icon.png" type="image/png" />
+	<link rel="icon" href="mp-icon.png" type="image/png" />
+	<style type="text/css">
+		* {
+			font-family: Tahoma, sans-serif;
+		}
+		body {
+			margin: 0 2em;
+		}
+		img#logo {
+			float: left;
+			height: 128px;
+			margin-right: 1em;
+			width: 128px;
+		}
+		div.badge {
+			clear: right;
+			float: right;
+			margin-left: 0.5em;
+		}
+		img.sshot {
+			clear: right;
+			float: right;
+			border: 1px solid black;
+			margin: 1em;
+			padding: 2px;
+		}
+		h1 {
+			background: #ddf;
+			margin-bottom: 0;
+		}
+		h2#tagline {
+			font-size: smaller;
+			margin-left: 2em;
+			margin-bottom: 0;
+		}
+		h3#copyright {
+			font-family: cursive;
+			font-size: smaller;
+			font-style: italic;
+			font-weight: normal;
+			margin-top: 0;
+			margin-left: 2em;
+		}
+		code, tt { font-family: monospace; }
+		code { background: #ff8; }
+		span.balance {
+			background: green;
+			color: white;
+			font-size: larger;
+		}
+		table#comparison {
+			margin: auto;
+		}
+		table#comparison td {
+			border: 1px solid black;
+		}
+		table#comparison td.good { background: #bfb; }
+		table#comparison td.wip { background: #ffb; }	/* or #fa0 */
+		table#comparison td.bad { background: #fbb; }
+		table#comparison td.separator {
+			background: white;
+			border: 0;
+			height: 0.5em;
+		}
+	</style>
+</head>
+<body>
+<img src="mp-logo.png" id="logo" />
+<h1>MarcoPolo</h1>
+
+<!-- del.icio.us -->
+<div class="badge">
+<script src="http://images.del.icio.us/static/js/blogbadge.js"></script>
+</div>
+
+<!-- iusethis -->
+<div class="badge">
+<script type="text/javascript"
+	src="http://osx.iusethis.com/app/include/marcopolo">
+</script>
+</div>
+
+<!-- digg -->
+<div class="badge">
+<script type="text/javascript">
+digg_url = 'http://www.symonds.id.au/marcopolo/';
+digg_skin = 'compact';
+</script>
+<script src="http://digg.com/tools/diggthis.js" type="text/javascript"></script>
+</div>
+
+
+<h2 id="tagline">Automatic location switching for Mac OS X.</h2>
+<h3 id="copyright">&copy; 2006-7 David Symonds</h3>
+
+<p style="font-style: italic; font-size: smaller;">
+I am writing a simple
+<a href="http://blog.symonds.id.au/">development blog</a> if you are interested
+in following development.
+Please send me criticism, adoration and comments!
+</span>
+
+<h3>What is it?</h3>
+<img src="sshot-growling.jpg" class="sshot" />
+<p>
+The Mac OS X concept of a "location" is a collection of settings for your
+computer's networking devices. Switching your current location is much easier
+than changing all those individual settings, yet you still have to explicitly
+switch to the correct location each time.
+</p>
+<p>
+However, it is often the case that there are good hints as to your current
+location. For example, a particular USB mouse might only be used at your work,
+so its presence is a strong indicator that your location should be "Work". This
+can be extended to more things, such as the pattern of an
+automatically-assigned IP address, other connected hardware, or visible WiFi
+(AirPort) networks.
+</p>
+<p>
+MarcoPolo allows you to provide these hints, and it will make educated guesses
+as to your current location, and automatically switch for you. It quietly stays
+in the status bar at the top of your screen (right-hand side of the menu bar),
+from where it can be configured to your own specifications.
+</p>
+
+<img src="sshot-rules.jpg" class="sshot" />
+<h3>Features</h3>
+<ul>
+	<li>
+	Fuzzy-logic-based matching on:
+	<ul>
+		<li>Discoverable <b>Bluetooth</b> devices</li>
+		<li>Attached <b>FireWire</b> devices</li>
+		<li>Assigned <b>IP</b> addresses</li>
+		<li><b>Power</b> source (Power Adapter vs. Battery)</li>
+		<li>Attached <b>USB</b> devices</li>
+		<li>Visible <b>WiFi</b> networks</li>
+	</ul>
+	</li>
+	<li>Actions triggered by changing location, with an optional delay:
+	<ul>
+		<li>Setting your default printer</li>
+		<li>Opening a file (an application, a document, etc.)</li>
+		<li>Setting the default SMTP server for Mail.app</li>
+		<li>Turning on or off Bluetooth</li>
+		<li>Turning on or off WiFi (AirPort)</li>
+		<li>Running a shell script (or any other kind of script, via <a href="http://www.sveinbjorn.org/platypus">Platypus</a>)</li>
+		<li><i>(more on the way!)</i></li>
+	</ul>
+	</li>
+	<li>A "default location" for when rules don't match</li>
+	<li><a href="http://www.growl.info">Growl</a> support</li>
+	<li>Stays out of your Dock, in the menu bar at the top of your screen</li>
+	<li><a href="http://blog.symonds.id.au/2007/05/localisation.html">Localisation</a> into:
+	<ul>
+		<li>English</li>
+		<li>German</li>
+	</ul>
+	</li>
+</ul>
+
+<h3>Comparison with similar programs</h3>
+<table id="comparison">
+<tr>
+	<th></th>
+	<th>MarcoPolo</th>
+	<th><a href="http://metaquark.de/homezone/">Home<br />Zone</a></th>
+	<th><a href="http://centrix.ca/NetworkLocation/">Network<br />Location</a></th>
+	<th><a href="http://tech.inhelsinki.nl/locationchanger/">Location<br />Changer</a></th>
+	<th><a href="http://homepage.mac.com/locationmanager/">Location X</a></th>
+</tr><tr>
+	<th>Detects Bluetooth</th>
+	<td class="good">Yes</td><td class="good">Yes</td>
+	<td class="bad">No</td><td class="bad">No</td>
+	<td class="bad">No</td>
+</tr><tr>
+	<th>Detects FireWire</th>
+	<td class="good">Yes</td><td class="bad">No</td>
+	<td class="bad">No</td><td class="bad">No</td>
+	<td class="bad">No</td>
+</tr><tr>
+	<th>Detects IPs</th>
+	<td class="good">Yes</td><td class="bad">No</td>
+	<td class="bad">No</td><td class="good">Yes</td>
+	<td class="bad">No</td>
+</tr><tr>
+	<th>Detects Power</th>
+	<td class="good">Yes</td><td class="bad">No</td>
+	<td class="bad">No</td><td class="bad">No</td>
+	<td class="bad">No</td>
+</tr><tr>
+	<th>Detects USB</th>
+	<td class="good">Yes</td><td class="bad">No</td>
+	<td class="bad">No</td><td class="bad">No</td>
+	<td class="bad">No</td>
+</tr><tr>
+	<th>Detects WiFi (AirPort)</th>
+	<td class="good">Yes</td><td class="good">Yes</td>
+	<td class="bad">No</td><td class="good">Yes</td>
+	<td class="good">Yes</td>
+</tr><tr>
+	<th>Uses fuzzy-logic</th>
+	<td class="good">Yes</td><td class="bad">No</td>
+	<td class="bad">No</td><td class="bad">No</td>
+	<td class="bad">No</td>
+</tr><tr>
+	<td colspan="6" class="separator"></td>
+</tr><tr>
+	<th>Actions</th>
+	<td class="good">Several</td><td class="good">Several</td>
+	<td class="good">Several</td><td>N/A</td>
+	<td class="good">Lots</td>
+</tr><tr>
+	<td colspan="6" class="separator"></td>
+</tr><tr>
+	<th>Cost</th>
+	<td class="good">Free</td><td class="wip">Free in beta</td>
+	<td class="bad">$15</td><td class="wip">Free?</td>
+	<td class="bad">$20</td>
+</tr>
+</table>
+<ul>
+<li>
+	<a href="http://metaquark.de/homezone/">Home Zone</a> has its own
+	location system (called "zones") which can be indicated by detection
+	of AirPort base stations or paired Bluetooth devices, and has quite a
+	few handy actions that can be triggered on both entering and leaving
+	a zone. Takes quite a while to configure, and doesn't handle
+	conflicting evidence (i.e. no fuzzy-logic). It's in beta for now, but
+	is planned to be shareware soon.
+</li><li>
+	<a href="http://centrix.ca/NetworkLocation/">NetworkLocation</a>
+	pops up an interface when your computer wakes from sleep, allowing you
+	to quickly select your preferred network location. No automatic
+	location selection, but a wider range of actions. Costs $15, with a
+	free trial available.
+</li><li>
+	<a href="http://tech.inhelsinki.nl/locationchanger/">LocationChanger</a>
+	is a shell script for automatically changing location based on
+	IP address. Requires lots of hacking for customisation, and is not
+	user friendly. Seems to be freely usable. One modification of it is
+	also called <a href="http://www.ghoselab.cmrr.umn.edu/software.html">LocationChanger</a>,
+	and seems to be more structured and well-organised.
+</li><li>
+	<a href="http://homepage.mac.com/locationmanager/">Location X</a> has
+	its own location system, separate from the Mac OS X location system.
+	It does auto-switch based on the wireless network you are currently
+	connected to, and has an extensive list of actions. It costs $20, with
+	a free demo available. It hasn't been updated since 2005.
+</li>
+</ul>
+<p>
+Other programs that I haven't fully investigated, but may be useful are
+<a href="http://maccrafters.com/home_and_away/index.html">Home and Away</a>
+and <a href="http://www.codehackers.net/wilma/">WiLMa</a>.
+</p>
+
+<h3>What you need</h3>
+<ul>
+	<li>Mac OS X 10.4 (Tiger).</li>
+	<li>More than one network location (Apple Menu -&gt; Location).</li>
+</ul>
+
+<h3>Caveats/Pitfalls</h3>
+<ul>
+	<li>The UI for actions is still a bit clumsy</li>
+	<li>Adding rules isn't possible straight after starting it up</li>
+</ul>
+I also have a <a href="trac/">Trac online</a> for bug reports and
+feature requests. Please use it!
+
+<h3>Download</h3>
+<ul>
+	<li><a href="dist/MarcoPolo-1.2.dmg">MarcoPolo-1.2.dmg</a>
+	(Universal Binary)
+	</li>
+	<li><a href="http://svn.symonds.id.au/marcopolo/">SVN repository</a>
+	(Source code)
+	</li>
+</ul>
+
+<h3>License/Cost</h3>
+<p>
+MarcoPolo is released under the terms of the
+<a href="http://www.fsf.org/licensing/licenses/gpl.html">GNU GPL</a>;
+that means it is free to use, share and modify, as long as you pass those same
+permissions along to anyone you redistribute to.
+</p>
+<div style="float: right;">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+	<input type="hidden" name="cmd" value="_s-xclick">
+	<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+	<img alt="" border="0" src="https://www.paypal.com/en_AU/i/scr/pixel.gif" width="1" height="1">
+	<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHPwYJKoZIhvcNAQcEoIIHMDCCBywCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYB7HUEt81rArrOk7pnGwL3YNZ7kvnYNur0YOdBpuNZ4ldcbb5OE8N52SxbOmvTwZdmz19KDxBivOlHGD226bOpqnzAWBtewZhc/DmzspJhGEwSC7xIuR8SzWVe52AcRhZxUNxGUFZ4UEMd3JH/l4BOs3pb8bPCs7VbntWFrT6WMJTELMAkGBSsOAwIaBQAwgbwGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQILoSeN6l4gFSAgZi+EKg6KHm95RjMS7B5pGSFuYgTZsa3I+Y+yvNCl60+oTvvMfjQNT0sGGczY9fUR7hnJ/j03R6jtAoCOKpoXY1HIx6nJhwy0+H9TBxm9ADW0xqABGX96cWzCFJXvDzqBMM+2dMg8bcmNFqw++iTe7lRkH3oLV2aTcdcFlmAKar3Zqf9+a60sYDRoW54cfzF5AkE8rJ3OmsW4qCCA4cwggODMIIC7KADAgECAgEAMA0GCSqGSIb3DQEBBQUAMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTAeFw0wNDAyMTMxMDEzMTVaFw0zNTAyMTMxMDEzMTVaMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwUdO3fxEzEtcnI7ZKZL412XvZPugoni7i7D7prCe0AtaHTc97CYgm7NsAtJyxNLixmhLV8pyIEaiHXWAh8fPKW+R017+EmXrr9EaquPmsVvTywAAE1PMNOKqo2kl4Gxiz9zZqIajOm1fZGWcGS0f5JQ2kBqNbvbg2/Za+GJ/qwUCAwEAAaOB7jCB6zAdBgNVHQ4EFgQUlp98u8ZvF71ZP1LXChvsENZklGswgbsGA1UdIwSBszCBsIAUlp98u8ZvF71ZP1LXChvsENZklGuhgZSkgZEwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tggEAMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADgYEAgV86VpqAWuXvX6Oro4qJ1tYVIT5DgWpE692Ag422H7yRIr/9j/iKG4Thia/Oflx4TdL+IFJBAyPK9v6zZNZtBgPBynXb048hsP16l2vi0k5Q2JKiPDsEfBhGI+HnxLXEaUWAcVfCsQFvd2A1sxRr67ip5y2wwBelUecP3AjJ+YcxggGaMIIBlgIBATCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwCQYFKw4DAhoFAKBdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTA3MDUwNjAyMDYzNlowIwYJKoZIhvcNAQkEMRYEFOyvyxG+7Y5AzvkOaeMxvzGMKEwnMA0GCSqGSIb3DQEBAQUABIGAQsxnD2ZQnUZ+k0HRYpalUffx0M7FbTGHWSK3ocbObIzjnu/U95aYRUBtcr1J6LYyfkSnxXwv+wpBq+KrUjqlMqPnLYcTLAHJugdCqqHn+/NC1sW1MmvyH7Z/KsHiy32SrEiBQPfMdhZuY0Nuq/cYriTEOQDJp/x2EWAwSx3b2nc=-----END PKCS7-----
+	">
+</form>
+</div>
+<p>
+Though MarcoPolo is free to use, share and modify, and will remain so, I
+welcome donations to encourage me to keep developing it. To put things in
+perspective, if you work as a
+$100/hr consultant, changing your location four times per day, and MarcoPolo
+saves you 15 seconds each time (easy to do if you're using several actions),
+that's worth about $37 per month. How about sharing some of that with me?  ;-)
+</p>
+
+<!-- ========================================================== -->
+<hr />
+
+<p>
+<address>David Symonds &lt;<tt>dsymonds@gmail.com</tt>&gt;</address>
+<tt>$Id$</tt>
+</p>
+</body>
+</html>
