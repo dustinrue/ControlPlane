@@ -95,7 +95,7 @@
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = src/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = src/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* MarcoPolo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MarcoPolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* MarcoPolo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarcoPolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D14E1190BF3DADE00FDD12C /* HACKING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HACKING.txt; sourceTree = "<group>"; };
 		8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdvancedPrefs.tiff; path = graphics/AdvancedPrefs.tiff; sourceTree = "<group>"; };
 		8D1A45590BA00DE2004A6BC4 /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "graphics/minus-8.png"; sourceTree = "<group>"; };
@@ -117,6 +117,7 @@
 		8D4DBDC20BE1E3C00024DEA0 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = graphics/gear.png; sourceTree = "<group>"; };
 		8D514D120BE98CCF0013C1ED /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D58391A0BFB37F4004CB594 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8D58391A0BFB37F4004CB595 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = src/ToggleWiFiAction.h; sourceTree = "<group>"; };
 		8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleWiFiAction.m; path = src/ToggleWiFiAction.m; sourceTree = "<group>"; };
 		8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleBluetoothAction.h; path = src/ToggleBluetoothAction.h; sourceTree = "<group>"; };
@@ -504,6 +505,7 @@
 				8D514D120BE98CCF0013C1ED /* en */,
 				8D36CE440BEF56A20087E294 /* de */,
 				8D58391A0BFB37F4004CB594 /* nl */,
+				8D58391A0BFB37F4004CB595 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
