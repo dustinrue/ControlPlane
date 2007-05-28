@@ -95,7 +95,7 @@
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = src/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = src/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* MarcoPolo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarcoPolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* MarcoPolo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MarcoPolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D14E1190BF3DADE00FDD12C /* HACKING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HACKING.txt; sourceTree = "<group>"; };
 		8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdvancedPrefs.tiff; path = graphics/AdvancedPrefs.tiff; sourceTree = "<group>"; };
 		8D1A45590BA00DE2004A6BC4 /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "graphics/minus-8.png"; sourceTree = "<group>"; };
@@ -154,7 +154,6 @@
 		8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PowerEvidenceSource.h; path = src/PowerEvidenceSource.h; sourceTree = "<group>"; };
 		8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PowerEvidenceSource.m; path = src/PowerEvidenceSource.m; sourceTree = "<group>"; };
 		8DCBF60B0BE5C4E400A01414 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		8DD1F1A50BEFF5FA00960AA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8DD1F1A80BEFF60500960AA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8DD790AA0BC28A9F00705346 /* OpenAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenAction.h; path = src/OpenAction.h; sourceTree = "<group>"; };
 		8DD790AB0BC28A9F00705346 /* OpenAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OpenAction.m; path = src/OpenAction.m; sourceTree = "<group>"; };
@@ -394,6 +393,7 @@
 				en,
 				de,
 				nl,
+				fr,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MarcoPolo */;
 			projectDirPath = "";
@@ -485,7 +485,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* en */,
-				8DD1F1A50BEFF5FA00960AA8 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
