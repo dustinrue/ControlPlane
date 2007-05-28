@@ -33,6 +33,7 @@
             OUTLETS = {
                 actionsController = NSArrayController; 
                 evidenceSources = EvidenceSourceSetController; 
+                forceLocationMenuItem = NSMenuItem; 
                 rulesController = NSArrayController; 
                 sbMenu = NSMenu; 
             }; 
