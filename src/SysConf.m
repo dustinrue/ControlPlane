@@ -135,6 +135,8 @@ cleanup:
 		[loc_list addObject:[subdict valueForKey:@"UserDefinedName"]];
 	}
 
+	[loc_list sortUsingSelector:@selector(compare:)];
+
 	return loc_list;
 }
 
