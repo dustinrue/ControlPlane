@@ -548,7 +548,7 @@
 00-02-22   	Chromisys, Inc.
 00-02-23   	ClickTV
 00-02-24   	C-COR
-00-02-25   	Certus Technology, Inc.
+00-02-25   	One Stop Systems
 00-02-26   	XESystems, Inc.
 00-02-27   	ESD GmbH
 00-02-28   	Necsom, Ltd.
@@ -4091,7 +4091,7 @@
 00-10-20   	WELCH ALLYN, DATA COLLECTION
 00-10-21   	ENCANTO NETWORKS, INC.
 00-10-22   	SatCom Media Corporation
-00-10-23   	FLOWWISE NETWORKS, INC.
+00-10-23   	Network Equipment Technologies
 00-10-24   	NAGOYA ELECTRIC WORKS CO., LTD
 00-10-25   	GRAYHILL INC.
 00-10-26   	ACCELERATED NETWORKS, INC.
@@ -4860,7 +4860,7 @@
 00-13-22   	DAQ Electronics, Inc.
 00-13-23   	Cap Co., Ltd.
 00-13-24   	Schneider Electric Ultra Terminal
-00-13-25   	Cortina Systems Corp.
+00-13-25   	Cortina Systems Inc
 00-13-26   	ECM Systems Ltd
 00-13-27   	Data Acquisitions limited
 00-13-28   	Westech Korea Inc.,
@@ -7311,6 +7311,26 @@
 00-1C-B5   	Neihua Network Technology Co.,LTD.(NHN)
 00-1C-B6   	Duzon CNT Co., Ltd.
 00-1C-B7   	USC DigiArk Corporation
+00-1C-B8   	CBC Co., Ltd
+00-1C-B9   	KWANG SUNG ELECTRONICS CO., LTD.
+00-1C-BA   	VerScient, Inc.
+00-1C-BB   	MusicianLink
+00-1C-BC   	CastGrabber, LLC
+00-1C-BD   	Ezze Mobile Tech., Inc.
+00-1C-BE   	Nintendo Co., Ltd.
+00-1C-BF   	Intel Corporate
+00-1C-C0   	Intel Corporate
+00-1C-C1   	Motorola Mobile Devices
+00-1C-C2   	Part II Research, Inc.
+00-1C-C3   	Pace Micro Technology plc
+00-1C-C4   	Hewlett Packard
+00-1C-C5   	3COM EUROPE
+00-1C-C6   	ProStor Systems
+00-1C-C7   	Rembrandt Technologies, LLC d/b/a REMSTREAM
+00-1C-C8   	INDUSTRONIC Industrie-Electronic GmbH & Co. KG
+00-1C-C9   	Kaise Electronic Technology Co., Ltd.
+00-1C-CA   	Shanghai Gaozhi Science & Technology Development Co.
+00-1C-CB   	Forth Corporation Public Company Limited
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
@@ -8996,7 +9016,7 @@
 00-90-9E   	Critical IO, LLC
 00-90-9F   	DIGI-DATA CORPORATION
 00-90-A0   	8X8 INC.
-00-90-A1   	FLYING PIG SYSTEMS, LTD.
+00-90-A1   	Flying Pig Systems/High End Systems Inc.
 00-90-A2   	CYBERTAN TECHNOLOGY, INC.
 00-90-A3   	Corecess Inc.
 00-90-A4   	ALTIGA NETWORKS

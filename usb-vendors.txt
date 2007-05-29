@@ -60,8 +60,6 @@
 1209|SafeNet, Inc.
 1211|I-O Data Device, Inc.
 1215|TDK Corporation
-1221|Fujitsu Ltd.
-1226|Lite-On Technology Corp.
 1227|FUJIFILM Corporation
 1228|NXP Semiconductors
 1231|Myson Century, Inc.
@@ -152,6 +150,7 @@
 1555|TransAct Technologies Incorporated
 1556|Bio-Rad Laboratories
 1561|Seiko Instruments Inc.
+1571|Littelfuse, Inc.
 1578|MosArt Semiconductor Corp.
 1582|MAIN SUPER ENTERPRISES CO.,LTD.
 1588|Micron Technology, Inc.
@@ -159,6 +158,7 @@
 1604|TEAC Corporation
 1611|Analog Devices, Inc. Development Tools
 1612|Ji-Haw Industrial Co., Ltd
+1614|Suyin Corporation
 1615|WIBU-Systems AG
 1621|Space Shuttle Hi-Tech Co.,Ltd.
 1623|Tekcon Electronics Corp.
@@ -172,7 +172,6 @@
 1656|ACARD Technology Corp.
 1659|Prolific Technology, Inc.
 1662|Intermec Technologies (S) Pte Ltd.
-1665|Siemens Information and Communication Products
 16700|Dell Inc.
 1680|Golden Bridge Electech Inc.
 1689|Tektronix, Inc.
@@ -254,6 +253,7 @@
 2362|Pixart Imaging, Inc.
 2363|Plextor LLC
 2366|J.S.T. Mfg. Co., Ltd.
+2371|HCL Technologies Ltd.
 2385|Kingston Technology Company
 2389|NVIDIA
 2390|BSquare Corporation
@@ -282,14 +282,11 @@
 2632|I/O Interconnect
 2636|COMPUTEX Co., Ltd.
 2640|Mimaki Engineering Co., Ltd.
-2643|Portable Peripheral Co., Ltd.
 2652|Broadcom Corp.
 2667|Green House Co., Ltd.
 2685|NSTL, Inc.
 2689|CHESEN ELECTRONICS CORP.
-2690|SYSCAN
 2702|Japan Aviation Electronics Industry Ltd. (JAE)
-2704|Candy Technology Co., Ltd.
 27253|Shanghai Jujo Electronics Co., Ltd.
 2727|Wincor Nixdorf GmbH & Co KG
 2760|Vimicro Corporation
@@ -317,8 +314,6 @@
 3035|Ericsson AB
 3044|Elka International Ltd.
 3046|Dong Guan Humen Wonderful Wire Cable Factory
-3054|LTK Industries Ltd.
-3062|Addonics Technologies, Inc.
 3064|Fujitsu Siemens Computers
 3078|Hasbro, Inc.
 3100|Hang Zhou Silan Electronics Co. Ltd
@@ -332,8 +327,7 @@
 3158|Billion Bright Limited
 3161|Dong Guan Shinko Wire Co., Ltd.
 3170|Chant Sincere Co., Ltd
-3172|Signality System Engineering Co., Ltd.
-3194|Wing-Span Enterprise Co., Ltd.
+3209|Honda Tsushin Kogyo Co., Ltd
 3245|Motorola GEMS
 3255|Singatron Enterprise Co. Ltd.
 3259|Shanghai Darong Electronics Co., Ltd.
@@ -384,7 +378,6 @@
 3652|Sun-Riseful Technology Co., Ltd.
 3654|Delphi Corporation
 3675|Union Power Information Industrial Co., Ltd.
-3677|Neltron Industrial Co., Ltd.
 3690|Megawin Technology Co., Ltd.
 3714|Ching Tai Electric Wire & Cable Co., Ltd.
 3723|KAO SHIN PRECISION INDUSTRY CO., LTD.
@@ -398,13 +391,11 @@
 3778|Sweetray Industrial Ltd.
 3779|AXELL CO., LTD.
 3782|InnoVISION Multimedia Limited
-3838|WEM TECHNOLOGY INC.
 3848|CSL Wire & Plug (Shen Zhen) Company
 3854|Energyfull & Hi-Top International Ltd.
 38672|Moschip Semiconductor Technology
 3868|Funai Electric Co., Ltd.
 3886|Good Man Corporation
-3888|Jess Technology Co., Ltd.
 3890|YFC-BonEagle Electric Co., Ltd.
 3896|Nien-Yi Industrial Corp.
 3922|WING KEI ELECTRICAL CO., LTD.
@@ -412,7 +403,6 @@
 3924|Kawai Musical Instruments Mfg. Co., Ltd.
 3944|TEPCO UQUEST, LTD.
 3945|DIONEX CORPORATION
-3976|VTech Holdings Ltd.
 3979|Yazaki Corporation
 3991|CviLux Corporation
 4004|ATL Technology
@@ -508,7 +498,6 @@
 5094|TechnoScope Co., Ltd.
 5117|Initio Corporation
 5118|Phison Electronics Corp.
-5119|VIEWCON ELECTRONIC LTD.
 5120|Axxion Group Corp.
 5122|Bowe Bell & Howell
 5123|Sitronix Technology Corp.
@@ -597,14 +586,10 @@
 5848|CMOTECH CO., LTD.
 5877|Futurelogic Inc.
 5895|ARTIMI
-5926|Axesstel, Inc.
 5942|CANON IMAGING SYSTEM TECHNOLOGIES INC.
 5955|General Atomics
 5964|ASMedia Technology Inc.
-5973|Electronics and Telecommunication Research Institute
 5977|LucidPort Technology, Inc.
-5982|AT KidSystems Inc.
-5988|KANOMAX JAPAN INC.
 5998|UD electronic corp.
 6000|precisionWave Corporation
 6001|Shenzhen Alex Connector Co., Ltd.
@@ -675,12 +660,9 @@
 6632|Industrial Technology Research Institute
 6639|Pak Heng Technology (Shenzhen) Co., Ltd.
 6655|Best Buy
-6656|Polymax Precision Industry Co., Ltd.
 6664|Bellwood International, Inc.
 6666|USB-IF non-workshop
 6674|KES Co., Ltd.
-6675|Plasmon
-6677|Amphenol-Tuchel Electronics GmbH
 6687|Ikanos Communications Inc.
 6693|Amphenol East Asia Ltd.
 6698|Seagate Branded Solutions
@@ -773,6 +755,12 @@
 7181|Relm Wireless
 7184|Lanterra Industrial Co., Ltd.
 7187|ALECTRONIC LIMITED
+7194|Datel Electronics Ltd.
+7195|Volkswagen of America, Inc.
+7199|Goldvish S.A.
+7200|Fuji Electric Device Technology Co., Ltd.
+7201|ADDMM LLC
+7202|ZHONGSHAN CHIANG YU ELECTRIC CO., LTD.
 7867|NuCORE Technology, Inc.
 8256|Hauppauge Computer Works, Inc.
 8888|Motorola MDS
