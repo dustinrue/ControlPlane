@@ -12,7 +12,7 @@ To update:
 
 Release Checklist
 -----------------
-	+ Update USB vendor list (see above)
+	+ Update USB vendor and OUI databases (see above)
 	+ Check version numbers in Info.plist
 	+ Run ./make_disk_image.sh
 	+ Update appcast.xml
