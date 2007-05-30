@@ -151,6 +151,7 @@
 		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = oui.txt; sourceTree = "<group>"; };
 		8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShellScriptAction.h; path = src/ShellScriptAction.h; sourceTree = "<group>"; };
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
+		8DBC4C6E0C0D30DE003C8A10 /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FireWireEvidenceSource.h; path = src/FireWireEvidenceSource.h; sourceTree = "<group>"; };
 		8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FireWireEvidenceSource.m; path = src/FireWireEvidenceSource.m; sourceTree = "<group>"; };
 		8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PowerEvidenceSource.h; path = src/PowerEvidenceSource.h; sourceTree = "<group>"; };
@@ -497,6 +498,7 @@
 				29B97319FDCFA39411CA2CEA /* en */,
 				8DD1F1A80BEFF60500960AA8 /* de */,
 				8D05DD420C0CFCB40055B6A9 /* fr */,
+				8DBC4C6E0C0D30DE003C8A10 /* nl */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
