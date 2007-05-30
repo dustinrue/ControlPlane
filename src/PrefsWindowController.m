@@ -10,6 +10,8 @@
 @end
 @interface LocalizeTransformer : NSValueTransformer {}
 @end
+@interface WhenLocalizeTransformer : NSValueTransformer {}
+@end
 
 
 @implementation ActionTypeHelpTransformer
@@ -73,6 +75,22 @@
 
 @end
 
+// XXX: Yar... shouldn't really need this!
+@implementation WhenLocalizeTransformer
+
++ (Class)transformedValueClass { return [NSString class]; }
+
++ (BOOL)allowsReverseTransformation { return NO; }
+
+- (id)transformedValue:(id)theValue
+{
+	NSString *eng_str = [NSString stringWithFormat:@"On %@", [(NSString *) theValue lowercaseString]];
+
+	return NSLocalizedString(eng_str, @"");
+}
+
+@end
+
 @implementation PrefsWindowController
 
 + (void)initialize
@@ -84,6 +102,8 @@
 					forName:@"DelayValueTransformer"];
 	[NSValueTransformer setValueTransformer:[[[LocalizeTransformer alloc] init] autorelease]
 					forName:@"LocalizeTransformer"];
+	[NSValueTransformer setValueTransformer:[[[WhenLocalizeTransformer alloc] init] autorelease]
+					forName:@"WhenLocalizeTransformer"];
 }
 
 - (id)init
