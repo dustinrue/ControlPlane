@@ -46,7 +46,7 @@ hdiutil detach $DEV || exit 1
 # Convert the disk image to read-only
 TMP="tmp-${IMG}"
 mv "$IMG" "$TMP"
-hdiutil convert "$TMP" -format UDZO -o "$IMG" -imagekey zlib-level=9
+hdiutil convert "$TMP" -format UDBZ -o "$IMG"
 rm "$TMP"
 
 ls -l "$IMG"
