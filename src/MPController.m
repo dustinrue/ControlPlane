@@ -604,6 +604,7 @@ end_of_action_changes:
 					NSLocalizedString(@"Changing Location", @"Growl message title"),
 					NSLocalizedString(@"Performing Action", @"Growl message title"),
 					NSLocalizedString(@"Failure", @"Growl message title"),
+					NSLocalizedString(@"Evidence Change", @"Growl message title"),
 					nil];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
