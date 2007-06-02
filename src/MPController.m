@@ -256,6 +256,22 @@ end_of_action_changes:
 	sbHideTimer = nil;
 }
 
+- (void)doGrowl:(NSString *)title withMessage:(NSString *)message
+{
+	float pri = 0;
+
+	if ([title isEqualToString:@"Failure"])
+		pri = 1;
+
+	[GrowlApplicationBridge notifyWithTitle:title
+				    description:message
+			       notificationName:title
+				       iconData:nil
+				       priority:pri
+				       isSticky:NO
+				   clickContext:nil];
+}
+
 #pragma mark Rule matching and Action triggering
 
 - (void)doUpdate:(NSTimer *)theTimer
@@ -305,22 +321,6 @@ end_of_action_changes:
 	}
 
 	return matching_rules;
-}
-
-- (void)doGrowl:(NSString *)title withMessage:(NSString *)message
-{
-	float pri = 0;
-
-	if ([title isEqualToString:@"Failure"])
-		pri = 1;
-
-	[GrowlApplicationBridge notifyWithTitle:title
-				    description:message
-			       notificationName:title
-				       iconData:nil
-				       priority:pri
-				       isSticky:NO
-				   clickContext:nil];
 }
 
 - (void)executeAction:(id)arg

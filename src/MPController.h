@@ -32,6 +32,7 @@
 
 - (void)showInStatusBar:(id)sender;
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
+- (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
 
 - (IBAction)doUpdate:(NSTimer *)theTimer;
 
