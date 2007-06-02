@@ -55,7 +55,6 @@ typedef enum {
 @protocol EvidenceSourceThatGrowls
 - (BOOL)growls;
 - (void)setGrowls:(BOOL)growls;
-- (void)setGrowlDelegate:(id)delegate;
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////
