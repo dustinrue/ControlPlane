@@ -357,4 +357,19 @@ end_of_device_handling:
 	return arr;
 }
 
+- (BOOL)growls
+{
+	return shouldGrowl;
+}
+
+- (void)setGrowls:(BOOL)growls
+{
+	shouldGrowl = growls;
+}
+
+- (void)setGrowlDelegate:(id)delegate
+{
+	growlDelegate = delegate;
+}
+
 @end

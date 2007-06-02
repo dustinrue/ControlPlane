@@ -9,13 +9,16 @@
 #import "EvidenceSource.h"
 
 
-@interface USBEvidenceSource : EvidenceSource {
+@interface USBEvidenceSource : EvidenceSource <EvidenceSourceThatGrowls> {
 	NSLock *lock;
 	NSMutableArray *devices;
 
 	IONotificationPortRef notificationPort;
 	CFRunLoopSourceRef runLoopSource;
 	io_iterator_t addedIterator, removedIterator;
+
+	BOOL shouldGrowl;
+	id growlDelegate;
 }
 
 - (id)init;
@@ -32,5 +35,8 @@
 - (void)devAdded:(io_iterator_t)iterator;
 - (void)devRemoved:(io_iterator_t)iterator;
 
+- (BOOL)growls;
+- (void)setGrowls:(BOOL)growls;
+- (void)setGrowlDelegate:(id)delegate;
 
 @end
