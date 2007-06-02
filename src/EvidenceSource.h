@@ -52,6 +52,11 @@ typedef enum {
 
 @end
 
+@protocol EvidenceSourceThatGrowls
+- (BOOL)growls;
+- (void)setGrowls:(BOOL)growls;
+@end
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 @interface EvidenceSourceSetController : NSObject {
