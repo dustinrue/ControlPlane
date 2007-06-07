@@ -47,11 +47,13 @@
 		8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */; };
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
 		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
+		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
+		8DC4E7FF0C178917007E7E41 /* UnmuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7FB0C178917007E7E41 /* UnmuteAction.m */; };
+		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
 		8DCBF4920BE5622600A01414 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
 		8DCBF4FF0BE5B12000A01414 /* PowerEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */; };
 		8DCBF60C0BE5C4E400A01414 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8DCBF60B0BE5C4E400A01414 /* Credits.rtf */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
-		8DD790C40BC28C4E00705346 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
 		8DEF428F0BAA05D300F87273 /* MarcoPolo Help in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8DEF42780BAA05CD00F87273 /* MarcoPolo Help */; };
 		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; };
@@ -152,6 +154,10 @@
 		8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShellScriptAction.h; path = src/ShellScriptAction.h; sourceTree = "<group>"; };
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
 		8DBC4C6E0C0D30DE003C8A10 /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = src/MuteAction.h; sourceTree = "<group>"; };
+		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = src/MuteAction.m; sourceTree = "<group>"; };
+		8DC4E7FA0C178917007E7E41 /* UnmuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnmuteAction.h; path = src/UnmuteAction.h; sourceTree = "<group>"; };
+		8DC4E7FB0C178917007E7E41 /* UnmuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmuteAction.m; path = src/UnmuteAction.m; sourceTree = "<group>"; };
 		8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FireWireEvidenceSource.h; path = src/FireWireEvidenceSource.h; sourceTree = "<group>"; };
 		8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FireWireEvidenceSource.m; path = src/FireWireEvidenceSource.m; sourceTree = "<group>"; };
 		8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PowerEvidenceSource.h; path = src/PowerEvidenceSource.h; sourceTree = "<group>"; };
@@ -343,6 +349,10 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8DC4E7F80C178917007E7E41 /* MuteAction.h */,
+				8DC4E7F90C178917007E7E41 /* MuteAction.m */,
+				8DC4E7FA0C178917007E7E41 /* UnmuteAction.h */,
+				8DC4E7FB0C178917007E7E41 /* UnmuteAction.m */,
 				8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */,
 				8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
@@ -469,7 +479,6 @@
 				8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */,
 				8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */,
 				8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */,
-				8DD790C40BC28C4E00705346 /* MailSMTPServerAction.m in Sources */,
 				8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */,
 				8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */,
 				8DCBF4920BE5622600A01414 /* FireWireEvidenceSource.m in Sources */,
@@ -478,6 +487,9 @@
 				8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */,
 				8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */,
 				8D341CD30C0459D0008A7B4F /* RunningApplicationEvidenceSource.m in Sources */,
+				8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */,
+				8DC4E7FF0C178917007E7E41 /* UnmuteAction.m in Sources */,
+				8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -129,10 +129,12 @@
 
 #import "DefaultPrinterAction.h"
 #import "MailSMTPServerAction.h"
+#import "MuteAction.h"
 #import "OpenAction.h"
 #import "ShellScriptAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
+#import "UnmuteAction.h"
 
 @implementation ActionSetController
 
@@ -144,19 +146,23 @@
 	classes = [[NSArray alloc] initWithObjects:
 		[DefaultPrinterAction class],
 		[MailSMTPServerAction class],
+		[MuteAction class],
 		[OpenAction class],
 		[ShellScriptAction class],
 		[ToggleBluetoothAction class],
 		[ToggleWiFiAction class],
+		[UnmuteAction class],
 			nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
+		NSLocalizedString(@"Mute", @"Action type");
 		NSLocalizedString(@"Open", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
+		NSLocalizedString(@"Unmute", @"Action type");
 	}
 
 	return self;
