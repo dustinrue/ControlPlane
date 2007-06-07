@@ -131,6 +131,7 @@
 #import "MailSMTPServerAction.h"
 #import "MuteAction.h"
 #import "OpenAction.h"
+#import "ScreenSaverPasswordAction.h"
 #import "ShellScriptAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
@@ -147,6 +148,7 @@
 		[MailSMTPServerAction class],
 		[MuteAction class],
 		[OpenAction class],
+		[ScreenSaverPasswordAction class],
 		[ShellScriptAction class],
 		[ToggleBluetoothAction class],
 		[ToggleWiFiAction class],
@@ -157,10 +159,10 @@
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
 		NSLocalizedString(@"Mute", @"Action type");
 		NSLocalizedString(@"Open", @"Action type");
+		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
-		NSLocalizedString(@"Unmute", @"Action type");
 	}
 
 	return self;

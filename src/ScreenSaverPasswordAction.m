@@ -5,6 +5,7 @@
 //  Created by David Symonds on 7/06/07.
 //
 
+#import <CoreFoundation/CFPreferences.h>
 #import "ScreenSaverPasswordAction.h"
 
 
@@ -20,17 +21,24 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	// TODO
-//	NSString *script = [NSString stringWithFormat:@"set volume %@ output muted",
-//				(turnOn ? @"without" : @"with")];
-//	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-//	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-//	[task waitUntilExit];
+	NSNumber *val = [NSNumber numberWithBool:turnOn];
+	CFPreferencesSetValue(CFSTR("askForPassword"), (CFPropertyListRef) val,
+			      CFSTR("com.apple.screensaver"),
+			      kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+	BOOL success = CFPreferencesSynchronize(CFSTR("com.apple.screensaver"),
+				 kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
 
-	// Should never happen
-	//if ([task terminationStatus] != 0) {
-	//	return NO;
-	//}
+	// Notify login process
+	if (success) {
+		CFMessagePortRef port = CFMessagePortCreateRemote(NULL, CFSTR("com.apple.loginwindow.notify"));
+		success = (CFMessagePortSendRequest(port, 500, 0, 0, 0, 0, 0) == kCFMessagePortSuccess);
+		CFRelease(port);
+	}
+
+	if (!success) {
+		*errorString = NSLocalizedString(@"Failed toggling screen saver password!", @"");
+		return NO;
+	}
 
 	return YES;
 }
