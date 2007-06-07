@@ -6,17 +6,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Action.h"
+#import "ToggleableAction.h"
 
 
-@interface ToggleBluetoothAction : Action <ActionWithLimitedOptions> {
-	BOOL turnOn;
+@interface ToggleBluetoothAction : ToggleableAction <ActionWithLimitedOptions> {
 	int setState;
 }
-
-- (id)initWithDictionary:(NSDictionary *)dict;
-- (void)dealloc;
-- (NSMutableDictionary *)dictionary;
 
 - (NSString *)description;
 - (BOOL)execute:(NSString **)errorString;

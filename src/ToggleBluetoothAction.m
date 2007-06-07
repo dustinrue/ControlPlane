@@ -10,48 +10,6 @@
 
 @implementation ToggleBluetoothAction
 
-+ (BOOL)stateForString:(NSString *)string
-{
-	if ([[string lowercaseString] isEqualToString:@"on"])
-		return YES;
-
-	return NO;
-}
-
-- (id)init
-{
-	if (!(self = [super init]))
-		return nil;
-
-	turnOn = NO;
-
-	return self;
-}
-
-- (id)initWithDictionary:(NSDictionary *)dict
-{
-	if (!(self = [super init]))
-		return nil;
-
-	turnOn = [[self class] stateForString:[dict valueForKey:@"parameter"]];
-
-	return self;
-}
-
-- (void)dealloc
-{
-	[super dealloc];
-}
-
-- (NSMutableDictionary *)dictionary
-{
-	NSMutableDictionary *dict = [super dictionary];
-
-	[dict setObject:(turnOn ? @"on" : @"off") forKey:@"parameter"];
-
-	return dict;
-}
-
 - (NSString *)description
 {
 	if (turnOn)
@@ -92,12 +50,7 @@
 
 + (NSArray *)limitedOptions
 {
-	return [NSArray arrayWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:@"on", @"option",
-			NSLocalizedString(@"on", @"Used in toggling actions"), @"description", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:@"off", @"option",
-			NSLocalizedString(@"off", @"Used in toggling actions"), @"description", nil],
-		nil];
+	return [super limitedOptions];
 }
 
 + (NSString *)limitedOptionHelpText
@@ -107,9 +60,7 @@
 
 - (id)initWithOption:(NSString *)option
 {
-	[self init];
-	turnOn = [[self class] stateForString:option];
-	return self;
+	return [super initWithOption:option];
 }
 
 @end

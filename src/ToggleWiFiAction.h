@@ -6,17 +6,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Action.h"
+#import "ToggleableAction.h"
 
 
-@interface ToggleWiFiAction : Action <ActionWithLimitedOptions> {
-	BOOL turnOn;
-	int setState;
+@interface ToggleWiFiAction : ToggleableAction <ActionWithLimitedOptions> {
 }
-
-- (id)initWithDictionary:(NSDictionary *)dict;
-- (void)dealloc;
-- (NSMutableDictionary *)dictionary;
 
 - (NSString *)description;
 - (BOOL)execute:(NSString **)errorString;
