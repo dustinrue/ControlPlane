@@ -134,7 +134,6 @@
 #import "ShellScriptAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
-#import "UnmuteAction.h"
 
 @implementation ActionSetController
 
@@ -151,7 +150,6 @@
 		[ShellScriptAction class],
 		[ToggleBluetoothAction class],
 		[ToggleWiFiAction class],
-		[UnmuteAction class],
 			nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'

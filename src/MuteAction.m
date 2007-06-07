@@ -12,12 +12,16 @@
 
 - (NSString *)description
 {
-	return NSLocalizedString(@"Muting system audio.", @"");
+	if (turnOn)
+		return NSLocalizedString(@"Unmuting system audio.", @"");
+	else
+		return NSLocalizedString(@"Muting system audio.", @"");
 }
 
 - (BOOL)execute:(NSString **)errorString
 {
-	NSString *script = @"set volume with output muted";
+	NSString *script = [NSString stringWithFormat:@"set volume %@ output muted",
+				(turnOn ? @"without" : @"with")];
 	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
 	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
 	[task waitUntilExit];
@@ -32,7 +36,29 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString(@"No parameter for Mute actions.", @"");
+	return NSLocalizedString(@"The parameter for Mute actions is simply either \"on\" "
+				 "or \"off\", depending on whether you want your system audio "
+				 "unmuted or muted.", @"");
+}
+
++ (NSArray *)limitedOptions
+{
+	return [NSArray arrayWithObjects:
+		[NSDictionary dictionaryWithObjectsAndKeys:@"off", @"option",
+			NSLocalizedString(@"Mute system audio", @""), @"description", nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:@"on", @"option",
+			NSLocalizedString(@"Unmute system audio", @""), @"description", nil],
+		nil];
+}
+
++ (NSString *)limitedOptionHelpText
+{
+	return @"";
+}
+
+- (id)initWithOption:(NSString *)option
+{
+	return [super initWithOption:option];
 }
 
 @end

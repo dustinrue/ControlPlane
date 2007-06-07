@@ -6,13 +6,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Action.h"
+#import "ToggleableAction.h"
 
 
-@interface MuteAction : Action {
+@interface MuteAction : ToggleableAction <ActionWithLimitedOptions> {
 }
 
 - (NSString *)description;
 - (BOOL)execute:(NSString **)errorString;
+
++ (NSArray *)limitedOptions;
++ (NSString *)limitedOptionHelpText;
+- (id)initWithOption:(NSString *)option;
 
 @end
