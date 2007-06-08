@@ -48,11 +48,11 @@ $languages.each do |lang|
 	missing = $strings[$base_language] - $strings[lang]
 	extra = $strings[lang] - $strings[$base_language]
 	if missing.size > 0
-		puts "** Missing in #{lang}:"
+		puts "** Missing in #{lang}:  (#{missing.size} strings)"
 		puts missing.map { |l| "\t#{l}" }.join("\n")
 	end
 	if extra.size > 0
-		puts "** Extra in #{lang}:"
+		puts "** Extra in #{lang}:  (#{missing.size} strings)"
 		puts extra.map { |l| "\t#{l}" }.join("\n")
 	end
 end
