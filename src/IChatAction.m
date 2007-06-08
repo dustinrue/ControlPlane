@@ -54,8 +54,9 @@
 	// TODO: properly escape status message!
 	NSString *script = [NSString stringWithFormat:
 		@"tell application \"iChat\"\n"
-		"  set status message to \"%@\""
+		"  set status message to \"%@\"\n"
 		"end tell\n", status];
+	NSLog(@"APPLE SCRIPT:\n%@", script);
 	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
 	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
 	[task waitUntilExit];
