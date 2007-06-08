@@ -53,9 +53,9 @@
 
 	// Some sensible defaults
 	delay = 0;
-	type = [Action typeForClass:[self class]];
-	location = [SysConf getCurrentLocation];
-	when = @"Arrival";
+	type = [[Action typeForClass:[self class]] retain];
+	location = [[SysConf getCurrentLocation] retain];
+	when = [@"Arrival" retain];
 
 	return self;
 }
@@ -71,15 +71,19 @@
 		return nil;
 
 	delay = [[dict valueForKey:@"delay"] intValue];
-	type = [Action typeForClass:[self class]];
-	location = [dict valueForKey:@"location"];
-	when = [dict valueForKey:@"when"];
+	type = [[Action typeForClass:[self class]] retain];
+	location = [[dict valueForKey:@"location"] copy];
+	when = [[dict valueForKey:@"when"] copy];
 
 	return self;
 }
 
 - (void)dealloc
 {
+	[type release];
+	[location release];
+	[when release];
+
 	[super dealloc];
 }
 
@@ -87,9 +91,9 @@
 {
 	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithInt:delay], @"delay",
-		type, @"type",
-		location, @"location",
-		when, @"when",
+		[[type copy] autorelease], @"type",
+		[[location copy] autorelease], @"location",
+		[[when copy] autorelease], @"when",
 		nil];
 }
 

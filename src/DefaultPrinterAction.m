@@ -15,7 +15,7 @@
 	if (!(self = [super init]))
 		return nil;
 
-	printerQueue = @"";
+	printerQueue = [[NSString alloc] init];
 
 	return self;
 }
@@ -25,13 +25,15 @@
 	if (!(self = [super init]))
 		return nil;
 
-	printerQueue = [dict valueForKey:@"parameter"];
+	printerQueue = [[dict valueForKey:@"parameter"] copy];
 
 	return self;
 }
 
 - (void)dealloc
 {
+	[printerQueue release];
+
 	[super dealloc];
 }
 
@@ -39,7 +41,7 @@
 {
 	NSMutableDictionary *dict = [super dictionary];
 
-	[dict setObject:printerQueue forKey:@"parameter"];
+	[dict setObject:[[printerQueue copy] autorelease] forKey:@"parameter"];
 
 	return dict;
 }
@@ -112,7 +114,8 @@
 - (id)initWithOption:(NSString *)option
 {
 	[self init];
-	printerQueue = option;
+	[printerQueue autorelease];
+	printerQueue = [option copy];
 	return self;
 }
 
