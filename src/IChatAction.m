@@ -15,7 +15,7 @@
 	if (!(self = [super init]))
 		return nil;
 
-	status = @"";
+	status = [[NSString alloc] init];
 
 	return self;
 }
@@ -25,13 +25,15 @@
 	if (!(self = [super init]))
 		return nil;
 
-	status = [dict valueForKey:@"parameter"];
+	status = [[dict valueForKey:@"parameter"] copy];
 
 	return self;
 }
 
 - (void)dealloc
 {
+	[status release];
+
 	[super dealloc];
 }
 
@@ -39,7 +41,7 @@
 {
 	NSMutableDictionary *dict = [super dictionary];
 
-	[dict setObject:status forKey:@"parameter"];
+	[dict setObject:[[status copy] autorelease] forKey:@"parameter"];
 
 	return dict;
 }
@@ -56,7 +58,6 @@
 		@"tell application \"iChat\"\n"
 		"  set status message to \"%@\"\n"
 		"end tell\n", status];
-	NSLog(@"APPLE SCRIPT:\n%@", script);
 	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
 	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
 	[task waitUntilExit];
@@ -82,7 +83,8 @@
 - (id)initWithString:(NSString *)string
 {
 	[self init];
-	status = string;
+	[status release];
+	status = [string copy];
 	return self;
 }
 
