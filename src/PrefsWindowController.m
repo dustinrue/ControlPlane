@@ -396,6 +396,16 @@
 		[actionsController addObject:actionDictionary];
 		[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
 		return;
+	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
+		NSTextField *tf = newActionStringTextField;
+		// TODO: init?
+		[tf setStringValue:@"<test string>"];
+
+		[self setValue:[klass stringHelpText] forKey:@"newActionWindowText1"];
+
+		[NSApp activateIgnoringOtherApps:YES];
+		[newActionWindowString makeKeyAndOrderFront:self];
+		return;
 	}
 
 	Action *action = [[[[sender representedObject] alloc] init] autorelease];
@@ -419,6 +429,22 @@
 	[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
 
 	[newActionWindowLimitedOptions performClose:self];
+}
+
+- (IBAction)doAddActionWithString:(id)sender
+{
+	NSString *str = [newActionStringTextField stringValue];
+	NSString *loc = [[newLocationController selectedObjects] lastObject];
+
+	Class klass = [Action classForType:newActionType];
+	Action *action = [[[klass alloc] initWithString:str] autorelease];
+
+	NSMutableDictionary *actionDictionary = [action dictionary];
+	[actionDictionary setValue:loc forKey:@"location"];
+	[actionsController addObject:actionDictionary];
+	[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
+
+	[newActionWindowString performClose:self];
 }
 
 @end

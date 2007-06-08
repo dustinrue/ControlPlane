@@ -32,6 +32,8 @@
 	NSString *newActionWindowText1;
 	IBOutlet NSWindow *newActionWindowLimitedOptions;
 	IBOutlet NSArrayController *newActionLimitedOptionsController;
+	IBOutlet NSWindow *newActionWindowString;
+	IBOutlet NSTextField *newActionStringTextField;
 }
 
 - (IBAction)runPreferences:(id)sender;
@@ -52,5 +54,6 @@
 
 - (void)addAction:(id)sender;
 - (IBAction)doAddActionWithLimitedOptions:(id)sender;
+- (IBAction)doAddActionWithString:(id)sender;
 
 @end

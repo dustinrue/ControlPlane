@@ -128,6 +128,7 @@
 #pragma mark -
 
 #import "DefaultPrinterAction.h"
+#import "IChatAction.h"
 #import "MailSMTPServerAction.h"
 #import "MuteAction.h"
 #import "OpenAction.h"
@@ -145,6 +146,7 @@
 
 	classes = [[NSArray alloc] initWithObjects:
 		[DefaultPrinterAction class],
+		[IChatAction class],
 		[MailSMTPServerAction class],
 		[MuteAction class],
 		[OpenAction class],
@@ -156,6 +158,7 @@
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
+		NSLocalizedString(@"IChat", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
 		NSLocalizedString(@"Mute", @"Action type");
 		NSLocalizedString(@"Open", @"Action type");

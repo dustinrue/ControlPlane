@@ -45,6 +45,7 @@
                 addAction = id; 
                 addRule = id; 
                 doAddActionWithLimitedOptions = id; 
+                doAddActionWithString = id; 
                 doAddRule = id; 
                 runAbout = id; 
                 runPreferences = id; 
@@ -60,7 +61,9 @@
                 generalPrefsView = NSView; 
                 mpController = MPController; 
                 newActionLimitedOptionsController = NSArrayController; 
+                newActionStringTextField = NSTextField; 
                 newActionWindowLimitedOptions = NSWindow; 
+                newActionWindowString = NSWindow; 
                 newLocationController = NSArrayController; 
                 newRuleConfidenceSlider = NSSlider; 
                 newRuleParameterController = NSArrayController; 

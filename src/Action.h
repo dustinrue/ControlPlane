@@ -40,6 +40,11 @@
 - (id)initWithFile:(NSString *)file;
 @end
 
+@protocol ActionWithString
++ (NSString *)stringHelpText;
+- (id)initWithString:(NSString *)string;
+@end
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 @interface ActionSetController : NSObject {
