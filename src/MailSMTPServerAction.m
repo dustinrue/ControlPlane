@@ -15,7 +15,7 @@
 	if (!(self = [super init]))
 		return nil;
 
-	hostname = @"";
+	hostname = [[NSString alloc] init];
 
 	return self;
 }
@@ -25,13 +25,15 @@
 	if (!(self = [super init]))
 		return nil;
 
-	hostname = [dict valueForKey:@"parameter"];
+	hostname = [[dict valueForKey:@"parameter"] copy];
 
 	return self;
 }
 
 - (void)dealloc
 {
+	[hostname release];
+
 	[super dealloc];
 }
 
@@ -39,7 +41,7 @@
 {
 	NSMutableDictionary *dict = [super dictionary];
 
-	[dict setObject:hostname forKey:@"parameter"];
+	[dict setObject:[[hostname copy] autorelease] forKey:@"parameter"];
 
 	return dict;
 }
@@ -87,7 +89,8 @@
 - (id)initWithString:(NSString *)string
 {
 	[self init];
-	hostname = string;
+	[hostname release];
+	hostname = [string copy];
 	return self;
 }
 

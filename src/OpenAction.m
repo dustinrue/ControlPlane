@@ -15,7 +15,7 @@
 	if (!(self = [super init]))
 		return nil;
 
-	path = @"";
+	path = [[NSString alloc] init];
 
 	return self;
 }
@@ -25,13 +25,15 @@
 	if (!(self = [super init]))
 		return nil;
 
-	path = [dict valueForKey:@"parameter"];
+	path = [[dict valueForKey:@"parameter"] copy];
 
 	return self;
 }
 
 - (void)dealloc
 {
+	[path release];
+
 	[super dealloc];
 }
 
@@ -39,7 +41,7 @@
 {
 	NSMutableDictionary *dict = [super dictionary];
 
-	[dict setObject:path forKey:@"parameter"];
+	[dict setObject:[[path copy] autorelease] forKey:@"parameter"];
 
 	return dict;
 }
@@ -67,7 +69,8 @@
 - (id)initWithFile:(NSString *)file
 {
 	[self init];
-	path = file;
+	[path release];
+	path = [file copy];
 	return self;
 }
 
