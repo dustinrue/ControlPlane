@@ -99,7 +99,7 @@ static NSString *macToString(const UInt8 *mac)
 			ssid, @"SSID", mac, @"MAC", nil]];
 	}
 
-	//[list release];	// XXX: Release or not? Hrm...
+	//[list release];	// Releasing causes a crash. Yay for undocumented private interfaces!
 	WirelessDetach(wctxt);
 
 end_of_scan:

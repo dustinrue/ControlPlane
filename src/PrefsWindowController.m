@@ -386,7 +386,7 @@
 	} else if ([klass conformsToProtocol:@protocol(ActionWithFileParameter)]) {
 		NSOpenPanel *panel = [NSOpenPanel openPanel];
 		[panel setAllowsMultipleSelection:NO];
-		[panel setCanChooseDirectories:NO];	// XXX: or YES?
+		[panel setCanChooseDirectories:NO];
 		if ([panel runModal] != NSOKButton)
 			return;
 		NSString *filename = [panel filename];
@@ -398,8 +398,7 @@
 		return;
 	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
 		NSTextField *tf = newActionStringTextField;
-		// TODO: init?
-		[tf setStringValue:@"<test string>"];
+		[tf setStringValue:@""];
 
 		[self setValue:[klass stringHelpText] forKey:@"newActionWindowText1"];
 
