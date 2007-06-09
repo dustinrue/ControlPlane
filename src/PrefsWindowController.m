@@ -377,14 +377,14 @@
 	// New stuff:
 	[self setValue:[klass creationHelpText] forKey:@"newActionWindowHelpText"];
 
-	// Old stuff:
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
+		// Old stuff:
 		NSArrayController *loC = newActionLimitedOptionsController;
 		[loC removeObjects:[loC arrangedObjects]];
 		[loC addObjects:[klass limitedOptions]];
 		[loC selectNext:self];
 
-		[self setValue:[klass limitedOptionHelpText] forKey:@"newActionWindowText1"];
+		[self setValue:[klass creationHelpText] forKey:@"newActionWindowText1"];
 
 		[NSApp activateIgnoringOtherApps:YES];
 		[newActionWindowLimitedOptions makeKeyAndOrderFront:self];

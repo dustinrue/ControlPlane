@@ -26,14 +26,13 @@
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)
 - (BOOL)execute:(NSString **)errorString;
-+ (NSString *)helpText;		// for UI
++ (NSString *)helpText;
 + (NSString *)creationHelpText;
 
 @end
 
 @protocol ActionWithLimitedOptions
 + (NSArray *)limitedOptions;		// Returns an array of dictionaries (keys: option, description)
-+ (NSString *)limitedOptionHelpText;
 - (id)initWithOption:(NSString *)option;
 @end
 
