@@ -127,6 +127,11 @@
 	return @"Sorry, no help text written yet!";
 }
 
++ (NSString *)creationHelpText
+{
+	return @"<Sorry, help text coming soon!>";
+}
+
 @end
 
 #pragma mark -

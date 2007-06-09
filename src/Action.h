@@ -27,6 +27,7 @@
 - (NSString *)description;	// (use present-tense imperative)
 - (BOOL)execute:(NSString **)errorString;
 + (NSString *)helpText;		// for UI
++ (NSString *)creationHelpText;
 
 @end
 
@@ -41,7 +42,6 @@
 @end
 
 @protocol ActionWithString
-+ (NSString *)stringHelpText;
 - (id)initWithString:(NSString *)string;
 @end
 
