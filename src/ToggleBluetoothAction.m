@@ -48,14 +48,14 @@
 				 "turned on or off.", @"");
 }
 
++ (NSString *)creationHelpText
+{
+	return NSLocalizedString(@"Turn Bluetooth", @"Will be followed by 'on' or 'off'");
+}
+
 + (NSArray *)limitedOptions
 {
 	return [super limitedOptions];
-}
-
-+ (NSString *)limitedOptionHelpText
-{
-	return NSLocalizedString(@"Turn Bluetooth", @"Will be followed by 'on' or 'off'");
 }
 
 - (id)initWithOption:(NSString *)option

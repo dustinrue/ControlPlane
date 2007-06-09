@@ -15,9 +15,10 @@
 
 - (NSString *)description;
 - (BOOL)execute:(NSString **)errorString;
++ (NSString *)helpText;
++ (NSString *)creationHelpText;
 
 + (NSArray *)limitedOptions;
-+ (NSString *)limitedOptionHelpText;
 - (id)initWithOption:(NSString *)option;
 
 @end

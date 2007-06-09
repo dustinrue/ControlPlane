@@ -51,14 +51,14 @@ failure:
 				 "turned on or off.", @"");
 }
 
++ (NSString *)creationHelpText
+{
+	return NSLocalizedString(@"Turn WiFi", @"Will be followed by 'on' or 'off'");
+}
+
 + (NSArray *)limitedOptions
 {
 	return [super limitedOptions];
-}
-
-+ (NSString *)limitedOptionHelpText
-{
-	return NSLocalizedString(@"Turn WiFi", @"Will be followed by 'on' or 'off'");
 }
 
 - (id)initWithOption:(NSString *)option

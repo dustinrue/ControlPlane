@@ -50,6 +50,12 @@
 				 "enabled or disabled.", @"");
 }
 
++ (NSString *)creationHelpText
+{
+	// FIXME: is there some useful text we could use?
+	return @"";
+}
+
 + (NSArray *)limitedOptions
 {
 	return [NSArray arrayWithObjects:
@@ -58,11 +64,6 @@
 		[NSDictionary dictionaryWithObjectsAndKeys:@"off", @"option",
 			NSLocalizedString(@"Disable screen saver password", @""), @"description", nil],
 		nil];
-}
-
-+ (NSString *)limitedOptionHelpText
-{
-	return @"";
 }
 
 - (id)initWithOption:(NSString *)option

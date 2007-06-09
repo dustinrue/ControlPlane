@@ -41,6 +41,12 @@
 				 "unmuted or muted.", @"");
 }
 
++ (NSString *)creationHelpText
+{
+	// FIXME: is there some useful text we could use?
+	return @"";
+}
+
 + (NSArray *)limitedOptions
 {
 	return [NSArray arrayWithObjects:
@@ -49,11 +55,6 @@
 		[NSDictionary dictionaryWithObjectsAndKeys:@"on", @"option",
 			NSLocalizedString(@"Unmute system audio", @""), @"description", nil],
 		nil];
-}
-
-+ (NSString *)limitedOptionHelpText
-{
-	return @"";
 }
 
 - (id)initWithOption:(NSString *)option
