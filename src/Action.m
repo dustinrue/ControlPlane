@@ -134,6 +134,7 @@
 #import "DefaultPrinterAction.h"
 #import "IChatAction.h"
 #import "MailSMTPServerAction.h"
+#import "MountAction.h"
 #import "MuteAction.h"
 #import "OpenAction.h"
 #import "ScreenSaverPasswordAction.h"
@@ -152,6 +153,7 @@
 		[DefaultPrinterAction class],
 		[IChatAction class],
 		[MailSMTPServerAction class],
+		[MountAction class],
 		[MuteAction class],
 		[OpenAction class],
 		[ScreenSaverPasswordAction class],
@@ -164,6 +166,7 @@
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"IChat", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
+		NSLocalizedString(@"Mount", @"Action type");
 		NSLocalizedString(@"Mute", @"Action type");
 		NSLocalizedString(@"Open", @"Action type");
 		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
