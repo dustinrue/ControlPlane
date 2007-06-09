@@ -9,7 +9,7 @@
 #import "Action.h"
 
 
-@interface MailSMTPServerAction : Action <ActionWithString> {
+@interface MailSMTPServerAction : Action <ActionWithLimitedOptions> {
 	NSString *hostname;
 }
 
@@ -21,5 +21,8 @@
 - (BOOL)execute:(NSString **)errorString;
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
+
++ (NSArray *)limitedOptions;
+- (id)initWithOption:(NSString *)option;
 
 @end

@@ -86,4 +86,47 @@
 	return NSLocalizedString(@"Set Mail's SMTP server hostname to", @"");
 }
 
++ (NSArray *)limitedOptions
+{
+	NSString *script =
+		@"tell application \"Mail\"\n"
+		"  get server name of every smtp server\n"
+		"end tell\n";
+
+	NSTask *task = [[[NSTask alloc] init] autorelease];
+
+	[task setLaunchPath:@"/usr/bin/osascript"];
+	[task setArguments:[NSArray arrayWithObjects:@"-e", script, nil]];
+	[task setStandardOutput:[NSPipe pipe]];
+
+	[task launch];
+	NSData *data = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
+	[task waitUntilExit];
+	if ([task terminationStatus] != 0)	// failure
+		return [NSArray array];
+	// XXX: what's the proper string encoding here?
+	NSString *s_data = [[[NSString alloc] initWithData:data encoding:NSMacOSRomanStringEncoding] autorelease];
+	NSArray *lines = [s_data componentsSeparatedByString:@","];
+	//NSLog(@"[%@ limitedOptions] got data:\n%@", [self class], lines);
+
+	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:[lines count]];
+	NSEnumerator *en = [lines objectEnumerator];
+	NSString *bit;
+	while ((bit = [en nextObject])) {
+		NSString *hostname = [[bit componentsSeparatedByString:@" "] lastObject];
+		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			hostname, @"option", hostname, @"description", nil]];
+	}
+
+	return opts;
+}
+
+- (id)initWithOption:(NSString *)option
+{
+	[self init];
+	[hostname autorelease];
+	hostname = [option copy];
+	return self;
+}
+
 @end
