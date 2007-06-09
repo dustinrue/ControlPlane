@@ -113,6 +113,8 @@
 
 	blankPrefsView = [[NSView alloc] init];
 
+	newActionWindowParameterViewCurrentControl = nil;
+
 	return self;
 }
 
@@ -372,6 +374,10 @@
 	[self setValue:NSLocalizedString([Action typeForClass:klass], @"Action type")
 		forKey:@"newActionTypeString"];
 
+	// New stuff:
+	[self setValue:[klass creationHelpText] forKey:@"newActionWindowHelpText"];
+
+	// Old stuff:
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSArrayController *loC = newActionLimitedOptionsController;
 		[loC removeObjects:[loC arrangedObjects]];
@@ -397,13 +403,18 @@
 		[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
 		return;
 	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
-		NSTextField *tf = newActionStringTextField;
-		[tf setStringValue:@""];
+		NSRect frame = [newActionWindowParameterView bounds];
+		frame.size.height = 22;		// HACK!
+		NSTextField *tf = [[[NSTextField alloc] initWithFrame:frame] autorelease];
+		[tf setStringValue:@""];	// TODO: sensible initialisation?
 
-		[self setValue:[klass stringHelpText] forKey:@"newActionWindowText1"];
+		if (newActionWindowParameterViewCurrentControl)
+			[newActionWindowParameterViewCurrentControl removeFromSuperview];
+		[newActionWindowParameterView addSubview:tf];
+		newActionWindowParameterViewCurrentControl = tf;
 
 		[NSApp activateIgnoringOtherApps:YES];
-		[newActionWindowString makeKeyAndOrderFront:self];
+		[newActionWindow makeKeyAndOrderFront:self];
 		return;
 	}
 
@@ -412,6 +423,34 @@
 
 	[actionsController addObject:actionDictionary];
 	[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
+}
+
+- (IBAction)doAddAction:(id)sender
+{
+	Class klass = [Action classForType:newActionType];
+	Action *tmp_action = [[klass alloc] init];
+	NSMutableDictionary *dict = [tmp_action dictionary];
+	[tmp_action release];
+
+	// Pull parameter out of the right type of UI control
+	NSString *param;
+	if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
+		NSTextField *tf = (NSTextField *) newActionWindowParameterViewCurrentControl;
+		param = [tf stringValue];
+	} else {
+		NSLog(@"PANIC! Don't know how to get parameter!!!");
+		return;
+	}
+
+	// Finish creating dictionary
+	[dict setValue:param forKey:@"parameter"];
+	[dict setValue:[[newLocationController selectedObjects] lastObject] forKey:@"location"];
+
+	// Stick it in action collection, and select it
+	[actionsController addObject:dict];
+	[actionsController setSelectedObjects:[NSArray arrayWithObject:dict]];
+
+	[newActionWindow performClose:self];
 }
 
 - (IBAction)doAddActionWithLimitedOptions:(id)sender
@@ -428,22 +467,6 @@
 	[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
 
 	[newActionWindowLimitedOptions performClose:self];
-}
-
-- (IBAction)doAddActionWithString:(id)sender
-{
-	NSString *str = [newActionStringTextField stringValue];
-	NSString *loc = [[newLocationController selectedObjects] lastObject];
-
-	Class klass = [Action classForType:newActionType];
-	Action *action = [[[klass alloc] initWithString:str] autorelease];
-
-	NSMutableDictionary *actionDictionary = [action dictionary];
-	[actionDictionary setValue:loc forKey:@"location"];
-	[actionsController addObject:actionDictionary];
-	[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
-
-	[newActionWindowString performClose:self];
 }
 
 @end

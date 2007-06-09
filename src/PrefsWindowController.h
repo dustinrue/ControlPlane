@@ -29,11 +29,16 @@
 
 	// New action creation hooks
 	NSString *newActionType, *newActionTypeString;
+	// Old stuff:
 	NSString *newActionWindowText1;
 	IBOutlet NSWindow *newActionWindowLimitedOptions;
 	IBOutlet NSArrayController *newActionLimitedOptionsController;
-	IBOutlet NSWindow *newActionWindowString;
-	IBOutlet NSTextField *newActionStringTextField;
+
+	// New stuff:
+	IBOutlet NSWindow *newActionWindow;
+	NSString *newActionWindowHelpText;
+	IBOutlet NSView *newActionWindowParameterView;
+	NSView *newActionWindowParameterViewCurrentControl;
 }
 
 - (IBAction)runPreferences:(id)sender;
@@ -53,7 +58,7 @@
 - (IBAction)doAddRule:(id)sender;
 
 - (void)addAction:(id)sender;
-- (IBAction)doAddActionWithLimitedOptions:(id)sender;
-- (IBAction)doAddActionWithString:(id)sender;
+- (IBAction)doAddAction:(id)sender;
+- (IBAction)doAddActionWithLimitedOptions:(id)sender;	// Old stuff
 
 @end
