@@ -73,6 +73,11 @@
 				 "spaces replaced by underscores.", @"");
 }
 
++ (NSString *)creationHelpText
+{
+	return NSLocalizedString(@"Change default printer to", @"");
+}
+
 + (NSArray *)limitedOptions
 {
 	NSTask *task = [[[NSTask alloc] init] autorelease];
@@ -104,11 +109,6 @@
 	}
 
 	return opts;
-}
-
-+ (NSString *)limitedOptionHelpText
-{
-	return NSLocalizedString(@"Change default printer to", @"");
 }
 
 - (id)initWithOption:(NSString *)option
