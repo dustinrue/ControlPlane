@@ -19,8 +19,9 @@
 
 - (NSString *)description;
 - (BOOL)execute:(NSString **)errorString;
++ (NSString *)helpText;
++ (NSString *)creationHelpText;
 
-+ (NSString *)stringHelpText;
 - (id)initWithString:(NSString *)string;
 
 @end

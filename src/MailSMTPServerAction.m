@@ -81,7 +81,7 @@
 				 "SMTP server to make the default for all Mail accounts.", @"");
 }
 
-+ (NSString *)stringHelpText
++ (NSString *)creationHelpText
 {
 	return NSLocalizedString(@"Set Mail's SMTP server hostname to", @"");
 }

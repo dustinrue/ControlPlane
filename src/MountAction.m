@@ -77,9 +77,9 @@
 				 "\"smb://server/share\" or \"afp://server/share\".", @"");
 }
 
-+ (NSString *)stringHelpText
++ (NSString *)creationHelpText
 {
-	return NSLocalizedString(@"Mount a volume", @"");
+	return NSLocalizedString(@"Mount a volume with address", @"");
 }
 
 - (id)initWithString:(NSString *)string

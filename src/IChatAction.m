@@ -75,7 +75,7 @@
 	return NSLocalizedString(@"The parameter for IChat actions is the status message to set.", @"");
 }
 
-+ (NSString *)stringHelpText
++ (NSString *)creationHelpText
 {
 	return NSLocalizedString(@"Set iChat status message to", @"");
 }
