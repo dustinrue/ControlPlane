@@ -41,8 +41,8 @@
 - (id)initWithFile:(NSString *)file;
 @end
 
+// An action whose creation UI should just prompt for a string (NSTextField)
 @protocol ActionWithString
-- (id)initWithString:(NSString *)string;
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////

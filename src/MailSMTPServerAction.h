@@ -22,6 +22,4 @@
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
 
-- (id)initWithString:(NSString *)string;
-
 @end

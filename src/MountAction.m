@@ -82,12 +82,4 @@
 	return NSLocalizedString(@"Mount a volume with address", @"");
 }
 
-- (id)initWithString:(NSString *)string
-{
-	[self init];
-	[path release];
-	path = [string copy];
-	return self;
-}
-
 @end

@@ -80,12 +80,4 @@
 	return NSLocalizedString(@"Set iChat status message to", @"");
 }
 
-- (id)initWithString:(NSString *)string
-{
-	[self init];
-	[status release];
-	status = [string copy];
-	return self;
-}
-
 @end

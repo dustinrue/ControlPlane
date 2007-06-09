@@ -86,12 +86,4 @@
 	return NSLocalizedString(@"Set Mail's SMTP server hostname to", @"");
 }
 
-- (id)initWithString:(NSString *)string
-{
-	[self init];
-	[hostname release];
-	hostname = [string copy];
-	return self;
-}
-
 @end
