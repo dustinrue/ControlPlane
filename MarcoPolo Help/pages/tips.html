@@ -49,35 +49,6 @@ end tell
 		</p>
 	</div>
 
-	<div summary="How to mount network drives" class="taskbox">
-		<p>
-		<strong>To mount a set of network drives:</strong>
-		<ol>
-		<li>Use <em>Script Editor</em> to create an AppleScript such as:
-<pre>
-tell application "Finder"
-	activate
-	try
-		mount volume "smb://server1/share1"
-	end try
-	try
-		mount volume "smb://server2/share2"
-	end try
-end tell
-</pre>
-		</li>
-		<li>Save it as an <em>application</em>, unchecking <em>Startup Screen</em>, <em>Run Only</em> and <em>Stay Open</em>.</li>
-			<li>Create an <em>Open</em> action in MarcoPolo, giving the full path to the saved application (including the ".app" extension) as its parameter.</li>
-		</ol>
-		</p>
-		<p>
-		You may need to use <tt>"smb://username@server/share"</tt> or
-		<tt>"smb://username:password@server/share"</tt> to fully
-		automate it, unless you store your username and password in the
-		Keychain.
-		</p>
-	</div>
-
 	<h2 class="seealso">See also</h2>
 	<p class="seealso">
 		<a href="actions.html">Setting up MarcoPolo's actions</a><br />
