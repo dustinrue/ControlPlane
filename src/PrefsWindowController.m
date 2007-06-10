@@ -374,20 +374,29 @@
 	[self setValue:NSLocalizedString([Action typeForClass:klass], @"Action type")
 		forKey:@"newActionTypeString"];
 
-	// New stuff:
 	[self setValue:[klass creationHelpText] forKey:@"newActionWindowHelpText"];
 
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
-		// Old stuff:
 		NSArrayController *loC = newActionLimitedOptionsController;
 		[loC removeObjects:[loC arrangedObjects]];
 		[loC addObjects:[klass limitedOptions]];
 		[loC selectNext:self];
 
-		[self setValue:[klass creationHelpText] forKey:@"newActionWindowText1"];
+		NSRect frame = [newActionWindowParameterView bounds];
+		frame.size.height = 26;		// HACK!
+		NSPopUpButton *pub = [[[NSPopUpButton alloc] initWithFrame:frame pullsDown:NO] autorelease];
+		// Bindings:
+		[pub bind:@"content" toObject:loC withKeyPath:@"arrangedObjects" options:nil];
+		[pub bind:@"contentValues" toObject:loC withKeyPath:@"arrangedObjects.description" options:nil];
+		[pub bind:@"selectedIndex" toObject:loC withKeyPath:@"selectionIndex" options:nil];
+
+		if (newActionWindowParameterViewCurrentControl)
+			[newActionWindowParameterViewCurrentControl removeFromSuperview];
+		[newActionWindowParameterView addSubview:pub];
+		newActionWindowParameterViewCurrentControl = pub;
 
 		[NSApp activateIgnoringOtherApps:YES];
-		[newActionWindowLimitedOptions makeKeyAndOrderFront:self];
+		[newActionWindow makeKeyAndOrderFront:self];
 		return;
 	} else if ([klass conformsToProtocol:@protocol(ActionWithFileParameter)]) {
 		NSOpenPanel *panel = [NSOpenPanel openPanel];
@@ -418,6 +427,7 @@
 		return;
 	}
 
+	// Worst-case fallback: just make a new action, and select it:
 	Action *action = [[[[sender representedObject] alloc] init] autorelease];
 	NSMutableDictionary *actionDictionary = [action dictionary];
 
@@ -434,7 +444,10 @@
 
 	// Pull parameter out of the right type of UI control
 	NSString *param;
-	if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
+	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
+		NSDictionary *sel = [[newActionLimitedOptionsController selectedObjects] lastObject];
+		param = [sel valueForKey:@"option"];
+	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
 		NSTextField *tf = (NSTextField *) newActionWindowParameterViewCurrentControl;
 		param = [tf stringValue];
 	} else {
@@ -451,22 +464,6 @@
 	[actionsController setSelectedObjects:[NSArray arrayWithObject:dict]];
 
 	[newActionWindow performClose:self];
-}
-
-- (IBAction)doAddActionWithLimitedOptions:(id)sender
-{
-	NSString *opt = [[[newActionLimitedOptionsController selectedObjects] lastObject] valueForKey:@"option"];
-	NSString *loc = [[newLocationController selectedObjects] lastObject];
-
-	Class klass = [Action classForType:newActionType];
-	Action *action = [[[klass alloc] initWithOption:opt] autorelease];
-
-	NSMutableDictionary *actionDictionary = [action dictionary];
-	[actionDictionary setValue:loc forKey:@"location"];
-	[actionsController addObject:actionDictionary];
-	[actionsController setSelectedObjects:[NSArray arrayWithObject:actionDictionary]];
-
-	[newActionWindowLimitedOptions performClose:self];
 }
 
 @end

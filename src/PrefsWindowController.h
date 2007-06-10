@@ -28,17 +28,12 @@
 	IBOutlet NSSlider *newRuleConfidenceSlider;
 
 	// New action creation hooks
-	NSString *newActionType, *newActionTypeString;
-	// Old stuff:
-	NSString *newActionWindowText1;
-	IBOutlet NSWindow *newActionWindowLimitedOptions;
-	IBOutlet NSArrayController *newActionLimitedOptionsController;
-
-	// New stuff:
 	IBOutlet NSWindow *newActionWindow;
+	NSString *newActionType, *newActionTypeString;
 	NSString *newActionWindowHelpText;
 	IBOutlet NSView *newActionWindowParameterView;
 	NSView *newActionWindowParameterViewCurrentControl;
+	IBOutlet NSArrayController *newActionLimitedOptionsController;
 }
 
 - (IBAction)runPreferences:(id)sender;
@@ -59,6 +54,5 @@
 
 - (void)addAction:(id)sender;
 - (IBAction)doAddAction:(id)sender;
-- (IBAction)doAddActionWithLimitedOptions:(id)sender;	// Old stuff
 
 @end

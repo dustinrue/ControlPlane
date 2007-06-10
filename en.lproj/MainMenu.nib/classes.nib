@@ -45,7 +45,6 @@
                 addAction = id; 
                 addRule = id; 
                 doAddAction = id; 
-                doAddActionWithLimitedOptions = id; 
                 doAddRule = id; 
                 runAbout = id; 
                 runPreferences = id; 
@@ -62,7 +61,6 @@
                 mpController = MPController; 
                 newActionLimitedOptionsController = NSArrayController; 
                 newActionWindow = NSWindow; 
-                newActionWindowLimitedOptions = NSWindow; 
                 newActionWindowParameterView = NSView; 
                 newLocationController = NSArrayController; 
                 newRuleConfidenceSlider = NSSlider; 
