@@ -375,6 +375,7 @@
 		forKey:@"newActionTypeString"];
 
 	[self setValue:[klass creationHelpText] forKey:@"newActionWindowHelpText"];
+	[self setValue:@"Arrival" forKey:@"newActionWindowWhen"];
 
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSArrayController *loC = newActionLimitedOptionsController;
@@ -458,6 +459,7 @@
 	// Finish creating dictionary
 	[dict setValue:param forKey:@"parameter"];
 	[dict setValue:[[newLocationController selectedObjects] lastObject] forKey:@"location"];
+	[dict setValue:newActionWindowWhen forKey:@"when"];
 
 	// Stick it in action collection, and select it
 	[actionsController addObject:dict];

@@ -34,6 +34,7 @@
 	IBOutlet NSView *newActionWindowParameterView;
 	NSView *newActionWindowParameterViewCurrentControl;
 	IBOutlet NSArrayController *newActionLimitedOptionsController;
+	NSString *newActionWindowWhen;
 }
 
 - (IBAction)runPreferences:(id)sender;
