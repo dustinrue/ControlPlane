@@ -1,3 +1,4 @@
+// This is all addapted from mmalc's freely distributed DNDArrayController on his site.
 
 #import "DNDArrayController.h"
 
