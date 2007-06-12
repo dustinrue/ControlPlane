@@ -89,7 +89,10 @@
 #ifdef DEBUG_MODE
 	NSLog(@"%@ >> About to go to sleep!", [self class]);
 #endif
-	[threadCond lockWhenCondition:ES_IDLE];
+	// This was to fix #45 (MarcoPolo preventing sleep),
+	// but seemed to cause #58 (hanging when waking from sleep).
+	//[threadCond lockWhenCondition:ES_IDLE];
+	[threadCond lock];
 	[threadCond unlockWithCondition:ES_SLEEPING];
 }
 
