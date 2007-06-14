@@ -21,9 +21,9 @@
 		<div id="pagetitle">
 			<h1>Setting up MarcoPolo's rules</h1>
 		</div>
-		<p><i>Rules</i> in MarcoPolo are how MarcoPolo determines which
-		location is the correct one from different sources of evidence.
-		There are different types of rules for different types of
+		<p><b>Rules</b> in MarcoPolo are how MarcoPolo determines your
+		location from different sources of evidence.
+		Different <i>types</i> of rules for different types of
 		evidence, but they are all combined mathematically to arrive at
 		a final conclusion.
 		</p>
@@ -34,15 +34,15 @@
 		<li>A <i>parameter</i> to match pieces of evidence,</li>
 		<li>A <i>location</i> that it indicates,</li>
 		<li>A <i>confidence</i>, and</li>
-		<li>A <i>description</i> for human readability.</li>
+		<li>A <i>description</i> (optional) for human readability.</li>
 		</ul>
 		<p>For example, a rule might be:
 		</p>
 		<p style="text-align: center;">
-		&lt; type=Bluetooth, parameter=00-00-6C-33-7A-2F, location=Home,
+		&lt; type=MAC, parameter=00-00-6C-33-7A-2F, location=Home,
 		confidence=80% &gt;
 		</p>
-		<p>This tells MarcoPolo that the presence of a <i>Bluetooth</i>
+		<p>This tells MarcoPolo that the presence of a
 		device with a MAC of <i>00-00-6C-33-7A-2F</i> means that we are
 		at the <i>Home</i> location, and that we can be <i>80%</i>
 		confident of this. Ordinarily, you won't have to explicitly
