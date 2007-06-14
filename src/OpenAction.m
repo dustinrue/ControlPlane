@@ -53,9 +53,28 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	if ([[NSWorkspace sharedWorkspace] openFile:path])
-		return YES;
+	NSString *app, *fileType;
 
+	if (![[NSWorkspace sharedWorkspace] getInfoForFile:path application:&app type:&fileType])
+		goto failed_to_open;
+
+#ifdef DEBUG_MODE
+	NSLog(@"[%@]: Type: '%@'.", [self class], fileType);
+#endif
+
+	if ([[fileType uppercaseString] isEqualToString:@"SCPT"]) {
+		NSArray *args = [NSArray arrayWithObject:path];
+		NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
+		[task waitUntilExit];
+		if ([task terminationStatus] == 0)
+			return YES;
+	} else {
+		// Fallback
+		if ([[NSWorkspace sharedWorkspace] openFile:path])
+			return YES;
+	}
+
+failed_to_open:
 	*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
 	return NO;
 }
