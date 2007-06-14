@@ -53,7 +53,11 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:[NSArray arrayWithObject:path]];
+	// Split on "|", add "--" to the start so that the shell won't try to parse arguments
+	NSMutableArray *args = [[[path componentsSeparatedByString:@"|"] mutableCopy] autorelease];
+	[args insertObject:@"--" atIndex:0];
+
+	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:args];
 	[task waitUntilExit];
 
 	if ([task terminationStatus] != 0) {
