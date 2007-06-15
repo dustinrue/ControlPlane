@@ -953,7 +953,7 @@
 00-03-B7   	ZACCESS Systems
 00-03-B8   	NetKit Solutions, LLC
 00-03-B9   	Hualong Telecom Co., Ltd.
-00-03-BA   	Sun Microsystems
+00-03-BA   	Sun Microsystems Inc.
 00-03-BB   	Signal Communications Limited
 00-03-BC   	COT GmbH
 00-03-BD   	OmniCluster Technologies, Inc.
@@ -1915,7 +1915,7 @@
 00-07-7F   	J Communications Co., Ltd.
 00-07-80   	Bluegiga Technologies OY
 00-07-81   	Itron Inc.
-00-07-82   	Nauticus Networks, Inc.
+00-07-82   	Sun Microsystems, Inc.
 00-07-83   	SynCom Network, Inc.
 00-07-84   	Cisco Systems Inc.
 00-07-85   	Cisco Systems Inc.
@@ -3711,7 +3711,7 @@
 00-0E-A4   	Certance Inc.
 00-0E-A5   	BLIP Systems
 00-0E-A6   	ASUSTEK COMPUTER INC.
-00-0E-A7   	Endace Inc Ltd.
+00-0E-A7   	Endace Technology
 00-0E-A8   	United Technologists Europe Limited
 00-0E-A9   	Shanghai Xun Shi Communications Equipment Ltd. Co.
 00-0E-AA   	Scalent Systems, Inc.
@@ -3818,7 +3818,7 @@
 00-0F-0F   	Real ID Technology Co., Ltd.
 00-0F-10   	RDM Corporation
 00-0F-11   	Prodrive B.V.
-00-0F-12   	Panasonic AVC Networks Germany GmbH
+00-0F-12   	Panasonic Europe Ltd.
 00-0F-13   	Nisca corporation
 00-0F-14   	Mindray Co., Ltd.
 00-0F-15   	Kjaerulff1 A/S
@@ -4057,7 +4057,7 @@
 00-0F-FE   	G-PRO COMPUTER
 00-0F-FF   	Control4
 00-10-00   	CABLE TELEVISION LABORATORIES, INC.
-00-10-01   	MCK COMMUNICATIONS
+00-10-01   	Citel plc
 00-10-02   	ACTIA
 00-10-03   	IMATRON, INC.
 00-10-04   	THE BRANTLEY COILE COMPANY,INC
@@ -4129,13 +4129,13 @@
 00-10-46   	ALCORN MCBRIDE INC.
 00-10-47   	ECHO ELETRIC CO. LTD.
 00-10-48   	HTRC AUTOMATION, INC.
-00-10-49   	SHORELINE TELEWORKS, INC.
+00-10-49   	ShoreTel, Inc
 00-10-4A   	THE PARVUC CORPORATION
 00-10-4B   	3COM CORPORATION
 00-10-4C   	COMPUTER ACCESS TECHNOLOGY
 00-10-4D   	SURTEC INDUSTRIES, INC.
 00-10-4E   	CEOLOGIC
-00-10-4F   	STORAGE TECHNOLOGY CORPORATION
+00-10-4F   	Sun Microsystems, Inc.
 00-10-50   	RION CO., LTD.
 00-10-51   	CMICRO CORPORATION
 00-10-52   	METTLER-TOLEDO (ALBSTADT) GMBH
@@ -4280,7 +4280,7 @@
 00-10-DD   	ENABLE SEMICONDUCTOR, INC.
 00-10-DE   	INTERNATIONAL DATACASTING CORPORATION
 00-10-DF   	RISE COMPUTER INC.
-00-10-E0   	COBALT MICROSERVER, INC.
+00-10-E0   	Sun Microsystems, Inc.
 00-10-E1   	S.I. TECH, INC.
 00-10-E2   	ArrayComm, Inc.
 00-10-E3   	COMPAQ COMPUTER CORPORATION
@@ -4450,7 +4450,7 @@
 00-11-88   	Enterasys
 00-11-89   	Aerotech Inc
 00-11-8A   	Viewtran Technology Limited
-00-11-8B   	NetDevices Inc.
+00-11-8B   	Alcatel-Lucent, Enterprise Business Group
 00-11-8C   	Missouri Department of Transportation
 00-11-8D   	Hanchang System Corp.
 00-11-8E   	Halytech Mace
@@ -7331,6 +7331,61 @@
 00-1C-C9   	Kaise Electronic Technology Co., Ltd.
 00-1C-CA   	Shanghai Gaozhi Science & Technology Development Co.
 00-1C-CB   	Forth Corporation Public Company Limited
+00-1C-CC   	Research In Motion Limited
+00-1C-CD   	Alektrona Corporation
+00-1C-CE   	By Techdesign
+00-1C-CF   	LIMETEK
+00-1C-D0   	Circleone Co.,Ltd.
+00-1C-D1   	Waves Audio LTD
+00-1C-D2   	King Champion (Hong Kong) Limited
+00-1C-D3   	ZP Engineering srl
+00-1C-D4   	Nokia Danmark A/S
+00-1C-D5   	Zazzle Technologies, Inc.
+00-1C-D6   	Nokia Danmark A/S
+00-1C-D7   	Harman/Becker Automotive Systems GmbH
+00-1C-D8   	BlueAnt Wireless
+00-1C-D9   	GlobalTop Technology Inc.
+00-1C-DA   	Exegin Technologies Limited
+00-1C-DB   	CARPOINT CO.,LTD
+00-1C-DC   	Custom Computer Services, Inc.
+00-1C-DD   	COWBELL ENGINEERING CO., LTD.
+00-1C-DE   	Interactive Multimedia eXchange Inc.
+00-1C-DF   	Belkin International Inc.
+00-1C-E0   	DASAN TPS
+00-1C-E1   	INDRA SISTEMAS, S.A.
+00-1C-E2   	Attero Tech, LLC.
+00-1C-E3   	Optimedical Systems
+00-1C-E4   	EleSy JSC
+00-1C-E5   	MBS Electronic Systems GmbH
+00-1C-E6   	INNES
+00-1C-E7   	Rocon PLC Research Centre
+00-1C-E8   	Cummins Inc
+00-1C-E9   	Galaxy Technology Limited
+00-1C-EA   	Scientific-Atlanta, Inc
+00-1C-EB   	Nortel
+00-1C-EC   	Mobilesoft (Aust.) Pty Ltd
+00-1C-ED   	ENVIRONNEMENT SA
+00-1C-EE   	SHARP Corporation
+00-1C-EF   	Primax Electronics LTD
+00-1C-F0   	D-Link Corporation
+00-1C-F1   	SUPoX Technology Co. , LTD.
+00-1C-F2   	Tenlon Technology Co.,Ltd.
+00-1C-F3   	EVS BROADCAST EQUIPMENT
+00-1C-F4   	Media Technology Systems Inc
+00-1C-F5   	Wiseblue Technology Limited
+00-1C-F6   	Cisco Systems
+00-1C-F7   	AudioScience
+00-1C-F8   	Parade Technologies, Ltd.
+00-1C-F9   	Cisco Systems
+00-1C-FA   	PRIVATE
+00-1C-FB   	Motorola CHS
+00-1C-FC   	Suminet Communication Technologies (Shanghai) Co., Ltd.
+00-1C-FD   	Universal Electronics
+00-1C-FE   	Quartics Inc
+00-1C-FF   	Altus Networks
+00-1D-00   	Brivo Systems, LLC
+00-1D-01   	Neptune Digital
+00-1D-02   	Cybertech Telecom Development
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
@@ -9567,7 +9622,7 @@
 00-C0-99   	YOSHIKI INDUSTRIAL CO.,LTD.
 00-C0-9A   	PHOTONICS CORPORATION
 00-C0-9B   	RELIANCE COMM/TEC, R-TEC
-00-C0-9C   	TOA ELECTRONIC LTD.
+00-C0-9C   	HIOKI E.E. CORPORATION
 00-C0-9D   	DISTRIBUTED SYSTEMS INT'L, INC
 00-C0-9E   	CACHE COMPUTERS, INC.
 00-C0-9F   	QUANTA COMPUTER, INC.
@@ -9765,7 +9820,7 @@
 00-D0-5D   	INTELLIWORXX, INC.
 00-D0-5E   	STRATABEAM TECHNOLOGY, INC.
 00-D0-5F   	VALCOM, INC.
-00-D0-60   	PANASONIC EUROPEAN
+00-D0-60   	Panasonic Europe Ltd.
 00-D0-61   	TREMON ENTERPRISES CO., LTD.
 00-D0-62   	DIGIGRAM
 00-D0-63   	CISCO SYSTEMS, INC.
@@ -9818,7 +9873,7 @@
 00-D0-92   	GLENAYRE WESTERN MULTIPLEX
 00-D0-93   	TQ - COMPONENTS GMBH
 00-D0-94   	TIMELINE VISTA, INC.
-00-D0-95   	Alcatel North America ESD
+00-D0-95   	Alcatel-Lucent, Enterprise Business Group
 00-D0-96   	3COM EUROPE LTD.
 00-D0-97   	CISCO SYSTEMS, INC.
 00-D0-98   	Photon Dynamics Canada Inc.
@@ -10118,7 +10173,7 @@
 00-E0-AE   	XAQTI CORPORATION
 00-E0-AF   	GENERAL DYNAMICS INFORMATION SYSTEMS
 00-E0-B0   	CISCO SYSTEMS, INC.
-00-E0-B1   	Alcatel North America ESD
+00-E0-B1   	Alcatel-Lucent, Enterprise Business Group
 00-E0-B2   	TELMAX COMMUNICATIONS CORP.
 00-E0-B3   	EtherWAN Systems, Inc.
 00-E0-B4   	TECHNO SCOPE CO., LTD.
