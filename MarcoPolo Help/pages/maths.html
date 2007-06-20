@@ -26,6 +26,13 @@
 		necessary to understand the following content to use MarcoPolo;
 		it is provided for the curious.
 		</p>
+		<p>MarcoPolo doesn't use traditional "fuzzy logic" handling,
+		but rather combines fuzzy sets with a more traditional
+		confidence combination method. The fuzzy sets are implicit, and
+		represent each possible location: a given rule indicates that a
+		piece of evidence is in a certain location set with a certain
+		membership value (the confidence).
+		</p>
 		<p>Every time MarcoPolo decides to evaluate the best guess, it
 		finds all the rules that match, groups them based on the
 		location that they provide evidence for, and then aggregates
