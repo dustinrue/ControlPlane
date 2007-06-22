@@ -73,6 +73,7 @@
 	sbItem = nil;
 	sbHideTimer = nil;
 
+	updatingSwitchingLock = [[NSLock alloc] init];
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
 
@@ -85,6 +86,7 @@
 
 - (void)dealloc
 {
+	[updatingSwitchingLock dealloc];
 	[updatingLock dealloc];
 
 	[super dealloc];
@@ -419,6 +421,7 @@ end_of_action_changes:
 #ifdef DEBUG_MODE
 	NSLog(@"About to change to location '%@' %@.\n", toLocation, guessedConfidence);
 #endif
+	[updatingSwitchingLock lock];
 
 	// Execute "Departure" actions
 	[self triggerDepartureActions:fromLocation];
@@ -435,6 +438,8 @@ end_of_action_changes:
 
 	// Execute "Arrival" actions
 	[self triggerArrivalActions:toLocation];
+
+	[updatingSwitchingLock unlock];
 }
 
 - (void)forceSwitch:(id)sender

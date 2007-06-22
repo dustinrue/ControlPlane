@@ -21,6 +21,7 @@
 	IBOutlet NSMenuItem *forceLocationMenuItem;
 
 	NSThread *updatingThread;
+	NSLock *updatingSwitchingLock;
 	NSConditionLock *updatingLock;
 	BOOL timeToDie;
 
