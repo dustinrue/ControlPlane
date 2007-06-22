@@ -6669,7 +6669,7 @@
 00-1A-33   	ASI Communications, Inc.
 00-1A-34   	Konka Group Co., Ltd.
 00-1A-35   	BARTEC GmbH
-00-1A-36   	Actimon GmbH & Co. KG
+00-1A-36   	Aipermon GmbH & Co. KG
 00-1A-37   	Lear Corporation
 00-1A-38   	SCI Technology
 00-1A-39   	Merten GmbH&CoKG
@@ -7386,6 +7386,24 @@
 00-1D-00   	Brivo Systems, LLC
 00-1D-01   	Neptune Digital
 00-1D-02   	Cybertech Telecom Development
+00-1D-03   	Design Solutions Inc.
+00-1D-04   	Zipit Wireless, Inc.
+00-1D-05   	iLight
+00-1D-06   	HM Electronics, Inc.
+00-1D-07   	Shenzhen Sang Fei Consumer Communications Co.,Ltd
+00-1D-08   	JIANGSU YINHE ELECTRONICS CO., LTD
+00-1D-09   	Dell Inc
+00-1D-0A   	Davis Instruments, Inc.
+00-1D-0B   	Power Standards Lab
+00-1D-0C   	MobileCompia
+00-1D-0D   	Sony Computer Entertainment inc.
+00-1D-0E   	Agapha Technology co., Ltd.
+00-1D-0F   	TP-LINK Technologies Co., Ltd.
+00-1D-10   	LightHaus Logic, Inc.
+00-1D-11   	Analogue & Micro Ltd
+00-1D-12   	ROHM CO., LTD.
+00-1D-13   	NextGTV
+00-1D-14   	SPERADTONE INFORMATION TECHNOLOGY LIMITED
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.

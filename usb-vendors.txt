@@ -187,6 +187,7 @@
 1747|Mitsubishi Electric Corporation
 1758|Heisei Electronics Co. Ltd.
 1802|Oki Electric Industry Co., Ltd.
+1805|Comoss Electronic Co., Ltd.
 1806|Excel Cell Electronic Co., Ltd.
 1809|Magic Control Technology Corp.
 1816|Imation Corp.
@@ -230,7 +231,6 @@
 21930|OnSpec Electronic Inc.
 2205|Icron Technologies Corporation
 2222|Macally (Mace Group, Inc.)
-2233|RadioShack Corporation
 2235|Texas Instruments Japan
 2247|TAI TWUN ENTERPRISE CO., LTD.
 2269|Billionton Systems, Inc.
@@ -544,7 +544,6 @@
 5544|Teams Power Limited
 5545|Gemtek Technology Co., Ltd.
 5546|Gearway Electronics (Dong Guan) Co., Ltd.
-5560|Serome Electronics, Inc.
 5576|KTF Technologies
 5577|D-Box Technologies
 5589|Coulomb Electronics Ltd.
@@ -569,6 +568,7 @@
 5766|ZOOM Corporation
 5767|Kingmax Digital Inc.
 5782|Hitachi Advanced Digital, Inc.
+5797|Shenzhen Zhengerya Cable Co., Ltd.
 5804|Dongguan ChingLung Wire & Cable Co., Ltd.
 5836|silex technology, Inc.
 5843|Frontline Test Equipment, Inc.
@@ -649,8 +649,6 @@
 6666|USB-IF non-workshop
 6674|KES Co., Ltd.
 6693|Amphenol East Asia Ltd.
-6709|Astec Power, a division of Emerson Network Power
-6710|Biwin Technology Ltd.
 6720|TERMINUS TECHNOLOGY INC.
 6721|Action Electronics Co., Ltd.
 6730|Silicon Image
@@ -748,6 +746,8 @@
 7207|HuiYang D & S Cable Co., Ltd.
 7217|LS Cable Ltd.
 7223|Authorizer Technologies, Inc.
+7229|NONIN MEDICAL INC.
+7230|WeP Peripherals
 7867|NuCORE Technology, Inc.
 8256|Hauppauge Computer Works, Inc.
 8888|Motorola MDS
