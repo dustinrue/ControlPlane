@@ -48,41 +48,52 @@
 
 		<h2><em>DefaultPrinter</em> actions</h2>
 		<p>Actions of type <em>DefaultPrinter</em> change your
-		computer's default printer. Its parameter is the name of the
-		printer queue to switch to. The printer queue name for a given
-		printer is viewable through the Printer Setup Utility
-		(<tt>/Applications/Utilities/Printer Setup Utility.app</tt>),
-		using the 'Show Info' button. It is usually the name of the
-		printer, with spaces and hyphens replaced by underscores.
+		computer's default printer.
+		</p>
+
+		<h2><em>iChat</em> actions</h2>
+		<p>Actions of type <em>iChat</em> change your iChat status
+		message.
 		</p>
 
 		<h2><em>MailSMTPServer</em> actions</h2>
 		<p>Actions of type <em>MailSMTPServer</em> change the default
-		SMTP server of your <tt>Mail.app</tt> accounts to whichever
-		SMTP server (as listed in Mail's preferences) has a hostname
-		equal to the action's parameter.
+		SMTP server of your <tt>Mail.app</tt> accounts.
+		</p>
+
+		<h2><em>Mount</em> actions</h2>
+		<p>Actions of type <em>Mount</em> attempt to mount a network
+		volume (afp://, smb://, etc.).
+		</p>
+
+		<h2><em>Mute</em> actions</h2>
+		<p>Actions of type <em>Mute</em> will mute or unmute your
+		system audio.
 		</p>
 
 		<h2><em>Open</em> actions</h2>
 		<p>Actions of type <em>Open</em> are the most general actions.
-		Their parameter is the full (absolute) path to a file on your
-		computer. Upon triggering, MarcoPolo will open that file: if it
-		is an application, it will be launched; otherwise, it will be
-		opened with that file's default application. This is roughly
+		Upon triggering, MarcoPolo will open that file: if it
+		is an application, it will be launched; if it is an
+		AppleScript, it will be executed; otherwise, it will be opened
+		with that file's default application. This is roughly
 		equivalent to double-clicking on that file in Finder.
+		</p>
+
+		<h2><em>ScreenSaverPassword</em> actions</h2>
+		<p>Actions of type <em>ScreenSaverPassword</em> either enable
+		or disable your screen saver's password.
 		</p>
 
 		<h2><em>ShellScript</em> actions</h2>
 		<p>Actions of type <em>ShellScript</em> allow you to execute
-		arbitrary shell scripts using <tt>/bin/sh</tt>. Its parameter
-		is the full path to the shell script.
+		arbitrary shell scripts using <tt>/bin/sh</tt>.
 		</p>
 
 		<h2><em>ToggleBluetooth</em> and <em>ToggleWiFi</em> actions</h2>
 		<p>Actions of type <em>ToggleBluetooth</em> or
 		<em>ToggleWiFi</em> allow you to control the power state of
-		your computer's built-in Bluetooth and WiFi controllers. The
-		acceptable parameters for each are <tt>on</tt> or <tt>off</tt>.
+		your computer's built-in Bluetooth and WiFi controllers.
 		</p>
 
 <!--
