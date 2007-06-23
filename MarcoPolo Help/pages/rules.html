@@ -27,13 +27,20 @@
 		evidence, but they are all combined mathematically to arrive at
 		a final conclusion.
 		</p>
+		<p>It is important to remember that evidence sources can
+		generate different types of evidence, and that each type is
+		matched by a different type of rule. For example, the WiFi
+		evidence source generates <em>SSID</em> evidence (the SSID, or
+		name, of the access point) as well as <em>MAC</em> evidence
+		(the unique identifier for that piece of network hardware).
+		</p>
 		<p>Each rule has the following properties:
 		</p>
 		<ul>
-		<li>A <i>type</i>, specifying the type of evidence,</li>
-		<li>A <i>parameter</i> to match pieces of evidence,</li>
+		<li>A <i>type</i>, specifying the type of evidence it matches,</li>
+		<li>A <i>parameter</i> to determine what it matches,</li>
 		<li>A <i>location</i> that it indicates,</li>
-		<li>A <i>confidence</i>, and</li>
+		<li>A <i>confidence</i> (0-100%), and</li>
 		<li>A <i>description</i> (optional) for human readability.</li>
 		</ul>
 		<p>For example, a rule might be:
@@ -46,8 +53,8 @@
 		device with a MAC of <i>00-00-6C-33-7A-2F</i> means that we are
 		at the <i>Home</i> location, and that we can be <i>80%</i>
 		confident of this. Ordinarily, you won't have to explicitly
-		set the parameter, but it's helpful to know what's going on
-		behind the scenes.
+		set the parameter, but it's sometimes useful to be able to
+		tweak it.
 		</p>
 		<p>MarcoPolo frequently evaluates all its rules, and finds the
 		subset of rules that match. It combines all these rules to get
