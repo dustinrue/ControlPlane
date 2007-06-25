@@ -22,7 +22,6 @@
 
 	// New rule creation hooks
 	IBOutlet NSWindow *newRuleWindow;
-	NSString *newRuleType;
 	NSString *newRuleWindowText1;
 	IBOutlet NSArrayController *newRuleParameterController;
 	IBOutlet NSSlider *newRuleConfidenceSlider;

@@ -338,8 +338,10 @@
 #endif
 	}
 
-	[self setValue:name forKey:@"newRuleType"];
 	[self setValue:[src getSuggestionLeadText:type] forKey:@"newRuleWindowText1"];
+	NSString *newRuleTypeString = NSLocalizedString(name, @"Rule type");
+	[newRuleWindow setTitle:[NSString stringWithFormat:
+		NSLocalizedString(@"New %@ Rule", @"Window title"), newRuleTypeString]];
 
 	[NSApp activateIgnoringOtherApps:YES];
 	[newRuleWindow makeKeyAndOrderFront:self];
