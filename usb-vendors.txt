@@ -90,7 +90,6 @@
 1302|Longwell Electronics/Longwell Company
 1305|Star Micronics Co., LTD
 1308|Shuttle Inc.
-1309|American Power Conversion
 1312|Taiwan Semiconductor Manufacturing Co.
 1314|ACON, Advanced-Connectek, Inc.
 1317|PLX Technology, Inc.
@@ -194,7 +193,6 @@
 1821|Eicon Networks Corporation
 1846|Lorom Industrial Co., Ltd.
 1848|Mad Catz, Inc.
-1862|ONKYO Corporation
 1869|Micronas GmbH
 1886|ABIT Corporation
 1891|M-Audio
@@ -323,6 +321,7 @@
 3158|Billion Bright Limited
 3161|Dong Guan Shinko Wire Co., Ltd.
 3170|Chant Sincere Co., Ltd
+3190|Solid State System Co., Ltd.
 3209|Honda Tsushin Kogyo Co., Ltd
 3245|Motorola GEMS
 3255|Singatron Enterprise Co. Ltd.
@@ -335,6 +334,7 @@
 3314|ENE Technology Inc.
 3315|Atheros Communications, Inc.
 3351|NALTEC, Inc.
+3353|Hank Connection Industrial Co., Ltd.
 3386|Posiflex Technologies, Inc.
 3393|Ta Yun Terminals Industrial Co., Ltd.
 3394|FULL DER CO., LTD.
@@ -581,9 +581,9 @@
 5977|LucidPort Technology, Inc.
 6001|Shenzhen Alex Connector Co., Ltd.
 6002|System Level Solutions, Inc.
-6003|InSync Speech Technologies, Inc.
 6018|Spreadtrum Communications Inc.
 60186|Empia Technology, Inc.
+6020|TopSeed Technology Corp.
 6024|ShenZhen Litkconn Technology Co., Ltd.
 6038|Printrex, Inc.
 6039|JALCO CO., LTD.
