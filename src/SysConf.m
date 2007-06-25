@@ -55,8 +55,6 @@
 
 // Using SCPreferences* to change the location requires a setuid binary,
 // so for now we just execute /usr/sbin/scselect to do the heavy lifting.
-#define USE_SCSELECT_CMD
-
 + (BOOL)setCurrentLocation:(NSString *)location
 {
 	NSDictionary *all_sets = [SysConf getAllSets];
@@ -73,7 +71,6 @@
 		return NO;
 	}
 
-#ifdef USE_SCSELECT_CMD
 	NSArray *args = [NSArray arrayWithObject:key];
 	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/sbin/scselect" arguments:args];
 	[task waitUntilExit];
@@ -83,45 +80,6 @@
 		return NO;
 	}
 	return YES;
-#else
-	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("MarcoPolo"), NULL);
-	if (!prefs) {
-		NSLog(@"+setCurrentLocation: SCPreferencesCreate failed!\n");
-		return NO;
-	}
-	if (!SCPreferencesLock(prefs, true))
-		NSLog(@"LOCK #3 failed (%s).\n", SCErrorString(SCError()));
-	else
-		NSLog(@"LOCK #3 succeeded.\n");
-
-	BOOL ret = YES;
-	// XXX: this needs to run as root, else SCPreferencesCommitChanges fails.
-	CFStringRef set_str = CFStringCreateWithFormat(NULL, NULL, CFSTR("/%@/%@"),
-							kSCPrefSets, key);
-	if (!SCPreferencesSetValue(prefs, kSCPrefCurrentSet, set_str)) {
-		NSLog(@"+setCurrentLocation: SCPreferencesSetValue failed!\n");
-		ret = NO;
-		goto cleanup;
-	} else if (!SCPreferencesCommitChanges(prefs)) {
-		NSLog(@"+setCurrentLocation: SCPreferencesCommitChanges failed! (%s)\n",
-		      SCErrorString(SCError()));
-		NSLog(@"prefs is\n%@\n", prefs);
-		ret = NO;
-		goto cleanup;
-	} else if (!SCPreferencesApplyChanges(prefs)) {
-		NSLog(@"+setCurrentLocation: SCPreferencesApplyChanges failed!\n");
-		ret = NO;
-		goto cleanup;
-	}
-
-cleanup:
-	// Clean up
-	CFRelease(set_str);
-	SCPreferencesUnlock(prefs);
-	CFRelease(prefs);
-
-	return ret;
-#endif
 }
 
 + (NSArray *)locationsEnumerate
