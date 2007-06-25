@@ -52,7 +52,7 @@ $languages.each do |lang|
 		puts missing.map { |l| "\t#{l}" }.join("\n")
 	end
 	if extra.size > 0
-		puts "** Extra in #{lang}:  (#{missing.size} strings)"
+		puts "** Extra in #{lang}:  (#{extra.size} strings)"
 		puts extra.map { |l| "\t#{l}" }.join("\n")
 	end
 end
