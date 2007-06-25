@@ -377,6 +377,9 @@
 	[self setValue:[klass creationHelpText] forKey:@"newActionWindowHelpText"];
 	[self setValue:@"Arrival" forKey:@"newActionWindowWhen"];
 
+	[newActionWindow setTitle:[NSString stringWithFormat:
+		NSLocalizedString(@"New %@ Action", @"Window title"), newActionTypeString]];
+
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSArrayController *loC = newActionLimitedOptionsController;
 		[loC removeObjects:[loC arrangedObjects]];
