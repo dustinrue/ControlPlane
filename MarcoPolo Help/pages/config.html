@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
+<html>
+<head>
+	<title>Setting up MarcoPolo's rules</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="config configuration">
+	<meta name="description" content="Overall settings for MarcoPolo.">
+	<link media="all" rel="stylesheet" href="../css/topicPage.css" />
+</head>
+<body>
+	<div id="banner">
+		<div id="machelp">
+			<a class="bread" href="help:anchor='access' bookID=MarcoPolo Help">MarcoPolo Help</a>
+			<!-- The above links back to the index page -->
+		</div>
+	</div>
+	<div id="mainbox">
+		<div id="caticon">
+			<img class="icon" src="../gfx/icon.png" alt="MarcoPolo Icon" />
+		</div>
+		<div id="pagetitle">
+			<h1>Configuring MarcoPolo</h1>
+		</div>
+		<p>This section deals with the overall configuration of
+		MarcoPolo; it doesn't cover <a href="rules.html">rules</a> or
+		<a href="actions.html">actions</a>.
+		</p>
+		<p>MarcoPolo runs from the <em>status bar</em> (the right-hand
+		portion of the menu bar containing icons), and does not show in
+		the Dock. You can access MarcoPolo's preferences and other
+		features through the MarcoPolo icon.
+		</p>
+
+		<h2>Hiding from status bar</h2>
+		<p>If the 'Hide from status bar' option is checked in the
+		General preferences, the MarcoPolo icon in the status bar will
+		disappear about 10 seconds after launching (or after enabling
+		this option). To restore the icon to access preferences,
+		simply relaunch MarcoPolo, and the icon will be visible again
+		for another 10 seconds.
+		</p>
+
+		<h2>Switch Smoothing</h2>
+		<p>Some evidence sources in MarcoPolo can occasionally return
+		spurious data, either due to bad hardware (such as USB), or
+		fundamentally unreliable physical circumstances (such as WiFi).
+		This can sometimes cause MarcoPolo to momentarily switch away
+		from the current (correct) location, and then switch back once
+		the evidence source corrects itself.
+		</p>
+		<p>If you check the 'Use switch smoothing' option in the
+		General preferences, MarcoPolo will delay all location
+		switching until two consecutive rule evaluations both yield the
+		same guess. The interval between rule evaluations defaults to
+		five seconds, so using switch smoothing will delay legitimate
+		location changes by this length of time.
+		</p>
+
+		<h2>Default Location</h2>
+		<p>Sometimes MarcoPolo doesn't have enough evidence to make a
+		confident enough guess as to your correct location. You can
+		specify a <em>default location</em> to be used in these
+		situations.
+		</p>
+
+		<h2 class="seealso">See also</h2>
+		<p class="seealso">
+			<a href="rules.html">Setting up MarcoPolo's rules</a><br />
+			<a href="actions.html">Setting up MarcoPolo's actions</a><br />
+			<a href="advanced.html">Advanced settings</a><br />
+		</p>
+	</div>
+</body>
+</html>
