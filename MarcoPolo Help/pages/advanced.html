@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
+<html>
+<head>
+	<title>Setting up MarcoPolo's rules</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="advanced configuration tuning">
+	<meta name="description" content="Advanced settings for MarcoPolo.">
+	<link media="all" rel="stylesheet" href="../css/topicPage.css" />
+</head>
+<body>
+	<div id="banner">
+		<div id="machelp">
+			<a class="bread" href="help:anchor='access' bookID=MarcoPolo Help">MarcoPolo Help</a>
+			<!-- The above links back to the index page -->
+		</div>
+	</div>
+	<div id="mainbox">
+		<div id="caticon">
+			<img class="icon" src="../gfx/icon.png" alt="MarcoPolo Icon" />
+		</div>
+		<div id="pagetitle">
+			<h1>Advanced settings</h1>
+		</div>
+		<p>This section details the advanced configuration options of
+		MarcoPolo. <b>Please be aware that changing these settings could
+		have a detrimental effect on your computer's performance, as
+		well as MarcoPolo's performance.</b>
+		</p>
+
+		<h2>Time interval between re-evaluating rules</h2>
+		<p>The main MarcoPolo thread runs in a loop, gathering evidence
+		from each evidence source, evaluating it against all the rules,
+		and computing the correct location. This setting controls the
+		length of time to pause between these cycles.
+		</p>
+
+		<h2>WiFi always scans, even when associated</h2>
+		<p>When the WiFi evidence source does a complete scan, the
+		hardware is required to switch through all the IEEE 802.11
+		channels to listen for access points using those channels. This
+		process can take up to a few seconds, during which any wireless
+		network connection will be disrupted.
+		<p>The WiFi evidence source will not normally do a complete
+		scan when you are connected to an access point, but you can
+		enable this option to force it to do so.
+		</p>
+
+		<h2 class="seealso">See also</h2>
+		<p class="seealso">
+			<a href="config.html">Configuring MarcoPolo</a><br />
+		</p>
+	</div>
+</body>
+</html>
