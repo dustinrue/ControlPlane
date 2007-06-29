@@ -35,6 +35,6 @@
 	<key>SUFeedURL</key>
 	<string>http://www.symonds.id.au/marcopolo/appcast.xml</string>
 	<key>SUScheduledCheckInterval</key>
-	<integer>86400</integer>
+	<integer>43200</integer>
 </dict>
 </plist>
