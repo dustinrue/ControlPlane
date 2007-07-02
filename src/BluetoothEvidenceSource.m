@@ -167,7 +167,7 @@
 #ifdef INCLUDE_PAIRED_DEVICES
 	// Add paired devices manually
 	NSArray *paired_devices = [IOBluetoothDevice pairedDevices];
-	// WARNING: Handle [IOBluetoothDevice pairedDevices] brokenness -- it can return nil!
+	// WARNING: Need to handle [IOBluetoothDevice pairedDevices] brokenness -- it can return nil!
 	if (!paired_devices)
 		paired_devices = [NSArray array];
 
@@ -227,7 +227,7 @@
 		[devices addObject:dev];
 	}
 
-	[self setDataCollected:([devices count] > 0)];
+	[self setDataCollected:[devices count] > 0];
 	[lock unlock];
 }
 

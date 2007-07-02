@@ -49,7 +49,7 @@
 
 	[lock lock];
 	[applications setArray:apps];
-	[self setDataCollected:([applications count] > 0)];
+	[self setDataCollected:[applications count] > 0];
 #ifdef DEBUG_MODE
 	//NSLog(@"Running apps:\n%@", applications);
 #endif
