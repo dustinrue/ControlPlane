@@ -58,7 +58,7 @@
 	for (i = 0; i < numDisplays; ++i) {
 		CGDirectDisplayID display_id = displays[i];
 
-		NSString *display_name = @"Unknown display";
+		NSString *display_name = NSLocalizedString(@"(Unnamed display)", "String for unnamed monitors");
 		io_service_t dev = CGDisplayIOServicePort(display_id);
 		NSDictionary *dict = (NSDictionary *) IODisplayCreateInfoDictionary(dev, kIODisplayOnlyPreferredName);
 		if (!dict) {
@@ -79,7 +79,7 @@
 		      display_name, display_serial);
 #endif
 		[display_array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			display_serial, @"serial", display_name, @"name", nil]];
+			[display_serial stringValue], @"serial", display_name, @"name", nil]];
 
 		[dict release];
 	}
@@ -97,31 +97,47 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	return NO;
-//	if (!status)
-//		return NO;
-//	return [[rule objectForKey:@"parameter"] isEqualToString:status];
+	BOOL match = NO;
+
+	[lock lock];
+	NSEnumerator *en = [monitors objectEnumerator];
+	NSDictionary *mon;
+	NSString *serial = [rule valueForKey:@"parameter"];
+	while ((mon = [en nextObject])) {
+		if ([[mon valueForKey:@"serial"] isEqualToString:serial]) {
+			match = YES;
+			break;
+		}
+	}
+	[lock unlock];
+
+	return match;
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type
 {
-	// XXX
-	return NSLocalizedString(@"An attached monitor called", @"In rule-adding dialog");
+	return NSLocalizedString(@"An attached monitor named", @"In rule-adding dialog");
 }
 
 - (NSArray *)getSuggestions
 {
-	return [NSArray array];
-//	return [NSArray arrayWithObjects:
-//		[NSDictionary dictionaryWithObjectsAndKeys:
-//			@"Power", @"type",
-//			@"Battery", @"parameter",
-//			NSLocalizedString(@"Battery", @""), @"description", nil],
-//		[NSDictionary dictionaryWithObjectsAndKeys:
-//			@"Power", @"type",
-//			@"A/C", @"parameter",
-//			NSLocalizedString(@"Power Adapter", @""), @"description", nil],
-//		nil];
+	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[monitors count]];
+
+	[lock lock];
+	NSEnumerator *en = [monitors objectEnumerator];
+	NSDictionary *mon;
+	while ((mon = [en nextObject])) {
+		NSString *name = [mon valueForKey:@"name"];
+		NSString *serial = [mon valueForKey:@"serial"];
+
+		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			@"Monitor", @"type",
+			serial, @"parameter",
+			name, @"description", nil]];
+	}
+	[lock unlock];
+
+	return arr;
 }
 
 @end
