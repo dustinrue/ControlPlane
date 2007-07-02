@@ -10,7 +10,6 @@
 
 
 @interface PowerEvidenceSource : EvidenceSource {
-	NSLock *lock;
 	NSString *status;
 }
 
