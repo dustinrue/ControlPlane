@@ -6,7 +6,8 @@
 @interface PrefsWindowController : NSWindowController
 {
 	IBOutlet NSWindow *prefsWindow;
-	IBOutlet NSView *generalPrefsView, *evidenceSourcesPrefsView, *rulesPrefsView, *actionsPrefsView, *advancedPrefsView;
+	IBOutlet NSView *generalPrefsView, *contextsPrefsView, *evidenceSourcesPrefsView,
+			*rulesPrefsView, *actionsPrefsView, *advancedPrefsView;
 	NSView *currentPrefsView, *blankPrefsView;
 	NSArray *prefsGroups;
 	NSToolbar *prefsToolbar;

@@ -133,6 +133,11 @@
 			@"GeneralPrefs", @"icon",
 			generalPrefsView, @"view", nil],
 		[NSDictionary dictionaryWithObjectsAndKeys:
+			@"Contexts", @"name",
+			NSLocalizedString(@"Contexts", "Preferences section"), @"display_name",
+			@"ContextsPrefs", @"icon",
+			contextsPrefsView, @"view", nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:
 			@"EvidenceSources", @"name",
 			NSLocalizedString(@"Evidence Sources", "Preferences section"), @"display_name",
 			@"EvidenceSourcesPrefs", @"icon",

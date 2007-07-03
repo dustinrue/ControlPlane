@@ -55,6 +55,7 @@
                 actionsController = NSArrayController; 
                 actionsPrefsView = NSView; 
                 advancedPrefsView = NSView; 
+                contextsPrefsView = NSView; 
                 drawer = NSDrawer; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 

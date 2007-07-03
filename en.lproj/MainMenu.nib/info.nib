@@ -16,14 +16,16 @@
 		<string>477 371 485 430 0 0 1440 878 </string>
 		<key>1515</key>
 		<string>457 497 366 343 0 0 1280 1002 </string>
+		<key>1627</key>
+		<string>250 466 413 357 0 0 1440 878 </string>
 		<key>390</key>
 		<string>429 504 185 199 0 0 1440 878 </string>
 		<key>901</key>
-		<string>423 532 433 273 0 0 1280 1002 </string>
+		<string>503 450 433 273 0 0 1440 878 </string>
 		<key>902</key>
-		<string>391 506 497 326 0 0 1280 1002 </string>
+		<string>471 423 497 326 0 0 1440 878 </string>
 		<key>903</key>
-		<string>461 361 518 451 0 0 1440 878 </string>
+		<string>773 127 518 451 0 0 1440 878 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>446.1</string>
@@ -33,6 +35,10 @@
 	</array>
 	<key>IBOldestOS</key>
 	<integer>4</integer>
+	<key>IBOpenObjects</key>
+	<array>
+		<integer>1627</integer>
+	</array>
 	<key>IBSystem Version</key>
 	<string>8R2218</string>
 </dict>
