@@ -20,7 +20,7 @@
 	CFRelease(ref);
 
 	parent = [[NSString alloc] init];
-	name = [[NSString alloc] init];
+	name = [uuid retain];
 
 	return self;
 }
@@ -113,8 +113,18 @@
 	}
 }
 
+- (IBAction)newContext:(id)sender
+{
+	NSLog(@"%s from sender=%@", __PRETTY_FUNCTION__, sender);
+	Context *ctxt = [[[Context alloc] init] autorelease];
+
+	[contexts setValue:ctxt forKey:[ctxt name]];
+	[outlineView reloadData];
+}
+
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
 {
+	NSLog(@"%s index=%d, item=%@", __PRETTY_FUNCTION__, index, item);
 	// TODO: optimise!
 	// TODO: handle non-root items
 
@@ -129,7 +139,7 @@
 		break;
 	}
 	if (!ctxt) {
-		NSLog(@"%s >> oops -- ran off end of list?", __PRETTY_FUNCTION__);
+		NSLog(@"%s oops -- ran off end of list?", __PRETTY_FUNCTION__);
 		return nil;	// safety
 	}
 
@@ -144,14 +154,36 @@
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-	// TODO
-	return 0;
+	NSLog(@"%s item=%@", __PRETTY_FUNCTION__, item);
+	// TODO: optimise!
+
+	// TODO: handle non-root items
+	if (item)
+		return 0;
+
+	NSEnumerator *en = [contexts objectEnumerator];
+	Context *ctxt;
+	int cnt = 0;
+	while ((ctxt = [en nextObject])) {
+		// TODO: handle non-root items
+		++cnt;
+	}
+
+	return cnt;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-	// TODO
-	return @"foo";
+	// Should only be one column: the name
+	Context *ctxt = (Context *) item;
+	return [ctxt name];
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
+	// Should only be one column: the name
+	Context *ctxt = (Context *) item;
+	[ctxt setName:object];
 }
 
 @end

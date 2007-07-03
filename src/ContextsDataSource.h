@@ -26,10 +26,14 @@
 @end
 
 
-@interface ContextsDataSource : NSObject {
+@interface ContextsDataSource : NSWindowController {
 	NSMutableDictionary *contexts;
+
+	IBOutlet NSOutlineView *outlineView;	// XXX: shouldn't _really_ be here
 }
 
 - (void)loadContexts;
+
+- (IBAction)newContext:(id)sender;
 
 @end

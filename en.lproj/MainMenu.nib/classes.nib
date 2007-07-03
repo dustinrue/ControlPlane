@@ -7,6 +7,14 @@
             OUTLETS = {prefsWindowController = NSWindowController; }; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = Context; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {newContext = id; }; 
+            CLASS = ContextsDataSource; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {outlineView = NSOutlineView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
         {
             CLASS = DNDArrayController; 
             LANGUAGE = ObjC; 
