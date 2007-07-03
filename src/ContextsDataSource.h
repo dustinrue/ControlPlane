@@ -17,6 +17,7 @@
 - (id)init;
 - (id)initWithDictionary:(NSDictionary *)dict;
 
+- (BOOL)isRoot;
 - (NSString *)parent;
 - (void)setParent:(NSString *)parentUUID;
 - (NSString *)name;
@@ -28,5 +29,7 @@
 @interface ContextsDataSource : NSObject {
 	NSMutableDictionary *contexts;
 }
+
+- (void)loadContexts;
 
 @end

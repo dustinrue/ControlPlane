@@ -46,6 +46,11 @@
 	[super dealloc];
 }
 
+- (BOOL)isRoot
+{
+	return [parent length] == 0;
+}
+
 - (NSString *)parent
 {
 	return parent;
@@ -79,12 +84,7 @@
 		return nil;
 
 	contexts = [[NSMutableDictionary alloc] init];
-	NSEnumerator *en = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Contexts"] objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [en nextObject])) {
-		Context *ctxt = [[Context alloc] initWithDictionary:dict];
-		[contexts setValue:ctxt forKey:[ctxt name]];
-	}
+	[self loadContexts];
 
 	// TODO: setup notifications to make sure we see relevant changes?
 
@@ -100,8 +100,40 @@
 	[super dealloc];
 }
 
+- (void)loadContexts
+{
+	// XXX: should we save them first, or something?
+	[contexts removeAllObjects];
+
+	NSEnumerator *en = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Contexts"] objectEnumerator];
+	NSDictionary *dict;
+	while ((dict = [en nextObject])) {
+		Context *ctxt = [[Context alloc] initWithDictionary:dict];
+		[contexts setValue:ctxt forKey:[ctxt name]];
+	}
+}
+
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
 {
+	// TODO: optimise!
+	// TODO: handle non-root items
+
+	NSEnumerator *en = [contexts objectEnumerator];
+	Context *ctxt;
+	int skip = 0;
+	while ((ctxt = [en nextObject])) {
+		if (skip < index) {
+			++skip;
+			continue;
+		}
+		break;
+	}
+	if (!ctxt) {
+		NSLog(@"%s >> oops -- ran off end of list?", __PRETTY_FUNCTION__);
+		return nil;	// safety
+	}
+
+	return ctxt;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
