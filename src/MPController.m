@@ -433,6 +433,7 @@ end_of_action_changes:
 	if (![SysConf setCurrentLocation:toLocation]) {
 		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title")
 		  withMessage:NSLocalizedString(@"Changing location failed!", @"")];
+		[updatingSwitchingLock unlock];
 		return;
 	}
 
