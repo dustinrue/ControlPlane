@@ -126,12 +126,12 @@
 		[contexts setValue:ctxt forKey:[ctxt uuid]];
 	}
 
-	// Check consistency of parent UUIDs; drop the parent pointer if it is invalid
+	// Check consistency of parent UUIDs; drop the parent UUID if it is invalid
 	en = [contexts objectEnumerator];
 	Context *ctxt;
 	while ((ctxt = [en nextObject])) {
-		if (![contexts objectForKey:[ctxt parentUUID]]) {
-			NSLog(@"%s correcting broken parent UUID for context '%@'", [ctxt name]);
+		if (![ctxt isRoot] && ![contexts objectForKey:[ctxt parentUUID]]) {
+			NSLog(@"%s correcting broken parent UUID for context '%@'", __PRETTY_FUNCTION__, [ctxt name]);
 			[ctxt setParentUUID:@""];
 		}
 	}
@@ -178,10 +178,9 @@
 	return [children objectAtIndex:index];
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+- (BOOL)outlineView:(NSOutlineView *)theOutlineView isItemExpandable:(id)item
 {
-	// TODO: should this vary?
-	return YES;
+	return [self outlineView:theOutlineView numberOfChildrenOfItem:item] > 0;
 }
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
