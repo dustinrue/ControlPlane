@@ -62,12 +62,12 @@
 	return uuid;
 }
 
-- (NSString *)parent
+- (NSString *)parentUUID
 {
 	return parent;
 }
 
-- (void)setParent:(NSString *)parentUUID
+- (void)setParentUUID:(NSString *)parentUUID
 {
 	[parent autorelease];
 	parent = [parentUUID copy];
@@ -123,10 +123,18 @@
 	NSDictionary *dict;
 	while ((dict = [en nextObject])) {
 		Context *ctxt = [[Context alloc] initWithDictionary:dict];
-		[contexts setValue:ctxt forKey:[ctxt name]];
+		[contexts setValue:ctxt forKey:[ctxt uuid]];
 	}
 
-	// TODO: check consistency of parent UUIDs?
+	// Check consistency of parent UUIDs; drop the parent pointer if it is invalid
+	en = [contexts objectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject])) {
+		if (![contexts objectForKey:[ctxt parentUUID]]) {
+			NSLog(@"%s correcting broken parent UUID for context '%@'", [ctxt name]);
+			[ctxt setParentUUID:@""];
+		}
+	}
 }
 
 - (void)saveContexts:(id)arg
@@ -156,7 +164,7 @@
 	NSEnumerator *en = [contexts objectEnumerator];
 	Context *ctxt;
 	while ((ctxt = [en nextObject]))
-		if ([[ctxt parent] isEqualToString:parent_uuid])
+		if ([[ctxt parentUUID] isEqualToString:parent_uuid])
 			[arr addObject:ctxt];
 
 	return arr;
@@ -167,11 +175,6 @@
 	// TODO: optimise!
 
 	NSArray *children = [self childrenOf:(item ? [item uuid] : @"")];
-	if ([children count] < index + 1) {
-		NSLog(@"%s oops -- ran off end of list?", __PRETTY_FUNCTION__);
-		return nil;	// safety
-	}
-
 	return [children objectAtIndex:index];
 }
 

@@ -21,8 +21,8 @@
 - (NSDictionary *)dictionary;
 
 - (NSString *)uuid;
-- (NSString *)parent;
-- (void)setParent:(NSString *)parentUUID;
+- (NSString *)parentUUID;
+- (void)setParentUUID:(NSString *)parentUUID;
 - (NSString *)name;
 - (void)setName:(NSString *)newName;
 
