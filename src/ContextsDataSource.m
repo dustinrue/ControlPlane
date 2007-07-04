@@ -51,6 +51,12 @@
 	return [parent length] == 0;
 }
 
+- (NSDictionary *)dictionary
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		uuid, @"uuid", parent, @"parent", name, @"name", nil];
+}
+
 - (NSString *)uuid
 {
 	return uuid;
@@ -88,20 +94,22 @@
 	if (!(self = [super init]))
 		return nil;
 
-	NSLog(@"%s here!", __PRETTY_FUNCTION__);
 	contexts = [[NSMutableDictionary alloc] init];
 	[self loadContexts];
 
 	// TODO: setup notifications to make sure we see relevant changes?
+
+	// Make sure we get to save out the contexts
+	[[NSNotificationCenter defaultCenter] addObserver:self
+						 selector:@selector(saveContexts:)
+						     name:@"NSApplicationWillTerminateNotification"
+						   object:nil];
 
 	return self;
 }
 
 - (void)dealloc
 {
-	// TODO: write out
-	NSLog(@"%s here!", __PRETTY_FUNCTION__);
-
 	[contexts release];
 
 	[super dealloc];
@@ -109,7 +117,6 @@
 
 - (void)loadContexts
 {
-	// XXX: should we save them first, or something?
 	[contexts removeAllObjects];
 
 	NSEnumerator *en = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Contexts"] objectEnumerator];
@@ -118,11 +125,24 @@
 		Context *ctxt = [[Context alloc] initWithDictionary:dict];
 		[contexts setValue:ctxt forKey:[ctxt name]];
 	}
+
+	// TODO: check consistency of parent UUIDs?
+}
+
+- (void)saveContexts:(id)arg
+{
+	// Write out
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
+	NSEnumerator *en = [contexts objectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject]))
+		[array addObject:[ctxt dictionary]];
+
+	[[NSUserDefaults standardUserDefaults] setObject:array forKey:@"Contexts"];
 }
 
 - (IBAction)newContext:(id)sender
 {
-	NSLog(@"%s from sender=%@", __PRETTY_FUNCTION__, sender);
 	Context *ctxt = [[[Context alloc] init] autorelease];
 
 	[contexts setValue:ctxt forKey:[ctxt name]];
@@ -144,8 +164,6 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
 {
-	NSLog(@"%s index=%d, item=%@", __PRETTY_FUNCTION__, index, item);
-
 	// TODO: optimise!
 
 	NSArray *children = [self childrenOf:(item ? [item uuid] : @"")];
@@ -165,8 +183,6 @@
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-	NSLog(@"%s item=%@", __PRETTY_FUNCTION__, item);
-
 	// TODO: optimise!
 
 	NSArray *children = [self childrenOf:(item ? [item uuid] : @"")];

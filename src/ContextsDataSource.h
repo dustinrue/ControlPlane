@@ -18,6 +18,7 @@
 - (id)initWithDictionary:(NSDictionary *)dict;
 
 - (BOOL)isRoot;
+- (NSDictionary *)dictionary;
 
 - (NSString *)uuid;
 - (NSString *)parent;
@@ -35,6 +36,7 @@
 }
 
 - (void)loadContexts;
+- (void)saveContexts:(id)arg;
 
 - (IBAction)newContext:(id)sender;
 
