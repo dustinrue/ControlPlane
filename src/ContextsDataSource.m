@@ -115,6 +115,15 @@
 	[super dealloc];
 }
 
+static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
+
+- (void)awakeFromNib
+{
+	// register for drag and drop
+	[outlineView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
+	//[super awakeFromNib];
+}
+
 - (void)loadContexts
 {
 	[contexts removeAllObjects];
@@ -170,6 +179,8 @@
 	return arr;
 }
 
+#pragma mark NSOutlineViewDataSource general methods
+
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
 {
 	// TODO: optimise!
@@ -203,6 +214,50 @@
 	// Should only be one column: the name
 	Context *ctxt = (Context *) item;
 	[ctxt setName:object];
+}
+
+#pragma mark NSOutlineViewDataSource drag-n-drop methods
+
+- (BOOL)outlineView:(NSOutlineView *)theOutlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
+{
+	// Only support internal drags (i.e. moves)
+	if ([info draggingSource] != outlineView)
+		return NO;
+
+	NSString *new_parent_uuid = @"";
+	if (item)
+		new_parent_uuid = [(Context *) item uuid];
+
+	NSString *uuid = [[info draggingPasteboard] stringForType:MovedRowsType];
+	Context *ctxt = [contexts objectForKey:uuid];
+	[ctxt setParentUUID:new_parent_uuid];
+	[outlineView reloadData];
+
+	return YES;
+}
+
+- (NSDragOperation)outlineView:(NSOutlineView *)theOutlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
+{
+	// Only support internal drags (i.e. moves)
+	if ([info draggingSource] != outlineView)
+		return NSDragOperationNone;
+
+	return NSDragOperationMove;	
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
+{
+	// declare our own pasteboard types
+	NSArray *typesArray = [NSArray arrayWithObject:MovedRowsType];
+
+	[pboard declareTypes:typesArray owner:self];
+
+	// add context UUID for local move
+	// (TODO: work with multiple contexts?)
+	Context *ctxt = (Context *) [items objectAtIndex:0];
+	[pboard setString:[ctxt uuid] forType:MovedRowsType];
+
+	return YES;
 }
 
 @end
