@@ -13,7 +13,7 @@
             CLASS = ContextsDataSource; 
             LANGUAGE = ObjC; 
             OUTLETS = {outlineView = NSOutlineView; }; 
-            SUPERCLASS = NSWindowController; 
+            SUPERCLASS = NSObject; 
         }, 
         {
             CLASS = DNDArrayController; 

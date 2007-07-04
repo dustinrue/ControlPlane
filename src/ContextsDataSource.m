@@ -51,6 +51,11 @@
 	return [parent length] == 0;
 }
 
+- (NSString *)uuid
+{
+	return uuid;
+}
+
 - (NSString *)parent
 {
 	return parent;
@@ -83,6 +88,7 @@
 	if (!(self = [super init]))
 		return nil;
 
+	NSLog(@"%s here!", __PRETTY_FUNCTION__);
 	contexts = [[NSMutableDictionary alloc] init];
 	[self loadContexts];
 
@@ -94,6 +100,7 @@
 - (void)dealloc
 {
 	// TODO: write out
+	NSLog(@"%s here!", __PRETTY_FUNCTION__);
 
 	[contexts release];
 
@@ -122,54 +129,48 @@
 	[outlineView reloadData];
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (NSArray *)childrenOf:(NSString *)parent_uuid
 {
-	NSLog(@"%s index=%d, item=%@", __PRETTY_FUNCTION__, index, item);
-	// TODO: optimise!
-	// TODO: handle non-root items
+	NSMutableArray *arr = [NSMutableArray array];
 
 	NSEnumerator *en = [contexts objectEnumerator];
 	Context *ctxt;
-	int skip = 0;
-	while ((ctxt = [en nextObject])) {
-		if (skip < index) {
-			++skip;
-			continue;
-		}
-		break;
-	}
-	if (!ctxt) {
+	while ((ctxt = [en nextObject]))
+		if ([[ctxt parent] isEqualToString:parent_uuid])
+			[arr addObject:ctxt];
+
+	return arr;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+{
+	NSLog(@"%s index=%d, item=%@", __PRETTY_FUNCTION__, index, item);
+
+	// TODO: optimise!
+
+	NSArray *children = [self childrenOf:(item ? [item uuid] : @"")];
+	if ([children count] < index + 1) {
 		NSLog(@"%s oops -- ran off end of list?", __PRETTY_FUNCTION__);
 		return nil;	// safety
 	}
 
-	return ctxt;
+	return [children objectAtIndex:index];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-	// TODO
-	return NO;
+	// TODO: should this vary?
+	return YES;
 }
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	NSLog(@"%s item=%@", __PRETTY_FUNCTION__, item);
+
 	// TODO: optimise!
 
-	// TODO: handle non-root items
-	if (item)
-		return 0;
-
-	NSEnumerator *en = [contexts objectEnumerator];
-	Context *ctxt;
-	int cnt = 0;
-	while ((ctxt = [en nextObject])) {
-		// TODO: handle non-root items
-		++cnt;
-	}
-
-	return cnt;
+	NSArray *children = [self childrenOf:(item ? [item uuid] : @"")];
+	return [children count];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item

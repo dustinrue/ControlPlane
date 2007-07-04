@@ -18,6 +18,8 @@
 - (id)initWithDictionary:(NSDictionary *)dict;
 
 - (BOOL)isRoot;
+
+- (NSString *)uuid;
 - (NSString *)parent;
 - (void)setParent:(NSString *)parentUUID;
 - (NSString *)name;
@@ -26,7 +28,7 @@
 @end
 
 
-@interface ContextsDataSource : NSWindowController {
+@interface ContextsDataSource : NSObject {
 	NSMutableDictionary *contexts;
 
 	IBOutlet NSOutlineView *outlineView;	// XXX: shouldn't _really_ be here
