@@ -57,6 +57,11 @@
 		uuid, @"uuid", parent, @"parent", name, @"name", nil];
 }
 
+- (NSComparisonResult)compare:(Context *)ctxt
+{
+	return [name compare:[ctxt name]];
+}
+
 - (NSString *)uuid
 {
 	return uuid;
@@ -176,12 +181,14 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		if ([[ctxt parentUUID] isEqualToString:parent_uuid])
 			[arr addObject:ctxt];
 
+	[arr sortUsingSelector:@selector(compare:)];
+
 	return arr;
 }
 
 #pragma mark NSOutlineViewDataSource general methods
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item
 {
 	// TODO: optimise!
 
@@ -189,12 +196,12 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [children objectAtIndex:index];
 }
 
-- (BOOL)outlineView:(NSOutlineView *)theOutlineView isItemExpandable:(id)item
+- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item
 {
-	return [self outlineView:theOutlineView numberOfChildrenOfItem:item] > 0;
+	return [self outlineView:olv numberOfChildrenOfItem:item] > 0;
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item
 {
 	// TODO: optimise!
 
@@ -202,23 +209,25 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [children count];
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+- (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
 	// Should only be one column: the name
 	Context *ctxt = (Context *) item;
 	return [ctxt name];
 }
 
-- (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+- (void)outlineView:(NSOutlineView *)olv setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
 	// Should only be one column: the name
 	Context *ctxt = (Context *) item;
 	[ctxt setName:object];
+
+	[outlineView reloadData];
 }
 
 #pragma mark NSOutlineViewDataSource drag-n-drop methods
 
-- (BOOL)outlineView:(NSOutlineView *)theOutlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
+- (BOOL)outlineView:(NSOutlineView *)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
 {
 	// Only support internal drags (i.e. moves)
 	if ([info draggingSource] != outlineView)
@@ -236,7 +245,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return YES;
 }
 
-- (NSDragOperation)outlineView:(NSOutlineView *)theOutlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
+- (NSDragOperation)outlineView:(NSOutlineView *)olv validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
 {
 	// Only support internal drags (i.e. moves)
 	if ([info draggingSource] != outlineView)
@@ -245,7 +254,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return NSDragOperationMove;	
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
+- (BOOL)outlineView:(NSOutlineView *)olv writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
 {
 	// declare our own pasteboard types
 	NSArray *typesArray = [NSArray arrayWithObject:MovedRowsType];

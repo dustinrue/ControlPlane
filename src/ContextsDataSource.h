@@ -19,6 +19,7 @@
 
 - (BOOL)isRoot;
 - (NSDictionary *)dictionary;
+- (NSComparisonResult)compare:(Context *)ctxt;
 
 - (NSString *)uuid;
 - (NSString *)parentUUID;
