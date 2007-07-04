@@ -31,6 +31,7 @@
 		8D514D3F0BE994A10013C1ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D514D3E0BE994A10013C1ED /* Localizable.strings */; };
 		8D5684B50C38711D00881E32 /* MonitorEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
+		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
 		8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CAED0C17BA7900E56526 /* ToggleableAction.m */; };
 		8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */; };
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
@@ -132,6 +133,8 @@
 		8D58391A0BFB37F4004CB595 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = src/ToggleWiFiAction.h; sourceTree = "<group>"; };
 		8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleWiFiAction.m; path = src/ToggleWiFiAction.m; sourceTree = "<group>"; };
+		8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkLocationAction.h; path = src/NetworkLocationAction.h; sourceTree = "<group>"; };
+		8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NetworkLocationAction.m; path = src/NetworkLocationAction.m; sourceTree = "<group>"; };
 		8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleableAction.h; path = src/ToggleableAction.h; sourceTree = "<group>"; };
 		8D71CAED0C17BA7900E56526 /* ToggleableAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleableAction.m; path = src/ToggleableAction.m; sourceTree = "<group>"; };
 		8D71CB760C17C01700E56526 /* ScreenSaverPasswordAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScreenSaverPasswordAction.h; path = src/ScreenSaverPasswordAction.h; sourceTree = "<group>"; };
@@ -368,6 +371,8 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */,
+				8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */,
 				8DCBE9690C1A7ECE008260EF /* MountAction.h */,
 				8DCBE96A0C1A7ECE008260EF /* MountAction.m */,
 				8D3453C10C18E5C1006011D0 /* IChatAction.h */,
@@ -520,6 +525,7 @@
 				8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */,
 				8D5684B50C38711D00881E32 /* MonitorEvidenceSource.m in Sources */,
 				8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */,
+				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

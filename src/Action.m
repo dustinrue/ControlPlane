@@ -141,6 +141,7 @@
 #import "MailSMTPServerAction.h"
 #import "MountAction.h"
 #import "MuteAction.h"
+#import "NetworkLocationAction.h"
 #import "OpenAction.h"
 #import "ScreenSaverPasswordAction.h"
 #import "ShellScriptAction.h"
@@ -160,6 +161,7 @@
 		[MailSMTPServerAction class],
 		[MountAction class],
 		[MuteAction class],
+		[NetworkLocationAction class],
 		[OpenAction class],
 		[ScreenSaverPasswordAction class],
 		[ShellScriptAction class],
@@ -173,6 +175,7 @@
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
 		NSLocalizedString(@"Mount", @"Action type");
 		NSLocalizedString(@"Mute", @"Action type");
+		NSLocalizedString(@"NetworkLocation", @"Action type");
 		NSLocalizedString(@"Open", @"Action type");
 		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
