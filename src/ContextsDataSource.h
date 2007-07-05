@@ -33,7 +33,9 @@
 @interface ContextsDataSource : NSObject {
 	NSMutableDictionary *contexts;
 
-	IBOutlet NSOutlineView *outlineView;	// XXX: shouldn't _really_ be here
+	// shouldn't _really_ be here
+	IBOutlet NSOutlineView *outlineView;
+	id selection;
 }
 
 - (void)loadContexts;

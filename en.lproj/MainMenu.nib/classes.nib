@@ -12,7 +12,7 @@
             ACTIONS = {newContext = id; removeContext = id; }; 
             CLASS = ContextsDataSource; 
             LANGUAGE = ObjC; 
-            OUTLETS = {outlineView = NSOutlineView; }; 
+            OUTLETS = {outlineView = NSOutlineView; selection = id; }; 
             SUPERCLASS = NSObject; 
         }, 
         {

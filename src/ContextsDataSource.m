@@ -94,6 +94,11 @@
 
 @implementation ContextsDataSource
 
++ (void)initialize
+{
+	[self exposeBinding:@"selection"];
+}
+
 - (id)init
 {
 	if (!(self = [super init]))
@@ -109,6 +114,12 @@
 						 selector:@selector(saveContexts:)
 						     name:@"NSApplicationWillTerminateNotification"
 						   object:nil];
+
+	// Get notifications of selection changes
+//	[[NSNotificationCenter defaultCenter] addObserver:self
+//						 selector:@selector(selectionChanged:)
+//						     name:@"NSOutlineViewSelectionDidChangeNotification"
+//						   object:nil];
 
 	return self;
 }
@@ -277,6 +288,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	Context *ctxt = [contexts objectForKey:uuid];
 	[ctxt setParentUUID:new_parent_uuid];
 	[outlineView reloadData];
+	[self outlineViewSelectionDidChange:nil];
 
 	return YES;
 }
@@ -303,6 +315,18 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[pboard setString:[ctxt uuid] forType:MovedRowsType];
 
 	return YES;
+}
+
+#pragma mark NSOutlineView delegate methods
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+	Context *ctxt = nil;
+	int row = [outlineView selectedRow];
+	if (row >= 0)
+		ctxt = [outlineView itemAtRow:[outlineView selectedRow]];
+	
+	[self setValue:ctxt forKey:@"selection"];
 }
 
 @end
