@@ -186,6 +186,42 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return arr;
 }
 
+// Make sure you call [outlineView reloadData] after this!
+- (void)removeContextRecursively:(NSString *)uuid
+{
+	NSEnumerator *en = [[self childrenOf:uuid] objectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject]))
+		[self removeContextRecursively:[ctxt uuid]];
+
+	[contexts removeObjectForKey:uuid];
+}
+
+- (IBAction)removeContext:(id)sender
+{
+	int row = [outlineView selectedRow];
+	if (row < 0)
+		return;
+
+	Context *ctxt = (Context *) [outlineView itemAtRow:[outlineView selectedRow]];
+
+	if ([[self childrenOf:[ctxt uuid]] count] > 0) {
+		// Warn about destroying child contexts
+		NSAlert *alert = [[NSAlert alloc] init];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setMessageText:NSLocalizedString(@"Removing this context will also remove its child contexts!", "")];
+		[alert setInformativeText:NSLocalizedString(@"This action is not undoable!", @"")];
+		[alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
+		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+
+		if ([alert runModal] != NSAlertFirstButtonReturn)
+			return;
+	}
+
+	[self removeContextRecursively:[ctxt uuid]];
+	[outlineView reloadData];
+}
+
 #pragma mark NSOutlineViewDataSource general methods
 
 - (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item

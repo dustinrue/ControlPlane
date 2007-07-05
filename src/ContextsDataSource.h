@@ -40,5 +40,6 @@
 - (void)saveContexts:(id)arg;
 
 - (IBAction)newContext:(id)sender;
+- (IBAction)removeContext:(id)sender;
 
 @end

@@ -9,7 +9,7 @@
         }, 
         {CLASS = Context; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {newContext = id; }; 
+            ACTIONS = {newContext = id; removeContext = id; }; 
             CLASS = ContextsDataSource; 
             LANGUAGE = ObjC; 
             OUTLETS = {outlineView = NSOutlineView; }; 
