@@ -240,6 +240,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	[self removeContextRecursively:[ctxt uuid]];
 	[outlineView reloadData];
+	[self outlineViewSelectionDidChange:nil];
 }
 
 #pragma mark NSOutlineViewDataSource general methods
