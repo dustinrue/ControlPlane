@@ -35,13 +35,14 @@
 
 	// shouldn't _really_ be here
 	IBOutlet NSOutlineView *outlineView;
-	id selection;
+	Context *selection;
 }
 
 - (void)loadContexts;
 - (void)saveContexts:(id)arg;
 
 - (IBAction)newContext:(id)sender;
+- (void)newContextWithName:(NSString *)name;
 - (IBAction)removeContext:(id)sender;
 
 @end

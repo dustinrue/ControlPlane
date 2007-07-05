@@ -8,9 +8,12 @@
 #include "Growl/GrowlApplicationBridge.h"
 
 #import "Action.h"
+#import "ContextsDataSource.h"
 #import "EvidenceSource.h"
 #import "MPController.h"
 #import "SysConf.h"
+
+#import "NetworkLocationAction.h"
 
 
 
@@ -34,6 +37,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableBluetoothEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableFireWireEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableIPEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableMonitorEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePowerEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableRunningApplicationEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableUSBEvidenceSource"];
@@ -92,92 +96,16 @@
 	[super dealloc];
 }
 
-#define DO_BLUETOOTH_RULE_MAPPING	// since r162 (2007-03-29): expire after 2007-05-29
-#define DO_WIFI_RULE_MAPPING		// since r488 (2007-05-21): expire after 2007-06-21
-#define DO_WHEN_ACTION_MAPPING		// since r170 (2007-04-02): expire after 2007-06-02
-
 - (void)awakeFromNib
 {
-#ifdef DO_BLUETOOTH_RULE_MAPPING
-	// Check for old 'BT' rules that need to be mapped to 'Bluetooth'
-	unsigned int rule_changes = 0;
-	NSMutableArray *new_rules = [NSMutableArray array];
-	NSArray *old_rules = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
-	if (!old_rules)
-		goto end_of_rule_changes;
-	NSEnumerator *rule_en = [old_rules objectEnumerator];
-	NSDictionary *rule;
-	while ((rule = [rule_en nextObject])) {
-		if (![[rule valueForKey:@"type"] isEqualToString:@"BT"]) {
-			[new_rules addObject:rule];
-			continue;
+	// If there aren't any contexts defined, populate list from network locations
+	if ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) {
+		NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
+		NSDictionary *dict;
+		while ((dict = [en nextObject])) {
+			[contextsDataSource newContextWithName:[dict valueForKey:@"option"]];
 		}
-		NSMutableDictionary *new_rule = [NSMutableDictionary dictionaryWithDictionary:rule];
-		[new_rule setValue:@"Bluetooth" forKey:@"type"];
-		[new_rules addObject:new_rule];
-		++rule_changes;
 	}
-	if (rule_changes) {
-		NSLog(@"Mapping %d old-style 'BT' rule(s) to new 'Bluetooth' rules...\n", rule_changes);
-		[[NSUserDefaults standardUserDefaults] setObject:new_rules forKey:@"Rules"];
-	}
-end_of_rule_changes:
-		1;		// quieten compiler complaint about a declaration straight after a label
-#endif
-
-#ifdef DO_WIFI_RULE_MAPPING
-	// Check for old 'WiFi' rules that need to be mapped to 'SSID'
-	unsigned int wifi_rule_changes = 0;
-	NSMutableArray *new_wifi_rules = [NSMutableArray array];
-	NSArray *old_wifi_rules = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
-	if (!old_wifi_rules)
-		goto end_of_wifi_rule_changes;
-	NSEnumerator *wifi_rule_en = [old_wifi_rules objectEnumerator];
-	NSDictionary *wifi_rule;
-	while ((wifi_rule = [wifi_rule_en nextObject])) {
-		if (![[wifi_rule valueForKey:@"type"] isEqualToString:@"WiFi"]) {
-			[new_wifi_rules addObject:wifi_rule];
-			continue;
-		}
-		NSMutableDictionary *new_wifi_rule = [NSMutableDictionary dictionaryWithDictionary:wifi_rule];
-		[new_wifi_rule setValue:@"SSID" forKey:@"type"];
-		[new_wifi_rules addObject:new_wifi_rule];
-		++wifi_rule_changes;
-	}
-	if (wifi_rule_changes) {
-		NSLog(@"Mapping %d old-style 'WiFi' rule(s) to new 'SSID' rules...\n", wifi_rule_changes);
-		[[NSUserDefaults standardUserDefaults] setObject:new_wifi_rules forKey:@"Rules"];
-	}
-end_of_wifi_rule_changes:
-		1;		// quieten compiler complaint about a declaration straight after a label
-#endif
-
-#ifdef DO_WHEN_ACTION_MAPPING
-	// Check for old Actions without a 'when' key
-	unsigned int action_changes = 0;
-	NSMutableArray *new_actions = [NSMutableArray array];
-	NSArray *old_actions = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"];
-	if (!old_actions)
-		goto end_of_action_changes;
-	NSEnumerator *action_en = [old_actions objectEnumerator];
-	NSDictionary *action;
-	while ((action = [action_en nextObject])) {
-		if ([action objectForKey:@"when"]) {
-			[new_actions addObject:action];
-			continue;
-		}
-		NSMutableDictionary *new_action = [NSMutableDictionary dictionaryWithDictionary:action];
-		[new_action setValue:@"Arrival" forKey:@"when"];
-		[new_actions addObject:new_action];
-		++action_changes;
-	}
-	if (action_changes) {
-		NSLog(@"Mapping %d pre-when action(s) to new when-style actions...\n", action_changes);
-		[[NSUserDefaults standardUserDefaults] setObject:new_actions forKey:@"Actions"];
-	}
-end_of_action_changes:
-	1;		// quieten compiler complaint about a declaration straight after a label
-#endif
 
 	// Fill in 'Force location' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];

@@ -178,7 +178,16 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	Context *ctxt = [[[Context alloc] init] autorelease];
 
-	[contexts setValue:ctxt forKey:[ctxt name]];
+	[contexts setValue:ctxt forKey:[ctxt uuid]];
+	[outlineView reloadData];
+}
+
+- (void)newContextWithName:(NSString *)name
+{
+	Context *ctxt = [[[Context alloc] init] autorelease];
+	[ctxt setName:name];
+
+	[contexts setValue:ctxt forKey:[ctxt uuid]];
 	[outlineView reloadData];
 }
 

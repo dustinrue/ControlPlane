@@ -7,6 +7,7 @@
 
 #include "Growl/GrowlApplicationBridge.h"
 #import <Cocoa/Cocoa.h>
+#import "ContextsDataSource.h"
 #import "EvidenceSource.h"
 
 
@@ -25,6 +26,7 @@
 	NSConditionLock *updatingLock;
 	BOOL timeToDie;
 
+	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
 
 	IBOutlet NSArrayController *rulesController;

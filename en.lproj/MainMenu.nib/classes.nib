@@ -12,7 +12,7 @@
             ACTIONS = {newContext = id; removeContext = id; }; 
             CLASS = ContextsDataSource; 
             LANGUAGE = ObjC; 
-            OUTLETS = {outlineView = NSOutlineView; selection = id; }; 
+            OUTLETS = {outlineView = NSOutlineView; }; 
             SUPERCLASS = NSObject; 
         }, 
         {
@@ -40,6 +40,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 actionsController = NSArrayController; 
+                contextsDataSource = ContextsDataSource; 
                 evidenceSources = EvidenceSourceSetController; 
                 forceLocationMenuItem = NSMenuItem; 
                 rulesController = NSArrayController; 
