@@ -187,6 +187,9 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	NSMutableArray *arr = [NSMutableArray array];
 
+	if (!parent_uuid)
+		parent_uuid = @"";
+
 	NSEnumerator *en = [contexts objectEnumerator];
 	Context *ctxt;
 	while ((ctxt = [en nextObject]))
@@ -233,6 +236,31 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[self removeContextRecursively:[ctxt uuid]];
 	[outlineView reloadData];
 	[self outlineViewSelectionDidChange:nil];
+}
+
+- (Context *)contextByUUID:(NSString *)uuid
+{
+	return [contexts objectForKey:uuid];
+}
+
+// Private
+- (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array asDepth:(int)depth
+{
+	Context *ctxt = [contexts objectForKey:uuid];
+	if (ctxt) {
+		[ctxt setValue:[NSNumber numberWithInt:depth] forKey:@"depth"];
+		[array addObject:ctxt];
+	}
+	NSEnumerator *en = [[self childrenOf:uuid] objectEnumerator];
+	while ((ctxt = [en nextObject]))
+		[self orderedTraversalFrom:[ctxt uuid] into:array asDepth:depth + 1];
+}
+
+- (NSArray *)orderedTraversal
+{
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
+	[self orderedTraversalFrom:nil into:array asDepth:-1];
+	return array;
 }
 
 // Private

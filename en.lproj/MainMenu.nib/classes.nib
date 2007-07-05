@@ -42,7 +42,7 @@
                 actionsController = NSArrayController; 
                 contextsDataSource = ContextsDataSource; 
                 evidenceSources = EvidenceSourceSetController; 
-                forceLocationMenuItem = NSMenuItem; 
+                forceContextMenuItem = NSMenuItem; 
                 rulesController = NSArrayController; 
                 sbMenu = NSMenu; 
             }; 

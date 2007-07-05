@@ -60,7 +60,7 @@
 {
 	NSImage *img = [NSImage imageNamed:name];
 	[img setScalesWhenResized:YES];
-	[img setSize:NSSizeFromString(@"{18,18}")];
+	[img setSize:NSMakeSize(18, 18)];
 
 	return img;
 }
@@ -82,7 +82,8 @@
 	timeToDie = FALSE;
 
 	// Set placeholder values
-	[self setValue:@"?" forKey:@"guessedLocation"];
+	[self setValue:@"" forKey:@"currentContextUUID"];
+	[self setValue:@"?" forKey:@"guessedLocation"];		// XXX: kill
 	[self setValue:@"?" forKey:@"guessedConfidence"];
 
 	return self;
@@ -109,18 +110,19 @@
 
 	// Fill in 'Force location' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
-	NSEnumerator *en = [[SysConf locationsEnumerate] objectEnumerator];
-	NSString *location;
-	while ((location = [en nextObject])) {
+	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject])) {
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
-		[item setTitle:location];
-		[item setRepresentedObject:location];
+		[item setTitle:[ctxt name]];
+		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
+		[item setRepresentedObject:ctxt];
 		[item setTarget:self];
 		[item setAction:@selector(forceSwitch:)];
 		[submenu addItem:item];
 	}
 	//[submenu addItem:[NSMenuItem separatorItem]];
-	[forceLocationMenuItem setSubmenu:submenu];
+	[forceContextMenuItem setSubmenu:submenu];
 
 	// Set up status bar.
 	[self showInStatusBar:self];
@@ -282,7 +284,7 @@
 	[pool release];
 }
 
-- (void)triggerDepartureActions:(NSString *)fromLocation
+- (void)triggerDepartureActions:(NSString *)fromUUID
 {
 	NSArray *actions = [actionsController arrangedObjects];
 	NSMutableArray *actionsToRun = [NSMutableArray array];
@@ -299,7 +301,7 @@
 	while ((action = [action_enum nextObject])) {
 		if (![[action objectForKey:@"when"] isEqualToString:@"Departure"])
 			continue;
-		if (![[action objectForKey:@"location"] isEqualToString:fromLocation])
+		if (![[action objectForKey:@"context"] isEqualToString:fromUUID])
 			continue;
 
 		NSNumber *aDelay;
@@ -327,7 +329,7 @@
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:max_delay]];
 }
 
-- (void)triggerArrivalActions:(NSString *)toLocation
+- (void)triggerArrivalActions:(NSString *)toUUID
 {
 	NSArray *actions = [actionsController arrangedObjects];
 
@@ -336,7 +338,7 @@
 	while (action = [action_enum nextObject]) {
 		if (![[action objectForKey:@"when"] isEqualToString:@"Arrival"])
 			continue;
-		if (![[action objectForKey:@"location"] isEqualToString:toLocation])
+		if (![[action objectForKey:@"context"] isEqualToString:toUUID])
 			continue;
 		[NSThread detachNewThreadSelector:@selector(executeAction:) toTarget:self withObject:action];
 	}
@@ -344,46 +346,59 @@
 
 #pragma mark Thread stuff
 
-- (void)performTransitionFrom:(NSString *)fromLocation to:(NSString *)toLocation
+- (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
-#ifdef DEBUG_MODE
-	NSLog(@"About to change to location '%@' %@.\n", toLocation, guessedConfidence);
-#endif
+	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
+	NSArray *leaving_walk = [walks objectAtIndex:0];
+	NSArray *entering_walk = [walks objectAtIndex:1];
+	NSEnumerator *en;
+	Context *ctxt;
+
 	[updatingSwitchingLock lock];
 
-	// Execute "Departure" actions
-	[self triggerDepartureActions:fromLocation];
-
-	[self doGrowl:NSLocalizedString(@"Changing Location", @"Growl message title")
-	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to location '%@' %@.",
-								   @"First parameter is the location name, second parameter is the confidence value, or 'as default location'"),
-			toLocation, guessedConfidence]];
-	if (![SysConf setCurrentLocation:toLocation]) {
-		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title")
-		  withMessage:NSLocalizedString(@"Changing location failed!", @"")];
-		[updatingSwitchingLock unlock];
-		return;
+	// Execute all the "Departure" actions
+	en = [leaving_walk objectEnumerator];
+	while ((ctxt = [en nextObject])) {
+#ifdef DEBUG_MODE
+		NSLog(@">> Depart from '%@'", [ctxt name]);
+#endif
+		[self triggerDepartureActions:[ctxt uuid]];
 	}
 
-	// Execute "Arrival" actions
-	[self triggerArrivalActions:toLocation];
+	// Update current context
+	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
+	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
+								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
+			  [[entering_walk lastObject] name], guessedConfidence]];
+	[self setValue:toUUID forKey:@"currentContextUUID"];
 
+	// Execute all the "Arrival" actions
+	en = [entering_walk objectEnumerator];
+	while ((ctxt = [en nextObject])) {
+#ifdef DEBUG_MODE
+		NSLog(@">> Arrive at '%@'", [ctxt name]);
+#endif
+		[self triggerArrivalActions:[ctxt uuid]];
+	}
+	
 	[updatingSwitchingLock unlock];
+
+	return;
 }
 
 - (void)forceSwitch:(id)sender
 {
-	NSString *location = [sender representedObject];
+	Context *ctxt = [sender representedObject];
 #ifdef DEBUG_MODE
-	NSLog(@"forceSwitch: going to '%@'", location);
+	NSLog(@"forceSwitch: going to '%@'", [ctxt name]);
 #endif
-	[self setValue:location forKey:@"guessedLocation"];
-	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a location")
+	[self setValue:[ctxt name] forKey:@"guessedLocation"];
+	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
 		forKey:@"guessedConfidence"];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
-		[self setStatusTitle:location];
+		[self setStatusTitle:[ctxt name]];
 
-	[self performTransitionFrom:[SysConf getCurrentLocation] to:location];
+	[self performTransitionFrom:currentContextUUID to:[ctxt uuid]];
 }
 
 - (void)doUpdateForReal
@@ -535,10 +550,10 @@
 - (NSDictionary *) registrationDictionaryForGrowl
 {
 	NSArray *notifications = [NSArray arrayWithObjects:
-					NSLocalizedString(@"Changing Location", @"Growl message title"),
+					NSLocalizedString(@"Changing Context", @"Growl message title"),
 					NSLocalizedString(@"Performing Action", @"Growl message title"),
 					NSLocalizedString(@"Failure", @"Growl message title"),
-					NSLocalizedString(@"Evidence Change", @"Growl message title"),
+					//NSLocalizedString(@"Evidence Change", @"Growl message title"),
 					nil];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:

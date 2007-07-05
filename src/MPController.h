@@ -17,9 +17,10 @@
 	NSImage *sbImage;
 	NSTimer *sbHideTimer;
 
+	NSString *currentContextUUID;
 	NSString *guessedLocation, *guessedConfidence;
 
-	IBOutlet NSMenuItem *forceLocationMenuItem;
+	IBOutlet NSMenuItem *forceContextMenuItem;
 
 	NSThread *updatingThread;
 	NSLock *updatingSwitchingLock;

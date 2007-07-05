@@ -12,6 +12,9 @@
 	NSString *uuid;
 	NSString *parent;	// UUID
 	NSString *name;
+
+	// Transient
+	NSNumber *depth;
 }
 
 - (id)init;
@@ -45,6 +48,9 @@
 - (void)newContextWithName:(NSString *)name;
 - (IBAction)removeContext:(id)sender;
 
+- (Context *)contextByUUID:(NSString *)uuid;
+
+- (NSArray *)orderedTraversal;
 - (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid;
 
 @end
