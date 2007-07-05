@@ -13,7 +13,7 @@
 	<key>CFBundleIconFile</key>
 	<string>marcopolo</string>
 	<key>CFBundleIdentifier</key>
-	<string>au.id.symonds.MarcoPolo</string>
+	<string>au.id.symonds.MarcoPolo2</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -21,11 +21,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>SVN</string>
+	<string>2.0b1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.4</string>
+	<string>2.0b1</string>
 	<key>LSUIElement</key>
 	<string>1</string>
 	<key>NSMainNibFile</key>
