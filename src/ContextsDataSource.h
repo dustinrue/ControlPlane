@@ -45,4 +45,6 @@
 - (void)newContextWithName:(NSString *)name;
 - (IBAction)removeContext:(id)sender;
 
+- (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid;
+
 @end

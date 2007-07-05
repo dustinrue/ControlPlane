@@ -182,6 +182,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[outlineView reloadData];
 }
 
+// Private
 - (NSArray *)childrenOf:(NSString *)parent_uuid
 {
 	NSMutableArray *arr = [NSMutableArray array];
@@ -197,7 +198,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return arr;
 }
 
-// Make sure you call [outlineView reloadData] after this!
+// Private: Make sure you call [outlineView reloadData] after this!
 - (void)removeContextRecursively:(NSString *)uuid
 {
 	NSEnumerator *en = [[self childrenOf:uuid] objectEnumerator];
@@ -232,6 +233,49 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[self removeContextRecursively:[ctxt uuid]];
 	[outlineView reloadData];
 	[self outlineViewSelectionDidChange:nil];
+}
+
+// Private
+- (NSArray *)walkToRoot:(NSString *)uuid
+{
+	// NOTE: There's no reason why this is limited, except for loop-avoidance.
+	// If you're using more than 20-deep nested contexts, perhaps MarcoPolo isn't for you?
+	int limit = 20;
+
+	NSMutableArray *walk = [NSMutableArray array];
+	while (limit > 0) {
+		--limit;
+		Context *ctxt = [contexts objectForKey:uuid];
+		if (!ctxt)
+			break;
+		[walk addObject:ctxt];
+		uuid = [ctxt parentUUID];
+	}
+
+	return walk;
+}
+
+- (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid
+{
+	// TODO
+	NSArray *src_walk = [self walkToRoot:src_uuid];
+	NSArray *dst_walk = [self walkToRoot:dst_uuid];
+
+	Context *common = [src_walk firstObjectCommonWithArray:dst_walk];
+	if (common) {
+		// Trim to minimal common walks
+		src_walk = [src_walk subarrayWithRange:NSMakeRange(0, [src_walk indexOfObject:common])];
+		dst_walk = [dst_walk subarrayWithRange:NSMakeRange(0, [dst_walk indexOfObject:common])];
+	}
+
+	// Reverse dst_walk so we are walking *away* from the root
+	NSMutableArray *dst_walk_rev = [NSMutableArray arrayWithCapacity:[dst_walk count]];
+	NSEnumerator *en = [dst_walk reverseObjectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject]))
+		[dst_walk_rev addObject:ctxt];
+
+	return [NSArray arrayWithObjects:src_walk, dst_walk_rev, nil];
 }
 
 #pragma mark NSOutlineViewDataSource general methods
