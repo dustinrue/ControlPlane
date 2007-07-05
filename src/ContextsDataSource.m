@@ -107,8 +107,6 @@
 	contexts = [[NSMutableDictionary alloc] init];
 	[self loadContexts];
 
-	// TODO: setup notifications to make sure we see relevant changes?
-
 	// Make sure we get to save out the contexts
 	[[NSNotificationCenter defaultCenter] addObserver:self
 						 selector:@selector(saveContexts:)
@@ -313,7 +311,6 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[pboard declareTypes:typesArray owner:self];
 
 	// add context UUID for local move
-	// (TODO: work with multiple contexts?)
 	Context *ctxt = (Context *) [items objectAtIndex:0];
 	[pboard setString:[ctxt uuid] forType:MovedRowsType];
 
