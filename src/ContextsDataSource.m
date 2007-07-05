@@ -115,12 +115,6 @@
 						     name:@"NSApplicationWillTerminateNotification"
 						   object:nil];
 
-	// Get notifications of selection changes
-//	[[NSNotificationCenter defaultCenter] addObserver:self
-//						 selector:@selector(selectionChanged:)
-//						     name:@"NSOutlineViewSelectionDidChangeNotification"
-//						   object:nil];
-
 	return self;
 }
 
@@ -137,7 +131,6 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	// register for drag and drop
 	[outlineView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
-	//[super awakeFromNib];
 }
 
 - (void)loadContexts
