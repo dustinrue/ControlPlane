@@ -129,7 +129,23 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	// register for drag and drop
 	[outlineView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
+
+	// XXX: does this even work?
+	[[NSNotificationCenter defaultCenter] addObserver:outlineView
+						 selector:@selector(reloadData:)
+						     name:@"ContextsChangedNotification"
+						   object:nil];
 }
+
+// Private
+- (void)postContextsChangedNotification
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ContextsChangedNotification" object:self];
+
+	// TODO: other stuff?
+}
+
+#pragma mark -
 
 - (void)loadContexts
 {
@@ -151,6 +167,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 			[ctxt setParentUUID:@""];
 		}
 	}
+
+	[self postContextsChangedNotification];
 }
 
 - (void)saveContexts:(id)arg
@@ -170,7 +188,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	Context *ctxt = [[[Context alloc] init] autorelease];
 
 	[contexts setValue:ctxt forKey:[ctxt uuid]];
-	[outlineView reloadData];
+	//[outlineView reloadData];
+	[self postContextsChangedNotification];
 }
 
 - (void)newContextWithName:(NSString *)name
@@ -179,7 +198,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[ctxt setName:name];
 
 	[contexts setValue:ctxt forKey:[ctxt uuid]];
-	[outlineView reloadData];
+	//[outlineView reloadData];
+	[self postContextsChangedNotification];
 }
 
 // Private
@@ -234,7 +254,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	}
 
 	[self removeContextRecursively:[ctxt uuid]];
-	[outlineView reloadData];
+	//[outlineView reloadData];
+	[self postContextsChangedNotification];
 	[self outlineViewSelectionDidChange:nil];
 }
 
@@ -347,7 +368,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	Context *ctxt = (Context *) item;
 	[ctxt setName:object];
 
-	[outlineView reloadData];
+	//[outlineView reloadData];
+	[self postContextsChangedNotification];
 }
 
 #pragma mark NSOutlineViewDataSource drag-n-drop methods
@@ -365,7 +387,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSString *uuid = [[info draggingPasteboard] stringForType:MovedRowsType];
 	Context *ctxt = [contexts objectForKey:uuid];
 	[ctxt setParentUUID:new_parent_uuid];
-	[outlineView reloadData];
+	//[outlineView reloadData];
+	[self postContextsChangedNotification];
 	[self outlineViewSelectionDidChange:nil];
 
 	return YES;
@@ -402,7 +425,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	int row = [outlineView selectedRow];
 	if (row >= 0)
 		ctxt = [outlineView itemAtRow:[outlineView selectedRow]];
-	
+
 	[self setValue:ctxt forKey:@"selection"];
 }
 

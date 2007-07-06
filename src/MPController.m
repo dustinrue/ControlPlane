@@ -110,6 +110,10 @@
 		}
 	}
 
+	[[NSNotificationCenter defaultCenter] addObserver:self
+						 selector:@selector(contextsChanged:)
+						     name:@"ContextsChangedNotification"
+						   object:nil];
 	[self contextsChanged:nil];
 
 	// Set up status bar.
@@ -194,6 +198,9 @@
 
 - (void)contextsChanged:(NSNotification *)notification
 {
+#ifdef DEBUG_MODE
+	NSLog(@"%s Bing!", __PRETTY_FUNCTION__);
+#endif
 	// Fill in 'Force context' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
 	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
