@@ -102,7 +102,6 @@
 		32CA4F630368D1EE00C91783 /* MarcoPolo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarcoPolo_Prefix.pch; path = src/MarcoPolo_Prefix.pch; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = src/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = src/DNDArrayController.m; sourceTree = "<group>"; };
-		8D05DD420C0CFCB40055B6A9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MarcoPolo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarcoPolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D14E1190BF3DADE00FDD12C /* HACKING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HACKING.txt; sourceTree = "<group>"; };
@@ -121,7 +120,6 @@
 		8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = WiFiEvidenceSource.m; path = src/WiFiEvidenceSource.m; sourceTree = "<group>"; };
 		8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = USBEvidenceSource.h; path = src/USBEvidenceSource.h; sourceTree = "<group>"; };
 		8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = USBEvidenceSource.m; path = src/USBEvidenceSource.m; sourceTree = "<group>"; };
-		8D36CE440BEF56A20087E294 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EvidenceSourcesPrefs.tiff; path = graphics/EvidenceSourcesPrefs.tiff; sourceTree = "<group>"; };
 		8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = marcopolo.icns; path = graphics/marcopolo.icns; sourceTree = "<group>"; };
 		8D481B070B6098DD0097CF9C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -129,8 +127,6 @@
 		8D514D120BE98CCF0013C1ED /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonitorEvidenceSource.h; path = src/MonitorEvidenceSource.h; sourceTree = "<group>"; };
 		8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MonitorEvidenceSource.m; path = src/MonitorEvidenceSource.m; sourceTree = "<group>"; };
-		8D58391A0BFB37F4004CB594 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8D58391A0BFB37F4004CB595 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = src/ToggleWiFiAction.h; sourceTree = "<group>"; };
 		8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleWiFiAction.m; path = src/ToggleWiFiAction.m; sourceTree = "<group>"; };
 		8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkLocationAction.h; path = src/NetworkLocationAction.h; sourceTree = "<group>"; };
@@ -171,7 +167,6 @@
 		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = oui.txt; sourceTree = "<group>"; };
 		8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShellScriptAction.h; path = src/ShellScriptAction.h; sourceTree = "<group>"; };
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
-		8DBC4C6E0C0D30DE003C8A10 /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = nl.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = src/MuteAction.h; sourceTree = "<group>"; };
 		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = src/MuteAction.m; sourceTree = "<group>"; };
 		8DCBE9690C1A7ECE008260EF /* MountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MountAction.h; path = src/MountAction.h; sourceTree = "<group>"; };
@@ -181,7 +176,6 @@
 		8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PowerEvidenceSource.h; path = src/PowerEvidenceSource.h; sourceTree = "<group>"; };
 		8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PowerEvidenceSource.m; path = src/PowerEvidenceSource.m; sourceTree = "<group>"; };
 		8DCBF60B0BE5C4E400A01414 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		8DD1F1A80BEFF60500960AA8 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8DD790AA0BC28A9F00705346 /* OpenAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenAction.h; path = src/OpenAction.h; sourceTree = "<group>"; };
 		8DD790AB0BC28A9F00705346 /* OpenAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OpenAction.m; path = src/OpenAction.m; sourceTree = "<group>"; };
 		8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MailSMTPServerAction.h; path = src/MailSMTPServerAction.h; sourceTree = "<group>"; };
@@ -544,9 +538,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				29B97319FDCFA39411CA2CEA /* en */,
-				8DD1F1A80BEFF60500960AA8 /* de */,
-				8D05DD420C0CFCB40055B6A9 /* fr */,
-				8DBC4C6E0C0D30DE003C8A10 /* nl */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -555,9 +546,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				8D514D120BE98CCF0013C1ED /* en */,
-				8D36CE440BEF56A20087E294 /* de */,
-				8D58391A0BFB37F4004CB594 /* nl */,
-				8D58391A0BFB37F4004CB595 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
