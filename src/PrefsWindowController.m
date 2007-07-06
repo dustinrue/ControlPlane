@@ -507,7 +507,7 @@
 
 	// Finish creating dictionary
 	[dict setValue:param forKey:@"parameter"];
-	[dict setValue:[[[newActionContext selectedItem] representedObject] uuid] forKey:@"context"];
+	[dict setValue:[[newActionContext selectedItem] representedObject] forKey:@"context"];
 	[dict setValue:newActionWindowWhen forKey:@"when"];
 
 	// Stick it in action collection, and select it
