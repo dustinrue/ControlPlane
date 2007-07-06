@@ -1,6 +1,7 @@
 /* PrefsWindowController */
 
 #import <Cocoa/Cocoa.h>
+#import "ContextsDataSource.h"
 #import "MPController.h"
 
 @interface PrefsWindowController : NSWindowController
@@ -15,6 +16,7 @@
 	IBOutlet NSDrawer *drawer;
 
 	IBOutlet MPController *mpController;
+	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet NSArrayController *rulesController, *actionsController;
 	IBOutlet NSArrayController *whenActionController;
 
@@ -34,6 +36,7 @@
 	IBOutlet NSView *newActionWindowParameterView;
 	NSView *newActionWindowParameterViewCurrentControl;
 	IBOutlet NSArrayController *newActionLimitedOptionsController;
+	IBOutlet NSPopUpButton *newActionContext;
 	NSString *newActionWindowWhen;
 }
 

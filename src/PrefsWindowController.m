@@ -387,6 +387,8 @@
 	[newActionWindow setTitle:[NSString stringWithFormat:
 		NSLocalizedString(@"New %@ Action", @"Window title"), newActionTypeString]];
 
+	[newActionContext setMenu:[contextsDataSource hierarchicalMenu]];
+
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSArrayController *loC = newActionLimitedOptionsController;
 		[loC removeObjects:[loC arrangedObjects]];
@@ -468,7 +470,7 @@
 
 	// Finish creating dictionary
 	[dict setValue:param forKey:@"parameter"];
-	[dict setValue:[[newLocationController selectedObjects] lastObject] forKey:@"location"];
+	[dict setValue:[[[newActionContext selectedItem] representedObject] uuid] forKey:@"context"];
 	[dict setValue:newActionWindowWhen forKey:@"when"];
 
 	// Stick it in action collection, and select it

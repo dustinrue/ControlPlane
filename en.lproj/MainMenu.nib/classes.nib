@@ -64,11 +64,13 @@
                 actionsController = NSArrayController; 
                 actionsPrefsView = NSView; 
                 advancedPrefsView = NSView; 
+                contextsDataSource = ContextsDataSource; 
                 contextsPrefsView = NSView; 
                 drawer = NSDrawer; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 
                 mpController = MPController; 
+                newActionContext = NSPopUpButton; 
                 newActionLimitedOptionsController = NSArrayController; 
                 newActionWindow = NSWindow; 
                 newActionWindowParameterView = NSView; 
