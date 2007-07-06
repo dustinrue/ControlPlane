@@ -43,14 +43,16 @@
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableUSBEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableWiFiEvidenceSource"];
 
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultLocation"];
-	[appDefaults setValue:@"Automatic" forKey:@"DefaultLocation"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
+	[appDefaults setValue:@"Automatic" forKey:@"DefaultContext"];
 
+	// Advanced
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"ShowAdvancedPreferences"];
 	[appDefaults setValue:[NSNumber numberWithFloat:5.0] forKey:@"UpdateInterval"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"WiFiAlwaysScans"];
 
-	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];	// SparkleUpdater
+	// Sparkle (TODO: make update time configurable)
+	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
 
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 }
@@ -83,8 +85,8 @@
 
 	// Set placeholder values
 	[self setValue:@"" forKey:@"currentContextUUID"];
-	[self setValue:@"?" forKey:@"guessedLocation"];		// XXX: kill
-	[self setValue:@"?" forKey:@"guessedConfidence"];
+	[self setValue:@"?" forKey:@"currentContextName"];
+	[self setValue:@"?" forKey:@"guessConfidence"];
 
 	return self;
 }
@@ -108,21 +110,7 @@
 		}
 	}
 
-	// Fill in 'Force location' submenu
-	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
-	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject])) {
-		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
-		[item setTitle:[ctxt name]];
-		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
-		[item setRepresentedObject:ctxt];
-		[item setTarget:self];
-		[item setAction:@selector(forceSwitch:)];
-		[submenu addItem:item];
-	}
-	//[submenu addItem:[NSMenuItem separatorItem]];
-	[forceContextMenuItem setSubmenu:submenu];
+	[self contextsChanged:nil];
 
 	// Set up status bar.
 	[self showInStatusBar:self];
@@ -202,6 +190,27 @@
 				       priority:pri
 				       isSticky:NO
 				   clickContext:nil];
+}
+
+- (void)contextsChanged:(NSNotification *)notification
+{
+	// Fill in 'Force context' submenu
+	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
+	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject])) {
+		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+		[item setTitle:[ctxt name]];
+		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
+		[item setRepresentedObject:ctxt];
+		[item setTarget:self];
+		[item setAction:@selector(forceSwitch:)];
+		[submenu addItem:item];
+	}
+	[forceContextMenuItem setSubmenu:submenu];
+
+	// TODO: update other stuff
+	//	- currentContextName
 }
 
 #pragma mark Rule matching and Action triggering
@@ -325,7 +334,7 @@
 				       withObject:surrogateAction];
 	}
 
-	// Finally, we have to sleep this thread, so we don't return until we're ready to change locations.
+	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:max_delay]];
 }
 
@@ -369,8 +378,10 @@
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
-			  [[entering_walk lastObject] name], guessedConfidence]];
+			  [[entering_walk lastObject] name], guessConfidence]];
+	ctxt = [contextsDataSource contextByUUID:toUUID];
 	[self setValue:toUUID forKey:@"currentContextUUID"];
+	[self setValue:[ctxt name] forKey:@"currentContextName"];
 
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
@@ -392,9 +403,8 @@
 #ifdef DEBUG_MODE
 	NSLog(@"forceSwitch: going to '%@'", [ctxt name]);
 #endif
-	[self setValue:[ctxt name] forKey:@"guessedLocation"];
 	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
-		forKey:@"guessedConfidence"];
+		forKey:@"guessConfidence"];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
 		[self setStatusTitle:[ctxt name]];
 
@@ -403,43 +413,39 @@
 
 - (void)doUpdateForReal
 {
-	NSArray *locations = [SysConf locationsEnumerate];
+	NSArray *contexts = [contextsDataSource arrayOfUUIDs];
 
-	// Maps a guessed location name to an "unconfidence" value, which is
+	// Maps a guessed context to an "unconfidence" value, which is
 	// equal to (1 - confidence). We step through all the rules that are "hits",
 	// and multiply this running unconfidence value by (1 - rule.confidence).
-	NSMutableDictionary *guesses = [NSMutableDictionary dictionaryWithCapacity:[locations count]];
+	NSMutableDictionary *guesses = [NSMutableDictionary dictionaryWithCapacity:[contexts count]];
 	NSArray *rule_hits = [self getRulesThatMatch];
 
 	NSEnumerator *en = [rule_hits objectEnumerator];
 	NSDictionary *rule;
 	while (rule = [en nextObject]) {
-		NSString *loc = [rule objectForKey:@"location"];
+		NSString *uuid = [rule objectForKey:@"context"];
 
-		NSNumber *uncon = [guesses objectForKey:loc];
+		NSNumber *uncon = [guesses objectForKey:uuid];
 		if (!uncon)
 			uncon = [NSNumber numberWithDouble:1.0];
 		NSNumber *mult = [rule objectForKey:@"confidence"];
 		uncon = [NSNumber numberWithDouble:[uncon doubleValue] * (1 - [mult doubleValue])];
-		[guesses setObject:uncon forKey:loc];
-
-#ifdef DEBUG_MODE
-//		NSLog(@"* Rule Matches: type=%@, parameter=%@, location=%@, confidence=%@, description=%@\n",
-//		      [rule objectForKey:@"type"], [rule objectForKey:@"parameter"],
-//		      [rule objectForKey:@"location"], [rule objectForKey:@"confidence"],
-//		      [rule objectForKey:@"description"]);
-#endif
+		[guesses setObject:uncon forKey:uuid];
 	}
 
-	// Guess location with lowest unconfidence
+	// TODO: With nested contexts, perhaps we should credit a decaying value for matched rules
+	// to the ancestor walk?
+
+	// Guess context with lowest unconfidence
 	en = [guesses keyEnumerator];
-	NSString *loc, *guess = nil;
-	double guessConfidence = 0.0;
-	while (loc = [en nextObject]) {
-		double uncon = [[guesses objectForKey:loc] doubleValue];
-		if (((1.0 - uncon) > guessConfidence) || !guess) {
-			guess = loc;
-			guessConfidence = 1.0 - uncon;
+	NSString *uuid, *guess = nil;
+	double guessConf = 0.0;
+	while ((uuid = [en nextObject])) {
+		double uncon = [[guesses objectForKey:uuid] doubleValue];
+		if (((1.0 - uncon) > guessConf) || !guess) {
+			guess = uuid;
+			guessConf = 1.0 - uncon;
 		}
 	}
 
@@ -447,9 +453,9 @@
 	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
 	[nf setNumberStyle:NSNumberFormatterPercentStyle];
-	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:guessConfidence]];
+	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:guessConf]];
 	NSString *guessConfidenceString = [NSString stringWithFormat:
-		NSLocalizedString(@"with confidence %@", @"Appended to a location-change notification"),
+		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
 		perc];
 	BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
 	if (!do_title)
@@ -461,7 +467,7 @@
 		NSLog(@"No guess made.\n");
 #endif
 		no_guess = YES;
-	} else if (guessConfidence < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
+	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
 #ifdef DEBUG_MODE
 		NSLog(@"Guess of '%@' isn't confident enough: only %@.\n", guess, guessConfidenceString);
 #endif
@@ -469,42 +475,42 @@
 	}
 
 	if (no_guess) {
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultLocation"]) {
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"]) {
 			if (do_title)
 				[self setStatusTitle:@"?"];
 			return;
 		}
-		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultLocation"];
-		guessConfidenceString = NSLocalizedString(@"as default location",
-							  @"Appended to a location-change notification");
+		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
+		guessConfidenceString = NSLocalizedString(@"as default context",
+							  @"Appended to a context-change notification");
 	}
 
 	BOOL do_switch = YES;
 
 	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
-	if (smoothing && ![guessedLocation isEqualToString:guess]) {
+	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
 		do_switch = NO;
 #ifdef DEBUG_MODE
-		NSLog(@"Switch smoothing kicking in... (%@ != %@)", guessedLocation, guess);
+		NSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextUUID, guess);
 #endif
 	}
 
 	if (do_title)
 		[self setStatusTitle:guess];
-	[self setValue:guess forKey:@"guessedLocation"];
+	//[self setValue:guess forKey:@"guessedLocation"];	// XXX: is this needed?
 	[self setValue:guessConfidenceString forKey:@"guessedConfidence"];
 
 	if (!do_switch)
 		return;
 
-	if ([guess isEqualToString:[SysConf getCurrentLocation]]) {
+	if ([guess isEqualToString:currentContextUUID]) {
 #ifdef DEBUG_MODE
 		NSLog(@"Guessed '%@' (%@); already there.\n", guess, guessConfidenceString);
 #endif
 		return;
 	}
 
-	[self performTransitionFrom:[SysConf getCurrentLocation] to:guess];
+	[self performTransitionFrom:currentContextUUID to:guess];
 }
 
 - (void)updateThread:(id)arg

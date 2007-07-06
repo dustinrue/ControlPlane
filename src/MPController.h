@@ -17,8 +17,8 @@
 	NSImage *sbImage;
 	NSTimer *sbHideTimer;
 
-	NSString *currentContextUUID;
-	NSString *guessedLocation, *guessedConfidence;
+	NSString *currentContextUUID, *currentContextName;
+	NSString *guessConfidence;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;
 
@@ -37,6 +37,7 @@
 - (void)showInStatusBar:(id)sender;
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
+- (void)contextsChanged:(NSNotification *)notification;
 
 - (IBAction)doUpdate:(NSTimer *)theTimer;
 

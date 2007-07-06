@@ -50,6 +50,7 @@
 
 - (Context *)contextByUUID:(NSString *)uuid;
 
+- (NSArray *)arrayOfUUIDs;
 - (NSArray *)orderedTraversal;
 - (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid;
 

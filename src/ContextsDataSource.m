@@ -243,6 +243,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [contexts objectForKey:uuid];
 }
 
+- (NSArray *)arrayOfUUIDs
+{
+	return [contexts allKeys];
+}
+
 // Private
 - (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array asDepth:(int)depth
 {
