@@ -53,5 +53,6 @@
 - (NSArray *)arrayOfUUIDs;
 - (NSArray *)orderedTraversal;
 - (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid;
+- (NSMenu *)hierarchicalMenu;
 
 @end

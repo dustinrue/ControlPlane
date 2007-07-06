@@ -96,7 +96,7 @@
 
 + (void)initialize
 {
-	[self exposeBinding:@"selection"];
+	[self exposeBinding:@"selection"];	// outlineView selection binding proxy
 }
 
 - (id)init
@@ -177,6 +177,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		if (![ctxt isRoot])
 			[self recomputeDepthOf:ctxt];
 	}
+
+	// XXX: any other data to recompute?
 }
 
 #pragma mark -
@@ -366,6 +368,24 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		[dst_walk_rev addObject:ctxt];
 
 	return [NSArray arrayWithObjects:src_walk, dst_walk_rev, nil];
+}
+
+- (NSMenu *)hierarchicalMenu
+{
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	NSEnumerator *en = [[self orderedTraversal] objectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject])) {
+		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+		[item setTitle:[ctxt name]];
+		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
+		[item setRepresentedObject:ctxt];
+		//[item setTarget:self];
+		//[item setAction:@selector(forceSwitch:)];
+		[menu addItem:item];
+	}
+
+	return menu;
 }
 
 #pragma mark NSOutlineViewDataSource general methods
