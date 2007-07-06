@@ -213,8 +213,20 @@
 	}
 	[forceContextMenuItem setSubmenu:submenu];
 
-	// TODO: update other stuff
-	//	- currentContextName
+	// Update current context details
+	ctxt = [contextsDataSource contextByUUID:currentContextUUID];
+	if (ctxt) {
+		[self setValue:[ctxt name] forKey:@"currentContextName"];
+	} else {
+		// Our current context was removed
+		[self setValue:@"" forKey:@"currentContextUUID"];
+		[self setValue:@"?" forKey:@"currentContextName"];
+		[self setValue:@"?" forKey:@"guessConfidence"];
+	}
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
+		[self setStatusTitle:currentContextName];
+
+	// TODO: update other stuff?
 }
 
 #pragma mark Rule matching and Action triggering
