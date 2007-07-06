@@ -130,11 +130,10 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	// register for drag and drop
 	[outlineView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
 
-	// XXX: does this even work?
-	[[NSNotificationCenter defaultCenter] addObserver:outlineView
-						 selector:@selector(reloadData:)
+	[[NSNotificationCenter defaultCenter] addObserver:self
+						 selector:@selector(triggerOutlineViewReloadData:)
 						     name:@"ContextsChangedNotification"
-						   object:nil];
+						   object:self];
 }
 
 // Private
@@ -311,7 +310,6 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid
 {
-	// TODO
 	NSArray *src_walk = [self walkToRoot:src_uuid];
 	NSArray *dst_walk = [self walkToRoot:dst_uuid];
 
@@ -418,6 +416,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 #pragma mark NSOutlineView delegate methods
+
+- (void)triggerOutlineViewReloadData:(NSNotification *)notification
+{
+	[outlineView reloadData];
+}
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
