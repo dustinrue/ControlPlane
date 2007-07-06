@@ -379,7 +379,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
 		[item setTitle:[ctxt name]];
 		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
-		[item setRepresentedObject:ctxt];
+		[item setRepresentedObject:[ctxt uuid]];
 		//[item setTarget:self];
 		//[item setAction:@selector(forceSwitch:)];
 		[menu addItem:item];

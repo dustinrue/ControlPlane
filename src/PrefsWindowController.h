@@ -2,6 +2,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ContextsDataSource.h"
+#import "ContextSelectionButton.h"
 #import "MPController.h"
 
 @interface PrefsWindowController : NSWindowController
@@ -20,8 +21,11 @@
 	IBOutlet NSArrayController *rulesController, *actionsController;
 	IBOutlet NSArrayController *whenActionController;
 
+	// Selection controls for rules/actions
+	IBOutlet ContextSelectionButton *editActionContext;
+
 	// General new stuff hooks
-	IBOutlet NSArrayController *newLocationController;
+	IBOutlet NSArrayController *newLocationController;	// XXX: deprecated!
 
 	// New rule creation hooks
 	IBOutlet NSWindow *newRuleWindow;

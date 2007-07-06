@@ -10,7 +10,7 @@
 
 @interface Action : NSObject {
 	int delay;
-	NSString *type, *location, *when;
+	NSString *type, *context, *when;
 }
 
 + (NSString *)typeForClass:(Class)klass;

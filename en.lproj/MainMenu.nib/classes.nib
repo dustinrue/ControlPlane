@@ -8,6 +8,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = Context; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = ContextSelectionButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
             ACTIONS = {newContext = id; removeContext = id; }; 
             CLASS = ContextsDataSource; 
@@ -67,6 +68,7 @@
                 contextsDataSource = ContextsDataSource; 
                 contextsPrefsView = NSView; 
                 drawer = NSDrawer; 
+                editActionContext = NSPopUpButton; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 
                 mpController = MPController; 

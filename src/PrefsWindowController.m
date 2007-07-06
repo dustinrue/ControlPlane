@@ -12,6 +12,10 @@
 @end
 @interface WhenLocalizeTransformer : NSValueTransformer {}
 @end
+@interface ContextNameTransformer : NSValueTransformer {
+	ContextsDataSource *contextsDataSource;
+}
+@end
 
 
 @implementation ActionTypeHelpTransformer
@@ -85,8 +89,29 @@
 - (id)transformedValue:(id)theValue
 {
 	NSString *eng_str = [NSString stringWithFormat:@"On %@", [(NSString *) theValue lowercaseString]];
-
+	
 	return NSLocalizedString(eng_str, @"");
+}
+
+@end
+
+@implementation ContextNameTransformer
+
++ (Class)transformedValueClass { return [NSString class]; }
+
++ (BOOL)allowsReverseTransformation { return NO; }
+
+- (id)init:(ContextsDataSource *)dataSource
+{
+	if (!(self = [super init]))
+		return nil;
+	contextsDataSource = dataSource;
+	return self;
+}
+
+- (id)transformedValue:(id)theValue
+{
+	return [[contextsDataSource contextByUUID:(NSString *) theValue] name];
 }
 
 @end
@@ -126,6 +151,10 @@
 
 - (void)awakeFromNib
 {
+	// Evil!
+	[NSValueTransformer setValueTransformer:[[[ContextNameTransformer alloc] init:contextsDataSource] autorelease]
+					forName:@"ContextNameTransformer"];
+
 	prefsGroups = [[NSArray arrayWithObjects:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			@"General", @"name",
@@ -168,6 +197,14 @@
 	[prefsWindow setToolbar:prefsToolbar];
 
 	[self switchToView:@"General"];
+
+	// Contexts
+	[editActionContext setContextsDataSource:contextsDataSource];
+	// Bind?
+//	[editActionContext bind:@"selectedObject"
+//		       toObject:actionsController
+//		    withKeyPath:@"selection.context"
+//			options:nil];
 
 	// Load up correct localisations
 	[whenActionController addObject:
