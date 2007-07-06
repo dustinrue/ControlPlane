@@ -140,8 +140,43 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (void)postContextsChangedNotification
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ContextsChangedNotification" object:self];
+}
 
-	// TODO: other stuff?
+#pragma mark -
+
+// Private: assumes any depths already set in other contexts are correct, except when it's negative
+- (void)recomputeDepthOf:(Context *)context
+{
+	if ([[context valueForKey:@"depth"] intValue] >= 0)
+		return;
+
+	Context *parent = [contexts objectForKey:[context parentUUID]];
+	if (!parent)
+		[context setValue:[NSNumber numberWithInt:0] forKey:@"depth"];
+	else {
+		[self recomputeDepthOf:parent];
+		int depth = [[parent valueForKey:@"depth"] intValue] + 1;
+		[context setValue:[NSNumber numberWithInt:depth] forKey:@"depth"];
+	}
+}
+
+// Private
+- (void)recomputeTransientData
+{
+	// Recalculate depths
+	NSEnumerator *en = [contexts objectEnumerator];
+	Context *ctxt;
+	while ((ctxt = [en nextObject])) {
+		int depth = -1;
+		if ([ctxt isRoot])
+			depth = 0;
+		[ctxt setValue:[NSNumber numberWithInt:depth] forKey:@"depth"];
+	}
+	en = [contexts objectEnumerator];
+	while ((ctxt = [en nextObject])) {
+		if (![ctxt isRoot])
+			[self recomputeDepthOf:ctxt];
+	}
 }
 
 #pragma mark -
@@ -167,6 +202,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		}
 	}
 
+	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 }
 
@@ -187,7 +223,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	Context *ctxt = [[[Context alloc] init] autorelease];
 
 	[contexts setValue:ctxt forKey:[ctxt uuid]];
-	//[outlineView reloadData];
+
+	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 }
 
@@ -197,7 +234,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[ctxt setName:name];
 
 	[contexts setValue:ctxt forKey:[ctxt uuid]];
-	//[outlineView reloadData];
+
+	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 }
 
@@ -253,7 +291,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	}
 
 	[self removeContextRecursively:[ctxt uuid]];
-	//[outlineView reloadData];
+
+	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 	[self outlineViewSelectionDidChange:nil];
 }
@@ -269,22 +308,21 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private
-- (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array asDepth:(int)depth
+- (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array
 {
 	Context *ctxt = [contexts objectForKey:uuid];
 	if (ctxt) {
-		[ctxt setValue:[NSNumber numberWithInt:depth] forKey:@"depth"];
 		[array addObject:ctxt];
 	}
 	NSEnumerator *en = [[self childrenOf:uuid] objectEnumerator];
 	while ((ctxt = [en nextObject]))
-		[self orderedTraversalFrom:[ctxt uuid] into:array asDepth:depth + 1];
+		[self orderedTraversalFrom:[ctxt uuid] into:array];
 }
 
 - (NSArray *)orderedTraversal
 {
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
-	[self orderedTraversalFrom:nil into:array asDepth:-1];
+	[self orderedTraversalFrom:nil into:array];
 	return array;
 }
 
@@ -366,7 +404,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	Context *ctxt = (Context *) item;
 	[ctxt setName:object];
 
-	//[outlineView reloadData];
+	//[self recomputeTransientData];
 	[self postContextsChangedNotification];
 }
 
@@ -385,7 +423,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSString *uuid = [[info draggingPasteboard] stringForType:MovedRowsType];
 	Context *ctxt = [contexts objectForKey:uuid];
 	[ctxt setParentUUID:new_parent_uuid];
-	//[outlineView reloadData];
+
+	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 	[self outlineViewSelectionDidChange:nil];
 
