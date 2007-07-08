@@ -37,6 +37,7 @@
 	NSMutableDictionary *contexts;
 
 	// shouldn't _really_ be here
+	IBOutlet NSWindow *prefsWindow;
 	IBOutlet NSOutlineView *outlineView;
 	Context *selection;
 }

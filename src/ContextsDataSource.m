@@ -271,6 +271,20 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[contexts removeObjectForKey:uuid];
 }
 
+- (void)removeContextAfterAlert:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	Context *ctxt = (Context *) contextInfo;
+
+	if (returnCode != NSAlertFirstButtonReturn)
+		return;		// cancelled
+
+	[self removeContextRecursively:[ctxt uuid]];
+
+	[self recomputeTransientData];
+	[self postContextsChangedNotification];
+	[self outlineViewSelectionDidChange:nil];
+}
+
 - (IBAction)removeContext:(id)sender
 {
 	int row = [outlineView selectedRow];
@@ -281,15 +295,18 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	if ([[self childrenOf:[ctxt uuid]] count] > 0) {
 		// Warn about destroying child contexts
-		NSAlert *alert = [[NSAlert alloc] init];
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert setAlertStyle:NSWarningAlertStyle];
 		[alert setMessageText:NSLocalizedString(@"Removing this context will also remove its child contexts!", "")];
 		[alert setInformativeText:NSLocalizedString(@"This action is not undoable!", @"")];
 		[alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
 		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
 
-		if ([alert runModal] != NSAlertFirstButtonReturn)
-			return;
+		[alert beginSheetModalForWindow:prefsWindow
+				  modalDelegate:self
+				 didEndSelector:@selector(removeContextAfterAlert:returnCode:contextInfo:)
+				    contextInfo:ctxt];
+		return;
 	}
 
 	[self removeContextRecursively:[ctxt uuid]];
