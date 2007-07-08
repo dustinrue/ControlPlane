@@ -91,6 +91,8 @@
 
 @end
 
+#pragma mark -
+#pragma mark -
 
 @implementation ContextsDataSource
 
@@ -220,26 +222,66 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[[NSUserDefaults standardUserDefaults] setObject:array forKey:@"Contexts"];
 }
 
-- (IBAction)newContext:(id)sender
-{
-	Context *ctxt = [[[Context alloc] init] autorelease];
-
-	[contexts setValue:ctxt forKey:[ctxt uuid]];
-
-	[self recomputeTransientData];
-	[self postContextsChangedNotification];
-}
+#pragma mark -
+#pragma mark Context creation via sheet
 
 - (void)newContextWithName:(NSString *)name
 {
 	Context *ctxt = [[[Context alloc] init] autorelease];
 	[ctxt setName:name];
 
-	[contexts setValue:ctxt forKey:[ctxt uuid]];
+	// Look for parent
+	if ([outlineView selectedRow] >= 0)
+		[ctxt setParentUUID:[(Context *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
 
+
+	[contexts setValue:ctxt forKey:[ctxt uuid]];
+	
 	[self recomputeTransientData];
 	[self postContextsChangedNotification];
+
+	if (![ctxt isRoot])
+		[outlineView expandItem:[contexts objectForKey:[ctxt parentUUID]]];
+	[outlineView selectRow:[outlineView rowForItem:ctxt] byExtendingSelection:NO];
+	[self outlineViewSelectionDidChange:nil];
 }
+
+- (IBAction)newContextPromptingForName:(id)sender
+{
+	[newContextSheetName setStringValue:NSLocalizedString(@"New context", @"Default value for new context names")];
+	[newContextSheetName selectText:nil];
+
+	[NSApp beginSheet:newContextSheet
+	   modalForWindow:prefsWindow
+	    modalDelegate:self
+	   didEndSelector:@selector(newContextSheetDidEnd:returnCode:contextInfo:)
+	      contextInfo:nil];
+}
+
+// Triggered by OK button
+- (IBAction)newContextSheetAccepted:(id)sender
+{
+	[NSApp endSheet:newContextSheet returnCode:NSOKButton];
+	[newContextSheet orderOut:nil];
+}
+
+// Triggered by cancel button
+- (IBAction)newContextSheetRejected:(id)sender
+{
+	[NSApp endSheet:newContextSheet returnCode:NSCancelButton];
+	[newContextSheet orderOut:nil];
+}
+
+// Private
+- (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode != NSOKButton)
+		return;
+
+	[self newContextWithName:[newContextSheetName stringValue]];
+}
+
+#pragma mark -
 
 // Private
 - (NSArray *)childrenOf:(NSString *)parent_uuid
@@ -271,6 +313,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[contexts removeObjectForKey:uuid];
 }
 
+// Private
 - (void)removeContextAfterAlert:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	Context *ctxt = (Context *) contextInfo;
@@ -291,7 +334,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if (row < 0)
 		return;
 
-	Context *ctxt = (Context *) [outlineView itemAtRow:[outlineView selectedRow]];
+	Context *ctxt = (Context *) [outlineView itemAtRow:row];
 
 	if ([[self childrenOf:[ctxt uuid]] count] > 0) {
 		// Warn about destroying child contexts

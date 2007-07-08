@@ -10,10 +10,20 @@
         {CLASS = Context; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = ContextSelectionButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
-            ACTIONS = {newContext = id; removeContext = id; }; 
+            ACTIONS = {
+                newContextPromptingForName = id; 
+                newContextSheetAccepted = id; 
+                newContextSheetRejected = id; 
+                removeContext = id; 
+            }; 
             CLASS = ContextsDataSource; 
             LANGUAGE = ObjC; 
-            OUTLETS = {outlineView = NSOutlineView; prefsWindow = NSWindow; }; 
+            OUTLETS = {
+                newContextSheet = NSPanel; 
+                newContextSheetName = NSTextField; 
+                outlineView = NSOutlineView; 
+                prefsWindow = NSWindow; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
         {

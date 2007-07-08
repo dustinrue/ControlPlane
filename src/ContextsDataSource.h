@@ -37,16 +37,21 @@
 	NSMutableDictionary *contexts;
 
 	// shouldn't _really_ be here
-	IBOutlet NSWindow *prefsWindow;
 	IBOutlet NSOutlineView *outlineView;
 	Context *selection;
+
+	IBOutlet NSWindow *prefsWindow;
+	IBOutlet NSPanel *newContextSheet;
+	IBOutlet NSTextField *newContextSheetName;
 }
 
 - (void)loadContexts;
 - (void)saveContexts:(id)arg;
-
-- (IBAction)newContext:(id)sender;
 - (void)newContextWithName:(NSString *)name;
+
+- (IBAction)newContextPromptingForName:(id)sender;
+- (IBAction)newContextSheetAccepted:(id)sender;
+- (IBAction)newContextSheetRejected:(id)sender;
 - (IBAction)removeContext:(id)sender;
 
 - (Context *)contextByUUID:(NSString *)uuid;
