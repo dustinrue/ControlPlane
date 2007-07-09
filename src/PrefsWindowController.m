@@ -229,12 +229,23 @@
 	[prefsWindow makeKeyAndOrderFront:self];
 }
 
-// Doesn't strictly belong here, but this is a convenient place for it
 - (IBAction)runAbout:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
 	[NSApp orderFrontStandardAboutPanelWithOptions:
 		[NSDictionary dictionaryWithObject:@"" forKey:@"Version"]];
+}
+
+- (IBAction)runWebPage:(id)sender
+{
+	NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"MPWebPageURL"]];
+	[[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+- (IBAction)runDonation:(id)sender
+{
+	NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"MPDonationURL"]];
+	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 #pragma mark Prefs group switching
