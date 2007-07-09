@@ -25,13 +25,14 @@
 	IBOutlet ContextSelectionButton *editActionContext;
 
 	// General new stuff hooks
-	IBOutlet NSArrayController *newLocationController;	// XXX: deprecated!
+	//IBOutlet NSArrayController *newLocationController;	// XXX: deprecated!
 
 	// New rule creation hooks
 	IBOutlet NSWindow *newRuleWindow;
 	NSString *newRuleWindowText1;
 	IBOutlet NSArrayController *newRuleParameterController;
 	IBOutlet NSSlider *newRuleConfidenceSlider;
+	IBOutlet NSPopUpButton *newRuleContext;
 
 	// New action creation hooks
 	IBOutlet NSWindow *newActionWindow;

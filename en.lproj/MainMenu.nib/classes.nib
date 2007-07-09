@@ -88,8 +88,8 @@
                 newActionLimitedOptionsController = NSArrayController; 
                 newActionWindow = NSWindow; 
                 newActionWindowParameterView = NSView; 
-                newLocationController = NSArrayController; 
                 newRuleConfidenceSlider = NSSlider; 
+                newRuleContext = NSPopUpButton; 
                 newRuleParameterController = NSArrayController; 
                 newRuleWindow = NSWindow; 
                 prefsWindow = NSWindow; 

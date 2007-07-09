@@ -395,13 +395,14 @@
 	[newRuleWindow setTitle:[NSString stringWithFormat:
 		NSLocalizedString(@"New %@ Rule", @"Window title"), newRuleTypeString]];
 
+	[newRuleContext setMenu:[contextsDataSource hierarchicalMenu]];
+
 	[NSApp activateIgnoringOtherApps:YES];
 	[newRuleWindow makeKeyAndOrderFront:self];
 }
 
 - (IBAction)doAddRule:(id)sender
 {
-	NSString *loc = [[newLocationController selectedObjects] lastObject];
 	NSDictionary *elt = [[newRuleParameterController selectedObjects] lastObject];
 	NSString *parm = [elt objectForKey:@"parameter"];
 	NSString *desc = [elt objectForKey:@"description"];
@@ -409,7 +410,7 @@
 
 	NSMutableDictionary *new_rule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithDouble:conf], @"confidence",
-		loc, @"location",
+		[[newRuleContext selectedItem] representedObject], @"context",
 		parm, @"parameter",
 		[elt objectForKey:@"type"], @"type",
 		desc, @"description",
