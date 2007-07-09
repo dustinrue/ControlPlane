@@ -198,12 +198,9 @@
 	[self switchToView:@"General"];
 
 	// Contexts
+	[defaultContextButton setContextsDataSource:contextsDataSource];
+	[editRuleContextButton setContextsDataSource:contextsDataSource];
 	[editActionContext setContextsDataSource:contextsDataSource];
-	// Bind?
-//	[editActionContext bind:@"selectedObject"
-//		       toObject:actionsController
-//		    withKeyPath:@"selection.context"
-//			options:nil];
 
 	// Load up correct localisations
 	[whenActionController addObject:

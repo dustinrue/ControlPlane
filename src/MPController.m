@@ -50,7 +50,7 @@
 	[appDefaults setValue:[NSNumber numberWithFloat:5.0] forKey:@"UpdateInterval"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"WiFiAlwaysScans"];
 
-	// Sparkle (TODO: make update time configurable)
+	// Sparkle (TODO: make update time configurable?)
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
 
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];

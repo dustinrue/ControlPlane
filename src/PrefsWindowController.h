@@ -22,7 +22,8 @@
 	IBOutlet NSArrayController *whenActionController;
 
 	// Selection controls for rules/actions
-	IBOutlet ContextSelectionButton *editActionContext;
+	IBOutlet ContextSelectionButton *defaultContextButton;
+	IBOutlet ContextSelectionButton *editRuleContextButton, *editActionContext;
 
 	// New rule creation hooks
 	IBOutlet NSWindow *newRuleWindow;

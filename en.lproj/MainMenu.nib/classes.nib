@@ -79,8 +79,10 @@
                 advancedPrefsView = NSView; 
                 contextsDataSource = ContextsDataSource; 
                 contextsPrefsView = NSView; 
+                defaultContextButton = ContextSelectionButton; 
                 drawer = NSDrawer; 
                 editActionContext = ContextSelectionButton; 
+                editRuleContextButton = ContextSelectionButton; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 
                 mpController = MPController; 
