@@ -200,7 +200,7 @@
 	// Contexts
 	[defaultContextButton setContextsDataSource:contextsDataSource];
 	[editRuleContextButton setContextsDataSource:contextsDataSource];
-	[editActionContext setContextsDataSource:contextsDataSource];
+	[editActionContextButton setContextsDataSource:contextsDataSource];
 
 	// Load up correct localisations
 	[whenActionController addObject:

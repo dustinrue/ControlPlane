@@ -81,7 +81,7 @@
                 contextsPrefsView = NSView; 
                 defaultContextButton = ContextSelectionButton; 
                 drawer = NSDrawer; 
-                editActionContext = ContextSelectionButton; 
+                editActionContextButton = ContextSelectionButton; 
                 editRuleContextButton = ContextSelectionButton; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 

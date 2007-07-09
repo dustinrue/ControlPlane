@@ -23,7 +23,7 @@
 
 	// Selection controls for rules/actions
 	IBOutlet ContextSelectionButton *defaultContextButton;
-	IBOutlet ContextSelectionButton *editRuleContextButton, *editActionContext;
+	IBOutlet ContextSelectionButton *editRuleContextButton, *editActionContextButton;
 
 	// New rule creation hooks
 	IBOutlet NSWindow *newRuleWindow;
