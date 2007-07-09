@@ -24,9 +24,6 @@
 	// Selection controls for rules/actions
 	IBOutlet ContextSelectionButton *editActionContext;
 
-	// General new stuff hooks
-	//IBOutlet NSArrayController *newLocationController;	// XXX: deprecated!
-
 	// New rule creation hooks
 	IBOutlet NSWindow *newRuleWindow;
 	NSString *newRuleWindowText1;

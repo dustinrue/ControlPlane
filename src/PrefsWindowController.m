@@ -220,10 +220,6 @@
 
 - (IBAction)runPreferences:(id)sender
 {
-	//[newLocationController removeObjects:[newLocationController arrangedObjects]];
-	//[newLocationController addObjects:[SysConf locationsEnumerate]];
-	//[newLocationController selectNext:self];
-
 	[NSApp activateIgnoringOtherApps:YES];
 	[prefsWindow makeKeyAndOrderFront:self];
 }
