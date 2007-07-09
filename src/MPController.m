@@ -511,7 +511,7 @@
 	}
 
 	if (do_title)
-		[self setStatusTitle:guess];
+		[self setStatusTitle:[[contextsDataSource contextByUUID:guess] name]];
 	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
 
 	if (!do_switch)
