@@ -1,6 +1,5 @@
 #import "Action.h"
 #import "PrefsWindowController.h"
-#import "SysConf.h"
 
 
 // This is here to avoid IB's problem with unknown base classes
@@ -221,9 +220,9 @@
 
 - (IBAction)runPreferences:(id)sender
 {
-	[newLocationController removeObjects:[newLocationController arrangedObjects]];
-	[newLocationController addObjects:[SysConf locationsEnumerate]];
-	[newLocationController selectNext:self];
+	//[newLocationController removeObjects:[newLocationController arrangedObjects]];
+	//[newLocationController addObjects:[SysConf locationsEnumerate]];
+	//[newLocationController selectNext:self];
 
 	[NSApp activateIgnoringOtherApps:YES];
 	[prefsWindow makeKeyAndOrderFront:self];

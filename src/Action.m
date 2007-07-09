@@ -6,7 +6,6 @@
 //
 
 #import "Action.h"
-#import "SysConf.h"
 
 
 @implementation Action

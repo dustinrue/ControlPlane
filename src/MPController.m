@@ -11,7 +11,6 @@
 #import "ContextsDataSource.h"
 #import "EvidenceSource.h"
 #import "MPController.h"
-#import "SysConf.h"
 
 #import "NetworkLocationAction.h"
 
