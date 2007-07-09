@@ -512,8 +512,7 @@
 
 	if (do_title)
 		[self setStatusTitle:guess];
-	//[self setValue:guess forKey:@"guessedLocation"];	// XXX: is this needed?
-	[self setValue:guessConfidenceString forKey:@"guessedConfidence"];
+	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
 
 	if (!do_switch)
 		return;
