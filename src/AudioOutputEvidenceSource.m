@@ -61,6 +61,8 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 		return;
 	}
 
+	[self doRealUpdate];
+
 	running = YES;
 }
 
