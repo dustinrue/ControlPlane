@@ -7,7 +7,7 @@ Adding a new EVIDENCE SOURCE
 (2) Create an Objective-C class called "FooEvidenceSource" in the same style as the other sources
 (3) Add mention of it in MPController.m, around line 33:
 	- [appDefaults setValue:@"YES" forKey:@"EnableFooEvidenceSource"];
-(4) Add mention of it in the three places in EvidenceSource.m, from ~ line 202:
+(4) Add mention of it in the three places in EvidenceSource.m, from ~ line 207:
 	- #import "FooEvidenceSource.h"
 	- [FooEvidenceSource class],
 	- NSLocalizedString(@"Foo", @"Evidence source");
