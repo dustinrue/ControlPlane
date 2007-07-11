@@ -32,9 +32,6 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 	source = nil;
 	[self setDataCollected:NO];
 
-	if (sourceEnabled)
-		[self start];
-
 	return self;
 }
 
@@ -72,7 +69,8 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 	if (!running)
 		return;
 
-	// TODO: unregister listener
+	// Unregister listener; I don't know what we could do if this fails ...
+	AudioDeviceRemovePropertyListener(deviceID, 0, 0, kAudioDevicePropertyDataSource, &sourceChange);
 
 	if (source) {
 		[source release];
@@ -85,15 +83,6 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 
 - (void)doRealUpdate
 {
-	if (!sourceEnabled) {
-		if (source) {
-			[source release];
-			source = nil;
-		}
-		[self setDataCollected:NO];
-		return;
-	}
-
 	UInt32 sourceID;
 	UInt32 sz = sizeof(sourceID);
 	if (AudioDeviceGetProperty(deviceID, 0, 0, kAudioDevicePropertyDataSource, &sz, &sourceID) != noErr) {
@@ -120,6 +109,14 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 - (void)doUpdate
 {
 	// Placeholder
+
+	if (!sourceEnabled) {
+		if (running)
+			[self stop];
+	} else {
+		if (!running)
+			[self start];
+	}
 }
 
 - (NSString *)name
