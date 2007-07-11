@@ -204,6 +204,7 @@
 
 #pragma mark -
 
+#import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
@@ -221,6 +222,7 @@
 		return nil;
 
 	NSArray *classes = [NSArray arrayWithObjects:
+		[AudioOutputEvidenceSource class],
 		[BluetoothEvidenceSource class],
 		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
@@ -232,6 +234,7 @@
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
+		NSLocalizedString(@"AudioOutput", @"Evidence source");
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
@@ -242,7 +245,7 @@
 		NSLocalizedString(@"WiFi", @"Evidence source");
 	}
 
-	// Build proper source list
+	// Instantiate all the evidence sources
 	NSMutableArray *srclist = [[NSMutableArray alloc] initWithCapacity:[classes count]];
 	NSEnumerator *en = [classes objectEnumerator];
 	Class klass;

@@ -20,7 +20,7 @@
 		return nil;
 
 	status = nil;
-	[self setDataCollected:YES];
+	[self setDataCollected:NO];
 
 	return self;
 }
@@ -36,6 +36,7 @@
 {
 	if (!sourceEnabled) {
 		status = nil;
+		[self setDataCollected:NO];
 		return;
 	}
 
@@ -58,6 +59,7 @@
 		status = @"Battery";
 	else
 		status = @"A/C";
+	[self setDataCollected:YES];
 }
 
 - (NSString *)name

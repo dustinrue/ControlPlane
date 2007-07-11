@@ -33,6 +33,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"HideStatusBarIcon"];
 
 	// TODO: spin these into the EvidenceSourceSetController?
+	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableAudioOutputEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableBluetoothEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableFireWireEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableIPEvidenceSource"];
@@ -390,13 +391,13 @@
 	}
 
 	// Update current context
+	[self setValue:toUUID forKey:@"currentContextUUID"];
+	ctxt = [contextsDataSource contextByUUID:toUUID];
+	[self setValue:[ctxt name] forKey:@"currentContextName"];
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
-			  [[entering_walk lastObject] name], guessConfidence]];
-	ctxt = [contextsDataSource contextByUUID:toUUID];
-	[self setValue:toUUID forKey:@"currentContextUUID"];
-	[self setValue:[ctxt name] forKey:@"currentContextName"];
+			currentContextName, guessConfidence]];
 
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
@@ -475,6 +476,7 @@
 	BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
 	if (!do_title)
 		[self setStatusTitle:nil];
+	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
 
 	BOOL no_guess = NO;
 	if (!guess) {
@@ -484,7 +486,7 @@
 		no_guess = YES;
 	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
 #ifdef DEBUG_MODE
-		NSLog(@"Guess of '%@' isn't confident enough: only %@.\n", guess, guessConfidenceString);
+		NSLog(@"Guess of '%@' isn't confident enough: only %@.\n", guessString, guessConfidenceString);
 #endif
 		no_guess = YES;
 	}
@@ -498,6 +500,7 @@
 		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
 		guessConfidenceString = NSLocalizedString(@"as default context",
 							  @"Appended to a context-change notification");
+		guessString = [[contextsDataSource contextByUUID:guess] name];
 	}
 
 	BOOL do_switch = YES;
@@ -506,12 +509,12 @@
 	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
 		do_switch = NO;
 #ifdef DEBUG_MODE
-		NSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextUUID, guess);
+		NSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 #endif
 	}
 
 	if (do_title)
-		[self setStatusTitle:[[contextsDataSource contextByUUID:guess] name]];
+		[self setStatusTitle:guessString];
 	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
 
 	if (!do_switch)
@@ -519,7 +522,7 @@
 
 	if ([guess isEqualToString:currentContextUUID]) {
 #ifdef DEBUG_MODE
-		NSLog(@"Guessed '%@' (%@); already there.\n", guess, guessConfidenceString);
+		NSLog(@"Guessed '%@' (%@); already there.\n", guessString, guessConfidenceString);
 #endif
 		return;
 	}

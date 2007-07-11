@@ -20,6 +20,7 @@
 		8D232F800BD9D228006A3963 /* GeneralPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232F7F0BD9D228006A3963 /* GeneralPrefs.tiff */; };
 		8D232FB50BD9D507006A3963 /* ActionsPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB30BD9D507006A3963 /* ActionsPrefs.tiff */; };
 		8D232FB60BD9D507006A3963 /* RulesPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB40BD9D507006A3963 /* RulesPrefs.tiff */; };
+		8D27ECB00C4456A300AE1929 /* AudioOutputEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */; };
 		8D341CD30C0459D0008A7B4F /* RunningApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */; };
 		8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3453C20C18E5C1006011D0 /* IChatAction.m */; };
 		8D35A30D0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */; };
@@ -31,6 +32,7 @@
 		8D4DBDC30BE1E3C00024DEA0 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4DBDC20BE1E3C00024DEA0 /* gear.png */; };
 		8D514D3F0BE994A10013C1ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D514D3E0BE994A10013C1ED /* Localizable.strings */; };
 		8D5684B50C38711D00881E32 /* MonitorEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */; };
+		8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D57B1430C4457AB00EC620D /* CoreAudio.framework */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
 		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
 		8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CAED0C17BA7900E56526 /* ToggleableAction.m */; };
@@ -114,6 +116,8 @@
 		8D232F7F0BD9D228006A3963 /* GeneralPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GeneralPrefs.tiff; path = graphics/GeneralPrefs.tiff; sourceTree = "<group>"; };
 		8D232FB30BD9D507006A3963 /* ActionsPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ActionsPrefs.tiff; path = graphics/ActionsPrefs.tiff; sourceTree = "<group>"; };
 		8D232FB40BD9D507006A3963 /* RulesPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = RulesPrefs.tiff; path = graphics/RulesPrefs.tiff; sourceTree = "<group>"; };
+		8D27ECAD0C4456A300AE1929 /* AudioOutputEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AudioOutputEvidenceSource.h; path = src/AudioOutputEvidenceSource.h; sourceTree = "<group>"; };
+		8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AudioOutputEvidenceSource.m; path = src/AudioOutputEvidenceSource.m; sourceTree = "<group>"; };
 		8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RunningApplicationEvidenceSource.h; path = src/RunningApplicationEvidenceSource.h; sourceTree = "<group>"; };
 		8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationEvidenceSource.m; path = src/RunningApplicationEvidenceSource.m; sourceTree = "<group>"; };
 		8D3453C10C18E5C1006011D0 /* IChatAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IChatAction.h; path = src/IChatAction.h; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 		8D514D120BE98CCF0013C1ED /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonitorEvidenceSource.h; path = src/MonitorEvidenceSource.h; sourceTree = "<group>"; };
 		8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MonitorEvidenceSource.m; path = src/MonitorEvidenceSource.m; sourceTree = "<group>"; };
+		8D57B1430C4457AB00EC620D /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = src/ToggleWiFiAction.h; sourceTree = "<group>"; };
 		8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleWiFiAction.m; path = src/ToggleWiFiAction.m; sourceTree = "<group>"; };
 		8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkLocationAction.h; path = src/NetworkLocationAction.h; sourceTree = "<group>"; };
@@ -204,6 +209,7 @@
 				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
 				8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
+				8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +316,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
 				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
 				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
@@ -346,6 +353,8 @@
 		8DAD148E0BBCA40700F93914 /* Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8D27ECAD0C4456A300AE1929 /* AudioOutputEvidenceSource.h */,
+				8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */,
 				8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */,
 				8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */,
 				8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */,
@@ -528,6 +537,7 @@
 				8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */,
 				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
 				8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */,
+				8D27ECB00C4456A300AE1929 /* AudioOutputEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
