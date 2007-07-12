@@ -13,7 +13,6 @@
 	NSLock *lock;
 	NSMutableArray *devices;
 
-	BOOL initialStage;
 	IONotificationPortRef notificationPort;
 	CFRunLoopSourceRef runLoopSource;
 	io_iterator_t addedIterator, removedIterator;
@@ -22,7 +21,9 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)doUpdate;
+- (void)start;
+- (void)stop;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSArray *)getSuggestions;

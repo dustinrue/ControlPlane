@@ -58,6 +58,7 @@
 		8DCBF60C0BE5C4E400A01414 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8DCBF60B0BE5C4E400A01414 /* Credits.rtf */; };
 		8DCC52120C42106D00515041 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
+		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
 		8DEF428F0BAA05D300F87273 /* MarcoPolo Help in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8DEF42780BAA05CD00F87273 /* MarcoPolo Help */; };
 		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; };
@@ -526,6 +527,7 @@
 				8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */,
 				8D27ECB00C4456A300AE1929 /* AudioOutputEvidenceSource.m in Sources */,
 				8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */,
+				8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

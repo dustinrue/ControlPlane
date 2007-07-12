@@ -166,7 +166,7 @@
 
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
-//#import "FireWireEvidenceSource.h"
+#import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
 //#import "MonitorEvidenceSource.h"
 //#import "PowerEvidenceSource.h"
@@ -184,7 +184,7 @@
 	NSArray *classes = [NSArray arrayWithObjects:
 		[AudioOutputEvidenceSource class],
 		[BluetoothEvidenceSource class],
-//		[FireWireEvidenceSource class],
+		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
 //		[MonitorEvidenceSource class],
 //		[PowerEvidenceSource class],
