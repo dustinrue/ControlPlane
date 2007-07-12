@@ -167,7 +167,7 @@
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 //#import "FireWireEvidenceSource.h"
-//#import "IPEvidenceSource.h"
+#import "IPEvidenceSource.h"
 //#import "MonitorEvidenceSource.h"
 //#import "PowerEvidenceSource.h"
 //#import "RunningApplicationEvidenceSource.h"
@@ -185,7 +185,7 @@
 		[AudioOutputEvidenceSource class],
 		[BluetoothEvidenceSource class],
 //		[FireWireEvidenceSource class],
-//		[IPEvidenceSource class],
+		[IPEvidenceSource class],
 //		[MonitorEvidenceSource class],
 //		[PowerEvidenceSource class],
 //		[RunningApplicationEvidenceSource class],

@@ -31,6 +31,7 @@
 		8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D57B1430C4457AB00EC620D /* CoreAudio.framework */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
 		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
+		8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */; };
 		8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CAED0C17BA7900E56526 /* ToggleableAction.m */; };
 		8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */; };
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
@@ -524,6 +525,7 @@
 				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
 				8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */,
 				8D27ECB00C4456A300AE1929 /* AudioOutputEvidenceSource.m in Sources */,
+				8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,7 @@
 @interface IPEvidenceSource : EvidenceSource {
 	NSLock *lock;
 	NSMutableArray *addresses;
+	BOOL running;
 
 	// For SystemConfiguration asynchronous notifications
 	SCDynamicStoreRef store;
@@ -22,8 +23,12 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)doUpdate;
-- (void)doUpdateWithArg:(id)arg;	// purely for asynchronous updates
+- (void)doFullUpdate:(id)sender;
+
+- (void)start;
+- (void)stop;
+- (BOOL)isRunning;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;

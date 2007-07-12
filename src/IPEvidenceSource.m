@@ -18,7 +18,9 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 #endif
 	IPEvidenceSource *src = (IPEvidenceSource *) info;
 
-	[NSThread detachNewThreadSelector:@selector(doUpdateWithArg:)
+	// This is spun off into a separate thread because DNS delays, etc., would
+	// hold up the main thread, causing UI hanging.
+	[NSThread detachNewThreadSelector:@selector(doFullUpdate:)
 				 toTarget:src
 			       withObject:nil];
 }
@@ -33,37 +35,13 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	lock = [[NSLock alloc] init];
 	addresses = [[NSMutableArray alloc] init];
 
-	// Register for asynchronous notifications
-	SCDynamicStoreContext ctxt;
-	ctxt.version = 0;
-	ctxt.info = self;
-	ctxt.retain = NULL;
-	ctxt.release = NULL;
-	ctxt.copyDescription = NULL;
-
-	store = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), ipChange, &ctxt);
-	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
-	NSArray *keys = [NSArray arrayWithObjects:
-				@"State:/Network/Global/IPv4",
-				//@"State:/Network/Interface/en0/Link",
-				nil];
-	SCDynamicStoreSetNotificationKeys(store, (CFArrayRef) keys, NULL);
-	// TODO: catch errors
-
 	return self;
 }
 
 - (void)dealloc
 {
-	[super blockOnThread];
-
 	[lock dealloc];
 	[addresses dealloc];
-
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
-	CFRelease(runLoop);
-	CFRelease(store);
 
 	[super dealloc];
 }
@@ -100,29 +78,76 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	return subset;
 }
 
-- (void)doUpdate
+- (void)doFullUpdate:(id)sender
 {
 	NSArray *addrs;
 
-	if (/*sourceEnabled*/ 1) {
-		addrs = [[self class] enumerate];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	addrs = [[self class] enumerate];
 #ifdef DEBUG_MODE
-		NSLog(@"%@ >> found %d address(s).\n", [self class], [addrs count]);
+	NSLog(@"%@ >> found %d address(s).\n", [self class], [addrs count]);
 #endif
-	} else
-		addrs = [NSArray array];
 
 	[lock lock];
 	[addresses setArray:addrs];
 	[self setDataCollected:[addresses count] > 0];
 	[lock unlock];
+
+	[pool release];
 }
 
-- (void)doUpdateWithArg:(id)arg
+- (void)start
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self doUpdate];
-	[pool release];
+	if (running)
+		return;
+
+	// Register for asynchronous notifications
+	SCDynamicStoreContext ctxt;
+	ctxt.version = 0;
+	ctxt.info = self;
+	ctxt.retain = NULL;
+	ctxt.release = NULL;
+	ctxt.copyDescription = NULL;
+
+	store = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), ipChange, &ctxt);
+	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
+	NSArray *keys = [NSArray arrayWithObjects:
+					  @"State:/Network/Global/IPv4",
+					//@"State:/Network/Interface/en0/Link",
+		nil];
+	SCDynamicStoreSetNotificationKeys(store, (CFArrayRef) keys, NULL);
+	// TODO: catch errors
+
+	// (see comment in ipChange function to see why we don't call it directly)
+	[NSThread detachNewThreadSelector:@selector(doFullUpdate:)
+				 toTarget:self
+			       withObject:nil];
+
+	running = YES;
+}
+
+- (void)stop
+{
+	if (!running)
+		return;
+
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
+	CFRelease(runLoop);
+	CFRelease(store);
+
+	[lock lock];
+	[addresses removeAllObjects];
+	[self setDataCollected:NO];
+	[lock unlock];
+
+	running = NO;
+}
+
+- (BOOL)isRunning
+{
+	return running;
 }
 
 - (NSString *)name
