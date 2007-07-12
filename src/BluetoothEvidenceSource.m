@@ -21,7 +21,6 @@
 	if (!(self = [super init]))
 		return nil;
 
-	running = NO;
 	lock = [[NSLock alloc] init];
 	devices = [[NSMutableArray alloc] init];
 
@@ -147,11 +146,6 @@
 //	// Bluetooth calls to be made from the main thread
 //	[self performSelectorOnMainThread:@selector(doUpdateForReal) withObject:nil waitUntilDone:YES];
 //}
-
-- (BOOL)isRunning
-{
-	return running;
-}
 
 - (NSString *)name
 {

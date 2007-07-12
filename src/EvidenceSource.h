@@ -9,6 +9,7 @@
 
 
 @interface EvidenceSource : NSObject {
+	BOOL running;
 	BOOL dataCollected;
 	BOOL startAfterSleep;
 }
@@ -21,11 +22,11 @@
 
 - (BOOL)dataCollected;
 - (void)setDataCollected:(BOOL)collected;
+- (BOOL)isRunning;
 
 // To be implemented by descendant classes:
 - (void)start;
 - (void)stop;
-- (BOOL)isRunning;
 
 // To be implemented by descendant classes:
 // TODO: some of these could be class methods

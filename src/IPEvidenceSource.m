@@ -145,11 +145,6 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	running = NO;
 }
 
-- (BOOL)isRunning
-{
-	return running;
-}
-
 - (NSString *)name
 {
 	return @"IP";

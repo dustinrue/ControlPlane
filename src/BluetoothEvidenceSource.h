@@ -11,7 +11,6 @@
 
 
 @interface BluetoothEvidenceSource : EvidenceSource {
-	BOOL running;
 	NSLock *lock;
 	NSMutableArray *devices;
 	IOBluetoothDeviceInquiry *inq;
@@ -23,7 +22,6 @@
 
 - (void)start;
 - (void)stop;
-- (BOOL)isRunning;
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;

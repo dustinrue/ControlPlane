@@ -20,6 +20,7 @@
 	if (!(self = [super init]))
 		return nil;
 
+	running = NO;
 	dataCollected = NO;	// or use KVO?
 	startAfterSleep = NO;
 
@@ -110,6 +111,11 @@
 	dataCollected = collected;
 }
 
+- (BOOL)isRunning
+{
+	return running;
+}
+
 - (void)notImplemented:(NSString *)methodName
 {
 	[NSException raise:@"Abstract Class Exception"
@@ -152,12 +158,6 @@
 - (void)stop
 {
 	[self notImplemented:@"stop"];
-}
-
-- (BOOL)isRunning
-{
-	[self notImplemented:@"isRunning"];
-	return NO;
 }
 
 @end

@@ -13,7 +13,6 @@
 @interface IPEvidenceSource : EvidenceSource {
 	NSLock *lock;
 	NSMutableArray *addresses;
-	BOOL running;
 
 	// For SystemConfiguration asynchronous notifications
 	SCDynamicStoreRef store;
@@ -27,7 +26,6 @@
 
 - (void)start;
 - (void)stop;
-- (BOOL)isRunning;
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;

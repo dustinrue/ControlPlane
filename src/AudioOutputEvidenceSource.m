@@ -28,7 +28,6 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 	if (!(self = [super init]))
 		return nil;
 
-	running = NO;
 	source = nil;
 	[self setDataCollected:NO];
 
@@ -135,11 +134,6 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 	[self setDataCollected:NO];
 
 	running = NO;
-}
-
-- (BOOL)isRunning
-{
-	return running;
 }
 
 @end

@@ -11,7 +11,6 @@
 
 
 @interface AudioOutputEvidenceSource : EvidenceSource {
-	BOOL running;
 	AudioDeviceID deviceID;
 	NSString *source;
 }
@@ -23,7 +22,6 @@
 
 - (void)start;
 - (void)stop;
-- (BOOL)isRunning;
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
