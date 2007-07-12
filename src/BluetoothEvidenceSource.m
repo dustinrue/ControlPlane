@@ -92,6 +92,11 @@
 #endif
 	[inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
 
+	[lock lock];
+	[devices removeAllObjects];
+	[self setDataCollected:NO];
+	[lock unlock];
+
 	running = NO;
 }
 
