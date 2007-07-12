@@ -37,12 +37,66 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 
 - (void)dealloc
 {
-	[super blockOnThread];
-
 	if (source)
 		[source release];
 
 	[super dealloc];
+}
+
+- (void)doRealUpdate
+{
+	UInt32 sourceID;
+	UInt32 sz = sizeof(sourceID);
+	if (AudioDeviceGetProperty(deviceID, 0, 0, kAudioDevicePropertyDataSource, &sz, &sourceID) != noErr) {
+		NSLog(@"%@ >> AudioDeviceGetProperty failed!", [self class]);
+		return;
+	}
+
+	char raw[5] = { (sourceID >> 24) & 0xFF, (sourceID >> 16) & 0xFF, (sourceID >> 8) & 0xFF, sourceID & 0xFF, 0 };
+	NSString *newSource = [[NSString stringWithCString:raw encoding:NSMacOSRomanStringEncoding] retain];
+	if (source)
+		[source autorelease];
+	source = newSource;
+	[self setDataCollected:YES];
+
+#ifdef DEBUG_MODE
+	NSLog(@"%@ >> Got 0x%08x (%@)", [self class], sourceID, source);
+#endif
+
+	// 0x6973706b ('ispk') => Internal speakers
+	// 0x6864706e ('hdpn') => Headphones
+	// ... any others? (see IOAudioPortSubtypes enum)
+}
+
+- (NSString *)name
+{
+	return @"AudioOutput";
+}
+
+- (BOOL)doesRuleMatch:(NSDictionary *)rule
+{
+	if (!source)
+		return NO;
+	return [[rule objectForKey:@"parameter"] isEqualToString:source];
+}
+
+- (NSString *)getSuggestionLeadText:(NSString *)type
+{
+	return NSLocalizedString(@"Audio output going to", @"In rule-adding dialog");
+}
+
+- (NSArray *)getSuggestions
+{
+	return [NSArray arrayWithObjects:
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			@"AudioOutput", @"type",
+			@"ispk", @"parameter",
+			NSLocalizedString(@"Internal speakers", @""), @"description", nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			@"AudioOutput", @"type",
+			@"hdpn", @"parameter",
+			NSLocalizedString(@"Headphones", @""), @"description", nil],
+		nil];
 }
 
 - (void)start
@@ -83,73 +137,9 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 	running = NO;
 }
 
-- (void)doRealUpdate
+- (BOOL)isRunning
 {
-	UInt32 sourceID;
-	UInt32 sz = sizeof(sourceID);
-	if (AudioDeviceGetProperty(deviceID, 0, 0, kAudioDevicePropertyDataSource, &sz, &sourceID) != noErr) {
-		NSLog(@"%@ >> AudioDeviceGetProperty failed!", [self class]);
-		return;
-	}
-
-	char raw[5] = { (sourceID >> 24) & 0xFF, (sourceID >> 16) & 0xFF, (sourceID >> 8) & 0xFF, sourceID & 0xFF, 0 };
-	NSString *newSource = [[NSString stringWithCString:raw encoding:NSMacOSRomanStringEncoding] retain];
-	if (source)
-		[source autorelease];
-	source = newSource;
-	[self setDataCollected:YES];
-
-#ifdef DEBUG_MODE
-	NSLog(@"%@ >> Got 0x%08x (%@)", [self class], sourceID, source);
-#endif
-
-	// 0x6973706b ('ispk') => Internal speakers
-	// 0x6864706e ('hdpn') => Headphones
-	// ... any others? (see IOAudioPortSubtypes enum)
-}
-
-- (void)doUpdate
-{
-	// Placeholder
-
-	if (!sourceEnabled) {
-		if (running)
-			[self stop];
-	} else {
-		if (!running)
-			[self start];
-	}
-}
-
-- (NSString *)name
-{
-	return @"AudioOutput";
-}
-
-- (BOOL)doesRuleMatch:(NSDictionary *)rule
-{
-	if (!source)
-		return NO;
-	return [[rule objectForKey:@"parameter"] isEqualToString:source];
-}
-
-- (NSString *)getSuggestionLeadText:(NSString *)type
-{
-	return NSLocalizedString(@"Audio output going to", @"In rule-adding dialog");
-}
-
-- (NSArray *)getSuggestions
-{
-	return [NSArray arrayWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"AudioOutput", @"type",
-			@"ispk", @"parameter",
-			NSLocalizedString(@"Internal speakers", @""), @"description", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"AudioOutput", @"type",
-			@"hdpn", @"parameter",
-			NSLocalizedString(@"Headphones", @""), @"description", nil],
-		nil];
+	return running;
 }
 
 @end

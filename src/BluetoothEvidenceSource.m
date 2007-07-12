@@ -21,19 +21,20 @@
 	if (!(self = [super init]))
 		return nil;
 
+	running = NO;
 	lock = [[NSLock alloc] init];
 	devices = [[NSMutableArray alloc] init];
 
 	inq = [[IOBluetoothDeviceInquiry inquiryWithDelegate:self] retain];
 	[inq setUpdateNewDeviceNames:TRUE];
+	holdTimer = nil;
+	cleanupTimer = nil;
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[super blockOnThread];
-
 	[lock dealloc];
 	[devices dealloc];
 	[inq release];
@@ -41,17 +42,71 @@
 	[super dealloc];
 }
 
-- (void)goingToSleep:(id)arg
+- (void)start
 {
-	[inq stop];
-	[super goingToSleep:arg];
+	if (running)
+		return;
+
+	if (IOBluetoothPreferenceGetControllerPowerState()) {
+#ifdef DEBUG_MODE
+		NSLog(@"%s starting inq", __PRETTY_FUNCTION__);
+#endif
+		[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+	} else {
+		// Various things mysteriously break if we run the inquiry while bluetooth is not on, so we run a
+		// timer, waiting for it to turn back on
+#ifdef DEBUG_MODE
+		NSLog(@"%s starting hold timer", __PRETTY_FUNCTION__);
+#endif
+		holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5
+							     target:self
+							   selector:@selector(holdTimerPoll:)
+							   userInfo:nil
+							    repeats:YES];
+	}
+
+	cleanupTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
+							target:self
+						      selector:@selector(cleanupTimerPoll:)
+						      userInfo:nil
+						       repeats:YES];
+
+	running = YES;
 }
 
-- (void)wakeFromSleep:(id)arg
+- (void)stop
 {
-	[super wakeFromSleep:arg];
-	if (sourceEnabled && IOBluetoothPreferenceGetControllerPowerState())
-		[inq start];
+	if (!running)
+		return;
+
+	[cleanupTimer invalidate];	// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
+
+	if (holdTimer) {
+#ifdef DEBUG_MODE
+		NSLog(@"%s stopping hold timer", __PRETTY_FUNCTION__);
+#endif
+		[holdTimer invalidate];		// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
+		holdTimer = nil;
+	}
+#ifdef DEBUG_MODE
+	NSLog(@"%s stopping inq", __PRETTY_FUNCTION__);
+#endif
+	[inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
+
+	running = NO;
+}
+
+- (void)holdTimerPoll:(NSTimer *)timer
+{
+	if (!IOBluetoothPreferenceGetControllerPowerState())
+		return;
+
+#ifdef DEBUG_MODE
+	NSLog(@"%s stopping hold timer, starting inq", __PRETTY_FUNCTION__);
+#endif
+	[holdTimer invalidate];
+	holdTimer = nil;
+	[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
 }
 
 // Returns a string (set to auto-release), or nil.
@@ -64,18 +119,9 @@
 	return name;
 }
 
-- (void)doUpdateForReal
+- (void)cleanupTimerPoll:(NSTimer *)timer
 {
-	if (!sourceEnabled || !IOBluetoothPreferenceGetControllerPowerState()) {
-		[inq stop];
-		[lock lock];
-		[devices removeAllObjects];
-		[self setDataCollected:NO];
-		[lock unlock];
-		return;
-	}
-
-	// Go through list and remove all expired devices
+	// Go through list to remove all expired devices
 	[lock lock];
 	NSEnumerator *en = [devices objectEnumerator];
 	NSDictionary *dev;
@@ -90,23 +136,21 @@
 	[lock unlock];
 
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> know of %d device(s)", [self class], [devices count]);
+	NSLog(@"%@ >> know of %d device(s)%s", [self class], [devices count], holdTimer ? " -- hold timer running" : "");
 	//NSLog(@"%@ >> know about %d paired device(s), too", [self class], [[IOBluetoothDevice pairedDevices] count]);
-#endif
-
-	// Start/restart inquiry if needed
-	IOReturn rc = [inq start];
-#ifdef DEBUG_MODE
-	if ((rc != kIOReturnSuccess) && (rc != kIOReturnBusy))
-		NSLog(@"%@ >> -[inq start] returned 0x%x!", [self class], rc);
 #endif
 }
 
-- (void)doUpdate
+//- (void)doUpdate
+//{
+//	// Silly Apple made the IOBluetooth framework non-thread-safe, and require all
+//	// Bluetooth calls to be made from the main thread
+//	[self performSelectorOnMainThread:@selector(doUpdateForReal) withObject:nil waitUntilDone:YES];
+//}
+
+- (BOOL)isRunning
 {
-	// Silly Apple made the IOBluetooth framework non-thread-safe, and require all
-	// Bluetooth calls to be made from the main thread
-	[self performSelectorOnMainThread:@selector(doUpdateForReal) withObject:nil waitUntilDone:YES];
+	return running;
 }
 
 - (NSString *)name
@@ -235,19 +279,27 @@
 			error:(IOReturn)error
 		      aborted:(BOOL)aborted
 {
-	if (!sourceEnabled || !IOBluetoothPreferenceGetControllerPowerState()) {
-		[lock lock];
-		[devices removeAllObjects];
-		[self setDataCollected:NO];
-		[lock unlock];
+	if (error != kIOReturnSuccess) {
+#ifdef DEBUG_MODE
+		NSLog(@"%s error=0x%08x", __PRETTY_FUNCTION__, error);
+#endif
+		// Problem! Could just be that Bluetooth has been turned off
+		[cleanupTimer invalidate];
+		running = NO;
+		[self start];
 		return;
 	}
 
-	[sender clearFoundDevices];
-	IOReturn rc = [sender start];
 #ifdef DEBUG_MODE
+	NSLog(@"%s succeeded", __PRETTY_FUNCTION__);
+#endif
+	[sender clearFoundDevices];
+#ifdef DEBUG_MODE
+	IOReturn rc = [sender start];
 	if (rc != kIOReturnSuccess)
 		NSLog(@"%@ >> -[inq start] returned 0x%x!", [self class], rc);
+#else
+	[sender start];
 #endif
 }
 

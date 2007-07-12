@@ -51,4 +51,6 @@
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
 
+- (void)userDefaultsChanged:(NSNotification *)notification;
+
 @end

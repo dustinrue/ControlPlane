@@ -7,33 +7,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum {
-	ES_NOT_STARTED = 0,
-	ES_STARTING,
-	ES_IDLE,
-	ES_UPDATING,	// Either an update is required, or it's time to die
-	ES_FINISHED,
-	ES_SLEEPING
-} EvidenceSourceState;
 
 @interface EvidenceSource : NSObject {
-	NSThread *thread;
-
-	NSConditionLock *threadCond;
-	BOOL timeToDie;
-	int wakeUpCounter;
-	BOOL sourceEnabled, dataCollected;
-	NSTimer *updateTimer;
-
-	NSAutoreleasePool *threadPool;
-	NSTimeInterval updateInterval;
-	NSString *defaultsEnabledKey;
+	BOOL dataCollected;
+	BOOL startAfterSleep;
 }
 
 - (id)init;
 - (void)dealloc;
-- (void)startThread;
-- (void)blockOnThread;	// Should be called by descendant -dealloc methods first!
 - (void)goingToSleep:(id)arg;
 - (void)wakeFromSleep:(id)arg;
 - (BOOL)matchesRulesOfType:(NSString *)type;
@@ -42,19 +23,20 @@ typedef enum {
 - (void)setDataCollected:(BOOL)collected;
 
 // To be implemented by descendant classes:
+- (void)start;
+- (void)stop;
+- (BOOL)isRunning;
+
+// To be implemented by descendant classes:
 // TODO: some of these could be class methods
-- (void)doUpdate;
 - (NSString *)name;
-- (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
-- (NSString *)getSuggestionLeadText:(NSString *)type;	// optional; default is "The presence of"
 - (NSArray *)getSuggestions;	// NSArray of NSDictionary: keys are type, parameter, description
 
-@end
+// Optionally implemented by descendant classes
+- (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
+- (NSString *)getSuggestionLeadText:(NSString *)type;	// optional; default is "The presence of"
 
-@protocol EvidenceSourceThatGrowls
-- (BOOL)growls;
-- (void)setGrowls:(BOOL)growls;
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +48,7 @@ typedef enum {
 }
 
 - (EvidenceSource *)sourceWithName:(NSString *)name;
-- (void)startAll;
+- (void)startOrStopAll;
 - (BOOL)ruleMatches:(NSDictionary *)rule;
 - (NSArray *)getSuggestionsFromSource:(NSString *)name ofType:(NSString *)type;		// type may be nil
 - (NSEnumerator *)sourceEnumerator;

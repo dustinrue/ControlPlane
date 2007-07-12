@@ -20,16 +20,8 @@
 	if (!(self = [super init]))
 		return nil;
 
-	thread = nil;
-	threadCond = [[NSConditionLock alloc] initWithCondition:ES_NOT_STARTED];
-	timeToDie = NO;
-	wakeUpCounter = 0;
-	sourceEnabled = NO;
-	[self setDataCollected:NO];
-	updateInterval = (NSTimeInterval) 10;
-	updateTimer = nil;
-
-	defaultsEnabledKey = [[NSString alloc] initWithFormat:@"Enable%@EvidenceSource", [self name]];
+	dataCollected = NO;	// or use KVO?
+	startAfterSleep = NO;
 
 	// Get notified when we go to sleep, and wake from sleep
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
@@ -46,54 +38,52 @@
 
 - (void)dealloc
 {
-	[defaultsEnabledKey dealloc];
-
 	[super dealloc];
 }
 
-- (void)startThread
-{
-	if (![threadCond tryLockWhenCondition:ES_NOT_STARTED]) {
-		NSLog(@"WARNING: (%@) Thread already running!\n", [self class]);
-		return;
-	}
-
-	[NSThread detachNewThreadSelector:@selector(runThread:)
-				 toTarget:self
-			       withObject:nil];
-	[threadCond unlockWithCondition:ES_STARTING];
-
-	// Wait until started, then start an update timer, and get an update happening immediately
-	[threadCond lockWhenCondition:ES_IDLE];
-	updateTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval
-						       target:self
-						     selector:@selector(timerPoll:)
-						     userInfo:nil
-						      repeats:YES];
-	[threadCond unlockWithCondition:ES_UPDATING];
-}
-
-- (void)blockOnThread
-{
-	[threadCond lockWhenCondition:ES_IDLE];
-	timeToDie = YES;
-	[threadCond unlockWithCondition:ES_UPDATING];
-
-	// Wait until finished
-	[threadCond lockWhenCondition:ES_FINISHED];
-	[threadCond unlock];
-}
+//- (void)startThread
+//{
+//	if (![threadCond tryLockWhenCondition:ES_NOT_STARTED]) {
+//		NSLog(@"WARNING: (%@) Thread already running!\n", [self class]);
+//		return;
+//	}
+//
+//	[NSThread detachNewThreadSelector:@selector(runThread:)
+//				 toTarget:self
+//			       withObject:nil];
+//	[threadCond unlockWithCondition:ES_STARTING];
+//
+//	// Wait until started, then start an update timer, and get an update happening immediately
+//	[threadCond lockWhenCondition:ES_IDLE];
+//	updateTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval
+//						       target:self
+//						     selector:@selector(timerPoll:)
+//						     userInfo:nil
+//						      repeats:YES];
+//	[threadCond unlockWithCondition:ES_UPDATING];
+//}
+//
+//- (void)blockOnThread
+//{
+//	[threadCond lockWhenCondition:ES_IDLE];
+//	timeToDie = YES;
+//	[threadCond unlockWithCondition:ES_UPDATING];
+//
+//	// Wait until finished
+//	[threadCond lockWhenCondition:ES_FINISHED];
+//	[threadCond unlock];
+//}
 
 - (void)goingToSleep:(id)arg
 {
 #ifdef DEBUG_MODE
 	NSLog(@"%@ >> About to go to sleep!", [self class]);
 #endif
-	// This was to fix #45 (MarcoPolo preventing sleep),
-	// but seemed to cause #58 (hanging when waking from sleep).
-	//[threadCond lockWhenCondition:ES_IDLE];
-	[threadCond lock];
-	[threadCond unlockWithCondition:ES_SLEEPING];
+	if ([self isRunning]) {
+		startAfterSleep = YES;
+		[self stop];
+	} else
+		startAfterSleep = NO;
 }
 
 - (void)wakeFromSleep:(id)arg
@@ -101,11 +91,8 @@
 #ifdef DEBUG_MODE
 	NSLog(@"%@ >> Just woke from sleep!", [self class]);
 #endif
-	wakeUpCounter = 2;
-	if (![threadCond tryLockWhenCondition:ES_SLEEPING])
-		return;		// already updating?
-
-	[threadCond unlockWithCondition:ES_UPDATING];
+	if (startAfterSleep)
+		[self start];
 }
 
 - (BOOL)matchesRulesOfType:(NSString *)type
@@ -123,53 +110,10 @@
 	dataCollected = collected;
 }
 
-- (void)timerPoll:(NSTimer *)timer
-{
-	if (![threadCond tryLockWhenCondition:ES_IDLE])
-		return;		// already updating?
-
-	[threadCond unlockWithCondition:ES_UPDATING];
-}
-
-- (void)runThread:(id)arg
-{
-	[threadCond lockWhenCondition:ES_STARTING];
-	thread = [NSThread currentThread];
-	threadPool = [[NSAutoreleasePool alloc] init];
-	[threadCond unlockWithCondition:ES_IDLE];
-
-	while (1) {
-		[threadCond lockWhenCondition:ES_UPDATING];
-		if (timeToDie)
-			break;
-
-		sourceEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:defaultsEnabledKey];
-
-		[self doUpdate];
-
-		// Flush auto-release pool
-		[threadPool release];
-		threadPool = [[NSAutoreleasePool alloc] init];
-
-		if (wakeUpCounter > 0)
-			--wakeUpCounter;
-
-		[threadCond unlockWithCondition:ES_IDLE];
-	}
-
-	[threadPool release];
-	[threadCond unlockWithCondition:ES_FINISHED];
-}
-
 - (void)notImplemented:(NSString *)methodName
 {
 	[NSException raise:@"Abstract Class Exception"
 		    format:[NSString stringWithFormat:@"Error, -%@ not implemented.", methodName]];
-}
-
-- (void)doUpdate
-{
-	[self notImplemented:@"doUpdate"];
 }
 
 - (NSString *)name
@@ -200,19 +144,35 @@
 	return nil;
 }
 
+- (void)start
+{
+	[self notImplemented:@"start"];
+}
+
+- (void)stop
+{
+	[self notImplemented:@"stop"];
+}
+
+- (BOOL)isRunning
+{
+	[self notImplemented:@"isRunning"];
+	return NO;
+}
+
 @end
 
 #pragma mark -
 
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
-#import "FireWireEvidenceSource.h"
-#import "IPEvidenceSource.h"
-#import "MonitorEvidenceSource.h"
-#import "PowerEvidenceSource.h"
-#import "RunningApplicationEvidenceSource.h"
-#import "USBEvidenceSource.h"
-#import "WiFiEvidenceSource.h"
+//#import "FireWireEvidenceSource.h"
+//#import "IPEvidenceSource.h"
+//#import "MonitorEvidenceSource.h"
+//#import "PowerEvidenceSource.h"
+//#import "RunningApplicationEvidenceSource.h"
+//#import "USBEvidenceSource.h"
+//#import "WiFiEvidenceSource.h"
 
 @implementation EvidenceSourceSetController
 
@@ -224,13 +184,13 @@
 	NSArray *classes = [NSArray arrayWithObjects:
 		[AudioOutputEvidenceSource class],
 		[BluetoothEvidenceSource class],
-		[FireWireEvidenceSource class],
-		[IPEvidenceSource class],
-		[MonitorEvidenceSource class],
-		[PowerEvidenceSource class],
-		[RunningApplicationEvidenceSource class],
-		[USBEvidenceSource class],
-		[WiFiEvidenceSource class],
+//		[FireWireEvidenceSource class],
+//		[IPEvidenceSource class],
+//		[MonitorEvidenceSource class],
+//		[PowerEvidenceSource class],
+//		[RunningApplicationEvidenceSource class],
+//		[USBEvidenceSource class],
+//		[WiFiEvidenceSource class],
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -283,9 +243,18 @@
 	return nil;
 }
 
-- (void)startAll
+- (void)startOrStopAll
 {
-	[sources makeObjectsPerformSelector:@selector(startThread)];
+	NSEnumerator *en = [sources objectEnumerator];
+	EvidenceSource *src;
+	while ((src = [en nextObject])) {
+		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
+		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
+		if (enabled && ![src isRunning])
+			[src start];
+		else if (!enabled && [src isRunning])
+			[src stop];
+	}
 }
 
 - (BOOL)ruleMatches:(NSDictionary *)rule

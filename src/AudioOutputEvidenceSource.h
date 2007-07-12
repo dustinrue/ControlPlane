@@ -19,12 +19,12 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)start;
-- (void)stop;
-
 - (void)doRealUpdate;
 
-- (void)doUpdate;
+- (void)start;
+- (void)stop;
+- (BOOL)isRunning;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;

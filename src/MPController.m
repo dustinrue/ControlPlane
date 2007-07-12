@@ -116,6 +116,11 @@
 						   object:contextsDataSource];
 	[self contextsChanged:nil];
 
+	[[NSNotificationCenter defaultCenter] addObserver:self
+						 selector:@selector(userDefaultsChanged:)
+						     name:@"NSUserDefaultsDidChangeNotification"
+						   object:nil];
+
 	// Set up status bar.
 	[self showInStatusBar:self];
 
@@ -123,8 +128,8 @@
 				 toTarget:self
 			       withObject:nil];
 
-	// Start up evidence sources
-	[evidenceSources startAll];
+	// Start up evidence sources that should be started
+	[evidenceSources startOrStopAll];
 
 	// Schedule a one-off timer (in 2s) to get initial data.
 	// Future recurring timers will be set automatically from there.
@@ -568,6 +573,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma mark -
 #pragma mark Growl delegates
 
 - (NSDictionary *) registrationDictionaryForGrowl
@@ -605,6 +611,14 @@
 	}
 
 	return YES;
+}
+
+#pragma mark NSUserDefaults notifications
+
+- (void)userDefaultsChanged:(NSNotification *)notification
+{
+	// Check that the running evidence sources match the defaults
+	[evidenceSources startOrStopAll];
 }
 
 @end
