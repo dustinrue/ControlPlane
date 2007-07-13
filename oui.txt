@@ -1603,7 +1603,7 @@
 00-06-41   	ITCN
 00-06-42   	Genetel Systems Inc.
 00-06-43   	SONO Computer Co., Ltd.
-00-06-44   	NEIX Inc.
+00-06-44   	Digital Technologies Corporation
 00-06-45   	Meisei Electric Co. Ltd.
 00-06-46   	ShenZhen XunBao Network Technology Co Ltd
 00-06-47   	Etrali S.A.
@@ -7404,6 +7404,76 @@
 00-1D-12   	ROHM CO., LTD.
 00-1D-13   	NextGTV
 00-1D-14   	SPERADTONE INFORMATION TECHNOLOGY LIMITED
+00-1D-15   	Shenzhen Dolphin Electronic Co., Ltd
+00-1D-16   	Efixo
+00-1D-17   	Digital Sky Corporation
+00-1D-18   	Power Innovation GmbH
+00-1D-19   	Arcadyan Technology Corporation
+00-1D-1A   	OvisLink S.A.
+00-1D-1B   	Sangean Electronics Inc.
+00-1D-1C   	Gennet s.a.
+00-1D-1D   	Inter-M Corporation
+00-1D-1E   	KYUSHU TEN CO.,LTD
+00-1D-1F   	Siauliu Tauro Televizoriai, JSC
+00-1D-20   	COMTREND CO.
+00-1D-21   	Alcad S.A.
+00-1D-22   	Foss Analytical A/S
+00-1D-23   	SENSUS METERING SYSTEMS
+00-1D-24   	DCSI
+00-1D-25   	Samsung Electronics Co.,Ltd
+00-1D-26   	Rockridgesound Technology Co.
+00-1D-27   	NAC-INTERCOM
+00-1D-28   	Sony Ericsson Mobile Communications AB
+00-1D-29   	Doro AB
+00-1D-2A   	Tideway Electronic LTD
+00-1D-2B   	Wuhan Pont Technology CO. , LTD
+00-1D-2C   	Wavetrend Technologies (Pty) Limited
+00-1D-2D   	Pylone, Inc.
+00-1D-2E   	Ruckus Wireless
+00-1D-2F   	QuantumVision Corporation
+00-1D-30   	YX Wireless S.A.
+00-1D-31   	HIGHPRO INTERNATIONAL R&D CO,.LTD.
+00-1D-32   	Longkay Communication & Technology (Shanghai) Co. Ltd
+00-1D-33   	Maverick Systems Inc.
+00-1D-34   	SYRIS Technology Corp
+00-1D-35   	Viconics Electronics Inc.
+00-1D-36   	ELECTRONICS CORPORATION OF INDIA LIMITED
+00-1D-37   	Thales-Panda Transportation System
+00-1D-38   	Seagate Technology
+00-1D-39   	MOOHADIGITAL CO., LTD
+00-1D-3A   	mh acoustics LLC
+00-1D-3B   	Nokia Danmark A/S
+00-1D-3C   	Muscle Corporation
+00-1D-3D   	Avidyne Corporation
+00-1D-3E   	SAKA TECHNO SCIENCE CO.,LTD
+00-1D-3F   	Mitron Pty Ltd
+00-1D-40   	Living Independently Group, Inc.
+00-1D-41   	Hardy Instruments
+00-1D-42   	Nortel
+00-1D-43   	Shenzhen G-link Digital Technology Co., Ltd.
+00-1D-44   	Krohne
+00-1D-45   	Cisco Systems
+00-1D-46   	Cisco Systems
+00-1D-47   	Covote GmbH & Co KG
+00-1D-48   	Sensor-Technik Wiedemann GmbH
+00-1D-49   	Innovation Wireless Inc.
+00-1D-4A   	Carestream Health, Inc.
+00-1D-4B   	Grid Connect Inc.
+00-1D-4C   	Alcatel-Lucent
+00-1D-4D   	Adaptive Recognition Hungary, Inc
+00-1D-4E   	TCM Mobile LLC
+00-1D-4F   	Apple Inc
+00-1D-50   	SPINETIX SA
+00-1D-51   	GE Energy
+00-1D-52   	Defzone B.V.
+00-1D-53   	SHARP-ROXY CORP.(M) SDN. BHD.
+00-1D-54   	Sunnic Technology & Merchandise INC.
+00-1D-55   	ZANTAZ, Inc
+00-1D-56   	Kramer Electronics Ltd.
+00-1D-57   	CAETEC Messtechnik
+00-1D-58   	CQ Inc
+00-1D-59   	CHEROKEE INTERNATIONAL
+00-1D-5A   	2Wire Inc.
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
