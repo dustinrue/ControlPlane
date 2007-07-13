@@ -21,8 +21,6 @@
 	// Initialize suggestions (they're fixed)
 	[self initSuggestions];
 
-	[self setDataCollected:NO];
-
 	// Find the IO service
 	kern_return_t kr;
 	io_service_t serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault,  IOServiceMatching("AppleLMUController"));  
@@ -32,34 +30,38 @@
 		IOObjectRelease(serviceObject);
 	}
 
-	if (!serviceObject || kr != KERN_SUCCESS) {
+	if (!serviceObject || (kr != KERN_SUCCESS))
 		ioPort = nil;
-	}
 
 	return self;
 }
 
-- (void)dealloc {
-	[super blockOnThread];
+- (void)dealloc
+{
 	[suggestions release];
-	[lock dealloc];
+	[lock release];
+
 	[super dealloc];
 }
 
-- (void)doUpdate {
+- (void)doUpdate
+{
 	[lock lock];
-	if (!sourceEnabled || ioPort == nil) {
-		[self setDataCollected:NO];
-	} else {
-		// Read from the sensor device - index 0, 0 inputs, 2 outputs
-		kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
 
-		[self setDataCollected: (kr == KERN_SUCCESS)];
-	}
+	// Read from the sensor device - index 0, 0 inputs, 2 outputs
+	kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
+	[self setDataCollected:(kr == KERN_SUCCESS)];
+
 	[lock unlock];
 }
 
-- (NSString *)name {
+- (void)clearCollectedData
+{
+	[self setDataCollected:NO];
+}
+
+- (NSString *)name
+{
 	return @"Light";
 }
 
@@ -68,7 +70,8 @@
 	return NSLocalizedString(@"A light level", @"In rule-adding dialog");
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule {
+- (BOOL)doesRuleMatch:(NSDictionary *)rule
+{
 	int percentageLevel = [[rule valueForKey:@"parameter"] intValue];
 
 	// FIXME(rdamazio): This value is probably incorrect
@@ -85,26 +88,28 @@
 		    (percentageLevel < 0 && currentLevelPercentage < -percentageLevel));
 }
 
-- (NSArray *)getSuggestions {
+- (NSArray *)getSuggestions
+{
 	return suggestions;
 }
 
-- (void)initSuggestions {
+- (void)initSuggestions
+{
+	if (suggestions)
+		return;
+	
 	static int kLevelPercentages[] = { 10, 25, 50, 75, 90 };
 	static int kLevelPercentageCount = 5;
 
-	if (suggestions)
-		return;
-
 	// In this collection, we use positive numbers to represent "above" and negative ones to represent "below"
-	NSMutableArray* levels = [NSMutableArray arrayWithCapacity:kLevelPercentageCount * 2];
+	NSMutableArray *levels = [[NSMutableArray arrayWithCapacity:kLevelPercentageCount * 2] retain];
 	int i;
 	for (i = 0; i < kLevelPercentageCount; ++i) {
 		int level = kLevelPercentages[i];
 
 		[levels addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 			@"Light", @"type",
-			[NSNumber numberWithInt: level], @"parameter",
+			[NSNumber numberWithInt:level], @"parameter",
 			[NSString localizedStringWithFormat:@"above %d%%", level], @"description",
 			nil]];
 	}
@@ -114,12 +119,11 @@
 
 		[levels addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 			@"Light", @"type",
-			[NSNumber numberWithInt: -level], @"parameter",
+			[NSNumber numberWithInt:-level], @"parameter",
 			[NSString localizedStringWithFormat:@"below %d%%", level], @"description",
 			nil]];
 	}
 
-	[levels retain];
 	suggestions = levels;
 }
 

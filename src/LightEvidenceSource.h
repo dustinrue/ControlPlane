@@ -9,22 +9,24 @@
 #import <IOKit/IOTypes.h>
 #import "EvidenceSource.h"
 
-@interface LightEvidenceSource : EvidenceSource {
-	NSLock* lock;
+@interface LightEvidenceSource : LoopingEvidenceSource {
+	NSLock *lock;
 	io_connect_t ioPort;
 	int leftLight, rightLight;
-	NSArray* suggestions;
+	NSArray *suggestions;
 }
 
 - (id)init;
 - (void)dealloc;
 
 - (void)doUpdate;
+- (void)clearCollectedData;
+
 - (NSString *)name;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSArray *)getSuggestions;
 
-- (void)initSuggestions;
+- (void)initSuggestions;	// internal
 
 @end
