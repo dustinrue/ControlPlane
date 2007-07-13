@@ -196,12 +196,7 @@
 	}
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-#ifdef DEBUG_MODE
-	NSLog(@"%@ updating...", [self class]);
-#endif
 	[self performSelector:@selector(doUpdate)];
-
 	[pool release];
 }
 
