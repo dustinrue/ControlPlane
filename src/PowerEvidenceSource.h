@@ -11,12 +11,16 @@
 
 @interface PowerEvidenceSource : EvidenceSource {
 	NSString *status;
+	CFRunLoopSourceRef runLoopSource;
 }
 
 - (id)init;
-- (void)dealloc;
 
-- (void)doUpdate;
+- (void)doFullUpdate;	// internal
+
+- (void)start;
+- (void)stop;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;

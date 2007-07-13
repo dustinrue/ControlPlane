@@ -40,38 +40,13 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	lock = [[NSLock alloc] init];
 	devices = [[NSMutableArray alloc] init];
 
-	notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
-	runLoopSource = IONotificationPortGetRunLoopSource(notificationPort);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
-
-	CFDictionaryRef matchDict = IOServiceMatching(kIOUSBDeviceClassName);
-	matchDict = CFRetain(matchDict);	// we use it twice
-
-	IOServiceAddMatchingNotification(notificationPort, kIOMatchedNotification,
-					 matchDict, devAdded, (void *) self,
-					 &addedIterator);
-	IOServiceAddMatchingNotification(notificationPort, kIOTerminatedNotification,
-					 matchDict, devRemoved, (void *) self,
-					 &removedIterator);
-
-	// Prime notifications
-	[self devAdded:addedIterator];
-	[self devRemoved:removedIterator];
-
 	return self;
 }
 
 - (void)dealloc
 {
-	[super blockOnThread];
-
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
-	IONotificationPortDestroy(notificationPort);
-	IOObjectRelease(addedIterator);
-	IOObjectRelease(removedIterator);
-
-	[lock dealloc];
-	[devices dealloc];
+	[lock release];
+	[devices release];
 
 	[super dealloc];
 }
@@ -279,19 +254,58 @@ end_of_device_handling:
 
 #pragma mark Update stuff
 
-- (void)doUpdate
+- (void)doFullUpdate
 {
-	if (sourceEnabled) {
-		[self enumerateAll];		// be on the safe side
+	[self enumerateAll];		// be on the safe side
 #ifdef DEBUG_MODE
-		NSLog(@"%@ >> found %d devices\n", [self class], [devices count]);
+	NSLog(@"%@ >> found %d devices\n", [self class], [devices count]);
 #endif
-	} else {
-		[lock lock];
-		[devices removeAllObjects];
-		[self setDataCollected:NO];
-		[lock unlock];
-	}
+}
+
+- (void)start
+{
+	if (running)
+		return;
+
+	notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
+	runLoopSource = IONotificationPortGetRunLoopSource(notificationPort);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
+
+	CFDictionaryRef matchDict = IOServiceMatching(kIOUSBDeviceClassName);
+	matchDict = CFRetain(matchDict);	// we use it twice
+
+	IOServiceAddMatchingNotification(notificationPort, kIOMatchedNotification,
+					 matchDict, devAdded, (void *) self,
+					 &addedIterator);
+	IOServiceAddMatchingNotification(notificationPort, kIOTerminatedNotification,
+					 matchDict, devRemoved, (void *) self,
+					 &removedIterator);
+
+	// Prime notifications
+	[self devAdded:addedIterator];
+	[self devRemoved:removedIterator];
+
+	[self doFullUpdate];
+
+	running = YES;
+}
+
+- (void)stop
+{
+	if (!running)
+		return;
+
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
+	IONotificationPortDestroy(notificationPort);
+	IOObjectRelease(addedIterator);
+	IOObjectRelease(removedIterator);
+
+	[lock lock];
+	[devices removeAllObjects];
+	[self setDataCollected:NO];
+	[lock unlock];
+
+	running = NO;
 }
 
 - (NSString *)name

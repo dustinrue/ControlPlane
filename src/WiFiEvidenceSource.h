@@ -9,15 +9,20 @@
 #import "EvidenceSource.h"
 
 
-@interface WiFiEvidenceSource : EvidenceSource {
+@interface WiFiEvidenceSource : LoopingEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *apList;
+	int wakeUpCounter;
 }
 
 - (id)init;
 - (void)dealloc;
 
+- (void)wakeFromSleep:(id)arg;
+
 - (void)doUpdate;
+- (void)clearCollectedData;
+
 - (NSString *)name;
 - (NSArray *)typesOfRulesMatched;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;

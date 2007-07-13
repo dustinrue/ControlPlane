@@ -29,7 +29,6 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 		return nil;
 
 	source = nil;
-	[self setDataCollected:NO];
 
 	return self;
 }

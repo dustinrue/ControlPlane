@@ -18,18 +18,22 @@
 
 	lock = [[NSLock alloc] init];
 	apList = [[NSMutableArray alloc] init];
+	wakeUpCounter = 0;
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[super blockOnThread];
-
-	[lock dealloc];
-	[apList dealloc];
+	[lock release];
+	[apList release];
 
 	[super dealloc];
+}
+
+- (void)wakeFromSleep:(id)arg
+{
+	wakeUpCounter = 2;
 }
 
 static NSString *macToString(const UInt8 *mac)
@@ -41,9 +45,6 @@ static NSString *macToString(const UInt8 *mac)
 - (void)doUpdate
 {
 	NSMutableArray *all_aps = [NSMutableArray array];
-
-	if (!sourceEnabled)
-		goto end_of_scan;
 
 	if (!WirelessIsAvailable())
 		goto end_of_scan;
@@ -68,8 +69,12 @@ static NSString *macToString(const UInt8 *mac)
 		do_scan = NO;
 	}
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"] || (wakeUpCounter > 0))
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"])
 		do_scan = YES;
+	if (wakeUpCounter > 0) {
+		do_scan = YES;
+		--wakeUpCounter;
+	}
 
 	// NOTE: Use WirelessScanSplit if we want to cleanly ignore ad-hoc networks
 	// NOTE: won't return duplicate SSIDs
@@ -99,7 +104,6 @@ static NSString *macToString(const UInt8 *mac)
 			ssid, @"SSID", mac, @"MAC", nil]];
 	}
 
-	//[list release];	// Releasing causes a crash. Yay for undocumented private interfaces!
 	WirelessDetach(wctxt);
 
 end_of_scan:
@@ -107,9 +111,16 @@ end_of_scan:
 	[apList setArray:all_aps];
 	[self setDataCollected:[apList count] > 0];
 #ifdef DEBUG_MODE
-	if (sourceEnabled)
-		NSLog(@"%@ >> %@", [self class], apList);
+	NSLog(@"%@ >> %@", [self class], apList);
 #endif
+	[lock unlock];
+}
+
+- (void)clearCollectedData
+{
+	[lock lock];
+	[apList removeAllObjects];
+	[self setDataCollected:NO];
 	[lock unlock];
 }
 

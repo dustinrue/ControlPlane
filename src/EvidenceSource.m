@@ -164,15 +164,89 @@
 
 #pragma mark -
 
+@implementation LoopingEvidenceSource
+
+- (id)init
+{
+	if (!(self = [super init]))
+		return nil;
+
+	loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
+	loopTimer = nil;
+
+	return self;
+}
+
+- (void)dealloc
+{
+	if (loopTimer)
+		[self stop];
+
+	[super dealloc];
+}
+
+// Private
+- (void)loopTimerPoll:(NSTimer *)timer
+{
+	if (timer) {
+		[NSThread detachNewThreadSelector:@selector(loopTimerPoll:)
+					 toTarget:self
+				       withObject:nil];
+		return;
+	}
+
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+#ifdef DEBUG_MODE
+	NSLog(@"%@ updating...", [self class]);
+#endif
+	[self performSelector:@selector(doUpdate)];
+
+	[pool release];
+}
+
+- (void)start
+{
+	if (running)
+		return;
+
+	loopTimer = [NSTimer scheduledTimerWithTimeInterval:loopInterval
+						     target:self
+						   selector:@selector(loopTimerPoll:)
+						   userInfo:nil
+						    repeats:YES];
+	[self loopTimerPoll:loopTimer];
+
+	running = YES;
+}
+
+- (void)stop
+{
+	if (!running)
+		return;
+
+	[loopTimer invalidate];
+	loopTimer = nil;
+
+	[self performSelector:@selector(clearCollectedData)];
+	[self setDataCollected:NO];
+
+	running = NO;
+}
+
+@end
+
+#pragma mark -
+
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
-//#import "MonitorEvidenceSource.h"
-//#import "PowerEvidenceSource.h"
-//#import "RunningApplicationEvidenceSource.h"
-//#import "USBEvidenceSource.h"
-//#import "WiFiEvidenceSource.h"
+#import "MonitorEvidenceSource.h"
+#import "PowerEvidenceSource.h"
+#import "RunningApplicationEvidenceSource.h"
+#import "USBEvidenceSource.h"
+#import "WiFiEvidenceSource.h"
 
 @implementation EvidenceSourceSetController
 
@@ -186,11 +260,11 @@
 		[BluetoothEvidenceSource class],
 		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
-//		[MonitorEvidenceSource class],
-//		[PowerEvidenceSource class],
-//		[RunningApplicationEvidenceSource class],
-//		[USBEvidenceSource class],
-//		[WiFiEvidenceSource class],
+		[MonitorEvidenceSource class],
+		[PowerEvidenceSource class],
+		[RunningApplicationEvidenceSource class],
+		[USBEvidenceSource class],
+		[WiFiEvidenceSource class],
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'

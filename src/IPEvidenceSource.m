@@ -40,8 +40,8 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 - (void)dealloc
 {
-	[lock dealloc];
-	[addresses dealloc];
+	[lock release];
+	[addresses release];
 
 	[super dealloc];
 }

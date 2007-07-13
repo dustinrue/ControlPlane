@@ -40,6 +40,24 @@
 
 @end
 
+// A few evidence sources just need to continuously loop
+@interface LoopingEvidenceSource : EvidenceSource {
+	NSTimeInterval loopInterval;
+	NSTimer *loopTimer;
+}
+
+- (id)init;	// can be overridden by descendant classes to change loopInterval
+- (void)dealloc;
+
+- (void)start;
+- (void)stop;
+
+// should be implemented by descendant classes
+//- (void)doUpdate;
+//- (void)clearCollectedData;
+
+@end
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 @interface EvidenceSourceSetController : NSObject {

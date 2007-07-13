@@ -93,8 +93,8 @@
 
 - (void)dealloc
 {
-	[updatingSwitchingLock dealloc];
-	[updatingLock dealloc];
+	[updatingSwitchingLock release];
+	[updatingLock release];
 
 	[super dealloc];
 }

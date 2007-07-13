@@ -45,8 +45,8 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 
 - (void)dealloc
 {
-	[lock dealloc];
-	[devices dealloc];
+	[lock release];
+	[devices release];
 
 	[super dealloc];
 }

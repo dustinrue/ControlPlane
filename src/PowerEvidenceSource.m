@@ -12,6 +12,16 @@
 #import "PowerEvidenceSource.h"
 
 
+static void sourceChange(void *info)
+{
+#ifdef DEBUG_MODE
+	NSLog(@"%s woo!", __PRETTY_FUNCTION__);
+#endif
+	PowerEvidenceSource *src = (PowerEvidenceSource *) info;
+
+	[src doFullUpdate];
+}
+
 @implementation PowerEvidenceSource
 
 - (id)init
@@ -20,26 +30,12 @@
 		return nil;
 
 	status = nil;
-	[self setDataCollected:NO];
 
 	return self;
 }
 
-- (void)dealloc
+- (void)doFullUpdate
 {
-	[super blockOnThread];
-
-	[super dealloc];
-}
-
-- (void)doUpdate
-{
-	if (!sourceEnabled) {
-		status = nil;
-		[self setDataCollected:NO];
-		return;
-	}
-
 	CFTypeRef blob = IOPSCopyPowerSourcesInfo();
 	NSArray *list = (NSArray *) IOPSCopyPowerSourcesList(blob);
 	[list autorelease];
@@ -60,6 +56,35 @@
 	else
 		status = @"A/C";
 	[self setDataCollected:YES];
+}
+
+- (void)start
+{
+	if (running)
+		return;
+
+	// register for notifications
+	runLoopSource = IOPSNotificationCreateRunLoopSource(sourceChange, self);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
+
+	[self doFullUpdate];
+
+	running = YES;
+}
+
+- (void)stop
+{
+	if (!running)
+		return;
+
+	// remove notification registration
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
+	CFRelease(runLoopSource);
+
+	status = nil;
+	[self setDataCollected:NO];
+
+	running = NO;
 }
 
 - (NSString *)name

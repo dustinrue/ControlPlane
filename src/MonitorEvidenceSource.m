@@ -24,24 +24,14 @@
 
 - (void)dealloc
 {
-	[super blockOnThread];
-
-	[lock dealloc];
-	[monitors dealloc];
+	[lock release];
+	[monitors release];
 
 	[super dealloc];
 }
 
 - (void)doUpdate
 {
-	if (!sourceEnabled) {
-		[lock lock];
-		[monitors removeAllObjects];
-		[self setDataCollected:NO];
-		[lock unlock];
-		return;
-	}
-
 	CGDirectDisplayID displays[4];
 	CGDisplayCount numDisplays = -1;
 
@@ -87,6 +77,14 @@
 	[lock lock];
 	[monitors setArray:display_array];
 	[self setDataCollected:[monitors count] > 0];
+	[lock unlock];
+}
+
+- (void)clearCollectedData
+{
+	[lock lock];
+	[monitors removeAllObjects];
+	[self setDataCollected:NO];
 	[lock unlock];
 }
 

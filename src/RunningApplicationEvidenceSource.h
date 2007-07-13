@@ -17,7 +17,9 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)doUpdate;
+- (void)start;
+- (void)stop;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;

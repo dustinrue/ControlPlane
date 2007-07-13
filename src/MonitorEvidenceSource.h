@@ -9,7 +9,7 @@
 #import "EvidenceSource.h"
 
 
-@interface MonitorEvidenceSource : EvidenceSource {
+@interface MonitorEvidenceSource : LoopingEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *monitors;
 }
@@ -18,6 +18,8 @@
 - (void)dealloc;
 
 - (void)doUpdate;
+- (void)clearCollectedData;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;

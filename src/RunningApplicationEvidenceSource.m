@@ -23,19 +23,13 @@
 
 - (void)dealloc
 {
-	[super blockOnThread];
+	[applications release];
 
 	[super dealloc];
 }
 
-- (void)doUpdate
+- (void)doFullUpdate
 {
-	if (!sourceEnabled) {
-		[applications removeAllObjects];
-		[self setDataCollected:NO];
-		return;
-	}
-
 	NSArray *app_list = [[NSWorkspace sharedWorkspace] launchedApplications];
 	NSMutableArray *apps = [[NSMutableArray alloc] initWithCapacity:[app_list count]];
 	NSEnumerator *en = [app_list objectEnumerator];
@@ -54,6 +48,44 @@
 	//NSLog(@"Running apps:\n%@", applications);
 #endif
 	[lock unlock];
+}
+
+- (void)start
+{
+	if (running)
+		return;
+
+	// register for notifications
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+							       selector:@selector(doFullUpdate)
+								   name:NSWorkspaceDidLaunchApplicationNotification
+								 object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+							       selector:@selector(doFullUpdate)
+								   name:NSWorkspaceDidTerminateApplicationNotification
+								 object:nil];
+
+	[self doFullUpdate];
+
+	running = YES;
+}
+
+- (void)stop
+{
+	if (!running)
+		return;
+
+	// remove notifications
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
+								      name:nil
+								    object:nil];
+
+	[lock lock];
+	[applications removeAllObjects];
+	[self setDataCollected:NO];
+	[lock unlock];
+
+	running = NO;
 }
 
 - (NSString *)name

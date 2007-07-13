@@ -34,8 +34,8 @@
 
 - (void)dealloc
 {
-	[lock dealloc];
-	[devices dealloc];
+	[lock release];
+	[devices release];
 	[inq release];
 
 	[super dealloc];
