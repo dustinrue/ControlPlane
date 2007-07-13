@@ -23,7 +23,7 @@
 
 	// Find the IO service
 	kern_return_t kr;
-	io_service_t serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault,  IOServiceMatching("AppleLMUController"));  
+	io_service_t serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleLMUController"));  
 	if (serviceObject) {
 		// Open the IO service
 		kr = IOServiceOpen(serviceObject, mach_task_self(), 0, &ioPort);
@@ -32,6 +32,9 @@
 
 	if (!serviceObject || (kr != KERN_SUCCESS))
 		ioPort = nil;
+
+	// We want this to update more regularly than every 10 seconds!
+	loopInterval = (NSTimeInterval) 3;
 
 	return self;
 }
@@ -51,6 +54,9 @@
 	// Read from the sensor device - index 0, 0 inputs, 2 outputs
 	kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
 	[self setDataCollected:(kr == KERN_SUCCESS)];
+#ifdef DEBUG_MODE	
+	NSLog(@"%@ >> Current light level: L:%d R:%d.\n", [self class], leftLight, rightLight);
+#endif
 
 	[lock unlock];
 }
@@ -79,10 +85,6 @@
 	[lock lock];
 	int currentLevelPercentage = (leftLight + rightLight) * 100 / kMaxLightValue;
 	[lock unlock];
-
-#ifdef DEBUG_MODE	
-	NSLog(@"%@ >> Current light level: %d%%.\n", [self class], currentLevelPercentage);
-#endif
 
 	return ((percentageLevel > 0 && currentLevelPercentage > percentageLevel) ||
 		    (percentageLevel < 0 && currentLevelPercentage < -percentageLevel));

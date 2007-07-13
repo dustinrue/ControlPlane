@@ -242,6 +242,7 @@
 #import "BluetoothEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
+#import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
 #import "PowerEvidenceSource.h"
 #import "RunningApplicationEvidenceSource.h"
@@ -260,6 +261,7 @@
 		[BluetoothEvidenceSource class],
 		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
+		[LightEvidenceSource class],
 		[MonitorEvidenceSource class],
 		[PowerEvidenceSource class],
 		[RunningApplicationEvidenceSource class],
@@ -272,6 +274,7 @@
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
+		NSLocalizedString(@"Light", @"Evidence source");
 		NSLocalizedString(@"Monitor", @"Evidence source");
 		NSLocalizedString(@"Power", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
