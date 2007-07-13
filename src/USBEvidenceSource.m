@@ -212,44 +212,10 @@ end_of_device_handling:
 
 - (void)devRemoved:(io_iterator_t)iterator
 {
-#if 0
-	io_service_t device;
-	while ((device = IOIteratorNext(iterator))) {
-		// Get USB vendor ID and product ID
-		UInt16 vendor_id;
-		UInt16 product_id;
-		if (![[self class] usbDetailsForDevice:&device outVendor:&vendor_id outProduct:&product_id]) {
-			NSLog(@"USB >> failed getting details!\n");
-			goto end_of_device_handling;
-		}
-
-		// Remove from list
-		[lock lock];
-		NSEnumerator *en = [devices objectEnumerator];
-		NSDictionary *elt;
-		unsigned int index = 0;
-		while (elt = [en nextObject]) {
-			if (([[elt objectForKey:@"vendor_id"] intValue] == vendor_id) &&
-			    ([[elt objectForKey:@"product_id"] intValue] == product_id)) {
-				[devices removeObjectAtIndex:index];
-				goto end_of_search;
-			}
-			++index;
-		}
-		NSLog(@"USB >> didn't know device; weird!\n");
-end_of_search:
-		[self setDataCollected:[devices count] > 0];
-		[lock unlock];
-
-end_of_device_handling:
-		IOObjectRelease(device);
-	}
-#else
 	io_service_t device;
 	while ((device = IOIteratorNext(iterator)))
 		IOObjectRelease(device);
 	[self enumerateAll];
-#endif
 }
 
 #pragma mark Update stuff
