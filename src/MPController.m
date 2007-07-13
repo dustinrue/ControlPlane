@@ -118,7 +118,7 @@
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 						 selector:@selector(userDefaultsChanged:)
-						     name:@"NSUserDefaultsDidChangeNotification"
+						     name:NSUserDefaultsDidChangeNotification
 						   object:nil];
 
 	// Set up status bar.

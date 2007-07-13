@@ -112,7 +112,7 @@
 	// Make sure we get to save out the contexts
 	[[NSNotificationCenter defaultCenter] addObserver:self
 						 selector:@selector(saveContexts:)
-						     name:@"NSApplicationWillTerminateNotification"
+						     name:NSApplicationWillTerminateNotification
 						   object:nil];
 
 	return self;

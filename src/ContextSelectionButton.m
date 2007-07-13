@@ -51,7 +51,7 @@
 	[self setMenu:[contextsDataSource hierarchicalMenu]];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 						 selector:@selector(selectionChanged:)
-						     name:@"NSMenuDidSendActionNotification"
+						     name:NSMenuDidSendActionNotification
 						   object:[self menu]];
 }
 
