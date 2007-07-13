@@ -220,12 +220,20 @@ end_of_device_handling:
 
 #pragma mark Update stuff
 
-- (void)doFullUpdate
+- (void)doUpdate
 {
 	[self enumerateAll];		// be on the safe side
 #ifdef DEBUG_MODE
 	NSLog(@"%@ >> found %d devices\n", [self class], [devices count]);
 #endif
+}
+
+- (void)clearCollectedData
+{
+	[lock lock];
+	[devices removeAllObjects];
+	[self setDataCollected:NO];
+	[lock unlock];
 }
 
 - (void)start
@@ -251,9 +259,7 @@ end_of_device_handling:
 	[self devAdded:addedIterator];
 	[self devRemoved:removedIterator];
 
-	[self doFullUpdate];
-
-	running = YES;
+	[super start];	
 }
 
 - (void)stop
@@ -266,12 +272,7 @@ end_of_device_handling:
 	IOObjectRelease(addedIterator);
 	IOObjectRelease(removedIterator);
 
-	[lock lock];
-	[devices removeAllObjects];
-	[self setDataCollected:NO];
-	[lock unlock];
-
-	running = NO;
+	[super stop];
 }
 
 - (NSString *)name

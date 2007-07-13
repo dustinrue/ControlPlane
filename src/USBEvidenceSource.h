@@ -9,7 +9,7 @@
 #import "EvidenceSource.h"
 
 
-@interface USBEvidenceSource : EvidenceSource {
+@interface USBEvidenceSource : LoopingEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *devices;
 
@@ -23,6 +23,9 @@
 
 - (void)start;
 - (void)stop;
+
+- (void)doUpdate;
+- (void)clearCollectedData;
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
