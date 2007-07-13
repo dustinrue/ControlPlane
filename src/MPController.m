@@ -211,7 +211,7 @@
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
 		[item setTitle:[ctxt name]];
 		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
-		[item setRepresentedObject:ctxt];
+		[item setRepresentedObject:[ctxt uuid]];
 		[item setTarget:self];
 		[item setAction:@selector(forceSwitch:)];
 		[submenu addItem:item];
@@ -402,7 +402,7 @@
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
-			currentContextName, guessConfidence]];
+			[ctxt name], guessConfidence]];
 
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
@@ -420,7 +420,7 @@
 
 - (void)forceSwitch:(id)sender
 {
-	Context *ctxt = [sender representedObject];
+	Context *ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
 #ifdef DEBUG_MODE
 	NSLog(@"forceSwitch: going to '%@'", [ctxt name]);
 #endif
