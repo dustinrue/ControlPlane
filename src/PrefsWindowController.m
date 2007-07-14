@@ -202,6 +202,10 @@
 	[editRuleContextButton setContextsDataSource:contextsDataSource];
 	[editActionContextButton setContextsDataSource:contextsDataSource];
 
+	// Make sure it gets loaded okay
+	[defaultContextButton setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"DefaultContext"]
+				forKey:@"selectedObject"];
+
 	// Load up correct localisations
 	[whenActionController addObject:
 			[NSMutableDictionary dictionaryWithObjectsAndKeys:

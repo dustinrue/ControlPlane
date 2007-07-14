@@ -10,7 +10,6 @@
 
 @interface ContextSelectionButton : NSPopUpButton {
 	ContextsDataSource *contextsDataSource;
-//	NSString *selectedObject;
 }
 
 - (void)setContextsDataSource:(ContextsDataSource *)dataSource;
