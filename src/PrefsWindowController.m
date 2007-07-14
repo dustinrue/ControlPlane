@@ -238,12 +238,6 @@
 	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
-- (IBAction)runDonation:(id)sender
-{
-	NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"MPDonationURL"]];
-	[[NSWorkspace sharedWorkspace] openURL:url];
-}
-
 #pragma mark Prefs group switching
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item

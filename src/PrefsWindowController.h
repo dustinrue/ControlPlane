@@ -46,7 +46,6 @@
 - (IBAction)runPreferences:(id)sender;
 - (IBAction)runAbout:(id)sender;
 - (IBAction)runWebPage:(id)sender;
-- (IBAction)runDonation:(id)sender;
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item;
 - (void)switchToView:(NSString *)identifier;

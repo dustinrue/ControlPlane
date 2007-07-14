@@ -28,8 +28,6 @@
 	<string>2.0b4</string>
 	<key>LSUIElement</key>
 	<string>1</string>
-	<key>MPDonationURL</key>
-	<string>http://www.symonds.id.au/marcopolo/donate.html</string>
 	<key>MPWebPageURL</key>
 	<string>http://www.symonds.id.au/marcopolo/</string>
 	<key>NSMainNibFile</key>

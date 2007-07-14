@@ -67,7 +67,6 @@
                 doAddAction = id; 
                 doAddRule = id; 
                 runAbout = id; 
-                runDonation = id; 
                 runPreferences = id; 
                 runWebPage = id; 
             }; 
