@@ -81,6 +81,10 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 			@"AudioOutput", @"type",
 			[NSNumber numberWithInt:kIOAudioOutputPortSubTypeHeadphones], @"parameter",
 			NSLocalizedString(@"Headphones", @""), @"description", nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			@"AudioOutput", @"type",
+			[NSNumber numberWithInt:kIOAudioOutputPortSubTypeExternalSpeaker], @"parameter",
+			NSLocalizedString(@"External speakers", @""), @"description", nil],
 		nil];
 }
 
