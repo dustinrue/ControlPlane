@@ -176,7 +176,7 @@
 	return match;
 }
 
-#define INCLUDE_PAIRED_DEVICES
+//#define INCLUDE_PAIRED_DEVICES
 
 - (NSArray *)getSuggestions
 {
