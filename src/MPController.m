@@ -398,11 +398,13 @@
 	// Update current context
 	[self setValue:toUUID forKey:@"currentContextUUID"];
 	ctxt = [contextsDataSource contextByUUID:toUUID];
-	[self setValue:[ctxt name] forKey:@"currentContextName"];
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
 			[ctxt name], guessConfidence]];
+	[self setValue:[ctxt name] forKey:@"currentContextName"];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
+		[self setStatusTitle:[ctxt name]];
 
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
@@ -426,8 +428,6 @@
 #endif
 	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
 		forKey:@"guessConfidence"];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
-		[self setStatusTitle:[ctxt name]];
 
 	[self performTransitionFrom:currentContextUUID to:[ctxt uuid]];
 }
@@ -478,30 +478,24 @@
 	NSString *guessConfidenceString = [NSString stringWithFormat:
 		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
 		perc];
-	BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
-	if (!do_title)
-		[self setStatusTitle:nil];
 	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
 
 	BOOL no_guess = NO;
 	if (!guess) {
 #ifdef DEBUG_MODE
-		NSLog(@"No guess made.\n");
+		NSLog(@"No guess made.");
 #endif
 		no_guess = YES;
 	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
 #ifdef DEBUG_MODE
-		NSLog(@"Guess of '%@' isn't confident enough: only %@.\n", guessString, guessConfidenceString);
+		NSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 #endif
 		no_guess = YES;
 	}
 
 	if (no_guess) {
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"]) {
-			if (do_title)
-				[self setStatusTitle:@"?"];
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
 			return;
-		}
 		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
 		guessConfidenceString = NSLocalizedString(@"as default context",
 							  @"Appended to a context-change notification");
@@ -518,8 +512,6 @@
 #endif
 	}
 
-	if (do_title)
-		[self setStatusTitle:guessString];
 	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
 
 	if (!do_switch)
