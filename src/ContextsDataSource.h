@@ -55,9 +55,9 @@
 - (IBAction)removeContext:(id)sender;
 
 - (Context *)contextByUUID:(NSString *)uuid;
-
 - (NSArray *)arrayOfUUIDs;
 - (NSArray *)orderedTraversal;
+- (NSArray *)orderedTraversalRootedAt:(NSString *)uuid;
 - (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid;
 - (NSMenu *)hierarchicalMenu;
 

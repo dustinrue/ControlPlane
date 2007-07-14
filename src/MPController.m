@@ -445,18 +445,29 @@
 	NSEnumerator *en = [rule_hits objectEnumerator];
 	NSDictionary *rule;
 	while (rule = [en nextObject]) {
-		NSString *uuid = [rule objectForKey:@"context"];
+		// Rules apply to the stated context, as well as any subcontexts. We very slightly decay the amount
+		// credited (proportional to the depth below the stated context), so that we don't guess a more
+		// detailed context than is warranted.
+		NSArray *ctxts = [contextsDataSource orderedTraversalRootedAt:[rule valueForKey:@"context"]];
+		NSEnumerator *en = [ctxts objectEnumerator];
+		Context *ctxt;
+		int base_depth = [[[ctxts objectAtIndex:0] valueForKey:@"depth"] intValue];
+		while ((ctxt = [en nextObject])) {
+			NSString *uuid = [ctxt uuid];
+			int depth = [[ctxt valueForKey:@"depth"] intValue];
+			double decay = 1.0 - (0.03 * (depth - base_depth));
 
-		NSNumber *uncon = [guesses objectForKey:uuid];
-		if (!uncon)
-			uncon = [NSNumber numberWithDouble:1.0];
-		NSNumber *mult = [rule objectForKey:@"confidence"];
-		uncon = [NSNumber numberWithDouble:[uncon doubleValue] * (1 - [mult doubleValue])];
-		[guesses setObject:uncon forKey:uuid];
+			NSNumber *uncon = [guesses objectForKey:uuid];
+			if (!uncon)
+				uncon = [NSNumber numberWithDouble:1.0];
+			double mult = [[rule objectForKey:@"confidence"] doubleValue] * decay;
+			uncon = [NSNumber numberWithDouble:[uncon doubleValue] * (1.0 - mult)];
+#ifdef DEBUG_MODE
+			//NSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [ctxt name], depth, base_depth, mult, uncon);
+#endif
+			[guesses setObject:uncon forKey:uuid];
+		}
 	}
-
-	// TODO: With nested contexts, perhaps we should credit a decaying value for matched rules
-	// to the ancestor walk?
 
 	// Guess context with lowest unconfidence
 	en = [guesses keyEnumerator];

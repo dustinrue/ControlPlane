@@ -284,17 +284,17 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 
 // Private
-- (NSArray *)childrenOf:(NSString *)parent_uuid
+- (NSArray *)childrenOfContext:(NSString *)uuid
 {
 	NSMutableArray *arr = [NSMutableArray array];
 
-	if (!parent_uuid)
-		parent_uuid = @"";
+	if (!uuid)
+		uuid = @"";
 
 	NSEnumerator *en = [contexts objectEnumerator];
 	Context *ctxt;
 	while ((ctxt = [en nextObject]))
-		if ([[ctxt parentUUID] isEqualToString:parent_uuid])
+		if ([[ctxt parentUUID] isEqualToString:uuid])
 			[arr addObject:ctxt];
 
 	[arr sortUsingSelector:@selector(compare:)];
@@ -305,7 +305,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 // Private: Make sure you call [outlineView reloadData] after this!
 - (void)removeContextRecursively:(NSString *)uuid
 {
-	NSEnumerator *en = [[self childrenOf:uuid] objectEnumerator];
+	NSEnumerator *en = [[self childrenOfContext:uuid] objectEnumerator];
 	Context *ctxt;
 	while ((ctxt = [en nextObject]))
 		[self removeContextRecursively:[ctxt uuid]];
@@ -336,7 +336,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	Context *ctxt = (Context *) [outlineView itemAtRow:row];
 
-	if ([[self childrenOf:[ctxt uuid]] count] > 0) {
+	if ([[self childrenOfContext:[ctxt uuid]] count] > 0) {
 		// Warn about destroying child contexts
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert setAlertStyle:NSWarningAlertStyle];
@@ -373,18 +373,22 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array
 {
 	Context *ctxt = [contexts objectForKey:uuid];
-	if (ctxt) {
+	if (ctxt)
 		[array addObject:ctxt];
-	}
-	NSEnumerator *en = [[self childrenOf:uuid] objectEnumerator];
+	NSEnumerator *en = [[self childrenOfContext:uuid] objectEnumerator];
 	while ((ctxt = [en nextObject]))
 		[self orderedTraversalFrom:[ctxt uuid] into:array];
 }
 
 - (NSArray *)orderedTraversal
 {
+	return [self orderedTraversalRootedAt:nil];
+}
+
+- (NSArray *)orderedTraversalRootedAt:(NSString *)uuid
+{
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
-	[self orderedTraversalFrom:nil into:array];
+	[self orderedTraversalFrom:uuid into:array];
 	return array;
 }
 
@@ -454,7 +458,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	// TODO: optimise!
 
-	NSArray *children = [self childrenOf:(item ? [item uuid] : @"")];
+	NSArray *children = [self childrenOfContext:(item ? [item uuid] : @"")];
 	return [children objectAtIndex:index];
 }
 
@@ -467,7 +471,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	// TODO: optimise!
 
-	NSArray *children = [self childrenOf:(item ? [item uuid] : @"")];
+	NSArray *children = [self childrenOfContext:(item ? [item uuid] : @"")];
 	return [children count];
 }
 
