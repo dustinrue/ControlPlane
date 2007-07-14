@@ -478,6 +478,9 @@
 	NSString *guessConfidenceString = [NSString stringWithFormat:
 		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
 		perc];
+	BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
+	if (!do_title)
+		[self setStatusTitle:nil];
 	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
 
 	BOOL no_guess = NO;
