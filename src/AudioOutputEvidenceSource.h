@@ -12,11 +12,10 @@
 
 @interface AudioOutputEvidenceSource : EvidenceSource {
 	AudioDeviceID deviceID;
-	NSString *source;
+	UInt32 source;
 }
 
 - (id)init;
-- (void)dealloc;
 
 - (void)doRealUpdate;
 
