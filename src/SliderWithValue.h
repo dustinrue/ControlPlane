@@ -25,6 +25,13 @@
 
 #pragma mark -
 
+@interface SliderCellWithValue : NSSliderCell {
+}
+
+@end
+
+#pragma mark -
+
 @interface SliderWithValue : NSSlider {
 }
 

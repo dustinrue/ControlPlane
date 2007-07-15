@@ -106,7 +106,10 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = SliderWithValue; LANGUAGE = ObjC; SUPERCLASS = NSSlider; }
+        {CLASS = SliderCellWithValue; LANGUAGE = ObjC; SUPERCLASS = NSSliderCell; }, 
+        {CLASS = SliderWithValue; LANGUAGE = ObjC; SUPERCLASS = NSSlider; }, 
+        {CLASS = ToolTip; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = ToolTipTextField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }
     ); 
     IBVersion = 1; 
 }

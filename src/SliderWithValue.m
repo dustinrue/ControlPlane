@@ -109,15 +109,15 @@ static ToolTip *sharedToolTip = nil;
 
 #pragma mark -
 
-@interface SliderWithValue (Private)
+@interface SliderCellWithValue (Private)
 
 - (NSString *)toolTipText;
 
 @end
 
-@implementation SliderWithValue
+@implementation SliderCellWithValue
 
-- (NSString *)toolTipText
+- (NSString *)toolTipTextForRect:(NSRect)knobRect
 {
 	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
@@ -130,31 +130,51 @@ static ToolTip *sharedToolTip = nil;
 	return [nf stringFromNumber:[NSDecimalNumber numberWithDouble:val]];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (void)drawKnob:(NSRect)knobRect
 {
-	if (!(self = [super initWithCoder:decoder]))
-		return nil;
+	[super drawKnob:knobRect];
 
-	[self setContinuous:YES];
-	[self setAction:@selector(doUpdate:)];
-	[self setTarget:self];
+	if (![self isHighlighted])
+		return;
 
-	return self;
-}
+	NSEventType eventType = [[NSApp currentEvent] type];
+	//NSLog(@"%s (%f) -- type=%d", __PRETTY_FUNCTION__, [self doubleValue], eventType);
 
-- (void)doUpdate:(id)sender
-{
-	[ToolTip setString:[self toolTipText] forEvent:[NSApp currentEvent]];
+	BOOL draw = NO;
+	if ((eventType == NSLeftMouseDown) && !sharedToolTip)
+		draw = YES;
+	else if ((eventType == NSLeftMouseUp) && sharedToolTip)
+		draw = NO;
+	else if (sharedToolTip)
+		draw = YES;
 
-	if ([[NSApp currentEvent] type] == NSLeftMouseUp)
+	if (draw)
+		[ToolTip setString:[self toolTipTextForRect:knobRect] forEvent:[NSApp currentEvent]];
+	else if (!draw && sharedToolTip)
 		[ToolTip release];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent
-{
-	[ToolTip setString:[self toolTipText] forEvent:theEvent];
+//- (void)mouseDown:(NSEvent *)theEvent
+//{
+//	[ToolTip setString:[self toolTipText] forEvent:theEvent];
+//
+//	[super mouseDown:theEvent];
+//}
 
-	[super mouseDown:theEvent];
+@end
+
+#pragma mark -
+
+@implementation SliderWithValue
+
+- (id)initWithFrame:(NSRect)frameRect
+{
+	if (!(self = [super initWithFrame:frameRect]))
+		return nil;
+
+	[self setCell:[[SliderCellWithValue alloc] init]];
+
+	return self;
 }
 
 @end
