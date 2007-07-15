@@ -27,18 +27,18 @@ static ToolTip *sharedToolTip = nil;
 
 @interface ToolTip (Private)
 
-- (void)setString:(NSString *)string forEvent:(NSEvent *)theEvent;
+- (void)setString:(NSString *)string atPoint:(NSPoint)point;
 
 @end
 
 @implementation ToolTip
 
-+ (void)setString:(NSString *)string forEvent:(NSEvent *)theEvent
++ (void)setString:(NSString *)string atPoint:(NSPoint)point
 {
 	if (!sharedToolTip)
 		sharedToolTip = [[ToolTip alloc] init];
 
-	[sharedToolTip setString:string forEvent:theEvent];
+	[sharedToolTip setString:string atPoint:point];
 }
 
 + (void)release
@@ -94,13 +94,13 @@ static ToolTip *sharedToolTip = nil;
 	[super dealloc];
 }
 
-- (void)setString:(NSString *)string forEvent:(NSEvent *)theEvent
+- (void)setString:(NSString *)string atPoint:(NSPoint)point
 {
 	NSSize size = [string sizeWithAttributes:textAttributes];
-	NSPoint cursorScreenPosition = [[theEvent window] convertBaseToScreen:[theEvent locationInWindow]];
+	NSPoint cursorScreenPosition = point;
 
 	[textField setStringValue:string];
-	[window setFrameTopLeftPoint:NSMakePoint(cursorScreenPosition.x + 10, cursorScreenPosition.y + 28)];
+	[window setFrameTopLeftPoint:NSMakePoint(cursorScreenPosition.x + 20, cursorScreenPosition.y + 38)];
 
 	[window setContentSize:NSMakeSize(size.width + 20, size.height + 1)];
 }
@@ -109,15 +109,9 @@ static ToolTip *sharedToolTip = nil;
 
 #pragma mark -
 
-@interface SliderCellWithValue (Private)
-
-- (NSString *)toolTipText;
-
-@end
-
 @implementation SliderCellWithValue
 
-- (NSString *)toolTipTextForRect:(NSRect)knobRect
+- (NSString *)toolTipText
 {
 	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
@@ -138,7 +132,6 @@ static ToolTip *sharedToolTip = nil;
 		return;
 
 	NSEventType eventType = [[NSApp currentEvent] type];
-	//NSLog(@"%s (%f) -- type=%d", __PRETTY_FUNCTION__, [self doubleValue], eventType);
 
 	BOOL draw = NO;
 	if ((eventType == NSLeftMouseDown) && !sharedToolTip)
@@ -148,18 +141,13 @@ static ToolTip *sharedToolTip = nil;
 	else if (sharedToolTip)
 		draw = YES;
 
-	if (draw)
-		[ToolTip setString:[self toolTipTextForRect:knobRect] forEvent:[NSApp currentEvent]];
-	else if (!draw && sharedToolTip)
+	if (draw) {
+		NSRect r1 = [[self controlView] convertRect:knobRect toView:nil];
+		NSPoint p1 = [[[self controlView] window] convertBaseToScreen:r1.origin];
+		[ToolTip setString:[self toolTipText] atPoint:p1];
+	} else if (!draw && sharedToolTip)
 		[ToolTip release];
 }
-
-//- (void)mouseDown:(NSEvent *)theEvent
-//{
-//	[ToolTip setString:[self toolTipText] forEvent:theEvent];
-//
-//	[super mouseDown:theEvent];
-//}
 
 @end
 
