@@ -105,7 +105,8 @@
             CLASS = SUUpdater; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
-        }
+        }, 
+        {CLASS = SliderWithValue; LANGUAGE = ObjC; SUPERCLASS = NSSlider; }
     ); 
     IBVersion = 1; 
 }

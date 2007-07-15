@@ -22,6 +22,7 @@
 		8D232FB60BD9D507006A3963 /* RulesPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB40BD9D507006A3963 /* RulesPrefs.tiff */; };
 		8D27ECB00C4456A300AE1929 /* AudioOutputEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */; };
 		8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3453C20C18E5C1006011D0 /* IChatAction.m */; };
+		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */; };
 		8D3E2DD20AA4F3C000FB21C1 /* marcopolo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */; };
 		8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */; };
@@ -128,6 +129,8 @@
 		8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = WiFiEvidenceSource.m; path = src/WiFiEvidenceSource.m; sourceTree = "<group>"; };
 		8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = USBEvidenceSource.h; path = src/USBEvidenceSource.h; sourceTree = "<group>"; };
 		8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = USBEvidenceSource.m; path = src/USBEvidenceSource.m; sourceTree = "<group>"; };
+		8D38B6690C49D50200290F47 /* SliderWithValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SliderWithValue.h; path = src/SliderWithValue.h; sourceTree = "<group>"; };
+		8D38B66A0C49D50200290F47 /* SliderWithValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SliderWithValue.m; path = src/SliderWithValue.m; sourceTree = "<group>"; };
 		8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EvidenceSourcesPrefs.tiff; path = graphics/EvidenceSourcesPrefs.tiff; sourceTree = "<group>"; };
 		8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = marcopolo.icns; path = graphics/marcopolo.icns; sourceTree = "<group>"; };
 		8D447DF60C3E65CF00DAB17A /* ContextSelectionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextSelectionButton.h; path = src/ContextSelectionButton.h; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 				8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */,
 				8D447DF60C3E65CF00DAB17A /* ContextSelectionButton.h */,
 				8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */,
+				8D38B6690C49D50200290F47 /* SliderWithValue.h */,
+				8D38B66A0C49D50200290F47 /* SliderWithValue.m */,
 			);
 			name = "UI Utilities";
 			sourceTree = "<group>";
@@ -548,6 +553,7 @@
 				8D73CC700C47125300DF839E /* WiFiEvidenceSource.m in Sources */,
 				8D91F17D0C47148200D9FC0F /* USBEvidenceSource.m in Sources */,
 				8D91F1FA0C4772FF00D9FC0F /* LightEvidenceSource.m in Sources */,
+				8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
