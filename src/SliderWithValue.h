@@ -26,7 +26,6 @@
 #pragma mark -
 
 @interface SliderWithValue : NSSlider {
-	BOOL dragging;
 }
 
 @end

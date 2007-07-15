@@ -15,8 +15,8 @@
 {
 	[super drawRect:aRect];
 
-	//[[NSColor colorWithCalibratedWhite:0.925 alpha:1.0] set];
-	//NSFrameRect(aRect);
+	[[NSColor colorWithCalibratedWhite:0.925 alpha:1.0] set];
+	NSFrameRect(aRect);
 }
 
 @end
@@ -119,16 +119,21 @@ static ToolTip *sharedToolTip = nil;
 
 - (NSString *)toolTipText
 {
-	// TODO: localised version of this (correct decimal separator, etc.)
-	return [NSString stringWithFormat:@"%.1f%%", [self doubleValue] * 100];
+	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
+	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[nf setNumberStyle:NSNumberFormatterPercentStyle];
+
+	double val = [self doubleValue];
+	if (val == 0.0)
+		val = 0.001;	// HACK: the stupid number formatter leaves off the '%' if it's exactly zero!
+
+	return [nf stringFromNumber:[NSDecimalNumber numberWithDouble:val]];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
 	if (!(self = [super initWithCoder:decoder]))
 		return nil;
-
-	dragging = NO;
 
 	[self setContinuous:YES];
 	[self setAction:@selector(doUpdate:)];
@@ -139,8 +144,6 @@ static ToolTip *sharedToolTip = nil;
 
 - (void)doUpdate:(id)sender
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-
 	[ToolTip setString:[self toolTipText] forEvent:[NSApp currentEvent]];
 
 	if ([[NSApp currentEvent] type] == NSLeftMouseUp)
@@ -149,11 +152,6 @@ static ToolTip *sharedToolTip = nil;
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-
-	//NSPoint where = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	dragging = YES;
-
 	[ToolTip setString:[self toolTipText] forEvent:theEvent];
 
 	[super mouseDown:theEvent];
