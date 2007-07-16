@@ -47,7 +47,7 @@
 
 - (void)loadContexts;
 - (void)saveContexts:(id)arg;
-- (void)newContextWithName:(NSString *)name;
+- (Context *)newContextWithName:(NSString *)name fromUI:(BOOL)fromUI;
 
 - (IBAction)newContextPromptingForName:(id)sender;
 - (IBAction)newContextSheetAccepted:(id)sender;

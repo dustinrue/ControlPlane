@@ -225,13 +225,13 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 #pragma mark Context creation via sheet
 
-- (void)newContextWithName:(NSString *)name
+- (Context *)newContextWithName:(NSString *)name fromUI:(BOOL)fromUI
 {
 	Context *ctxt = [[[Context alloc] init] autorelease];
 	[ctxt setName:name];
 
 	// Look for parent
-	if ([outlineView selectedRow] >= 0)
+	if (fromUI && ([outlineView selectedRow] >= 0))
 		[ctxt setParentUUID:[(Context *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
 
 
@@ -240,10 +240,15 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 
-	if (![ctxt isRoot])
-		[outlineView expandItem:[contexts objectForKey:[ctxt parentUUID]]];
-	[outlineView selectRow:[outlineView rowForItem:ctxt] byExtendingSelection:NO];
-	[self outlineViewSelectionDidChange:nil];
+	if (fromUI) {
+		if (![ctxt isRoot])
+			[outlineView expandItem:[contexts objectForKey:[ctxt parentUUID]]];
+		[outlineView selectRow:[outlineView rowForItem:ctxt] byExtendingSelection:NO];
+		[self outlineViewSelectionDidChange:nil];
+	} else
+		[outlineView reloadData];
+
+	return ctxt;
 }
 
 - (IBAction)newContextPromptingForName:(id)sender
@@ -278,7 +283,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if (returnCode != NSOKButton)
 		return;
 
-	[self newContextWithName:[newContextSheetName stringValue]];
+	[self newContextWithName:[newContextSheetName stringValue] fromUI:YES];
 }
 
 #pragma mark -

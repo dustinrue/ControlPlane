@@ -37,6 +37,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableBluetoothEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableFireWireEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableIPEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableLightEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableMonitorEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePowerEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableRunningApplicationEvidenceSource"];
@@ -44,7 +45,6 @@
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableWiFiEvidenceSource"];
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
-	[appDefaults setValue:@"Automatic" forKey:@"DefaultContext"];
 
 	// Advanced
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"ShowAdvancedPreferences"];
@@ -103,10 +103,30 @@
 {
 	// If there aren't any contexts defined, populate list from network locations
 	if ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) {
-		NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
+		NSArray *limitedOptions = [NetworkLocationAction limitedOptions];
+		NSEnumerator *en = [limitedOptions objectEnumerator];
 		NSDictionary *dict;
+		NSMutableDictionary *lookup = [NSMutableDictionary dictionary];
 		while ((dict = [en nextObject])) {
-			[contextsDataSource newContextWithName:[dict valueForKey:@"option"]];
+			Context *ctxt = [contextsDataSource newContextWithName:[dict valueForKey:@"option"] fromUI:NO];
+			[lookup setObject:ctxt forKey:[ctxt name]];
+		}
+		NSLog(@"Quickstart: Created %d contexts", [limitedOptions count]);
+
+		// Additionally, if there are no actions, populate list with NetworkLocationActions
+		if ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"] count] == 0) {
+			NSMutableArray *actions = [NSMutableArray array];
+			en = [lookup objectEnumerator];
+			Context *ctxt;
+			while ((ctxt = [en nextObject])) {
+				Action *act = [[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
+				NSMutableDictionary *act_dict = [act dictionary];
+				[act_dict setValue:[ctxt uuid] forKey:@"context"];
+				[act_dict setValue:NSLocalizedString(@"Sample action", @"") forKey:@"description"];
+				[actions addObject:act_dict];
+			}
+			[[NSUserDefaults standardUserDefaults] setObject:actions forKey:@"Actions"];
+			NSLog(@"Quickstart: Created %d NetworkLocation actions", [actions count]);
 		}
 	}
 
@@ -464,7 +484,7 @@
 			NSNumber *uncon = [guesses objectForKey:uuid];
 			if (!uncon)
 				uncon = [NSNumber numberWithDouble:1.0];
-			double mult = [[rule objectForKey:@"confidence"] doubleValue] * decay;
+			double mult = [[rule valueForKey:@"confidence"] doubleValue] * decay;
 			uncon = [NSNumber numberWithDouble:[uncon doubleValue] * (1.0 - mult)];
 #ifdef DEBUG_MODE
 			//NSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [ctxt name], depth, base_depth, mult, uncon);
