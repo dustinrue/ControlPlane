@@ -21,7 +21,7 @@
 		return nil;
 
 	running = NO;
-	dataCollected = NO;	// or use KVO?
+	dataCollected = NO;
 	startAfterSleep = NO;
 
 	// Get notified when we go to sleep, and wake from sleep
@@ -41,39 +41,6 @@
 {
 	[super dealloc];
 }
-
-//- (void)startThread
-//{
-//	if (![threadCond tryLockWhenCondition:ES_NOT_STARTED]) {
-//		NSLog(@"WARNING: (%@) Thread already running!\n", [self class]);
-//		return;
-//	}
-//
-//	[NSThread detachNewThreadSelector:@selector(runThread:)
-//				 toTarget:self
-//			       withObject:nil];
-//	[threadCond unlockWithCondition:ES_STARTING];
-//
-//	// Wait until started, then start an update timer, and get an update happening immediately
-//	[threadCond lockWhenCondition:ES_IDLE];
-//	updateTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval
-//						       target:self
-//						     selector:@selector(timerPoll:)
-//						     userInfo:nil
-//						      repeats:YES];
-//	[threadCond unlockWithCondition:ES_UPDATING];
-//}
-//
-//- (void)blockOnThread
-//{
-//	[threadCond lockWhenCondition:ES_IDLE];
-//	timeToDie = YES;
-//	[threadCond unlockWithCondition:ES_UPDATING];
-//
-//	// Wait until finished
-//	[threadCond lockWhenCondition:ES_FINISHED];
-//	[threadCond unlock];
-//}
 
 - (void)goingToSleep:(id)arg
 {
