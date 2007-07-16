@@ -43,8 +43,10 @@ static ToolTip *sharedToolTip = nil;
 
 + (void)release
 {
-	[sharedToolTip release];
-	sharedToolTip = nil;
+	if (sharedToolTip) {
+		[sharedToolTip release];
+		sharedToolTip = nil;
+	}
 }
 
 - (id)init
@@ -97,10 +99,9 @@ static ToolTip *sharedToolTip = nil;
 - (void)setString:(NSString *)string atPoint:(NSPoint)point
 {
 	NSSize size = [string sizeWithAttributes:textAttributes];
-	NSPoint cursorScreenPosition = point;
 
 	[textField setStringValue:string];
-	[window setFrameTopLeftPoint:NSMakePoint(cursorScreenPosition.x + 20, cursorScreenPosition.y + 38)];
+	[window setFrameTopLeftPoint:NSMakePoint(point.x + 10, point.y + 28)];
 
 	[window setContentSize:NSMakeSize(size.width + 20, size.height + 1)];
 }
@@ -111,24 +112,23 @@ static ToolTip *sharedToolTip = nil;
 
 @implementation SliderCellWithValue
 
-- (NSString *)toolTipText
++ (NSString *)toolTipTextForValue:(double)value
 {
 	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
 	[nf setNumberStyle:NSNumberFormatterPercentStyle];
 
-	double val = [self doubleValue];
-	if (val == 0.0)
-		val = 0.001;	// HACK: the stupid number formatter leaves off the '%' if it's exactly zero!
+	if (value == 0.0)
+		value = 0.001;	// HACK: the stupid number formatter leaves off the '%' if it's exactly zero!
 
-	return [nf stringFromNumber:[NSDecimalNumber numberWithDouble:val]];
+	return [nf stringFromNumber:[NSDecimalNumber numberWithDouble:value]];
 }
 
 - (void)drawKnob:(NSRect)knobRect
 {
 	[super drawKnob:knobRect];
 
-	if (![self isHighlighted])
+	if (![self isHighlighted] || ([[NSApp currentEvent] window] != [[self controlView] window]))
 		return;
 
 	NSEventType eventType = [[NSApp currentEvent] type];
@@ -144,7 +144,10 @@ static ToolTip *sharedToolTip = nil;
 	if (draw) {
 		NSRect r1 = [[self controlView] convertRect:knobRect toView:nil];
 		NSPoint p1 = [[[self controlView] window] convertBaseToScreen:r1.origin];
-		[ToolTip setString:[self toolTipText] atPoint:p1];
+		float bump = [self knobThickness] / 2;
+		p1.x += bump;
+		p1.y += bump;
+		[ToolTip setString:[[self class] toolTipTextForValue:[self doubleValue]] atPoint:p1];
 	} else if (!draw && sharedToolTip)
 		[ToolTip release];
 }
@@ -155,14 +158,28 @@ static ToolTip *sharedToolTip = nil;
 
 @implementation SliderWithValue
 
-- (id)initWithFrame:(NSRect)frameRect
+- (id)initWithCoder:(NSCoder *)decoder
 {
-	if (!(self = [super initWithFrame:frameRect]))
+	if (!(self = [super initWithCoder:decoder]))
 		return nil;
 
-	[self setCell:[[SliderCellWithValue alloc] init]];
+	[self setContinuous:YES];
+	[self setTarget:self];
+	[self setAction:@selector(doUpdate:)];
 
 	return self;
+}
+
+- (void)doUpdate:(id)sender
+{
+	NSEvent *theEvent = [NSApp currentEvent];
+	//NSLog(@"cell is %@", [[self cell] class]);
+	NSPoint point = [[theEvent window] convertBaseToScreen:[theEvent locationInWindow]];
+
+	if ([theEvent type] == NSLeftMouseUp)
+		[ToolTip release];
+	else
+		[ToolTip setString:[SliderCellWithValue toolTipTextForValue:[self doubleValue]] atPoint:point];
 }
 
 @end

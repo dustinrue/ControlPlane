@@ -28,6 +28,8 @@
 @interface SliderCellWithValue : NSSliderCell {
 }
 
++ (NSString *)toolTipTextForValue:(double)value;
+
 @end
 
 #pragma mark -
