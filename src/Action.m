@@ -147,6 +147,7 @@
 #import "NetworkLocationAction.h"
 #import "OpenAction.h"
 #import "ScreenSaverPasswordAction.h"
+#import "ScreenSaverTimeAction.h"
 #import "ShellScriptAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
@@ -167,6 +168,7 @@
 		[NetworkLocationAction class],
 		[OpenAction class],
 		[ScreenSaverPasswordAction class],
+		[ScreenSaverTimeAction class],
 		[ShellScriptAction class],
 		[ToggleBluetoothAction class],
 		[ToggleWiFiAction class],
@@ -181,6 +183,7 @@
 		NSLocalizedString(@"NetworkLocation", @"Action type");
 		NSLocalizedString(@"Open", @"Action type");
 		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
+		NSLocalizedString(@"ScreenSaverTime", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
