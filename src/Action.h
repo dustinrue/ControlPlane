@@ -11,6 +11,7 @@
 @interface Action : NSObject {
 	int delay;
 	NSString *type, *context, *when;
+	NSNumber *enabled;
 }
 
 + (NSString *)typeForClass:(Class)klass;

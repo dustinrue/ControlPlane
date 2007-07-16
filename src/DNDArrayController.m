@@ -12,6 +12,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	// register for drag and drop
 	[tableView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
+
 	[super awakeFromNib];
 }
 
@@ -68,6 +69,26 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	return YES;
 }
+
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+	if ([aCell class] != [NSTextFieldCell class])
+		return;
+
+	BOOL drawInGrey = NO;
+
+	NSDictionary *thisRow = [[self arrangedObjects] objectAtIndex:rowIndex];
+	NSNumber *enabled;
+	if ((enabled = [thisRow objectForKey:@"enabled"]) && ![enabled boolValue])
+		drawInGrey = YES;
+
+	if (drawInGrey)
+		[aCell setTextColor:[NSColor colorWithDeviceWhite:0.5 alpha:1.0]];
+	else
+		[aCell setTextColor:[NSColor colorWithDeviceWhite:0 alpha:1.0]];
+}
+
+#pragma mark -
 
 - (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(unsigned int)insertIndex
 {

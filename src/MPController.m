@@ -333,6 +333,8 @@
 			continue;
 		if (![[action objectForKey:@"context"] isEqualToString:fromUUID])
 			continue;
+		if (![[action objectForKey:@"enabled"] boolValue])
+			continue;
 
 		NSNumber *aDelay;
 		if ((aDelay = [action valueForKey:@"delay"])) {
@@ -369,6 +371,8 @@
 		if (![[action objectForKey:@"when"] isEqualToString:@"Arrival"])
 			continue;
 		if (![[action objectForKey:@"context"] isEqualToString:toUUID])
+			continue;
+		if (![[action objectForKey:@"enabled"] boolValue])
 			continue;
 		[NSThread detachNewThreadSelector:@selector(executeAction:) toTarget:self withObject:action];
 	}

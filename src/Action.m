@@ -55,6 +55,7 @@
 	type = [[Action typeForClass:[self class]] retain];
 	context = [@"" retain];
 	when = [@"Arrival" retain];
+	enabled = [[NSNumber alloc] initWithBool:YES];
 
 	return self;
 }
@@ -73,6 +74,7 @@
 	type = [[Action typeForClass:[self class]] retain];
 	context = [[dict valueForKey:@"context"] copy];
 	when = [[dict valueForKey:@"when"] copy];
+	enabled = [[dict valueForKey:@"enabled"] copy];
 
 	return self;
 }
@@ -82,6 +84,7 @@
 	[type release];
 	[context release];
 	[when release];
+	[enabled release];
 
 	[super dealloc];
 }
@@ -93,6 +96,7 @@
 		[[type copy] autorelease], @"type",
 		[[context copy] autorelease], @"context",
 		[[when copy] autorelease], @"when",
+		[[enabled copy] autorelease], @"enabled",
 		nil];
 }
 
