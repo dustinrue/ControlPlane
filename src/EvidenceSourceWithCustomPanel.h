@@ -11,7 +11,6 @@
 
 @interface EvidenceSourceWithCustomPanel : EvidenceSource {
 	NSPanel *panel;
-	NSObjectController *objectController;
 }
 
 - (id)initWithNibNamed:(NSString *)name;

@@ -35,21 +35,16 @@
 		return nil;
 	}
 
-	// Look for an NSPanel (required), and an NSObjectController (optional)
+	// Look for an NSPanel
 	panel = nil;
-	objectController = nil;
 	NSEnumerator *en = [topLevelObjects objectEnumerator];
 	NSObject *obj;
 	while ((obj = [en nextObject])) {
 		if ([obj isKindOfClass:[NSPanel class]] && !panel)
 			panel = (NSPanel *) [obj retain];
-		else if ([obj isKindOfClass:[NSObjectController class]] && !objectController)
-			objectController = (NSObjectController *) [obj retain];
 	}
 	if (!panel) {
 		NSLog(@"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
-		if (objectController)
-			[objectController release];
 		return nil;
 	}
 
@@ -59,8 +54,6 @@
 - (void)dealloc
 {
 	[panel release];
-	if (objectController)
-		[objectController release];
 
 	[super dealloc];
 }
