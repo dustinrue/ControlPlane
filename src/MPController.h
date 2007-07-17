@@ -21,6 +21,7 @@
 	NSString *guessConfidence;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;
+	NSNumber *forcedContextIsSticky;
 
 	NSThread *updatingThread;
 	NSLock *updatingSwitchingLock;

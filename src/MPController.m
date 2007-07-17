@@ -88,6 +88,8 @@
 	[self setValue:@"?" forKey:@"currentContextName"];
 	[self setValue:@"?" forKey:@"guessConfidence"];
 
+	[self setValue:[NSNumber numberWithBool:NO] forKey:@"forcedContextIsSticky"];
+
 	return self;
 }
 
@@ -233,7 +235,25 @@
 		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
 		[item setRepresentedObject:[ctxt uuid]];
 		[item setTarget:self];
-		[item setAction:@selector(forceSwitch:)];
+		[item setAction:@selector(forceSwitchAndUnstick:)];
+		[submenu addItem:item];
+
+		item = [[item copy] autorelease];
+		[item setTitle:[NSString stringWithFormat:@"%@ (*)", [item title]]];
+		[item setKeyEquivalentModifierMask:NSAlternateKeyMask];
+		[item setAlternate:YES];
+		[item setAction:@selector(forceSwitchAndStick:)];
+		[submenu addItem:item];
+	}
+	{
+		// Unstick menu item
+		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+		[item setTitle:NSLocalizedString(@"Unstick forced context", @"")];
+		[item setTarget:self];
+		[item setAction:@selector(unstickForcedContext:)];
+		[item bind:@"enabled" toObject:self withKeyPath:@"forcedContextIsSticky" options:nil];
+
+		[submenu addItem:[NSMenuItem separatorItem]];
 		[submenu addItem:item];
 	}
 	[forceContextMenuItem setSubmenu:submenu];
@@ -398,7 +418,7 @@
 	}
 }
 
-#pragma mark Thread stuff
+#pragma mark Context switching
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
@@ -464,6 +484,25 @@
 
 	[self performTransitionFrom:currentContextUUID to:[ctxt uuid]];
 }
+
+- (void)forceSwitchAndStick:(id)sender
+{
+	[self setValue:[NSNumber numberWithBool:YES] forKey:@"forcedContextIsSticky"];
+	[self forceSwitch:sender];
+}
+
+- (void)forceSwitchAndUnstick:(id)sender
+{
+	[self setValue:[NSNumber numberWithBool:NO] forKey:@"forcedContextIsSticky"];
+	[self forceSwitch:sender];
+}
+
+- (void)unstickForcedContext:(id)sender
+{
+	[self setValue:[NSNumber numberWithBool:NO] forKey:@"forcedContextIsSticky"];
+}
+
+#pragma mark Thread stuff
 
 - (void)doUpdateForReal
 {
