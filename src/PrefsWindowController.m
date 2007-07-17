@@ -356,6 +356,9 @@
 {
 	EvidenceSource *src;
 	NSString *name, *type;
+	// Represented object in this action is either:
+	//	(a) an EvidenceSource object, or 
+	//	(b) an 2-tuple: [EvidenceSource object, rule_type]
 	if ([[sender representedObject] isKindOfClass:[NSArray class]]) {
 		// specific type
 		NSArray *arr = [sender representedObject];
@@ -367,6 +370,13 @@
 		type = nil;
 	}
 	name = [src name];
+
+	BOOL usingCustomPanel = NO;
+	EvidenceSourceWithCustomPanel *src_e;
+	if ([src isKindOfClass:[EvidenceSourceWithCustomPanel class]]) {
+		usingCustomPanel = YES;
+		src_e = (EvidenceSourceWithCustomPanel *) src;
+	}
 
 	int cnt = [mpController pushSuggestionsFromSource:name ofType:type intoController:newRuleParameterController];
 	if (cnt < 1) {
@@ -392,28 +402,48 @@
 	[NSApp activateIgnoringOtherApps:YES];
 	[newRuleWindow makeKeyAndOrderFront:self];
 
-	if ([src isKindOfClass:[EvidenceSourceWithCustomPanel class]]) {
-#ifdef DEBUG_MODE
-		NSLog(@"%s woo!", __PRETTY_FUNCTION__);
-		EvidenceSourceWithCustomPanel *src_e = (EvidenceSourceWithCustomPanel *) src;
-		[src_e runPanelAsSheetOfWindow:newRuleWindow withParameter:nil];	// XXX
-#endif
+	if (usingCustomPanel) {
+		[newRuleParameterButton setHidden:YES];
+		[newRuleParameterButton setNeedsDisplay:YES];
+
+		[src_e runPanelAsSheetOfWindow:newRuleWindow
+				 withParameter:nil
+			       storingResultIn:self
+			      parameterKeyPath:@"newRuleParameter"
+			    descriptionKeyPath:@"newRuleDescription"
+				   typeKeyPath:@"newRuleType"];
+	} else {
+		[self bind:@"newRuleParameter"
+		  toObject:newRuleParameterController
+	       withKeyPath:@"selection.parameter"
+		   options:nil];
+		[self bind:@"newRuleDescription"
+		  toObject:newRuleParameterController
+	       withKeyPath:@"selection.description"
+		   options:nil];
+		[self bind:@"newRuleType"
+		  toObject:newRuleParameterController
+	       withKeyPath:@"selection.type"
+		   options:nil];
 	}
 }
 
 - (IBAction)doAddRule:(id)sender
 {
-	NSDictionary *elt = [[newRuleParameterController selectedObjects] lastObject];
-	NSString *parm = [elt objectForKey:@"parameter"];
-	NSString *desc = [elt objectForKey:@"description"];
+#ifdef DEBUG_MODE
+	NSLog(@"%@ >> newRuleParameter is '%@'", [self class], newRuleParameter);
+#endif
+//	NSDictionary *elt = [[newRuleParameterController selectedObjects] lastObject];
+//	NSString *parm = [elt objectForKey:@"parameter"];
+//	NSString *desc = [elt objectForKey:@"description"];
 	double conf = [newRuleConfidenceSlider doubleValue];
 
 	NSMutableDictionary *new_rule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithDouble:conf], @"confidence",
 		[[newRuleContext selectedItem] representedObject], @"context",
-		parm, @"parameter",
-		[elt objectForKey:@"type"], @"type",
-		desc, @"description",
+		newRuleParameter, @"parameter",
+		newRuleType, @"type",
+		newRuleDescription, @"description",
 		nil];
 	[rulesController addObject:new_rule];
 

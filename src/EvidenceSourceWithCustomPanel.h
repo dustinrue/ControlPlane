@@ -16,11 +16,15 @@
 - (id)initWithNibNamed:(NSString *)name;
 - (void)dealloc;
 
-- (id)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(id)parameter;
+- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(id)parameter
+		storingResultIn:(id)object parameterKeyPath:(NSString *)parameterKeyPath
+	     descriptionKeyPath:(NSString *)descriptionKeyPath typeKeyPath:(NSString *)typeKeyPath;
 - (IBAction)closeSheet:(id)sender;
 
 // Need to be implemented by descendant classes
 - (id)getParameterFromPanel;
 - (void)putParameterToPanel:(id)parameter;
+- (NSString *)descriptionOfParameterInPanel;	// optional
+- (NSString *)typeOfParameterInPanel;		// optional
 
 @end

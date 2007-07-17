@@ -91,6 +91,7 @@
                 newActionWindowParameterView = NSView; 
                 newRuleConfidenceSlider = NSSlider; 
                 newRuleContext = NSPopUpButton; 
+                newRuleParameterButton = NSPopUpButton; 
                 newRuleParameterController = NSArrayController; 
                 newRuleWindow = NSWindow; 
                 prefsWindow = NSWindow; 
