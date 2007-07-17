@@ -696,6 +696,11 @@
 
 - (void)userDefaultsChanged:(NSNotification *)notification
 {
+#ifndef DEBUG_MODE
+	// Force write of preferences
+	[[NSUserDefaults standardUserDefaults] synchronize];
+#endif
+
 	// Check that the running evidence sources match the defaults
 	[evidenceSources startOrStopAll];
 }
