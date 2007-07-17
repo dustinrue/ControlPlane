@@ -1,4 +1,5 @@
 #import "Action.h"
+#import "EvidenceSourceWithCustomPanel.h"
 #import "PrefsWindowController.h"
 
 
@@ -390,6 +391,14 @@
 
 	[NSApp activateIgnoringOtherApps:YES];
 	[newRuleWindow makeKeyAndOrderFront:self];
+
+	if ([src isKindOfClass:[EvidenceSourceWithCustomPanel class]]) {
+#ifdef DEBUG_MODE
+		NSLog(@"%s woo!", __PRETTY_FUNCTION__);
+		EvidenceSourceWithCustomPanel *src_e = (EvidenceSourceWithCustomPanel *) src;
+		[src_e runPanelAsSheetOfWindow:newRuleWindow withParameter:nil];	// XXX
+#endif
+	}
 }
 
 - (IBAction)doAddRule:(id)sender

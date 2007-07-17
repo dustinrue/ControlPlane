@@ -118,4 +118,22 @@ static void sourceChange(void *info)
 		nil];
 }
 
+- (id)getParameterFromPanel
+{
+	if ([[self valueForKey:@"batteryChosen"] boolValue])
+		return @"Battery";
+	else
+		return @"A/C";
+}
+
+- (void)putParameterToPanel:(id)parameter
+{
+	NSString *str = (NSString *) parameter;
+	if (str) {
+		[self setValue:[NSNumber numberWithBool:[str isEqualToString:@"Battery"]]
+			forKey:@"batteryChosen"];
+	}
+	// TODO: default?
+}
+
 @end

@@ -12,6 +12,9 @@
 @interface PowerEvidenceSource : EvidenceSourceWithCustomPanel {
 	NSString *status;
 	CFRunLoopSourceRef runLoopSource;
+
+	// For custom panel
+	NSNumber *batteryChosen;
 }
 
 - (id)init;
@@ -25,5 +28,8 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
+
+- (id)getParameterFromPanel;
+- (void)putParameterToPanel:(id)parameter;
 
 @end

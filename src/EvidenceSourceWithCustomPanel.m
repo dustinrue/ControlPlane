@@ -8,6 +8,14 @@
 #import "EvidenceSourceWithCustomPanel.h"
 
 
+@interface EvidenceSourceWithCustomPanel (Private)
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo;
+
+@end
+
+#pragma mark -
+
 @implementation EvidenceSourceWithCustomPanel
 
 - (id)initWithNibNamed:(NSString *)name
@@ -55,6 +63,34 @@
 		[objectController release];
 
 	[super dealloc];
+}
+
+- (id)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(id)parameter
+{
+	[self putParameterToPanel:parameter];
+
+	[NSApp beginSheet:panel modalForWindow:window modalDelegate:self didEndSelector:nil contextInfo:nil];
+
+	return [self getParameterFromPanel];
+}
+
+- (IBAction)closeSheet:(id)sender
+{
+	[NSApp endSheet:panel returnCode:0];
+	[panel orderOut:nil];
+}
+
+- (id)getParameterFromPanel
+{
+	[NSException raise:@"Abstract Class Exception"
+		    format:[NSString stringWithFormat:@"Error, -%@ not implemented.", _cmd]];
+	return nil;
+}
+
+- (void)putParameterToPanel:(id)parameter
+{
+	[NSException raise:@"Abstract Class Exception"
+		    format:[NSString stringWithFormat:@"Error, -%@ not implemented.", _cmd]];
 }
 
 @end

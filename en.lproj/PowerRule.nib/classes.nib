@@ -1,4 +1,25 @@
 {
-    IBClasses = ({CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }); 
+    IBClasses = (
+        {CLASS = EvidenceSource; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = EvidenceSourceSetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {prefsWindowController = NSWindowController; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {closeSheet = id; }; 
+            CLASS = EvidenceSourceWithCustomPanel; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = EvidenceSource; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = LoopingEvidenceSource; LANGUAGE = ObjC; SUPERCLASS = EvidenceSource; }, 
+        {
+            CLASS = PowerEvidenceSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = EvidenceSourceWithCustomPanel; 
+        }
+    ); 
     IBVersion = 1; 
 }
