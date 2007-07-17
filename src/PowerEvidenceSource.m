@@ -26,7 +26,7 @@ static void sourceChange(void *info)
 
 - (id)init
 {
-	if (!(self = [super init]))
+	if (!(self = [super initWithNibNamed:@"PowerRule"]))
 		return nil;
 
 	status = nil;
