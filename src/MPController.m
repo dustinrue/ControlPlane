@@ -620,7 +620,8 @@
 	while (!timeToDie) {
 		[updatingLock lockWhenCondition:1];
 
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"] &&
+		    ![[self valueForKey:@"forcedContextIsSticky"] boolValue]) {
 			[self doUpdateForReal];
 
 			// Flush auto-release pool
