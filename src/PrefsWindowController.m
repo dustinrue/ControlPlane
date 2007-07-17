@@ -430,12 +430,6 @@
 
 - (IBAction)doAddRule:(id)sender
 {
-#ifdef DEBUG_MODE
-	NSLog(@"%@ >> newRuleParameter is '%@'", [self class], newRuleParameter);
-#endif
-//	NSDictionary *elt = [[newRuleParameterController selectedObjects] lastObject];
-//	NSString *parm = [elt objectForKey:@"parameter"];
-//	NSString *desc = [elt objectForKey:@"description"];
 	double conf = [newRuleConfidenceSlider doubleValue];
 
 	NSMutableDictionary *new_rule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
