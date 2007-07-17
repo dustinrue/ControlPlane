@@ -430,6 +430,15 @@
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
 		[self setStatusTitle:[ctxt name]];
 
+	// Update force context menu
+	NSMenu *menu = [forceContextMenuItem submenu];
+	en = [[menu itemArray] objectEnumerator];
+	NSMenuItem *item;
+	while ((item = [en nextObject])) {
+		BOOL ticked = ([[item representedObject] isEqualToString:toUUID]);
+		[item setState:(ticked ? NSOnState : NSOffState)];
+	}
+
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
 	while ((ctxt = [en nextObject])) {
