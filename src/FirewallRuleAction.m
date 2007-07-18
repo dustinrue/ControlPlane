@@ -3,6 +3,7 @@
 //  MarcoPolo
 //
 //  Created by Mark Wallis on 17/07/07.
+//  Tweaks by David Symonds on 18/07/07.
 //
 
 #import "FirewallRuleAction.h"
@@ -83,27 +84,28 @@
 	CFDictionaryRef dict = (CFDictionaryRef) CFPreferencesCopyAppValue(CFSTR("firewall"), CFSTR("com.apple.sharing.firewall"));
 
 	// Create a mutable copy that we can update
-	CFMutableDictionaryRef newDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, dict);	
+	CFMutableDictionaryRef newDict = CFDictionaryCreateMutableCopy(NULL, 0, dict);
+	CFRelease(dict);
 
-	// Find the specific rule we which to enable
-	CFMutableDictionaryRef val = (CFMutableDictionaryRef)CFDictionaryGetValue(newDict, name);
+	// Find the specific rule we wish to enable
+	CFMutableDictionaryRef val = (CFMutableDictionaryRef) CFDictionaryGetValue(newDict, name);
 
 	if (!val) {
-		*errorString = NSLocalizedString( @"Couldn't find requested firewall rule!", @"In FirewallRuleAction" );
+		*errorString = NSLocalizedString(@"Couldn't find requested firewall rule!", @"In FirewallRuleAction" );
 		return NO;
 	}
 
 	// Alter the dictionary to set the enable flag
 	uint32_t enabledVal = isEnable ? 1 : 0;
-
-	CFNumberRef enabledRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &enabledVal);
+	CFNumberRef enabledRef = CFNumberCreate(NULL, kCFNumberIntType, &enabledVal);
 	CFDictionarySetValue(val, @"enable", enabledRef);
 
-	// Persist the changes to the preferences
+	// Write the changes to the preferences
 	CFPreferencesSetValue(CFSTR("firewall"), newDict, CFSTR("com.apple.sharing.firewall"),
 			      kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
 	CFPreferencesSynchronize(CFSTR("com.apple.sharing.firewall"), kCFPreferencesAnyUser,
-				 kCFPreferencesCurrentHost );
+				 kCFPreferencesCurrentHost);
+	CFRelease(newDict);
 
 	// Call the FirewallTool utility to reload the firewall rules from the preferences
 	// TODO: Look for better ways todo this that don't require admin privileges.
@@ -115,7 +117,7 @@
 
 	if (!returnDescriptor) {
 		*errorString = NSLocalizedString(@"Couldn't restart firewall with new configuration!",
-						@"In FirewallRuleAction");
+						 @"In FirewallRuleAction");
 		return NO;
 	}
 
