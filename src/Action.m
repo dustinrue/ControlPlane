@@ -140,6 +140,7 @@
 #pragma mark -
 
 #import "DefaultPrinterAction.h"
+#import "FirewallRuleAction.h"
 #import "IChatAction.h"
 #import "MailSMTPServerAction.h"
 #import "MountAction.h"
@@ -161,6 +162,7 @@
 
 	classes = [[NSArray alloc] initWithObjects:
 		[DefaultPrinterAction class],
+		[FirewallRuleAction class],
 		[IChatAction class],
 		[MailSMTPServerAction class],
 		[MountAction class],
@@ -176,6 +178,7 @@
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
+		NSLocalizedString(@"FirewallRule", @"Action type");
 		NSLocalizedString(@"IChat", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
 		NSLocalizedString(@"Mount", @"Action type");
