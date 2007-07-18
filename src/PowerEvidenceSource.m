@@ -118,22 +118,26 @@ static void sourceChange(void *info)
 		nil];
 }
 
-- (id)getParameterFromPanel
+- (NSMutableDictionary *)readFromPanel
 {
-	if ([[self valueForKey:@"batteryChosen"] boolValue])
-		return @"Battery";
-	else
-		return @"A/C";
+	NSMutableDictionary *dict = [super readFromPanel];
+
+	NSString *param = [[self valueForKey:@"batteryChosen"] boolValue] ? @"Battery" : @"A/C";
+	[dict setValue:param forKey:@"parameter"];
+	[dict setValue:param forKey:@"description"];
+
+	return dict;
 }
 
-- (void)putParameterToPanel:(id)parameter
+- (void)writeToPanel:(NSDictionary *)dict
 {
-	NSString *str = (NSString *) parameter;
-	if (str) {
+	[super writeToPanel:dict];
+
+	if ([dict objectForKey:@"parameter"]) {
+		NSString *str = [dict valueForKey:@"parameter"];
 		[self setValue:[NSNumber numberWithBool:[str isEqualToString:@"Battery"]]
 			forKey:@"batteryChosen"];
 	}
-	// TODO: default?
 }
 
 @end

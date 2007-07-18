@@ -8,9 +8,10 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {closeSheet = id; }; 
+            ACTIONS = {closeSheetWithCancel = id; closeSheetWithOK = id; }; 
             CLASS = EvidenceSourceWithCustomPanel; 
             LANGUAGE = ObjC; 
+            OUTLETS = {ruleConfidenceSlider = NSSlider; ruleContext = NSPopUpButton; }; 
             SUPERCLASS = EvidenceSource; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

@@ -58,74 +58,75 @@
 	[super dealloc];
 }
 
-- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(id)parameter
-		storingResultIn:(id)object parameterKeyPath:(NSString *)parameterKeyPath
-	     descriptionKeyPath:(NSString *)descriptionKeyPath typeKeyPath:(NSString *)typeKeyPath
+- (void)setContextMenu:(NSMenu *)menu
 {
-	[self putParameterToPanel:parameter];
+	[ruleContext setMenu:menu];
+}
 
-	NSArray *contextInfo = [[NSArray alloc] initWithObjects:
-		object, parameterKeyPath, descriptionKeyPath, typeKeyPath, nil];
+- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(NSDictionary *)parameter
+		 callbackObject:(NSObject *)callbackObject selector:(SEL)selector
+{
+	[self writeToPanel:parameter];
+
+	NSMethodSignature *sig = [callbackObject methodSignatureForSelector:selector]; 
+	NSInvocation *contextInfo = [NSInvocation invocationWithMethodSignature:sig];
+	[contextInfo setSelector:selector];
+	[contextInfo setTarget:callbackObject];
+
 	[NSApp beginSheet:panel
 	   modalForWindow:window
 	    modalDelegate:self
 	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-	      contextInfo:contextInfo];
+	      contextInfo:[contextInfo retain]];
 }
 
-- (IBAction)closeSheet:(id)sender
+- (IBAction)closeSheetWithOK:(id)sender
 {
-	[NSApp endSheet:panel returnCode:0];
+	[NSApp endSheet:panel returnCode:NSOKButton];
+	[panel orderOut:nil];
+}
+
+- (IBAction)closeSheetWithCancel:(id)sender
+{
+	[NSApp endSheet:panel returnCode:NSCancelButton];
 	[panel orderOut:nil];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	NSArray *bits = (NSArray *) contextInfo;
-	id object = [bits objectAtIndex:0];
-	NSString *parameterKeyPath = [bits objectAtIndex:1];
-	NSString *descriptionKeyPath = [bits objectAtIndex:2];
-	NSString *typeKeyPath = [bits objectAtIndex:3];
+	if (returnCode != NSOKButton)
+		return;
 
-	id param = [self getParameterFromPanel];
-	NSString *desc = [self descriptionOfParameterInPanel];
-	NSString *type = [self typeOfParameterInPanel];
+	NSInvocation *inv = (NSInvocation *) contextInfo;
+	NSDictionary *dict = [self readFromPanel];
+	[inv setArgument:&dict atIndex:2];
 
-#ifdef DEBUG_MODE
-	//NSLog(@"%@ >> stuffing '%@' into %@ at %@", [self class], param, object, parameterKeyPath);
-#endif
-	[object setValue:param forKeyPath:parameterKeyPath];
-#ifdef DEBUG_MODE
-	//NSLog(@"%@ >> stuffing '%@' into %@ at %@", [self class], desc, object, descriptionKeyPath);
-#endif
-	[object setValue:desc forKeyPath:descriptionKeyPath];
-
-	[object setValue:type forKeyPath:typeKeyPath];
+	[inv invoke];
+	[inv release];
 }
 
-- (id)getParameterFromPanel
+- (NSMutableDictionary *)readFromPanel
 {
-	[NSException raise:@"Abstract Class Exception"
-		    format:[NSString stringWithFormat:@"Error, -%@ not implemented.", _cmd]];
-	return nil;
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[[ruleContext selectedItem] representedObject], @"context",
+		[NSNumber numberWithDouble:[ruleConfidenceSlider doubleValue]], @"confidence",
+		[[self typesOfRulesMatched] objectAtIndex:0], @"type",
+		nil];
 }
 
-- (void)putParameterToPanel:(id)parameter
+- (void)writeToPanel:(NSDictionary *)dict
 {
-	[NSException raise:@"Abstract Class Exception"
-		    format:[NSString stringWithFormat:@"Error, -%@ not implemented.", _cmd]];
-}
+	if ([dict objectForKey:@"context"]) {
+		// Set up context selector
+		// TODO: set menu properly?
+		int index = [ruleContext indexOfItemWithRepresentedObject:[dict valueForKey:@"context"]];
+		[ruleContext selectItemAtIndex:index];
+	}
 
-- (NSString *)descriptionOfParameterInPanel
-{
-	// Default implementation
-	return [NSString stringWithFormat:@"%@", [self getParameterFromPanel]];
-}
-
-- (NSString *)typeOfParameterInPanel
-{
-	// Default implementation
-	return [[self typesOfRulesMatched] objectAtIndex:0];
+	if ([dict objectForKey:@"confidence"]) {
+		// Set up confidence slider
+		[ruleConfidenceSlider setDoubleValue:[[dict valueForKey:@"confidence"] doubleValue]];
+	}
 }
 
 @end

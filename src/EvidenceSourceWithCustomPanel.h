@@ -11,20 +11,23 @@
 
 @interface EvidenceSourceWithCustomPanel : EvidenceSource {
 	NSPanel *panel;
+
+	IBOutlet NSPopUpButton *ruleContext;
+	IBOutlet NSSlider *ruleConfidenceSlider;
 }
 
 - (id)initWithNibNamed:(NSString *)name;
 - (void)dealloc;
 
-- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(id)parameter
-		storingResultIn:(id)object parameterKeyPath:(NSString *)parameterKeyPath
-	     descriptionKeyPath:(NSString *)descriptionKeyPath typeKeyPath:(NSString *)typeKeyPath;
-- (IBAction)closeSheet:(id)sender;
+- (void)setContextMenu:(NSMenu *)menu;
+- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(NSDictionary *)parameter
+		 callbackObject:(NSObject *)callbackObject selector:(SEL)selector;
+- (IBAction)closeSheetWithOK:(id)sender;
+- (IBAction)closeSheetWithCancel:(id)sender;
 
-// Need to be implemented by descendant classes
-- (id)getParameterFromPanel;
-- (void)putParameterToPanel:(id)parameter;
-- (NSString *)descriptionOfParameterInPanel;	// optional
-- (NSString *)typeOfParameterInPanel;		// optional
+// Need to be extended by descendant classes
+// (need to add handling of 'parameter', and optionally 'type' and 'description' keys)
+- (NSMutableDictionary *)readFromPanel;
+- (void)writeToPanel:(NSDictionary *)dict;
 
 @end

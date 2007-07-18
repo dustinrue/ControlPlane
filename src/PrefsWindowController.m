@@ -392,27 +392,27 @@
 #endif
 	}
 
-	[self setValue:[src getSuggestionLeadText:type] forKey:@"newRuleWindowText1"];
-	NSString *newRuleTypeString = NSLocalizedString(name, @"Rule type");
-	[newRuleWindow setTitle:[NSString stringWithFormat:
-		NSLocalizedString(@"New %@ Rule", @"Window title"), newRuleTypeString]];
+	if (!usingCustomPanel) {
+		[self setValue:[src getSuggestionLeadText:type] forKey:@"newRuleWindowText1"];
+		NSString *newRuleTypeString = NSLocalizedString(name, @"Rule type");
+		[newRuleWindow setTitle:[NSString stringWithFormat:
+			NSLocalizedString(@"New %@ Rule", @"Window title"), newRuleTypeString]];
 
-	[newRuleContext setMenu:[contextsDataSource hierarchicalMenu]];
+		[newRuleContext setMenu:[contextsDataSource hierarchicalMenu]];
 
-	[NSApp activateIgnoringOtherApps:YES];
-	[newRuleWindow makeKeyAndOrderFront:self];
-
-	if (usingCustomPanel) {
-		[newRuleParameterButton setHidden:YES];
-		[newRuleParameterButton setNeedsDisplay:YES];
-
-		[src_e runPanelAsSheetOfWindow:newRuleWindow
-				 withParameter:nil
-			       storingResultIn:self
-			      parameterKeyPath:@"newRuleParameter"
-			    descriptionKeyPath:@"newRuleDescription"
-				   typeKeyPath:@"newRuleType"];
+		[NSApp activateIgnoringOtherApps:YES];
+		[newRuleWindow makeKeyAndOrderFront:self];
 	} else {
+		[src_e setContextMenu:[contextsDataSource hierarchicalMenu]];
+
+		[NSApp activateIgnoringOtherApps:YES];
+		[src_e runPanelAsSheetOfWindow:prefsWindow
+				 withParameter:[NSDictionary dictionary]
+				callbackObject:self
+				      selector:@selector(doAddRuleCustom:)];
+	}
+
+	if (!usingCustomPanel) {
 		[self bind:@"newRuleParameter"
 		  toObject:newRuleParameterController
 	       withKeyPath:@"selection.parameter"
@@ -442,6 +442,11 @@
 	[rulesController addObject:new_rule];
 
 	[newRuleWindow performClose:self];
+}
+
+- (void)doAddRuleCustom:(NSDictionary *)dict
+{
+	[rulesController addObject:dict];
 }
 
 #pragma mark Action creation

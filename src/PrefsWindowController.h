@@ -29,6 +29,7 @@
 	IBOutlet NSWindow *newRuleWindow;
 	NSString *newRuleWindowText1;
 	NSString *newRuleParameter, *newRuleDescription, *newRuleType;
+	NSDictionary *newRuleDictionary;
 	IBOutlet NSPopUpButton *newRuleParameterButton;
 	IBOutlet NSArrayController *newRuleParameterController;
 	IBOutlet NSSlider *newRuleConfidenceSlider;

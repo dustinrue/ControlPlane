@@ -29,7 +29,7 @@
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
 
-- (id)getParameterFromPanel;
-- (void)putParameterToPanel:(id)parameter;
+- (NSMutableDictionary *)readFromPanel;
+- (void)writeToPanel:(NSDictionary *)dict;
 
 @end
