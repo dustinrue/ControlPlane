@@ -92,11 +92,11 @@
 	NSString *type = [self typeOfParameterInPanel];
 
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> stuffing '%@' into %@ at %@", [self class], param, object, parameterKeyPath);
+	//NSLog(@"%@ >> stuffing '%@' into %@ at %@", [self class], param, object, parameterKeyPath);
 #endif
 	[object setValue:param forKeyPath:parameterKeyPath];
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> stuffing '%@' into %@ at %@", [self class], desc, object, descriptionKeyPath);
+	//NSLog(@"%@ >> stuffing '%@' into %@ at %@", [self class], desc, object, descriptionKeyPath);
 #endif
 	[object setValue:desc forKeyPath:descriptionKeyPath];
 
