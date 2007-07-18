@@ -136,33 +136,24 @@
 
 + (NSArray *)limitedOptions
 {
-	int cnt=0;
-	
 	// Locate the firewall preferences dictionary
-	CFDictionaryRef dict = (CFDictionaryRef) CFPreferencesCopyAppValue(CFSTR("firewall"), CFSTR("com.apple.sharing.firewall"));
-	int nameCount = CFDictionaryGetCount(dict);
-	CFStringRef names[nameCount];
+	NSDictionary *dict = (NSDictionary *) CFPreferencesCopyAppValue(CFSTR("firewall"), CFSTR("com.apple.sharing.firewall"));
+	[dict autorelease];
 
-	// Get a full listing of all firewall rules
-	CFDictionaryGetKeysAndValues(dict, (const void **)names, NULL);	
+	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:[dict count]];
 
-	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:nameCount];
+	NSEnumerator *en = [dict keyEnumerator];
+	NSString *name;
+	while ((name = [en nextObject])) {
+		NSString *enableOpt = [NSString stringWithFormat:@"+%@", name];
+		NSString *disableOpt = [NSString stringWithFormat:@"-%@", name];
+		NSString *enableDesc = [NSString stringWithFormat:NSLocalizedString(@"Enable %@", @"In FirewallRuleAction"), name];
+		NSString *disableDesc = [NSString stringWithFormat:NSLocalizedString(@"Disable %@", @"In FirewallRuleAction"), name];
 
-	for (cnt = 0; cnt < nameCount; ++cnt) {
-		NSString *name = (NSString *) names[cnt];
-		NSString *enableFlag = @"+";
-		NSString *disableFlag = @"-";
-		NSString *enableTag = @"Enable ";
-		NSString *disableTag = @"Disable ";
-		NSString *enableName = [enableFlag stringByAppendingString:name];
-		NSString *disableName = [disableFlag stringByAppendingString:name];
-		NSString *enableDesc = [enableTag stringByAppendingString:name];
-		NSString *disableDesc = [disableTag stringByAppendingString:name];
-		
 		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-				disableName, @"option", disableDesc, @"description", nil]];	
+			enableOpt, @"option", enableDesc, @"description", nil]];
 		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-				enableName, @"option", enableDesc, @"description", nil]];
+			disableOpt, @"option", disableDesc, @"description", nil]];	
 	}
 
 	return opts;
