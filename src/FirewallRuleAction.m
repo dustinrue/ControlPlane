@@ -8,7 +8,24 @@
 #import "FirewallRuleAction.h"
 
 
+@interface FirewallRuleAction (Private)
+
+- (BOOL)isEnableRule;
+- (NSString *)strippedRuleName;
+
+@end
+
 @implementation FirewallRuleAction
+
+- (BOOL)isEnableRule
+{
+	return ([ruleName characterAtIndex:0] == '+');
+}
+
+- (NSString *)strippedRuleName
+{
+	return [ruleName substringFromIndex:1];
+}
 
 - (id)init
 {
@@ -48,73 +65,57 @@
 
 - (NSString *)description
 {
-	// Strip off the first character which indicates either enabled or disabled
-	bool enabledPrefix = false;
-	if ([ruleName characterAtIndex:0] == '+')
-		enabledPrefix = true;
-	NSString *strippedRuleName = [[NSString alloc] initWithString: [ruleName substringFromIndex:1] ];
+	NSString *name = [self strippedRuleName];
 	
-	if (enabledPrefix == true)
-		return [NSString stringWithFormat:NSLocalizedString( @"Enabling Firewall Rule '%@'.", @"" ),
-			strippedRuleName];
+	if ([self isEnableRule])
+		return [NSString stringWithFormat:NSLocalizedString( @"Enabling Firewall Rule '%@'.", @""), name];
 	else
-		return [NSString stringWithFormat:NSLocalizedString( @"Disabling Firewall Rule '%@'.", @"" ),
-			strippedRuleName];
+		return [NSString stringWithFormat:NSLocalizedString( @"Disabling Firewall Rule '%@'.", @""), name];
 }
 
 - (BOOL)execute:(NSString **)errorString
 {
 	// Strip off the first character which indicates either enabled or disabled
-	bool enabledPrefix = false;
-	if ([ruleName characterAtIndex:0] == '+')
-		enabledPrefix = true;
-	NSString *strippedRuleName = [[NSString alloc] initWithString: [ruleName substringFromIndex:1] ];
+	BOOL isEnable = [self isEnableRule];
+	NSString *name = [self strippedRuleName];
 
 	// Locate the firewall preferences dictionary
-	CFDictionaryRef dict = (CFDictionaryRef) CFPreferencesCopyAppValue( CFSTR("firewall"), 
-																	    CFSTR("com.apple.sharing.firewall") );
-	
+	CFDictionaryRef dict = (CFDictionaryRef) CFPreferencesCopyAppValue(CFSTR("firewall"), CFSTR("com.apple.sharing.firewall"));
+
 	// Create a mutable copy that we can update
-	CFMutableDictionaryRef newDict = CFDictionaryCreateMutableCopy( kCFAllocatorDefault, 0, dict );	
-	
+	CFMutableDictionaryRef newDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, dict);	
+
 	// Find the specific rule we which to enable
-	CFMutableDictionaryRef val = (CFMutableDictionaryRef)CFDictionaryGetValue( newDict, strippedRuleName );
-	
-	if (val == NULL)
-	{
+	CFMutableDictionaryRef val = (CFMutableDictionaryRef)CFDictionaryGetValue(newDict, name);
+
+	if (!val) {
 		*errorString = NSLocalizedString( @"Couldn't find requested firewall rule!", @"In FirewallRuleAction" );
 		return NO;
 	}
-	
+
 	// Alter the dictionary to set the enable flag
-	uint32_t	enabledVal = 1;
-	
-	if (enabledPrefix == false)
-		enabledVal = 0;
-	
-	CFNumberRef enabledRef = CFNumberCreate( kCFAllocatorDefault, kCFNumberIntType, &enabledVal );
-	CFDictionarySetValue( val, @"enable", enabledRef );
-	
+	uint32_t enabledVal = isEnable ? 1 : 0;
+
+	CFNumberRef enabledRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &enabledVal);
+	CFDictionarySetValue(val, @"enable", enabledRef);
+
 	// Persist the changes to the preferences
-	CFPreferencesSetValue( CFSTR("firewall"), newDict, CFSTR("com.apple.sharing.firewall"), 
-						   kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
-	CFPreferencesSynchronize( CFSTR("com.apple.sharing.firewall"), kCFPreferencesAnyUser, 
-	                          kCFPreferencesCurrentHost );
-	
+	CFPreferencesSetValue(CFSTR("firewall"), newDict, CFSTR("com.apple.sharing.firewall"),
+			      kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+	CFPreferencesSynchronize(CFSTR("com.apple.sharing.firewall"), kCFPreferencesAnyUser,
+				 kCFPreferencesCurrentHost );
+
 	// Call the FirewallTool utility to reload the firewall rules from the preferences
 	// TODO: Look for better ways todo this that don't require admin privileges.
-	NSString *script = [NSString stringWithFormat:
-		@"do shell script \"/usr/libexec/FirewallTool\" with administrator privileges"];
-	
-	NSDictionary* errorDict;
-	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithSource: script];
-    NSAppleEventDescriptor* returnDescriptor = [appleScript executeAndReturnError: &errorDict];
-    [appleScript release];
+	NSString *script = @"do shell script \"/usr/libexec/FirewallTool\" with administrator privileges";
 
-    if (returnDescriptor == NULL)
-    {
-		*errorString = NSLocalizedString( @"Couldn't restart firewall with new configuration!", 
-										  @"In FirewallRuleAction" );
+	NSDictionary *errorDict;
+	NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:script] autorelease];
+	NSAppleEventDescriptor *returnDescriptor = [appleScript executeAndReturnError:&errorDict];
+
+	if (!returnDescriptor) {
+		*errorString = NSLocalizedString(@"Couldn't restart firewall with new configuration!",
+						@"In FirewallRuleAction");
 		return NO;
 	}
 
@@ -124,12 +125,13 @@
 + (NSString *)helpText
 {
 	return NSLocalizedString( @"The parameter for FirewallRule action is the name of the "
-				              "firewall rule you wish to enable or disable.", @"" );
+				  "firewall rule you wish to modify, prefixed with '+' or '-' to "
+				  "enable or disable it, respectively.", @"" );
 }
 
 + (NSString *)creationHelpText
 {
-	return NSLocalizedString(@"Enable the firewall rule ", @"");
+	return NSLocalizedString(@"Enable the firewall rule", @"");
 }
 
 + (NSArray *)limitedOptions
@@ -137,19 +139,17 @@
 	int cnt=0;
 	
 	// Locate the firewall preferences dictionary
-	CFDictionaryRef dict = (CFDictionaryRef) CFPreferencesCopyAppValue( CFSTR("firewall"), 
-	                                                                    CFSTR("com.apple.sharing.firewall") );
-	int nameCount = CFDictionaryGetCount( dict );
+	CFDictionaryRef dict = (CFDictionaryRef) CFPreferencesCopyAppValue(CFSTR("firewall"), CFSTR("com.apple.sharing.firewall"));
+	int nameCount = CFDictionaryGetCount(dict);
 	CFStringRef names[nameCount];
 
 	// Get a full listing of all firewall rules
-	CFDictionaryGetKeysAndValues( dict, (const void**)names, NULL );	
+	CFDictionaryGetKeysAndValues(dict, (const void **)names, NULL);	
 
 	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:nameCount];
-	
-	for (cnt=0; cnt<nameCount; cnt++)
-	{
-		NSString *name = (NSString *)names[cnt];
+
+	for (cnt = 0; cnt < nameCount; ++cnt) {
+		NSString *name = (NSString *) names[cnt];
 		NSString *enableFlag = @"+";
 		NSString *disableFlag = @"-";
 		NSString *enableTag = @"Enable ";
