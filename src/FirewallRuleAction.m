@@ -67,11 +67,11 @@
 - (NSString *)description
 {
 	NSString *name = [self strippedRuleName];
-	
+
 	if ([self isEnableRule])
-		return [NSString stringWithFormat:NSLocalizedString( @"Enabling Firewall Rule '%@'.", @""), name];
+		return [NSString stringWithFormat:NSLocalizedString(@"Enabling Firewall Rule '%@'.", @""), name];
 	else
-		return [NSString stringWithFormat:NSLocalizedString( @"Disabling Firewall Rule '%@'.", @""), name];
+		return [NSString stringWithFormat:NSLocalizedString(@"Disabling Firewall Rule '%@'.", @""), name];
 }
 
 - (BOOL)execute:(NSString **)errorString
@@ -126,9 +126,9 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString( @"The parameter for FirewallRule action is the name of the "
-				  "firewall rule you wish to modify, prefixed with '+' or '-' to "
-				  "enable or disable it, respectively.", @"" );
+	return NSLocalizedString(@"The parameter for FirewallRule action is the name of the "
+				 "firewall rule you wish to modify, prefixed with '+' or '-' to "
+				 "enable or disable it, respectively.", @"");
 }
 
 + (NSString *)creationHelpText
@@ -155,7 +155,7 @@
 		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 			enableOpt, @"option", enableDesc, @"description", nil]];
 		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			disableOpt, @"option", disableDesc, @"description", nil]];	
+			disableOpt, @"option", disableDesc, @"description", nil]];
 	}
 
 	return opts;
