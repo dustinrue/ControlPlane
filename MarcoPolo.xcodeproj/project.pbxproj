@@ -34,6 +34,8 @@
 		8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */; };
 		8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */; };
 		8D643D0D0C4EF84E006D8ECC /* LightRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8D643D0B0C4EF84E006D8ECC /* LightRule.nib */; };
+		8D643DDC0C4F1F0D006D8ECC /* VPNAction.h in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */; };
+		8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
 		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
 		8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */; };
@@ -100,6 +102,7 @@
 			dstSubfolderSpec = 7;
 			files = (
 				8DEF428F0BAA05D300F87273 /* MarcoPolo Help in Copy Help Files */,
+				8D643DDC0C4F1F0D006D8ECC /* VPNAction.h in Copy Help Files */,
 			);
 			name = "Copy Help Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,6 +158,8 @@
 		8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoopingEvidenceSource.h; path = src/LoopingEvidenceSource.h; sourceTree = "<group>"; };
 		8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LoopingEvidenceSource.m; path = src/LoopingEvidenceSource.m; sourceTree = "<group>"; };
 		8D643D0C0C4EF84E006D8ECC /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/LightRule.nib; sourceTree = "<group>"; };
+		8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VPNAction.h; path = src/VPNAction.h; sourceTree = "<group>"; };
+		8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = VPNAction.m; path = src/VPNAction.m; sourceTree = "<group>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = src/ToggleWiFiAction.h; sourceTree = "<group>"; };
 		8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleWiFiAction.m; path = src/ToggleWiFiAction.m; sourceTree = "<group>"; };
 		8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkLocationAction.h; path = src/NetworkLocationAction.h; sourceTree = "<group>"; };
@@ -431,6 +436,8 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
+				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
 				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
 				8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */,
@@ -604,6 +611,7 @@
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
 				8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */,
 				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
+				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

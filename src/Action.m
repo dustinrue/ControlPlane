@@ -152,6 +152,7 @@
 #import "ShellScriptAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
+#import "VPNAction.h"
 
 @implementation ActionSetController
 
@@ -174,6 +175,7 @@
 		[ShellScriptAction class],
 		[ToggleBluetoothAction class],
 		[ToggleWiFiAction class],
+		[VPNAction class],
 			nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -190,6 +192,7 @@
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
+		NSLocalizedString(@"VPN", @"Action type");
 	}
 
 	return self;
