@@ -32,6 +32,8 @@
 	dataCollected = NO;
 	startAfterSleep = NO;
 
+	oldDescription = nil;
+
 	// load nib
 	NSNib *nib = [[[NSNib alloc] initWithNibNamed:name bundle:nil] autorelease];
 	if (!nib) {
@@ -73,6 +75,9 @@
 - (void)dealloc
 {
 	[panel release];
+
+	if (oldDescription)
+		[oldDescription release];
 
 	[super dealloc];
 }
@@ -174,11 +179,16 @@
 
 - (NSMutableDictionary *)readFromPanel
 {
-	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[[ruleContext selectedItem] representedObject], @"context",
 		[NSNumber numberWithDouble:[ruleConfidenceSlider doubleValue]], @"confidence",
 		[[self typesOfRulesMatched] objectAtIndex:0], @"type",
 		nil];
+
+	if (oldDescription)
+		[dict setValue:oldDescription forKey:@"description"];
+
+	return dict;
 }
 
 - (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
@@ -192,6 +202,15 @@
 	if ([dict objectForKey:@"confidence"]) {
 		// Set up confidence slider
 		[ruleConfidenceSlider setDoubleValue:[[dict valueForKey:@"confidence"] doubleValue]];
+	}
+
+	// Hang on to custom descriptions
+	[oldDescription autorelease];
+	oldDescription = nil;
+	if ([dict objectForKey:@"description"]) {
+		NSString *desc = [dict valueForKey:@"description"];
+		if (desc && ([desc length] > 0))
+			oldDescription = [desc retain];
 	}
 }
 

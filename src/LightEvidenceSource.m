@@ -109,7 +109,8 @@
 		desc = [NSString stringWithFormat:NSLocalizedString(@"Below %@", @"Parameter is a percentage threshold"), perc];
 
 	[dict setValue:param forKey:@"parameter"];
-	[dict setValue:desc forKey:@"description"];
+	if (![dict objectForKey:@"description"])
+		[dict setValue:desc forKey:@"description"];
 
 	return dict;
 }

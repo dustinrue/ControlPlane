@@ -17,6 +17,7 @@
 	NSPanel *panel;
 	IBOutlet NSPopUpButton *ruleContext;
 	IBOutlet NSSlider *ruleConfidenceSlider;
+	NSString *oldDescription;
 }
 
 - (id)initWithNibNamed:(NSString *)name;
@@ -37,6 +38,10 @@
 
 // Need to be extended by descendant classes
 // (need to add handling of 'parameter', and optionally 'type' and 'description' keys)
+// Some rules:
+//	- parameter *must* be filled in
+//	- description *must not* be filled in if [super readFromPanel] does it
+//	- type *may* be filled in; it will default to the first "supported" rule type
 - (NSMutableDictionary *)readFromPanel;
 - (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
 

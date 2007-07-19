@@ -25,7 +25,8 @@
 	id sel = [[ruleParameterController arrangedObjects] objectAtIndex:[ruleParameterController selectionIndex]];
 	[dict setValue:[sel valueForKey:@"parameter"] forKey:@"parameter"];
 	[dict setValue:[sel valueForKey:@"type"] forKey:@"type"];
-	[dict setValue:[sel valueForKey:@"description"] forKey:@"description"];
+	if (![dict objectForKey:@"description"])
+		[dict setValue:[sel valueForKey:@"description"] forKey:@"description"];
 
 	return dict;
 }
