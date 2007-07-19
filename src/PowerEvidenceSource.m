@@ -12,21 +12,28 @@
 #import "PowerEvidenceSource.h"
 
 
+@interface PowerEvidenceSource (Private)
+
+- (void)doFullUpdate;
+
+@end
+
+#pragma mark -
+
 static void sourceChange(void *info)
 {
-#ifdef DEBUG_MODE
-	NSLog(@"%s woo!", __PRETTY_FUNCTION__);
-#endif
 	PowerEvidenceSource *src = (PowerEvidenceSource *) info;
 
 	[src doFullUpdate];
 }
 
+#pragma mark -
+
 @implementation PowerEvidenceSource
 
 - (id)init
 {
-	if (!(self = [super initWithNibNamed:@"PowerRule"]))
+	if (!(self = [super init]))
 		return nil;
 
 	status = nil;
@@ -116,28 +123,6 @@ static void sourceChange(void *info)
 			@"A/C", @"parameter",
 			NSLocalizedString(@"Power Adapter", @""), @"description", nil],
 		nil];
-}
-
-- (NSMutableDictionary *)readFromPanel
-{
-	NSMutableDictionary *dict = [super readFromPanel];
-
-	NSString *param = [[self valueForKey:@"batteryChosen"] boolValue] ? @"Battery" : @"A/C";
-	[dict setValue:param forKey:@"parameter"];
-	[dict setValue:param forKey:@"description"];
-
-	return dict;
-}
-
-- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
-{
-	[super writeToPanel:dict usingType:type];
-
-	if ([dict objectForKey:@"parameter"]) {
-		NSString *str = [dict valueForKey:@"parameter"];
-		[self setValue:[NSNumber numberWithBool:[str isEqualToString:@"Battery"]]
-			forKey:@"batteryChosen"];
-	}
 }
 
 @end

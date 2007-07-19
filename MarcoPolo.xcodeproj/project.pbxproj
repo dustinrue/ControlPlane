@@ -67,7 +67,6 @@
 		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
 		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
-		8DCB41FA0C4CC14800E71D28 /* PowerRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCB41F80C4CC14800E71D28 /* PowerRule.nib */; };
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
 		8DCBF60C0BE5C4E400A01414 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8DCBF60B0BE5C4E400A01414 /* Credits.rtf */; };
@@ -204,7 +203,6 @@
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
 		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = src/MuteAction.h; sourceTree = "<group>"; };
 		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = src/MuteAction.m; sourceTree = "<group>"; };
-		8DCB41F90C4CC14800E71D28 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/PowerRule.nib; sourceTree = "<group>"; };
 		8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FirewallRuleAction.h; path = src/FirewallRuleAction.h; sourceTree = "<group>"; };
 		8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FirewallRuleAction.m; path = src/FirewallRuleAction.m; sourceTree = "<group>"; };
 		8DCBE9690C1A7ECE008260EF /* MountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MountAction.h; path = src/MountAction.h; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
-				8DCB41F80C4CC14800E71D28 /* PowerRule.nib */,
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
 				8D643D0B0C4EF84E006D8ECC /* LightRule.nib */,
 			);
@@ -541,7 +538,6 @@
 				8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.tiff in Resources */,
 				8DCC52120C42106D00515041 /* Info.plist in Resources */,
 				8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.tiff in Resources */,
-				8DCB41FA0C4CC14800E71D28 /* PowerRule.nib in Resources */,
 				8DE4C00C0C4EE58D00511590 /* GenericRule.nib in Resources */,
 				8D643D0D0C4EF84E006D8ECC /* LightRule.nib in Resources */,
 			);
@@ -648,14 +644,6 @@
 				8D643D0C0C4EF84E006D8ECC /* en */,
 			);
 			name = LightRule.nib;
-			sourceTree = "<group>";
-		};
-		8DCB41F80C4CC14800E71D28 /* PowerRule.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8DCB41F90C4CC14800E71D28 /* en */,
-			);
-			name = PowerRule.nib;
 			sourceTree = "<group>";
 		};
 		8DE4C00A0C4EE58D00511590 /* GenericRule.nib */ = {

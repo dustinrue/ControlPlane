@@ -6,20 +6,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
-@interface PowerEvidenceSource : EvidenceSource {
+@interface PowerEvidenceSource : GenericEvidenceSource {
 	NSString *status;
 	CFRunLoopSourceRef runLoopSource;
-
-	// For custom panel
-	NSNumber *batteryChosen;
 }
 
 - (id)init;
-
-- (void)doFullUpdate;	// internal
 
 - (void)start;
 - (void)stop;
@@ -28,8 +23,5 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
-
-- (NSMutableDictionary *)readFromPanel;
-- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
 
 @end
