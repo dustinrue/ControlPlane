@@ -421,9 +421,6 @@
 // Private: called by -[EvidenceSource runPanelAsSheetOfWindow:...]
 - (void)doEditRule:(NSDictionary *)dict
 {
-#ifdef DEBUG_MODE
-	NSLog(@"%s got:\n%@", __PRETTY_FUNCTION__, dict);
-#endif
 	unsigned int index = [rulesController selectionIndex];
 	[rulesController removeObjectAtArrangedObjectIndex:index];
 	[rulesController insertObject:dict atArrangedObjectIndex:index];
