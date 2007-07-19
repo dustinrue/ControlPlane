@@ -637,19 +637,6 @@
 	[pool release];
 }
 
-#pragma mark UI helpers
-
-- (unsigned int)pushSuggestionsFromSource:(NSString *)name ofType:(NSString *)type intoController:(NSArrayController *)controller
-{
-	NSArray *suggestions = [evidenceSources getSuggestionsFromSource:name ofType:type];
-
-	[controller removeObjects:[controller arrangedObjects]];
-	[controller addObjects:suggestions];
-	[controller selectNext:self];
-
-	return [suggestions count];
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma mark -

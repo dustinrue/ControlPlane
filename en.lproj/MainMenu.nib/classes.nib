@@ -66,7 +66,6 @@
                 addAction = id; 
                 addRule = id; 
                 doAddAction = id; 
-                doAddRule = id; 
                 runAbout = id; 
                 runPreferences = id; 
                 runWebPage = id; 
@@ -90,11 +89,6 @@
                 newActionLimitedOptionsController = NSArrayController; 
                 newActionWindow = NSWindow; 
                 newActionWindowParameterView = NSView; 
-                newRuleConfidenceSlider = NSSlider; 
-                newRuleContext = NSPopUpButton; 
-                newRuleParameterButton = NSPopUpButton; 
-                newRuleParameterController = NSArrayController; 
-                newRuleWindow = NSWindow; 
                 prefsWindow = NSWindow; 
                 rulesController = NSArrayController; 
                 rulesPrefsView = NSView; 

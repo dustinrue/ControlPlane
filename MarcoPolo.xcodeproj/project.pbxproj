@@ -31,6 +31,7 @@
 		8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.tiff */; };
 		8D514D3F0BE994A10013C1ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D514D3E0BE994A10013C1ED /* Localizable.strings */; };
 		8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D57B1430C4457AB00EC620D /* CoreAudio.framework */; };
+		8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
 		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
 		8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */; };
@@ -62,7 +63,6 @@
 		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
 		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
-		8DCB41B70C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB41B50C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.m */; };
 		8DCB41FA0C4CC14800E71D28 /* PowerRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCB41F80C4CC14800E71D28 /* PowerRule.nib */; };
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
@@ -148,6 +148,8 @@
 		8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonitorEvidenceSource.h; path = src/MonitorEvidenceSource.h; sourceTree = "<group>"; };
 		8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MonitorEvidenceSource.m; path = src/MonitorEvidenceSource.m; sourceTree = "<group>"; };
 		8D57B1430C4457AB00EC620D /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
+		8D643C650C4EF197006D8ECC /* GenericLoopingEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericLoopingEvidenceSource.h; path = src/GenericLoopingEvidenceSource.h; sourceTree = "<group>"; };
+		8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericLoopingEvidenceSource.m; path = src/GenericLoopingEvidenceSource.m; sourceTree = "<group>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = src/ToggleWiFiAction.h; sourceTree = "<group>"; };
 		8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleWiFiAction.m; path = src/ToggleWiFiAction.m; sourceTree = "<group>"; };
 		8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkLocationAction.h; path = src/NetworkLocationAction.h; sourceTree = "<group>"; };
@@ -192,8 +194,6 @@
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
 		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = src/MuteAction.h; sourceTree = "<group>"; };
 		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = src/MuteAction.m; sourceTree = "<group>"; };
-		8DCB41B40C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvidenceSourceWithCustomPanel.h; path = src/EvidenceSourceWithCustomPanel.h; sourceTree = "<group>"; };
-		8DCB41B50C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvidenceSourceWithCustomPanel.m; path = src/EvidenceSourceWithCustomPanel.m; sourceTree = "<group>"; };
 		8DCB41F90C4CC14800E71D28 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/PowerRule.nib; sourceTree = "<group>"; };
 		8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FirewallRuleAction.h; path = src/FirewallRuleAction.h; sourceTree = "<group>"; };
 		8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FirewallRuleAction.m; path = src/FirewallRuleAction.m; sourceTree = "<group>"; };
@@ -382,8 +382,22 @@
 		8DAD148E0BBCA40700F93914 /* Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */,
 				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
 				8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */,
+				8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */,
+				8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */,
+				8D643C650C4EF197006D8ECC /* GenericLoopingEvidenceSource.h */,
+				8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */,
+			);
+			name = "Evidence Sources";
+			sourceTree = "<group>";
+		};
+		8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
+				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
 				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
 				8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */,
 				8D27ECAD0C4456A300AE1929 /* AudioOutputEvidenceSource.h */,
@@ -402,14 +416,8 @@
 				8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
-				8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */,
-				8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */,
-				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
-				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
-				8DCB41B40C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.h */,
-				8DCB41B50C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.m */,
 			);
-			name = "Evidence Sources";
+			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
 		};
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
@@ -583,9 +591,9 @@
 				8D91F1FA0C4772FF00D9FC0F /* LightEvidenceSource.m in Sources */,
 				8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */,
 				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
-				8DCB41B70C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.m in Sources */,
 				8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */,
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
+				8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

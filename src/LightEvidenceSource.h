@@ -7,9 +7,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <IOKit/IOTypes.h>
-#import "EvidenceSource.h"
+#import "GenericLoopingEvidenceSource.h"
 
-@interface LightEvidenceSource : LoopingEvidenceSource {
+@interface LightEvidenceSource : GenericLoopingEvidenceSource {
 	NSLock *lock;
 	io_connect_t ioPort;
 	int leftLight, rightLight;

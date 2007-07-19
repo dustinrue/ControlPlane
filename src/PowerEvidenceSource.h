@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSourceWithCustomPanel.h"
+#import "EvidenceSource.h"
 
 
-@interface PowerEvidenceSource : EvidenceSourceWithCustomPanel {
+@interface PowerEvidenceSource : EvidenceSource {
 	NSString *status;
 	CFRunLoopSourceRef runLoopSource;
 

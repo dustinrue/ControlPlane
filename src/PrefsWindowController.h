@@ -25,14 +25,6 @@
 	IBOutlet ContextSelectionButton *defaultContextButton;
 	IBOutlet ContextSelectionButton *editRuleContextButton, *editActionContextButton;
 
-	// New rule creation hooks
-	IBOutlet NSWindow *newRuleWindow;
-	NSString *newRuleWindowText1;
-	IBOutlet NSPopUpButton *newRuleParameterButton;
-	IBOutlet NSArrayController *newRuleParameterController;
-	IBOutlet NSSlider *newRuleConfidenceSlider;
-	IBOutlet NSPopUpButton *newRuleContext;
-
 	// New action creation hooks
 	IBOutlet NSWindow *newActionWindow;
 	NSString *newActionType, *newActionTypeString;
@@ -59,7 +51,6 @@
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar;
 
 - (void)addRule:(id)sender;
-- (IBAction)doAddRule:(id)sender;
 
 - (void)addAction:(id)sender;
 - (IBAction)doAddAction:(id)sender;

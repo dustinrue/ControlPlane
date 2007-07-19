@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSource.h"
+#import "GenericLoopingEvidenceSource.h"
 
 
-@interface MonitorEvidenceSource : LoopingEvidenceSource {
+@interface MonitorEvidenceSource : GenericLoopingEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *monitors;
 }

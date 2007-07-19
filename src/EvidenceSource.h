@@ -12,9 +12,14 @@
 	BOOL running;
 	BOOL dataCollected;
 	BOOL startAfterSleep;
+
+	// Sheet hooks
+	NSPanel *panel;
+	IBOutlet NSPopUpButton *ruleContext;
+	IBOutlet NSSlider *ruleConfidenceSlider;
 }
 
-- (id)init;
+- (id)initWithNibNamed:(NSString *)name;
 - (void)dealloc;
 - (void)goingToSleep:(id)arg;
 - (void)wakeFromSleep:(id)arg;
@@ -23,6 +28,17 @@
 - (BOOL)dataCollected;
 - (void)setDataCollected:(BOOL)collected;
 - (BOOL)isRunning;
+
+- (void)setContextMenu:(NSMenu *)menu;
+- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(NSDictionary *)parameter
+		 callbackObject:(NSObject *)callbackObject selector:(SEL)selector;
+- (IBAction)closeSheetWithOK:(id)sender;
+- (IBAction)closeSheetWithCancel:(id)sender;
+
+// Need to be extended by descendant classes
+// (need to add handling of 'parameter', and optionally 'type' and 'description' keys)
+- (NSMutableDictionary *)readFromPanel;
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
 
 // To be implemented by descendant classes:
 - (void)start;
@@ -37,24 +53,6 @@
 // Optionally implemented by descendant classes
 - (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
 - (NSString *)getSuggestionLeadText:(NSString *)type;	// optional; default is "The presence of"
-
-@end
-
-// A few evidence sources just need to continuously loop
-@interface LoopingEvidenceSource : EvidenceSource {
-	NSTimeInterval loopInterval;
-	NSTimer *loopTimer;
-}
-
-- (id)init;	// can be overridden by descendant classes to change loopInterval
-- (void)dealloc;
-
-- (void)start;
-- (void)stop;
-
-// should be implemented by descendant classes
-//- (void)doUpdate;
-//- (void)clearCollectedData;
 
 @end
 

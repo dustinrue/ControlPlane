@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSourceWithCustomPanel.h"
+#import "EvidenceSource.h"
 
 
-@interface GenericEvidenceSource : EvidenceSourceWithCustomPanel {
+@interface GenericEvidenceSource : EvidenceSource {
 	IBOutlet NSTextField *suggestionLeadText;
 	IBOutlet NSArrayController *ruleParameterController;
 }

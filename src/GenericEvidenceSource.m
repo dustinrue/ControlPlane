@@ -26,9 +26,6 @@
 	[dict setValue:[sel valueForKey:@"parameter"] forKey:@"parameter"];
 	[dict setValue:[sel valueForKey:@"type"] forKey:@"type"];
 	[dict setValue:[sel valueForKey:@"description"] forKey:@"description"];
-#ifdef DEBUG_MODE
-	NSLog(@"%s Pushing back\n%@", __PRETTY_FUNCTION__, dict);
-#endif
 
 	return dict;
 }

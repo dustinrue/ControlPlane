@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSource.h"
+#import "GenericLoopingEvidenceSource.h"
 
 
-@interface WiFiEvidenceSource : LoopingEvidenceSource {
+@interface WiFiEvidenceSource : GenericLoopingEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *apList;
 	int wakeUpCounter;

@@ -1,5 +1,5 @@
 #import "Action.h"
-#import "EvidenceSourceWithCustomPanel.h"
+#import "EvidenceSource.h"
 #import "PrefsWindowController.h"
 
 
@@ -367,69 +367,22 @@
 	} else {
 		src = [sender representedObject];
 		type = [[src typesOfRulesMatched] objectAtIndex:0];
-		type = nil;
 	}
 	name = [src name];
 
-	BOOL usingCustomPanel = NO;
-	EvidenceSourceWithCustomPanel *src_e;
-	if ([src isKindOfClass:[EvidenceSourceWithCustomPanel class]]) {
-		usingCustomPanel = YES;
-		src_e = (EvidenceSourceWithCustomPanel *) src;
-	}
 
-	int cnt = [mpController pushSuggestionsFromSource:name ofType:type intoController:newRuleParameterController];
-	if (cnt < 1) {
-#if 0
-		NSAlert *alert = [[NSAlert alloc] init];
-		[alert addButtonWithTitle:@"OK"];
-		[alert setMessageText:@"Sorry, don't have any suggestions for you."];
-		[alert setAlertStyle:NSInformationalAlertStyle];
+	[src setContextMenu:[contextsDataSource hierarchicalMenu]];
 
-		[alert runModal];
-		[alert release];
-		return;
-#endif
-	}
-
-	if (!usingCustomPanel) {
-		[self setValue:[src getSuggestionLeadText:type] forKey:@"newRuleWindowText1"];
-		NSString *newRuleTypeString = NSLocalizedString(name, @"Rule type");
-		[newRuleWindow setTitle:[NSString stringWithFormat:
-			NSLocalizedString(@"New %@ Rule", @"Window title"), newRuleTypeString]];
-
-		[newRuleContext setMenu:[contextsDataSource hierarchicalMenu]];
-
-		[NSApp activateIgnoringOtherApps:YES];
-		[newRuleWindow makeKeyAndOrderFront:self];
-	} else {
-		[src_e setContextMenu:[contextsDataSource hierarchicalMenu]];
-
-		[NSApp activateIgnoringOtherApps:YES];
-		[src_e runPanelAsSheetOfWindow:prefsWindow
-				 withParameter:[NSDictionary dictionary]
-				callbackObject:self
-				      selector:@selector(doAddRuleCustom:)];
-	}
+	[NSApp activateIgnoringOtherApps:YES];
+	NSDictionary *proto = [NSDictionary dictionaryWithObject:type forKey:@"type"];
+	[src runPanelAsSheetOfWindow:prefsWindow
+		       withParameter:proto
+		      callbackObject:self
+			    selector:@selector(doAddRule:)];
 }
 
-- (IBAction)doAddRule:(id)sender
-{
-	double conf = [newRuleConfidenceSlider doubleValue];
-
-	NSMutableDictionary *new_rule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithDouble:conf], @"confidence",
-		[[newRuleContext selectedItem] representedObject], @"context",
-		[[newRuleParameterController selection] valueForKey:@"parameter"], @"parameter",
-		[[newRuleParameterController selection] valueForKey:@"type"], @"type",
-		[[newRuleParameterController selection] valueForKey:@"description"], @"description",
-		nil];
-	[rulesController addObject:new_rule];
-
-	[newRuleWindow performClose:self];
-}
-
-- (void)doAddRuleCustom:(NSDictionary *)dict
+// Private: called by -[EvidenceSource runPanelAsSheetOfWindow:...]
+- (void)doAddRule:(NSDictionary *)dict
 {
 	[rulesController addObject:dict];
 }

@@ -42,8 +42,6 @@
 
 - (IBAction)doUpdate:(NSTimer *)theTimer;
 
-- (unsigned int)pushSuggestionsFromSource:(NSString *)name ofType:(NSString *)type intoController:(NSArrayController *)controller;
-
 // INTERNAL USE:
 - (void)updateThread:(id)arg;
 

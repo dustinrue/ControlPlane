@@ -8,9 +8,17 @@
 #import "EvidenceSource.h"
 
 
+@interface EvidenceSource (Private)
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
+@end
+
+#pragma mark -
+
 @implementation EvidenceSource
 
-- (id)init
+- (id)initWithNibNamed:(NSString *)name
 {
 	if ([[self class] isEqualTo:[EvidenceSource class]]) {
 		[NSException raise:@"Abstract Class Exception"
@@ -23,6 +31,31 @@
 	running = NO;
 	dataCollected = NO;
 	startAfterSleep = NO;
+
+	// load nib
+	NSNib *nib = [[[NSNib alloc] initWithNibNamed:name bundle:nil] autorelease];
+	if (!nib) {
+		NSLog(@"%@ >> failed loading nib named '%@'!", [self class], name);
+		return nil;
+	}
+	NSArray *topLevelObjects = [NSArray array];
+	if (![nib instantiateNibWithOwner:self topLevelObjects:&topLevelObjects]) {
+		NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
+		return nil;
+	}
+
+	// Look for an NSPanel
+	panel = nil;
+	NSEnumerator *en = [topLevelObjects objectEnumerator];
+	NSObject *obj;
+	while ((obj = [en nextObject])) {
+		if ([obj isKindOfClass:[NSPanel class]] && !panel)
+			panel = (NSPanel *) [obj retain];
+	}
+	if (!panel) {
+		NSLog(@"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
+		return nil;
+	}
 
 	// Get notified when we go to sleep, and wake from sleep
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
@@ -39,6 +72,8 @@
 
 - (void)dealloc
 {
+	[panel release];
+
 	[super dealloc];
 }
 
@@ -83,6 +118,85 @@
 	return running;
 }
 
+#pragma mark -
+#pragma mark Sheet hooks
+
+- (void)setContextMenu:(NSMenu *)menu
+{
+	[ruleContext setMenu:menu];
+}
+
+- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(NSDictionary *)parameter
+		 callbackObject:(NSObject *)callbackObject selector:(SEL)selector
+{
+	NSString *typeToUse = [[self typesOfRulesMatched] objectAtIndex:0];
+	if ([parameter objectForKey:@"type"])
+		typeToUse = [parameter valueForKey:@"type"];
+	[self writeToPanel:parameter usingType:typeToUse];
+
+	NSMethodSignature *sig = [callbackObject methodSignatureForSelector:selector]; 
+	NSInvocation *contextInfo = [NSInvocation invocationWithMethodSignature:sig];
+	[contextInfo setSelector:selector];
+	[contextInfo setTarget:callbackObject];
+
+	[NSApp beginSheet:panel
+	   modalForWindow:window
+	    modalDelegate:self
+	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+	      contextInfo:[contextInfo retain]];
+}
+
+- (IBAction)closeSheetWithOK:(id)sender
+{
+	[NSApp endSheet:panel returnCode:NSOKButton];
+	[panel orderOut:nil];
+}
+
+- (IBAction)closeSheetWithCancel:(id)sender
+{
+	[NSApp endSheet:panel returnCode:NSCancelButton];
+	[panel orderOut:nil];
+}
+
+// Private
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode != NSOKButton)
+		return;
+
+	NSInvocation *inv = (NSInvocation *) contextInfo;
+	NSDictionary *dict = [self readFromPanel];
+	[inv setArgument:&dict atIndex:2];
+
+	[inv invoke];
+	[inv release];
+}
+
+- (NSMutableDictionary *)readFromPanel
+{
+	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[[ruleContext selectedItem] representedObject], @"context",
+		[NSNumber numberWithDouble:[ruleConfidenceSlider doubleValue]], @"confidence",
+		[[self typesOfRulesMatched] objectAtIndex:0], @"type",
+		nil];
+}
+
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
+{
+	if ([dict objectForKey:@"context"]) {
+		// Set up context selector
+		int index = [ruleContext indexOfItemWithRepresentedObject:[dict valueForKey:@"context"]];
+		[ruleContext selectItemAtIndex:index];
+	}
+
+	if ([dict objectForKey:@"confidence"]) {
+		// Set up confidence slider
+		[ruleConfidenceSlider setDoubleValue:[[dict valueForKey:@"confidence"] doubleValue]];
+	}
+}
+
+#pragma mark -
+
 - (void)notImplemented:(NSString *)methodName
 {
 	[NSException raise:@"Abstract Class Exception"
@@ -125,75 +239,6 @@
 - (void)stop
 {
 	[self notImplemented:@"stop"];
-}
-
-@end
-
-#pragma mark -
-
-@implementation LoopingEvidenceSource
-
-- (id)init
-{
-	if (!(self = [super init]))
-		return nil;
-
-	loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
-	loopTimer = nil;
-
-	return self;
-}
-
-- (void)dealloc
-{
-	if (loopTimer)
-		[self stop];
-
-	[super dealloc];
-}
-
-// Private
-- (void)loopTimerPoll:(NSTimer *)timer
-{
-	if (timer) {
-		[NSThread detachNewThreadSelector:@selector(loopTimerPoll:)
-					 toTarget:self
-				       withObject:nil];
-		return;
-	}
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self performSelector:@selector(doUpdate)];
-	[pool release];
-}
-
-- (void)start
-{
-	if (running)
-		return;
-
-	loopTimer = [NSTimer scheduledTimerWithTimeInterval:loopInterval
-						     target:self
-						   selector:@selector(loopTimerPoll:)
-						   userInfo:nil
-						    repeats:YES];
-	[self loopTimerPoll:loopTimer];
-
-	running = YES;
-}
-
-- (void)stop
-{
-	if (!running)
-		return;
-
-	[loopTimer invalidate];
-	loopTimer = nil;
-
-	[self performSelector:@selector(clearCollectedData)];
-	[self setDataCollected:NO];
-
-	running = NO;
 }
 
 @end

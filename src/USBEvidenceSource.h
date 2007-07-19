@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSource.h"
+#import "GenericLoopingEvidenceSource.h"
 
 
-@interface USBEvidenceSource : LoopingEvidenceSource {
+@interface USBEvidenceSource : GenericLoopingEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *devices;
 
