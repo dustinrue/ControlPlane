@@ -7,10 +7,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CoreAudio/CoreAudio.h>
-#import "EvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
-@interface AudioOutputEvidenceSource : EvidenceSource {
+@interface AudioOutputEvidenceSource : GenericEvidenceSource {
 	AudioDeviceID deviceID;
 	UInt32 source;
 }

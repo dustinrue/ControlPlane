@@ -7,10 +7,10 @@
 
 #import <Cocoa/Cocoa.h>
 #include <SystemConfiguration/SystemConfiguration.h>
-#import "EvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
-@interface IPEvidenceSource : EvidenceSource {
+@interface IPEvidenceSource : GenericEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *addresses;
 

@@ -7,10 +7,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
-#import "EvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
-@interface BluetoothEvidenceSource : EvidenceSource {
+@interface BluetoothEvidenceSource : GenericEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *devices;
 	IOBluetoothDeviceInquiry *inq;

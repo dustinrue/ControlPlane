@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
-@interface FireWireEvidenceSource : EvidenceSource {
+@interface FireWireEvidenceSource : GenericEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *devices;
 
