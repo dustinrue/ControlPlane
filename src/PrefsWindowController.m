@@ -411,21 +411,6 @@
 				callbackObject:self
 				      selector:@selector(doAddRuleCustom:)];
 	}
-
-	if (!usingCustomPanel) {
-		[self bind:@"newRuleParameter"
-		  toObject:newRuleParameterController
-	       withKeyPath:@"selection.parameter"
-		   options:nil];
-		[self bind:@"newRuleDescription"
-		  toObject:newRuleParameterController
-	       withKeyPath:@"selection.description"
-		   options:nil];
-		[self bind:@"newRuleType"
-		  toObject:newRuleParameterController
-	       withKeyPath:@"selection.type"
-		   options:nil];
-	}
 }
 
 - (IBAction)doAddRule:(id)sender
@@ -435,9 +420,9 @@
 	NSMutableDictionary *new_rule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithDouble:conf], @"confidence",
 		[[newRuleContext selectedItem] representedObject], @"context",
-		newRuleParameter, @"parameter",
-		newRuleType, @"type",
-		newRuleDescription, @"description",
+		[[newRuleParameterController selection] valueForKey:@"parameter"], @"parameter",
+		[[newRuleParameterController selection] valueForKey:@"type"], @"type",
+		[[newRuleParameterController selection] valueForKey:@"description"], @"description",
 		nil];
 	[rulesController addObject:new_rule];
 
