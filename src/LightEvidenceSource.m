@@ -13,13 +13,10 @@
 
 - (id)init
 {
-	if (!(self = [super init]))
+	if (!(self = [super initWithNibNamed:@"LightRule"]))
 		return nil;
 
 	lock = [[NSLock alloc] init];
-
-	// Initialize suggestions (they're fixed)
-	[self initSuggestions];
 
 	// Find the IO service
 	kern_return_t kr;
@@ -41,7 +38,6 @@
 
 - (void)dealloc
 {
-	[suggestions release];
 	[lock release];
 
 	[super dealloc];
@@ -66,67 +62,65 @@
 	[self setDataCollected:NO];
 }
 
+- (NSMutableDictionary *)readFromPanel
+{
+	NSMutableDictionary *dict = [super readFromPanel];
+
+	double level = [threshold doubleValue];
+	NSNumber *param;
+	if ([aboveThreshold boolValue])
+		param = [NSNumber numberWithDouble:level];
+	else
+		param = [NSNumber numberWithDouble:-level];
+
+	NSString *desc;
+	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
+	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[nf setNumberStyle:NSNumberFormatterPercentStyle];
+	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:level]];	
+	if ([aboveThreshold boolValue])
+		desc = [NSString stringWithFormat:NSLocalizedString(@"Above %@", @"Parameter is a percentage threshold"), perc];
+	else
+		desc = [NSString stringWithFormat:NSLocalizedString(@"Below %@", @"Parameter is a percentage threshold"), perc];
+
+	[dict setValue:param forKey:@"parameter"];
+	[dict setValue:desc forKey:@"description"];
+
+	return dict;
+}
+
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
+{
+	[super writeToPanel:dict usingType:type];
+
+	BOOL above = YES;
+	double level = 0.5;
+	if ([dict objectForKey:@"parameter"]) {
+		double level = [[dict valueForKey:@"parameter"] doubleValue];
+		above = (level >= 0);
+		level = fabs(level);
+	}
+
+	[self setValue:[NSNumber numberWithBool:above] forKey:@"aboveThreshold"];
+	[self setValue:[NSNumber numberWithDouble:level] forKey:@"threshold"];
+}
+
 - (NSString *)name
 {
 	return @"Light";
 }
 
-- (NSString *)getSuggestionLeadText:(NSString *)type
-{
-	return NSLocalizedString(@"A light level", @"In rule-adding dialog");
-}
-
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	int percentageLevel = [[rule valueForKey:@"parameter"] intValue];
+	double level = [[rule valueForKey:@"parameter"] doubleValue];
 
 	// FIXME(rdamazio): This value is probably incorrect
-	static int kMaxLightValue = 4096;
+	static double kMaxLightValue = 4096.0;
 	[lock lock];
-	int currentLevelPercentage = (leftLight + rightLight) * 100 / kMaxLightValue;
+	double currentLevel = (leftLight + rightLight) / kMaxLightValue;
 	[lock unlock];
 
-	return ((percentageLevel > 0 && currentLevelPercentage > percentageLevel) ||
-		    (percentageLevel < 0 && currentLevelPercentage < -percentageLevel));
-}
-
-- (NSArray *)getSuggestions
-{
-	return suggestions;
-}
-
-- (void)initSuggestions
-{
-	if (suggestions)
-		return;
-	
-	static int kLevelPercentages[] = { 10, 25, 50, 75, 90 };
-	static int kLevelPercentageCount = 5;
-
-	// In this collection, we use positive numbers to represent "above" and negative ones to represent "below"
-	NSMutableArray *levels = [[NSMutableArray arrayWithCapacity:kLevelPercentageCount * 2] retain];
-	int i;
-	for (i = 0; i < kLevelPercentageCount; ++i) {
-		int level = kLevelPercentages[i];
-
-		[levels addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			@"Light", @"type",
-			[NSNumber numberWithInt:level], @"parameter",
-			[NSString localizedStringWithFormat:@"above %d%%", level], @"description",
-			nil]];
-	}
-
-	for (i = 0; i < kLevelPercentageCount; ++i) {
-		int level = kLevelPercentages[i];
-
-		[levels addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			@"Light", @"type",
-			[NSNumber numberWithInt:-level], @"parameter",
-			[NSString localizedStringWithFormat:@"below %d%%", level], @"description",
-			nil]];
-	}
-
-	suggestions = levels;
+	return ((level > 0 && currentLevel > level) || (level < 0 && currentLevel < -level));
 }
 
 @end

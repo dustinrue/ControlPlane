@@ -7,13 +7,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import <IOKit/IOTypes.h>
-#import "GenericLoopingEvidenceSource.h"
+#import "LoopingEvidenceSource.h"
 
-@interface LightEvidenceSource : GenericLoopingEvidenceSource {
+@interface LightEvidenceSource : LoopingEvidenceSource {
 	NSLock *lock;
 	io_connect_t ioPort;
 	int leftLight, rightLight;
-	NSArray *suggestions;
+
+	// For custom panel
+	NSNumber *threshold;		// double: [0.0, 1.0]
+	NSNumber *aboveThreshold;	// bool
 }
 
 - (id)init;
@@ -22,11 +25,10 @@
 - (void)doUpdate;
 - (void)clearCollectedData;
 
-- (NSString *)name;
-- (NSString *)getSuggestionLeadText:(NSString *)type;
-- (BOOL)doesRuleMatch:(NSDictionary *)rule;
-- (NSArray *)getSuggestions;
+- (NSMutableDictionary *)readFromPanel;
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
 
-- (void)initSuggestions;	// internal
+- (NSString *)name;
+- (BOOL)doesRuleMatch:(NSDictionary *)rule;
 
 @end
