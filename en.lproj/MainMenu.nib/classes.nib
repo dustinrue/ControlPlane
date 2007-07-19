@@ -66,6 +66,7 @@
                 addAction = id; 
                 addRule = id; 
                 doAddAction = id; 
+                editRule = id; 
                 runAbout = id; 
                 runPreferences = id; 
                 runWebPage = id; 
@@ -82,6 +83,7 @@
                 drawer = NSDrawer; 
                 editActionContextButton = ContextSelectionButton; 
                 editRuleContextButton = ContextSelectionButton; 
+                evidenceSources = EvidenceSourceSetController; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 
                 mpController = MPController; 

@@ -17,6 +17,7 @@
 	IBOutlet NSDrawer *drawer;
 
 	IBOutlet MPController *mpController;
+	IBOutlet EvidenceSourceSetController *evidenceSources;
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet NSArrayController *rulesController, *actionsController;
 	IBOutlet NSArrayController *whenActionController;
@@ -51,6 +52,7 @@
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar;
 
 - (void)addRule:(id)sender;
+- (IBAction)editRule:(id)sender;
 
 - (void)addAction:(id)sender;
 - (IBAction)doAddAction:(id)sender;

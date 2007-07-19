@@ -350,7 +350,7 @@
 	return [self toolbarAllowedItemIdentifiers:toolbar];
 }
 
-#pragma mark Rule creation
+#pragma mark Rule creation/editing
 
 - (void)addRule:(id)sender
 {
@@ -385,6 +385,49 @@
 - (void)doAddRule:(NSDictionary *)dict
 {
 	[rulesController addObject:dict];
+}
+
+- (IBAction)editRule:(id)sender
+{
+	// Find relevant evidence source
+	id sel = [[rulesController selectedObjects] lastObject];
+	if (!sel)
+		return;
+	NSString *type = [sel valueForKey:@"type"];
+	NSEnumerator *en = [evidenceSources sourceEnumerator];
+	EvidenceSource *src;
+	while ((src = [en nextObject])) {
+		if (![src matchesRulesOfType:type])
+			continue;
+		// TODO: use some more intelligent selection method?
+		// This just gets the first evidence source that matches
+		// this rule type, so it will probably break if we have
+		// multiple evidence sources that match/suggest the same
+		// rule types (e.g. *MAC* rules!!!)
+		break;
+	}
+	if (!src)
+		return;
+
+	[src setContextMenu:[contextsDataSource hierarchicalMenu]];
+
+	[NSApp activateIgnoringOtherApps:YES];
+	[src runPanelAsSheetOfWindow:prefsWindow
+		       withParameter:sel
+		      callbackObject:self
+			    selector:@selector(doEditRule:)];
+}
+
+// Private: called by -[EvidenceSource runPanelAsSheetOfWindow:...]
+- (void)doEditRule:(NSDictionary *)dict
+{
+#ifdef DEBUG_MODE
+	NSLog(@"%s got:\n%@", __PRETTY_FUNCTION__, dict);
+#endif
+	unsigned int index = [rulesController selectionIndex];
+	[rulesController removeObjectAtArrangedObjectIndex:index];
+	[rulesController insertObject:dict atArrangedObjectIndex:index];
+	[rulesController setSelectionIndex:index];
 }
 
 #pragma mark Action creation
