@@ -7,6 +7,8 @@
 
 #import "EvidenceSource.h"
 
+//#define PRESERVE_RULE_DESCRIPTIONS
+
 
 @interface EvidenceSource (Private)
 
@@ -185,8 +187,10 @@
 		[[self typesOfRulesMatched] objectAtIndex:0], @"type",
 		nil];
 
+#ifdef PRESERVE_RULE_DESCRIPTIONS
 	if (oldDescription)
 		[dict setValue:oldDescription forKey:@"description"];
+#endif
 
 	return dict;
 }
@@ -204,6 +208,7 @@
 		[ruleConfidenceSlider setDoubleValue:[[dict valueForKey:@"confidence"] doubleValue]];
 	}
 
+#ifdef PRESERVE_RULE_DESCRIPTIONS
 	// Hang on to custom descriptions
 	[oldDescription autorelease];
 	oldDescription = nil;
@@ -212,6 +217,7 @@
 		if (desc && ([desc length] > 0))
 			oldDescription = [desc retain];
 	}
+#endif
 }
 
 #pragma mark -
