@@ -129,9 +129,9 @@ static void sourceChange(void *info)
 	return dict;
 }
 
-- (void)writeToPanel:(NSDictionary *)dict
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
 {
-	[super writeToPanel:dict];
+	[super writeToPanel:dict usingType:type];
 
 	if ([dict objectForKey:@"parameter"]) {
 		NSString *str = [dict valueForKey:@"parameter"];

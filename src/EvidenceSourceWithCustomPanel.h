@@ -28,6 +28,6 @@
 // Need to be extended by descendant classes
 // (need to add handling of 'parameter', and optionally 'type' and 'description' keys)
 - (NSMutableDictionary *)readFromPanel;
-- (void)writeToPanel:(NSDictionary *)dict;
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
 
 @end

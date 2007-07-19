@@ -45,6 +45,7 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = LoopingEvidenceSource; LANGUAGE = ObjC; SUPERCLASS = EvidenceSource; }, 
         {
             ACTIONS = {doUpdate = id; showInStatusBar = id; }; 
             CLASS = MPController; 

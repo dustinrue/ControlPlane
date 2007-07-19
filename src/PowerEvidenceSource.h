@@ -30,6 +30,6 @@
 - (NSArray *)getSuggestions;
 
 - (NSMutableDictionary *)readFromPanel;
-- (void)writeToPanel:(NSDictionary *)dict;
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
 
 @end

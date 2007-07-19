@@ -66,7 +66,10 @@
 - (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(NSDictionary *)parameter
 		 callbackObject:(NSObject *)callbackObject selector:(SEL)selector
 {
-	[self writeToPanel:parameter];
+	NSString *typeToUse = [[self typesOfRulesMatched] objectAtIndex:0];
+	if ([parameter objectForKey:@"type"])
+		typeToUse = [parameter valueForKey:@"type"];
+	[self writeToPanel:parameter usingType:typeToUse];
 
 	NSMethodSignature *sig = [callbackObject methodSignatureForSelector:selector]; 
 	NSInvocation *contextInfo = [NSInvocation invocationWithMethodSignature:sig];
@@ -114,7 +117,7 @@
 		nil];
 }
 
-- (void)writeToPanel:(NSDictionary *)dict
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
 {
 	if ([dict objectForKey:@"context"]) {
 		// Set up context selector

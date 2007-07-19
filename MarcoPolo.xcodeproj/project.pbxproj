@@ -70,6 +70,8 @@
 		8DCC52120C42106D00515041 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
 		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
+		8DE4C00C0C4EE58D00511590 /* GenericRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8DE4C00A0C4EE58D00511590 /* GenericRule.nib */; };
+		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; };
 		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; };
 		8DEF428F0BAA05D300F87273 /* MarcoPolo Help in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8DEF42780BAA05CD00F87273 /* MarcoPolo Help */; };
 		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
@@ -206,6 +208,9 @@
 		8DD790AB0BC28A9F00705346 /* OpenAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OpenAction.m; path = src/OpenAction.m; sourceTree = "<group>"; };
 		8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MailSMTPServerAction.h; path = src/MailSMTPServerAction.h; sourceTree = "<group>"; };
 		8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MailSMTPServerAction.m; path = src/MailSMTPServerAction.m; sourceTree = "<group>"; };
+		8DE4C00B0C4EE58D00511590 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/GenericRule.nib; sourceTree = "<group>"; };
+		8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GenericEvidenceSource.h; path = src/GenericEvidenceSource.h; sourceTree = "<group>"; };
+		8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GenericEvidenceSource.m; path = src/GenericEvidenceSource.m; sourceTree = "<group>"; };
 		8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScreenSaverTimeAction.h; path = src/ScreenSaverTimeAction.h; sourceTree = "<group>"; };
 		8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ScreenSaverTimeAction.m; path = src/ScreenSaverTimeAction.m; sourceTree = "<group>"; };
 		8DEF42780BAA05CD00F87273 /* MarcoPolo Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "MarcoPolo Help"; sourceTree = "<group>"; };
@@ -330,6 +335,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				8DCB41F80C4CC14800E71D28 /* PowerRule.nib */,
+				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -376,6 +382,8 @@
 		8DAD148E0BBCA40700F93914 /* Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
+				8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */,
 				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
 				8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */,
 				8D27ECAD0C4456A300AE1929 /* AudioOutputEvidenceSource.h */,
@@ -511,6 +519,7 @@
 				8DCC52120C42106D00515041 /* Info.plist in Resources */,
 				8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.tiff in Resources */,
 				8DCB41FA0C4CC14800E71D28 /* PowerRule.nib in Resources */,
+				8DE4C00C0C4EE58D00511590 /* GenericRule.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +585,7 @@
 				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
 				8DCB41B70C4CB7B300E71D28 /* EvidenceSourceWithCustomPanel.m in Sources */,
 				8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */,
+				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +622,14 @@
 				8DCB41F90C4CC14800E71D28 /* en */,
 			);
 			name = PowerRule.nib;
+			sourceTree = "<group>";
+		};
+		8DE4C00A0C4EE58D00511590 /* GenericRule.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8DE4C00B0C4EE58D00511590 /* en */,
+			);
+			name = GenericRule.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

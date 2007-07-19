@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
-@interface RunningApplicationEvidenceSource : EvidenceSource {
+@interface RunningApplicationEvidenceSource : GenericEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *applications;
 }
