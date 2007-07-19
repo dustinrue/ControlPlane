@@ -15,6 +15,7 @@
 	int leftLight, rightLight;
 
 	// For custom panel
+	NSString *currentLevel;		// bindable (e.g. "67%")
 	NSNumber *threshold;		// double: [0.0, 1.0]
 	NSNumber *aboveThreshold;	// bool
 }

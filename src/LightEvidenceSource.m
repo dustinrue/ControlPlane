@@ -9,7 +9,24 @@
 #import <IOKit/IOKitLib.h>
 #import "LightEvidenceSource.h"
 
+
+@interface LightEvidenceSource (Private)
+
+- (double)levelFromRawLeft:(int)left andRight:(int)right;
+
+@end
+
+#pragma mark -
+
 @implementation LightEvidenceSource
+
+// Returns value in [0.0, 1.0]
+- (double)levelFromRawLeft:(int)left andRight:(int)right
+{
+	// FIXME(rdamazio): This value is probably incorrect
+	static double kMaxLightValue = 4096.0;
+	return (left + right) / kMaxLightValue;
+}
 
 - (id)init
 {
@@ -31,7 +48,7 @@
 		ioPort = nil;
 
 	// We want this to update more regularly than every 10 seconds!
-	loopInterval = (NSTimeInterval) 3;
+	loopInterval = (NSTimeInterval) 1.5;
 
 	return self;
 }
@@ -50,10 +67,18 @@
 	// Read from the sensor device - index 0, 0 inputs, 2 outputs
 	kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
 	[self setDataCollected:(kr == KERN_SUCCESS)];
-#ifdef DEBUG_MODE	
-	NSLog(@"%@ >> Current light level: L:%d R:%d.\n", [self class], leftLight, rightLight);
-#endif
 
+	// Update bindable key
+	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
+	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[nf setNumberStyle:NSNumberFormatterPercentStyle];
+	NSNumber *level = [NSNumber numberWithDouble:[self levelFromRawLeft:leftLight andRight:rightLight]];
+	NSString *perc = [nf stringFromNumber:level];
+	[self setValue:perc forKey:@"currentLevel"];
+
+#ifdef DEBUG_MODE	
+	NSLog(@"%@ >> Current light level: L:%d R:%d. (%@)\n", [self class], leftLight, rightLight, currentLevel);
+#endif
 	[lock unlock];
 }
 
@@ -114,13 +139,11 @@
 {
 	double level = [[rule valueForKey:@"parameter"] doubleValue];
 
-	// FIXME(rdamazio): This value is probably incorrect
-	static double kMaxLightValue = 4096.0;
 	[lock lock];
-	double currentLevel = (leftLight + rightLight) / kMaxLightValue;
+	double nowLevel = [self levelFromRawLeft:leftLight andRight:rightLight];
 	[lock unlock];
 
-	return ((level > 0 && currentLevel > level) || (level < 0 && currentLevel < -level));
+	return ((level > 0 && nowLevel > level) || (level < 0 && nowLevel < -level));
 }
 
 @end
