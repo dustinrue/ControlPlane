@@ -52,52 +52,35 @@
 	bool enabledPrefix = false;
 	if ([vpnType characterAtIndex:0] == '+')
 		enabledPrefix = true;
-	NSString *strippedVPNType = [[NSString alloc] initWithString: [vpnType substringFromIndex:1] ];
+	NSString *strippedVPNType = [[NSString alloc] initWithString:[vpnType substringFromIndex:1]];
 	
 	if (enabledPrefix == true)
-		return [NSString stringWithFormat:NSLocalizedString( @"Connecting to default VPN of type '%@'.", @"" ),
+		return [NSString stringWithFormat:NSLocalizedString(@"Connecting to default VPN of type '%@'.", @""),
 			strippedVPNType];
 	else
-		return [NSString stringWithFormat:NSLocalizedString( @"Disconnecting from default VPN of type '%@'.", @"" ),
+		return [NSString stringWithFormat:NSLocalizedString(@"Disconnecting from default VPN of type '%@'.", @""),
 			strippedVPNType];
 }
 
 - (BOOL)execute:(NSString **)errorString
 {
-	NSString *script;
-
 	// Strip off the first character which indicates either enabled or disabled
 	bool enabledPrefix = false;
 	if ([vpnType characterAtIndex:0] == '+')
 		enabledPrefix = true;
-	NSString *strippedVPNType = [[NSString alloc] initWithString: [vpnType substringFromIndex:1] ];
+	NSString *strippedVPNType = [[NSString alloc] initWithString:[vpnType substringFromIndex:1]];
 
-	if (enabledPrefix)
-	{
-		// Call the Internet Connect Applescript to connect to the VPN.
-		script = [NSString stringWithFormat:
-			@"tell application \"Internet Connect\"\n" 
-			 "     connect configuration (get name of %@ configuration 1)\n" 
-			 "end tell", strippedVPNType];
-	}
-	else
-	{
-		// Call the Internet Connect Applescript to connect to the VPN.
-		script = [NSString stringWithFormat:
-			@"tell application \"Internet Connect\"\n" 
-			 "     disconnect configuration (get name of %@ configuration 1)\n"  
-			 "end tell", strippedVPNType];	
-	}
-	
-	NSDictionary* errorDict;
-	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithSource: script];
-	NSAppleEventDescriptor* returnDescriptor = [appleScript executeAndReturnError: &errorDict];
-	[appleScript release];
+	NSString *script = [NSString stringWithFormat:
+		@"tell application \"Internet Connect\"\n" 
+		 "     %@ configuration (get name of %@ configuration 1)\n" 
+		"end tell", (enabledPrefix ? @"connect" : @"disconnect"), strippedVPNType];
 
-	if (returnDescriptor == NULL)
-	{
-		*errorString = NSLocalizedString( @"Couldn't configure VPN with Internet Connect Applescript!", 
-										  @"In VPNAction" );
+	NSDictionary *errorDict;
+	NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:script] autorelease];
+	NSAppleEventDescriptor *returnDescriptor = [appleScript executeAndReturnError:&errorDict];
+
+	if (!returnDescriptor) {
+		*errorString = NSLocalizedString(@"Couldn't configure VPN with Internet Connect Applescript!", @"In VPNAction");
 		return NO;
 	}
 
@@ -106,8 +89,8 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString( @"The parameter for VPN action is the type of the "
-				              "VPN connection you wish to establish or disconnect.", @"" );
+	return NSLocalizedString(@"The parameter for VPN action is the type of the "
+				 "VPN connection you wish to establish or disconnect.", @"");
 }
 
 + (NSString *)creationHelpText
@@ -118,7 +101,7 @@
 + (NSArray *)limitedOptions
 {
 	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:4];
-	
+
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 		@"-PPTP", @"option", @"Disable default PPTP VPN", @"description", nil]];
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
