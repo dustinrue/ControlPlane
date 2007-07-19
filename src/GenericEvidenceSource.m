@@ -65,8 +65,9 @@
 			// Found!
 			[ruleParameterController setSelectionIndex:index];
 		} else {
-			// Current rule isn't in the list: d'oh!
-			// TODO: should also push existing one in, if it isn't there
+			// Push existing one in, since it isn't there
+			[ruleParameterController setSelectsInsertedObjects:YES];
+			[ruleParameterController addObject:dict];
 		}
 	}
 }
