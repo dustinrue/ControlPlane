@@ -8,7 +8,32 @@
 #import "TimeOfDayEvidenceSource.h"
 
 
+@interface TimeOfDayEvidenceSource (Private)
+
+// Returns NO on failure
+- (BOOL)parseParameter:(NSString *)parameter intoDay:(NSString **)day startTime:(NSDate **)startT endTime:(NSDate **)endT;
+
+@end
+
+#pragma mark -
+
 @implementation TimeOfDayEvidenceSource
+
+- (BOOL)parseParameter:(NSString *)parameter intoDay:(NSString **)day startTime:(NSDate **)startT endTime:(NSDate **)endT
+{
+	NSArray *arr = [parameter componentsSeparatedByString:@","];
+	if ([arr count] != 3)
+		return NO;
+
+	*day = [arr objectAtIndex:0];
+	// TODO: check day is an element in our list?
+
+	*startT = [formatter dateFromString:[arr objectAtIndex:1]];
+	*endT = [formatter dateFromString:[arr objectAtIndex:2]];
+	// TODO: check parsing? (maybe by re-encoding string, and comparing)
+
+	return YES;
+}
 
 - (id)init
 {
@@ -77,8 +102,14 @@
 {
 	[super writeToPanel:dict usingType:type];
 
-	// TODO: do my bit
-	{
+	NSString *day;
+	NSDate *startT, *endT;
+	if ([dict objectForKey:@"parameter"] &&
+	    [self parseParameter:[dict valueForKey:@"parameter"] intoDay:&day startTime:&startT endTime:&endT]) {
+		[self setValue:day forKey:@"selectedDay"];
+		[self setValue:startT forKey:@"startTime"];
+		[self setValue:endT forKey:@"endTime"];
+	} else {
 		// Defaults
 		[self setValue:@"Any day" forKey:@"selectedDay"];
 		[self setValue:[formatter dateFromString:@"09:00"] forKey:@"startTime"];
