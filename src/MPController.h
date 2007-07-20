@@ -19,6 +19,7 @@
 
 	NSString *currentContextUUID, *currentContextName;
 	NSString *guessConfidence;
+	int smoothCounter;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;
 	NSNumber *forcedContextIsSticky;

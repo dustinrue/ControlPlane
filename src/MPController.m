@@ -104,6 +104,7 @@
 	updatingSwitchingLock = [[NSLock alloc] init];
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
+	smoothCounter = 0;
 
 	// Set placeholder values
 	[self setValue:@"" forKey:@"currentContextUUID"];
@@ -615,9 +616,14 @@
 
 	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
 	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
-		do_switch = NO;
+		if (smoothCounter == 0) {
+			smoothCounter = 1;	// Make this customisable?
+			do_switch = NO;
+		} else if (--smoothCounter > 0)
+			do_switch = NO;
 #ifdef DEBUG_MODE
-		NSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
+		if (!do_switch)
+			NSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 #endif
 	}
 
