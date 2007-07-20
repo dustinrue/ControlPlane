@@ -1,7 +1,6 @@
 1003|Atmel Corporation
 1006|Mitsumi
 1008|Hewlett Packard
-1012|Diebold, Inc.
 1020|Elitegroup Computer Systems
 1021|Xilinx Inc.
 1024|National Semiconductor
@@ -59,6 +58,7 @@
 1209|SafeNet, Inc.
 1211|I-O Data Device, Inc.
 1215|TDK Corporation
+1221|Fujitsu Ltd.
 1227|FUJIFILM Corporation
 1228|NXP Semiconductors
 1231|Myson Century, Inc.
@@ -138,7 +138,6 @@
 1520|Canopus Co., Ltd.
 1525|Unixtar Technology Inc.
 1529|Datalogic Scanning, Inc.
-1534|CHIC TECHNOLOGY CORP
 1535|LeCroy Corporation
 1539|Novatek Microelectronics Corp.
 1545|SMK Manufacturing Inc.
@@ -348,7 +347,6 @@
 3495|IOGEAR, Inc.
 3504|Micro-Star International Co., Ltd.
 3524|Macpower & Tytech Technology Co., LTD.
-3537|Contek Electronics Co., Ltd.
 3538|Power Quotient International Co., Ltd.
 3540|Custom Engineering SPA
 3546|Integrated Silicon Solution, Inc
@@ -440,7 +438,6 @@
 4443|Salix Technology Co., Ltd.
 4463|Silicon 10 Technology Corp.
 4469|Sheng Yih Technologies Co., Ltd.
-4488|Bloomberg L.P.
 4506|ZHAN QI Technology Co., Ltd.
 4522|GlobalMedia Group, LLC
 4528|ATECH FLASH TECHNOLOGY
@@ -469,7 +466,6 @@
 4907|Konica Minolta Holdings, Inc.
 4908|Le Prestique International (H.K.) Ltd.
 4936|Katsuragawa Electric Co., Ltd.
-4971|STEC
 4976|Swissbit AG
 4982|Vimtron Electronics Co., Ltd.
 5008|TOMTOM B.V.
@@ -515,12 +511,10 @@
 5357|Shure Inc.
 5376|Ellisys
 5377|Pine-Tum Enterprise Co., Ltd.
-5393|BridgeCo, AG
 5395|Hypercom
 5398|Skymedi Corporation
 5421|JMicron Technology Corp.
 5422|HLDS (Hitachi-LG Data Storage, Inc.)
-5443|Buxco Research Systems
 5451|PNY Technologies Inc.
 5453|ConnectCounty Holdings Berhad
 5454|D & M Holdings, Inc.
@@ -647,8 +641,6 @@
 6720|TERMINUS TECHNOLOGY INC.
 6721|Action Electronics Co., Ltd.
 6730|Silicon Image
-6753|Abbott Diabetes Care
-6760|Double Top Technology Ltd.
 6761|Kalon Semiconductor, Inc.
 6762|Spansion Inc.
 6763|Taiwin Electronics Co., Ltd.

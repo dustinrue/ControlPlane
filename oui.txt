@@ -7474,6 +7474,17 @@
 00-1D-58   	CQ Inc
 00-1D-59   	CHEROKEE INTERNATIONAL
 00-1D-5A   	2Wire Inc.
+00-1D-5B   	Tecvan Informatica Ltda
+00-1D-5C   	Tom Communication Industrial Co.,Ltd.
+00-1D-5D   	Control Dynamics Pty. Ltd.
+00-1D-5E   	COMING MEDIA CORP.
+00-1D-5F   	OverSpeed SARL
+00-1D-60   	ASUSTek COMPUTER INC.
+00-1D-61   	BIJ Corporation
+00-1D-62   	InPhase Technologies
+00-1D-63   	Miele & Cie. KG
+00-1D-64   	Adam Communications Systems Int Ltd
+00-1D-65   	Microwave Radio Communications
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
