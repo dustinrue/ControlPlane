@@ -89,6 +89,12 @@
 	name = [newName copy];
 }
 
+// Used by -[ContextsDataSource pathFromRootTo:]
+- (NSString *)description
+{
+	return name;
+}
+   
 @end
 
 #pragma mark -
@@ -398,7 +404,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private
-- (NSArray *)walkToRoot:(NSString *)uuid
+- (NSMutableArray *)walkToRoot:(NSString *)uuid
 {
 	// NOTE: There's no reason why this is limited, except for loop-avoidance.
 	// If you're using more than 20-deep nested contexts, perhaps MarcoPolo isn't for you?
@@ -437,6 +443,19 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		[dst_walk_rev addObject:ctxt];
 
 	return [NSArray arrayWithObjects:src_walk, dst_walk_rev, nil];
+}
+
+- (NSString *)pathFromRootTo:(NSString *)uuid
+{
+	NSArray *walk = [self walkToRoot:uuid];
+
+	NSMutableArray *rev_walk = [NSMutableArray arrayWithCapacity:[walk count]];
+	NSEnumerator *en = [walk reverseObjectEnumerator];
+	id obj;
+	while ((obj = [en nextObject]))
+		[rev_walk addObject:obj];
+
+	return [rev_walk componentsJoinedByString:@"/"];
 }
 
 - (NSMenu *)hierarchicalMenu

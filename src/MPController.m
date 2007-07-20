@@ -16,6 +16,28 @@
 
 
 
+@interface MPController (Private)
+
+- (void)showInStatusBar:(id)sender;
+- (void)hideFromStatusBar:(NSTimer *)theTimer;
+- (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
+- (void)contextsChanged:(NSNotification *)notification;
+
+- (void)doUpdate:(NSTimer *)theTimer;
+
+- (void)updateThread:(id)arg;
+
+- (NSDictionary *)registrationDictionaryForGrowl;
+- (NSString *)applicationNameForGrowl;
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
+
+- (void)userDefaultsChanged:(NSNotification *)notification;
+
+@end
+
+#pragma mark -
+
 @implementation MPController
 
 #define STATUS_BAR_LINGER	10	// seconds before disappearing from menu bar
@@ -269,7 +291,7 @@
 		[self setValue:@"?" forKey:@"guessConfidence"];
 	}
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
-		[self setStatusTitle:currentContextName];
+		[self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
 
 	// TODO: update other stuff?
 }
@@ -442,13 +464,14 @@
 	// Update current context
 	[self setValue:toUUID forKey:@"currentContextUUID"];
 	ctxt = [contextsDataSource contextByUUID:toUUID];
+	NSString *ctxt_path = [contextsDataSource pathFromRootTo:toUUID];
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
-			[ctxt name], guessConfidence]];
-	[self setValue:[ctxt name] forKey:@"currentContextName"];
+			ctxt_path, guessConfidence]];
+	[self setValue:ctxt_path forKey:@"currentContextName"];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
-		[self setStatusTitle:[ctxt name]];
+		[self setStatusTitle:ctxt_path];
 
 	// Update force context menu
 	NSMenu *menu = [forceContextMenuItem submenu];

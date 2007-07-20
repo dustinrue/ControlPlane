@@ -35,21 +35,4 @@
 	IBOutlet NSArrayController *actionsController;
 }
 
-- (void)showInStatusBar:(id)sender;
-- (void)hideFromStatusBar:(NSTimer *)theTimer;
-- (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
-- (void)contextsChanged:(NSNotification *)notification;
-
-- (IBAction)doUpdate:(NSTimer *)theTimer;
-
-// INTERNAL USE:
-- (void)updateThread:(id)arg;
-
-- (NSDictionary *)registrationDictionaryForGrowl;
-- (NSString *)applicationNameForGrowl;
-
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
-
-- (void)userDefaultsChanged:(NSNotification *)notification;
-
 @end

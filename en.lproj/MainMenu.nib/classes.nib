@@ -47,7 +47,6 @@
         }, 
         {CLASS = LoopingEvidenceSource; LANGUAGE = ObjC; SUPERCLASS = EvidenceSource; }, 
         {
-            ACTIONS = {doUpdate = id; showInStatusBar = id; }; 
             CLASS = MPController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
