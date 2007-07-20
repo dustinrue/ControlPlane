@@ -133,7 +133,7 @@
 
 + (NSString *)creationHelpText
 {
-	return NSLocalizedString(@"Enable the firewall rule", @"");
+	return NSLocalizedString(@"Set the following firewall rule:", @"");
 }
 
 + (NSArray *)limitedOptions

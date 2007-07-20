@@ -95,7 +95,7 @@
 
 + (NSString *)creationHelpText
 {
-	return NSLocalizedString(@"Establish/Disconnect the default VPN of type ", @"");
+	return NSLocalizedString(@"Establish/Disconnect the following VPN:", @"");
 }
 
 + (NSArray *)limitedOptions
