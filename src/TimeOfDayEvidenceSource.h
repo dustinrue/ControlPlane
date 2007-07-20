@@ -10,6 +10,8 @@
 
 
 @interface TimeOfDayEvidenceSource : EvidenceSource {
+	NSDateFormatter *formatter;
+
 	// For custom panel
 	IBOutlet NSArrayController *dayController;
 	NSString *selectedDay;
@@ -17,6 +19,7 @@
 }
 
 - (id)init;
+- (void)dealloc;
 
 - (NSMutableDictionary *)readFromPanel;
 - (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
