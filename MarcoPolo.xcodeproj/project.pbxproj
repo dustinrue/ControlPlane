@@ -73,6 +73,8 @@
 		8DCC52120C42106D00515041 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
 		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
+		8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */; };
+		8DE429480C5091F90073499A /* TimeOfDayRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8DE429460C5091F90073499A /* TimeOfDayRule.nib */; };
 		8DE4C00C0C4EE58D00511590 /* GenericRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8DE4C00A0C4EE58D00511590 /* GenericRule.nib */; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; };
 		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; };
@@ -216,6 +218,9 @@
 		8DD790AB0BC28A9F00705346 /* OpenAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OpenAction.m; path = src/OpenAction.m; sourceTree = "<group>"; };
 		8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MailSMTPServerAction.h; path = src/MailSMTPServerAction.h; sourceTree = "<group>"; };
 		8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MailSMTPServerAction.m; path = src/MailSMTPServerAction.m; sourceTree = "<group>"; };
+		8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayEvidenceSource.h; path = src/TimeOfDayEvidenceSource.h; sourceTree = "<group>"; };
+		8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayEvidenceSource.m; path = src/TimeOfDayEvidenceSource.m; sourceTree = "<group>"; };
+		8DE429470C5091F90073499A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/TimeOfDayRule.nib; sourceTree = "<group>"; };
 		8DE4C00B0C4EE58D00511590 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/GenericRule.nib; sourceTree = "<group>"; };
 		8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GenericEvidenceSource.h; path = src/GenericEvidenceSource.h; sourceTree = "<group>"; };
 		8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GenericEvidenceSource.m; path = src/GenericEvidenceSource.m; sourceTree = "<group>"; };
@@ -344,6 +349,7 @@
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
 				8D643D0B0C4EF84E006D8ECC /* LightRule.nib */,
+				8DE429460C5091F90073499A /* TimeOfDayRule.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -406,6 +412,8 @@
 		8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */,
+				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
 				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
 				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
@@ -540,6 +548,7 @@
 				8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.tiff in Resources */,
 				8DE4C00C0C4EE58D00511590 /* GenericRule.nib in Resources */,
 				8D643D0D0C4EF84E006D8ECC /* LightRule.nib in Resources */,
+				8DE429480C5091F90073499A /* TimeOfDayRule.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +617,7 @@
 				8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */,
 				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
 				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
+				8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,6 +654,14 @@
 				8D643D0C0C4EF84E006D8ECC /* en */,
 			);
 			name = LightRule.nib;
+			sourceTree = "<group>";
+		};
+		8DE429460C5091F90073499A /* TimeOfDayRule.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8DE429470C5091F90073499A /* en */,
+			);
+			name = TimeOfDayRule.nib;
 			sourceTree = "<group>";
 		};
 		8DE4C00A0C4EE58D00511590 /* GenericRule.nib */ = {

@@ -53,9 +53,9 @@
 // TODO: some of these could be class methods
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
-- (NSArray *)getSuggestions;	// NSArray of NSDictionary: keys are type, parameter, description
 
 // Optionally implemented by descendant classes
+- (NSArray *)getSuggestions;	// NSArray of NSDictionary: keys are type, parameter, description
 - (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
 - (NSString *)getSuggestionLeadText:(NSString *)type;	// optional; default is "The presence of"
 

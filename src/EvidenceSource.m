@@ -278,6 +278,7 @@
 #import "MonitorEvidenceSource.h"
 #import "PowerEvidenceSource.h"
 #import "RunningApplicationEvidenceSource.h"
+#import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
 #import "WiFiEvidenceSource.h"
 
@@ -297,6 +298,7 @@
 		[MonitorEvidenceSource class],
 		[PowerEvidenceSource class],
 		[RunningApplicationEvidenceSource class],
+		[TimeOfDayEvidenceSource class],
 		[USBEvidenceSource class],
 		[WiFiEvidenceSource class],
 		nil];
@@ -310,6 +312,7 @@
 		NSLocalizedString(@"Monitor", @"Evidence source");
 		NSLocalizedString(@"Power", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
+		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
 		NSLocalizedString(@"WiFi", @"Evidence source");
 	}
