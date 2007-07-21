@@ -33,6 +33,8 @@
 
 - (void)wakeFromSleep:(id)arg
 {
+	[super wakeFromSleep:arg];
+
 	wakeUpCounter = 2;
 }
 
@@ -54,9 +56,14 @@ static NSString *macToString(const UInt8 *mac)
 	NSArray *list = nil;
 	NSString *mac_to_skip = nil;
 	BOOL do_scan = YES;
+	WIErr err;
 
-	if (WirelessAttach(&wctxt, 0) != noErr)
+	if ((err = WirelessAttach(&wctxt, 0)) != noErr) {
+#ifdef DEBUG_MODE
+		NSLog(@"%@ >> WirelessAttached failed with error code 0x%08x", [self class], err);
+#endif
 		goto end_of_scan;
+	}
 
 	// First, check to see if we're already associated
 	if ((WirelessGetInfo(wctxt, &info) == noErr) && (info.power > 0) && (info.link_qual > 0)) {
