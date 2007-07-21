@@ -316,6 +316,11 @@ end_of_device_handling:
 	return arr;
 }
 
+- (NSString *)getSuggestionLeadText:(NSString *)type
+{
+	return NSLocalizedString(@"The presence of", @"In rule-adding dialog");
+}
+
 - (NSArray *)getSuggestions
 {
 	NSMutableArray *arr = [NSMutableArray array];

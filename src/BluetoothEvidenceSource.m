@@ -176,6 +176,11 @@
 	return match;
 }
 
+- (NSString *)getSuggestionLeadText:(NSString *)type
+{
+	return NSLocalizedString(@"The presence of", @"In rule-adding dialog");
+}
+
 //#define INCLUDE_PAIRED_DEVICES
 
 - (NSArray *)getSuggestions

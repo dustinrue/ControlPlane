@@ -25,6 +25,7 @@
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
+- (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
 
 // IOBluetoothDeviceInquiryDelegate
