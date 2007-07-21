@@ -72,4 +72,16 @@
 	}
 }
 
+- (NSString *)getSuggestionLeadText:(NSString *)type
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
+- (NSArray *)getSuggestions
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
 @end

@@ -50,14 +50,11 @@
 - (void)stop;
 
 // To be implemented by descendant classes:
-// TODO: some of these could be class methods
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 
 // Optionally implemented by descendant classes
-- (NSArray *)getSuggestions;	// NSArray of NSDictionary: keys are type, parameter, description
 - (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
-- (NSString *)getSuggestionLeadText:(NSString *)type;	// optional; default is "The presence of"
 
 @end
 
@@ -72,7 +69,6 @@
 - (EvidenceSource *)sourceWithName:(NSString *)name;
 - (void)startOrStopAll;
 - (BOOL)ruleMatches:(NSDictionary *)rule;
-- (NSArray *)getSuggestionsFromSource:(NSString *)name ofType:(NSString *)type;		// type may be nil
 - (NSEnumerator *)sourceEnumerator;
 
 // NSMenu delegates (for adding rules)

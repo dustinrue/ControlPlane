@@ -17,7 +17,7 @@
 - (id)init;
 
 // Need to be implemented by descendant classes
-//- (NSString *)getSuggestionLeadText:(NSString *)type;
-//- (NSArray *)getSuggestions;
+- (NSString *)getSuggestionLeadText:(NSString *)type;
+- (NSArray *)getSuggestions;	// returns an NSArray of NSDictionary: keys are type, parameter, description
 
 @end

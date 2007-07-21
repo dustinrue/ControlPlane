@@ -222,15 +222,19 @@
 
 #pragma mark -
 
-- (void)notImplemented:(NSString *)methodName
+- (void)start
 {
-	[NSException raise:@"Abstract Class Exception"
-		    format:[NSString stringWithFormat:@"Error, -%@ not implemented.", methodName]];
+	[self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)stop
+{
+	[self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSString *)name
 {
-	[self notImplemented:@"name"];
+	[self doesNotRecognizeSelector:_cmd];
 	return nil;
 }
 
@@ -241,29 +245,8 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	[self notImplemented:@"doesRuleMatch"];
+	[self doesNotRecognizeSelector:_cmd];
 	return NO;
-}
-
-- (NSString *)getSuggestionLeadText:(NSString *)type
-{
-	return NSLocalizedString(@"The presence of", @"In rule-adding dialog");
-}
-
-- (NSArray *)getSuggestions
-{
-	[self notImplemented:@"getSuggestions"];
-	return nil;
-}
-
-- (void)start
-{
-	[self notImplemented:@"start"];
-}
-
-- (void)stop
-{
-	[self notImplemented:@"stop"];
 }
 
 @end
@@ -380,25 +363,6 @@
 			return YES;
 	}
 	return NO;
-}
-
-- (NSArray *)getSuggestionsFromSource:(NSString *)name ofType:(NSString *)type
-{
-	EvidenceSource *src = [self sourceWithName:name];
-
-	if (!type)
-		return [src getSuggestions];
-
-	NSMutableArray *suggestions = [NSMutableArray array];
-	NSArray *s_arr = [src getSuggestions];
-	NSEnumerator *s_en = [s_arr objectEnumerator];
-	NSDictionary *s_dict;
-	while ((s_dict = [s_en nextObject])) {
-		if ([[s_dict valueForKey:@"type"] isEqualToString:type])
-			[suggestions addObject:s_dict];
-	}
-
-	return suggestions;
 }
 
 - (NSEnumerator *)sourceEnumerator
