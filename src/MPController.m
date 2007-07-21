@@ -545,6 +545,8 @@
 		// credited (proportional to the depth below the stated context), so that we don't guess a more
 		// detailed context than is warranted.
 		NSArray *ctxts = [contextsDataSource orderedTraversalRootedAt:[rule valueForKey:@"context"]];
+		if ([ctxts count] == 0)
+			continue;	// Oops, something got busted along the way
 		NSEnumerator *en = [ctxts objectEnumerator];
 		Context *ctxt;
 		int base_depth = [[[ctxts objectAtIndex:0] valueForKey:@"depth"] intValue];
