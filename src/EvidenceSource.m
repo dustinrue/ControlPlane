@@ -253,6 +253,20 @@
 
 #pragma mark -
 
+@interface EvidenceSourceSetController (Private)
+
+// NSMenu delegates (for adding rules)
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel;
+- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action;
+- (int)numberOfItemsInMenu:(NSMenu *)menu;
+
+// NSTableViewDataSource protocol methods
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+
+@end
+
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
