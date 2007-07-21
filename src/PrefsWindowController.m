@@ -89,7 +89,7 @@
 - (id)transformedValue:(id)theValue
 {
 	NSString *eng_str = [NSString stringWithFormat:@"On %@", [(NSString *) theValue lowercaseString]];
-	
+
 	return NSLocalizedString(eng_str, @"");
 }
 
@@ -354,7 +354,7 @@
 	EvidenceSource *src;
 	NSString *name, *type;
 	// Represented object in this action is either:
-	//	(a) an EvidenceSource object, or 
+	//	(a) an EvidenceSource object, or
 	//	(b) an 2-tuple: [EvidenceSource object, rule_type]
 	if ([[sender representedObject] isKindOfClass:[NSArray class]]) {
 		// specific type

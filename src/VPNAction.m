@@ -53,7 +53,7 @@
 	if ([vpnType characterAtIndex:0] == '+')
 		enabledPrefix = true;
 	NSString *strippedVPNType = [[NSString alloc] initWithString:[vpnType substringFromIndex:1]];
-	
+
 	if (enabledPrefix == true)
 		return [NSString stringWithFormat:NSLocalizedString(@"Connecting to default VPN of type '%@'.", @""),
 			strippedVPNType];
@@ -71,8 +71,8 @@
 	NSString *strippedVPNType = [[NSString alloc] initWithString:[vpnType substringFromIndex:1]];
 
 	NSString *script = [NSString stringWithFormat:
-		@"tell application \"Internet Connect\"\n" 
-		 "     %@ configuration (get name of %@ configuration 1)\n" 
+		@"tell application \"Internet Connect\"\n"
+		 "     %@ configuration (get name of %@ configuration 1)\n"
 		"end tell", (enabledPrefix ? @"connect" : @"disconnect"), strippedVPNType];
 
 	NSDictionary *errorDict;
@@ -105,11 +105,11 @@
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 		@"-PPTP", @"option", @"Disable default PPTP VPN", @"description", nil]];
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"+PPTP", @"option", @"Enable default PPTP VPN", @"description", nil]];	
+		@"+PPTP", @"option", @"Enable default PPTP VPN", @"description", nil]];
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"-L2TP", @"option", @"Disable default L2TP VPN", @"description", nil]];	
+		@"-L2TP", @"option", @"Disable default L2TP VPN", @"description", nil]];
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"+L2TP", @"option", @"Enable default L2TP VPN", @"description", nil]];	
+		@"+L2TP", @"option", @"Enable default L2TP VPN", @"description", nil]];
 
 	return opts;
 }

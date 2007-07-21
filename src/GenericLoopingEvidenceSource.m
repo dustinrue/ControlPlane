@@ -25,7 +25,7 @@
 {
 	if (loopTimer)
 		[self stop];
-	
+
 	[super dealloc];
 }
 

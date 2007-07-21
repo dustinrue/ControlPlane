@@ -259,7 +259,7 @@ end_of_device_handling:
 	[self devAdded:addedIterator];
 	[self devRemoved:removedIterator];
 
-	[super start];	
+	[super start];
 }
 
 - (void)stop

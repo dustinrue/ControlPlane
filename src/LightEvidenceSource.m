@@ -37,7 +37,7 @@
 
 	// Find the IO service
 	kern_return_t kr;
-	io_service_t serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleLMUController"));  
+	io_service_t serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleLMUController"));
 	if (serviceObject) {
 		// Open the IO service
 		kr = IOServiceOpen(serviceObject, mach_task_self(), 0, &ioPort);
@@ -76,7 +76,7 @@
 	NSString *perc = [nf stringFromNumber:level];
 	[self setValue:perc forKey:@"currentLevel"];
 
-#ifdef DEBUG_MODE	
+#ifdef DEBUG_MODE
 	NSLog(@"%@ >> Current light level: L:%d R:%d. (%@)\n", [self class], leftLight, rightLight, currentLevel);
 #endif
 	[lock unlock];
@@ -102,7 +102,7 @@
 	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
 	[nf setNumberStyle:NSNumberFormatterPercentStyle];
-	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:level]];	
+	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:level]];
 	if ([aboveThreshold boolValue])
 		desc = [NSString stringWithFormat:NSLocalizedString(@"Above %@", @"Parameter is a percentage threshold"), perc];
 	else

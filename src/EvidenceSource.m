@@ -141,7 +141,7 @@
 		typeToUse = [parameter valueForKey:@"type"];
 	[self writeToPanel:parameter usingType:typeToUse];
 
-	NSMethodSignature *sig = [callbackObject methodSignatureForSelector:selector]; 
+	NSMethodSignature *sig = [callbackObject methodSignatureForSelector:selector];
 	NSInvocation *contextInfo = [NSInvocation invocationWithMethodSignature:sig];
 	[contextInfo setSelector:selector];
 	[contextInfo setTarget:callbackObject];

@@ -15,23 +15,23 @@
  *
  *  Last updated by korben on 5/15/2002
  */
- 
+
  /* ChangeLog:
- 
+
    2002-05-14 ragge
    Changed argument types and count to procedures
    Added WirelessScan
    Changed name of unknown field to beaconInterval
    Added error values and error return types
-   
+
    2002-05-15 korben
    Combined ragge's changes with jason's
-   
+
    2002-05-17 korben
    fixed adhoc and mangaged WINetworkInfoFlags per ragge's request
    Added WirelessEncrypt and WirelessKey declarations
    Updated WirelessJoinWEP and WirelessMakeIBSS comments regarding keys
-   
+
  */
 
 #ifndef __APPLE_80211__
@@ -64,7 +64,7 @@ typedef struct WirelessInfo WirelessInfo;
 /*
 	I'm not sure what most of the values in the WirelessInfo structure
 	are for, but here are some examples of the numbers returned:
-	
+
 	With Airport Off:
 	0 0 0 0 1 1 0 0 1
 
@@ -73,7 +73,7 @@ typedef struct WirelessInfo WirelessInfo;
 
 	With Computer to Computer Network:
 	0 0 0 0 3 4 0 1 1
-	
+
 	- jason
 */
 
@@ -81,7 +81,7 @@ typedef struct WirelessInfo WirelessInfo;
 /*
 	WINetworkInfoFlags are used in the WirelessNetworkInfo struct
 	returned by the WirelessScanSplit function.
-	
+
 	I filled in the rest of this list from the netstumbler FAQ:
 	http://www.netstumbler.com/modules.php?op=modload&name=FAQ&file=index&myfaq=yes&id_cat=1&categories=Official+NetStumbler+Version+0.3+FAQ
 
@@ -99,7 +99,7 @@ enum
 	kWINetworkPBCC				=	0x0040,
 	kWINetworkChannelAgility	=	0x0080,
 	kWINetworkReserved			=	0xFF00
-	
+
 };
 
 typedef SInt32 WIErr;
@@ -144,7 +144,7 @@ extern int WirelessIsAvailable(void);
 
 /*
  *  WirelessAttach()
- *  
+ *
  *  WirelessAttach should be called before all other Wireless functions.
  *
  *  outContext returns the contextPtr you will pass
@@ -254,7 +254,7 @@ extern WIErr WirelessScanSplit(
 	CFArrayRef *apList,
 	CFArrayRef *adhocList,
 	const UInt32 stripDups);
-	
+
 extern WIErr WirelessScan(
 	WirelessContextPtr inContext,
 	CFArrayRef *apList,
@@ -287,7 +287,7 @@ extern WIErr WirelessJoin(
  *    and must be either 10 digits for a 40bit key or 26 digits for a 104bit key,
  *    or an ascii/binary representation of the key, 5 or 13 bytes long.
  *  - It can also be the empty string, meaning no encryption.
- *  
+ *
  *  For more info see:
  *  http://kbase.info.apple.com/cgi-bin/WebObjects/kbase.woa/11/wa/query?searchMode=Expert&type=id&val=KC.106424
  */
@@ -361,7 +361,7 @@ extern WIErr WirelessGetBestChannel(
  *  - Keys should be passed as a hex string, optionally beginning with 0x,
  *    and must be either 10 digits for a 40bit key or 26 digits for a 104bit key.
  *  - It can also be the empty string, meaning no encryption.
- *  
+ *
  *  For more info see:
  *  http://kbase.info.apple.com/cgi-bin/WebObjects/kbase.woa/11/wa/query?searchMode=Expert&type=id&val=KC.106424
  */
@@ -373,7 +373,7 @@ extern WIErr WirelessMakeIBSS(
 
 /*
  *  Get information from the Hermes chip.
- *  
+ *
  *  RIDno is the Hermes RID number for the data to get, as
  *  0xFC01 - HERMES_RID_CNFOWNMACADDR
  *  0xFC02 - HERMES_RID_CNFDESIREDSSID
@@ -392,11 +392,11 @@ extern WIErr WirelessHCF_GetInfo(
 
 /*
 	***** MISSING FUNCTIONS *****
-	
+
 	These functions are used to configure an Access Point (Base Station).
 	Most of these are used by the Airport Admin Utility.app, and some like
 	WirelessAP_GetStatus are even used by Internet Connect.app. - jason
-	
+
 		WirelessAP_BinaryCurrentVersion
 		WirelessAP_BinaryCurrentVersion2
 		WirelessAP_BinaryIsCurrent
@@ -425,9 +425,9 @@ extern WIErr WirelessHCF_GetInfo(
 		WirelessAP_RestartACP
 		WirelessAP_Write
 		WirelessAP_WriteACP
-	
+
 	I can't find any apps that use these functions. - jason
-	
+
 		WirelessAccessPoint
 		WirelessConfigure
 		WirelessDownloadFW

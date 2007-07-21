@@ -94,7 +94,7 @@
 {
 	return name;
 }
-   
+
 @end
 
 #pragma mark -
@@ -242,7 +242,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 
 	[contexts setValue:ctxt forKey:[ctxt uuid]];
-	
+
 	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 
@@ -545,7 +545,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if ([info draggingSource] != outlineView)
 		return NSDragOperationNone;
 
-	return NSDragOperationMove;	
+	return NSDragOperationMove;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)olv writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard

@@ -491,7 +491,7 @@
 #endif
 		[self triggerArrivalActions:[ctxt uuid]];
 	}
-	
+
 	[updatingSwitchingLock unlock];
 
 	return;
