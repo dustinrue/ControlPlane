@@ -14,8 +14,6 @@
 	NSArray *prefsGroups;
 	NSToolbar *prefsToolbar;
 
-	IBOutlet NSDrawer *drawer;
-
 	IBOutlet MPController *mpController;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
 	IBOutlet ContextsDataSource *contextsDataSource;
@@ -24,7 +22,7 @@
 
 	// Selection controls for rules/actions
 	IBOutlet ContextSelectionButton *defaultContextButton;
-	IBOutlet ContextSelectionButton *editRuleContextButton, *editActionContextButton;
+	IBOutlet ContextSelectionButton *editActionContextButton;
 
 	// New action creation hooks
 	IBOutlet NSWindow *newActionWindow;

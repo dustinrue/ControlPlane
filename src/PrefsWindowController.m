@@ -200,7 +200,6 @@
 
 	// Contexts
 	[defaultContextButton setContextsDataSource:contextsDataSource];
-	[editRuleContextButton setContextsDataSource:contextsDataSource];
 	[editActionContextButton setContextsDataSource:contextsDataSource];
 
 	// Make sure it gets loaded okay
@@ -263,8 +262,6 @@
 	if (currentPrefsView == [group objectForKey:@"view"])
 		return;
 	currentPrefsView = [group objectForKey:@"view"];
-
-	[drawer close];
 
 	[prefsWindow setContentView:blankPrefsView];
 	[prefsWindow setTitle:[NSString stringWithFormat:@"MarcoPolo - %@", [group objectForKey:@"display_name"]]];

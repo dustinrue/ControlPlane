@@ -79,9 +79,7 @@
                 contextsDataSource = ContextsDataSource; 
                 contextsPrefsView = NSView; 
                 defaultContextButton = ContextSelectionButton; 
-                drawer = NSDrawer; 
                 editActionContextButton = ContextSelectionButton; 
-                editRuleContextButton = ContextSelectionButton; 
                 evidenceSources = EvidenceSourceSetController; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 
