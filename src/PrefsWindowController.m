@@ -111,7 +111,7 @@
 
 - (id)transformedValue:(id)theValue
 {
-	return [[contextsDataSource contextByUUID:(NSString *) theValue] name];
+	return [contextsDataSource pathFromRootTo:theValue];
 }
 
 @end
