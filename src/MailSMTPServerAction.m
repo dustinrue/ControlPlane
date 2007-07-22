@@ -106,8 +106,9 @@
 		return [NSArray array];
 	// XXX: what's the proper string encoding here?
 	NSString *s_data = [[[NSString alloc] initWithData:data encoding:NSMacOSRomanStringEncoding] autorelease];
+	if ([s_data hasSuffix:@"\n"] || [s_data hasSuffix:@"\r"])
+		s_data = [s_data substringToIndex:[s_data length] - 1];
 	NSArray *lines = [s_data componentsSeparatedByString:@","];
-	//NSLog(@"[%@ limitedOptions] got data:\n%@", [self class], lines);
 
 	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:[lines count]];
 	NSEnumerator *en = [lines objectEnumerator];
