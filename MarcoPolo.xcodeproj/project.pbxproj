@@ -51,6 +51,7 @@
 		8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8155CE0C3A304E00228463 /* ContextsDataSource.m */; };
 		8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */; };
 		8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */; };
+		8D88FE2A0C534737007A14D6 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D88FE290C534737007A14D6 /* pause.png */; };
 		8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */; };
 		8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */; };
 		8D8C9CE70BBB7BE00074D5B3 /* BluetoothEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */; };
@@ -178,6 +179,7 @@
 		8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefsWindowController.h; path = src/PrefsWindowController.h; sourceTree = "<group>"; };
 		8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefsWindowController.m; path = src/PrefsWindowController.m; sourceTree = "<group>"; };
+		8D88FE290C534737007A14D6 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = graphics/pause.png; sourceTree = "<group>"; };
 		8D8B65A10B855DA1003870A1 /* NOTES.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = NOTES.txt; sourceTree = "<group>"; };
 		8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Apple80211.h; path = src/Apple80211.h; sourceTree = "<group>"; };
 		8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apple80211.framework; path = /System/Library/PrivateFrameworks/Apple80211.framework; sourceTree = "<absolute>"; };
@@ -332,6 +334,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8D88FE290C534737007A14D6 /* pause.png */,
 				8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.tiff */,
 				8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */,
 				8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */,
@@ -554,6 +557,7 @@
 				8DE4C00C0C4EE58D00511590 /* GenericRule.nib in Resources */,
 				8D643D0D0C4EF84E006D8ECC /* LightRule.nib in Resources */,
 				8DE429480C5091F90073499A /* TimeOfDayRule.nib in Resources */,
+				8D88FE2A0C534737007A14D6 /* pause.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
