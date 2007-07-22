@@ -63,6 +63,10 @@
 			@"Thursday", @"option", NSLocalizedString(@"Thursday", "In TimeOfDay rules"), @"description", nil],
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			@"Friday", @"option", NSLocalizedString(@"Friday", "In TimeOfDay rules"), @"description", nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			@"Saturday", @"option", NSLocalizedString(@"Saturday", "In TimeOfDay rules"), @"description", nil],
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			@"Sunday", @"option", NSLocalizedString(@"Sunday", "In TimeOfDay rules"), @"description", nil],
 		nil]];
 
 	return self;
@@ -136,8 +140,44 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	// TODO
-	return NO;
+	NSString *day;
+	NSDate *startT, *endT;
+	NSCalendarDate *now = [NSCalendarDate calendarDate];
+
+	if (![self parseParameter:[rule valueForKey:@"parameter"] intoDay:&day startTime:&startT endTime:&endT])
+		return NO;
+
+	// Check day first
+	int dow = [now dayOfWeek];	// 0=Sunday, 1=Monday, etc.
+	if ([day isEqualToString:@"Any day"]) {
+		// Okay
+	} else if ([day isEqualToString:@"Weekday"]) {
+		if ((dow < 1) || (dow > 5))
+			return NO;
+	} else if ([day isEqualToString:@"Weekend"]) {
+		if ((dow != 0) && (dow != 6))
+			return NO;
+	} else {
+		static NSString *day_name[7] = { @"Sunday", @"Monday", @"Tuesday", @"Wednesday",
+						@"Thursday", @"Friday", @"Saturday" };
+		if (![day isEqualToString:day_name[dow]])
+			return NO;
+	}
+
+	NSCalendar *cal = [NSCalendar currentCalendar];
+	NSDateComponents *startC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startT];
+	NSDateComponents *endC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:endT];
+
+	// Test with startT
+	if (([now hourOfDay] < [startC hour]) ||
+	    (([now hourOfDay] == [startC hour]) && ([now minuteOfHour] < [startC minute])))
+		return NO;
+	// Test with endT
+	if (([now hourOfDay] > [endC hour]) ||
+	    (([now hourOfDay] == [endC hour]) && ([now minuteOfHour] > [endC minute])))
+		return NO;
+
+	return YES;
 }
 
 @end
