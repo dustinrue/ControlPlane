@@ -50,13 +50,17 @@ static DSLogger *shared_Logger = nil;
 	[super dealloc];
 }
 
-- (void)logWithFormat:(NSString *)format args:(va_list)args
+- (void)logFromFunction:(const char *)function withFormat:(NSString *)format, ...
 {
 	[lock lock];
 
-	NSString *line = [NSString stringWithFormat:@"%@ %@",
+	va_list ap;
+	va_start(ap, format);
+	NSString *line = [NSString stringWithFormat:@"%@ %s\n\t%@",
 		[timestampFormatter stringFromDate:[NSDate date]],
-		[[[NSString alloc] initWithFormat:format arguments:args] autorelease]];
+		function,
+		[[[NSString alloc] initWithFormat:format arguments:ap] autorelease]];
+	va_end(ap);
 
 	if (count < DSLOGGER_CAPACITY) {
 		[buffer addObject:line];
@@ -93,12 +97,3 @@ static DSLogger *shared_Logger = nil;
 }
 
 @end
-
-void DSLog(NSString *format, ...)
-{
-	va_list ap;
-
-	va_start(ap, format);
-	[[DSLogger sharedLogger] logWithFormat:format args:ap];
-	va_end(ap);
-}

@@ -457,9 +457,7 @@
 	// Execute all the "Departure" actions
 	en = [leaving_walk objectEnumerator];
 	while ((ctxt = [en nextObject])) {
-#ifdef DEBUG_MODE
-		NSLog(@">> Depart from '%@'", [ctxt name]);
-#endif
+		DSLog(@"Depart from %@", [ctxt name]);
 		[self triggerDepartureActions:[ctxt uuid]];
 	}
 
@@ -487,9 +485,7 @@
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
 	while ((ctxt = [en nextObject])) {
-#ifdef DEBUG_MODE
-		NSLog(@">> Arrive at '%@'", [ctxt name]);
-#endif
+		DSLog(@"Arrive at %@", [ctxt name]);
 		[self triggerArrivalActions:[ctxt uuid]];
 	}
 
@@ -501,9 +497,7 @@
 - (void)forceSwitch:(id)sender
 {
 	Context *ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
-#ifdef DEBUG_MODE
-	NSLog(@"forceSwitch: going to '%@'", [ctxt name]);
-#endif
+	DSLog(@"going to %@", [ctxt name]);
 	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
 		forKey:@"guessConfidence"];
 
@@ -531,7 +525,7 @@
 
 - (void)doUpdateForReal
 {
-	DSLog(@"%@: Doing update...", [self class]);
+	DSLog(@"Doing update...");
 	NSArray *contexts = [contextsDataSource arrayOfUUIDs];
 
 	// Maps a guessed context to an "unconfidence" value, which is

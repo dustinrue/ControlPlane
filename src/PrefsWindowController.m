@@ -232,7 +232,7 @@
 				NSLocalizedString(@"On departure", @"When an action is triggered"), @"description",
 				nil]];
 
-	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:10]];
+	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:9]];
 }
 
 - (IBAction)runPreferences:(id)sender

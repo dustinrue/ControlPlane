@@ -22,11 +22,11 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)logWithFormat:(NSString *)format args:(va_list)args;
+- (void)logFromFunction:(const char *)function withFormat:(NSString *)format, ...;
 
 - (NSString *)buffer;
 
+#define DSLog(format, ...)	\
+	[[DSLogger sharedLogger] logFromFunction:__PRETTY_FUNCTION__ withFormat:(format),##__VA_ARGS__]
+
 @end
-
-
-void DSLog(NSString *format, ...);
