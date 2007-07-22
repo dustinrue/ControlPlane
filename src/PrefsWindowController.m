@@ -1,4 +1,5 @@
 #import "Action.h"
+#import "DSLogger.h"
 #import "EvidenceSource.h"
 #import "PrefsWindowController.h"
 
@@ -116,6 +117,16 @@
 
 @end
 
+#pragma mark -
+
+@interface PrefsWindowController (Private)
+
+- (void)updateLogBuffer:(NSTimer *)timer;
+
+@end
+
+#pragma mark -
+
 @implementation PrefsWindowController
 
 + (void)initialize
@@ -139,6 +150,9 @@
 	blankPrefsView = [[NSView alloc] init];
 
 	newActionWindowParameterViewCurrentControl = nil;
+
+	[self setValue:[NSNumber numberWithBool:NO] forKey:@"logBufferPaused"];
+	logBufferTimer = nil;
 
 	return self;
 }
@@ -217,6 +231,8 @@
 				@"Departure", @"option",
 				NSLocalizedString(@"On departure", @"When an action is triggered"), @"description",
 				nil]];
+
+	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:10]];
 }
 
 - (IBAction)runPreferences:(id)sender
@@ -262,6 +278,20 @@
 	if (currentPrefsView == [group objectForKey:@"view"])
 		return;
 	currentPrefsView = [group objectForKey:@"view"];
+
+	if ([groupId isEqualToString:@"Advanced"]) {
+		logBufferTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 0.5
+								  target:self
+								selector:@selector(updateLogBuffer:)
+								userInfo:nil
+								 repeats:YES];
+		[logBufferTimer fire];
+	} else {
+		if (logBufferTimer) {
+			[logBufferTimer invalidate];
+			logBufferTimer = nil;
+		}
+	}
 
 	[prefsWindow setContentView:blankPrefsView];
 	[prefsWindow setTitle:[NSString stringWithFormat:@"MarcoPolo - %@", [group objectForKey:@"display_name"]]];
@@ -530,6 +560,16 @@
 	[actionsController setSelectedObjects:[NSArray arrayWithObject:dict]];
 
 	[newActionWindow performClose:self];
+}
+
+#pragma mark Miscellaneous
+
+- (void)updateLogBuffer:(NSTimer *)timer
+{
+	if (![logBufferPaused boolValue]) {
+		NSString *buf = [[DSLogger sharedLogger] buffer];
+		[logBufferView setString:buf];
+	}
 }
 
 @end

@@ -65,6 +65,7 @@
 		8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */; };
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
 		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
+		8DBB44980C530F7600064010 /* DSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB44960C530F7600064010 /* DSLogger.m */; };
 		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
@@ -203,6 +204,8 @@
 		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = oui.txt; sourceTree = "<group>"; };
 		8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShellScriptAction.h; path = src/ShellScriptAction.h; sourceTree = "<group>"; };
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
+		8DBB44950C530F7600064010 /* DSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSLogger.h; path = src/DSLogger.h; sourceTree = "<group>"; };
+		8DBB44960C530F7600064010 /* DSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSLogger.m; path = src/DSLogger.m; sourceTree = "<group>"; };
 		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = src/MuteAction.h; sourceTree = "<group>"; };
 		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = src/MuteAction.m; sourceTree = "<group>"; };
 		8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FirewallRuleAction.h; path = src/FirewallRuleAction.h; sourceTree = "<group>"; };
@@ -377,6 +380,8 @@
 				8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */,
 				8D38B6690C49D50200290F47 /* SliderWithValue.h */,
 				8D38B66A0C49D50200290F47 /* SliderWithValue.m */,
+				8DBB44950C530F7600064010 /* DSLogger.h */,
+				8DBB44960C530F7600064010 /* DSLogger.m */,
 			);
 			name = "UI Utilities";
 			sourceTree = "<group>";
@@ -618,6 +623,7 @@
 				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
 				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
 				8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */,
+				8DBB44980C530F7600064010 /* DSLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

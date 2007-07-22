@@ -83,6 +83,7 @@
                 evidenceSources = EvidenceSourceSetController; 
                 evidenceSourcesPrefsView = NSView; 
                 generalPrefsView = NSView; 
+                logBufferView = NSTextView; 
                 mpController = MPController; 
                 newActionContext = NSPopUpButton; 
                 newActionLimitedOptionsController = NSArrayController; 

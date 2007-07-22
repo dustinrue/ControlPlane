@@ -9,6 +9,7 @@
 
 #import "Action.h"
 #import "ContextsDataSource.h"
+#import "DSLogger.h"
 #import "EvidenceSource.h"
 #import "MPController.h"
 
@@ -530,6 +531,7 @@
 
 - (void)doUpdateForReal
 {
+	DSLog(@"%@: Doing update...", [self class]);
 	NSArray *contexts = [contextsDataSource arrayOfUUIDs];
 
 	// Maps a guessed context to an "unconfidence" value, which is

@@ -33,6 +33,10 @@
 	IBOutlet NSArrayController *newActionLimitedOptionsController;
 	IBOutlet NSPopUpButton *newActionContext;
 	NSString *newActionWindowWhen;
+
+	IBOutlet NSTextView *logBufferView;
+	NSNumber *logBufferPaused;
+	NSTimer *logBufferTimer;
 }
 
 - (IBAction)runPreferences:(id)sender;
