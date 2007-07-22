@@ -9,7 +9,7 @@
 #import "ToggleableAction.h"
 
 
-@interface ToggleWiFiAction : ToggleableAction <ActionWithLimitedOptions> {
+@interface ToggleWiFiAction : ToggleableAction {
 }
 
 - (NSString *)description;
@@ -18,6 +18,5 @@
 + (NSString *)creationHelpText;
 
 + (NSArray *)limitedOptions;
-- (id)initWithOption:(NSString *)option;
 
 @end

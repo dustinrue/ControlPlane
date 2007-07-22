@@ -57,9 +57,4 @@
 		nil];
 }
 
-- (id)initWithOption:(NSString *)option
-{
-	return [super initWithOption:option];
-}
-
 @end

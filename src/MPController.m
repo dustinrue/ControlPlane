@@ -362,7 +362,7 @@
 	if (!action) {
 		[self doGrowl:NSLocalizedString(@"Performing Action", @"Growl message title")
 		  withMessage:[NSString stringWithFormat:@"ERROR: Unknown type '%@', parameter='%@'",
-				[action_dict valueForKey:@"type"], [action_dict objectForKey:@"parameter"]]];
+				[action_dict valueForKey:@"type"], [action_dict valueForKey:@"parameter"]]];
 		[pool release];
 		return;
 	}

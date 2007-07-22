@@ -34,7 +34,7 @@
 
 @protocol ActionWithLimitedOptions
 + (NSArray *)limitedOptions;		// Returns an array of dictionaries (keys: option, description)
-- (id)initWithOption:(NSString *)option;
+- (id)initWithOption:(NSObject *)option;
 @end
 
 @protocol ActionWithFileParameter

@@ -9,7 +9,7 @@
 #import "ToggleableAction.h"
 
 
-@interface ToggleBluetoothAction : ToggleableAction <ActionWithLimitedOptions> {
+@interface ToggleBluetoothAction : ToggleableAction {
 	int setState;
 }
 
@@ -19,6 +19,5 @@
 + (NSString *)creationHelpText;
 
 + (NSArray *)limitedOptions;
-- (id)initWithOption:(NSString *)option;
 
 @end

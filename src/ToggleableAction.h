@@ -9,7 +9,7 @@
 #import "Action.h"
 
 
-@interface ToggleableAction : Action {
+@interface ToggleableAction : Action <ActionWithLimitedOptions> {
 	BOOL turnOn;
 }
 
@@ -18,6 +18,6 @@
 - (NSMutableDictionary *)dictionary;
 
 + (NSArray *)limitedOptions;
-- (id)initWithOption:(NSString *)option;
+- (id)initWithOption:(NSNumber *)option;
 
 @end

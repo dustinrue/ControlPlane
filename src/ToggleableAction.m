@@ -10,14 +10,6 @@
 
 @implementation ToggleableAction
 
-+ (BOOL)stateForString:(NSString *)string
-{
-	if ([[string lowercaseString] isEqualToString:@"on"])
-		return YES;
-
-	return NO;
-}
-
 - (id)init
 {
 	if (!(self = [super init]))
@@ -33,7 +25,7 @@
 	if (!(self = [super init]))
 		return nil;
 
-	turnOn = [[self class] stateForString:[dict valueForKey:@"parameter"]];
+	turnOn = [[dict valueForKey:@"parameter"] boolValue];
 
 	return self;
 }
@@ -47,7 +39,7 @@
 {
 	NSMutableDictionary *dict = [super dictionary];
 
-	[dict setObject:(turnOn ? @"on" : @"off") forKey:@"parameter"];
+	[dict setObject:[NSNumber numberWithBool:turnOn] forKey:@"parameter"];
 
 	return dict;
 }
@@ -55,17 +47,17 @@
 + (NSArray *)limitedOptions
 {
 	return [NSArray arrayWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:@"on", @"option",
+		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"option",
 			NSLocalizedString(@"on", @"Used in toggling actions"), @"description", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:@"off", @"option",
+		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"option",
 			NSLocalizedString(@"off", @"Used in toggling actions"), @"description", nil],
 		nil];
 }
 
-- (id)initWithOption:(NSString *)option
+- (id)initWithOption:(NSNumber *)option
 {
 	[self init];
-	turnOn = [[self class] stateForString:option];
+	turnOn = [option boolValue];
 	return self;
 }
 
