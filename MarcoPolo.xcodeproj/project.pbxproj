@@ -62,7 +62,6 @@
 		8D91F1FA0C4772FF00D9FC0F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 		8D9AE3790BE0D11800D4D4E4 /* plus-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */; };
 		8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */; };
-		8DA8A05E0AAB89B300AC4686 /* SysConf.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DA8A05D0AAB89B300AC4686 /* SysConf.m */; };
 		8DB4B4FB0BDF22CC00472564 /* mp-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DB4B4FA0BDF22CC00472564 /* mp-icon.png */; };
 		8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */; };
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
@@ -201,8 +200,6 @@
 		8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-arrow.png"; path = "graphics/plus-arrow.png"; sourceTree = "<group>"; };
 		8D9AE3A30BE0DA7E00D4D4E4 /* PopButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PopButton.h; path = src/PopButton.h; sourceTree = "<group>"; };
 		8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PopButton.m; path = src/PopButton.m; sourceTree = "<group>"; };
-		8DA8A05C0AAB89B300AC4686 /* SysConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SysConf.h; path = src/SysConf.h; sourceTree = "<group>"; };
-		8DA8A05D0AAB89B300AC4686 /* SysConf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SysConf.m; path = src/SysConf.m; sourceTree = "<group>"; };
 		8DB4B4FA0BDF22CC00472564 /* mp-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mp-icon.png"; path = "graphics/mp-icon.png"; sourceTree = "<group>"; };
 		8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = /System/Library/Frameworks/IOBluetooth.framework; sourceTree = "<absolute>"; };
 		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = oui.txt; sourceTree = "<group>"; };
@@ -270,8 +267,6 @@
 				8D90E51E0B71C4C9007D39FD /* MPController.m */,
 				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
 				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
-				8DA8A05C0AAB89B300AC4686 /* SysConf.h */,
-				8DA8A05D0AAB89B300AC4686 /* SysConf.m */,
 				8D8C9E320BBB89320074D5B3 /* DB.h */,
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
 				8D8155CD0C3A304E00228463 /* ContextsDataSource.h */,
@@ -592,7 +587,6 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
-				8DA8A05E0AAB89B300AC4686 /* SysConf.m in Sources */,
 				8D90E51F0B71C4C9007D39FD /* MPController.m in Sources */,
 				8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */,
 				8D8C9CE70BBB7BE00074D5B3 /* BluetoothEvidenceSource.m in Sources */,
