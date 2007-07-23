@@ -23,7 +23,7 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict
 {
-	if (!(self = [super init]))
+	if (!(self = [super initWithDictionary:dict]))
 		return nil;
 
 	time = [[dict valueForKey:@"parameter"] copy];
