@@ -55,14 +55,14 @@
 - (id)reverseTransformedValue:(id)theValue
 {
 	NSString *value = (NSString *) theValue;
-	int res = 0;
+	double res;
 
 	if (!value || [value isEqualToString:NSLocalizedString(@"None", @"Delay value to display for zero seconds")])
 		res = 0;
 	else
-		res = [value intValue];
+		res = [value doubleValue];
 
-	return [NSNumber numberWithInt:res];
+	return [NSNumber numberWithDouble:res];
 }
 
 @end

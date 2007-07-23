@@ -349,33 +349,88 @@
 	return matching_rules;
 }
 
+// (Private) in a new thread, execute Action immediately, growling upon failure
 - (void)executeAction:(id)arg
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSDictionary *action_dict = (NSDictionary *) arg;
-
-	NSNumber *delay;
-	if ((delay = [action_dict valueForKey:@"delay"]))
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:[delay intValue]]];
-
-	Action *action = [Action actionFromDictionary:action_dict];
-	if (!action) {
-		[self doGrowl:NSLocalizedString(@"Performing Action", @"Growl message title")
-		  withMessage:[NSString stringWithFormat:@"ERROR: Unknown type '%@', parameter='%@'",
-				[action_dict valueForKey:@"type"], [action_dict valueForKey:@"parameter"]]];
-		[pool release];
-		return;
-	}
-
-	[self doGrowl:NSLocalizedString(@"Performing Action", @"Growl message title")
-	  withMessage:[action description]];
+	Action *action = (Action *) arg;
 
 	NSString *errorString;
 	if (![action execute:&errorString])
-		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title")
-		  withMessage:errorString];
+		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title") withMessage:errorString];
 
 	[pool release];
+}
+
+// (Private) in a new thread
+// Parameter is an NSArray of actions; delay will be taken from the first one
+- (void)executeActionSetWithDelay:(id)arg
+{
+	NSArray *actions = (NSArray *) arg;
+	if ([actions count] == 0)
+		return;
+
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSTimeInterval delay = [[[actions objectAtIndex:0] valueForKey:@"delay"] doubleValue];
+	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
+
+	// Aggregate growl messages
+	NSString *growlTitle = NSLocalizedString(@"Performing Action", @"Growl message title");
+	NSString *growlMessage = [[actions objectAtIndex:0] description];
+	if ([actions count] > 1) {
+		growlTitle = NSLocalizedString(@"Performing Actions", @"Growl message title");
+		growlMessage = [NSString stringWithFormat:@"* %@", [actions componentsJoinedByString:@"\n* "]];
+	}
+	[self doGrowl:growlTitle withMessage:growlMessage];
+
+	NSEnumerator *en = [actions objectEnumerator];
+	Action *action;
+	while ((action = [en nextObject]))
+		[NSThread detachNewThreadSelector:@selector(executeAction:)
+					 toTarget:self
+				       withObject:action];
+
+	[pool release];
+}
+
+// (Private) This will group the growling together. The parameter should be an array of Action objects.
+- (void)executeActionSet:(NSMutableArray *)actions
+{
+	if ([actions count] == 0)
+		return;
+
+	static double batchThreshold = 0.25;		// maximum grouping interval size
+
+	// Sort by delay
+	[actions sortUsingSelector:@selector(compareDelay:)];
+
+	NSMutableArray *batch = [NSMutableArray array];
+	NSEnumerator *en = [actions objectEnumerator];
+	Action *action;
+	while ((action = [en nextObject])) {
+		if ([batch count] == 0) {
+			[batch addObject:action];
+			continue;
+		}
+		double maxBatchDelay = [[[batch objectAtIndex:0] valueForKey:@"delay"] doubleValue] + batchThreshold;
+		if ([[action valueForKey:@"delay"] doubleValue] < maxBatchDelay) {
+			[batch addObject:action];
+			continue;
+		}
+		// Completed a batch
+		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
+					 toTarget:self
+				       withObject:batch];
+		batch = [NSMutableArray arrayWithObject:action];
+		continue;
+	}
+
+	// Final batch
+	if ([batch count] > 0)
+		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
+					 toTarget:self
+				       withObject:batch];
 }
 
 - (void)triggerDepartureActions:(NSString *)fromUUID
@@ -402,8 +457,8 @@
 
 		NSNumber *aDelay;
 		if ((aDelay = [action valueForKey:@"delay"])) {
-			if ([aDelay intValue] > max_delay)
-				max_delay = [aDelay intValue];
+			if ([aDelay doubleValue] > max_delay)
+				max_delay = [aDelay doubleValue];
 		}
 
 		[actionsToRun addObject:action];
@@ -411,15 +466,15 @@
 	}
 
 	action_enum = [actionsToRun objectEnumerator];
+	NSMutableArray *set = [NSMutableArray array];
 	while ((action = [action_enum nextObject])) {
 		NSMutableDictionary *surrogateAction = [NSMutableDictionary dictionaryWithDictionary:action];
-		int original_delay = [[action valueForKey:@"delay"] intValue];
-		[surrogateAction setValue:[NSNumber numberWithInt:(max_delay - original_delay)]
+		double original_delay = [[action valueForKey:@"delay"] doubleValue];
+		[surrogateAction setValue:[NSNumber numberWithDouble:(max_delay - original_delay)]
 				   forKey:@"delay"];
-		[NSThread detachNewThreadSelector:@selector(executeAction:)
-					 toTarget:self
-				       withObject:surrogateAction];
+		[set addObject:[Action actionFromDictionary:surrogateAction]];
 	}
+	[self executeActionSet:set];
 
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:max_delay]];
@@ -431,6 +486,7 @@
 
 	NSEnumerator *action_enum = [actions objectEnumerator];
 	NSDictionary *action;
+	NSMutableArray *set = [NSMutableArray array];
 	while (action = [action_enum nextObject]) {
 		if (![[action objectForKey:@"when"] isEqualToString:@"Arrival"])
 			continue;
@@ -438,8 +494,10 @@
 			continue;
 		if (![[action objectForKey:@"enabled"] boolValue])
 			continue;
-		[NSThread detachNewThreadSelector:@selector(executeAction:) toTarget:self withObject:action];
+		[set addObject:[Action actionFromDictionary:action]];
 	}
+
+	[self executeActionSet:set];
 }
 
 #pragma mark Context switching
@@ -674,6 +732,7 @@
 	NSArray *notifications = [NSArray arrayWithObjects:
 					NSLocalizedString(@"Changing Context", @"Growl message title"),
 					NSLocalizedString(@"Performing Action", @"Growl message title"),
+					NSLocalizedString(@"Performing Actions", @"Growl message title"),
 					NSLocalizedString(@"Failure", @"Growl message title"),
 					//NSLocalizedString(@"Evidence Change", @"Growl message title"),
 					nil];
