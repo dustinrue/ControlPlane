@@ -6,10 +6,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GenericEvidenceSource.h"
+#import "GenericLoopingEvidenceSource.h"
 
 
-@interface FireWireEvidenceSource : GenericEvidenceSource {
+@interface FireWireEvidenceSource : GenericLoopingEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *devices;
 
@@ -24,16 +24,14 @@
 - (void)start;
 - (void)stop;
 
+- (void)doUpdate;
+- (void)clearCollectedData;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
 
 - (NSArray *)getDevices;
-
-// Private
-- (void)devAdded:(io_iterator_t)iterator;
-- (void)devRemoved:(io_iterator_t)iterator;
-
 
 @end

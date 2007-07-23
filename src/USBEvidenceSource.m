@@ -14,6 +14,13 @@
 #import "USBEvidenceSource.h"
 
 
+@interface USBEvidenceSource (Private)
+
+- (void)devAdded:(io_iterator_t)iterator;
+- (void)devRemoved:(io_iterator_t)iterator;
+
+@end
+
 #pragma mark C callbacks
 
 static void devAdded(void *ref, io_iterator_t iterator)
@@ -28,9 +35,9 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	[mon devRemoved:iterator];
 }
 
+#pragma mark -
 
 @implementation USBEvidenceSource
-
 
 - (id)init
 {
@@ -202,7 +209,6 @@ end_of_device_handling:
 
 	[lock lock];
 	[devices removeAllObjects];
-	//[self setDataCollected:NO];
 	[lock unlock];
 	[self devAdded:iterator];
 	[self setDataCollected:[devices count] > 0];

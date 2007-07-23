@@ -34,8 +34,4 @@
 
 - (NSArray *)getDevices;
 
-// Private
-- (void)devAdded:(io_iterator_t)iterator;
-- (void)devRemoved:(io_iterator_t)iterator;
-
 @end
