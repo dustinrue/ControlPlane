@@ -25,11 +25,21 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 			       withObject:nil];
 }
 
+#pragma mark -
+
+@interface IPEvidenceSource (Private)
+
+- (BOOL)parseAddress:(NSString *)ipAddress intoArray:(unsigned char *)bytes;
+
+@end
+
+#pragma mark -
+
 @implementation IPEvidenceSource
 
 - (id)init
 {
-	if (!(self = [super init]))
+	if (!(self = [super initWithNibNamed:@"IPRule"]))
 		return nil;
 
 	lock = [[NSLock alloc] init];
@@ -145,6 +155,43 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	running = NO;
 }
 
+- (NSMutableDictionary *)readFromPanel
+{
+	NSMutableDictionary *dict = [super readFromPanel];
+
+	NSString *param = [NSString stringWithFormat:@"%@,%@", ruleIP, ruleNetmask];
+	[dict setValue:param forKey:@"parameter"];
+//	if (![dict objectForKey:@"description"])
+//		[dict setValue:param forKey:@"description"];
+
+	return dict;
+}
+
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
+{
+	[super writeToPanel:dict usingType:type];
+
+	[lock lock];
+	NSArray *arr = [NSArray arrayWithArray:addresses];
+	[lock unlock];
+
+	[ruleComboBox removeAllItems];
+	[ruleComboBox addItemsWithObjectValues:arr];
+
+	NSString *addr = @"", *nmask = @"255.255.255.255";
+	if ([arr count] > 0)
+		addr = [arr objectAtIndex:0];
+	if ([dict objectForKey:@"parameter"]) {
+		NSArray *comp = [[dict valueForKey:@"parameter"] componentsSeparatedByString:@","];
+		if ([comp count] == 2) {
+			addr = [comp objectAtIndex:0];
+			nmask = [comp objectAtIndex:1];
+		}
+	}
+	[self setValue:addr forKey:@"ruleIP"];
+	[self setValue:nmask forKey:@"ruleNetmask"];
+}
+
 - (NSString *)name
 {
 	return @"IP";
@@ -154,12 +201,29 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 {
 	BOOL match = NO;
 
+	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@","];
+	if ([comp count] != 2)
+		return NO;	// corrupted rule
+
+	unsigned char addr[4], nmask[4];
+	if (![self parseAddress:[comp objectAtIndex:0] intoArray:addr])
+		return NO;
+	if (![self parseAddress:[comp objectAtIndex:1] intoArray:nmask])
+		return NO;
+
 	[lock lock];
 	NSEnumerator *en = [addresses objectEnumerator];
 	NSString *ip;
-	NSString *prefix = [rule objectForKey:@"parameter"];
 	while ((ip = [en nextObject])) {
-		if ([ip hasPrefix:prefix]) {
+		unsigned char real_addr[4];
+		if (![self parseAddress:ip intoArray:real_addr])
+			continue;
+		int i;
+		for (i = 0; i < 4; ++i) {
+			if ((addr[i] & nmask[i]) != (real_addr[i] & nmask[i]))
+				break;
+		}
+		if (i == 4) {
 			match = YES;
 			break;
 		}
@@ -169,64 +233,17 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	return match;
 }
 
-- (NSArray *)getAddresses
+- (BOOL)parseAddress:(NSString *)ipAddress intoArray:(unsigned char *)bytes
 {
-	NSArray *arr;
+	NSArray *comp = [ipAddress componentsSeparatedByString:@"."];
+	if ([comp count] != 4)
+		return NO;
 
-	[lock lock];
-	arr = [NSArray arrayWithArray:addresses];
-	[lock unlock];
-
-	return arr;
-}
-
-- (NSString *)getSuggestionLeadText:(NSString *)type
-{
-	return NSLocalizedString(@"An assigned IP address starting with", @"In rule-adding dialog");
-}
-
-- (NSArray *)getSuggestions
-{
-	NSMutableSet *prefixes = [NSMutableSet set];
-
-	[lock lock];
-	NSEnumerator *en = [addresses objectEnumerator];
-	NSString *addr;
-	while ((addr = [en nextObject])) {
-		[prefixes addObject:addr];
-
-		// If it's an IPv4 address, also suggest its containing /8, /16 and /24 subnets
-		NSArray *components = [addr componentsSeparatedByString:@"."];
-		if ([components count] == 4) {
-			int parts[4];
-			parts[0] = [[components objectAtIndex:0] intValue];
-			parts[1] = [[components objectAtIndex:1] intValue];
-			parts[2] = [[components objectAtIndex:2] intValue];
-
-			[prefixes addObject:[NSString stringWithFormat:@"%d.%d.%d.",
-				parts[0], parts[1], parts[2]]];
-			[prefixes addObject:[NSString stringWithFormat:@"%d.%d.",
-				parts[0], parts[1]]];
-			[prefixes addObject:[NSString stringWithFormat:@"%d.",
-				parts[0]]];
-		}
-	}
-	[lock unlock];
-
-	// TODO: remove duplicates
-
-	// Now turn that set of NSString objects into an array of NSDictionary objects
-	NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[prefixes count]];
-	NSArray *sorted_prefixes = [[prefixes allObjects] sortedArrayUsingSelector:@selector(compare:)];
-	en = [sorted_prefixes objectEnumerator];
-	while ((addr = [en nextObject])) {
-		[ret addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			@"IP", @"type",
-			addr, @"parameter",
-			addr, @"description", nil]];
-	}
-
-	return ret;
+	// TODO: check that they are all numbers?
+	int i;
+	for (i = 0; i < 4; ++i)
+		bytes[i] = [[comp objectAtIndex:i] intValue];
+	return YES;
 }
 
 @end

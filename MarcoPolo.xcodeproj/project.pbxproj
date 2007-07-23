@@ -37,6 +37,7 @@
 		8D643DDC0C4F1F0D006D8ECC /* VPNAction.h in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */; };
 		8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
+		8D66DBD90C548F100093D0D8 /* IPRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66DBD70C548F100093D0D8 /* IPRule.nib */; };
 		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
 		8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */; };
 		8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CAED0C17BA7900E56526 /* ToggleableAction.m */; };
@@ -165,6 +166,7 @@
 		8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = VPNAction.m; path = src/VPNAction.m; sourceTree = "<group>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = src/ToggleWiFiAction.h; sourceTree = "<group>"; };
 		8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleWiFiAction.m; path = src/ToggleWiFiAction.m; sourceTree = "<group>"; };
+		8D66DBD80C548F100093D0D8 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/IPRule.nib; sourceTree = "<group>"; };
 		8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkLocationAction.h; path = src/NetworkLocationAction.h; sourceTree = "<group>"; };
 		8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NetworkLocationAction.m; path = src/NetworkLocationAction.m; sourceTree = "<group>"; };
 		8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleableAction.h; path = src/ToggleableAction.h; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
 				8D643D0B0C4EF84E006D8ECC /* LightRule.nib */,
 				8DE429460C5091F90073499A /* TimeOfDayRule.nib */,
+				8D66DBD70C548F100093D0D8 /* IPRule.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				8D643D0D0C4EF84E006D8ECC /* LightRule.nib in Resources */,
 				8DE429480C5091F90073499A /* TimeOfDayRule.nib in Resources */,
 				8D88FE2A0C534737007A14D6 /* pause.png in Resources */,
+				8D66DBD90C548F100093D0D8 /* IPRule.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +668,14 @@
 				8D643D0C0C4EF84E006D8ECC /* en */,
 			);
 			name = LightRule.nib;
+			sourceTree = "<group>";
+		};
+		8D66DBD70C548F100093D0D8 /* IPRule.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8D66DBD80C548F100093D0D8 /* en */,
+			);
+			name = IPRule.nib;
 			sourceTree = "<group>";
 		};
 		8DE429460C5091F90073499A /* TimeOfDayRule.nib */ = {

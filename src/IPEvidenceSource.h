@@ -7,16 +7,21 @@
 
 #import <Cocoa/Cocoa.h>
 #include <SystemConfiguration/SystemConfiguration.h>
-#import "GenericEvidenceSource.h"
+#import "EvidenceSource.h"
 
 
-@interface IPEvidenceSource : GenericEvidenceSource {
+@interface IPEvidenceSource : EvidenceSource {
 	NSLock *lock;
 	NSMutableArray *addresses;
 
 	// For SystemConfiguration asynchronous notifications
 	SCDynamicStoreRef store;
 	CFRunLoopSourceRef runLoop;
+
+	// For custom panel
+	IBOutlet NSComboBox *ruleComboBox;
+	NSString *ruleIP;
+	NSString *ruleNetmask;
 }
 
 - (id)init;
@@ -27,11 +32,10 @@
 - (void)start;
 - (void)stop;
 
+- (NSMutableDictionary *)readFromPanel;
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
+
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
-- (NSString *)getSuggestionLeadText:(NSString *)type;
-- (NSArray *)getSuggestions;
-
-- (NSArray *)getAddresses;
 
 @end
