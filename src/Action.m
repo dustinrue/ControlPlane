@@ -51,10 +51,10 @@
 		return nil;
 
 	// Some sensible defaults
-	delay = 0;
 	type = [[Action typeForClass:[self class]] retain];
 	context = [@"" retain];
 	when = [@"Arrival" retain];
+	delay = [[NSNumber alloc] initWithDouble:0];
 	enabled = [[NSNumber alloc] initWithBool:YES];
 
 	return self;
@@ -70,10 +70,10 @@
 	if (!(self = [super init]))
 		return nil;
 
-	delay = [[dict valueForKey:@"delay"] intValue];
 	type = [[Action typeForClass:[self class]] retain];
 	context = [[dict valueForKey:@"context"] copy];
 	when = [[dict valueForKey:@"when"] copy];
+	delay = [[dict valueForKey:@"delay"] copy];
 	enabled = [[dict valueForKey:@"enabled"] copy];
 
 	return self;
@@ -84,6 +84,7 @@
 	[type release];
 	[context release];
 	[when release];
+	[delay release];
 	[enabled release];
 
 	[super dealloc];
@@ -92,10 +93,10 @@
 - (NSMutableDictionary *)dictionary
 {
 	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:delay], @"delay",
 		[[type copy] autorelease], @"type",
 		[[context copy] autorelease], @"context",
 		[[when copy] autorelease], @"when",
+		[[delay copy] autorelease], @"delay",
 		[[enabled copy] autorelease], @"enabled",
 		nil];
 }
@@ -103,6 +104,11 @@
 + (NSString *)helpTextForActionOfType:(NSString *)type
 {
 	return [[Action classForType:type] helpText];
+}
+
+- (NSComparisonResult)compareDelay:(Action *)other
+{
+	return [[self valueForKey:@"delay"] compare:[other valueForKey:@"delay"]];
 }
 
 - (void)notImplemented:(NSString *)methodName

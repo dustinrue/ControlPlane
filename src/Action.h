@@ -9,9 +9,8 @@
 
 
 @interface Action : NSObject {
-	int delay;
 	NSString *type, *context, *when;
-	NSNumber *enabled;
+	NSNumber *delay, *enabled;
 }
 
 + (NSString *)typeForClass:(Class)klass;
@@ -23,6 +22,8 @@
 - (void)dealloc;
 - (NSMutableDictionary *)dictionary;
 + (NSString *)helpTextForActionOfType:(NSString *)type;
+
+- (NSComparisonResult)compareDelay:(Action *)other;
 
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)

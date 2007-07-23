@@ -43,19 +43,14 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString(@"The parameter for ToggleBluetooth actions is simply either \"on\" "
-				 "or \"off\", depending on whether you want your Bluetooth controller's power "
+	return NSLocalizedString(@"The parameter for ToggleBluetooth actions is either \"1\" "
+				 "or \"0\", depending on whether you want your Bluetooth controller's power "
 				 "turned on or off.", @"");
 }
 
 + (NSString *)creationHelpText
 {
 	return NSLocalizedString(@"Turn Bluetooth", @"Will be followed by 'on' or 'off'");
-}
-
-+ (NSArray *)limitedOptions
-{
-	return [super limitedOptions];
 }
 
 @end

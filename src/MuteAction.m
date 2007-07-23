@@ -36,8 +36,8 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString(@"The parameter for Mute actions is simply either \"on\" "
-				 "or \"off\", depending on whether you want your system audio "
+	return NSLocalizedString(@"The parameter for Mute actions is either \"1\" "
+				 "or \"0\", depending on whether you want your system audio "
 				 "unmuted or muted.", @"");
 }
 
@@ -50,9 +50,9 @@
 + (NSArray *)limitedOptions
 {
 	return [NSArray arrayWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:@"off", @"option",
+		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"option",
 			NSLocalizedString(@"Mute system audio", @""), @"description", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:@"on", @"option",
+		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"option",
 			NSLocalizedString(@"Unmute system audio", @""), @"description", nil],
 		nil];
 }

@@ -45,8 +45,8 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString(@"The parameter for ScreenSaverPasswordAction actions is simply either \"on\" "
-				 "or \"off\", depending on whether you want your screen saver password "
+	return NSLocalizedString(@"The parameter for ScreenSaverPasswordAction actions is either \"1\" "
+				 "or \"0\", depending on whether you want your screen saver password "
 				 "enabled or disabled.", @"");
 }
 
@@ -59,9 +59,9 @@
 + (NSArray *)limitedOptions
 {
 	return [NSArray arrayWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:@"on", @"option",
+		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"option",
 			NSLocalizedString(@"Enable screen saver password", @""), @"description", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:@"off", @"option",
+		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"option",
 			NSLocalizedString(@"Disable screen saver password", @""), @"description", nil],
 		nil];
 }

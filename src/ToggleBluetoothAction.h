@@ -18,6 +18,4 @@
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
 
-+ (NSArray *)limitedOptions;
-
 @end

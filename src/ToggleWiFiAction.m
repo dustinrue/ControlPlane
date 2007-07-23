@@ -46,19 +46,14 @@ failure:
 
 + (NSString *)helpText
 {
-	return NSLocalizedString(@"The parameter for ToggleWiFi actions is simply either \"on\" "
-				 "or \"off\", depending on whether you want your WiFi "
+	return NSLocalizedString(@"The parameter for ToggleWiFi actions is either \"1\" "
+				 "or \"0\", depending on whether you want your WiFi "
 				 "turned on or off.", @"");
 }
 
 + (NSString *)creationHelpText
 {
 	return NSLocalizedString(@"Turn WiFi", @"Will be followed by 'on' or 'off'");
-}
-
-+ (NSArray *)limitedOptions
-{
-	return [super limitedOptions];
 }
 
 @end
