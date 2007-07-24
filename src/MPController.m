@@ -583,7 +583,6 @@
 
 - (void)doUpdateForReal
 {
-	DSLog(@"Doing update...");
 	NSArray *contexts = [contextsDataSource arrayOfUUIDs];
 
 	// Maps a guessed context to an "unconfidence" value, which is
@@ -649,12 +648,12 @@
 	BOOL no_guess = NO;
 	if (!guess) {
 #ifdef DEBUG_MODE
-		NSLog(@"No guess made.");
+		DSLog(@"No guess made.");
 #endif
 		no_guess = YES;
 	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
 #ifdef DEBUG_MODE
-		NSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
+		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 #endif
 		no_guess = YES;
 	}
@@ -679,7 +678,7 @@
 			do_switch = NO;
 #ifdef DEBUG_MODE
 		if (!do_switch)
-			NSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
+			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 #endif
 	}
 
@@ -690,7 +689,7 @@
 
 	if ([guess isEqualToString:currentContextUUID]) {
 #ifdef DEBUG_MODE
-		NSLog(@"Guessed '%@' (%@); already there.\n", guessString, guessConfidenceString);
+		DSLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
 #endif
 		return;
 	}

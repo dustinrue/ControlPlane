@@ -271,7 +271,7 @@
 			break;
 	}
 	if (!group) {
-		NSLog(@"Bad prefs group '%@' to switch to!\n", groupId);
+		NSLog(@"Bad prefs group '%@' to switch to!", groupId);
 		return;
 	}
 
@@ -340,7 +340,7 @@
 			break;
 	}
 	if (!group) {
-		NSLog(@"Oops! toolbar delegate is trying to use '%@' as an ID!\n", groupId);
+		NSLog(@"Oops! toolbar delegate is trying to use '%@' as an ID!", groupId);
 		return nil;
 	}
 
@@ -569,6 +569,7 @@
 	if (![logBufferPaused boolValue]) {
 		NSString *buf = [[DSLogger sharedLogger] buffer];
 		[logBufferView setString:buf];
+		[logBufferView scrollRangeToVisible:NSMakeRange([buf length] - 2, 1)];
 	}
 }
 

@@ -5,6 +5,7 @@
 //  Created by David Symonds on 29/03/07.
 //
 
+#import "DSLogger.h"
 #import "EvidenceSource.h"
 
 //#define PRESERVE_RULE_DESCRIPTIONS
@@ -86,10 +87,8 @@
 
 - (void)goingToSleep:(id)arg
 {
-#ifdef DEBUG_MODE
-	NSLog(@"%@ >> About to go to sleep!", [self class]);
-#endif
 	if ([self isRunning]) {
+		DSLog(@"Stopping for sleep.");
 		startAfterSleep = YES;
 		[self stop];
 	} else
@@ -98,11 +97,10 @@
 
 - (void)wakeFromSleep:(id)arg
 {
-#ifdef DEBUG_MODE
-	NSLog(@"%@ >> Just woke from sleep!", [self class]);
-#endif
-	if (startAfterSleep)
+	if (startAfterSleep) {
+		DSLog(@"Starting after sleep.");
 		[self start];
+	}
 }
 
 - (BOOL)matchesRulesOfType:(NSString *)type
@@ -359,10 +357,13 @@
 	while ((src = [en nextObject])) {
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
-		if (enabled && ![src isRunning])
+		if (enabled && ![src isRunning]) {
+			DSLog(@"Starting %@ evidence source", [src name]);
 			[src start];
-		else if (!enabled && [src isRunning])
+		} else if (!enabled && [src isRunning]) {
+			DSLog(@"Stopping %@ evidence source", [src name]);
 			[src stop];
+		}
 	}
 }
 

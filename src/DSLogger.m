@@ -35,6 +35,10 @@ static DSLogger *shared_Logger = nil;
 	[timestampFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[timestampFormatter setDateFormat:@"HH:mm:ss.SSS"];
 
+	clusterThreshold = 0.5;
+	clusterStartDate = [[NSDate distantPast] retain];
+	lastFunction = [[NSMutableString alloc] init];
+
 	buffer = [[NSMutableArray alloc] initWithCapacity:DSLOGGER_CAPACITY];
 	startIndex = count = 0;
 
@@ -45,22 +49,33 @@ static DSLogger *shared_Logger = nil;
 {
 	[lock release];
 	[timestampFormatter release];
+	[clusterStartDate release];
+	[lastFunction release];
 	[buffer release];
 
 	[super dealloc];
 }
 
-- (void)logFromFunction:(const char *)function withFormat:(NSString *)format, ...
+- (void)logFromFunction:(NSString *)function withFormat:(NSString *)format, ...
 {
 	[lock lock];
 
 	va_list ap;
 	va_start(ap, format);
-	NSString *line = [NSString stringWithFormat:@"%@ %s\n\t%@",
-		[timestampFormatter stringFromDate:[NSDate date]],
-		function,
-		[[[NSString alloc] initWithFormat:format arguments:ap] autorelease]];
+	NSDate *now = [NSDate date];
+	NSString *proc = [[[NSString alloc] initWithFormat:format arguments:ap] autorelease];
+	NSString *line;
+	if (([now timeIntervalSinceDate:clusterStartDate] < clusterThreshold) && [lastFunction isEqualToString:function])
+		line = [NSString stringWithFormat:@"\t%@", proc];
+	else {
+		clusterStartDate = [now retain];
+		line = [NSString stringWithFormat:@"%@ %@\n\t%@", [timestampFormatter stringFromDate:now], function, proc];
+	}
+	[lastFunction setString:function];
 	va_end(ap);
+#ifdef DEBUG_MODE
+	NSLog(@"%@ %@", function, proc);
+#endif
 
 	if (count < DSLOGGER_CAPACITY) {
 		[buffer addObject:line];

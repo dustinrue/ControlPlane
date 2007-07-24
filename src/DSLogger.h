@@ -12,6 +12,11 @@
 	NSLock *lock;
 	NSDateFormatter *timestampFormatter;
 
+	// Clustering
+	NSTimeInterval clusterThreshold;
+	NSDate *clusterStartDate;
+	NSMutableString *lastFunction;
+
 	// Ring buffer
 	NSMutableArray *buffer;
 	int startIndex, count;
@@ -22,11 +27,11 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)logFromFunction:(const char *)function withFormat:(NSString *)format, ...;
+- (void)logFromFunction:(NSString *)function withFormat:(NSString *)format, ...;
 
 - (NSString *)buffer;
 
 #define DSLog(format, ...)	\
-	[[DSLogger sharedLogger] logFromFunction:__PRETTY_FUNCTION__ withFormat:(format),##__VA_ARGS__]
+	[[DSLogger sharedLogger] logFromFunction:[NSString stringWithUTF8String:__PRETTY_FUNCTION__] withFormat:(format),##__VA_ARGS__]
 
 @end

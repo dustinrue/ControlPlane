@@ -77,7 +77,7 @@
 	[self setValue:perc forKey:@"currentLevel"];
 
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> Current light level: L:%d R:%d. (%@)\n", [self class], leftLight, rightLight, currentLevel);
+	//NSLog(@"%@ >> Current light level: L:%d R:%d. (%@)", [self class], leftLight, rightLight, currentLevel);
 #endif
 	[lock unlock];
 }

@@ -115,7 +115,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 		// Get device details
 		NSNumber *guid = [[self class] guidForDevice:&device];
 		if (!guid) {
-			NSLog(@"FireWire >> failed getting GUID.\n", cnt);
+			NSLog(@"FireWire >> failed getting GUID.", cnt);
 			goto end_of_device_handling;
 		}
 
@@ -144,7 +144,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 			}
 		}
 #ifdef DEBUG_MODE
-		//NSLog(@"FireWire >> [%d] Adding %@\n", cnt, dev_dict);
+		//NSLog(@"FireWire >> [%d] Adding %@", cnt, dev_dict);
 #endif
 		[devices addObject:dev_dict];
 		[self setDataCollected:YES];
@@ -188,7 +188,7 @@ end_of_device_handling:
 {
 	[self enumerateAll];		// be on the safe side
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> found %d devices\n", [self class], [devices count]);
+	NSLog(@"%@ >> found %d devices", [self class], [devices count]);
 #endif
 }
 

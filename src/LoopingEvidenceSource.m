@@ -5,6 +5,7 @@
 //  Created by David Symonds on 19/07/07.
 //
 
+#import "DSLogger.h"
 #import "LoopingEvidenceSource.h"
 
 
@@ -40,6 +41,7 @@
 	}
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	DSLog(@"Updating...");
 	[self performSelector:@selector(doUpdate)];
 	[pool release];
 }

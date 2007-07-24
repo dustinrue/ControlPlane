@@ -85,8 +85,8 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	rc = IOCreatePlugInInterfaceForService(*device, kIOUSBDeviceUserClientTypeID,
 					       kIOCFPlugInInterfaceID, &iface, &score);
 	if ((rc != kIOReturnSuccess) || !iface) {
-		NSLog(@"USB >> Oops #1! (rc=%08x, score=%08x)\n", rc, score);
-		NSLog(@"USB >> rc breakdown: err_system=%02x, err_sub=%04x, err_code=%04x\n",
+		NSLog(@"USB >> Oops #1! (rc=%08x, score=%08x)", rc, score);
+		NSLog(@"USB >> rc breakdown: err_system=%02x, err_sub=%04x, err_code=%04x",
 		      err_get_system(rc), err_get_sub(rc), err_get_code(rc));
 		return FALSE;
 	}
@@ -94,7 +94,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 				      (LPVOID) &dev);
 	(*iface)->Release(iface);
 	if (rc || !dev) {
-		NSLog(@"USB >> Oops #2! (rc=%08x)\n", rc);
+		NSLog(@"USB >> Oops #2! (rc=%08x)", rc);
 		ret = FALSE;
 		goto cleanup;
 		//return FALSE;
@@ -144,7 +144,7 @@ cleanup:
 		if ((rc = IORegistryEntryGetName(device, dev_name)) == KERN_SUCCESS)
 			device_name = [NSString stringWithUTF8String:dev_name];
 		else {
-			NSLog(@"IORegistryEntryGetName failed?!? (rc=0x%08x)\n", rc);
+			NSLog(@"IORegistryEntryGetName failed?!? (rc=0x%08x)", rc);
 			device_name = NSLocalizedString(@"(Unnamed device)", @"String for unnamed devices");
 		}
 
@@ -152,7 +152,7 @@ cleanup:
 		UInt16 vendor_id;
 		UInt16 product_id;
 		if (![[self class] usbDetailsForDevice:&device outVendor:&vendor_id outProduct:&product_id]) {
-			NSLog(@"USB >> failed getting details.\n", cnt);
+			NSLog(@"USB >> failed getting details.", cnt);
 			goto end_of_device_handling;
 		}
 
@@ -187,7 +187,7 @@ cleanup:
 				goto end_of_search;
 			}
 		}
-		//NSLog(@"USB >> [%d] Adding %@\n", cnt, dev_dict);
+		//NSLog(@"USB >> [%d] Adding %@", cnt, dev_dict);
 		[devices addObject:dev_dict];
 		[self setDataCollected:YES];
 end_of_search:
@@ -230,7 +230,7 @@ end_of_device_handling:
 {
 	[self enumerateAll];		// be on the safe side
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> found %d devices\n", [self class], [devices count]);
+	NSLog(@"%@ >> found %d devices", [self class], [devices count]);
 #endif
 }
 
