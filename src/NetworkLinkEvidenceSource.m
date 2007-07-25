@@ -53,22 +53,23 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	ctxt.copyDescription = NULL;
 	SCDynamicStoreRef newStore = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), NULL, &ctxt);
 
-	NSArray *all = (NSArray *)SCNetworkInterfaceCopyAll();
+	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
 	NSMutableArray *subset = [NSMutableArray array];
-	NSEnumerator *e = [all objectEnumerator];
+	NSEnumerator *en = [all objectEnumerator];
 	SCNetworkInterfaceRef inter;
 
-	while (inter = (SCNetworkInterfaceRef)[e nextObject]) {
+	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
 		NSString *opt;
 		NSString *name = (NSString *)SCNetworkInterfaceGetBSDName(inter);
-		if ([@"en" isEqualToString:[name substringToIndex:2]])
-		{
+		if ([@"en" isEqualToString:[name substringToIndex:2]]) {
 			CFStringRef key = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("State:/Network/Interface/%@/Link"), name);
 			CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, key);
 			if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
 				opt = [NSString stringWithFormat:@"+%@", name];
 			else
 				opt = [NSString stringWithFormat:@"-%@", name];
+			CFRelease(current);
+			CFRelease(key);
 
 			[subset addObject:opt];
 		}
@@ -80,11 +81,9 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 
 - (void)doFullUpdate:(id)sender
 {
-	NSArray *inters;
-
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	inters = [[self class] enumerate];
+	NSArray *inters = [[self class] enumerate];
 
 	[lock lock];
 	[interfaces setArray:inters];
@@ -114,10 +113,8 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	SCNetworkInterfaceRef inter;
 	while (inter = (SCNetworkInterfaceRef)[e nextObject]) {
 		NSString *name = (NSString *)SCNetworkInterfaceGetBSDName(inter);
-		if ([@"en" isEqualToString:[name substringToIndex:2]])
-		{
+		if ([[name substringToIndex:2] isEqualToString:@"en"])
 			[monInters addObject:[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name]];
-		}
 	}
 
 	store = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), linkChange, &ctxt);
@@ -164,16 +161,16 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 {
 	BOOL match = NO;
 
-	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@","];
-	if ([comp count] != 1)
-		return NO;	// corrupted rule
+	NSString *iface = [rule valueForKey:@"parameter"];
 
 	[lock lock];
 	NSEnumerator *en = [interfaces objectEnumerator];
 	NSString *inter;
 	while ((inter = [en nextObject])) {
-		if ([inter isEqualToString:[comp objectAtIndex:0]] == TRUE)
+		if ([inter isEqualToString:iface]) {
 			match = YES;
+			break;
+		}
 	}
 	[lock unlock];
 
@@ -195,8 +192,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	SCNetworkInterfaceRef inter;
 	while (inter = (SCNetworkInterfaceRef)[e nextObject]) {
 		name = (NSString *)SCNetworkInterfaceGetBSDName(inter);
-		if ([@"en" isEqualToString:[name substringToIndex:2]])
-		{
+		if ([[name substringToIndex:2] isEqualToString:@"en"]) {
 			activeDesc   = [NSString stringWithFormat:@"%@ link active", name];
 			inactiveDesc = [NSString stringWithFormat:@"%@ link inactive", name];
 			activeName   = [NSString stringWithFormat:@"+%@", name];
