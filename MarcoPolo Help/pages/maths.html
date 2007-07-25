@@ -29,14 +29,14 @@
 		<p>MarcoPolo doesn't use traditional "fuzzy logic" handling,
 		but rather combines fuzzy sets with a more traditional
 		confidence combination method. The fuzzy sets are implicit, and
-		represent each possible location: a given rule indicates that a
-		piece of evidence is in a certain location set with a certain
+		represent each possible context: a given rule indicates that a
+		piece of evidence is in a certain context set with a certain
 		membership value (the confidence).
 		</p>
 		<p>Every time MarcoPolo decides to evaluate the best guess, it
 		finds all the rules that match, groups them based on the
-		location that they provide evidence for, and then aggregates
-		the confidence values for each location. The location with the
+		context that they provide evidence for, and then aggregates
+		the confidence values for each context. The context with the
 		highest aggregated confidence is then taken to be the best
 		guess.
 		</p>
@@ -47,7 +47,7 @@
 		<p style="text-align: center;">
 			<img src="../gfx/equation-0.png" alt="Equation 0" />
 		</p>
-		<p>For example, if two rules match for a specific location, one
+		<p>For example, if two rules match for a specific context, one
 		having 50% confidence and the other having 70% confidence:
 		</p>
 		<p style="text-align: center;">
