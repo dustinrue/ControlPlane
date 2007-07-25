@@ -184,33 +184,34 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 
 - (NSArray *)getSuggestions
 {
-	NSMutableArray *sugg = [NSMutableArray arrayWithCapacity:0];
-	NSArray *all = (NSArray *)SCNetworkInterfaceCopyAll();
-	NSEnumerator *e = [all objectEnumerator];
+	NSMutableArray *sugg = [NSMutableArray array];
+	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
+	NSEnumerator *en = [all objectEnumerator];
 	NSString *activeDesc, *inactiveDesc, *activeName, *inactiveName, *name;
 
 	SCNetworkInterfaceRef inter;
-	while (inter = (SCNetworkInterfaceRef)[e nextObject]) {
-		name = (NSString *)SCNetworkInterfaceGetBSDName(inter);
+	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
+		name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
 		if ([[name substringToIndex:2] isEqualToString:@"en"]) {
-			activeDesc   = [NSString stringWithFormat:@"%@ link active", name];
-			inactiveDesc = [NSString stringWithFormat:@"%@ link inactive", name];
-			activeName   = [NSString stringWithFormat:@"+%@", name];
+			activeDesc = [NSString stringWithFormat:
+				NSLocalizedString(@"%@ link active", @"In NetworkLinkEvidenceSource"), name];
+			inactiveDesc = [NSString stringWithFormat:
+				NSLocalizedString(@"%@ link inactive", @"In NetworkLinkEvidenceSource"), name];
+			activeName = [NSString stringWithFormat:@"+%@", name];
 			inactiveName = [NSString stringWithFormat:@"-%@", name];
 
 			[sugg addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 				@"NetworkLink", @"type",
 				activeName, @"parameter",
-				NSLocalizedString(activeDesc, @""), @"description", nil]];
+				activeDesc, @"description", nil]];
 			[sugg addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 				@"NetworkLink", @"type",
 				inactiveName, @"parameter",
-				NSLocalizedString(inactiveDesc, @""), @"description", nil]];
+				inactiveDesc, @"description", nil]];
 		}
 	}
 	[all release];
 	[lock unlock];
-
 
 	return sugg;
 }
