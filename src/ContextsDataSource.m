@@ -239,6 +239,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	// Look for parent
 	if (fromUI && ([outlineView selectedRow] >= 0))
 		[ctxt setParentUUID:[(Context *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
+	else
+		[ctxt setParentUUID:@""];
 
 
 	[contexts setValue:ctxt forKey:[ctxt uuid]];
