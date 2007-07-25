@@ -271,6 +271,7 @@
 #import "IPEvidenceSource.h"
 #import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
+#import "NetworkLinkEvidenceSource.h"
 #import "PowerEvidenceSource.h"
 #import "RunningApplicationEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
@@ -291,6 +292,7 @@
 		[IPEvidenceSource class],
 		[LightEvidenceSource class],
 		[MonitorEvidenceSource class],
+		[NetworkLinkEvidenceSource class],
 		[PowerEvidenceSource class],
 		[RunningApplicationEvidenceSource class],
 		[TimeOfDayEvidenceSource class],
@@ -305,6 +307,7 @@
 		NSLocalizedString(@"IP", @"Evidence source");
 		NSLocalizedString(@"Light", @"Evidence source");
 		NSLocalizedString(@"Monitor", @"Evidence source");
+		NSLocalizedString(@"NetworkLink", @"Evidence source");
 		NSLocalizedString(@"Power", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
