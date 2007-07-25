@@ -27,6 +27,8 @@
 - (void)doUpdate:(NSTimer *)theTimer;
 
 - (void)updateThread:(id)arg;
+- (void)goingToSleep:(id)arg;
+- (void)wakeFromSleep:(id)arg;
 
 - (NSDictionary *)registrationDictionaryForGrowl;
 - (NSString *)applicationNameForGrowl;
@@ -168,6 +170,16 @@
 						     name:NSUserDefaultsDidChangeNotification
 						   object:nil];
 
+	// Get notified when we go to sleep, and wake from sleep
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+							       selector:@selector(goingToSleep:)
+								   name:@"NSWorkspaceWillSleepNotification"
+								 object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+							       selector:@selector(wakeFromSleep:)
+								   name:@"NSWorkspaceDidWakeNotification"
+								 object:nil];
+
 	// Set up status bar.
 	[self showInStatusBar:self];
 
@@ -180,11 +192,11 @@
 
 	// Schedule a one-off timer (in 2s) to get initial data.
 	// Future recurring timers will be set automatically from there.
-	[NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2
-					 target:self
-				       selector:@selector(doUpdate:)
-				       userInfo:nil
-					repeats:NO];
+	updatingTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2
+							 target:self
+						       selector:@selector(doUpdate:)
+						       userInfo:nil
+							repeats:NO];
 
 	[NSApp unhide];
 }
@@ -305,14 +317,14 @@
 {
 	// Check timer interval
 	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
-	if (fabs(intv - [theTimer timeInterval]) > 0.1) {
-		if ([theTimer isValid])
-			[theTimer invalidate];
-		[NSTimer scheduledTimerWithTimeInterval:intv
-						 target:self
-					       selector:@selector(doUpdate:)
-					       userInfo:nil
-						repeats:YES];
+	if (fabs(intv - [updatingTimer timeInterval]) > 0.1) {
+		if ([updatingTimer isValid])
+			[updatingTimer invalidate];
+		updatingTimer = [NSTimer scheduledTimerWithTimeInterval:intv
+								 target:self
+							       selector:@selector(doUpdate:)
+							       userInfo:nil
+								repeats:YES];
 	}
 
 	// Check status bar visibility
@@ -720,6 +732,19 @@
 	}
 
 	[pool release];
+}
+
+- (void)goingToSleep:(id)arg
+{
+	DSLog(@"Stopping update thread for sleep.");
+	// Effectively stops timer
+	[updatingTimer setFireDate:[NSDate distantFuture]];
+}
+
+- (void)wakeFromSleep:(id)arg
+{
+	DSLog(@"Starting update thread after sleep.");
+	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

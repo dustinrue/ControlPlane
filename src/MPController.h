@@ -24,6 +24,7 @@
 	IBOutlet NSMenuItem *forceContextMenuItem;
 	NSNumber *forcedContextIsSticky;
 
+	NSTimer *updatingTimer;
 	NSThread *updatingThread;
 	NSLock *updatingSwitchingLock;
 	NSConditionLock *updatingLock;
