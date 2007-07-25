@@ -88,7 +88,7 @@
 - (void)goingToSleep:(id)arg
 {
 	if ([self isRunning]) {
-		DSLog(@"Stopping for sleep.");
+		DSLog(@"Stopping %@ for sleep.", [self class]);
 		startAfterSleep = YES;
 		[self stop];
 	} else
@@ -98,7 +98,7 @@
 - (void)wakeFromSleep:(id)arg
 {
 	if (startAfterSleep) {
-		DSLog(@"Starting after sleep.");
+		DSLog(@"Starting %@ after sleep.", [self class]);
 		[self start];
 	}
 }
