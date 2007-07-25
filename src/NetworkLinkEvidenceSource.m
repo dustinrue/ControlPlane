@@ -3,6 +3,7 @@
 //  MarcoPolo
 //
 //  Created by Mark Wallis on 25/07/07.
+//  Tweaks by David Symonds on 25/07/07.
 //
 
 #include <SystemConfiguration/SystemConfiguration.h>
@@ -59,9 +60,9 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	SCNetworkInterfaceRef inter;
 
 	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
-		NSString *opt;
-		NSString *name = (NSString *)SCNetworkInterfaceGetBSDName(inter);
+		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
 		if ([@"en" isEqualToString:[name substringToIndex:2]]) {
+			NSString *opt;
 			CFStringRef key = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("State:/Network/Interface/%@/Link"), name);
 			CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, key);
 			if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
@@ -106,13 +107,13 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	ctxt.release = NULL;
 	ctxt.copyDescription = NULL;
 
-	NSArray *all = (NSArray *)SCNetworkInterfaceCopyAll();
+	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
 	NSEnumerator *e = [all objectEnumerator];
 	NSMutableArray *monInters = [NSMutableArray arrayWithCapacity:0];
 
 	SCNetworkInterfaceRef inter;
 	while (inter = (SCNetworkInterfaceRef)[e nextObject]) {
-		NSString *name = (NSString *)SCNetworkInterfaceGetBSDName(inter);
+		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
 		if ([[name substringToIndex:2] isEqualToString:@"en"])
 			[monInters addObject:[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name]];
 	}
@@ -184,36 +185,34 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 
 - (NSArray *)getSuggestions
 {
-	NSMutableArray *sugg = [NSMutableArray array];
-	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
-	NSEnumerator *en = [all objectEnumerator];
-	NSString *activeDesc, *inactiveDesc, *activeName, *inactiveName, *name;
+	NSMutableArray *arr = [NSMutableArray array];
+	NSArray *all = [(NSArray *) SCNetworkInterfaceCopyAll() autorelease];
 
+	NSEnumerator *en = [all objectEnumerator];
 	SCNetworkInterfaceRef inter;
 	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
-		name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
-		if ([[name substringToIndex:2] isEqualToString:@"en"]) {
-			activeDesc = [NSString stringWithFormat:
-				NSLocalizedString(@"%@ link active", @"In NetworkLinkEvidenceSource"), name];
-			inactiveDesc = [NSString stringWithFormat:
-				NSLocalizedString(@"%@ link inactive", @"In NetworkLinkEvidenceSource"), name];
-			activeName = [NSString stringWithFormat:@"+%@", name];
-			inactiveName = [NSString stringWithFormat:@"-%@", name];
+		NSString *dev = (NSString *) SCNetworkInterfaceGetBSDName(inter);
+		NSString *name = (NSString *) SCNetworkInterfaceGetLocalizedDisplayName(inter);
+		if ([[dev substringToIndex:2] isEqualToString:@"en"]) {
+			NSString *activeDesc = [NSString stringWithFormat:
+				NSLocalizedString(@"%@ (%@) link active", @"In NetworkLinkEvidenceSource"), dev, name];
+			NSString *inactiveDesc = [NSString stringWithFormat:
+				NSLocalizedString(@"%@ (%@) link inactive", @"In NetworkLinkEvidenceSource"), dev, name];
+			NSString *activeParam = [NSString stringWithFormat:@"+%@", dev];
+			NSString *inactiveParam = [NSString stringWithFormat:@"-%@", dev];
 
-			[sugg addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 				@"NetworkLink", @"type",
-				activeName, @"parameter",
+				activeParam, @"parameter",
 				activeDesc, @"description", nil]];
-			[sugg addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 				@"NetworkLink", @"type",
-				inactiveName, @"parameter",
+				inactiveParam, @"parameter",
 				inactiveDesc, @"description", nil]];
 		}
 	}
-	[all release];
-	[lock unlock];
 
-	return sugg;
+	return arr;
 }
 
 @end

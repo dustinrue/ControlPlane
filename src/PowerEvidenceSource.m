@@ -2,7 +2,7 @@
 //  PowerEvidenceSource.m
 //  MarcoPolo
 //
-//  Created by Mark Wallis <marcopolo@markwallis.id.au> on 30/4/07.
+//  Created by Mark Wallis on 30/4/07.
 //  Tweaks by David Symonds on 30/4/07.
 //
 
