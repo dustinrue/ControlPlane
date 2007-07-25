@@ -22,7 +22,7 @@
 			<h1>Setting up MarcoPolo's rules</h1>
 		</div>
 		<p><b>Rules</b> in MarcoPolo are how MarcoPolo determines your
-		location from different sources of evidence.
+		context from different sources of evidence.
 		Different <i>types</i> of rules for different types of
 		evidence, but they are all combined mathematically to arrive at
 		a final conclusion.
@@ -39,30 +39,30 @@
 		<ul>
 		<li>A <i>type</i>, specifying the type of evidence it matches,</li>
 		<li>A <i>parameter</i> to determine what it matches,</li>
-		<li>A <i>location</i> that it indicates,</li>
+		<li>A <i>context</i> that it indicates,</li>
 		<li>A <i>confidence</i> (0-100%), and</li>
 		<li>A <i>description</i> (optional) for human readability.</li>
 		</ul>
 		<p>For example, a rule might be:
 		</p>
 		<p style="text-align: center;">
-		&lt; type=Bluetooth, parameter=00-00-6C-33-7A-2F, location=Home,
+		&lt; type=Bluetooth, parameter=00-00-6C-33-7A-2F, context=Home,
 		confidence=80% &gt;
 		</p>
 		<p>This tells MarcoPolo that the presence of a <i>Bluetooth</i>
 		device with a MAC of <i>00-00-6C-33-7A-2F</i> means that we are
-		at the <i>Home</i> location, and that we can be <i>80%</i>
+		at the <i>Home</i> context, and that we can be <i>80%</i>
 		confident of this. Ordinarily, you won't have to explicitly
 		set the parameter, but it's sometimes useful to be able to
 		tweak it.
 		</p>
 		<p>MarcoPolo frequently evaluates all its rules, and finds the
 		subset of rules that match. It combines all these rules to get
-		a confidence for each location, and decides on the highest
-		confidence location. If the confidence for that location is
+		a confidence for each context, and decides on the highest
+		confidence context. If the confidence for that context is
 		greater than a threshold (configurable in the Preferences
-		window), and the location is not the current one, MarcoPolo
-		changes to that location, and triggers any relevant actions.
+		window), and the context is not the current one, MarcoPolo
+		changes to that context, and triggers any relevant actions.
 		</p>
 <!--
 		<p style="text-align: center;">

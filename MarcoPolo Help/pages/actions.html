@@ -21,26 +21,27 @@
 			<h1>Setting up MarcoPolo's actions</h1>
 		</div>
 		<p><i>Actions</i> are triggered when MarcoPolo decides to
-		change your location.
+		change your context.
 		</p>
 		<p>Each action has the following properties:
 		</p>
 		<ul>
 		<li>A <i>type</i>,</li>
 		<li>A <i>parameter</i> for the type of action,</li>
-		<li>A <i>location</i> that it should be triggered for,</li>
+		<li>A <i>context</i> that it should be triggered for,</li>
 		<li><i>When</i> it should be triggered (upon Arrival or Departure),</li>
-		<li>A <i>delay</i> between changing location and triggering the action, and</li>
+		<li>A <i>delay</i> between changing context and triggering the action,</li>
+		<li>Whether it is <i>enabled</i>, and</li>
 		<li>A <i>description</i> for human readability.</li>
 		</ul>
 
 		<p>Most actions will be Arrival actions; that is, they will be
-		triggered when you <i>arrive</i> at a location and MarcoPolo
-		decides to switch to that location. The alternative is a
-		Departure action, which is triggered when MarcoPolo decides to
-		switch away from that action's location. In this case, the
-		<i>delay</i> parameter will be the amount of time from the
-		action being triggered until the location is switched.
+		triggered when MarcoPolo switches <em>to</em> that context.
+		The alternative is a Departure action, which is triggered when
+		MarcoPolo switches <em>away</em> from that action's context.
+		In this case, the <i>delay</i> parameter will be the length of
+		time from the action being triggered until the context is
+		switched.
 		</p>
 
 		<!-- =================================================== -->
