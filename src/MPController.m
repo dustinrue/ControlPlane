@@ -128,35 +128,94 @@
 	[super dealloc];
 }
 
+- (void)importVersion1Settings
+{
+	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
+	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
+	[oldRules autorelease];
+	[oldActions autorelease];
+
+	// Create contexts, populated from network locations
+	NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
+	NSDictionary *dict;
+	NSMutableDictionary *lookup = [NSMutableDictionary dictionary];	// map location name -> (Context *)
+	int cnt = 0;
+	while ((dict = [en nextObject])) {
+		Context *ctxt = [contextsDataSource newContextWithName:[dict valueForKey:@"option"] fromUI:NO];
+		[lookup setObject:ctxt forKey:[ctxt name]];
+		++cnt;
+	}
+	NSLog(@"Quickstart: Created %d contexts", cnt);
+
+	// Replicate (some) rules
+	NSMutableArray *newRules = [NSMutableArray array];
+	en = [oldRules objectEnumerator];
+	while ((dict = [en nextObject])) {
+		if ([[dict valueForKey:@"type"] isEqualToString:@"IP"]) {
+			// Warn!
+			NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setMessageText:@"Couldn't import MarcoPolo 1.x IP rule"];
+			[alert setInformativeText:
+				[NSString stringWithFormat:@"A rule with description \"%@\" was not imported!",
+					[dict valueForKey:@"description"]]];
+			[alert runModal];
+			continue;
+		}
+
+		NSMutableDictionary *rule = [NSMutableDictionary dictionaryWithDictionary:dict];
+		Context *ctxt = [lookup objectForKey:[rule valueForKey:@"location"]];
+		if (ctxt)
+			[rule setValue:[ctxt uuid] forKey:@"context"];
+		[rule removeObjectForKey:@"location"];
+		[newRules addObject:rule];
+	}
+	[[NSUserDefaults standardUserDefaults] setObject:newRules forKey:@"Rules"];
+	NSLog(@"Quickstart: Imported %d rules from MarcoPolo 1.x", [newRules count]);
+
+	// Replicate actions
+	NSMutableArray *newActions = [NSMutableArray array];
+	en = [oldActions objectEnumerator];
+	while ((dict = [en nextObject])) {
+		NSMutableDictionary *action = [NSMutableDictionary dictionaryWithDictionary:dict];
+		Context *ctxt = [lookup objectForKey:[action valueForKey:@"location"]];
+		if (ctxt)
+			[action setValue:[ctxt uuid] forKey:@"context"];
+		[action removeObjectForKey:@"location"];
+		if ([[action valueForKey:@"parameter"] isEqual:@"on"])
+			[action setValue:[NSNumber numberWithBool:YES] forKey:@"parameter"];
+		else if ([[action valueForKey:@"parameter"] isEqual:@"off"])
+				[action setValue:[NSNumber numberWithBool:NO] forKey:@"parameter"];
+		[action setValue:[NSNumber numberWithBool:YES] forKey:@"enabled"];
+		[newActions addObject:action];
+	}
+	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
+	NSLog(@"Quickstart: Imported %d actions from MarcoPolo 1.x", [newActions count]);
+
+	// Create NetworkLocation actions
+	newActions = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"]];
+	en = [lookup objectEnumerator];
+	Context *ctxt;
+	cnt = 0;
+	while ((ctxt = [en nextObject])) {
+		Action *act = [[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
+		NSMutableDictionary *act_dict = [act dictionary];
+		[act_dict setValue:[ctxt uuid] forKey:@"context"];
+		[act_dict setValue:NSLocalizedString(@"Set Network Location", @"") forKey:@"description"];
+		[newActions addObject:act_dict];
+		++cnt;
+	}
+	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
+	NSLog(@"Quickstart: Created %d new NetworkLocation actions", cnt);
+}
+
 - (void)awakeFromNib
 {
-	// If there aren't any contexts defined, populate list from network locations
-	if ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) {
-		NSArray *limitedOptions = [NetworkLocationAction limitedOptions];
-		NSEnumerator *en = [limitedOptions objectEnumerator];
-		NSDictionary *dict;
-		NSMutableDictionary *lookup = [NSMutableDictionary dictionary];
-		while ((dict = [en nextObject])) {
-			Context *ctxt = [contextsDataSource newContextWithName:[dict valueForKey:@"option"] fromUI:NO];
-			[lookup setObject:ctxt forKey:[ctxt name]];
-		}
-		NSLog(@"Quickstart: Created %d contexts", [limitedOptions count]);
-
-		// Additionally, if there are no actions, populate list with NetworkLocationActions
-		if ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"] count] == 0) {
-			NSMutableArray *actions = [NSMutableArray array];
-			en = [lookup objectEnumerator];
-			Context *ctxt;
-			while ((ctxt = [en nextObject])) {
-				Action *act = [[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
-				NSMutableDictionary *act_dict = [act dictionary];
-				[act_dict setValue:[ctxt uuid] forKey:@"context"];
-				[act_dict setValue:NSLocalizedString(@"Sample action", @"") forKey:@"description"];
-				[actions addObject:act_dict];
-			}
-			[[NSUserDefaults standardUserDefaults] setObject:actions forKey:@"Actions"];
-			NSLog(@"Quickstart: Created %d NetworkLocation actions", [actions count]);
-		}
+	// If there aren't any contexts defined, nor rules, nor actions, port from version 1.x
+	if (([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) &&
+	    ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"] count] == 0) &&
+	    ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"] count] == 0)) {
+		[self importVersion1Settings];
 	}
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
