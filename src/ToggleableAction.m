@@ -25,7 +25,15 @@
 	if (!(self = [super initWithDictionary:dict]))
 		return nil;
 
-	turnOn = [[dict valueForKey:@"parameter"] boolValue];
+	NSObject *val = [dict valueForKey:@"parameter"];
+	if ([val isKindOfClass:[NSNumber class]])
+		turnOn = [[dict valueForKey:@"parameter"] boolValue];
+	else {
+		if ([val isEqual:@"on"] || [val isEqual:@"1"])
+			turnOn = YES;
+		else
+			turnOn = NO;
+	}
 
 	return self;
 }
