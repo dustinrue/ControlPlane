@@ -130,11 +130,6 @@
 
 - (void)importVersion1Settings
 {
-	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
-	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
-	[oldRules autorelease];
-	[oldActions autorelease];
-
 	// Create contexts, populated from network locations
 	NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
 	NSDictionary *dict;
@@ -146,6 +141,13 @@
 		++cnt;
 	}
 	NSLog(@"Quickstart: Created %d contexts", cnt);
+
+	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
+	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
+	if (!oldRules || !oldActions)
+		return;
+	[oldRules autorelease];
+	[oldActions autorelease];
 
 	// Replicate (some) rules
 	NSMutableArray *newRules = [NSMutableArray array];
