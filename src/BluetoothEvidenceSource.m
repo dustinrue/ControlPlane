@@ -10,6 +10,7 @@
 
 #import "BluetoothEvidenceSource.h"
 #import "DB.h"
+#import "DSLogger.h"
 
 #define EXPIRY_INTERVAL		((NSTimeInterval) 60)
 
@@ -47,16 +48,12 @@
 		return;
 
 	if (IOBluetoothPreferenceGetControllerPowerState()) {
-#ifdef DEBUG_MODE
-		NSLog(@"%s starting inq", __PRETTY_FUNCTION__);
-#endif
+		DSLog(@"starting inq");
 		[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
 	} else {
 		// Various things mysteriously break if we run the inquiry while bluetooth is not on, so we run a
 		// timer, waiting for it to turn back on
-#ifdef DEBUG_MODE
-		NSLog(@"%s starting hold timer", __PRETTY_FUNCTION__);
-#endif
+		DSLog(@"starting hold timer");
 		holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5
 							     target:self
 							   selector:@selector(holdTimerPoll:)
@@ -81,15 +78,11 @@
 	[cleanupTimer invalidate];	// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
 
 	if (holdTimer) {
-#ifdef DEBUG_MODE
-		NSLog(@"%s stopping hold timer", __PRETTY_FUNCTION__);
-#endif
+		DSLog(@"stopping hold timer");
 		[holdTimer invalidate];		// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
 		holdTimer = nil;
 	}
-#ifdef DEBUG_MODE
-	NSLog(@"%s stopping inq", __PRETTY_FUNCTION__);
-#endif
+	DSLog(@"stopping inq");
 	[inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
 
 	[lock lock];
@@ -105,9 +98,7 @@
 	if (!IOBluetoothPreferenceGetControllerPowerState())
 		return;
 
-#ifdef DEBUG_MODE
-	NSLog(@"%s stopping hold timer, starting inq", __PRETTY_FUNCTION__);
-#endif
+	DSLog(@"stopping hold timer, starting inq");
 	[holdTimer invalidate];
 	holdTimer = nil;
 	[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
@@ -139,10 +130,8 @@
 	[devices removeObjectsAtIndexes:index];
 	[lock unlock];
 
-#ifdef DEBUG_MODE
-	NSLog(@"%@ >> know of %d device(s)%s", [self class], [devices count], holdTimer ? " -- hold timer running" : "");
+	DSLog(@"know of %d device(s)%s", [devices count], holdTimer ? " -- hold timer running" : "");
 	//NSLog(@"%@ >> know about %d paired device(s), too", [self class], [[IOBluetoothDevice pairedDevices] count]);
-#endif
 }
 
 //- (void)doUpdate
@@ -284,9 +273,7 @@
 		      aborted:(BOOL)aborted
 {
 	if (error != kIOReturnSuccess) {
-#ifdef DEBUG_MODE
-		NSLog(@"%s error=0x%08x", __PRETTY_FUNCTION__, error);
-#endif
+		DSLog(@"error=0x%08x", error);
 		// Problem! Could just be that Bluetooth has been turned off
 		[cleanupTimer invalidate];
 		running = NO;
@@ -294,17 +281,11 @@
 		return;
 	}
 
-#ifdef DEBUG_MODE
-	NSLog(@"%s succeeded", __PRETTY_FUNCTION__);
-#endif
 	[sender clearFoundDevices];
-#ifdef DEBUG_MODE
+
 	IOReturn rc = [sender start];
 	if (rc != kIOReturnSuccess)
-		NSLog(@"%@ >> -[inq start] returned 0x%x!", [self class], rc);
-#else
-	[sender start];
-#endif
+		DSLog(@"-[inq start] returned 0x%x!", rc);
 }
 
 @end
