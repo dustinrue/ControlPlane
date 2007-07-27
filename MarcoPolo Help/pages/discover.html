@@ -20,27 +20,44 @@
 			<div id="pagetitle">
 				<h1>Discover MarcoPolo</h1>
 			</div>
-<p>MarcoPolo brings location-aware computing to your portable Mac computer.
-It allows your computer to determine its location through gathering evidence
-from your environment (<b>evidence sources</b>), using fuzzy-logic and
-rule-based matching to make an educated guess (<b>rules</b>), and then
-performing arbitrary actions upon changing location (<b>actions</b>).
+<p>MarcoPolo brings context-aware computing to your portable Mac computer.
+It allows your computer to determine its context through gathering evidence
+from your environment (<b>evidence sources</b>), using flexible rule-based
+fuzzy matching to make an educated guess (<b>rules</b>), and then
+performing arbitrary actions upon changing context (<b>actions</b>).
 </p>
-<p>MarcoPolo is built upon the Mac OS X concept of a "network location". This
-is a collection of settings for your computer's networking, which allows
-changing numerous parameters at the same time
-(Apple menu &gt; System Preferences, then click Network).
-Using this network location system saves considerable time and effort,
-but you still have to explicitly switch to the correct location each time.
-MarcoPolo fills this gap, and extends it to allow a much wider range of
-location-specific configuration and actions.
+<p>MarcoPolo's concept of <em>contexts</em> is a generalisation of a location,
+and encompasses more than just where your computer is. A context might
+represent what you are doing, or what else is going on around you.
+</p>
+<p>Contexts can also be nested to provide fine-grained detail. For example,
+your "Work" context might have two subcontexts called "Meeting" and "At Desk".
+If you imagine all your contexts as a tree, transitions between contexts
+involve "walking" that tree, leaving and entering a sequence of contexts.
 </p>
 <div class="taskbox">
 	<p><strong>Example Scenario</strong><br />
-	A particular USB mouse might only be used at your work, so its
-	presence is a strong indicator that your location should be "Work".
-	Similarly, a WiFi access point called "SmithNet" might be a good
-	indicator that your location should be "Home".
+	</p>
+	<ul>
+		<li>Work
+		<ul>
+			<li>Meeting</li>
+			<li>Work</li>
+		</ul></li>
+		<li>Home
+		<ul>
+			<li>At Desk</li>
+		</ul>
+	</ul>
+	<p>A particular USB mouse might only be used at your work, so its
+	presence is a strong indicator that your context should be "Work".
+	Furthermore, if the room is also dark, you're probably in a meeting,
+	so your context should be "Meeting", which is a subcontext of "Work".
+	</p>
+	<p>Similarly, a WiFi access point called "SmithNet" might be a good
+	indicator that your context should be "Home", and being connected to a
+	power adapter would also indicate that your context should be
+	"At Desk", a subcontext of "Home".
 	</p>
 </div>
 		</div>
