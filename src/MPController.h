@@ -35,6 +35,8 @@
 
 	IBOutlet NSArrayController *rulesController;
 	IBOutlet NSArrayController *actionsController;
+
+	IBOutlet NSWindow *prefsWindow;
 }
 
 @end

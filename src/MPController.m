@@ -130,6 +130,9 @@
 
 - (void)importVersion1Settings
 {
+	BOOL contextsCreated = NO, rulesImported = NO, actionsImported = NO;
+	BOOL ipActionsFound = NO;
+
 	// Create contexts, populated from network locations
 	NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
 	NSDictionary *dict;
@@ -141,11 +144,12 @@
 		++cnt;
 	}
 	NSLog(@"Quickstart: Created %d contexts", cnt);
+	contextsCreated = YES;
 
 	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
 	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
 	if (!oldRules || !oldActions)
-		return;
+		goto finished_import;
 	[oldRules autorelease];
 	[oldActions autorelease];
 
@@ -154,6 +158,9 @@
 	en = [oldRules objectEnumerator];
 	while ((dict = [en nextObject])) {
 		if ([[dict valueForKey:@"type"] isEqualToString:@"IP"]) {
+#if 1
+			ipActionsFound = YES;
+#else
 			// Warn!
 			NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 			[alert setAlertStyle:NSWarningAlertStyle];
@@ -162,6 +169,7 @@
 				[NSString stringWithFormat:@"A rule with description \"%@\" was not imported!",
 					[dict valueForKey:@"description"]]];
 			[alert runModal];
+#endif
 			continue;
 		}
 
@@ -174,6 +182,7 @@
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newRules forKey:@"Rules"];
 	NSLog(@"Quickstart: Imported %d rules from MarcoPolo 1.x", [newRules count]);
+	rulesImported = YES;
 
 	// Replicate actions
 	NSMutableArray *newActions = [NSMutableArray array];
@@ -193,6 +202,7 @@
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
 	NSLog(@"Quickstart: Imported %d actions from MarcoPolo 1.x", [newActions count]);
+	actionsImported = YES;
 
 	// Create NetworkLocation actions
 	newActions = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"]];
@@ -209,6 +219,42 @@
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
 	NSLog(@"Quickstart: Created %d new NetworkLocation actions", cnt);
+
+finished_import:
+	1;	// shut compiler up
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSInformationalAlertStyle];
+	if (!rulesImported && !actionsImported)
+		[alert setMessageText:NSLocalizedString(@"Quick Start", @"")];
+	else
+		[alert setMessageText:NSLocalizedString(@"Quick Start and MarcoPolo 1.x Import", @"")];
+
+	NSString *info = NSLocalizedString(@"Contexts have been made for you, named after your network locations.", @"");
+	if (rulesImported) {
+		if (!ipActionsFound)
+			info = [info stringByAppendingFormat:@"\n\n%@",
+				NSLocalizedString(@"All your rules have been imported.", @"")];
+		else
+			info = [info stringByAppendingFormat:@"\n\n%@",
+				NSLocalizedString(@"All your rules (except IP rules) have been imported.", @"")];
+	}
+	if (actionsImported)
+		info = [info stringByAppendingFormat:@"\n\n%@",
+			NSLocalizedString(@"All your actions have been imported.", @"")];
+
+	info = [info stringByAppendingFormat:@"\n\n%@",
+		NSLocalizedString(@"We strongly recommended that you review your preferences.", @"")];
+
+	[alert setInformativeText:info];
+
+	[alert addButtonWithTitle:NSLocalizedString(@"OK", @"Button title")];
+	[alert addButtonWithTitle:NSLocalizedString(@"Open Preferences", @"Button title")];
+	[NSApp activateIgnoringOtherApps:YES];
+	int rc = [alert runModal];
+	if (rc == NSAlertSecondButtonReturn) {
+		[NSApp activateIgnoringOtherApps:YES];
+		[prefsWindow makeKeyAndOrderFront:self];
+	}
 }
 
 - (void)awakeFromNib

@@ -54,6 +54,7 @@
                 contextsDataSource = ContextsDataSource; 
                 evidenceSources = EvidenceSourceSetController; 
                 forceContextMenuItem = NSMenuItem; 
+                prefsWindow = NSWindow; 
                 rulesController = NSArrayController; 
                 sbMenu = NSMenu; 
             }; 
