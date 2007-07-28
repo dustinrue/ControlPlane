@@ -71,6 +71,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableWiFiEvidenceSource"];
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
+	[appDefaults setValue:@"" forKey:@"DefaultContext"];
 
 	// Advanced
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"ShowAdvancedPreferences"];
@@ -146,6 +147,13 @@
 	NSLog(@"Quickstart: Created %d contexts", cnt);
 	contextsCreated = YES;
 
+	// Set "Automatic", or the first created context, as the default context
+	Context *ctxt;
+	if (!(ctxt = [lookup objectForKey:@"Automatic"]))
+		ctxt = [contextsDataSource contextByUUID:[[contextsDataSource arrayOfUUIDs] objectAtIndex:0]];
+	[[NSUserDefaults standardUserDefaults] setValue:[ctxt uuid] forKey:@"DefaultContext"];
+
+	// See if there are old rules and actions to import
 	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
 	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
 	if (!oldRules || !oldActions)
@@ -207,7 +215,6 @@
 	// Create NetworkLocation actions
 	newActions = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"]];
 	en = [lookup objectEnumerator];
-	Context *ctxt;
 	cnt = 0;
 	while ((ctxt = [en nextObject])) {
 		Action *act = [[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
