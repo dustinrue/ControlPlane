@@ -782,9 +782,12 @@ finished_import:
 		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
 			return;
 		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
+		Context *ctxt;
+		if (!(ctxt = [contextsDataSource contextByUUID:guess]))
+			return;
 		guessConfidenceString = NSLocalizedString(@"as default context",
 							  @"Appended to a context-change notification");
-		guessString = [[contextsDataSource contextByUUID:guess] name];
+		guessString = [ctxt name];
 	}
 
 	BOOL do_switch = YES;
