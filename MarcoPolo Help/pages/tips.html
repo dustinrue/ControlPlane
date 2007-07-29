@@ -39,13 +39,31 @@ tell application "Adium"
 end tell
 </pre>
 		</li>
-		<li>Save it as an <em>application</em>, unchecking <em>Startup Screen</em>, <em>Run Only</em> and <em>Stay Open</em>.</li>
-		<li>Create an <em>Open</em> action in MarcoPolo, giving the full path to the saved application (including the ".app" extension) as its parameter.</li>
+		<li>Save it somewhere convenient.</li>
+		<li>Create an <em>Open</em> action in MarcoPolo, selecting the saved script as its parameter.</li>
 		</ol>
 		</p>
 		<p>
 		You may replace <em>available</em> with <em>away</em> to have
 		Adium set your status as busy.
+		</p>
+	</div>
+
+	<div summary="How to launch iTunes and hide its window" class="taskbox">
+		<p>
+		<strong>To launch iTunes and hide its window:</strong>
+		<ol>
+		<li>Use <em>Script Editor</em> to create an AppleScript such as:
+<pre>
+tell application "iTunes"
+	launch
+	set visible of window 1 to false
+end tell
+</pre>
+		</li>
+		<li>Save it somewhere convenient.</li>
+		<li>Create an <em>Open</em> action in MarcoPolo, selecting the saved script as its parameter.</li>
+		</ol>
 		</p>
 	</div>
 
