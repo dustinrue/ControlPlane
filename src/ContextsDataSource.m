@@ -147,6 +147,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 // Private
 - (void)postContextsChangedNotification
 {
+	[self saveContexts:self];		// make sure they're saved
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ContextsChangedNotification" object:self];
 }
 
@@ -226,6 +228,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		[array addObject:[ctxt dictionary]];
 
 	[[NSUserDefaults standardUserDefaults] setObject:array forKey:@"Contexts"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark -
