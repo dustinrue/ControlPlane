@@ -23,6 +23,7 @@
 
 	IBOutlet NSMenuItem *forceContextMenuItem;
 	NSNumber *forcedContextIsSticky;
+	NSMenuItem *alwaysStickForcedContextsMenuItem;
 
 	NSTimer *updatingTimer;
 	NSThread *updatingThread;
