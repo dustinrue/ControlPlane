@@ -22,8 +22,8 @@
 	int smoothCounter;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;
-	NSNumber *forcedContextIsSticky;
-	NSMenuItem *alwaysStickForcedContextsMenuItem;
+	BOOL forcedContextIsSticky;
+	NSMenuItem *stickForcedContextMenuItem;
 
 	NSTimer *updatingTimer;
 	NSThread *updatingThread;

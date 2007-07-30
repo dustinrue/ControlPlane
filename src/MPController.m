@@ -72,7 +72,6 @@
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
-	[appDefaults setValue:[NSNumber numberWithInt:0] forKey:@"AlwaysStickForcedContexts"];
 
 	// Advanced
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"ShowAdvancedPreferences"];
@@ -117,7 +116,7 @@
 	[self setValue:@"?" forKey:@"currentContextName"];
 	[self setValue:@"?" forKey:@"guessConfidence"];
 
-	[self setValue:[NSNumber numberWithBool:NO] forKey:@"forcedContextIsSticky"];
+	forcedContextIsSticky = NO;
 
 	return self;
 }
@@ -387,43 +386,28 @@ finished_import:
 		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
 		[item setRepresentedObject:[ctxt uuid]];
 		[item setTarget:self];
-		[item setAction:@selector(forceSwitchAndUnstick:)];
+		[item setAction:@selector(forceSwitch:)];
 		[submenu addItem:item];
 
 		item = [[item copy] autorelease];
 		[item setTitle:[NSString stringWithFormat:@"%@ (*)", [item title]]];
 		[item setKeyEquivalentModifierMask:NSAlternateKeyMask];
 		[item setAlternate:YES];
-		[item setAction:@selector(forceSwitchAndStick:)];
+		[item setAction:@selector(forceSwitchAndToggleSticky:)];
 		[submenu addItem:item];
 	}
 	[submenu addItem:[NSMenuItem separatorItem]];
 	{
-		// Unstick menu item
+		// Stick menu item
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
-		[item setTitle:NSLocalizedString(@"Unstick forced context", @"")];
+		[item setTitle:NSLocalizedString(@"Stick forced contexts", @"")];
 		[item setTarget:self];
-		[item setAction:@selector(unstickForcedContext:)];
-		[item bind:@"enabled" toObject:self withKeyPath:@"forcedContextIsSticky" options:nil];
-		[item bind:@"enabled2"
-		  toObject:[NSUserDefaultsController sharedUserDefaultsController]
-	       withKeyPath:@"values.AlwaysStickForcedContexts"
-		   options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName
-						       forKey:NSValueTransformerNameBindingOption]];
+		[item setAction:@selector(toggleSticky:)];
+		// Binding won't work properly -- done correctly in forceSwitch:
+//		[item bind:@"value" toObject:self withKeyPath:@"forcedContextIsSticky" options:nil];
+		[item setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
 		[submenu addItem:item];
-	}
-	{
-		// Always stick menu item
-		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
-		[item setTitle:NSLocalizedString(@"Always stick forced contexts", @"")];
-		[item setTarget:self];
-		[item setAction:@selector(doNothing:)];
-		[item bind:@"value"
-		  toObject:[NSUserDefaultsController sharedUserDefaultsController]
-	       withKeyPath:@"values.AlwaysStickForcedContexts"
-		   options:nil];
-		[submenu addItem:item];
-		alwaysStickForcedContextsMenuItem = item;
+		stickForcedContextMenuItem = item;
 	}
 	[forceContextMenuItem setSubmenu:submenu];
 
@@ -440,11 +424,7 @@ finished_import:
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
 		[self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
 
-	// TODO: update other stuff?
-}
-
-- (void)doNothing:(id)sender
-{
+	// update other stuff?
 }
 
 #pragma mark Rule matching and Action triggering
@@ -685,7 +665,10 @@ finished_import:
 	en = [[menu itemArray] objectEnumerator];
 	NSMenuItem *item;
 	while ((item = [en nextObject])) {
-		BOOL ticked = ([[item representedObject] isEqualToString:toUUID]);
+		NSString *rep = [item representedObject];
+		if (!rep || ![contextsDataSource contextByUUID:rep])
+			continue;
+		BOOL ticked = ([rep isEqualToString:toUUID]);
 		[item setState:(ticked ? NSOnState : NSOffState)];
 	}
 
@@ -701,12 +684,7 @@ finished_import:
 	return;
 }
 
-// Selecting any other menu item deselects this, so we do the hard-headed thing and just force it back on!
-- (void)fixStickyMenuItem
-{
-	[alwaysStickForcedContextsMenuItem setState:
-		[[NSUserDefaults standardUserDefaults] integerForKey:@"AlwaysStickForcedContexts"]];
-}
+#pragma mark Force switching
 
 - (void)forceSwitch:(id)sender
 {
@@ -715,32 +693,26 @@ finished_import:
 	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
 		forKey:@"guessConfidence"];
 
+	// Selecting any context in the force-context menu deselects the 'stick forced contexts' item,
+	// so we force it to be correct here.
+	int state = forcedContextIsSticky ? NSOnState : NSOffState;
+	[stickForcedContextMenuItem setState:state];
+
 	[self performTransitionFrom:currentContextUUID to:[ctxt uuid]];
 }
 
-- (void)forceSwitchAndStick:(id)sender
+- (void)toggleSticky:(id)sender
 {
-	[self setValue:[NSNumber numberWithBool:YES] forKey:@"forcedContextIsSticky"];
-	[self forceSwitch:sender];
-	[self fixStickyMenuItem];
+	BOOL oldValue = forcedContextIsSticky;
+	forcedContextIsSticky = !oldValue;
+
+	[stickForcedContextMenuItem setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
 }
 
-- (void)forceSwitchAndUnstick:(id)sender
+- (void)forceSwitchAndToggleSticky:(id)sender
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AlwaysStickForcedContexts"]) {
-		[self forceSwitchAndStick:sender];
-		return;
-	}
-
-	[self setValue:[NSNumber numberWithBool:NO] forKey:@"forcedContextIsSticky"];
+	[self toggleSticky:sender];
 	[self forceSwitch:sender];
-	[self fixStickyMenuItem];
-}
-
-- (void)unstickForcedContext:(id)sender
-{
-	[self setValue:[NSNumber numberWithBool:NO] forKey:@"forcedContextIsSticky"];
-	[self fixStickyMenuItem];
 }
 
 #pragma mark Thread stuff
@@ -872,7 +844,7 @@ finished_import:
 		[updatingLock lockWhenCondition:1];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"] &&
-		    ![[self valueForKey:@"forcedContextIsSticky"] boolValue]) {
+		    !forcedContextIsSticky) {
 			[self doUpdateForReal];
 
 			// Flush auto-release pool
