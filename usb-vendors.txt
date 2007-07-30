@@ -12,7 +12,6 @@
 1037|VIA Technologies, Inc.
 1038|MCCI
 1041|BUFFALO INC.
-1046|Winbond Electronics Corp.
 1050|Phoenix Technologies Ltd.
 1054|Creative Labs
 1057|Nokia Corporation
@@ -40,7 +39,7 @@
 1137|Philips
 1140|Sanyo Electric Co. Ltd.
 1149|Kensington
-1150|Agere Systems Inc.
+1150|LSI Corporation
 1154|Kyocera Corporation
 1155|STMicroelectronics
 1161|Foxconn / Hon Hai
@@ -177,7 +176,6 @@
 1720|Pixela Corporation
 1724|Oki Data Corporation
 1727|Leoco Corporation
-1732|Bizlink International Corporation
 1736|SIIG, Inc.
 1747|Mitsubishi Electric Corporation
 1758|Heisei Electronics Co. Ltd.
@@ -186,7 +184,7 @@
 1806|Excel Cell Electronic Co., Ltd.
 1809|Magic Control Technology Corp.
 1816|Imation Corp.
-1821|Eicon Networks Corporation
+1821|Dialogic Corporation
 1846|Lorom Industrial Co., Ltd.
 1848|Mad Catz, Inc.
 1862|ONKYO Corporation
@@ -219,12 +217,12 @@
 2088|Sato Corporation
 2101|Action Star Enterprise Co., Ltd.
 2112|Argosy Research Inc.
-2118|NETGEAR, Inc.
 2159|MEC IMEX INC/HPT
 2164|A-Tec Subsystem, Inc.
 21930|OnSpec Electronic Inc.
 2205|Icron Technologies Corporation
 2222|Macally (Mace Group, Inc.)
+2235|Texas Instruments Japan
 2247|TAI TWUN ENTERPRISE CO., LTD.
 2269|Billionton Systems, Inc.
 2276|Pioneer Corporation
@@ -309,7 +307,6 @@
 3106|TallyGenicom L.P.
 3108|Taiyo Yuden
 3132|Radius Co., Ltd.
-3140|Motorola iDEN
 3141|Sonix Technology Co., Ltd.
 3156|GLORY LTD.
 3157|Spectrum Digital Inc.
@@ -369,6 +366,7 @@
 3690|Megawin Technology Co., Ltd.
 3698|Hsi-Chin Electronics Co., Ltd.
 3714|Ching Tai Electric Wire & Cable Co., Ltd.
+3715|Shin An Wire & Cable Co.
 3724|Well Force Electronic Co., Ltd
 3730|C'S GLORY ENTERPRISE CO., LTD.
 3739|ADTEC CORPORATION
@@ -423,7 +421,6 @@
 4267|USI Co., Ltd.
 4270|Princeton Technology Corp.
 4280|DIBCOM
-4283|TM Technology Inc.
 4292|Silicon Laboratories, Inc.
 4301|Kycon Inc.
 4310|Actions Semiconductor Co., Ltd.
@@ -519,7 +516,6 @@
 5453|ConnectCounty Holdings Berhad
 5454|D & M Holdings, Inc.
 5463|OQO
-5477|Advance Modules
 5480|Sunf Pu Technology Co., Ltd
 5487|Quantum Corporation
 5488|ALLTOP TECHNOLOGY CO., LTD.
@@ -576,7 +572,6 @@
 6024|ShenZhen Litkconn Technology Co., Ltd.
 6038|Printrex, Inc.
 6039|JALCO CO., LTD.
-6049|Taiwan Advanced Sensors Corporation
 6053|Advanced Connection Technology Inc.
 6055|MICOMSOFT CO., LTD.
 6078|Dongguan Yangming Precision of Plastic Metal Elec.Co.Lt
@@ -608,6 +603,7 @@
 6357|Starline International Group Limited
 6371|Fitipower Integrated Technology Inc
 6397|FineArch Inc.
+6413|Motorola GSG
 6420|Alco Digital Devices Limited
 6421|Nordic Semiconductor ASA
 6447|Avago Technologies, Pte.
@@ -641,9 +637,7 @@
 6720|TERMINUS TECHNOLOGY INC.
 6721|Action Electronics Co., Ltd.
 6730|Silicon Image
-6761|Kalon Semiconductor, Inc.
-6762|Spansion Inc.
-6763|Taiwin Electronics Co., Ltd.
+6731|SafeBoot International B.V.
 6765|SamYoung Electronics Co., Ltd
 6766|Global Unichip Corp.
 6767|Sagem Orga GmbH
@@ -734,6 +728,8 @@
 7229|NONIN MEDICAL INC.
 7230|Wep Peripherals
 7241|Cherng Weei Technology Corp.
+7275|Philips & Lite-ON Digital Solutions Corporation
+7276|Skydigital Inc.
 7867|NuCORE Technology, Inc.
 8256|Hauppauge Computer Works, Inc.
 8888|Motorola MDS

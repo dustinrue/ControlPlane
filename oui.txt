@@ -2923,7 +2923,7 @@
 00-0B-90   	Covaro Networks, Inc.
 00-0B-91   	Aglaia Gesellschaft für Bildverarbeitung und Kommunikation m
 00-0B-92   	Ascom Danmark A/S
-00-0B-93   	Barmag Electronic
+00-0B-93   	Ritter Elektronik
 00-0B-94   	Digital Monitoring Products, Inc.
 00-0B-95   	eBet Gaming Systems Pty Ltd
 00-0B-96   	Innotrac Diagnostics Oy
@@ -3987,7 +3987,7 @@
 00-0F-B8   	CallURL Inc.
 00-0F-B9   	Adaptive Instruments
 00-0F-BA   	Tevebox AB
-00-0F-BB   	Siemens Networks GmbH & Co. KG
+00-0F-BB   	Nokia Siemens Networks GmbH & Co. KG
 00-0F-BC   	Onkey Technologies, Inc.
 00-0F-BD   	MRV Communications (Networks) LTD
 00-0F-BE   	e-w/you Inc.
@@ -4026,7 +4026,7 @@
 00-0F-DF   	SOLOMON Technology Corp.
 00-0F-E0   	NComputing Co.,Ltd.
 00-0F-E1   	ID DIGITAL CORPORATION
-00-0F-E2   	Hangzhou Huawei-3Com Tech. Co., Ltd.
+00-0F-E2   	Hangzhou H3C Technologies Co., Ltd.
 00-0F-E3   	Damm Cellular Systems A/S
 00-0F-E4   	Pantech Co.,Ltd
 00-0F-E5   	MERCURY SECURITY CORPORATION
@@ -7485,6 +7485,47 @@
 00-1D-63   	Miele & Cie. KG
 00-1D-64   	Adam Communications Systems Int Ltd
 00-1D-65   	Microwave Radio Communications
+00-1D-66   	Hyundai Telecom
+00-1D-67   	AMEC
+00-1D-68   	Thomson Telecom Belgium
+00-1D-69   	Knorr-Bremse AG
+00-1D-6A   	Alpha Networks Inc.
+00-1D-6B   	Motorola (formerly Netopia, Inc
+00-1D-6C   	ClariPhy Communications, Inc.
+00-1D-6D   	Confidant International LLC
+00-1D-6E   	Nokia Danmark A/S
+00-1D-6F   	Chainzone Technology Co., Ltd
+00-1D-70   	Cisco Systems
+00-1D-71   	Cisco Systems
+00-1D-72   	Wistron Corporation
+00-1D-73   	Buffalo Inc.
+00-1D-74   	Tianjin China-Silicon Microelectronics Co., Ltd.
+00-1D-75   	Radioscape PLC
+00-1D-76   	Eyeheight Ltd.
+00-1D-77   	NSGate
+00-1D-78   	Invengo Information Technology Co.,Ltd
+00-1D-79   	SIGNAMAX LLC
+00-1D-7A   	Wideband Semiconductor, Inc.
+00-1D-7B   	Ice Energy, Inc.
+00-1D-7C   	ABE Elettronica S.p.A.
+00-1D-7D   	GIGABYTE TECHNOLOGY CO.,LTD.
+00-1D-7E   	Cisco-Linksys, LLC
+00-1D-7F   	Tekron International Ltd
+00-1D-80   	Beijing Huahuan Eletronics Co.,Ltd
+00-1D-81   	GUANGZHOU GATEWAY ELECTRONICS CO., LTD
+00-1D-82   	GN A/S (GN Netcom A/S)
+00-1D-83   	Emitech Corporation
+00-1D-84   	Gateway, Inc.
+00-1D-85   	Call Direct Cellular Solutions
+00-1D-86   	Shinwa Industries(China) Ltd.
+00-1D-87   	VigTech Labs Sdn Bhd
+00-1D-88   	Clearwire
+00-1D-89   	VaultStor Corporation
+00-1D-8A   	TechTrex Inc
+00-1D-8B   	PIRELLI BROADBAND SOLUTIONS
+00-1D-8C   	La Crosse Technology LTD
+00-1D-8D   	Raytek GmbH
+00-1D-8E   	Alereon, Inc.
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
@@ -10392,7 +10433,7 @@
 08-00-18   	PIRELLI FOCOM NETWORKS
 08-00-19   	GENERAL ELECTRIC CORPORATION
 08-00-1A   	TIARA/ 10NET
-08-00-1B   	DATA GENERAL
+08-00-1B   	EMC Corporation
 08-00-1C   	KDD-KOKUSAI DEBNSIN DENWA CO.
 08-00-1D   	ABLE COMMUNICATIONS INC.
 08-00-1E   	APOLLO COMPUTER INC.
