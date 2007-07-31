@@ -161,6 +161,12 @@
 		8D481B070B6098DD0097CF9C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		8D4DBDC20BE1E3C00024DEA0 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = graphics/gear.png; sourceTree = "<group>"; };
 		8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ContextsPrefs.tiff; path = graphics/ContextsPrefs.tiff; sourceTree = "<group>"; };
+		8D4EB1BA0C5F75EC0036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8D4EB1CB0C5F76320036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/GenericRule.nib; sourceTree = "<group>"; };
+		8D4EB1CC0C5F763B0036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/IPRule.nib; sourceTree = "<group>"; };
+		8D4EB1CD0C5F76440036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/LightRule.nib; sourceTree = "<group>"; };
+		8D4EB1CE0C5F76500036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		8D4EB1CF0C5F76610036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/TimeOfDayRule.nib; sourceTree = "<group>"; };
 		8D514D120BE98CCF0013C1ED /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonitorEvidenceSource.h; path = src/MonitorEvidenceSource.h; sourceTree = "<group>"; };
 		8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MonitorEvidenceSource.m; path = src/MonitorEvidenceSource.m; sourceTree = "<group>"; };
@@ -360,11 +366,11 @@
 				8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
-				8D643D0B0C4EF84E006D8ECC /* LightRule.nib */,
-				8DE429460C5091F90073499A /* TimeOfDayRule.nib */,
 				8D66DBD70C548F100093D0D8 /* IPRule.nib */,
+				8D643D0B0C4EF84E006D8ECC /* LightRule.nib */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				8DE429460C5091F90073499A /* TimeOfDayRule.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -530,6 +536,7 @@
 				de,
 				nl,
 				fr,
+				da,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MarcoPolo */;
 			projectDirPath = "";
@@ -657,6 +664,7 @@
 			children = (
 				29B97319FDCFA39411CA2CEA /* en */,
 				8D02E4990C5F0350005A1462 /* de */,
+				8D4EB1CE0C5F76500036BF0F /* da */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -666,6 +674,7 @@
 			children = (
 				8D514D120BE98CCF0013C1ED /* en */,
 				8D02E4980C5F033D005A1462 /* de */,
+				8D4EB1BA0C5F75EC0036BF0F /* da */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -675,6 +684,7 @@
 			children = (
 				8D643D0C0C4EF84E006D8ECC /* en */,
 				8D02E49B0C5F036C005A1462 /* de */,
+				8D4EB1CD0C5F76440036BF0F /* da */,
 			);
 			name = LightRule.nib;
 			sourceTree = "<group>";
@@ -684,6 +694,7 @@
 			children = (
 				8D66DBD80C548F100093D0D8 /* en */,
 				8D02E49D0C5F038B005A1462 /* de */,
+				8D4EB1CC0C5F763B0036BF0F /* da */,
 			);
 			name = IPRule.nib;
 			sourceTree = "<group>";
@@ -693,6 +704,7 @@
 			children = (
 				8DE429470C5091F90073499A /* en */,
 				8D02E49C0C5F0381005A1462 /* de */,
+				8D4EB1CF0C5F76610036BF0F /* da */,
 			);
 			name = TimeOfDayRule.nib;
 			sourceTree = "<group>";
@@ -702,6 +714,7 @@
 			children = (
 				8DE4C00B0C4EE58D00511590 /* en */,
 				8D02E49A0C5F0363005A1462 /* de */,
+				8D4EB1CB0C5F76320036BF0F /* da */,
 			);
 			name = GenericRule.nib;
 			sourceTree = "<group>";
