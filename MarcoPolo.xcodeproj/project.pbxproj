@@ -124,6 +124,12 @@
 		32CA4F630368D1EE00C91783 /* MarcoPolo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarcoPolo_Prefix.pch; path = src/MarcoPolo_Prefix.pch; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = src/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = src/DNDArrayController.m; sourceTree = "<group>"; };
+		8D02E4980C5F033D005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8D02E4990C5F0350005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		8D02E49A0C5F0363005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/GenericRule.nib; sourceTree = "<group>"; };
+		8D02E49B0C5F036C005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/LightRule.nib; sourceTree = "<group>"; };
+		8D02E49C0C5F0381005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/TimeOfDayRule.nib; sourceTree = "<group>"; };
+		8D02E49D0C5F038B005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/IPRule.nib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MarcoPolo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarcoPolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D14E1190BF3DADE00FDD12C /* HACKING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HACKING.txt; sourceTree = "<group>"; };
@@ -650,6 +656,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				29B97319FDCFA39411CA2CEA /* en */,
+				8D02E4990C5F0350005A1462 /* de */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -658,6 +665,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8D514D120BE98CCF0013C1ED /* en */,
+				8D02E4980C5F033D005A1462 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -666,6 +674,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8D643D0C0C4EF84E006D8ECC /* en */,
+				8D02E49B0C5F036C005A1462 /* de */,
 			);
 			name = LightRule.nib;
 			sourceTree = "<group>";
@@ -674,6 +683,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8D66DBD80C548F100093D0D8 /* en */,
+				8D02E49D0C5F038B005A1462 /* de */,
 			);
 			name = IPRule.nib;
 			sourceTree = "<group>";
@@ -682,6 +692,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8DE429470C5091F90073499A /* en */,
+				8D02E49C0C5F0381005A1462 /* de */,
 			);
 			name = TimeOfDayRule.nib;
 			sourceTree = "<group>";
@@ -690,6 +701,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				8DE4C00B0C4EE58D00511590 /* en */,
+				8D02E49A0C5F0363005A1462 /* de */,
 			);
 			name = GenericRule.nib;
 			sourceTree = "<group>";
