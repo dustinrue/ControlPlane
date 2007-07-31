@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>IBDocumentLocation</key>
-	<string>41 79 632 376 0 0 1280 1002 </string>
+	<string>81 7 632 376 0 0 1440 878 </string>
 	<key>IBEditorPositions</key>
 	<dict>
 		<key>1120</key>
@@ -11,28 +11,37 @@
 		<key>1374</key>
 		<string>255 501 65 32 0 0 1440 878 </string>
 		<key>1394</key>
-		<string>479 370 485 430 0 0 1440 878 </string>
+		<string>320 396 485 430 0 0 1440 878 </string>
 		<key>1515</key>
 		<string>539 413 366 343 0 0 1440 878 </string>
 		<key>1627</key>
-		<string>515 406 413 357 0 0 1440 878 </string>
+		<string>513 408 413 357 0 0 1440 878 </string>
 		<key>390</key>
 		<string>306 427 177 218 0 0 1440 878 </string>
 		<key>901</key>
-		<string>505 448 433 273 0 0 1440 878 </string>
+		<string>184 430 484 273 0 0 1440 878 </string>
 		<key>902</key>
-		<string>473 422 497 326 0 0 1440 878 </string>
+		<string>471 423 497 326 0 0 1440 878 </string>
 		<key>903</key>
-		<string>463 359 518 451 0 0 1440 878 </string>
+		<string>461 361 518 451 0 0 1440 878 </string>
 	</dict>
 	<key>IBFramework Version</key>
-	<string>437.0</string>
+	<string>446.1</string>
 	<key>IBLockedTabItems</key>
 	<array>
 		<integer>210</integer>
 	</array>
 	<key>IBOldestOS</key>
 	<integer>4</integer>
+	<key>IBOpenObjects</key>
+	<array>
+		<integer>1588</integer>
+		<integer>902</integer>
+		<integer>901</integer>
+		<integer>1394</integer>
+		<integer>903</integer>
+		<integer>1627</integer>
+	</array>
 	<key>IBSystem Version</key>
 	<string>8R2218</string>
 </dict>
