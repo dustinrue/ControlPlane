@@ -23,6 +23,11 @@ if $base_language.nil?
 	exit 1
 end
 
+print "Finding nibs... "
+$nibs = Dir["#{$base_language}.lproj/*.nib"]\
+		.map { |x| x.sub(/^.*\.lproj\/(.*)\.nib$/, '\1') }.sort
+puts $nibs.join(", ")
+
 print "Loading strings files... "
 $strings = {}
 $languages.each do |lang|
