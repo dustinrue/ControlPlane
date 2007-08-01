@@ -1,0 +1,26 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {closeSheetWithCancel = id; closeSheetWithOK = id; }; 
+            CLASS = EvidenceSource; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {ruleConfidenceSlider = NSSlider; ruleContext = NSPopUpButton; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = EvidenceSourceSetController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {prefsWindowController = NSWindowController; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            CLASS = TimeOfDayEvidenceSource; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dayController = NSArrayController; }; 
+            SUPERCLASS = EvidenceSource; 
+        }
+    ); 
+    IBVersion = 1; 
+}
