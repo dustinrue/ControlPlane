@@ -41,11 +41,8 @@
 		return nil;
 	}
 
-	NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"html"]];
-	[[webView mainFrame] loadData:data
-			     MIMEType:@"text/html"
-		     textEncodingName:@"utf-16"
-			      baseURL:[NSURL URLWithString:@""]];
+	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:
+		[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"html"]]]];
 
 	return self;
 }
