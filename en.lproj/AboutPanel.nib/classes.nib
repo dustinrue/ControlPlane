@@ -1,9 +1,10 @@
 {
     IBClasses = (
         {
-            CLASS = AboutPanelController; 
+            CLASS = AboutPanel; 
             LANGUAGE = ObjC; 
-            SUPERCLASS = NSWindowController; 
+            OUTLETS = {webView = WebView; }; 
+            SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 

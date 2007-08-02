@@ -6,10 +6,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebView.h>
 
 
 @interface AboutPanel : NSObject {
 	NSPanel *panel;
+	IBOutlet WebView *webView;
 }
 
 - (id)init;

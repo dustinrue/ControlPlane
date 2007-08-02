@@ -28,6 +28,7 @@
 		8D3BFF230C61BCDC00B9B910 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8D3BFF210C61BCDC00B9B910 /* AboutPanel.nib */; };
 		8D3BFF3E0C61BE4500B9B910 /* AboutPanel.h in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */; };
 		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; };
+		8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D3BFFB10C61CA5300B9B910 /* WebKit.framework */; };
 		8D3E2DD20AA4F3C000FB21C1 /* marcopolo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */; };
 		8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */; };
 		8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D481B070B6098DD0097CF9C /* IOKit.framework */; };
@@ -168,6 +169,7 @@
 		8D3BFF220C61BCDC00B9B910 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/AboutPanel.nib; sourceTree = "<group>"; };
 		8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutPanel.h; path = src/AboutPanel.h; sourceTree = "<group>"; };
 		8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutPanel.m; path = src/AboutPanel.m; sourceTree = "<group>"; };
+		8D3BFFB10C61CA5300B9B910 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = marcopolo.icns; path = graphics/marcopolo.icns; sourceTree = "<group>"; };
 		8D447DF60C3E65CF00DAB17A /* ContextSelectionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextSelectionButton.h; path = src/ContextSelectionButton.h; sourceTree = "<group>"; };
 		8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextSelectionButton.m; path = src/ContextSelectionButton.m; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
 				8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */,
+				8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +397,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
 				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
 				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
 				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,

@@ -5,6 +5,7 @@
 //  Created by David Symonds on 2/08/07.
 //
 
+#import <WebKit/WebFrame.h>
 #import "AboutPanel.h"
 
 
@@ -50,8 +51,16 @@
 	[super dealloc];
 }
 
+// Private
+- (NSString *)htmlContent
+{
+	return @"<html><body>Foo!</body></html>";
+}
+
 - (void)runPanel
 {
+	[[webView mainFrame] loadHTMLString:[self htmlContent] baseURL:[NSURL URLWithString:@""]];
+
 	[panel makeKeyAndOrderFront:self];
 }
 
