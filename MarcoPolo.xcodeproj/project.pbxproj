@@ -77,7 +77,6 @@
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
-		8DCBF60C0BE5C4E400A01414 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8DCBF60B0BE5C4E400A01414 /* Credits.rtf */; };
 		8DCC52120C42106D00515041 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
 		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
@@ -249,7 +248,6 @@
 		8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FireWireEvidenceSource.m; path = src/FireWireEvidenceSource.m; sourceTree = "<group>"; };
 		8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PowerEvidenceSource.h; path = src/PowerEvidenceSource.h; sourceTree = "<group>"; };
 		8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PowerEvidenceSource.m; path = src/PowerEvidenceSource.m; sourceTree = "<group>"; };
-		8DCBF60B0BE5C4E400A01414 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		8DD790AA0BC28A9F00705346 /* OpenAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenAction.h; path = src/OpenAction.h; sourceTree = "<group>"; };
 		8DD790AB0BC28A9F00705346 /* OpenAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OpenAction.m; path = src/OpenAction.m; sourceTree = "<group>"; };
 		8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MailSMTPServerAction.h; path = src/MailSMTPServerAction.h; sourceTree = "<group>"; };
@@ -428,7 +426,6 @@
 			isa = PBXGroup;
 			children = (
 				8D3B008D0C620E4A00B9B910 /* Credits.html */,
-				8DCBF60B0BE5C4E400A01414 /* Credits.rtf */,
 				8DEF42780BAA05CD00F87273 /* MarcoPolo Help */,
 				8D909D0F0B86D3BA00D806DF /* appcast.xml */,
 				8D8B65A10B855DA1003870A1 /* NOTES.txt */,
@@ -588,7 +585,6 @@
 				8DB4B4FB0BDF22CC00472564 /* mp-icon.png in Resources */,
 				8D9AE3790BE0D11800D4D4E4 /* plus-arrow.png in Resources */,
 				8D4DBDC30BE1E3C00024DEA0 /* gear.png in Resources */,
-				8DCBF60C0BE5C4E400A01414 /* Credits.rtf in Resources */,
 				8D514D3F0BE994A10013C1ED /* Localizable.strings in Resources */,
 				8D185DC60BF428CF00A06B03 /* AdvancedPrefs.tiff in Resources */,
 				8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.tiff in Resources */,
