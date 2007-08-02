@@ -1,3 +1,4 @@
+#import "AboutPanel.h"
 #import "Action.h"
 #import "DSLogger.h"
 #import "EvidenceSource.h"
@@ -244,8 +245,14 @@
 - (IBAction)runAbout:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
+#if 0
 	[NSApp orderFrontStandardAboutPanelWithOptions:
 		[NSDictionary dictionaryWithObject:@"" forKey:@"Version"]];
+#else
+	AboutPanel *ctl = [[[AboutPanel alloc] init] autorelease];
+
+	[ctl runPanel];
+#endif
 }
 
 - (IBAction)runWebPage:(id)sender
