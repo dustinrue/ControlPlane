@@ -41,6 +41,12 @@
 		return nil;
 	}
 
+	NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"html"]];
+	[[webView mainFrame] loadData:data
+			     MIMEType:@"text/html"
+		     textEncodingName:@"utf-16"
+			      baseURL:[NSURL URLWithString:@""]];
+
 	return self;
 }
 
@@ -51,16 +57,8 @@
 	[super dealloc];
 }
 
-// Private
-- (NSString *)htmlContent
-{
-	return @"<html><body>Foo!</body></html>";
-}
-
 - (void)runPanel
 {
-	[[webView mainFrame] loadHTMLString:[self htmlContent] baseURL:[NSURL URLWithString:@""]];
-
 	[panel makeKeyAndOrderFront:self];
 }
 

@@ -25,6 +25,7 @@
 		8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3453C20C18E5C1006011D0 /* IChatAction.m */; };
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */; };
+		8D3B008E0C620E4A00B9B910 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 8D3B008D0C620E4A00B9B910 /* Credits.html */; };
 		8D3BFF230C61BCDC00B9B910 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8D3BFF210C61BCDC00B9B910 /* AboutPanel.nib */; };
 		8D3BFF3E0C61BE4500B9B910 /* AboutPanel.h in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */; };
 		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; };
@@ -166,6 +167,7 @@
 		8D38B6690C49D50200290F47 /* SliderWithValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SliderWithValue.h; path = src/SliderWithValue.h; sourceTree = "<group>"; };
 		8D38B66A0C49D50200290F47 /* SliderWithValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SliderWithValue.m; path = src/SliderWithValue.m; sourceTree = "<group>"; };
 		8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EvidenceSourcesPrefs.tiff; path = graphics/EvidenceSourcesPrefs.tiff; sourceTree = "<group>"; };
+		8D3B008D0C620E4A00B9B910 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		8D3BFF220C61BCDC00B9B910 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/AboutPanel.nib; sourceTree = "<group>"; };
 		8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutPanel.h; path = src/AboutPanel.h; sourceTree = "<group>"; };
 		8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutPanel.m; path = src/AboutPanel.m; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 		8D8B65A00B855D78003870A1 /* Docs */ = {
 			isa = PBXGroup;
 			children = (
+				8D3B008D0C620E4A00B9B910 /* Credits.html */,
 				8DCBF60B0BE5C4E400A01414 /* Credits.rtf */,
 				8DEF42780BAA05CD00F87273 /* MarcoPolo Help */,
 				8D909D0F0B86D3BA00D806DF /* appcast.xml */,
@@ -597,6 +600,7 @@
 				8D88FE2A0C534737007A14D6 /* pause.png in Resources */,
 				8D66DBD90C548F100093D0D8 /* IPRule.nib in Resources */,
 				8D3BFF230C61BCDC00B9B910 /* AboutPanel.nib in Resources */,
+				8D3B008E0C620E4A00B9B910 /* Credits.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
