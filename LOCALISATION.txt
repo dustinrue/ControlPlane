@@ -1,0 +1,10 @@
+LOCALISATION NOTES	(3 August 2007)
+==================
+
+
+This is a brief overview of some important points that MarcoPolo localisers should know. If you are a new localiser, or haven't read this file for a while, please review it.
+
+
+OVERVIEW
+--------
+The end result of your localisation work will be a directory called "XX.lproj", where XX is the two-letter ISO 639-1 code for your language. Googling for "ISO 639-1" will provide lists for you to check.
