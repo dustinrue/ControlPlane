@@ -14,21 +14,21 @@ this file for a while, please review it.
 
 <h3>Overview</h3>
 <p>The end result of your localisation work will be a directory called 
-XX.lproj/, where XX is the two-letter lowercase ISO 639-1 code for your 
+<tt>XX.lproj/</tt>, where XX is the two-letter lowercase ISO 639-1 code for your 
 language. Googling for "ISO 639-1" will provide lists for you to check. 
 Some examples are English (en), German (de) and French (fr).</p>
 
 <p>If you're creating a regional dialect localisation, the directory 
-should be called XX_YY.lproj/, where YY is the two-letter uppercase 
+should be called <tt>XX_YY.lproj/</tt>, where YY is the two-letter uppercase 
 regional designator as specified by ISO 3166-1. For example, Brazilian 
-Portguese will be in a directory called pt_BR.lproj/. The rest of this 
-guide only uses XX.lproj, and that should be taken to cover XX_YY.lproj 
-too.</p>
+Portguese will be in a directory called <tt>pt_BR.lproj/</tt>. The rest of this 
+guide only uses <tt>XX.lproj/</tt>, and that should be understood to include
+<tt>XX_YY.lproj</tt> too.</p>
 
 <p>There are two main parts that need to be localised: the Strings file, 
 and the Nibs. Both of these have sections below.</p>
 
-<p>This guide is aimed at localisers who are *not* using a specialised 
+<p>This guide is aimed at localisers who are <em>not</em> using a specialised 
 tool such as iLocalize. Those using such tools should consult that 
 tool's manual, but should still read this guide since much of it still 
 applies.</p>
@@ -43,7 +43,7 @@ below:</p>
 <ol>
 <li>Push your changes to a public git repository, and send me an email letting
 me know where it is and which commits to pull.</li>
-<li>Zip up your XX.lproj/ directory, and email it to me.</li>
+<li>Zip up your <tt>XX.lproj/</tt> directory, and email it to me.</li>
 <li>Zip up the whole customised MarcoPolo.app bundle, and email it to me.
 This is apparently the default way that iLocalize operates, but it involves
 a little bit more effort for me.</li>
@@ -55,7 +55,7 @@ comments about your changes and the right timestamps.</p>
 
 
 <h3>Strings File</h3>
-<p>The strings file, called "Localizable.strings", is a UTF-16 text file, 
+<p>The strings file, called <tt>Localizable.strings</tt>, is a UTF-16 text file, 
 and must be kept in that format. That means that you'll need to edit it 
 in a program that supports UTF-16 properly. Xcode and TextEdit are two 
 examples that are known to work well.
@@ -66,9 +66,9 @@ appear in the strings file as follows:</p>
 	/* Growl message title */
 	"Changing Context" = "Changing Context";
 </pre>
-<p>The first line, inside the "/*" and "*/" bits are programmer-provided 
-comments to help you understand where the phrase is used. You should 
-not edit this.</p>
+<p>The first line, inside the <tt>/*</tt> and <tt>*/</tt> bits are
+programmer-provided comments to help you understand where the phrase is used.
+You should not edit this.</p>
 <p>The second line consists of two strings, each marked with double 
 quotes, and separated by an equals sign. The left-hand string is the 
 English phrase; don't change this. The right-hand string is the 
@@ -77,10 +77,11 @@ localised phrase; you need to edit this.</p>
 <p>Make sure you keep your translation consistent with things such as 
 punctuation, spaces, parentheses, quotes, and so on. Double quote marks 
 <em>inside</em> a phrase should be escaped with a backslash. For example, 
-"Doing \"%@\" now.".</p>
+<tt>"Doing \"%@\" now."</tt>.</p>
 
-<p>If the English phrase has a "format specifier" (usually "%@" or "%d", 
-etc.), that indicates a point where something else will be inserted 
+<p>If the English phrase has a "format specifier" (usually <tt>%@</tt> or
+<tt>%d</tt>, etc.), that indicates a point where something else will be
+inserted 
 programmatically. You need to keep that in your translation, but it can 
 be in any position inside the string, as appropriate.</p>
 
@@ -92,13 +93,13 @@ with your Mac; otherwise, you can download it from
 http://developer.apple.com/tools/xcode/ (quite a large download, 
 though!).</p>
 
-<p>All the nibs in en.lproj/ need localisation, *except* for 
-AboutPanel.nib. I'd recommend just copying all the other nibs over to 
-your XX.lproj/ directory, and open them from there.</p>
+<p>All the nibs in <tt>en.lproj/</tt> need localisation, <em>except</em> for 
+<tt>AboutPanel.nib</tt>. I'd recommend just copying all the other nibs over to 
+your <tt>XX.lproj/</tt> directory, and open them from there.</p>
 
 <p>Almost every visible text string in each nib needs localisation, 
 including window titles, control labels and menu texts. Some do not, 
-and they are usually marked with asterisks, such as "*Action*". These 
+and they are usually marked with asterisks, such as <tt>*Action*</tt>. These 
 will be set programmatically, with the correct string being pulled from 
 your Strings file, so don't change them.</p>
 
