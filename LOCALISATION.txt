@@ -5,9 +5,9 @@ This is a brief overview of some important points that MarcoPolo localisers shou
 
 OVERVIEW
 --------
-The end result of your localisation work will be a directory called "XX.lproj", where XX is the two-letter lowercase ISO 639-1 code for your language. Googling for "ISO 639-1" will provide lists for you to check. Some examples are English (en), German (de) and French (fr).
+The end result of your localisation work will be a directory called XX.lproj/, where XX is the two-letter lowercase ISO 639-1 code for your language. Googling for "ISO 639-1" will provide lists for you to check. Some examples are English (en), German (de) and French (fr).
 
-If you're creating a regional dialect localisation, the directory should be called "XX_YY.lproj", where YY is the two-letter uppercase regional designator as specified by ISO 3166-1. For example, Brazilian Portguese will be in a directory called "pt_BR.lproj". The rest of this guide only uses XX.lproj, and that should be taken to cover XX_YY.lproj too.
+If you're creating a regional dialect localisation, the directory should be called XX_YY.lproj/, where YY is the two-letter uppercase regional designator as specified by ISO 3166-1. For example, Brazilian Portguese will be in a directory called pt_BR.lproj/. The rest of this guide only uses XX.lproj, and that should be taken to cover XX_YY.lproj too.
 
 There are two main parts that need to be localised: the Strings file, and the Nibs. Both of these have sections below.
 
@@ -22,7 +22,7 @@ If you've created or updated a localisation, you'll need to send it to me (David
 	(2) Zip up your XX.lproj/ directory, and email it to me.
 	(3) Zip up the whole customised MarcoPolo.app bundle, and email it to me. This is apparently the default way that iLocalize operates, but it involves a little bit more effort for me.
 
-If you're comfortable with Git, option (1) is far superior to the others, since the commit logs will reflect you as the author and preserve your comments about your changes and the right timestamps.
+If you're comfortable with Git, option 1 is far superior to the others, since the commit logs will reflect you as the author and preserve your comments about your changes and the right timestamps.
 
 
 STRINGS FILE
@@ -46,9 +46,9 @@ Nibs are edited with Interface Builder, which comes with the Mac OS X Developer 
 
 All the nibs in en.lproj/ need localisation, *except* for AboutPanel.nib. I'd recommend just copying all the other nibs over to your XX.lproj/ directory, and open them from there.
 
-Almost every visible text string in each nib needs localisation, including window titles, control labels and menu texts. Some do not, and they are usually marked with asterisks, such as "*Action*". These will be set programmatically, with the correct string being pulled from your Strings file.
+Almost every visible text string in each nib needs localisation, including window titles, control labels and menu texts. Some do not, and they are usually marked with asterisks, such as "*Action*". These will be set programmatically, with the correct string being pulled from your Strings file, so don't change them.
 
 After changing a text string, it will often be shorter or longer than the English string. If it is a string used in a window or panel (i.e. not a menu option, etc.), you will need to tweak the layout of the other controls to compensate. A handy hotkey is Cmd-= (hold the Command key, and hit the Equals key), which will resize the selected text label or control to the (hopefully) correct size. You can then use the dashed blue guidelines to line things up correctly. Don't be afraid of resizing various things (controls, text fields, whole windows, etc.) to make everything fit neatly.
 
-Be careful not to change any of the controls' properties other than the text label. If you do, you might prevent parts of MarcoPolo from working properly!
+Be careful not to change any of the controls' properties other than the text label and sizes. If you do, you might prevent parts of MarcoPolo from working properly!
 
