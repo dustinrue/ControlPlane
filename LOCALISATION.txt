@@ -11,6 +11,8 @@ If you're creating a regional dialect localisation, the directory should be call
 
 There are two main parts that need to be localised: the Strings file, and the Nibs. Both of these have sections below.
 
+This guide is aimed at localisers who are *not* using a specialised tool such as iLocalize. Those using such tools should consult that tool's manual, but should still read this guide since much of it still applies.
+
 
 STRINGS FILE
 ------------
