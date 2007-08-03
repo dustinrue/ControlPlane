@@ -1,103 +1,108 @@
-LOCALISATION GUIDE	(3 August 2007)
-==================
-This is a brief overview of some important points that MarcoPolo 
+<html>
+<head>
+	<title>MarcoPolo Localisation Guide</title>
+</head>
+<body>
+<h1>MarcoPolo Localisation Guide</h1>
+<h2>3 August 2007</h2>
+
+<p>This is a brief overview of some important points that MarcoPolo 
 localisers should know. If you are a new localiser, or haven't read 
 this file for a while, please review it.
+</p>
 
 
-OVERVIEW
---------
-The end result of your localisation work will be a directory called 
+<h3>Overview</h3>
+<p>The end result of your localisation work will be a directory called 
 XX.lproj/, where XX is the two-letter lowercase ISO 639-1 code for your 
 language. Googling for "ISO 639-1" will provide lists for you to check. 
-Some examples are English (en), German (de) and French (fr).
+Some examples are English (en), German (de) and French (fr).</p>
 
-If you're creating a regional dialect localisation, the directory 
+<p>If you're creating a regional dialect localisation, the directory 
 should be called XX_YY.lproj/, where YY is the two-letter uppercase 
 regional designator as specified by ISO 3166-1. For example, Brazilian 
 Portguese will be in a directory called pt_BR.lproj/. The rest of this 
 guide only uses XX.lproj, and that should be taken to cover XX_YY.lproj 
-too.
+too.</p>
 
-There are two main parts that need to be localised: the Strings file, 
-and the Nibs. Both of these have sections below.
+<p>There are two main parts that need to be localised: the Strings file, 
+and the Nibs. Both of these have sections below.</p>
 
-This guide is aimed at localisers who are *not* using a specialised 
+<p>This guide is aimed at localisers who are *not* using a specialised 
 tool such as iLocalize. Those using such tools should consult that 
 tool's manual, but should still read this guide since much of it still 
-applies.
+applies.</p>
 
 
-SENDING UPDATES
----------------
-If you've created or updated a localisation, you'll need to send it to 
+<h3>Sending Updates</h3>
+<p>If you've created or updated a localisation, you'll need to send it to 
 me (David Symonds) for it to be included in the next version of 
 MarcoPolo. Your options, in decreasing order of my preference, are 
-below:
+below:</p>
 
-	(1) Push your changes to a public git repository, and send me 
-		an email letting me know where it is and which commits
-		to pull.
-	(2) Zip up your XX.lproj/ directory, and email it to me.
-	(3) Zip up the whole customised MarcoPolo.app bundle, and email
-		it to me. This is apparently the default way that
-		iLocalize operates, but it involves a little bit more
-		effort for me.
+<ol>
+<li>Push your changes to a public git repository, and send me an email letting
+me know where it is and which commits to pull.</li>
+<li>Zip up your XX.lproj/ directory, and email it to me.</li>
+<li>Zip up the whole customised MarcoPolo.app bundle, and email it to me.
+This is apparently the default way that iLocalize operates, but it involves
+a little bit more effort for me.</li>
+</ol>
 
-If you're comfortable with Git, option 1 is far superior to the others, 
+<p>If you're comfortable with Git, option 1 is far superior to the others, 
 since the commit logs will reflect you as the author and preserve your 
-comments about your changes and the right timestamps.
+comments about your changes and the right timestamps.</p>
 
 
-STRINGS FILE
-------------
-The strings file, called "Localizable.strings", is a UTF-16 text file, 
+<h3>Strings File</h3>
+<p>The strings file, called "Localizable.strings", is a UTF-16 text file, 
 and must be kept in that format. That means that you'll need to edit it 
 in a program that supports UTF-16 properly. Xcode and TextEdit are two 
 examples that are known to work well.
 
-Each English phrase that needs translating into your language will 
-appear in the strings file as follows:
+<p>Each English phrase that needs translating into your language will 
+appear in the strings file as follows:</p>
+<pre>
 	/* Growl message title */
 	"Changing Context" = "Changing Context";
-The first line, inside the "/*" and "*/" bits are programmer-provided 
+</pre>
+<p>The first line, inside the "/*" and "*/" bits are programmer-provided 
 comments to help you understand where the phrase is used. You should 
-not edit this.
-The second line consists of two strings, each marked with double 
+not edit this.</p>
+<p>The second line consists of two strings, each marked with double 
 quotes, and separated by an equals sign. The left-hand string is the 
 English phrase; don't change this. The right-hand string is the 
-localised phrase; you need to edit this.
+localised phrase; you need to edit this.</p>
 
-Make sure you keep your translation consistent with things such as 
+<p>Make sure you keep your translation consistent with things such as 
 punctuation, spaces, parentheses, quotes, and so on. Double quote marks 
-*inside* a phrase should be escaped with a backslash. For example, 
-"Doing \"%@\" now.".
+<em>inside</em> a phrase should be escaped with a backslash. For example, 
+"Doing \"%@\" now.".</p>
 
-If the English phrase has a "format specifier" (usually "%@" or "%d", 
+<p>If the English phrase has a "format specifier" (usually "%@" or "%d", 
 etc.), that indicates a point where something else will be inserted 
 programmatically. You need to keep that in your translation, but it can 
-be in any position inside the string, as appropriate. 
+be in any position inside the string, as appropriate.</p>
 
 
-NIBS
-----
-Nibs are edited with Interface Builder, which comes with the Mac OS X 
+<h3>Nibs</h3>
+<p>Nibs are edited with Interface Builder, which comes with the Mac OS X 
 Developer Tools. These should have come on one of the DVDs that came 
 with your Mac; otherwise, you can download it from 
 http://developer.apple.com/tools/xcode/ (quite a large download, 
-though!).
+though!).</p>
 
-All the nibs in en.lproj/ need localisation, *except* for 
+<p>All the nibs in en.lproj/ need localisation, *except* for 
 AboutPanel.nib. I'd recommend just copying all the other nibs over to 
-your XX.lproj/ directory, and open them from there.
+your XX.lproj/ directory, and open them from there.</p>
 
-Almost every visible text string in each nib needs localisation, 
+<p>Almost every visible text string in each nib needs localisation, 
 including window titles, control labels and menu texts. Some do not, 
 and they are usually marked with asterisks, such as "*Action*". These 
 will be set programmatically, with the correct string being pulled from 
-your Strings file, so don't change them.
+your Strings file, so don't change them.</p>
 
-After changing a text string, it will often be shorter or longer than 
+<p>After changing a text string, it will often be shorter or longer than 
 the English string. If it is a string used in a window or panel (i.e. 
 not a menu option, etc.), you will need to tweak the layout of the 
 other controls to compensate. A handy hotkey is Cmd-= (hold the Command 
@@ -105,9 +110,11 @@ key, and hit the Equals key), which will resize the selected text label
 or control to the (hopefully) correct size. You can then use the dashed 
 blue guidelines to line things up correctly. Don't be afraid of 
 resizing various things (controls, text fields, whole windows, etc.) to 
-make everything fit neatly.
+make everything fit neatly.</p>
 
-Be careful not to change any of the controls' properties other than the 
+<p>Be careful not to change any of the controls' properties other than the 
 text label and sizes. If you do, you might prevent parts of MarcoPolo 
-from working properly!
+from working properly!</p>
 
+</body>
+</html>
