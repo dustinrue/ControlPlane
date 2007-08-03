@@ -14,7 +14,19 @@ There are two main parts that need to be localised: the Strings file, and the Ni
 
 STRINGS FILE
 ------------
+The strings file, called "Localizable.strings", is a UTF-16 text file, and must be kept in that format. That means that you'll need to edit it in a program that supports UTF-16 properly. Xcode and TextEdit are two examples that are known to work well.
+
+Each English phrase that needs translating into your language will appear in the strings file as follows:
+	/* Growl message title */
+	"Changing Context" = "Changing Context";
+The first line, inside the "/*" and "*/" bits are programmer-provided comments to help you understand where the phrase is used. You should not edit this.
+The second line consists of two strings, each marked with double quotes, and separated by an equals sign. The left-hand string is the English phrase; don't change this. The right-hand string is the localised phrase; you need to edit this.
+
+Make sure you keep your translation consistent with things such as punctuation, spaces, parentheses, quotes, and so on. Double quote marks *inside* a phrase should be escaped with a backslash. For example, "Doing \"%@\" now.".
+
+If the English phrase has a "format specifier" (usually "%@" or "%d", etc.), that indicates a point where something else will be inserted programmatically. You need to keep that in your translation, but it can be in any position inside the string, as appropriate. 
 
 
 NIBS
 ----
+
