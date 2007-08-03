@@ -1,10 +1,20 @@
 LOCALISATION NOTES	(3 August 2007)
 ==================
-
-
 This is a brief overview of some important points that MarcoPolo localisers should know. If you are a new localiser, or haven't read this file for a while, please review it.
 
 
 OVERVIEW
 --------
-The end result of your localisation work will be a directory called "XX.lproj", where XX is the two-letter ISO 639-1 code for your language. Googling for "ISO 639-1" will provide lists for you to check.
+The end result of your localisation work will be a directory called "XX.lproj", where XX is the two-letter lowercase ISO 639-1 code for your language. Googling for "ISO 639-1" will provide lists for you to check. Some examples are English (en), German (de) and French (fr).
+
+If you're creating a regional dialect localisation, the directory should be called "XX_YY.lproj", where YY is the two-letter uppercase regional designator as specified by ISO 3166-1. For example, Brazilian Portguese will be in a directory called "pt_BR.lproj".
+
+There are two main parts that need to be localised: the Strings file, and the Nibs. Both of these have sections below.
+
+
+STRINGS FILE
+------------
+
+
+NIBS
+----
