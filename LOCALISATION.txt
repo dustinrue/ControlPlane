@@ -14,6 +14,17 @@ There are two main parts that need to be localised: the Strings file, and the Ni
 This guide is aimed at localisers who are *not* using a specialised tool such as iLocalize. Those using such tools should consult that tool's manual, but should still read this guide since much of it still applies.
 
 
+SENDING UPDATES
+---------------
+If you've created or updated a localisation, you'll need to send it to me (David Symonds) for it to be included in the next version of MarcoPolo. Your options, in decreasing order of my preference, are below:
+
+	(1) Push your changes to a public git repository, and send me an email letting me know where it is and which commits to pull.
+	(2) Zip up your XX.lproj/ directory, and email it to me.
+	(3) Zip up the whole customised MarcoPolo.app bundle, and email it to me. This is apparently the default way that iLocalize operates, but it involves a little bit more effort for me.
+
+If you're comfortable with Git, option (1) is far superior to the others, since the commit logs will reflect you as the author and preserve your comments about your changes and the right timestamps.
+
+
 STRINGS FILE
 ------------
 The strings file, called "Localizable.strings", is a UTF-16 text file, and must be kept in that format. That means that you'll need to edit it in a program that supports UTF-16 properly. Xcode and TextEdit are two examples that are known to work well.
