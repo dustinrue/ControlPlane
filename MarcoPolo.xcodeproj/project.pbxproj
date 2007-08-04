@@ -26,8 +26,6 @@
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */; };
 		8D3B008E0C620E4A00B9B910 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 8D3B008D0C620E4A00B9B910 /* Credits.html */; };
-		8D3BFF230C61BCDC00B9B910 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8D3BFF210C61BCDC00B9B910 /* AboutPanel.nib */; };
-		8D3BFF3E0C61BE4500B9B910 /* AboutPanel.h in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */; };
 		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; };
 		8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D3BFFB10C61CA5300B9B910 /* WebKit.framework */; };
 		8D3E2DD20AA4F3C000FB21C1 /* marcopolo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */; };
@@ -40,7 +38,6 @@
 		8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */; };
 		8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */; };
 		8D643D0D0C4EF84E006D8ECC /* LightRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8D643D0B0C4EF84E006D8ECC /* LightRule.nib */; };
-		8D643DDC0C4F1F0D006D8ECC /* VPNAction.h in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */; };
 		8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
 		8D66DBD90C548F100093D0D8 /* IPRule.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66DBD70C548F100093D0D8 /* IPRule.nib */; };
@@ -73,6 +70,7 @@
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
 		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
 		8DBB44980C530F7600064010 /* DSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB44960C530F7600064010 /* DSLogger.m */; };
+		8DC410FB0C64665E00393759 /* AboutPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.nib */; };
 		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
@@ -110,8 +108,6 @@
 			dstSubfolderSpec = 7;
 			files = (
 				8DEF428F0BAA05D300F87273 /* MarcoPolo Help in Copy Help Files */,
-				8D643DDC0C4F1F0D006D8ECC /* VPNAction.h in Copy Help Files */,
-				8D3BFF3E0C61BE4500B9B910 /* AboutPanel.h in Copy Help Files */,
 			);
 			name = "Copy Help Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,7 +163,6 @@
 		8D38B66A0C49D50200290F47 /* SliderWithValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SliderWithValue.m; path = src/SliderWithValue.m; sourceTree = "<group>"; };
 		8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EvidenceSourcesPrefs.tiff; path = graphics/EvidenceSourcesPrefs.tiff; sourceTree = "<group>"; };
 		8D3B008D0C620E4A00B9B910 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
-		8D3BFF220C61BCDC00B9B910 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/AboutPanel.nib; sourceTree = "<group>"; };
 		8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutPanel.h; path = src/AboutPanel.h; sourceTree = "<group>"; };
 		8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutPanel.m; path = src/AboutPanel.m; sourceTree = "<group>"; };
 		8D3BFFB10C61CA5300B9B910 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
@@ -245,6 +240,7 @@
 		8DC410EC0C64442A00393759 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/LightRule.nib; sourceTree = "<group>"; };
 		8DC410ED0C64443200393759 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8DC410EE0C64443A00393759 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/TimeOfDayRule.nib; sourceTree = "<group>"; };
+		8DC410FA0C64665E00393759 /* AboutPanel.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AboutPanel.nib; path = Resources/AboutPanel.nib; sourceTree = "<group>"; };
 		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = src/MuteAction.h; sourceTree = "<group>"; };
 		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = src/MuteAction.m; sourceTree = "<group>"; };
 		8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FirewallRuleAction.h; path = src/FirewallRuleAction.h; sourceTree = "<group>"; };
@@ -373,6 +369,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8DC410FA0C64665E00393759 /* AboutPanel.nib */,
 				8D88FE290C534737007A14D6 /* pause.png */,
 				8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.tiff */,
 				8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */,
@@ -390,7 +387,6 @@
 				8DF7E9C60B7159950005375C /* usb-vendors.txt */,
 				8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				8D3BFF210C61BCDC00B9B910 /* AboutPanel.nib */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
 				8D66DBD70C548F100093D0D8 /* IPRule.nib */,
@@ -604,8 +600,8 @@
 				8DE429480C5091F90073499A /* TimeOfDayRule.nib in Resources */,
 				8D88FE2A0C534737007A14D6 /* pause.png in Resources */,
 				8D66DBD90C548F100093D0D8 /* IPRule.nib in Resources */,
-				8D3BFF230C61BCDC00B9B910 /* AboutPanel.nib in Resources */,
 				8D3B008E0C620E4A00B9B910 /* Credits.html in Resources */,
+				8DC410FB0C64665E00393759 /* AboutPanel.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,14 +697,6 @@
 				8DC410ED0C64443200393759 /* pt_BR */,
 			);
 			name = MainMenu.nib;
-			sourceTree = "<group>";
-		};
-		8D3BFF210C61BCDC00B9B910 /* AboutPanel.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8D3BFF220C61BCDC00B9B910 /* en */,
-			);
-			name = AboutPanel.nib;
 			sourceTree = "<group>";
 		};
 		8D514D3E0BE994A10013C1ED /* Localizable.strings */ = {
