@@ -229,7 +229,7 @@
 		8DAEC7A60C62A7F00020BD5E /* LOCALISATION.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LOCALISATION.txt; sourceTree = "<group>"; wrapsLines = 1; };
 		8DB4B4FA0BDF22CC00472564 /* mp-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mp-icon.png"; path = "graphics/mp-icon.png"; sourceTree = "<group>"; };
 		8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = /System/Library/Frameworks/IOBluetooth.framework; sourceTree = "<absolute>"; };
-		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = oui.txt; sourceTree = "<group>"; };
+		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = oui.txt; path = Resources/oui.txt; sourceTree = "<group>"; };
 		8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShellScriptAction.h; path = src/ShellScriptAction.h; sourceTree = "<group>"; };
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
 		8DBB44950C530F7600064010 /* DSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSLogger.h; path = src/DSLogger.h; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 		8DF5A4160BC2353D00CBEB4B /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Action.m; path = src/Action.m; sourceTree = "<group>"; };
 		8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultPrinterAction.h; path = src/DefaultPrinterAction.h; sourceTree = "<group>"; };
 		8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultPrinterAction.m; path = src/DefaultPrinterAction.m; sourceTree = "<group>"; };
-		8DF7E9C60B7159950005375C /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = "usb-vendors.txt"; sourceTree = "<group>"; };
+		8DF7E9C60B7159950005375C /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
