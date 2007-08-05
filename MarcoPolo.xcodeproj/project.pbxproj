@@ -125,7 +125,7 @@
 		32CA4F630368D1EE00C91783 /* MarcoPolo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarcoPolo_Prefix.pch; path = src/MarcoPolo_Prefix.pch; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = src/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = src/DNDArrayController.m; sourceTree = "<group>"; };
-		8D02E4980C5F033D005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8D02E4980C5F033D005A1462 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D02E4990C5F0350005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8D02E49A0C5F0363005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/GenericRule.nib; sourceTree = "<group>"; };
 		8D02E49B0C5F036C005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/LightRule.nib; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 		8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationEvidenceSource.m; path = src/RunningApplicationEvidenceSource.m; sourceTree = "<group>"; };
 		8D3453C10C18E5C1006011D0 /* IChatAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IChatAction.h; path = src/IChatAction.h; sourceTree = "<group>"; };
 		8D3453C20C18E5C1006011D0 /* IChatAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IChatAction.m; path = src/IChatAction.m; sourceTree = "<group>"; };
-		8D3584D40C61462700ECA6AA /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8D3584D40C61462700ECA6AA /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D3584E90C61466B00ECA6AA /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = it.lproj/GenericRule.nib; sourceTree = "<group>"; };
 		8D3584EA0C61467500ECA6AA /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = it.lproj/IPRule.nib; sourceTree = "<group>"; };
 		8D3584EB0C61467D00ECA6AA /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = it.lproj/LightRule.nib; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 		8D481B070B6098DD0097CF9C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		8D4DBDC20BE1E3C00024DEA0 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = graphics/gear.png; sourceTree = "<group>"; };
 		8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ContextsPrefs.tiff; path = graphics/ContextsPrefs.tiff; sourceTree = "<group>"; };
-		8D4EB1BA0C5F75EC0036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8D4EB1BA0C5F75EC0036BF0F /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D4EB1CB0C5F76320036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/GenericRule.nib; sourceTree = "<group>"; };
 		8D4EB1CC0C5F763B0036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/IPRule.nib; sourceTree = "<group>"; };
 		8D4EB1CD0C5F76440036BF0F /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = da.lproj/LightRule.nib; sourceTree = "<group>"; };
@@ -234,7 +234,7 @@
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = src/ShellScriptAction.m; sourceTree = "<group>"; };
 		8DBB44950C530F7600064010 /* DSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSLogger.h; path = src/DSLogger.h; sourceTree = "<group>"; };
 		8DBB44960C530F7600064010 /* DSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSLogger.m; path = src/DSLogger.m; sourceTree = "<group>"; };
-		8DC410E50C6443B300393759 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8DC410E50C6443B300393759 /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8DC410EA0C64441B00393759 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/GenericRule.nib; sourceTree = "<group>"; };
 		8DC410EB0C64442400393759 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/IPRule.nib; sourceTree = "<group>"; };
 		8DC410EC0C64442A00393759 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/LightRule.nib; sourceTree = "<group>"; };
