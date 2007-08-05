@@ -7,23 +7,23 @@
 	<key>IBEditorPositions</key>
 	<dict>
 		<key>1120</key>
-		<string>376 490 65 32 0 0 1280 1002 </string>
+		<string>426 427 65 32 0 0 1440 878 </string>
 		<key>1374</key>
 		<string>255 501 65 32 0 0 1440 878 </string>
 		<key>1394</key>
-		<string>477 371 485 431 0 0 1440 878 </string>
+		<string>477 381 485 431 0 0 1440 878 </string>
 		<key>1515</key>
-		<string>515 415 409 343 0 0 1440 878 </string>
+		<string>515 425 409 343 0 0 1440 878 </string>
 		<key>1627</key>
-		<string>513 408 413 357 0 0 1440 878 </string>
+		<string>513 418 413 357 0 0 1440 878 </string>
 		<key>390</key>
-		<string>306 427 177 218 0 0 1440 878 </string>
+		<string>306 427 186 218 0 0 1440 878 </string>
 		<key>901</key>
-		<string>1131 453 433 273 0 0 1680 1028 </string>
+		<string>503 460 433 273 0 0 1440 878 </string>
 		<key>902</key>
-		<string>138 467 497 326 0 0 1440 878 </string>
+		<string>471 434 497 326 0 0 1440 878 </string>
 		<key>903</key>
-		<string>461 359 518 455 0 0 1440 878 </string>
+		<string>461 369 518 455 0 0 1440 878 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>443.0</string>
@@ -33,10 +33,6 @@
 	</array>
 	<key>IBOldestOS</key>
 	<integer>4</integer>
-	<key>IBOpenObjects</key>
-	<array>
-		<integer>901</integer>
-	</array>
 	<key>IBSystem Version</key>
 	<string>8R2232</string>
 </dict>
