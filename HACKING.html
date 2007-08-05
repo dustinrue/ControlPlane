@@ -7,31 +7,54 @@
 <h2>5 August 2007</h2>
 
 <h3>Adding a new Evidence Source</h3>
-(1) Pick a "short name" for the rule; no spaces, starting with a letter (e.g. "Foo")
-(2) Create an Objective-C class called "FooEvidenceSource" in the same style as the other sources. It should inherit from one of these:
-	- EvidenceSource (you provide your own nib, and start/stop code)
-		* You provide your own nib (call it "FooRule.nib")
-		* Call [super initWithNibNamed:@"FooRule"] in your -init
-		* Extend readFromPanel, writeToPanel
-		* Implement your own start/stop code
-	- GenericEvidenceSource
-		* Implement your own start/stop code
-		* Implement getSuggestions, getSuggestionLeadText
-	- LoopingEvidenceSource
-		* You provide your own nib (call it "FooRule.nib")
-		* Call [super initWithNibNamed:@"FooRule"] in your -init
-		* Implement doUpdate, clearCollectedData
-		* Extend readFromPanel, writeToPanel
-	- GenericLoopingEvidenceSource
-		* Implement doUpdate, clearCollectedData
-		* Implement getSuggestions, getSuggestionLeadText
-
-(3) Add mention of it in MPController.m, around line 59:
-	- [appDefaults setValue:@"YES" forKey:@"EnableFooEvidenceSource"];
-(4) Add mention of it in the three places in EvidenceSource.m, from ~ line 268:
-	- #import "FooEvidenceSource.h"
-	- [FooEvidenceSource class],
-	- NSLocalizedString(@"Foo", @"Evidence source");
+<ol>
+<li>Pick a <em>short name</em> for the rule; no spaces, starting with a letter (e.g. <tt>Foo</tt>)</li>
+<li>Create an Objective-C class called <tt>FooEvidenceSource</tt> in the same style as the other sources. It should inherit from one of these:
+	<ul>
+	<li>EvidenceSource
+		<ul>
+		<li>You provide your own nib (call it "FooRule.nib")</li>
+		<li>Call [super initWithNibNamed:@"FooRule"] in your -init</li>
+		<li>Extend readFromPanel, writeToPanel</li>
+		<li>Implement your own start/stop code</li>
+		</ul>
+	</li>
+	<li>GenericEvidenceSource
+		<ul>
+		<li>Implement your own start/stop code</li>
+		<li>Implement getSuggestions, getSuggestionLeadText</li>
+		</ul>
+	</li>
+	<li>LoopingEvidenceSource
+		<ul>
+		<li>You provide your own nib (call it "FooRule.nib")</li>
+		<li>Call [super initWithNibNamed:@"FooRule"] in your -init</li>
+		<li>Implement doUpdate, clearCollectedData</li>
+		<li>Extend readFromPanel, writeToPanel</li>
+		</ul>
+	</li>
+	<li>GenericLoopingEvidenceSource
+		<ul>
+		<li>Implement doUpdate, clearCollectedData</li>
+		<li>Implement getSuggestions, getSuggestionLeadText</li>
+		</ul>
+	</li>
+	</ul>
+</li>
+<li>Add mention of it in MPController.m, around line 59:
+<pre>
+	[appDefaults setValue:@"YES" forKey:@"EnableFooEvidenceSource"];
+</pre>
+</li>
+<li>Add mention of it in the three places in EvidenceSource.m, from ~ line 268:
+<pre>
+	#import "FooEvidenceSource.h"
+	...
+	[FooEvidenceSource class],
+	...
+	NSLocalizedString(@"Foo", @"Evidence source");
+</pre>
+</li>
 
 <h3>Adding a new Action</h3>
 (1) Pick a "short name" for the action; no spaces, starting with a letter (e.g. "Foo")
