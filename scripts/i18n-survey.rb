@@ -2,13 +2,23 @@
 
 STRINGS_FILE = "Localizable.strings"
 
+class Integer
+	def nice(unit)
+		if self == 1
+			"1 #{unit}"
+		else
+			"#{self} #{unit}s"
+		end
+	end
+end
+
 require 'iconv'
 $stdout.sync = true
 
 print "Looking for translations... "
 $languages = Dir["*.lproj/Localizable\.strings"]\
 		.map { |x| x.sub(/\.lproj\/.*$/, "") }
-puts "Found #{$languages.size} languages (#{$languages.join(", ")})"
+puts "Found #{$languages.size.nice("language")} (#{$languages.join(", ")})"
 if $languages.empty?
 	puts "--> Nothing to do."
 	puts "--> (are you running from the base source directory?)"
@@ -58,11 +68,11 @@ $languages.each do |lang|
 	missing = $strings[$base_language].keys - $strings[lang].keys
 	extra = $strings[lang].keys - $strings[$base_language].keys
 	if missing.size > 0
-		puts "** Missing in #{lang}:  (#{missing.size} strings)"
+		puts "** Missing in #{lang}:  (#{missing.size.nice("string")})"
 		puts missing.map { |l| "\t#{l}" }.join("\n")
 	end
 	if extra.size > 0
-		puts "** Extra in #{lang}:  (#{extra.size} strings)"
+		puts "** Extra in #{lang}:  (#{extra.size.nice("string")})"
 		puts extra.map { |l| "\t#{l}" }.join("\n")
 	end
 end
@@ -77,7 +87,7 @@ $languages.each do |lang|
 	strings = $strings[lang]
 	same = strings.keys.find_all { |k| k == strings[k] }.sort - EXCEPTIONS
 	if same.size > 0
-		puts "** Possibly-untranslated in #{lang}:  (#{same.size}) strings"
+		puts "** Possibly-untranslated in #{lang}:  (#{same.size.nice("string")})"
 		puts same.map { |l| "\t#{l}" }.join("\n")
 	end
 end
