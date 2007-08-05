@@ -67,7 +67,7 @@ $languages.each do |lang|
 	end
 end
 
-# Look for idential strings that might not be translated
+# Look for identical strings that might not be translated
 EXCEPTIONS = [
 	"Bluetooth", "FireWire", "IP", "USB", "VPN", "WiFi",
 	"OK"
