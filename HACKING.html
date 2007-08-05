@@ -1,8 +1,12 @@
-Hacking Guide To MarcoPolo
-==========================
+<html>
+<head>
+	<title>MarcoPolo Hacking Guide</title>
+</head>
+<body>
+<h1>MarcoPolo Hacking Guide</h1>
+<h2>5 August 2007</h2>
 
-Adding a new EVIDENCE SOURCE
-----------------------------
+<h3>Adding a new Evidence Source</h3>
 (1) Pick a "short name" for the rule; no spaces, starting with a letter (e.g. "Foo")
 (2) Create an Objective-C class called "FooEvidenceSource" in the same style as the other sources. It should inherit from one of these:
 	- EvidenceSource (you provide your own nib, and start/stop code)
@@ -29,11 +33,13 @@ Adding a new EVIDENCE SOURCE
 	- [FooEvidenceSource class],
 	- NSLocalizedString(@"Foo", @"Evidence source");
 
-Adding a new ACTION
--------------------
+<h3>Adding a new Action</h3>
 (1) Pick a "short name" for the action; no spaces, starting with a letter (e.g. "Foo")
 (2) Create an Objective-C class called "FooAction" in the same style as the other actions
 (3) Add mention of it in the three places in Action.m (from around line 130):
 	- #import "FooAction.h"
 	- [FooAction class]	(in the classes array construction)
 	- NSLocalizedString(@"Foo", @"Action type")
+
+</body>
+</html>
