@@ -55,14 +55,22 @@
 	NSLocalizedString(@"Foo", @"Evidence source");
 </pre>
 </li>
+</ol>
 
 <h3>Adding a new Action</h3>
-(1) Pick a "short name" for the action; no spaces, starting with a letter (e.g. "Foo")
-(2) Create an Objective-C class called "FooAction" in the same style as the other actions
-(3) Add mention of it in the three places in Action.m (from around line 130):
-	- #import "FooAction.h"
-	- [FooAction class]	(in the classes array construction)
-	- NSLocalizedString(@"Foo", @"Action type")
+<ol>
+<li>Pick a <em>short name</em> for the action; no spaces, starting with a letter (e.g. <tt>Foo</tt>)</li>
+<li>Create an Objective-C class called <tt>FooAction</tt> in the same style as the other actions</li>
+<li>Add mention of it in the three places in Action.m (from around line 146):
+<pre>
+	#import "FooAction.h"
+	...
+	[FooAction class],
+	...
+	NSLocalizedString(@"Foo", @"Action type")
+</pre>
+</li>
+</ol>
 
 </body>
 </html>
