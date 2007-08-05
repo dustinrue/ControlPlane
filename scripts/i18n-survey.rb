@@ -39,19 +39,24 @@ $languages.each do |lang|
 	lines.delete_if { |l| l =~ /^\/\*/ or l.empty? }
 	# Safety
 	lines = lines.grep(/" = "/)
-	# Strip each line back to the first string
-	lines.map! { |l| l.scan(/^"(.*)" = "/)[0][0] }
+	# Build hash
+	line_hash = {}
+	lines.each { |l|
+		if l =~ /^"(.*)" = "(.*)";$/
+			line_hash[$1] = $2
+		end
+	}
 
-	$strings[lang] = lines
-	print "#{lines.size}] "
+	$strings[lang] = line_hash
+	print "#{line_hash.size}] "
 end
 puts "ok"
 
 # Look for missing strings or extra strings
 $languages.each do |lang|
 	next if lang == $base_language
-	missing = $strings[$base_language] - $strings[lang]
-	extra = $strings[lang] - $strings[$base_language]
+	missing = $strings[$base_language].keys - $strings[lang].keys
+	extra = $strings[lang].keys - $strings[$base_language].keys
 	if missing.size > 0
 		puts "** Missing in #{lang}:  (#{missing.size} strings)"
 		puts missing.map { |l| "\t#{l}" }.join("\n")
@@ -59,5 +64,20 @@ $languages.each do |lang|
 	if extra.size > 0
 		puts "** Extra in #{lang}:  (#{extra.size} strings)"
 		puts extra.map { |l| "\t#{l}" }.join("\n")
+	end
+end
+
+# Look for idential strings that might not be translated
+EXCEPTIONS = [
+	"Bluetooth", "FireWire", "IP", "USB", "VPN", "WiFi",
+	"OK"
+]
+$languages.each do |lang|
+	next if lang == $base_language
+	strings = $strings[lang]
+	same = strings.keys.find_all { |k| k == strings[k] }.sort - EXCEPTIONS
+	if same.size > 0
+		puts "** Possibly-untranslated in #{lang}:  (#{same.size}) strings"
+		puts same.map { |l| "\t#{l}" }.join("\n")
 	end
 end
