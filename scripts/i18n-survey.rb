@@ -48,11 +48,11 @@ $languages.each do |lang|
 	# Remove comment lines and blank lines
 	lines.delete_if { |l| l =~ /^\/\*/ or l.empty? }
 	# Safety
-	lines = lines.grep(/" = "/)
+	lines = lines.grep(/"[[:space:]]*=[[:space:]]*"/)
 	# Build hash
 	line_hash = {}
 	lines.each { |l|
-		if l =~ /^"(.*)" = "(.*)";$/
+		if l =~ /^"(.*)"[[:space:]]*=[[:space:]]*"(.*)";$/
 			line_hash[$1] = $2
 		end
 	}
