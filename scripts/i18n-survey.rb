@@ -52,7 +52,7 @@ $languages.each do |lang|
 	# Build hash
 	line_hash = {}
 	lines.each { |l|
-		if l =~ /^"(.*)"[[:space:]]*=[[:space:]]*"(.*)";$/
+		if l =~ /^"(.*)"[[:space:]]*=[[:space:]]*"(.*)";[[:space:]]*$/
 			line_hash[$1] = $2
 		end
 	}
