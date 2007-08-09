@@ -4,7 +4,7 @@
 </head>
 <body>
 <h1>MarcoPolo Localisation Guide</h1>
-<h2>3 August 2007</h2>
+<h2>9 August 2007</h2>
 
 <p>This is a brief overview of some important points that MarcoPolo 
 localisers should know. If you are a new localiser, or haven't read 
@@ -41,17 +41,17 @@ MarcoPolo. Your options, in decreasing order of my preference, are
 below:</p>
 
 <ol>
-<li>Push your changes to a public git repository, and send me an email letting
-me know where it is and which commits to pull.</li>
+<li>Do your changes in your own git repository (cloned from my tree), use
+<tt>git format-patch master</tt> to generate patch files, and email those to me.</li>
 <li>Zip up your <tt>XX.lproj/</tt> directory, and email it to me.</li>
 <li>Zip up the whole customised MarcoPolo.app bundle, and email it to me.
-This is apparently the default way that iLocalize operates, but it involves
-a little bit more effort for me.</li>
+(This is apparently the default way that iLocalize operates)</li>
 </ol>
 
 <p>If you're comfortable with Git, option 1 is far superior to the others, 
 since the commit logs will reflect you as the author and preserve your 
-comments about your changes and the right timestamps.</p>
+comments about your changes and the right timestamps. It also helps to
+verify that I've correctly received and applied your changes.</p>
 
 
 <h3>Strings File</h3>
