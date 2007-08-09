@@ -186,7 +186,7 @@
 00-00-B9   	MCDONNELL DOUGLAS COMPUTER SYS
 00-00-BA   	SIIG, INC.
 00-00-BB   	TRI-DATA
-00-00-BC   	ALLEN-BRADLEY CO. INC.
+00-00-BC   	Rockwell Automation
 00-00-BD   	MITSUBISHI CABLE COMPANY
 00-00-BE   	THE NTI GROUP
 00-00-BF   	SYMMETRIC COMPUTER SYSTEMS
@@ -1852,7 +1852,7 @@
 00-07-3F   	Woojyun Systec Co., Ltd.
 00-07-40   	Melco Inc.
 00-07-41   	Sierra Automated Systems
-00-07-42   	Current Technologies
+00-07-42   	Current Technologies, LLC
 00-07-43   	Chelsio Communications
 00-07-44   	Unico, Inc.
 00-07-45   	Radlan Computer Communications Ltd.
@@ -3312,7 +3312,7 @@
 00-0D-15   	Voipac s.r.o.
 00-0D-16   	UHS Systems Pty Ltd
 00-0D-17   	Turbo Networks Co.Ltd
-00-0D-18   	Sunitec Enterprise Co., Ltd.
+00-0D-18   	Mega-Trend Electronics CO., LTD.
 00-0D-19   	ROBE Show lighting
 00-0D-1A   	Mustek System Inc.
 00-0D-1B   	Kyoto Electronics Manufacturing Co., Ltd.
@@ -5264,7 +5264,7 @@
 00-14-B6   	Enswer Technology Inc.
 00-14-B7   	AR Infotek Inc.
 00-14-B8   	Hill-Rom
-00-14-B9   	STEPMIND
+00-14-B9   	MSTAR SEMICONDUCTOR
 00-14-BA   	Carvers SA de CV
 00-14-BB   	Open Interface North America
 00-14-BC   	SYNECTIC TELECOM EXPORTS PVT. LTD.
@@ -7526,6 +7526,39 @@
 00-1D-8C   	La Crosse Technology LTD
 00-1D-8D   	Raytek GmbH
 00-1D-8E   	Alereon, Inc.
+00-1D-8F   	PureWave Networks
+00-1D-90   	EMCO Flow Systems
+00-1D-91   	Digitize, Inc
+00-1D-92   	MICRO-STAR INT'L CO.,LTD.
+00-1D-93   	Modacom
+00-1D-94   	Climax Technology Co., Ltd
+00-1D-95   	Flash, Inc.
+00-1D-96   	WatchGuard Video
+00-1D-97   	Alertus Technologies LLC
+00-1D-98   	Nokia Danmark A/S
+00-1D-99   	Cyan Optic, Inc.
+00-1D-9A   	GODEX INTERNATIONAL CO., LTD
+00-1D-9B   	Hokuyo Automatic Co., Ltd.
+00-1D-9C   	Rockwell Automation
+00-1D-9D   	ARTJOY INTERNATIONAL LIMITED
+00-1D-9E   	AXION TECHNOLOGIES
+00-1D-9F   	MATT   R.P.Traczynscy Sp.J.
+00-1D-A0   	Heng Yu Electronic Manufacturing Company Limited
+00-1D-A1   	Cisco Systems
+00-1D-A2   	Cisco Systems
+00-1D-A3   	SabiOso
+00-1D-A4   	Hangzhou System Technology CO., LTD
+00-1D-A5   	WB Electronics
+00-1D-A6   	Media Numerics Limited
+00-1D-A7   	Seamless Internet
+00-1D-A8   	Takahata Electronics Co.,Ltd
+00-1D-A9   	Castles Technology, Co., LTD
+00-1D-AA   	DrayTek Corp.
+00-1D-AB   	SwissQual
+00-1D-AC   	Gigamon Systems LLC
+00-1D-AD   	Sinotech Engineering Consultants, Inc.  Geotechnical Enginee
+00-1D-AE   	CHANG TSENG TECHNOLOGY CO., LTD
+00-1D-AF   	Nortel
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
@@ -8071,7 +8104,7 @@
 00-40-1D   	INVISIBLE SOFTWARE, INC.
 00-40-1E   	ICC
 00-40-1F   	COLORGRAPH LTD
-00-40-20   	PINACL COMMUNICATION
+00-40-20   	Tyco Electronics (UK) Ltd
 00-40-21   	RASTER GRAPHICS
 00-40-22   	KLEVER COMPUTERS, INC.
 00-40-23   	LOGIC CORPORATION
