@@ -64,6 +64,7 @@
 		8D91F1FA0C4772FF00D9FC0F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 		8D9AE3790BE0D11800D4D4E4 /* plus-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */; };
 		8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */; };
+		8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */; };
 		8DB4B4FB0BDF22CC00472564 /* mp-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DB4B4FA0BDF22CC00472564 /* mp-icon.png */; };
 		8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */; };
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
@@ -231,6 +232,8 @@
 		8D9ED1700C69D62C000FE939 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8D9ED1710C69D636000FE939 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = fr.lproj/TimeOfDayRule.nib; sourceTree = "<group>"; };
 		8DAEC7A60C62A7F00020BD5E /* LOCALISATION.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LOCALISATION.html; sourceTree = "<group>"; wrapsLines = 1; };
+		8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = MailIMAPServerAction.h; path = src/MailIMAPServerAction.h; sourceTree = "<group>"; };
+		8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MailIMAPServerAction.m; path = src/MailIMAPServerAction.m; sourceTree = "<group>"; };
 		8DB4B4FA0BDF22CC00472564 /* mp-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mp-icon.png"; path = "graphics/mp-icon.png"; sourceTree = "<group>"; };
 		8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = /System/Library/Frameworks/IOBluetooth.framework; sourceTree = "<absolute>"; };
 		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = oui.txt; path = Resources/oui.txt; sourceTree = "<group>"; };
@@ -491,6 +494,8 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */,
+				8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */,
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
@@ -675,6 +680,7 @@
 				8DBB44980C530F7600064010 /* DSLogger.m in Sources */,
 				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
+				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
