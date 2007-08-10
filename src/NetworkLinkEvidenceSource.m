@@ -14,6 +14,9 @@
 
 static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *info)
 {
+#ifdef DEBUG_MODE
+	NSLog(@"linkChange called with changedKeys:\n%@", changedKeys);
+#endif
 	NetworkLinkEvidenceSource *src = (NetworkLinkEvidenceSource *) info;
 
 	// This is spun off into a separate thread because DNS delays, etc., would
@@ -65,6 +68,8 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 			NSString *opt;
 			CFStringRef key = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("State:/Network/Interface/%@/Link"), name);
 			CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, key);
+			if (!current)
+				continue;
 			if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
 				opt = [NSString stringWithFormat:@"+%@", name];
 			else
