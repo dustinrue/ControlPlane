@@ -82,6 +82,9 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	IOReturn rc;
 	BOOL ret = TRUE;
 
+	if (!device)		// extra safety
+		return NO;
+
 	rc = IOCreatePlugInInterfaceForService(*device, kIOUSBDeviceUserClientTypeID,
 					       kIOCFPlugInInterfaceID, &iface, &score);
 	if ((rc != kIOReturnSuccess) || !iface) {
