@@ -148,6 +148,7 @@
 #import "DefaultPrinterAction.h"
 #import "FirewallRuleAction.h"
 #import "IChatAction.h"
+#import "MailIMAPServerAction.h"
 #import "MailSMTPServerAction.h"
 #import "MountAction.h"
 #import "MuteAction.h"
@@ -171,6 +172,7 @@
 		[DefaultPrinterAction class],
 		[FirewallRuleAction class],
 		[IChatAction class],
+		[MailIMAPServerAction class],
 		[MailSMTPServerAction class],
 		[MountAction class],
 		[MuteAction class],
@@ -188,6 +190,7 @@
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"FirewallRule", @"Action type");
 		NSLocalizedString(@"IChat", @"Action type");
+		NSLocalizedString(@"MailIMAPServer", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
 		NSLocalizedString(@"Mount", @"Action type");
 		NSLocalizedString(@"Mute", @"Action type");
