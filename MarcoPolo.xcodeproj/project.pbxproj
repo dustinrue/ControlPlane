@@ -161,7 +161,7 @@
 		8D38B6690C49D50200290F47 /* SliderWithValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SliderWithValue.h; path = src/SliderWithValue.h; sourceTree = "<group>"; };
 		8D38B66A0C49D50200290F47 /* SliderWithValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SliderWithValue.m; path = src/SliderWithValue.m; sourceTree = "<group>"; };
 		8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EvidenceSourcesPrefs.tiff; path = graphics/EvidenceSourcesPrefs.tiff; sourceTree = "<group>"; };
-		8D3B008D0C620E4A00B9B910 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
+		8D3B008D0C620E4A00B9B910 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutPanel.h; path = src/AboutPanel.h; sourceTree = "<group>"; };
 		8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutPanel.m; path = src/AboutPanel.m; sourceTree = "<group>"; };
 		8D3BFFB10C61CA5300B9B910 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
