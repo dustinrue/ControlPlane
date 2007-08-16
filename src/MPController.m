@@ -577,7 +577,8 @@ finished_import:
 	NSEnumerator *action_enum = [actions objectEnumerator];
 	NSDictionary *action;
 	while ((action = [action_enum nextObject])) {
-		if (![[action objectForKey:@"when"] isEqualToString:@"Departure"])
+		NSString *when = [action objectForKey:@"when"];
+		if (!([when isEqualToString:@"Departure"] || [when isEqualToString:@"Both"]))
 			continue;
 		if (![[action objectForKey:@"context"] isEqualToString:fromUUID])
 			continue;
@@ -617,7 +618,8 @@ finished_import:
 	NSDictionary *action;
 	NSMutableArray *set = [NSMutableArray array];
 	while (action = [action_enum nextObject]) {
-		if (![[action objectForKey:@"when"] isEqualToString:@"Arrival"])
+		NSString *when = [action objectForKey:@"when"];
+		if (!([when isEqualToString:@"Arrival"] || [when isEqualToString:@"Both"]))
 			continue;
 		if (![[action objectForKey:@"context"] isEqualToString:toUUID])
 			continue;
