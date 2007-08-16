@@ -764,16 +764,32 @@ finished_import:
 	double guessConf = 0.0;
 	while ((uuid = [en nextObject])) {
 		double uncon = [[guesses objectForKey:uuid] doubleValue];
-		if (((1.0 - uncon) > guessConf) || !guess) {
+		double con = 1.0 - uncon;
+		if ((con > guessConf) || !guess) {
 			guess = uuid;
-			guessConf = 1.0 - uncon;
+			guessConf = con;
 		}
 	}
 
-	//---------------------------------------------------------------
 	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
 	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
 	[nf setNumberStyle:NSNumberFormatterPercentStyle];
+
+	// Set all context confidences
+	en = [contexts objectEnumerator];
+	while ((uuid = [en nextObject])) {
+		Context *ctxt = [contextsDataSource contextByUUID:uuid];
+		NSString *newConfString = @"";
+		NSNumber *unconf = [guesses objectForKey:uuid];
+		if (unconf) {
+			double con = 1.0 - [unconf doubleValue];
+			newConfString = [nf stringFromNumber:[NSNumber numberWithDouble:con]];
+		}
+		[ctxt setValue:newConfString forKey:@"confidence"];
+	}
+	[contextsDataSource triggerOutlineViewReloadData:nil];
+
+	//---------------------------------------------------------------
 	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:guessConf]];
 	NSString *guessConfidenceString = [NSString stringWithFormat:
 		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),

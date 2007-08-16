@@ -95,6 +95,17 @@
 	return name;
 }
 
+- (NSString *)confidence
+{
+	return confidence;
+}
+
+- (void)setConfidence:(NSString *)newConfidence
+{
+	[confidence autorelease];
+	confidence = [newConfidence copy];
+}
+
 @end
 
 #pragma mark -
@@ -506,14 +517,19 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-	// Should only be one column: the name
 	Context *ctxt = (Context *) item;
-	return [ctxt name];
+	if ([[tableColumn identifier] isEqualToString:@"context"])
+		return [ctxt name];
+	else if ([[tableColumn identifier] isEqualToString:@"confidence"])
+		return [ctxt valueForKey:@"confidence"];
+	return nil;
 }
 
 - (void)outlineView:(NSOutlineView *)olv setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-	// Should only be one column: the name
+	if (![[tableColumn identifier] isEqualToString:@"context"])
+		return;
+
 	Context *ctxt = (Context *) item;
 	[ctxt setName:object];
 

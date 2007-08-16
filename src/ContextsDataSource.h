@@ -15,6 +15,7 @@
 
 	// Transient
 	NSNumber *depth;
+	NSString *confidence;
 }
 
 - (id)init;
@@ -61,5 +62,7 @@
 - (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid;
 - (NSString *)pathFromRootTo:(NSString *)uuid;
 - (NSMenu *)hierarchicalMenu;
+
+- (void)triggerOutlineViewReloadData:(NSNotification *)notification;
 
 @end
