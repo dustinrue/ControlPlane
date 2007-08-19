@@ -46,7 +46,13 @@
 	[suggestionLeadText setStringValue:[self getSuggestionLeadText:useType]];
 
 	[ruleParameterController removeObjects:[ruleParameterController arrangedObjects]];
-	[ruleParameterController addObjects:[self getSuggestions]];
+	NSEnumerator *en = [[self getSuggestions] objectEnumerator];
+	NSDictionary *suggestion;
+	while ((suggestion = [en nextObject])) {
+		if (![[suggestion valueForKey:@"type"] isEqualToString:useType])
+			continue;
+		[ruleParameterController addObject:suggestion];
+	}
 	if (![dict objectForKey:@"parameter"])
 		[ruleParameterController selectNext:self];
 	else {
