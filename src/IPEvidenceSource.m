@@ -233,16 +233,23 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	return match;
 }
 
+// Parse a string that looks like an IP address, or the start of one.
+// If it's a prefix string, it'll be filled with zeros.
 - (BOOL)parseAddress:(NSString *)ipAddress intoArray:(unsigned char *)bytes
 {
 	NSArray *comp = [ipAddress componentsSeparatedByString:@"."];
-	if ([comp count] != 4)
+	if ([comp count] > 4)
 		return NO;
 
 	// TODO: check that they are all numbers?
 	int i;
-	for (i = 0; i < 4; ++i)
-		bytes[i] = [[comp objectAtIndex:i] intValue];
+	memset(bytes, 0, 4);
+	for (i = 0; i < [comp count]; ++i) {
+		int x = [[comp objectAtIndex:i] intValue];
+		if ((x == INT_MIN) || (x == INT_MAX))
+			continue;
+		bytes[i] = x;
+	}
 	return YES;
 }
 
