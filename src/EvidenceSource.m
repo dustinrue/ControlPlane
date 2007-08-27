@@ -267,6 +267,7 @@
 
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
+#import "BonjourEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
 #import "LightEvidenceSource.h"
@@ -288,6 +289,7 @@
 	NSArray *classes = [NSArray arrayWithObjects:
 		[AudioOutputEvidenceSource class],
 		[BluetoothEvidenceSource class],
+		[BonjourEvidenceSource class],
 		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
 		[LightEvidenceSource class],
@@ -303,6 +305,7 @@
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
+		NSLocalizedString(@"Bonjour", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
 		NSLocalizedString(@"Light", @"Evidence source");

@@ -11,6 +11,7 @@
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */; };
 		8D185DC60BF428CF00A06B03 /* AdvancedPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */; };
 		8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A45590BA00DE2004A6BC4 /* minus-8.png */; };
 		8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A455A0BA00DE2004A6BC4 /* plus-8.png */; };
@@ -132,6 +133,8 @@
 		8D02E49D0C5F038B005A1462 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = de.lproj/IPRule.nib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MarcoPolo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarcoPolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BonjourEvidenceSource.h; path = src/BonjourEvidenceSource.h; sourceTree = "<group>"; };
+		8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = BonjourEvidenceSource.m; path = src/BonjourEvidenceSource.m; sourceTree = "<group>"; };
 		8D14E1190BF3DADE00FDD12C /* HACKING.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HACKING.html; sourceTree = "<group>"; };
 		8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdvancedPrefs.tiff; path = graphics/AdvancedPrefs.tiff; sourceTree = "<group>"; };
 		8D1A45590BA00DE2004A6BC4 /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "graphics/minus-8.png"; sourceTree = "<group>"; };
@@ -447,6 +450,8 @@
 		8DAD148E0BBCA40700F93914 /* Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
+				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
 				8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */,
 				8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */,
 				8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */,
@@ -681,6 +686,7 @@
 				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
 				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,
+				8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
