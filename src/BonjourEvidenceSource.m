@@ -5,9 +5,6 @@
 //  Created by David Symonds on 27/08/07.
 //
 
-//#import <IOBonjour/objc/IOBonjourDevice.h>
-//#import <IOBonjour/objc/IOBonjourDeviceInquiry.h>
-
 #import "BonjourEvidenceSource.h"
 #import "DSLogger.h"
 
@@ -42,9 +39,9 @@
 	if (running)
 		return;
 
-	// XXX: probably need to specify the correct service type here
-	//[browser searchForServicesOfType:@"_http._tcp" inDomain:@""];
-	[browser searchForBrowsableDomains];
+	// XXX: probably need to specify other service types here
+	[browser searchForServicesOfType:@"_workstation._tcp" inDomain:@""];
+	//[browser searchForBrowsableDomains];
 
 	running = YES;
 }
@@ -128,7 +125,7 @@
 	       moreComing:(BOOL)moreServicesComing
 {
 #ifdef DEBUG_MODE
-	NSLog(@"%s called.", __PRETTY_FUNCTION__);
+	NSLog(@"%s called.\n%@ on %@", __PRETTY_FUNCTION__, [netService name], [netService hostName]);
 #endif
 }
 
@@ -156,22 +153,22 @@
 #endif
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-	    didFindDomain:(NSString *)domainName
-	       moreComing:(BOOL)moreDomainsComing
-{
-#ifdef DEBUG_MODE
-	NSLog(@"%s called: %@ (more=%d)", __PRETTY_FUNCTION__, domainName, moreDomainsComing);
-#endif
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-	  didRemoveDomain:(NSString *)domainName
-	       moreComing:(BOOL)moreDomainsComing
-{
-#ifdef DEBUG_MODE
-	NSLog(@"%s called: %@ (more=%d)", __PRETTY_FUNCTION__, domainName, moreDomainsComing);
-#endif
-}
+//- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
+//	    didFindDomain:(NSString *)domainName
+//	       moreComing:(BOOL)moreDomainsComing
+//{
+//#ifdef DEBUG_MODE
+//	NSLog(@"%s called: %@ (more=%d)", __PRETTY_FUNCTION__, domainName, moreDomainsComing);
+//#endif
+//}
+//
+//- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
+//	  didRemoveDomain:(NSString *)domainName
+//	       moreComing:(BOOL)moreDomainsComing
+//{
+//#ifdef DEBUG_MODE
+//	NSLog(@"%s called: %@ (more=%d)", __PRETTY_FUNCTION__, domainName, moreDomainsComing);
+//#endif
+//}
 
 @end
