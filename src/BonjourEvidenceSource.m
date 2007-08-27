@@ -39,9 +39,8 @@
 	if (running)
 		return;
 
-	// XXX: probably need to specify other service types here
-	[browser searchForServicesOfType:@"_workstation._tcp" inDomain:@""];
-	//[browser searchForBrowsableDomains];
+	// This should find all service types
+	[browser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
 
 	running = YES;
 }
@@ -125,7 +124,7 @@
 	       moreComing:(BOOL)moreServicesComing
 {
 #ifdef DEBUG_MODE
-	NSLog(@"%s called.\n%@ on %@", __PRETTY_FUNCTION__, [netService name], [netService hostName]);
+	NSLog(@"%s called \t%@/%@/%@", __PRETTY_FUNCTION__, [netService name], [netService type], [netService domain]);
 #endif
 }
 
@@ -152,23 +151,5 @@
 	NSLog(@"%s called:\n%@", __PRETTY_FUNCTION__, errorInfo);
 #endif
 }
-
-//- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-//	    didFindDomain:(NSString *)domainName
-//	       moreComing:(BOOL)moreDomainsComing
-//{
-//#ifdef DEBUG_MODE
-//	NSLog(@"%s called: %@ (more=%d)", __PRETTY_FUNCTION__, domainName, moreDomainsComing);
-//#endif
-//}
-//
-//- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-//	  didRemoveDomain:(NSString *)domainName
-//	       moreComing:(BOOL)moreDomainsComing
-//{
-//#ifdef DEBUG_MODE
-//	NSLog(@"%s called: %@ (more=%d)", __PRETTY_FUNCTION__, domainName, moreDomainsComing);
-//#endif
-//}
 
 @end
