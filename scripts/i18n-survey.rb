@@ -82,10 +82,16 @@ EXCEPTIONS = [
 	"Bluetooth", "FireWire", "IP", "USB", "VPN", "WiFi",
 	"OK"
 ]
+LANG_EXCEPTIONS = {
+	"da" => ["Weekend"],
+	"fr" => ["%d minutes", "1 minute", "Actions", "ShellScript", "Weekend"],
+	"it" => ["Monitor", "Weekend"],
+}
 $languages.each do |lang|
 	next if lang == $base_language
 	strings = $strings[lang]
-	same = strings.keys.find_all { |k| k == strings[k] }.sort - EXCEPTIONS
+	same = strings.keys.find_all { |k| k == strings[k] }.sort
+	same = same - EXCEPTIONS - (LANG_EXCEPTIONS[lang] || [])
 	if same.size > 0
 		puts "** Possibly-untranslated in #{lang}:  (#{same.size.nice("string")})"
 		puts same.map { |l| "\t#{l}" }.join("\n")
