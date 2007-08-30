@@ -90,7 +90,13 @@
 
 - (id)transformedValue:(id)theValue
 {
-	NSString *eng_str = [NSString stringWithFormat:@"On %@", [(NSString *) theValue lowercaseString]];
+	NSString *inc = [(NSString *) theValue lowercaseString];
+	NSString *eng_str;
+	// HACK: this should be sorted out nicer
+	if ([inc isEqualToString:@"both"])
+		eng_str = (NSString *) theValue;
+	else
+		eng_str = [NSString stringWithFormat:@"On %@", inc];
 
 	return NSLocalizedString(eng_str, @"");
 }
