@@ -72,6 +72,8 @@
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnablePersistentContext"];
+	[appDefaults setValue:@"" forKey:@"PersistentContext"];
 
 	// Advanced
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"ShowAdvancedPreferences"];
@@ -271,6 +273,18 @@ finished_import:
 	    ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"] count] == 0) &&
 	    ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"] count] == 0)) {
 		[self importVersion1Settings];
+	}
+
+	// Persistent contexts
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
+		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
+		Context *ctxt = [contextsDataSource contextByUUID:uuid];
+		if (ctxt) {
+			[self setValue:uuid forKey:@"currentContextUUID"];
+			NSString *ctxt_path = [contextsDataSource pathFromRootTo:uuid];
+			[self setValue:ctxt_path forKey:@"currentContextName"];
+			// Everything else is done below
+		}
 	}
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
