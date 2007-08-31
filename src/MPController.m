@@ -34,6 +34,7 @@
 - (NSString *)applicationNameForGrowl;
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 - (void)userDefaultsChanged:(NSNotification *)notification;
 
@@ -72,7 +73,7 @@
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnablePersistentContext"];
+	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePersistentContext"];
 	[appDefaults setValue:@"" forKey:@"PersistentContext"];
 
 	// Advanced
@@ -946,6 +947,13 @@ finished_import:
 	}
 
 	return YES;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
+		[[NSUserDefaults standardUserDefaults] setValue:currentContextUUID forKey:@"PersistentContext"];
+	}
 }
 
 #pragma mark NSUserDefaults notifications
