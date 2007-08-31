@@ -86,6 +86,7 @@ LANG_EXCEPTIONS = {
 	"da" => ["Weekend"],
 	"fr" => ["%d minutes", "1 minute", "Actions", "ShellScript", "Weekend"],
 	"it" => ["Monitor", "Weekend"],
+	"pt_BR" => ["Monitor", "ShellScript"],
 }
 $languages.each do |lang|
 	next if lang == $base_language
