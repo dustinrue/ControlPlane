@@ -19,6 +19,7 @@
 
 @interface MPController (Private)
 
+- (void)setStatusTitle:(NSString *)title;
 - (void)showInStatusBar:(id)sender;
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
@@ -276,18 +277,6 @@ finished_import:
 		[self importVersion1Settings];
 	}
 
-	// Persistent contexts
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
-		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
-		Context *ctxt = [contextsDataSource contextByUUID:uuid];
-		if (ctxt) {
-			[self setValue:uuid forKey:@"currentContextUUID"];
-			NSString *ctxt_path = [contextsDataSource pathFromRootTo:uuid];
-			[self setValue:ctxt_path forKey:@"currentContextName"];
-			// Everything else is done below
-		}
-	}
-
 	[[NSNotificationCenter defaultCenter] addObserver:self
 						 selector:@selector(contextsChanged:)
 						     name:@"ContextsChangedNotification"
@@ -311,6 +300,31 @@ finished_import:
 
 	// Set up status bar.
 	[self showInStatusBar:self];
+
+	// Persistent contexts
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
+		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
+		Context *ctxt = [contextsDataSource contextByUUID:uuid];
+		if (ctxt) {
+			[self setValue:uuid forKey:@"currentContextUUID"];
+			NSString *ctxt_path = [contextsDataSource pathFromRootTo:uuid];
+			[self setValue:ctxt_path forKey:@"currentContextName"];
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
+				[self setStatusTitle:ctxt_path];
+
+			// Update force context menu
+			NSMenu *menu = [forceContextMenuItem submenu];
+			NSEnumerator *en = [[menu itemArray] objectEnumerator];
+			NSMenuItem *item;
+			while ((item = [en nextObject])) {
+				NSString *rep = [item representedObject];
+				if (!rep || ![contextsDataSource contextByUUID:rep])
+					continue;
+				BOOL ticked = ([rep isEqualToString:uuid]);
+				[item setState:(ticked ? NSOnState : NSOffState)];
+			}
+		}
+	}
 
 	[NSThread detachNewThreadSelector:@selector(updateThread:)
 				 toTarget:self
