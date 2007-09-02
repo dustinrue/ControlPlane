@@ -6,13 +6,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GenericEvidenceSource.h"
+#import "GenericLoopingEvidenceSource.h"
 
 
-@interface BonjourEvidenceSource : GenericEvidenceSource {
+@interface BonjourEvidenceSource : GenericLoopingEvidenceSource {
 	NSLock *lock;
-	NSMutableArray *services;
+
+	// TODO: do we need an NSLock to protect this stuff?
+	int stage;	// 0 = idle, 1 = searching for services, 2 = enumerating those services
 	NSNetServiceBrowser *browser;
+	NSMutableArray *services;
+
+	NSMutableArray *hits;
+	NSMutableArray *hitsInProgress;
 }
 
 - (id)init;
@@ -20,6 +26,9 @@
 
 - (void)start;
 - (void)stop;
+
+- (void)doUpdate;
+- (void)clearCollectedData;
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;

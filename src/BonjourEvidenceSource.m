@@ -25,10 +25,14 @@
 		return nil;
 
 	lock = [[NSLock alloc] init];
-	services = [[NSMutableArray alloc] init];
 
+	stage = 0;
 	browser = [[NSNetServiceBrowser alloc] init];
 	[browser setDelegate:self];
+	services = [[NSMutableArray alloc] init];
+
+	hits = [[NSMutableArray alloc] init];
+	hitsInProgress = [[NSMutableArray alloc] init];
 
 	return self;
 }
@@ -36,8 +40,11 @@
 - (void)dealloc
 {
 	[lock release];
-	[services release];
 	[browser release];
+	[services release];
+
+	[hits release];
+	[hitsInProgress release];
 
 	[super dealloc];
 }
@@ -47,9 +54,9 @@
 	if (running)
 		return;
 
-	running = YES;
+	[self considerScanning:self];
 
-	[self considerScanning:nil];
+	[super start];
 }
 
 - (void)stop
@@ -59,12 +66,20 @@
 
 	[browser stop];
 
+	[super stop];
+}
+
+- (void)doUpdate
+{
+	[self considerScanning:nil];
+}
+
+- (void)clearCollectedData
+{
 	[lock lock];
-	[services removeAllObjects];
+	[hits removeAllObjects];
 	[self setDataCollected:NO];
 	[lock unlock];
-
-	running = NO;
 }
 
 - (NSString *)name
@@ -124,12 +139,18 @@
 	return arr;
 }
 
+// Triggers stage 1 scanning (probing for services); pass self as arg if this is the initial scan
 - (void)considerScanning:(id)arg
 {
-	if (!running)
+	if (!running && (arg != self))
+		return;
+	if (stage != 0)
 		return;
 
-	// This should find all service types
+	stage = 1;
+	[services removeAllObjects];
+
+	// This finds all service types
 	[browser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
 }
 
@@ -139,23 +160,60 @@
 	   didFindService:(NSNetService *)netService
 	       moreComing:(BOOL)moreServicesComing
 {
+	if (stage == 1) {
+		// Sample data here would be:
+		//	name:	_growl
+		//	type:	_tcp.local.
+		//	domain:	.
+		NSString *service = [NSString stringWithFormat:@"%@.%@", [netService name], [netService type]];
+		if ([service hasSuffix:@".local."])
+			service = [service substringToIndex:([service length] - 6)];
 #ifdef DEBUG_MODE
-	NSLog(@"Found: %@/%@/%@", [netService name], [netService type], [netService domain]);
+		//NSLog(@"Heard about service [%@]", service);
 #endif
-
-	if (!moreServicesComing) {
-		[netServiceBrowser stop];
-
-		// Schedule a new scan in 5 seconds
+		[services addObject:service];
+	} else if (stage == 2) {
+		// Sample data here would be:
+		//	name:	Serenity
+		//	type:	_growl._tcp.
+		//	domain:	local.
+		NSDictionary *hit = [NSDictionary dictionaryWithObjectsAndKeys:
+			[netService name], @"host",
+			[netService type], @"service",
+			nil];
 #ifdef DEBUG_MODE
-		NSLog(@"--> sched+5");
+		NSLog(@"Found: %@", hit);
 #endif
-		[NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5
-						 target:self
-					       selector:@selector(considerScanning:)
-					       userInfo:nil
-						repeats:NO];
+		[hitsInProgress addObject:hit];
 	}
+
+	if (moreServicesComing)
+		return;
+
+	[netServiceBrowser stop];
+	if (stage == 1) {
+		stage = 2;
+		[hitsInProgress removeAllObjects];
+	}
+
+	// Send off scan for the next service we heard about during stage 1
+	if ([services count] == 0) {
+		stage = 0;
+#ifdef DEBUG_MODE
+		NSLog(@"Found %d services offered", [hitsInProgress count]);
+#endif
+		[lock lock];
+		[hits setArray:hitsInProgress];
+		[lock unlock];
+
+		return;
+	}
+	NSString *service = [services objectAtIndex:0];
+	[services removeObjectAtIndex:0];
+	[netServiceBrowser searchForServicesOfType:service inDomain:@""];
+#ifdef DEBUG_MODE
+	NSLog(@"Sent probe for hosts offering service %@", service);
+#endif
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
