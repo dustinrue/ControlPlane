@@ -9,6 +9,14 @@
 #import "DSLogger.h"
 
 
+@interface BonjourEvidenceSource (Private)
+
+- (void)considerScanning:(id)arg;
+
+@end
+
+#pragma mark -
+
 @implementation BonjourEvidenceSource
 
 - (id)init
@@ -39,10 +47,9 @@
 	if (running)
 		return;
 
-	// This should find all service types
-	[browser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
-
 	running = YES;
+
+	[self considerScanning:nil];
 }
 
 - (void)stop
@@ -117,6 +124,15 @@
 	return arr;
 }
 
+- (void)considerScanning:(id)arg
+{
+	if (!running)
+		return;
+
+	// This should find all service types
+	[browser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
+}
+
 #pragma mark NSNetServiceBrowser delegate methods
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
@@ -124,8 +140,22 @@
 	       moreComing:(BOOL)moreServicesComing
 {
 #ifdef DEBUG_MODE
-	NSLog(@"%s called \t%@/%@/%@", __PRETTY_FUNCTION__, [netService name], [netService type], [netService domain]);
+	NSLog(@"Found: %@/%@/%@", [netService name], [netService type], [netService domain]);
 #endif
+
+	if (!moreServicesComing) {
+		[netServiceBrowser stop];
+
+		// Schedule a new scan in 5 seconds
+#ifdef DEBUG_MODE
+		NSLog(@"--> sched+5");
+#endif
+		[NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5
+						 target:self
+					       selector:@selector(considerScanning:)
+					       userInfo:nil
+						repeats:NO];
+	}
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
