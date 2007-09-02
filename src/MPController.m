@@ -19,6 +19,7 @@
 
 @interface MPController (Private)
 
+- (void)setStatusTitle:(NSString *)title;
 - (void)showInStatusBar:(id)sender;
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
@@ -34,6 +35,7 @@
 - (NSString *)applicationNameForGrowl;
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 - (void)userDefaultsChanged:(NSNotification *)notification;
 
@@ -72,6 +74,8 @@
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
+	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePersistentContext"];
+	[appDefaults setValue:@"" forKey:@"PersistentContext"];
 
 	// Advanced
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"ShowAdvancedPreferences"];
@@ -296,6 +300,31 @@ finished_import:
 
 	// Set up status bar.
 	[self showInStatusBar:self];
+
+	// Persistent contexts
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
+		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
+		Context *ctxt = [contextsDataSource contextByUUID:uuid];
+		if (ctxt) {
+			[self setValue:uuid forKey:@"currentContextUUID"];
+			NSString *ctxt_path = [contextsDataSource pathFromRootTo:uuid];
+			[self setValue:ctxt_path forKey:@"currentContextName"];
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
+				[self setStatusTitle:ctxt_path];
+
+			// Update force context menu
+			NSMenu *menu = [forceContextMenuItem submenu];
+			NSEnumerator *en = [[menu itemArray] objectEnumerator];
+			NSMenuItem *item;
+			while ((item = [en nextObject])) {
+				NSString *rep = [item representedObject];
+				if (!rep || ![contextsDataSource contextByUUID:rep])
+					continue;
+				BOOL ticked = ([rep isEqualToString:uuid]);
+				[item setState:(ticked ? NSOnState : NSOffState)];
+			}
+		}
+	}
 
 	[NSThread detachNewThreadSelector:@selector(updateThread:)
 				 toTarget:self
@@ -932,6 +961,13 @@ finished_import:
 	}
 
 	return YES;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
+		[[NSUserDefaults standardUserDefaults] setValue:currentContextUUID forKey:@"PersistentContext"];
+	}
 }
 
 #pragma mark NSUserDefaults notifications
