@@ -16,6 +16,7 @@
 	int stage;	// 0 = idle, 1 = searching for services, 2 = enumerating those services
 	NSNetServiceBrowser *browser;
 	NSMutableArray *services;
+	NSTimer *scanTimer;
 
 	NSMutableArray *hits;
 	NSMutableArray *hitsInProgress;

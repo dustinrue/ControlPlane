@@ -12,6 +12,8 @@
 @interface BonjourEvidenceSource (Private)
 
 - (void)considerScanning:(id)arg;
+- (void)finishScanning:(id)arg;
+- (void)runNextStage2Scan:(id)arg;
 
 @end
 
@@ -144,14 +146,54 @@
 {
 	if (!running && (arg != self))
 		return;
-	if (stage != 0)
-		return;
 
+	[lock lock];
+	if (stage != 0) {
+		[lock unlock];
+		return;
+	}
 	stage = 1;
+	[lock unlock];
+
 	[services removeAllObjects];
 
 	// This finds all service types
 	[browser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
+}
+
+// Forces an end to stage 2 scanning
+- (void)finishScanning:(id)arg
+{
+	stage = 0;
+#ifdef DEBUG_MODE
+	DSLog(@"Found %d services offered", [hitsInProgress count]);
+#endif
+	[lock lock];
+	[hits setArray:hitsInProgress];
+	[lock unlock];
+}
+
+- (void)runNextStage2Scan:(id)arg
+{
+	[browser stop];
+	scanTimer = nil;
+
+	// Send off scan for the next service we heard about during stage 1
+	if ([services count] == 0) {
+		[self finishScanning:nil];
+		return;
+	}
+	NSString *service = [services objectAtIndex:0];
+	[services removeObjectAtIndex:0];
+	[browser searchForServicesOfType:service inDomain:@""];
+#ifdef DEBUG_MODE
+	//NSLog(@"Sent probe for hosts offering service %@", service);
+#endif
+	scanTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 1
+					 target:self
+				       selector:@selector(runNextStage2Scan:)
+				       userInfo:nil
+					repeats:NO];
 }
 
 #pragma mark NSNetServiceBrowser delegate methods
@@ -194,26 +236,12 @@
 	if (stage == 1) {
 		stage = 2;
 		[hitsInProgress removeAllObjects];
+		scanTimer = nil;
 	}
 
-	// Send off scan for the next service we heard about during stage 1
-	if ([services count] == 0) {
-		stage = 0;
-#ifdef DEBUG_MODE
-		NSLog(@"Found %d services offered", [hitsInProgress count]);
-#endif
-		[lock lock];
-		[hits setArray:hitsInProgress];
-		[lock unlock];
-
-		return;
-	}
-	NSString *service = [services objectAtIndex:0];
-	[services removeObjectAtIndex:0];
-	[netServiceBrowser searchForServicesOfType:service inDomain:@""];
-#ifdef DEBUG_MODE
-	NSLog(@"Sent probe for hosts offering service %@", service);
-#endif
+	if (scanTimer && [scanTimer isValid])
+		[scanTimer invalidate];
+	[self runNextStage2Scan:nil];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
@@ -221,14 +249,14 @@
 	       moreComing:(BOOL)moreServicesComing
 {
 #ifdef DEBUG_MODE
-	NSLog(@"%s called.", __PRETTY_FUNCTION__);
+	//NSLog(@"%s called.", __PRETTY_FUNCTION__);
 #endif
 }
 
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser
 {
 #ifdef DEBUG_MODE
-	NSLog(@"%s called.", __PRETTY_FUNCTION__);
+	//NSLog(@"%s called.", __PRETTY_FUNCTION__);
 #endif
 }
 
