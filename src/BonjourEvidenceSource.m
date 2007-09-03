@@ -116,27 +116,21 @@
 
 - (NSArray *)getSuggestions
 {
-	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[services count]];
+	[lock lock];
+	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[hits count]];
 
-	// TODO
-//	[lock lock];
-//	NSEnumerator *en = [devices objectEnumerator];
-//	NSDictionary *dev;
-//	while ((dev = [en nextObject])) {
-//		NSString *name = [dev valueForKey:@"device_name"];
-//		if (!name)
-//			name = NSLocalizedString(@"(Unnamed device)", @"String for unnamed devices");
-//		NSString *vendor = [dev valueForKey:@"vendor_name"];
-//		if (!vendor)
-//			vendor = @"?";
-//
-//		NSString *desc = [NSString stringWithFormat:@"%@ [%@]", name, vendor];
-//		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-//			@"Bonjour", @"type",
-//			[dev valueForKey:@"mac"], @"parameter",
-//			desc, @"description", nil]];
-//	}
-//	[lock unlock];
+	NSEnumerator *en = [hits objectEnumerator];
+	NSDictionary *hit;
+	while ((hit = [en nextObject])) {
+		NSString *host = [hit valueForKey:@"host"], *service = [hit valueForKey:@"service"];
+		NSString *desc = [NSString stringWithFormat:@"%@ on %@", service, host];
+		NSString *param = [NSString stringWithFormat:@"%@/%@", host, service];
+		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			@"Bonjour", @"type",
+			param, @"parameter",
+			desc, @"description", nil]];
+	}
+	[lock unlock];
 
 	return arr;
 }
@@ -170,6 +164,7 @@
 #endif
 	[lock lock];
 	[hits setArray:hitsInProgress];
+	[self setDataCollected:[hits count] > 0];
 	[lock unlock];
 }
 
