@@ -179,8 +179,8 @@
 		return;
 	}
 	NSString *service = [services objectAtIndex:0];
-	[services removeObjectAtIndex:0];
 	[browser searchForServicesOfType:service inDomain:@""];
+	[services removeObjectAtIndex:0];
 #ifdef DEBUG_MODE
 	//NSLog(@"Sent probe for hosts offering service %@", service);
 #endif
