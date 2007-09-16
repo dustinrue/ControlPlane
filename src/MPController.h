@@ -14,11 +14,12 @@
 @interface MPController : NSObject <GrowlApplicationBridgeDelegate> {
 	IBOutlet NSMenu *sbMenu;
 	NSStatusItem *sbItem;
-	NSImage *sbImage;
+	NSImage *sbImageActive, *sbImageInactive;
 	NSTimer *sbHideTimer;
 
 	NSString *currentContextUUID, *currentContextName;
 	NSString *guessConfidence;
+	BOOL guessIsConfident;
 	int smoothCounter;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;

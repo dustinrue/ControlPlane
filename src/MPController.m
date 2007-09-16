@@ -106,7 +106,8 @@
 	// Growl registration
 	[GrowlApplicationBridge setGrowlDelegate:self];
 
-	sbImage = [self prepareImageForMenubar:@"mp-icon"];
+	sbImageActive = [self prepareImageForMenubar:@"mp-icon-active"];
+	sbImageInactive = [self prepareImageForMenubar:@"mp-icon-inactive"];
 	sbItem = nil;
 	sbHideTimer = nil;
 
@@ -372,7 +373,7 @@ finished_import:
 	sbItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 	[sbItem retain];
 	[sbItem setHighlightMode:YES];
-	[sbItem setImage:sbImage];
+	[sbItem setImage:(guessIsConfident ? sbImageActive : sbImageInactive)];
 	[sbItem setMenu:sbMenu];
 }
 
@@ -842,6 +843,9 @@ finished_import:
 	}
 
 	if (no_guess) {
+		guessIsConfident = NO;
+		[sbItem setImage:sbImageInactive];
+
 		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
 			return;
 		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
@@ -852,6 +856,9 @@ finished_import:
 							  @"Appended to a context-change notification");
 		guessString = [ctxt name];
 	}
+
+	guessIsConfident = YES;
+	[sbItem setImage:sbImageActive];
 
 	BOOL do_switch = YES;
 
