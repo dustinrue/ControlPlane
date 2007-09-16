@@ -93,18 +93,22 @@
 {
 	BOOL match = NO;
 
-	// TODO
-//	[lock lock];
-//	NSEnumerator *en = [services objectEnumerator];
-//	NSDictionary *dev;
-//	NSString *mac = [rule objectForKey:@"parameter"];
-//	while ((dev = [en nextObject])) {
-//		if ([[dev valueForKey:@"mac"] isEqualToString:mac]) {
-//			match = YES;
-//			break;
-//		}
-//	}
-//	[lock unlock];
+	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@"/"];
+	if ([comp count] != 2)
+		return NO;	// corrupted rule
+	NSString *host = [comp objectAtIndex:0], *service = [comp objectAtIndex:1];
+
+	[lock lock];
+	NSEnumerator *en = [hits objectEnumerator];
+	NSDictionary *hit;
+	while ((hit = [en nextObject])) {
+		if ([[hit valueForKey:@"host"] isEqualToString:host] &&
+		    [[hit valueForKey:@"service"] isEqualToString:service]) {
+			match = YES;
+			break;
+		}
+	}
+	[lock unlock];
 
 	return match;
 }
@@ -160,7 +164,7 @@
 {
 	stage = 0;
 #ifdef DEBUG_MODE
-	DSLog(@"Found %d services offered", [hitsInProgress count]);
+	//DSLog(@"Found %d services offered", [hitsInProgress count]);
 #endif
 	[lock lock];
 	[hits setArray:hitsInProgress];
@@ -219,7 +223,7 @@
 			[netService type], @"service",
 			nil];
 #ifdef DEBUG_MODE
-		NSLog(@"Found: %@", hit);
+		//NSLog(@"Found: %@", hit);
 #endif
 		[hitsInProgress addObject:hit];
 	}
@@ -258,9 +262,7 @@
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
 	     didNotSearch:(NSDictionary *)errorInfo
 {
-#ifdef DEBUG_MODE
-	NSLog(@"%s called:\n%@", __PRETTY_FUNCTION__, errorInfo);
-#endif
+	DSLog(@"failure:\n%@", errorInfo);
 }
 
 @end
