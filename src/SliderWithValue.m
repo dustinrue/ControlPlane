@@ -133,6 +133,17 @@ static ToolTip *sharedToolTip = nil;
 	if (![self isHighlighted] || ([[NSApp currentEvent] window] != [[self controlView] window]))
 		return;
 
+	if ([[self controlView] isKindOfClass:[NSTableView class]]) {
+		// If this cell is used as an NSTableView column cell, we get these drawKnob: events even when
+		// other columns are edited. This is a bit of a hack to avoid showing tooltips
+		NSTableView *tv = (NSTableView *) [self controlView];
+		NSEvent *event = [NSApp currentEvent];
+		NSPoint pt = [tv convertPoint:[event locationInWindow] fromView:[[event window] contentView]];
+		//int col = [tv columnAtPoint:pt];
+		if ((pt.x < knobRect.origin.x) || (pt.x > knobRect.origin.x + knobRect.size.width))
+			return;
+	}
+
 	NSEventType eventType = [[NSApp currentEvent] type];
 
 	BOOL draw = NO;
