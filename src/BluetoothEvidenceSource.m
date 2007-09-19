@@ -27,6 +27,7 @@
 
 	inq = [[IOBluetoothDeviceInquiry inquiryWithDelegate:self] retain];
 	[inq setUpdateNewDeviceNames:TRUE];
+	[inq setInquiryLength:6];
 	holdTimer = nil;
 	cleanupTimer = nil;
 
