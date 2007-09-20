@@ -79,7 +79,7 @@ end
 
 # Look for identical strings that might not be translated
 EXCEPTIONS = [
-	"Bluetooth", "FireWire", "IP", "USB", "VPN", "WiFi",
+	"Bluetooth", "Bonjour", "FireWire", "IP", "USB", "VPN", "WiFi",
 	"OK"
 ]
 LANG_EXCEPTIONS = {
