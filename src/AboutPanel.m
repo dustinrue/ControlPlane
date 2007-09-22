@@ -64,4 +64,11 @@
 	return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
 }
 
+- (NSString *)gitCommit
+{
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"Build" ofType:@"plist"];
+	NSDictionary *plist = [[NSString stringWithContentsOfFile:path] propertyList];
+	return [plist valueForKey:@"GitCommit"];
+}
+
 @end

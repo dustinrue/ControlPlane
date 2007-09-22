@@ -20,5 +20,6 @@
 - (void)runPanel;
 
 - (NSString *)versionString;
+- (NSString *)gitCommit;
 
 @end
