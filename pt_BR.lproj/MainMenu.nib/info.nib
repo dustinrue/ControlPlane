@@ -37,10 +37,10 @@
 	<integer>4</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>910</integer>
-		<integer>1627</integer>
-		<integer>903</integer>
 		<integer>1743</integer>
+		<integer>1627</integer>
+		<integer>910</integer>
+		<integer>903</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8R2218</string>
