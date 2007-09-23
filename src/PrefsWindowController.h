@@ -45,7 +45,7 @@
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item;
 - (void)switchToView:(NSString *)identifier;
-- (void)resizeWindowToSize:(NSSize)size;
+- (void)resizeWindowToSize:(NSSize)size limitMaxSize:(BOOL)limitMaxSize;
 
 // NSToolbar delegates
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)groupId willBeInsertedIntoToolbar:(BOOL)flag;

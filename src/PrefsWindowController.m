@@ -177,37 +177,53 @@
 					forName:@"ContextNameTransformer"];
 
 	prefsGroups = [[NSArray arrayWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"General", @"name",
 			NSLocalizedString(@"General", "Preferences section"), @"display_name",
 			@"GeneralPrefs", @"icon",
+			[NSNumber numberWithBool:NO], @"resizeable",
 			generalPrefsView, @"view", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Contexts", @"name",
 			NSLocalizedString(@"Contexts", "Preferences section"), @"display_name",
 			@"ContextsPrefs", @"icon",
+			[NSNumber numberWithBool:NO], @"resizeable",
 			contextsPrefsView, @"view", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"EvidenceSources", @"name",
 			NSLocalizedString(@"Evidence Sources", "Preferences section"), @"display_name",
 			@"EvidenceSourcesPrefs", @"icon",
+			[NSNumber numberWithBool:NO], @"resizeable",
 			evidenceSourcesPrefsView, @"view", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Rules", @"name",
 			NSLocalizedString(@"Rules", "Preferences section"), @"display_name",
 			@"RulesPrefs", @"icon",
+			[NSNumber numberWithBool:YES], @"resizeable",
 			rulesPrefsView, @"view", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Actions", @"name",
 			NSLocalizedString(@"Actions", "Preferences section"), @"display_name",
 			@"ActionsPrefs", @"icon",
+			[NSNumber numberWithBool:YES], @"resizeable",
 			actionsPrefsView, @"view", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Advanced", @"name",
 			NSLocalizedString(@"Advanced", "Preferences section"), @"display_name",
 			@"AdvancedPrefs", @"icon",
+			[NSNumber numberWithBool:NO], @"resizeable",
 			advancedPrefsView, @"view", nil],
 		nil] retain];
+
+	// Store initial sizes of each prefs NSView as their "minimum" size
+	NSEnumerator *en = [prefsGroups objectEnumerator];
+	NSMutableDictionary *group;
+	while ((group = [en nextObject])) {
+		NSView *view = [group valueForKey:@"view"];
+		NSSize frameSize = [view frame].size;
+		[group setValue:[NSNumber numberWithFloat:frameSize.width] forKey:@"min_width"];
+		[group setValue:[NSNumber numberWithFloat:frameSize.height] forKey:@"min_height"];
+	}
 
 	// Init. toolbar
 	prefsToolbar = [[NSToolbar alloc] initWithIdentifier:@"prefsToolbar"];
@@ -311,16 +327,21 @@
 		}
 	}
 
+	NSSize size = NSMakeSize([[group valueForKey:@"min_width"] floatValue],
+			       [[group valueForKey:@"min_height"] floatValue]);
+	BOOL resizeable = [[group valueForKey:@"resizeable"] boolValue];
+	[prefsWindow setShowsResizeIndicator:resizeable];
+
 	[prefsWindow setContentView:blankPrefsView];
 	[prefsWindow setTitle:[NSString stringWithFormat:@"MarcoPolo - %@", [group objectForKey:@"display_name"]]];
-	[self resizeWindowToSize:[currentPrefsView frame].size];
+	[self resizeWindowToSize:size limitMaxSize:!resizeable];
 
 	if ([prefsToolbar respondsToSelector:@selector(setSelectedItemIdentifier:)])
 		[prefsToolbar setSelectedItemIdentifier:groupId];
 	[prefsWindow setContentView:currentPrefsView];
 }
 
-- (void)resizeWindowToSize:(NSSize)size
+- (void)resizeWindowToSize:(NSSize)size limitMaxSize:(BOOL)limitMaxSize
 {
 	NSRect frame, contentRect;
 	float tbHeight, newHeight, newWidth;
@@ -329,21 +350,28 @@
 					      styleMask:[prefsWindow styleMask]];
 	tbHeight = (NSHeight(contentRect) - NSHeight([[prefsWindow contentView] frame]));
 
-	newHeight = size.height;
 	newWidth = size.width;
+	newHeight = size.height;
 
 	frame = [NSWindow contentRectForFrameRect:[prefsWindow frame]
 					styleMask:[prefsWindow styleMask]];
 
 	frame.origin.y += frame.size.height;
 	frame.origin.y -= newHeight + tbHeight;
-	frame.size.height = newHeight + tbHeight;
 	frame.size.width = newWidth;
+	frame.size.height = newHeight + tbHeight;
 
 	frame = [NSWindow frameRectForContentRect:frame
 					styleMask:[prefsWindow styleMask]];
 
+	// Work out title bar height
+	float titleHeight = [prefsWindow frame].size.height - [[prefsWindow contentView] frame].size.height - tbHeight;
+
 	[prefsWindow setFrame:frame display:YES animate:YES];
+	NSSize minSize = NSMakeSize(newWidth, newHeight + titleHeight);
+	[prefsWindow setMinSize:minSize];
+
+	[prefsWindow setMaxSize:(limitMaxSize ? minSize : NSMakeSize(FLT_MAX, FLT_MAX))];
 }
 
 #pragma mark Toolbar delegates
