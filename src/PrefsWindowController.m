@@ -584,10 +584,11 @@
 	[tmp_action release];
 
 	// Pull parameter out of the right type of UI control
-	NSString *param;
+	NSString *param, *desc = nil;
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSDictionary *sel = [[newActionLimitedOptionsController selectedObjects] lastObject];
 		param = [sel valueForKey:@"option"];
+		desc = [sel valueForKey:@"description"];
 	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
 		NSTextField *tf = (NSTextField *) newActionWindowParameterViewCurrentControl;
 		param = [tf stringValue];
@@ -600,6 +601,8 @@
 	[dict setValue:param forKey:@"parameter"];
 	[dict setValue:[[newActionContext selectedItem] representedObject] forKey:@"context"];
 	[dict setValue:newActionWindowWhen forKey:@"when"];
+	if (desc)
+		[dict setValue:desc forKey:@"description"];
 
 	// Stick it in action collection, and select it
 	[actionsController addObject:dict];
