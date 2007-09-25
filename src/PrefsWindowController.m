@@ -233,6 +233,7 @@
         [prefsToolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
 	[prefsWindow setToolbar:prefsToolbar];
 
+	currentPrefsGroup = nil;
 	[self switchToView:@"General"];
 
 	// Contexts
@@ -290,6 +291,32 @@
 
 #pragma mark Prefs group switching
 
+- (NSMutableDictionary *)groupById:(NSString *)groupId
+{
+	NSEnumerator *en = [prefsGroups objectEnumerator];
+	NSMutableDictionary *group;
+
+	while ((group = [en nextObject])) {
+		if ([[group objectForKey:@"name"] isEqualToString:groupId])
+			return group;
+	}
+
+	return nil;
+}
+
+- (float)toolbarHeight
+{
+	NSRect contentRect;
+
+	contentRect = [NSWindow contentRectForFrameRect:[prefsWindow frame] styleMask:[prefsWindow styleMask]];
+	return (NSHeight(contentRect) - NSHeight([[prefsWindow contentView] frame]));
+}
+
+- (float)titleBarHeight
+{
+	return [prefsWindow frame].size.height - [[prefsWindow contentView] frame].size.height - [self toolbarHeight];
+}
+
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item
 {
 	[self switchToView:[item itemIdentifier]];
@@ -297,13 +324,7 @@
 
 - (void)switchToView:(NSString *)groupId
 {
-	NSEnumerator *en = [prefsGroups objectEnumerator];
-	NSDictionary *group;
-
-	while ((group = [en nextObject])) {
-		if ([[group objectForKey:@"name"] isEqualToString:groupId])
-			break;
-	}
+	NSDictionary *group = [self groupById:groupId];
 	if (!group) {
 		NSLog(@"Bad prefs group '%@' to switch to!", groupId);
 		return;
@@ -311,7 +332,15 @@
 
 	if (currentPrefsView == [group objectForKey:@"view"])
 		return;
-	currentPrefsView = [group objectForKey:@"view"];
+
+	if (currentPrefsGroup) {
+		// Store current size
+		NSMutableDictionary *oldGroup = [self groupById:currentPrefsGroup];
+		NSSize size = [prefsWindow frame].size;
+		size.height -= ([self toolbarHeight] + [self titleBarHeight]);
+		[oldGroup setValue:[NSNumber numberWithFloat:size.width] forKey:@"last_width"];
+		[oldGroup setValue:[NSNumber numberWithFloat:size.height] forKey:@"last_height"];
+	}
 
 	if ([groupId isEqualToString:@"Advanced"]) {
 		logBufferTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 0.5
@@ -327,28 +356,33 @@
 		}
 	}
 
-	NSSize size = NSMakeSize([[group valueForKey:@"min_width"] floatValue],
+	currentPrefsView = [group objectForKey:@"view"];
+
+	NSSize minSize = NSMakeSize([[group valueForKey:@"min_width"] floatValue],
 			       [[group valueForKey:@"min_height"] floatValue]);
+	NSSize size = minSize;
+	if ([group objectForKey:@"last_width"])
+		size = NSMakeSize([[group valueForKey:@"last_width"] floatValue],
+				  [[group valueForKey:@"last_height"] floatValue]);
 	BOOL resizeable = [[group valueForKey:@"resizeable"] boolValue];
 	[prefsWindow setShowsResizeIndicator:resizeable];
 
 	[prefsWindow setContentView:blankPrefsView];
 	[prefsWindow setTitle:[NSString stringWithFormat:@"MarcoPolo - %@", [group objectForKey:@"display_name"]]];
-	[self resizeWindowToSize:size limitMaxSize:!resizeable];
+	[self resizeWindowToSize:size withMinSize:minSize limitMaxSize:!resizeable];
 
 	if ([prefsToolbar respondsToSelector:@selector(setSelectedItemIdentifier:)])
 		[prefsToolbar setSelectedItemIdentifier:groupId];
 	[prefsWindow setContentView:currentPrefsView];
+	[self setValue:groupId forKey:@"currentPrefsGroup"];
 }
 
-- (void)resizeWindowToSize:(NSSize)size limitMaxSize:(BOOL)limitMaxSize
+- (void)resizeWindowToSize:(NSSize)size withMinSize:(NSSize)minSize limitMaxSize:(BOOL)limitMaxSize
 {
-	NSRect frame, contentRect;
+	NSRect frame;
 	float tbHeight, newHeight, newWidth;
 
-	contentRect = [NSWindow contentRectForFrameRect:[prefsWindow frame]
-					      styleMask:[prefsWindow styleMask]];
-	tbHeight = (NSHeight(contentRect) - NSHeight([[prefsWindow contentView] frame]));
+	tbHeight = [self toolbarHeight];
 
 	newWidth = size.width;
 	newHeight = size.height;
@@ -364,11 +398,9 @@
 	frame = [NSWindow frameRectForContentRect:frame
 					styleMask:[prefsWindow styleMask]];
 
-	// Work out title bar height
-	float titleHeight = [prefsWindow frame].size.height - [[prefsWindow contentView] frame].size.height - tbHeight;
-
 	[prefsWindow setFrame:frame display:YES animate:YES];
-	NSSize minSize = NSMakeSize(newWidth, newHeight + titleHeight);
+
+	minSize.height += [self titleBarHeight];
 	[prefsWindow setMinSize:minSize];
 
 	[prefsWindow setMaxSize:(limitMaxSize ? minSize : NSMakeSize(FLT_MAX, FLT_MAX))];

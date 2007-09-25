@@ -10,6 +10,7 @@
 	IBOutlet NSWindow *prefsWindow;
 	IBOutlet NSView *generalPrefsView, *contextsPrefsView, *evidenceSourcesPrefsView,
 			*rulesPrefsView, *actionsPrefsView, *advancedPrefsView;
+	NSString *currentPrefsGroup;
 	NSView *currentPrefsView, *blankPrefsView;
 	NSArray *prefsGroups;
 	NSToolbar *prefsToolbar;
@@ -45,7 +46,7 @@
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item;
 - (void)switchToView:(NSString *)identifier;
-- (void)resizeWindowToSize:(NSSize)size limitMaxSize:(BOOL)limitMaxSize;
+- (void)resizeWindowToSize:(NSSize)size withMinSize:(NSSize)minSize limitMaxSize:(BOOL)limitMaxSize;
 
 // NSToolbar delegates
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)groupId willBeInsertedIntoToolbar:(BOOL)flag;
