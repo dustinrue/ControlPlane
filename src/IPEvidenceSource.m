@@ -186,6 +186,10 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 		if ([comp count] == 2) {
 			addr = [comp objectAtIndex:0];
 			nmask = [comp objectAtIndex:1];
+
+			if (![[ruleComboBox objectValues] containsObject:addr])
+				[ruleComboBox addItemWithObjectValue:addr];
+			[ruleComboBox selectItemWithObjectValue:addr];
 		}
 	}
 	[self setValue:addr forKey:@"ruleIP"];
