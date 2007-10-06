@@ -18,6 +18,13 @@
 
 @implementation FirewallRuleAction
 
+static NSLock *sharedLock = nil;
+
++ (void)initialize
+{
+	sharedLock = [[NSLock alloc] init];
+}
+
 - (BOOL)isEnableRule
 {
 	return ([ruleName characterAtIndex:0] == '+');
@@ -80,6 +87,8 @@
 	BOOL isEnable = [self isEnableRule];
 	NSString *name = [self strippedRuleName];
 
+	[sharedLock lock];
+
 	// Locate the firewall preferences dictionary
 	CFDictionaryRef dict = (CFDictionaryRef) CFPreferencesCopyAppValue(CFSTR("firewall"), CFSTR("com.apple.sharing.firewall"));
 
@@ -91,7 +100,8 @@
 	CFMutableDictionaryRef val = (CFMutableDictionaryRef) CFDictionaryGetValue(newDict, name);
 
 	if (!val) {
-		*errorString = NSLocalizedString(@"Couldn't find requested firewall rule!", @"In FirewallRuleAction" );
+		*errorString = NSLocalizedString(@"Couldn't find requested firewall rule!", @"In FirewallRuleAction");
+		[sharedLock unlock];
 		return NO;
 	}
 
@@ -114,6 +124,8 @@
 	NSDictionary *errorDict;
 	NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:script] autorelease];
 	NSAppleEventDescriptor *returnDescriptor = [appleScript executeAndReturnError:&errorDict];
+
+	[sharedLock unlock];
 
 	if (!returnDescriptor) {
 		*errorString = NSLocalizedString(@"Couldn't restart firewall with new configuration!",
