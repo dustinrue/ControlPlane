@@ -95,13 +95,13 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	}
 	rc = (*iface)->QueryInterface(iface, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID),
 				      (LPVOID) &dev);
-	(*iface)->Release(iface);
 	if (rc || !dev) {
 		NSLog(@"USB >> Oops #2! (rc=%08x)", rc);
 		ret = FALSE;
 		goto cleanup;
 		//return FALSE;
 	}
+	(*iface)->Release(iface);
 
 	// Get USB vendor ID and product ID
 	(*dev)->GetDeviceVendor(dev, vendor_id);
