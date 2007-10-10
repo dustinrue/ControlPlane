@@ -566,6 +566,12 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if ([info draggingSource] != outlineView)
 		return NSDragOperationNone;
 
+	// Don't allow dropping on a child context
+	Context *moving = [contexts objectForKey:[[info draggingPasteboard] stringForType:MovedRowsType]];
+	Context *drop_on = (Context *) item;
+	if (drop_on && [[self walkToRoot:[drop_on uuid]] containsObject:moving])
+		return NSDragOperationNone;
+
 	return NSDragOperationMove;
 }
 
