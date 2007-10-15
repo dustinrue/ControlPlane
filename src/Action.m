@@ -154,6 +154,7 @@
 #import "MuteAction.h"
 #import "NetworkLocationAction.h"
 #import "OpenAction.h"
+#import "QuitApplicationAction.h"
 #import "ScreenSaverPasswordAction.h"
 #import "ScreenSaverTimeAction.h"
 #import "ShellScriptAction.h"
@@ -178,6 +179,7 @@
 		[MuteAction class],
 		[NetworkLocationAction class],
 		[OpenAction class],
+		[QuitApplicationAction class],
 		[ScreenSaverPasswordAction class],
 		[ScreenSaverTimeAction class],
 		[ShellScriptAction class],
@@ -196,6 +198,7 @@
 		NSLocalizedString(@"Mute", @"Action type");
 		NSLocalizedString(@"NetworkLocation", @"Action type");
 		NSLocalizedString(@"Open", @"Action type");
+		NSLocalizedString(@"QuitApplication", @"Action type");
 		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
 		NSLocalizedString(@"ScreenSaverTime", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
