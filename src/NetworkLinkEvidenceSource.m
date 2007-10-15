@@ -19,7 +19,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 #endif
 	NetworkLinkEvidenceSource *src = (NetworkLinkEvidenceSource *) info;
 
-	// This is spun off into a separate thread because DNS delays, etc., would
+	// This is spun off into a separate thread because any delays would
 	// hold up the main thread, causing UI hanging.
 	[NSThread detachNewThreadSelector:@selector(doFullUpdate:)
 				 toTarget:src
@@ -64,21 +64,21 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 
 	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
 		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
-		if ([@"en" isEqualToString:[name substringToIndex:2]]) {
-			NSString *opt;
-			CFStringRef key = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("State:/Network/Interface/%@/Link"), name);
-			CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, key);
-			if (!current)
-				continue;
-			if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
-				opt = [NSString stringWithFormat:@"+%@", name];
-			else
-				opt = [NSString stringWithFormat:@"-%@", name];
-			CFRelease(current);
+		NSString *opt;
+		CFStringRef key = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("State:/Network/Interface/%@/Link"), name);
+		CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, key);
+		if (!current) {
 			CFRelease(key);
-
-			[subset addObject:opt];
+			continue;
 		}
+		if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
+			opt = [NSString stringWithFormat:@"+%@", name];
+		else
+			opt = [NSString stringWithFormat:@"-%@", name];
+		CFRelease(current);
+		CFRelease(key);
+
+		[subset addObject:opt];
 	}
 
 	[all release];
@@ -117,10 +117,9 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	NSMutableArray *monInters = [NSMutableArray arrayWithCapacity:0];
 
 	SCNetworkInterfaceRef inter;
-	while (inter = (SCNetworkInterfaceRef)[e nextObject]) {
+	while (inter = (SCNetworkInterfaceRef) [e nextObject]) {
 		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
-		if ([[name substringToIndex:2] isEqualToString:@"en"])
-			[monInters addObject:[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name]];
+		[monInters addObject:[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name]];
 	}
 
 	store = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), linkChange, &ctxt);
@@ -197,24 +196,30 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	SCNetworkInterfaceRef inter;
 	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
 		NSString *dev = (NSString *) SCNetworkInterfaceGetBSDName(inter);
+		if (!dev)
+			continue;
 		NSString *name = (NSString *) SCNetworkInterfaceGetLocalizedDisplayName(inter);
-		if ([[dev substringToIndex:2] isEqualToString:@"en"]) {
-			NSString *activeDesc = [NSString stringWithFormat:
-				NSLocalizedString(@"%@ (%@) link active", @"In NetworkLinkEvidenceSource"), dev, name];
-			NSString *inactiveDesc = [NSString stringWithFormat:
-				NSLocalizedString(@"%@ (%@) link inactive", @"In NetworkLinkEvidenceSource"), dev, name];
-			NSString *activeParam = [NSString stringWithFormat:@"+%@", dev];
-			NSString *inactiveParam = [NSString stringWithFormat:@"-%@", dev];
+		if (!name)
+			name = [NSString stringWithFormat:@"%@?", dev];
+		NSString *activeDesc = [NSString stringWithFormat:
+			NSLocalizedString(@"%@ (%@) link active", @"In NetworkLinkEvidenceSource"), dev, name];
+		NSString *inactiveDesc = [NSString stringWithFormat:
+			NSLocalizedString(@"%@ (%@) link inactive", @"In NetworkLinkEvidenceSource"), dev, name];
+		NSString *activeParam = [NSString stringWithFormat:@"+%@", dev];
+		NSString *inactiveParam = [NSString stringWithFormat:@"-%@", dev];
 
-			[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-				@"NetworkLink", @"type",
-				activeParam, @"parameter",
-				activeDesc, @"description", nil]];
-			[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-				@"NetworkLink", @"type",
-				inactiveParam, @"parameter",
-				inactiveDesc, @"description", nil]];
-		}
+		// Don't include interfaces that we couldn't enumerate
+		if (![interfaces containsObject:activeParam] && ![interfaces containsObject:inactiveParam])
+			continue;
+
+		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			@"NetworkLink", @"type",
+			activeParam, @"parameter",
+			activeDesc, @"description", nil]];
+		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			@"NetworkLink", @"type",
+			inactiveParam, @"parameter",
+			inactiveDesc, @"description", nil]];
 	}
 
 	return arr;
