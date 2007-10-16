@@ -1109,7 +1109,7 @@
 00-04-53   	YottaYotta, Inc.
 00-04-54   	Quadriga UK
 00-04-55   	ANTARA.net
-00-04-56   	PipingHot Networks
+00-04-56   	Motorola PTP Inc
 00-04-57   	Universal Access Technology, Inc.
 00-04-58   	Fusion X Co., Ltd.
 00-04-59   	Veristar Corporation
@@ -2024,7 +2024,7 @@
 00-07-ED   	Altera Corporation
 00-07-EE   	telco Informationssysteme GmbH
 00-07-EF   	Lockheed Martin Tactical Systems
-00-07-F0   	LogiSync Corporation
+00-07-F0   	Beckett LogiSync LLC
 00-07-F1   	TeraBurst Networks Inc.
 00-07-F2   	IOA Corporation
 00-07-F3   	Thinkengine Networks
@@ -2738,7 +2738,7 @@
 00-0A-D7   	Origin ELECTRIC CO.,LTD.
 00-0A-D8   	IPCserv Technology Corp.
 00-0A-D9   	Sony Ericsson Mobile Communications AB
-00-0A-DA   	PRIVATE
+00-0A-DA   	Vindicator Technologies
 00-0A-DB   	SkyPilot Network, Inc
 00-0A-DC   	RuggedCom Inc.
 00-0A-DD   	InSciTek Microsystems, Inc.
@@ -4122,7 +4122,7 @@
 00-10-3F   	TOLLGRADE COMMUNICATIONS, INC.
 00-10-40   	INTERMEC CORPORATION
 00-10-41   	BRISTOL BABCOCK, INC.
-00-10-42   	AlacriTech
+00-10-42   	Alacritech, Inc.
 00-10-43   	A2 CORPORATION
 00-10-44   	InnoLabs Corporation
 00-10-45   	Nortel Networks
@@ -5122,7 +5122,7 @@
 00-14-28   	Vocollect, Inc
 00-14-29   	V Center Technologies Co., Ltd.
 00-14-2A   	Elitegroup Computer System Co., Ltd
-00-14-2B   	Edata Technologies Inc.
+00-14-2B   	Edata Communication Inc.
 00-14-2C   	Koncept International, Inc.
 00-14-2D   	Toradex AG
 00-14-2E   	77 Elektronika Kft.
@@ -5421,7 +5421,7 @@
 00-15-53   	Cytyc Corporation
 00-15-54   	Atalum Wireless S.A.
 00-15-55   	DFM GmbH
-00-15-56   	SAGEM SA
+00-15-56   	SAGEM COMMUNICATION
 00-15-57   	Olivetti
 00-15-58   	FOXCONN
 00-15-59   	Securaplane Technologies, Inc.
@@ -5627,7 +5627,7 @@
 00-16-21   	Colorado Vnet
 00-16-22   	BBH SYSTEMS GMBH
 00-16-23   	Interval Media
-00-16-24   	PRIVATE
+00-16-24   	Teneros, Inc.
 00-16-25   	Impinj, Inc.
 00-16-26   	Motorola CHS
 00-16-27   	embedded-logic DESIGN AND MORE GmbH
@@ -5743,7 +5743,7 @@
 00-16-95   	AVC Technology Limited
 00-16-96   	QDI Technology (H.K.) Limited
 00-16-97   	NEC Corporation
-00-16-98   	T&A Mobile Phones SAS
+00-16-98   	T&A Mobile Phones
 00-16-99   	PRIVATE
 00-16-9A   	Quadrics Ltd
 00-16-9B   	Alstom Transport
@@ -7742,6 +7742,28 @@
 00-1E-64   	Intel Corporate
 00-1E-65   	Intel Corporate
 00-1E-66   	RESOL Elektronische Regelungen GmbH
+00-1E-67   	Intel Corporate
+00-1E-68   	Quanta Computer
+00-1E-69   	Thomson Inc.
+00-1E-6A   	Beijing Bluexon Technology Co.,Ltd
+00-1E-6B   	Scientific Atlanta, A Cisco Company
+00-1E-6C   	Spliced Networks LLC
+00-1E-6D   	IT R&D Center
+00-1E-6E   	Shenzhen First Mile Communications Ltd
+00-1E-6F   	Magna-Power Electronics, Inc.
+00-1E-70   	Cobham Defence Communications Ltd
+00-1E-71   	IgeaCare Systems Inc.
+00-1E-72   	PCS
+00-1E-73   	ZTE CORPORATION
+00-1E-74   	SAGEM COMMUNICATION
+00-1E-75   	LG Electronics
+00-1E-76   	Thermo Fisher Scientific
+00-1E-77   	Air2App
+00-1E-78   	Owitek Technology Ltd.,
+00-1E-79   	Cisco Systems
+00-1E-7A   	Cisco Systems
+00-1E-7B   	R.I.CO. S.r.l.
+00-1E-7C   	Taiwick Limited
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
@@ -8828,7 +8850,7 @@
 00-60-49   	VINA TECHNOLOGIES
 00-60-4A   	SAIC IDEAS GROUP
 00-60-4B   	Safe-com GmbH & Co. KG
-00-60-4C   	SAGEM SA
+00-60-4C   	SAGEM COMMUNICATION
 00-60-4D   	MMC NETWORKS, INC.
 00-60-4E   	CYCLE COMPUTER CORPORATION, INC.
 00-60-4F   	SUZUKI MFG. CO., LTD.

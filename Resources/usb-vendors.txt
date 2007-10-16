@@ -21,6 +21,7 @@
 1068|Innovative Semiconductors, Inc.
 1071|Molex Inc.
 1074|Unisys Corp.
+1080|Advanced Micro Devices
 1085|Lexmark International Inc.
 1088|EIZO NANAO CORPORATION
 1094|NMB Technologies Corporation
@@ -119,6 +120,7 @@
 1424|OMRON Corporation
 1435|Iomega Corporation
 1439|LaCie
+1447|Bose Corporation
 1449|OmniVision Technologies, Inc.
 1452|Apple, Inc.
 1453|Y.C. Cable U.S.A., Inc
@@ -228,7 +230,6 @@
 2278|GEMPLUS
 2288|CardScan Inc.
 2294|Logic 3 International Limited
-2297|Wipro Technologies
 2310|FARADAY Technology Corp.
 2313|Audio-Technica Corp.
 2316|Silicon Motion, Inc. - Taiwan
@@ -238,7 +239,6 @@
 2352|Toshiba Corporation
 2362|Pixart Imaging, Inc.
 2363|Plextor LLC
-2366|J.S.T. Mfg. Co., Ltd.
 2371|HCL Technologies Ltd.
 2385|Kingston Technology Company
 2389|NVIDIA
@@ -410,6 +410,7 @@
 4228|PANTECH CO., LTD.
 4235|Grand-tek Technology Co., Ltd.
 4236|Robert Bosch GmbH
+4267|USI Co., Ltd.
 4270|Princeton Technology Corp.
 4280|DIBCOM
 4292|Silicon Laboratories, Inc.
@@ -455,7 +456,6 @@
 4936|Katsuragawa Electric Co., Ltd.
 4971|STEC
 4976|Swissbit AG
-4982|Vimtron Electronics Co., Ltd.
 5008|TOMTOM B.V.
 5014|Silicon Storage Technology, Inc.
 5041|Cisco-Linksys, LLC
@@ -463,6 +463,7 @@
 5054|Ricoh Printing Systems, Ltd.
 5066|JyeTai Precision Industrial Co., Ltd.
 5071|Wisair Ltd.
+5073|A-Max Technology Macao Commercial Offshore Co. Ltd.
 5075|AzureWave Technologies, Inc.
 5084|ALEREON, INC.
 5085|i.Tech Dynamic Limited
@@ -569,6 +570,7 @@
 6121|DisplayLink (UK) Ltd.
 6127|Lenovo
 6133|K.K. Rocky
+6134|Unicomp, Inc
 6193|Gwo Jinn Industries Co., Ltd.
 6194|Huizhou Shenghua Industrial Co., Ltd.
 6226|TENOR ELECTRONICS CORP.
@@ -724,6 +726,10 @@
 7380|adp corporation
 7381|Firecomms Ltd.
 7382|Antonio Precise Products Manufactory Ltd.
+7390|Telecommunications Technology Association (TTA)
+7391|WonTen Technology Co., Ltd.
+7392|EDIMAX TECHNOLOGY CO., LTD.
+7393|Amphenol KAE
 7867|NuCORE Technology, Inc.
 8256|Hauppauge Computer Works, Inc.
 8888|Motorola MDS
