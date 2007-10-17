@@ -817,7 +817,12 @@ finished_import:
 		}
 		[ctxt setValue:newConfString forKey:@"confidence"];
 	}
-	[contextsDataSource triggerOutlineViewReloadData:nil];
+#if 1
+	// XXX: hackish -- but will be enough until 3.0
+	NSOutlineView *olv = [contextsDataSource valueForKey:@"outlineView"];
+	if (![olv currentEditor])	// don't force data update if we're editing a context name
+#endif
+		[contextsDataSource triggerOutlineViewReloadData:nil];
 
 	//---------------------------------------------------------------
 	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:guessConf]];
