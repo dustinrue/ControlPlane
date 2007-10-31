@@ -43,12 +43,16 @@
 - (void)contextsChanged:(NSNotification *)notification
 {
 	// Update menu
+	NSString *lastUUID = nil;
 	if ([self menu]) {
+		lastUUID = [[self selectedItem] representedObject];
 		[[NSNotificationCenter defaultCenter] removeObserver:self
 								name:nil
 							      object:[self menu]];
 	}
 	[self setMenu:[contextsDataSource hierarchicalMenu]];
+	if (lastUUID)
+		[self selectItemAtIndex:[self indexOfItemWithRepresentedObject:lastUUID]];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 						 selector:@selector(selectionChanged:)
 						     name:NSMenuDidSendActionNotification
