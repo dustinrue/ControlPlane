@@ -24,7 +24,6 @@
 {
 	if (!arg) {
 		[self selectItem:nil];
-		[self setEnabled:NO];
 		return;
 	}
 
@@ -34,7 +33,6 @@
 		NSString *uuid = [item representedObject];
 		if ([uuid isEqualToString:arg]) {
 			[self selectItem:item];
-			[self setEnabled:YES];
 			break;
 		}
 	}
