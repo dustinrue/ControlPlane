@@ -156,6 +156,7 @@
 #import "OpenAction.h"
 #import "QuitApplicationAction.h"
 #import "ScreenSaverPasswordAction.h"
+#import "ScreenSaverStartAction.h"
 #import "ScreenSaverTimeAction.h"
 #import "ShellScriptAction.h"
 #import "ToggleBluetoothAction.h"
@@ -181,6 +182,7 @@
 		[OpenAction class],
 		[QuitApplicationAction class],
 		[ScreenSaverPasswordAction class],
+		[ScreenSaverStartAction class],
 		[ScreenSaverTimeAction class],
 		[ShellScriptAction class],
 		[ToggleBluetoothAction class],
@@ -200,6 +202,7 @@
 		NSLocalizedString(@"Open", @"Action type");
 		NSLocalizedString(@"QuitApplication", @"Action type");
 		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
+		NSLocalizedString(@"ScreenSaverStart", @"Action type");
 		NSLocalizedString(@"ScreenSaverTime", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
