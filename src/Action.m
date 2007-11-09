@@ -6,6 +6,7 @@
 //
 
 #import "Action.h"
+#import "DSLogger.h"
 
 
 @implementation Action
@@ -141,12 +142,35 @@
 	return @"<Sorry, help text coming soon!>";
 }
 
+- (void)executeAppleScriptForReal:(NSString *)script
+{
+	appleScriptResult_ = NO;
+
+	NSAppleScript *as = [[[NSAppleScript alloc] initWithSource:script] autorelease];
+	if (!as) {
+		NSLog(@"AppleScript failed to construct! Script was:\n%@", script);
+		return;
+	}
+	NSDictionary *errorDict;
+	if (![as compileAndReturnError:&errorDict]) {
+		NSLog(@"AppleScript failed to compile! Script was:\n%@\nError dictionary: %@", script, errorDict);
+		return;
+	}
+	NSAppleEventDescriptor *result = [as executeAndReturnError:&errorDict];
+	if (!result) {
+		NSLog(@"AppleScript failed to execute! Script was:\n%@\nError dictionary: %@", script, errorDict);
+		return;
+	}
+	appleScriptResult_ = YES;
+}
+
 - (BOOL)executeAppleScript:(NSString *)script
 {
-	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-	[task waitUntilExit];
-	return ([task terminationStatus] == 0);
+	// NSAppleScript is not thread-safe, so this needs to happen on the main thread. Ick.
+	[self performSelectorOnMainThread:@selector(executeAppleScriptForReal:)
+			       withObject:script
+			    waitUntilDone:YES];
+	return appleScriptResult_;
 }
 
 @end

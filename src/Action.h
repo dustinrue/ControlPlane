@@ -11,6 +11,8 @@
 @interface Action : NSObject {
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
+
+	BOOL appleScriptResult_;
 }
 
 + (NSString *)typeForClass:(Class)klass;
