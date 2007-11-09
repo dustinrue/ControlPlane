@@ -35,6 +35,7 @@
 
 // Helpers
 - (BOOL)executeAppleScript:(NSString *)script;		// returns YES on success, NO on failure
+- (NSArray *)executeAppleScriptReturningListOfStrings:(NSString *)script;
 
 @end
 

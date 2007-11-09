@@ -170,6 +170,32 @@
 	return (appleScriptResult_ ? YES : NO);
 }
 
+- (NSArray *)executeAppleScriptReturningListOfStrings:(NSString *)script
+{
+	if (![self executeAppleScript:script])
+		return nil;
+	if ([appleScriptResult_ descriptorType] != typeAEList)
+		return nil;
+
+	int count = [appleScriptResult_ numberOfItems], i;
+	NSMutableArray *list = [NSMutableArray arrayWithCapacity:count];
+	for (i = 1; i <= count; ++i) {		// Careful -- AppleScript lists are 1-based
+		NSAppleEventDescriptor *elt = [appleScriptResult_ descriptorAtIndex:i];
+		if (!elt) {
+			NSLog(@"Oops -- couldn't get descriptor at index %d", i);
+			continue;
+		}
+		NSString *val = [elt stringValue];
+		if (!val) {
+			NSLog(@"Oops -- couldn't turn descriptor at index %d into string", i);
+			continue;
+		}
+		[list addObject:val];
+	}
+
+	return list;
+}
+
 @end
 
 #pragma mark -
