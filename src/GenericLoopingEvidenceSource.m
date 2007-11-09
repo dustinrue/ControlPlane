@@ -40,6 +40,7 @@
 	}
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	[self setThreadNameFromClassName];
 	[self performSelector:@selector(doUpdate)];
 	[pool release];
 }

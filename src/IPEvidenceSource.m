@@ -90,11 +90,10 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 - (void)doFullUpdate:(id)sender
 {
-	NSArray *addrs;
-
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	[self setThreadNameFromClassName];
 
-	addrs = [[self class] enumerate];
+	NSArray *addrs = [[self class] enumerate];
 #ifdef DEBUG_MODE
 	NSLog(@"%@ >> found %d address(s).", [self class], [addrs count]);
 #endif

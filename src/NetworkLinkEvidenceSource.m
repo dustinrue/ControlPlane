@@ -88,6 +88,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 - (void)doFullUpdate:(id)sender
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	[self setThreadNameFromClassName];
 
 	NSArray *inters = [[self class] enumerate];
 

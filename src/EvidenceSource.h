@@ -30,6 +30,8 @@
 - (void)setDataCollected:(BOOL)collected;
 - (BOOL)isRunning;
 
+- (void)setThreadNameFromClassName;
+
 - (void)setContextMenu:(NSMenu *)menu;
 - (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(NSDictionary *)parameter
 		 callbackObject:(NSObject *)callbackObject selector:(SEL)selector;
