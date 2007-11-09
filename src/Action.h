@@ -12,7 +12,7 @@
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
 
-	BOOL appleScriptResult_;
+	NSAppleEventDescriptor *appleScriptResult_;
 }
 
 + (NSString *)typeForClass:(Class)klass;
@@ -34,7 +34,7 @@
 + (NSString *)creationHelpText;
 
 // Helpers
-- (BOOL)executeAppleScript:(NSString *)script;
+- (BOOL)executeAppleScript:(NSString *)script;		// returns YES on success, NO on failure
 
 @end
 

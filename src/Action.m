@@ -144,7 +144,7 @@
 
 - (void)executeAppleScriptForReal:(NSString *)script
 {
-	appleScriptResult_ = NO;
+	appleScriptResult_ = nil;
 
 	NSAppleScript *as = [[[NSAppleScript alloc] initWithSource:script] autorelease];
 	if (!as) {
@@ -156,12 +156,9 @@
 		NSLog(@"AppleScript failed to compile! Script was:\n%@\nError dictionary: %@", script, errorDict);
 		return;
 	}
-	NSAppleEventDescriptor *result = [as executeAndReturnError:&errorDict];
-	if (!result) {
+	appleScriptResult_ = [as executeAndReturnError:&errorDict];
+	if (!appleScriptResult_)
 		NSLog(@"AppleScript failed to execute! Script was:\n%@\nError dictionary: %@", script, errorDict);
-		return;
-	}
-	appleScriptResult_ = YES;
 }
 
 - (BOOL)executeAppleScript:(NSString *)script
@@ -170,7 +167,7 @@
 	[self performSelectorOnMainThread:@selector(executeAppleScriptForReal:)
 			       withObject:script
 			    waitUntilDone:YES];
-	return appleScriptResult_;
+	return (appleScriptResult_ ? YES : NO);
 }
 
 @end
