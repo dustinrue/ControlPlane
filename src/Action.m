@@ -141,6 +141,14 @@
 	return @"<Sorry, help text coming soon!>";
 }
 
+- (BOOL)executeAppleScript:(NSString *)script
+{
+	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
+	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
+	[task waitUntilExit];
+	return ([task terminationStatus] == 0);
+}
+
 @end
 
 #pragma mark -

@@ -58,11 +58,8 @@
 		@"tell application \"iChat\"\n"
 		"  set status message to \"%@\"\n"
 		"end tell\n", status];
-	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-	[task waitUntilExit];
 
-	if ([task terminationStatus] != 0) {
+	if (![self executeAppleScript:script]) {
 		*errorString = NSLocalizedString(@"Couldn't set iChat status!", @"In IChatAction");
 		return NO;
 	}

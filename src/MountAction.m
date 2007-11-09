@@ -59,11 +59,8 @@
 		"  activate\n"
 		"  mount volume \"%@\"\n"
 		"end tell\n", path];
-	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-	[task waitUntilExit];
 
-	if ([task terminationStatus] != 0) {
+	if (![self executeAppleScript:script]) {
 		*errorString = NSLocalizedString(@"Couldn't mount that volume!", @"In MountAction");
 		return NO;
 	}

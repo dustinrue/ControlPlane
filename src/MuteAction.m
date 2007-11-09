@@ -22,11 +22,9 @@
 {
 	NSString *script = [NSString stringWithFormat:@"set volume %@ output muted",
 				(turnOn ? @"without" : @"with")];
-	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-	[task waitUntilExit];
 
-	// Should never happen
+	// Should never fail
+	[self executeAppleScript:script];
 	//if ([task terminationStatus] != 0) {
 	//	return NO;
 	//}

@@ -31,6 +31,9 @@
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
 
+// Helpers
+- (BOOL)executeAppleScript:(NSString *)script;
+
 @end
 
 @protocol ActionWithLimitedOptions

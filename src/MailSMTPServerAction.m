@@ -63,11 +63,8 @@
 		"    end if\n"
 		"  end repeat\n"
 		"end tell\n", hostname];
-	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-	[task waitUntilExit];
 
-	if ([task terminationStatus] != 0) {
+	if (![self executeAppleScript:script]) {
 		*errorString = NSLocalizedString(@"Couldn't set SMTP server!", @"In MailSMTPServerAction");
 		return NO;
 	}

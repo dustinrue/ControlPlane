@@ -55,11 +55,8 @@
 {
 	// TODO: properly escape application name!
 	NSString *script = [NSString stringWithFormat:@"tell application \"%@\" to quit", application];
-	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-	[task waitUntilExit];
 
-	if ([task terminationStatus] != 0) {
+	if (![self executeAppleScript:script]) {
 		*errorString = NSLocalizedString(@"Couldn't quit application!", @"In QuitApplicationAction");
 		return NO;
 	}

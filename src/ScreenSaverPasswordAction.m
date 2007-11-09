@@ -45,11 +45,7 @@
 			"    set require password to wake to %@\n"
 			"  end tell\n"
 			"end tell\n", (turnOn ? @"true" : @"false")];
-		NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-		NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-		[task waitUntilExit];
-
-		success = ([task terminationStatus] == 0);
+		success = [self executeAppleScript:script];
 	}
 
 	if (!success) {

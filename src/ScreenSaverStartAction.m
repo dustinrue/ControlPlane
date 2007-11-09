@@ -22,11 +22,8 @@
 {
 	NSString *script = [NSString stringWithFormat:@"tell application \"ScreenSaverEngine\" to %@",
 		(turnOn ? @"activate" : @"quit")];
-	NSArray *args = [NSArray arrayWithObjects:@"-e", script, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
-	[task waitUntilExit];
 
-	if ([task terminationStatus] != 0) {
+	if (![self executeAppleScript:script]) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed starting screen saver!", @"");
 		else
