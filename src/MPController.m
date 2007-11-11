@@ -84,6 +84,7 @@
 
 	// Debugging
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"Debug OpenPrefsAtStartup"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"Debug USBParanoia"];
 
 	// Sparkle (TODO: make update time configurable?)
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];

@@ -16,6 +16,7 @@
 	IONotificationPortRef notificationPort;
 	CFRunLoopSourceRef runLoopSource;
 	io_iterator_t addedIterator, removedIterator;
+	BOOL paranoid;
 }
 
 - (id)init;
