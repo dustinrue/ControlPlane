@@ -201,6 +201,7 @@
 #pragma mark -
 
 #import "DefaultPrinterAction.h"
+#import "DesktopBackgroundAction.h"
 #import "FirewallRuleAction.h"
 #import "IChatAction.h"
 #import "MailIMAPServerAction.h"
@@ -227,6 +228,7 @@
 
 	classes = [[NSArray alloc] initWithObjects:
 		[DefaultPrinterAction class],
+		[DesktopBackgroundAction class],
 		[FirewallRuleAction class],
 		[IChatAction class],
 		[MailIMAPServerAction class],
@@ -247,6 +249,7 @@
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
+		NSLocalizedString(@"DesktopBackground", @"Action type");
 		NSLocalizedString(@"FirewallRule", @"Action type");
 		NSLocalizedString(@"IChat", @"Action type");
 		NSLocalizedString(@"MailIMAPServer", @"Action type");
