@@ -5,24 +5,15 @@
 //  Created by David Symonds on 7/11/07.
 //
 
-#include <stdlib.h>
-#include <sys/utsname.h>
 #import "Common.h"
 
 
 BOOL isLeopardOrLater()
 {
-	struct utsname name;
+	long major, minor;
 
-	if (uname(&name) != 0) {
-		NSLog(@"WARNING: uname(3) failed (errno=%d)!", errno);
-		return NO;
-	}
+	if (Gestalt(gestaltSystemVersionMajor, &major) || Gestalt(gestaltSystemVersionMinor, &minor))
+		return NO;	// fallback
 
-	// name.release will be something like "8.10.1" (Tiger), or "9.0.0" (Leopard).
-	// We just check for the first digit.
-	if (strtol(name.release, NULL, 10) >= 9)
-		return YES;
-
-	return NO;
+	return ((major > 10) || (major == 10 && minor >= 5));
 }
