@@ -71,7 +71,7 @@
 
 + (NSString *)creationHelpText
 {
-	return NSLocalizedString(@"Quit application named", @"");
+	return NSLocalizedString(@"Quit application with this name:", @"");
 }
 
 @end
