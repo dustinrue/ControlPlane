@@ -11,7 +11,6 @@
 #import <IOKit/usb/USB.h>
 
 #import "DB.h"
-#import "DSLogger.h"
 #import "USBEvidenceSource.h"
 
 
@@ -135,7 +134,7 @@ cleanup:
 		{ 0x05AC, 0x8501 },		// (Apple) Built-in iSight
 	};
 	if (paranoid && !iterator)
-		DSLog(@"USB devAdded >> passed null io_iterator_t!");
+		NSLog(@"USB devAdded >> passed null io_iterator_t!");
 
 
 	io_service_t device;
@@ -158,7 +157,7 @@ cleanup:
 		UInt16 vendor_id;
 		UInt16 product_id;
 		if (paranoid && !device)
-			DSLog(@"USB devAdded >> hit null io_service_t!");
+			NSLog(@"USB devAdded >> hit null io_service_t!");
 		if (![[self class] usbDetailsForDevice:&device outVendor:&vendor_id outProduct:&product_id]) {
 			NSLog(@"USB >> failed getting details.", cnt);
 			goto end_of_device_handling;
@@ -215,7 +214,7 @@ end_of_device_handling:
 	CFMutableDictionaryRef matchDict = IOServiceMatching(kIOUSBDeviceClassName);
 	kr = IOServiceGetMatchingServices(kIOMasterPortDefault, matchDict, &iterator);
 	if (paranoid && (kr != KERN_SUCCESS))
-		DSLog(@"USB enumerateAll >> IOServiceGetMatchingServices returned %d", kr);
+		NSLog(@"USB enumerateAll >> IOServiceGetMatchingServices returned %d", kr);
 
 	[lock lock];
 	[devices removeAllObjects];
@@ -258,7 +257,7 @@ end_of_device_handling:
 		return;
 
 	paranoid = [[NSUserDefaults standardUserDefaults] boolForKey:@"Debug USBParanoia"];
-	DSLog(@"USB Paranoia enabled.");
+	NSLog(@"USB Paranoia enabled.");
 
 	notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	runLoopSource = IONotificationPortGetRunLoopSource(notificationPort);
