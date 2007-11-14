@@ -5,6 +5,7 @@
 //  Created by Mark Wallis on 18/07/07.
 //
 
+#import "Common.h"
 #import "VPNAction.h"
 #import "SystemConfiguration/SCNetworkConfiguration.h"
 
@@ -70,10 +71,22 @@
 		enabledPrefix = true;
 	NSString *strippedVPNType = [[NSString alloc] initWithString:[vpnType substringFromIndex:1]];
 
-	NSString *script = [NSString stringWithFormat:
+	NSString *script;
+	
+	if (isLeopardOrLater()) {
+	  script = [NSString stringWithFormat:
+		@"tell application \"System Events\"\n"
+		 "  tell current location of network preferences\n"
+		 "    set VPNservice to service \"VPN (%@)\"\n"
+		 "    if exists VPNservice then %@ VPNservice\n"
+		 "  end tell\n"
+		 "end tell", strippedVPNType, (enabledPrefix ? @"connect" : @"disconnect")];
+	} else {
+	  script = [NSString stringWithFormat:
 		@"tell application \"Internet Connect\"\n"
 		 "     %@ configuration (get name of %@ configuration 1)\n"
-		"end tell", (enabledPrefix ? @"connect" : @"disconnect"), strippedVPNType];
+		"end tell", (enabledPrefix ? @"connect" : @"disconnect"), strippedVPNType];	
+	}
 
 	NSDictionary *errorDict;
 	NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:script] autorelease];
