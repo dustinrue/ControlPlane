@@ -203,7 +203,7 @@
 00-00-CA   	ARRIS International
 00-00-CB   	COMPU-SHACK ELECTRONIC GMBH
 00-00-CC   	DENSAN CO., LTD.
-00-00-CD   	Allied Telesyn Research Ltd.
+00-00-CD   	Allied Telesis Labs Ltd
 00-00-CE   	MEGADATA CORP.
 00-00-CF   	HAYES MICROCOMPUTER PRODUCTS
 00-00-D0   	DEVELCON ELECTRONICS LTD.
@@ -853,7 +853,7 @@
 00-03-53   	Mitac, Inc.
 00-03-54   	Fiber Logic Communications
 00-03-55   	TeraBeam Internet Systems
-00-03-56   	Wincor Nixdorf GmbH & Co KG
+00-03-56   	Wincor Nixdorf International GmbH
 00-03-57   	Intervoice-Brite, Inc.
 00-03-58   	Hanyang Digitech Co., Ltd.
 00-03-59   	DigitalSis
@@ -1562,7 +1562,7 @@
 00-06-18   	DigiPower Manufacturing Inc.
 00-06-19   	Connection Technology Systems
 00-06-1A   	Zetari Inc.
-00-06-1B   	Portable Systems, IBM Japan Co, Ltd
+00-06-1B   	Notebook Development Lab.  Lenovo Japan Ltd.
 00-06-1C   	Hoshino Metal Industries, Ltd.
 00-06-1D   	MIP Telecom, Inc.
 00-06-1E   	Maxan Systems
@@ -1655,7 +1655,7 @@
 00-06-75   	Banderacom, Inc.
 00-06-76   	Novra Technologies Inc.
 00-06-77   	SICK AG
-00-06-78   	Marantz Japan, Inc.
+00-06-78   	Marantz Brand Company
 00-06-79   	Konami Corporation
 00-06-7A   	JMP Systems
 00-06-7B   	Toplink C&C Corporation
@@ -2128,7 +2128,7 @@
 00-08-74   	Dell Computer Corp.
 00-08-75   	Acorp Electronics Corp.
 00-08-76   	SDSystem
-00-08-77   	Liebert HIROSS S.p.A.
+00-08-77   	Liebert-Hiross Spa
 00-08-78   	Benchmark Storage Innovations
 00-08-79   	CEM Corporation
 00-08-7A   	Wipotec GmbH
@@ -2539,7 +2539,7 @@
 00-0A-10   	FAST media integrations AG
 00-0A-11   	ExPet Technologies, Inc
 00-0A-12   	Azylex Technology, Inc
-00-0A-13   	Silent Witness
+00-0A-13   	Honeywell Video Systems
 00-0A-14   	TECO a.s.
 00-0A-15   	Silicon Data, Inc
 00-0A-16   	Lassen Research
@@ -4724,7 +4724,7 @@
 00-12-9A   	IRT Electronics Pty Ltd
 00-12-9B   	E2S Electronic Engineering Solutions, S.L.
 00-12-9C   	Yulinet
-00-12-9D   	FIRST INTERNATIONAL COMPUTER DO BRASIL LTDA
+00-12-9D   	First International Computer do Brasil
 00-12-9E   	Surf Communications Inc.
 00-12-9F   	RAE Systems, Inc.
 00-12-A0   	NeoMeridian Sdn Bhd
@@ -5594,7 +5594,7 @@
 00-16-00   	CelleBrite Mobile Synchronization
 00-16-01   	Buffalo Inc.
 00-16-02   	CEYON TECHNOLOGY CO.,LTD.
-00-16-03   	PRIVATE
+00-16-03   	COOLKSKY Co., LTD
 00-16-04   	Sigpro
 00-16-05   	YORKVILLE SOUND INC.
 00-16-06   	Ideal Industries
@@ -6115,7 +6115,7 @@
 00-18-09   	CRESYN
 00-18-0A   	Meraki Networks, Inc.
 00-18-0B   	Brilliant Telecommunications
-00-18-0C   	Optelian Access Networks Corporation
+00-18-0C   	Optelian Access Networks
 00-18-0D   	Terabytes Server Storage Tech Corp
 00-18-0E   	Avega Systems
 00-18-0F   	Nokia Danmark A/S
@@ -6156,7 +6156,7 @@
 00-18-32   	Texas Instruments
 00-18-33   	Texas Instruments
 00-18-34   	Texas Instruments
-00-18-35   	ITC
+00-18-35   	Thoratec / ITC
 00-18-36   	Reliance Electric Limited
 00-18-37   	Universal ABIT Co., Ltd.
 00-18-38   	PanAccess Communications,Inc.
@@ -7324,7 +7324,7 @@
 00-1C-C2   	Part II Research, Inc.
 00-1C-C3   	Pace Micro Technology plc
 00-1C-C4   	Hewlett Packard
-00-1C-C5   	3COM EUROPE
+00-1C-C5   	3COM LTD
 00-1C-C6   	ProStor Systems
 00-1C-C7   	Rembrandt Technologies, LLC d/b/a REMSTREAM
 00-1C-C8   	INDUSTRONIC Industrie-Electronic GmbH & Co. KG
@@ -7764,6 +7764,101 @@
 00-1E-7A   	Cisco Systems
 00-1E-7B   	R.I.CO. S.r.l.
 00-1E-7C   	Taiwick Limited
+00-1E-7D   	Samsung Electronics Co.,Ltd
+00-1E-7E   	Nortel
+00-1E-7F   	CBM of America
+00-1E-80   	Last Mile Ltd.
+00-1E-81   	CNB Technology Inc.
+00-1E-82   	Pliant Technology, Inc.
+00-1E-83   	LAN/MAN Standards Association (LMSC)
+00-1E-84   	Pika Technologies Inc.
+00-1E-85   	Lagotek Corporation
+00-1E-86   	MEL Co.,Ltd.
+00-1E-87   	Realease Limited
+00-1E-88   	ANDOR SYSTEM SUPPORT CO., LTD.
+00-1E-89   	CRFS Limited
+00-1E-8A   	eCopy, Inc
+00-1E-8B   	Hannet Telecom Co., Ltd.
+00-1E-8C   	ASUSTek COMPUTER INC.
+00-1E-8D   	Motorola Mobile Devices
+00-1E-8E   	Hunkeler AG
+00-1E-8F   	CANON INC.
+00-1E-90   	Elitegroup Computer Systems Co
+00-1E-91   	KIMIN Electronic Co., Ltd.
+00-1E-92   	JEULIN S.A.
+00-1E-93   	CiriTech Systems Inc
+00-1E-94   	SUPERCOM TECHNOLOGY CORPORATION
+00-1E-95   	SIGMALINK
+00-1E-96   	Sepura Plc
+00-1E-97   	Medium Link System Technology CO., LTD,
+00-1E-98   	GreenLine Communications
+00-1E-99   	Vantanol Industrial Corporation
+00-1E-9A   	HAMILTON Bonaduz AG
+00-1E-9B   	San-Eisha, Ltd.
+00-1E-9C   	Fidustron INC
+00-1E-9D   	Recall Technologies, Inc.
+00-1E-9E   	ddm hopt + schuler Gmbh + Co. KG
+00-1E-9F   	Visioneering Systems, Inc.
+00-1E-A0   	XLN-t
+00-1E-A1   	Brunata a/s
+00-1E-A2   	Symx Systems, Inc.
+00-1E-A3   	Nokia Danmark A/S
+00-1E-A4   	Nokia Danmark A/S
+00-1E-A5   	ROBOTOUS, Inc.
+00-1E-A6   	Best IT World (India) Pvt. Ltd.
+00-1E-A7   	ActionTec Electronics, Inc
+00-1E-A8   	Datang Mobile Communications Equipment CO.,LTD
+00-1E-A9   	Nintendo Co., Ltd.
+00-1E-AA   	E-Senza Technologies GmbH
+00-1E-AB   	TeleWell Oy
+00-1E-AC   	Armadeus Systems
+00-1E-AD   	Wingtech Group Limited
+00-1E-AE   	Continental Automotive Systems
+00-1E-AF   	Ophir Optronics Ltd
+00-1E-B0   	ImesD Electronica S.L.
+00-1E-B1   	Cryptsoft Pty Ltd
+00-1E-B2   	LG innotek
+00-1E-B3   	Primex Wireless
+00-1E-B4   	UNIFAT TECHNOLOGY LTD.
+00-1E-B5   	Ever Sparkle Technologies Ltd
+00-1E-B6   	TAG Heuer SA
+00-1E-B7   	TBTech, Co., Ltd.
+00-1E-B8   	Fortis, Inc.
+00-1E-B9   	Sing Fai Technology Limited
+00-1E-BA   	High Density Devices AS
+00-1E-BB   	BLUELIGHT TECHNOLOGY INC.
+00-1E-BC   	WINTECH AUTOMATION CO.,LTD.
+00-1E-BD   	Cisco Systems
+00-1E-BE   	Cisco Systems
+00-1E-BF   	Haas Automation Inc.
+00-1E-C0   	PRIVATE
+00-1E-C1   	3COM EUROPE LTD
+00-1E-C2   	Apple, Inc
+00-1E-C3   	Kozio, Inc.
+00-1E-C4   	Celio Corp
+00-1E-C5   	Middle Atlantic Products Inc
+00-1E-C6   	Obvius Holdings LLC
+00-1E-C7   	2Wire
+00-1E-C8   	Rapid Mobile (Pty) Ltd
+00-1E-C9   	Dell Inc
+00-1E-CA   	Nortel
+00-1E-CB   	"RPC "Energoautomatika" Ltd
+00-1E-CC   	CDVI
+00-1E-CD   	KYLAND
+00-1E-CE   	BISA Technologies (Hong Kong) Limited
+00-1E-CF   	PHILIPS ELECTRONICS UK LTD
+00-1E-D0   	CONNEXIUM
+00-1E-D1   	Keyprocessor B.V.
+00-1E-D2   	Ray Shine Video Technology Inc
+00-1E-D3   	Dot Technology Int'l Co., Ltd.
+00-1E-D4   	Doble Engineering Company
+00-1E-D5   	Tekon-Automatics
+00-1E-D6   	Alentec & Orion AB
+00-1E-D7   	H-Stream Wireless, Inc.
+00-1E-D8   	Digital United Inc.
+00-1E-D9   	Mitsubishi Precision Co.,LTd.
+00-1E-DA   	Wesemann Elektrotechniek B.V.
+00-1E-DB   	Giken Trastem Co., Ltd.
 00-20-00   	LEXMARK INTERNATIONAL, INC.
 00-20-01   	DSP SOLUTIONS, INC.
 00-20-02   	SERITECH ENTERPRISE CO., LTD.
@@ -8220,7 +8315,7 @@
 00-30-C4   	Canon Imaging System Technologies, Inc.
 00-30-C5   	CADENCE DESIGN SYSTEMS
 00-30-C6   	CONTROL SOLUTIONS, INC.
-00-30-C7   	MACROMATE CORP.
+00-30-C7   	Macromate Corp.
 00-30-C8   	GAD LINE, LTD.
 00-30-C9   	LuxN, N
 00-30-CA   	Discovery Com
@@ -9195,7 +9290,7 @@
 00-80-A0   	EDISA HEWLETT PACKARD S/A
 00-80-A1   	MICROTEST, INC.
 00-80-A2   	CREATIVE ELECTRONIC SYSTEMS
-00-80-A3   	LANTRONIX
+00-80-A3   	Lantronix
 00-80-A4   	LIBERTY ELECTRONICS
 00-80-A5   	SPEED INTERNATIONAL
 00-80-A6   	REPUBLIC TECHNOLOGY, INC.
