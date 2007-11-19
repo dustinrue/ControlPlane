@@ -16,9 +16,9 @@ Pre-Release Checklist
 ---------------------
 	+ Update USB vendor and OUI databases (see above)
 	+ Check version numbers in Info.plist
+	+ Git tag
 	+ Run ./make_disk_image.sh
 	+ Update appcast.xml
-	+ SVN commit any changes
 	+ Upload *.dmg and appcast.xml
 
 Post-Release Checklist
