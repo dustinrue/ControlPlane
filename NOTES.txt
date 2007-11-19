@@ -12,8 +12,8 @@ To update:
 		| tr -s '\t' \
 		> Resources/oui.txt
 
-Release Checklist
------------------
+Pre-Release Checklist
+---------------------
 	+ Update USB vendor and OUI databases (see above)
 	+ Check version numbers in Info.plist
 	+ Run ./make_disk_image.sh
