@@ -257,7 +257,8 @@ end_of_device_handling:
 		return;
 
 	paranoid = [[NSUserDefaults standardUserDefaults] boolForKey:@"Debug USBParanoia"];
-	NSLog(@"USB Paranoia enabled.");
+	if (paranoid)
+		NSLog(@"USB Paranoia enabled.");
 
 	notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	runLoopSource = IONotificationPortGetRunLoopSource(notificationPort);
