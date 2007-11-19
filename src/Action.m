@@ -217,6 +217,7 @@
 #import "ShellScriptAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
+#import "UnmountAction.h"
 #import "VPNAction.h"
 
 @implementation ActionSetController
@@ -244,6 +245,7 @@
 		[ShellScriptAction class],
 		[ToggleBluetoothAction class],
 		[ToggleWiFiAction class],
+		[UnmountAction class],
 		[VPNAction class],
 			nil];
 	if (NO) {
@@ -265,6 +267,7 @@
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
+		NSLocalizedString(@"Unmount", @"Action type");
 		NSLocalizedString(@"VPN", @"Action type");
 	}
 

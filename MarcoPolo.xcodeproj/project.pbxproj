@@ -94,6 +94,7 @@
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; };
 		8DF7E9C70B7159950005375C /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DF7E9C60B7159950005375C /* usb-vendors.txt */; };
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
+		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -294,6 +295,8 @@
 		8DF7E9C60B7159950005375C /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 		8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QuitApplicationAction.h; path = src/QuitApplicationAction.h; sourceTree = "<group>"; };
 		8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QuitApplicationAction.m; path = src/QuitApplicationAction.m; sourceTree = "<group>"; };
+		8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnmountAction.h; path = src/UnmountAction.h; sourceTree = "<group>"; };
+		8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmountAction.m; path = src/UnmountAction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -516,6 +519,8 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */,
+				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
 				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
 				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
 				8D3C85120CDD8546009DBCD9 /* ScreenSaverStartAction.h */,
@@ -732,6 +737,7 @@
 				8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */,
 				8D1EDA180CE11C8C00202458 /* Common.m in Sources */,
 				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,
+				8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
