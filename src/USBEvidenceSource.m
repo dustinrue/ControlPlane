@@ -60,7 +60,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 
 #pragma mark Utility methods
 
-// Returns a string (set to auto-release), or the vendor_id in hexadecimal.
+// Returns a string, or the vendor_id in hexadecimal.
 + (NSString *)usbVendorById:(UInt16)vendor_id
 {
 	NSDictionary *vendDb = [DB sharedUSBVendorDB];
@@ -84,6 +84,8 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 
 	if (!device)		// extra safety
 		return NO;
+
+	// TODO: this code could do with more rigorous error checking.
 
 	rc = IOCreatePlugInInterfaceForService(*device, kIOUSBDeviceUserClientTypeID,
 					       kIOCFPlugInInterfaceID, &iface, &score);
@@ -227,6 +229,9 @@ end_of_device_handling:
 
 - (void)devRemoved:(io_iterator_t)iterator
 {
+	// When a USB device is removed, we usually don't get its details,
+	// nor can we query those details (since it's removed, duh!). Thus
+	// we do the simplest thing of doing a full rescan.
 	io_service_t device;
 	while ((device = IOIteratorNext(iterator)))
 		IOObjectRelease(device);
