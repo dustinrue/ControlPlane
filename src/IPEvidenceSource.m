@@ -63,9 +63,9 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	NSEnumerator *e = [all objectEnumerator];
 	NSString *ip;
 
-	while (ip = [[e nextObject] lowercaseString]) {
+	while ((ip = [[e nextObject] lowercaseString])) {
 		// Localhost IPs (IPv4/IPv6)
-		if ([ip hasPrefix:@"127.0.0."])		// RFC 33030
+		if ([ip hasPrefix:@"127.0.0."])		// RFC 3330
 			continue;
 		if ([ip isEqualToString:@"::1"])
 			continue;
