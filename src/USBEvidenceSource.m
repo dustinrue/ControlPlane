@@ -82,7 +82,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	IOReturn rc;
 	BOOL ret = TRUE;
 
-	if (!device)		// extra safety
+	if (!device)
 		return NO;
 
 	// TODO: this code could do with more rigorous error checking.
@@ -96,22 +96,21 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 		return FALSE;
 	}
 	rc = (*iface)->QueryInterface(iface, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID),
-				      (LPVOID) &dev);
-	if (rc || !dev) {
+				      (LPVOID *) &dev);
+	if ((rc != kIOReturnSuccess) || !dev) {
 		NSLog(@"USB >> Oops #2! (rc=%08x)", rc);
-		ret = FALSE;
-		goto cleanup;
-		//return FALSE;
+		// This could potentially lead to a small memory leak,
+		// but this error condition rarely (if ever) happens,
+		// and we're getting random crashes in this evidence source.
+		return FALSE;
 	}
-	(*iface)->Release(iface);
 
 	// Get USB vendor ID and product ID
 	(*dev)->GetDeviceVendor(dev, vendor_id);
 	(*dev)->GetDeviceProduct(dev, product_id);
 
-	//(*dev)->Release(*dev);
 
-cleanup:
+	(*iface)->Release(iface);
 	IODestroyPlugInInterface(iface);
 
 	return ret;
