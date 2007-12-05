@@ -48,6 +48,10 @@
 	if (running)
 		return;
 
+	notf = [IOBluetoothDevice registerForConnectNotifications:self
+							 selector:@selector(deviceConnected:device:)];
+	// The above triggers connection notifications for already-connected devices. Sweet.
+
 	if (IOBluetoothPreferenceGetControllerPowerState()) {
 		DSLog(@"starting inq");
 		[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
@@ -75,6 +79,9 @@
 {
 	if (!running)
 		return;
+
+	[notf unregister];
+	notf = nil;
 
 	[cleanupTimer invalidate];	// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
 
@@ -171,14 +178,9 @@
 	return NSLocalizedString(@"The presence of", @"In rule-adding dialog");
 }
 
-//#define INCLUDE_PAIRED_DEVICES
-
 - (NSArray *)getSuggestions
 {
 	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[devices count]];
-#ifdef INCLUDE_PAIRED_DEVICES
-	NSMutableArray *mac_array = [NSMutableArray arrayWithCapacity:[devices count]];
-#endif
 
 	[lock lock];
 	NSEnumerator *en = [devices objectEnumerator];
@@ -196,37 +198,8 @@
 			@"Bluetooth", @"type",
 			[dev valueForKey:@"mac"], @"parameter",
 			desc, @"description", nil]];
-#ifdef INCLUDE_PAIRED_DEVICES
-		[mac_array addObject:[dev valueForKey:@"mac"]];
-#endif
 	}
 	[lock unlock];
-
-#ifdef INCLUDE_PAIRED_DEVICES
-	// Add paired devices manually
-	NSArray *paired_devices = [IOBluetoothDevice pairedDevices];
-	// WARNING: Need to handle [IOBluetoothDevice pairedDevices] brokenness -- it can return nil!
-	if (!paired_devices)
-		paired_devices = [NSArray array];
-
-	en = [paired_devices objectEnumerator];
-	IOBluetoothDevice *device;
-	while ((device = [en nextObject])) {
-		NSString *mac = [[[device getAddressString] copy] autorelease];
-		if ([mac_array containsObject:mac])
-			continue;
-		NSString *name = [[[device getName] copy] autorelease];
-		NSString *vendor = [[self class] vendorByMAC:mac];
-		if (!vendor)
-			vendor = @"?";
-
-		NSString *desc = [NSString stringWithFormat:@"%@ [%@]", name, vendor];
-		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			@"Bluetooth", @"type",
-			mac, @"parameter",
-			desc, @"description", nil]];
-	}
-#endif
 
 	return arr;
 }
@@ -238,6 +211,8 @@
 {
 	[lock lock];
 	NSDate *expires = [NSDate dateWithTimeIntervalSinceNow:EXPIRY_INTERVAL];
+	if (!sender)	// paired device; hang onto it indefinitely
+		expires = [NSDate distantFuture];
 	NSEnumerator *en = [devices objectEnumerator];
 	NSMutableDictionary *dev;
 	while ((dev = [en nextObject])) {
@@ -287,6 +262,36 @@
 	IOReturn rc = [sender start];
 	if (rc != kIOReturnSuccess)
 		DSLog(@"-[inq start] returned 0x%x!", rc);
+}
+
+#pragma mark Paired device notifications
+
+- (void)deviceConnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
+{
+#ifdef DEBUG_MODE
+	NSLog(@"Got notified of '%@' connecting!", [device getName]);
+#endif
+	[device registerForDisconnectNotification:self selector:@selector(deviceDisconnected:device:)];
+	[self deviceInquiryDeviceFound:nil device:device];
+}
+
+- (void)deviceDisconnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
+{
+#ifdef DEBUG_MODE
+	NSLog(@"Got notified of '%@' disconnecting!", [device getName]);
+#endif
+	[lock lock];
+	NSEnumerator *en = [devices objectEnumerator];
+	NSMutableDictionary *dev;
+	unsigned int index = 0;
+	while ((dev = [en nextObject])) {
+		if ([[dev valueForKey:@"mac"] isEqualToString:[device getAddressString]])
+			break;
+		++index;
+	}
+	if (dev)
+		[devices removeObjectAtIndex:index];
+	[lock unlock];
 }
 
 @end

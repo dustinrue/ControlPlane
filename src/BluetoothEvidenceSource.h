@@ -6,6 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <IOBluetooth/objc/IOBluetoothDevice.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
 #import "GenericEvidenceSource.h"
 
@@ -14,6 +15,7 @@
 	NSLock *lock;
 	NSMutableArray *devices;
 	IOBluetoothDeviceInquiry *inq;
+	IOBluetoothUserNotification *notf;
 	NSTimer *holdTimer, *cleanupTimer;
 }
 
