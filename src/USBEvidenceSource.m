@@ -76,44 +76,21 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 // Returns true on success.
 + (BOOL)usbDetailsForDevice:(io_service_t *)device outVendor:(UInt16 *)vendor_id outProduct:(UInt16 *)product_id
 {
-	IOCFPlugInInterface **iface = 0;
-	IOUSBDeviceInterface **dev = 0;
-	SInt32 score;
 	IOReturn rc;
-	BOOL ret = TRUE;
+	NSMutableDictionary *props;
 
-	if (!device)
+	rc = IORegistryEntryCreateCFProperties(*device, (CFMutableDictionaryRef *) &props,
+					       kCFAllocatorDefault, kNilOptions);
+	if ((rc != kIOReturnSuccess) || !props)
 		return NO;
+	*vendor_id = [[props valueForKey:@"idVendor"] intValue];
+	*product_id = [[props valueForKey:@"idProduct"] intValue];
+	[props release];
 
-	// TODO: this code could do with more rigorous error checking.
-
-	rc = IOCreatePlugInInterfaceForService(*device, kIOUSBDeviceUserClientTypeID,
-					       kIOCFPlugInInterfaceID, &iface, &score);
-	if ((rc != kIOReturnSuccess) || !iface) {
-		NSLog(@"USB >> Oops #1! (rc=%08x, score=%08x)", rc, score);
-		NSLog(@"USB >> rc breakdown: err_system=%02x, err_sub=%04x, err_code=%04x",
-		      err_get_system(rc), err_get_sub(rc), err_get_code(rc));
-		return FALSE;
-	}
-	rc = (*iface)->QueryInterface(iface, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID),
-				      (LPVOID *) &dev);
-	if ((rc != kIOReturnSuccess) || !dev) {
-		NSLog(@"USB >> Oops #2! (rc=%08x)", rc);
-		// This could potentially lead to a small memory leak,
-		// but this error condition rarely (if ever) happens,
-		// and we're getting random crashes in this evidence source.
-		return FALSE;
-	}
-
-	// Get USB vendor ID and product ID
-	(*dev)->GetDeviceVendor(dev, vendor_id);
-	(*dev)->GetDeviceProduct(dev, product_id);
-
-
-	(*iface)->Release(iface);
-	IODestroyPlugInInterface(iface);
-
-	return ret;
+#ifdef DEBUG_MODE
+	//NSLog(@"Found info: vendor=%04X, product=%04X", *vendor_id, *product_id);
+#endif
+	return YES;
 }
 
 #pragma mark Internal callbacks
