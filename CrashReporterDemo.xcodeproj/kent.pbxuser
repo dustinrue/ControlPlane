@@ -1,0 +1,147 @@
+// !$*UTF8*$!
+{
+	1D3623240D0F684500981E51 /* CrashReporterDemoAppDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1071, 1092}}";
+			sepNavSelRange = "{3029, 0}";
+			sepNavVisRange = "{1185, 1843}";
+			sepNavWindowFrame = "{{38, 67}, {1118, 785}}";
+		};
+	};
+	1D3623250D0F684500981E51 /* CrashReporterDemoAppDelegate.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {932, 4620}}";
+			sepNavSelRange = "{6119, 0}";
+			sepNavVisRange = "{5975, 418}";
+			sepNavWindowFrame = "{{250, 65}, {1118, 785}}";
+		};
+	};
+	1D6058900D05DD3D006BFB54 /* CrashReporterDemo */ = {
+		activeExec = 0;
+		executables = (
+			37DD8BB4100A151B00461FA4 /* CrashReporterDemo */,
+		);
+	};
+	1E94B4E10F5F2539002D4D2C /* StartupViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1071, 938}}";
+			sepNavSelRange = "{2059, 0}";
+			sepNavVisRange = "{665, 1394}";
+		};
+	};
+	1E94B4E20F5F2539002D4D2C /* StartupViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1398, 7392}}";
+			sepNavSelRange = "{10432, 0}";
+			sepNavVisRange = "{9722, 1921}";
+			sepNavWindowFrame = "{{256, 81}, {1118, 785}}";
+		};
+	};
+	1E94B4F70F5F25BD002D4D2C /* HudView.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1071, 713}}";
+			sepNavSelRange = "{1224, 0}";
+			sepNavVisRange = "{0, 1290}";
+			sepNavWindowFrame = "{{15, 88}, {1118, 785}}";
+		};
+	};
+	1E94B4F80F5F25BD002D4D2C /* HudView.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1071, 1064}}";
+			sepNavSelRange = "{1055, 0}";
+			sepNavVisRange = "{1185, 1340}";
+			sepNavWindowFrame = "{{38, 67}, {1118, 785}}";
+		};
+	};
+	28D7ACF60DDB3853001CB0EB /* CrashReporterDemoViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1071, 713}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1614}";
+		};
+	};
+	28D7ACF70DDB3853001CB0EB /* CrashReporterDemoViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1071, 1064}}";
+			sepNavSelRange = "{2087, 0}";
+			sepNavVisRange = "{1120, 1229}";
+			sepNavWindowFrame = "{{15, 88}, {1118, 785}}";
+		};
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 37DD8BB4100A151B00461FA4 /* CrashReporterDemo */;
+		activeSDKPreference = iphonesimulator3.0;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* CrashReporterDemo */;
+		addToTargets = (
+			1D6058900D05DD3D006BFB54 /* CrashReporterDemo */,
+		);
+		breakpoints = (
+		);
+		codeSenseManager = 37DD8BBA100A154600461FA4 /* Code sense */;
+		executables = (
+			37DD8BB4100A151B00461FA4 /* CrashReporterDemo */,
+		);
+		perUserDictionary = {
+			PBXPerProjectTemplateStateSaveDate = 269105563;
+			PBXWorkspaceStateSaveDate = 269105563;
+		};
+		sourceControlManager = 37DD8BB9100A154600461FA4 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	37DD8BB4100A151B00461FA4 /* CrashReporterDemo */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = CrashReporterDemo;
+		savedGlobals = {
+		};
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	37DD8BB9100A154600461FA4 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+	};
+	37DD8BBA100A154600461FA4 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	37DD8C26100A48C100461FA4 /* CrashReportSender.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1071, 713}}";
+			sepNavSelRange = "{517, 0}";
+			sepNavVisRange = "{0, 680}";
+		};
+	};
+	37DD8C27100A48C100461FA4 /* CrashReportSender.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1506, 5250}}";
+			sepNavSelRange = "{5368, 0}";
+			sepNavVisRange = "{4384, 1626}";
+			sepNavWindowFrame = "{{15, 88}, {1118, 785}}";
+		};
+	};
+}
