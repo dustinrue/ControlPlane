@@ -34,7 +34,7 @@ define("VERSION_STATUS_ASSIGNED", 1);   // bug will get fixed in a defined versi
 define("VERSION_STATUS_SUBMITTED", 2);	// bug is fixed in a defined version, and the version has been submitted to the publisher
 define("VERSION_STATUS_AVAILABLE", 3);	// bug is fixed in a defined version, and the version is available for the customer
 
-define("RESULT_FAILURE", 1);            // resultcode if sending crash log ended in failure
+define("RESULT_FAILURE", -1);           // resultcode if sending crash log ended in failure
 
 $statusversions = array(0 => 'Unknown', 1 => 'In development', 2 => 'Submitted', 3 => 'Available');
 
