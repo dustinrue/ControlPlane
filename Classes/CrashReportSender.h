@@ -30,6 +30,12 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *AutomaticallySendCrashReports;
+extern NSString *CrashReportActivated;
+
+typedef enum CrashAlertType {
+	CrashAlertTypeSend = 0,
+	CrashAlertTypeFeedback = 1,
+} CrashAlertType;
 
 typedef enum CrashReportStatus {
 	CrashReportStatusFailure = -1,
@@ -45,8 +51,14 @@ typedef enum CrashReportStatus {
 	NSMutableString *_contentOfProperty;
 	CrashReportStatus _serverResult;
 	
+	BOOL _crashReportActivated;
+	BOOL _crashReportFeedbackActivated;
+	
 	int _crashReportAnalyzerStarted;
 	NSString *_crashesDir;
+	
+	int _amountCrashes;
+	BOOL _crashIdenticalCurrentVersion;
 	
 	NSMutableArray *_crashFiles;
 	
@@ -59,6 +71,6 @@ typedef enum CrashReportStatus {
 
 - (BOOL)hasPendingCrashReport;
 
-- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL;
+- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL activateFeedback:(BOOL)activateFeedback;
 
 @end

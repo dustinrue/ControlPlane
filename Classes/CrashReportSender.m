@@ -33,13 +33,16 @@
 
 #define USER_AGENT @"CrashReportSender/1.0"
 
-NSString *kCrashReportAnalyzerStarted = @"CrashReportAnalyzerStarted";		// flags if the crashlog analyzer is started. since this may crash we need to track it
-
+NSString *kCrashReportAnalyzerStarted = @"CrashReportAnalyzerStarted";			// flags if the crashlog analyzer is started. since this may crash we need to track it
+NSString *kCrashReportActivated = @"CrashReportActivated";						// flags if the crashreporter is activated at all
 NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 
 @interface CrashReportSender ()
 
+- (void)showCrashStatusMessage;
+
 - (void)handleCrashReport;
+- (void)_cleanCrashReports;
 - (void)_sendCrashReports;
 
 - (NSString *)_crashLogStringForReport:(PLCrashReport *)report;
@@ -67,38 +70,56 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 
 	if ( self != nil)
 	{
+		_serverResult = -1;
+		_amountCrashes = 0;
+		_crashIdenticalCurrentVersion = YES;
+		_crashReportFeedbackActivated = NO;
+		
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kCrashReportAnalyzerStarted];
 		if (testValue == nil)
 		{
 			_crashReportAnalyzerStarted = 0;		
 		} else {
-			_crashReportAnalyzerStarted = [[NSNumber numberWithInt:[[NSUserDefaults standardUserDefaults] integerForKey:kCrashReportAnalyzerStarted]] intValue];
+			_crashReportAnalyzerStarted = [[NSUserDefaults standardUserDefaults] integerForKey:kCrashReportAnalyzerStarted];
 		}
 		
-		_crashFiles = [[NSMutableArray alloc] init];
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-		_crashesDir = [[NSString stringWithFormat:@"%@", [[paths objectAtIndex:0] stringByAppendingPathComponent:@"/crashes/"]] retain];
-
-		NSFileManager *fm = [NSFileManager defaultManager];
-		
-		if (![fm fileExistsAtPath:_crashesDir])
+		testValue = nil;
+		testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kCrashReportActivated];
+		if (testValue == nil)
 		{
-			NSDictionary *attributes = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedLong: 0755] forKey: NSFilePosixPermissions];
-			NSError *theError = NULL;
-			
-			[fm createDirectoryAtPath:_crashesDir withIntermediateDirectories: YES attributes: attributes error: &theError];
+			_crashReportActivated = YES;
+			[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:kCrashReportActivated];
+		} else {
+			_crashReportActivated = [[NSUserDefaults standardUserDefaults] boolForKey:kCrashReportActivated];
 		}
 		
-		PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-		NSError *error;
+		if (_crashReportActivated)
+		{
+			_crashFiles = [[NSMutableArray alloc] init];
+			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+			_crashesDir = [[NSString stringWithFormat:@"%@", [[paths objectAtIndex:0] stringByAppendingPathComponent:@"/crashes/"]] retain];
 
-		// Check if we previously crashed
-		if ([crashReporter hasPendingCrashReport])
-			[self handleCrashReport];
+			NSFileManager *fm = [NSFileManager defaultManager];
+			
+			if (![fm fileExistsAtPath:_crashesDir])
+			{
+				NSDictionary *attributes = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedLong: 0755] forKey: NSFilePosixPermissions];
+				NSError *theError = NULL;
+				
+				[fm createDirectoryAtPath:_crashesDir withIntermediateDirectories: YES attributes: attributes error: &theError];
+			}
+			
+			PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+			NSError *error;
 
-		// Enable the Crash Reporter
-		if (![crashReporter enableCrashReporterAndReturnError: &error])
-			NSLog(@"Warning: Could not enable crash reporter: %@", error);
+			// Check if we previously crashed
+			if ([crashReporter hasPendingCrashReport])
+				[self handleCrashReport];
+
+			// Enable the Crash Reporter
+			if (![crashReporter enableCrashReporterAndReturnError: &error])
+				NSLog(@"Warning: Could not enable crash reporter: %@", error);
+		}
 	}
 	return self;
 }
@@ -119,36 +140,43 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 
 - (BOOL)hasPendingCrashReport
 {
-//	return [[PLCrashReporter sharedReporter] hasPendingCrashReport];
-
-	NSFileManager *fm = [NSFileManager defaultManager];
-	
-	if ([_crashFiles count] == 0 && [fm fileExistsAtPath:_crashesDir])
+	if (_crashReportActivated)
 	{
-		NSString *file;
-
-		NSDirectoryEnumerator *dirEnum = [fm enumeratorAtPath: _crashesDir];
+		NSFileManager *fm = [NSFileManager defaultManager];
 		
-		while (file = [dirEnum nextObject])
+		if ([_crashFiles count] == 0 && [fm fileExistsAtPath:_crashesDir])
 		{
-			NSDictionary *fileAttributes = [fm fileAttributesAtPath:[_crashesDir stringByAppendingPathComponent:file] traverseLink:YES];
-			if ([[fileAttributes objectForKey:NSFileSize] intValue] > 0)
+			NSString *file;
+
+			NSDirectoryEnumerator *dirEnum = [fm enumeratorAtPath: _crashesDir];
+			
+			while (file = [dirEnum nextObject])
 			{
-				[_crashFiles addObject:file];
+				NSDictionary *fileAttributes = [fm fileAttributesAtPath:[_crashesDir stringByAppendingPathComponent:file] traverseLink:YES];
+				if ([[fileAttributes objectForKey:NSFileSize] intValue] > 0)
+				{
+					[_crashFiles addObject:file];
+				}
 			}
 		}
-	}
-	
-	if ([_crashFiles count] > 0)
-		return YES;
-	else
+		
+		if ([_crashFiles count] > 0)
+		{
+			_amountCrashes = [_crashFiles count];
+			return YES;
+		}
+		else
+			return NO;
+	} else
 		return NO;
 }
 
-- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL
+- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL activateFeedback:(BOOL)activateFeedback
 {
 	[_submissionURL autorelease];
 	_submissionURL = [submissionURL copy];
+	
+	_crashReportFeedbackActivated = activateFeedback;
 	
 	if (_submitTimer == nil) {
 		_submitTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(attemptCrashReportSubmission) userInfo:nil repeats:NO];
@@ -166,7 +194,8 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 															   delegate:self
 													  cancelButtonTitle:NSLocalizedString(@"No", @"")
 													  otherButtonTitles:NSLocalizedString(@"Yes", @""), NSLocalizedString(@"Always", @""), nil];
-			
+
+			[alertView setTag: CrashAlertTypeSend];
 			[alertView show];
 			[alertView release];
 		} else {
@@ -175,22 +204,73 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 	}
 }
 
+
+- (void) showCrashStatusMessage
+{
+	UIAlertView *alertView;
+	
+	_amountCrashes--;
+	if (_crashReportFeedbackActivated && _amountCrashes == 0 && _serverResult >= CrashReportStatusAssigned && _crashIdenticalCurrentVersion)
+	{
+		// show some feedback to the user about the crash status
+		
+		switch (_serverResult) {
+			case CrashReportStatusAssigned:
+				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CrashResponseTitle", @"Title for the alertview giving feedback about the crash")
+													   message: NSLocalizedString(@"CrashResponseNextRelease", @"Full text telling the bug is fixed and will be available in an upcoming release")
+													  delegate: self
+											 cancelButtonTitle: NSLocalizedString(@"Ok", @"")
+											 otherButtonTitles: nil];
+				break;
+			case CrashReportStatusSubmitted:
+				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CrashResponseTitle", @"Title for the alertview giving feedback about the crash")
+													   message: NSLocalizedString(@"CrashResponseWaitingApple", @"Full text telling the bug is fixed and the new release is waiting at Apple for approval")
+													  delegate: self
+											 cancelButtonTitle: NSLocalizedString(@"Ok", @"")
+											 otherButtonTitles: nil];
+				break;
+			case CrashReportStatusAvailable:
+				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CrashResponseTitle", @"Title for the alertview giving feedback about the crash")
+													   message: NSLocalizedString(@"CrashResponseAvailable", @"Full text telling the bug is fixed and an update is available in the AppStore for download")
+													  delegate: self
+											 cancelButtonTitle: NSLocalizedString(@"Ok", @"")
+											 otherButtonTitles: nil];
+				break;
+			default:
+				alertView = nil;
+				break;
+		}
+		
+		if (alertView != nil)
+		{
+			[alertView setTag: CrashAlertTypeFeedback];
+			[alertView show];
+			[alertView release];
+		}
+	}
+}
+
+
 #pragma mark -
 #pragma mark UIAlertView Delegate
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	switch (buttonIndex) {
-		case 0:
-			break;
-		case 1:
-			[self _sendCrashReports];
-			break;
-		case 2:
-			[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kAutomaticallySendCrashReports];
-			
-			[self _sendCrashReports];
-			break;
+	if ([alertView tag] == CrashAlertTypeSend)
+	{
+		switch (buttonIndex) {
+			case 0:
+				[self _cleanCrashReports];
+				break;
+			case 1:
+				[self _sendCrashReports];
+				break;
+			case 2:
+				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kAutomaticallySendCrashReports];
+				
+				[self _sendCrashReports];
+				break;
+		}
 	}
 }
 
@@ -239,7 +319,9 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 	}
 	
 	if ([elementName isEqualToString:@"result"]) {
-		_serverResult = [_contentOfProperty intValue];
+		if ([_contentOfProperty intValue] > _serverResult) {
+			_serverResult = [_contentOfProperty intValue];
+		}
 	}
 }
 
@@ -260,12 +342,23 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 #pragma mark -
 #pragma mark Private
 
-- (void)_sendCrashReports
+- (void)_cleanCrashReports
 {
 	NSError *error;
 	
 	NSFileManager *fm = [NSFileManager defaultManager];
 	
+	for (int i=0; i < [_crashFiles count]; i++)
+	{		
+		[fm removeItemAtPath:[_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]] error:&error];
+	}
+	[_crashFiles removeAllObjects];	
+}
+
+- (void)_sendCrashReports
+{
+	NSError *error;
+		
 	for (int i=0; i < [_crashFiles count]; i++)
 	{
 		NSString *filename = [_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]];
@@ -277,6 +370,11 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 			
 			NSString *crashLogString = [self _crashLogStringForReport:report];
 			
+			if ([report.applicationInfo.applicationVersion compare:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] != NSOrderedSame)
+			{
+				_crashIdenticalCurrentVersion = NO;
+			}
+			
 			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid></userid><contact></contact><description></description><log><![CDATA[%@]]></log></crash>",
 							 [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
 							 report.applicationInfo.applicationIdentifier,
@@ -287,11 +385,11 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 			
 			[self _postXML:xml toURL:_submissionURL];
 		}
-		[fm removeItemAtPath:[_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]] error:&error];
 	}
 	
-	[_crashFiles removeAllObjects];	
+	[self _cleanCrashReports];
 }
+
 
 - (NSString *)_crashLogStringForReport:(PLCrashReport *)report
 {
@@ -403,11 +501,7 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 					 [imageInfo.imageName UTF8String]];
 	}
 	
-finish:
-	if ([xmlString length] == 0) {
-		xmlString = @"Memory Warning!";
-	}
-	
+finish:	
 	return xmlString;
 }
 
@@ -458,6 +552,8 @@ finish:
 	[_responseData release];
 	_responseData = nil;
 	[connection autorelease];
+	
+	[self showCrashStatusMessage];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -480,6 +576,8 @@ finish:
 	[_responseData release];
 	_responseData = nil;
 	[connection autorelease];
+
+	[self showCrashStatusMessage];
 }
 
 #pragma mark PLCrashReporter
@@ -538,7 +636,8 @@ finish:
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [[_submissionURL host] UTF8String]);
 	BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);
 	
-	CFRelease(reachability);
+	if (reachability != nil)
+		CFRelease(reachability);
 	
 	return gotFlags && flags & kSCNetworkReachabilityFlagsReachable && (flags & kSCNetworkReachabilityFlagsIsWWAN || !(flags & kSCNetworkReachabilityFlagsConnectionRequired));
 }

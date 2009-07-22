@@ -12,6 +12,22 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>SettingsActivateCrashReporter</string>
+			<key>Key</key>
+			<string>CrashReportActivated</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>SettingsActivateCrashReporterDescription</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>SettingsAutoSendCrash</string>
 			<key>Key</key>
 			<string>AutomaticallySendCrashReports</string>

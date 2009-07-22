@@ -47,7 +47,7 @@
 	[window makeKeyAndVisible];
   
   if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport]) {
-		[[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL];
+	  [[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL activateFeedback:YES];
 	}  
 }
 
