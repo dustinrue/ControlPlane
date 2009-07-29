@@ -45,6 +45,20 @@ typedef enum CrashReportStatus {
 	CrashReportStatusAvailable = 3,
 } CrashReportStatus;
 
+// This protocol is used to send the image updates
+@protocol CrashReportSenderDelegate <NSObject>
+
+@optional
+
+-(NSString *) crashReportUserID;					// Return the userid the crashreport should contain, empty by default
+-(NSString *) crashReportContact;					// Return the contact value (e.g. email) the crashreport should contain, empty by default
+-(NSString *) crashReportDescription;				// Return the description the crashreport should contain, empty by default
+
+-(void) connectionOpened;							// Invoked when the internet connection is started, to let the app enable the activity indicator
+-(void) connectionClosed;							// Invoked when the internet connection is closed, to let the app disable the activity indicator
+
+@end
+
 @interface CrashReportSender : NSObject {
 	NSTimer *_submitTimer;
 	
@@ -60,6 +74,8 @@ typedef enum CrashReportStatus {
 	int _amountCrashes;
 	BOOL _crashIdenticalCurrentVersion;
 	
+	id _delegate;
+	
 	NSMutableArray *_crashFiles;
 	
 	NSURL *_submissionURL;
@@ -71,6 +87,6 @@ typedef enum CrashReportStatus {
 
 - (BOOL)hasPendingCrashReport;
 
-- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL activateFeedback:(BOOL)activateFeedback;
+- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback;
 
 @end

@@ -35,7 +35,7 @@
 
 NSString *kCrashReportAnalyzerStarted = @"CrashReportAnalyzerStarted";			// flags if the crashlog analyzer is started. since this may crash we need to track it
 NSString *kCrashReportActivated = @"CrashReportActivated";						// flags if the crashreporter is activated at all
-NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
+NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";	// flags if the crashreporter should automatically send crashes without asking the user again
 
 @interface CrashReportSender ()
 
@@ -74,6 +74,7 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 		_amountCrashes = 0;
 		_crashIdenticalCurrentVersion = YES;
 		_crashReportFeedbackActivated = NO;
+		_delegate = nil;
 		
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kCrashReportAnalyzerStarted];
 		if (testValue == nil)
@@ -171,12 +172,13 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 		return NO;
 }
 
-- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL activateFeedback:(BOOL)activateFeedback
+- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback
 {
 	[_submissionURL autorelease];
 	_submissionURL = [submissionURL copy];
 	
 	_crashReportFeedbackActivated = activateFeedback;
+	_delegate = delegate;
 	
 	if (_submitTimer == nil) {
 		_submitTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(attemptCrashReportSubmission) userInfo:nil repeats:NO];
@@ -359,6 +361,26 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 {
 	NSError *error;
 		
+	NSString *userid = @"";
+	NSString *contact = @"";
+	NSString *description = @"";
+	
+	if (_delegate != nil && [_delegate respondsToSelector:@selector(crashReportUserID)])
+	{
+		userid = [_delegate crashReportUserID];
+	}
+
+	if (_delegate != nil && [_delegate respondsToSelector:@selector(crashReportContact)])
+	{
+		contact = [_delegate crashReportContact];
+	}
+
+	if (_delegate != nil && [_delegate respondsToSelector:@selector(crashReportDescription)])
+	{
+		description = [_delegate crashReportDescription];
+	}
+	
+
 	for (int i=0; i < [_crashFiles count]; i++)
 	{
 		NSString *filename = [_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]];
@@ -375,12 +397,15 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";
 				_crashIdenticalCurrentVersion = NO;
 			}
 			
-			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid></userid><contact></contact><description></description><log><![CDATA[%@]]></log></crash>",
+			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description>%@</description><log><![CDATA[%@]]></log></crash>",
 							 [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
 							 report.applicationInfo.applicationIdentifier,
 							 [[UIDevice currentDevice] systemVersion],
 							 [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
 							 report.applicationInfo.applicationVersion,
+							 userid,
+							 contact,
+							 description,
 							 crashLogString];
 			
 			[self _postXML:xml toURL:_submissionURL];
@@ -530,6 +555,11 @@ finish:
 	//Release when done in the delegate method
 	_responseData = [[NSMutableData alloc] init];
 	
+	if (_delegate != nil && [_delegate respondsToSelector:@selector(connectionOpened)])
+	{
+		[_delegate connectionOpened];
+	}
+	
 	[[NSURLConnection connectionWithRequest:request delegate:self] retain];
 }
 
@@ -552,12 +582,17 @@ finish:
 	[_responseData release];
 	_responseData = nil;
 	[connection autorelease];
+
+	if (_delegate != nil && [_delegate respondsToSelector:@selector(connectionClosed)])
+	{
+		[_delegate connectionClosed];
+	}
 	
 	[self showCrashStatusMessage];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
+{	
 	if (_statusCode >= 200 && _statusCode < 400)
 	{
 		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:_responseData];
@@ -577,6 +612,11 @@ finish:
 	_responseData = nil;
 	[connection autorelease];
 
+	if (_delegate != nil && [_delegate respondsToSelector:@selector(connectionClosed)])
+	{
+		[_delegate connectionClosed];
+	}
+	
 	[self showCrashStatusMessage];
 }
 

@@ -47,7 +47,7 @@
 	[window makeKeyAndVisible];
   
   if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport]) {
-	  [[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL activateFeedback:YES];
+	  [[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL delegate:self activateFeedback:YES];
 	}  
 }
 
@@ -57,5 +57,20 @@
 	[window release];
 	[super dealloc];
 }
+
+
+#pragma mark CrashReportSenderDelegate
+
+-(void)connectionOpened
+{
+	_application.networkActivityIndicatorVisible = YES;
+}
+
+
+-(void)connectionClosed
+{
+	_application.networkActivityIndicatorVisible = NO;
+}
+
 
 @end

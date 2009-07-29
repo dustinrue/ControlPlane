@@ -28,10 +28,11 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "CrashReportSender.h"
 
 @class CrashReporterDemoViewController;
 
-@interface CrashReporterDemoAppDelegate : NSObject <UIApplicationDelegate> {
+@interface CrashReporterDemoAppDelegate : NSObject <UIApplicationDelegate, CrashReportSenderDelegate> {
 	UIApplication *_application;
 
 	IBOutlet UIWindow *window;
