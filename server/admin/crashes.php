@@ -43,7 +43,7 @@ function end_with_result($result)
 	return '<html><body>'.$result.'</body</html>'; 
 }
 
-$allowed_args = ',groupid,bundleidentifier,version,';
+$allowed_args = ',groupid,bundleidentifier,version,symbolicate,';
 
 $link = mysql_connect($server, $loginsql, $passsql)
     or die(end_with_result('No database connection'));
@@ -57,6 +57,7 @@ foreach(array_keys($_GET) as $k) {
 if (!isset($groupid)) $groupid = "";
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
+if (!isset($symbolicate)) $symbolicate = "";
 
 if ($bundleidentifier == "" && $version == "") die(end_with_result('Wrong parameters'));
 
@@ -64,10 +65,26 @@ $whereclause = "";
 $pagelink = "";
 if ($groupid == "") {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&version='.$version;
-	$whereclause = " WHERE bundleidentifier = '".$bundleidentifier."' AND version = '".$version."'";
+	$whereclause = " WHERE bundleidentifier = '".$bundleidentifier."' AND version = '".$version."' AND groupid = 0";
 } else {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&version='.$version.'&groupid='.$groupid;
 	$whereclause = " WHERE groupid = ".$groupid;
+}
+
+if ($symbolicate != '')
+{
+	$query = "SELECT id FROM ".$dbsymbolicatetable." WHERE crashid = ".$symbolicate;
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
+	$numrows = mysql_num_rows($result);
+	mysql_free_result($result);
+
+	if ($numrows > 0)
+		$query = "UPDATE ".$dbsymbolicatetable." SET done = 0 WHERE crashid = ".$symbolicate;
+	else
+		$query = "INSERT INTO ".$dbsymbolicatetable." (crashid, done) values (".$symbolicate.", 0)";
+
+	$result = mysql_query($query) or die('Error in SQL '.$dbsymbolicatetable);
 }
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
@@ -79,8 +96,8 @@ if (!$acceptallapps)
 echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">Versions</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">'.$bundleidentifier.' Version '.$version.'</a> - <a href="crashes.php'.$pagelink.'">Crashes</a><br/><br/>';
 
 
-echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="150"/><col width="300"/><col width="500"/><col width="100"/></colgroup>';
-echo "<tr><th>System</th><th>Timestamp</th><th>User</th><th>Description</th><th>Log</th><th>Action</th></tr>";
+echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="450"/><col width="500"/><col width="100"/></colgroup>';
+echo "<tr><th>System</th><th>Timestamp</th><th>Description</th><th>Log</th><th>Action</th></tr>";
 echo '</table>';
 
 // get all groups
@@ -100,8 +117,27 @@ if ($numrows > 0) {
 		$timestamp = $row[5];
 		$crashid = $row[6];
 		
-		echo '<table class="bottom" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="150"/><col width="300"/><col width="500"/><col width="100"/></colgroup>';
-		echo "<tr valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."</td><td>".$userid."<br/>".$contact."</td><td><textarea rows='10' style='width:95%' readonly>".$description."</textarea></td><td><textarea rows='10' style='width:95%' wrap='off' readonly>".$log."</textarea></td><td><a href='download.php?crashid=".$crashid."'>Download</a></td></tr>";
+		$description = "User: ".$userid."\nContact: ".$contact."\nDescription:\n".$description;
+		
+		$todo = 1;
+		$query2 = "SELECT done FROM ".$dbsymbolicatetable." WHERE crashid = ".$crashid;
+		$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query));
+
+		$numrows2 = mysql_num_rows($result2);
+		if ($numrows2 > 0)
+		{
+			$row2 = mysql_fetch_row($result2);
+			$todo = $row2[0];
+		}
+		mysql_free_result($result2);
+	
+		echo '<table class="bottom" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="450"/><col width="500"/><col width="100"/></colgroup>';
+		echo "<tr valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."</td><td><textarea rows='10' style='width:95%' readonly>".$description."</textarea></td><td><textarea rows='10' style='width:95%' wrap='off' readonly>".$log."</textarea></td><td><a href='download.php?crashid=".$crashid."'>Download</a><br><br>";
+		if ($todo == 0)
+			echo "Symolication in progress";
+		else
+			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."'>Symbolicate</a>";
+		echo "</td></tr>";
 		echo '</table>';
 	}
 	

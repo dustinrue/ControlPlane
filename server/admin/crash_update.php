@@ -61,11 +61,11 @@ if ($id == "" || $log == "") {
 }
 
 $query = "UPDATE ".$dbcrashtable." SET log = '".mysql_real_escape_string($log)."' WHERE id = ".$id;
-$result = mysql_query($query) or die('Error in SQL '.$dbversiontable);
+$result = mysql_query($query) or die('Error in SQL '.$dbcrashtable);
 
 if ($result) {
 	$query = "UPDATE ".$dbsymbolicatetable." SET done = 1 WHERE crashid = ".$id;
-	$result = mysql_query($query) or die('Error in SQL '.$dbversiontable);
+	$result = mysql_query($query) or die('Error in SQL '.$dbsymbolicatetable);
 	
 	if ($result)
 		echo "success";

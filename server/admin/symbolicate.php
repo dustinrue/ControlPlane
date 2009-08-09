@@ -144,8 +144,6 @@ if ($content !== false && strlen($content) > 0)
 			echo "  Deleting temporary files ...\n";
 
 			unlink($resultfilename);
-			unlink($filename);
-
 		}
 	}
 	

@@ -49,4 +49,7 @@ td {
 	font-weight: normal;
 	color: black;
 }
+a:visited {
+	color: blue;
+}
 
