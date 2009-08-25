@@ -47,9 +47,11 @@ Server side files:
 - /server/admin/ contains all administration scripts
 - /server/admin/symbolicate.php needs to be copied to a local mac, and the url has to be adjusted to access the scripts on your server
 
-Installation:
+Installation (Server):
 - Copy the server scripts to your web server
 - Execute the SQL statements from database_schema.sql in your MySQL database on the web server
+
+Installation (iPhone):
 - Include CrashReportSender.h and CrashReportSender.m into your project
 - Include CrashReporter.framework into your project
 - In your appDelegate.m include
@@ -60,6 +62,8 @@ Installation:
 	}  
   where CRASH_REPORTER_URL points to your crash_v200.php URL
 - Done.
+
+Installation (Mac):
   
 Feel free to add enhancements, fixes, changes and provide them back to the community!
 
