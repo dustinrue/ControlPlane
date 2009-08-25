@@ -47,7 +47,7 @@ function end_with_result($result)
 	return '<html><body>'.$result.'</body</html>'; 
 }
 
-$allowed_args = ',bundleidentifier,version,fixversion,id,description,';
+$allowed_args = ',bundleidentifier,version,fixversion,id,description,groupid,';
 
 $link = mysql_connect($server, $loginsql, $passsql)
     or die(end_with_result('No database connection'));
@@ -61,6 +61,7 @@ foreach(array_keys($_GET) as $k) {
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
 if (!isset($id)) $id = "-1";
+if (!isset($groupid)) $groupid = "";
 if (!isset($fixversion)) $fixversion = "-1";
 if (!isset($description)) $description = "-1";
 
@@ -69,23 +70,29 @@ if ($version == "") die(end_with_result('Wrong parameters'));
 
 if ($id != "-1" && $id != "" && $fixversion != "-1") {
 	$query = "UPDATE ".$dbgrouptable." SET fix = '".$fixversion."' WHERE id = ".$id;
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$dbgrouptable));
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 	
 	// check if the fix version is alreadz added, if not add it
 	$query = "SELECT id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$fixversion."'";
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$dbversiontable));
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 	
 	$numrows = mysql_num_rows($result);
 	if ($numrows == 0) {
 		// version is not available, so add it with status VERSION_STATUS_AVAILABLE
 		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status) values ('".$bundleidentifier."', '".$fixversion."', ".VERSION_STATUS_UNKNOWN.")";
-		$result = mysql_query($query) or die(end_with_result('Error in SQL '.$dbversiontable));
+		$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 	}
+} else if ($groupid != "") {
+	$query = "DELETE FROM ".$dbcrashtable." WHERE groupid = ".$groupid;
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
+	$query = "DELETE FROM ".$dbgrouptable." WHERE id = ".$groupid;
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 }
 
 if ($id != "-1" && $id != "" && $description != "-1") {
 	$query = "UPDATE ".$dbgrouptable." SET description = '".$description."' WHERE id = ".$id;
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$dbgrouptable));
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 }
 
 if ($id == "-1") $$id = "";
@@ -120,7 +127,7 @@ if ($numrows > 0) {
 		
 		echo "<form name='update".$groupid."' action='groups.php' method='get'><input type='hidden' name='bundleidentifier' value='".$bundleidentifier."'/><input type='hidden' name='version' value='".$version."'/><input type='hidden' name='id' value='".$groupid."'/>";
 		echo '<table class="bottom" cellspacing="0"cellpadding="2"><colgroup><col width="100"/><col width="100"/><col width="200"/><col width="400"/><col width="100"/><col width="100"/></colgroup>';
-		echo "<tr align='center'><td><a href='crashes.php?groupid=".$groupid."&bundleidentifier=".$bundleidentifier."&version=".$version."'>".$pattern."</a></td><td>".$amount."</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description'>".$description."</textarea></td><td><input type='submit' value='Update'/></td><td><a href='download.php?groupid=".$groupid."'>Download</a></td></tr>";
+		echo "<tr align='center'><td><a href='crashes.php?groupid=".$groupid."&bundleidentifier=".$bundleidentifier."&version=".$version."'>".$pattern."</a></td><td>".$amount."</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description'>".$description."</textarea></td><td><input type='submit' value='Update'/></td><td><a href='download.php?groupid=".$groupid."'>Download</a><br/><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."'>Delete</a></td></tr>";
 		echo "</form>";
 		echo '</table>';
 	}
