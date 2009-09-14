@@ -37,19 +37,14 @@
 // the very same on the remote servers
 //
 
-// NOTE: If you are protecting the server side scripts with user login data,
-//       don't forget to add the same to the following URLs!
+include "serverconfig.php";
 
-$downloadtodosurl = 'http://userid:password@your.server.com/yourpath/admin/symbolicate_todo.php';
-$getcrashdataurl = 'http://userid:password@your.server.com/yourpath/admin/crash_get.php?id=';
-$updatecrashdataurl = 'http://userid:password@your.server.com/yourpath/admin/crash_update.php';
-
-function doPost($url,$postdata)
+function doPost($postdata)
 {
-	$temp = parse_url($url);
-	$uri = $temp['path'];
-	$host = $temp['host'];
-	echo $uri.' '.$host;
+    global $updatecrashdataurl, $hostname, $webuser, $webpwd;
+    
+	$uri = $updatecrashdataurl;
+	$host = $hostname;
 	$handle = fsockopen($host, 80, $errno, $errstr); 
 	if (!$handle) { 
 		return 'error'; 
@@ -58,13 +53,17 @@ function doPost($url,$postdata)
 		$temp = "POST ".$uri."  HTTP/1.1\r\n"; 
 		$temp .= "Host: ".$host."\r\n"; 
 		$temp .= "User-Agent: PHP Script\r\n"; 
-		$temp .= "Content-Type: application/x-www-form-urlencoded\r\n"; 
+		$temp .= "Content-Type: application/x-www-form-urlencoded\r\n";
+		if ($webuser != "" && $webpwd != "")
+    		$temp .= "Authorization: Basic ".base64_encode($webuser.":".$webpwd)."\r\n"; 
 		$temp .= "Content-Length: ".strlen($postdata)."\r\n"; 
 		$temp .= "Connection: close\r\n\r\n"; 
 		$temp .= $postdata; 
 		$temp .= "\r\n\r\n";
 		
 		fwrite($handle, $temp); 
+		
+		$response = '';
 		
 		while (!feof($handle)) 
 			$response.=fgets($handle, 128); 
@@ -87,9 +86,18 @@ function doPost($url,$postdata)
 } 
     
 
+if ($webuser != "" && $webpwd != "")
+{
+    $downloadtodosurl = "http://".$webuser.":".$webpwd."@".$hostname.$downloadtodosurl;
+    $getcrashdataurl = "http://".$webuser.":".$webpwd."@".$hostname.$getcrashdataurl;
+} else {
+    $downloadtodosurl = "http://".$hostname.$downloadtodosurl;
+    $getcrashdataurl = "http://".$hostname.$getcrashdataurl;
+}
+
 
 // get todo list from the server
-$content = file_get_contents($downloadtodosurl.$crashid);
+$content = file_get_contents($downloadtodosurl);
 
 $error = false;
 
@@ -130,7 +138,7 @@ if ($content !== false && strlen($content) > 0)
 				
 				$resultcontent = file_get_contents($resultfilename);
 
-				$post_results = doPost($updatecrashdataurl,'id='.$crashid.'&log='.urlencode($resultcontent));
+				$post_results = doPost('id='.$crashid.'&log='.urlencode($resultcontent));
 				
 				if (is_string($post_results))
 				{
