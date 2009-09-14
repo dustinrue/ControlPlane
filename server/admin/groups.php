@@ -83,6 +83,9 @@ if ($id != "-1" && $id != "" && $fixversion != "-1") {
 		$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 	}
 } else if ($groupid != "") {
+	$query = "DELETE FROM ".$dbsymbolicatetable." WHERE crashid in (select id from ".$dbcrashtable." where groupid = ".$groupid.")";
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
 	$query = "DELETE FROM ".$dbcrashtable." WHERE groupid = ".$groupid;
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
@@ -105,14 +108,14 @@ echo '<html><head><link rel="stylesheet" type="text/css" href="body.css"></head>
 if (!$acceptallapps)
 	echo '<a href="app_name.php">Apps</a> - ';
 
-echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">Versions</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">'.$bundleidentifier.' Version '.$version.'</a><br/><br/>';
+echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a><br/><br/>';
 
-echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="100"/><col width="100"/><col width="200"/><col width="400"/><col width="200"/></colgroup>';
-echo "<tr><th>Pattern</th><th>Amount</th><th>Assigned Fix Version</th><th>Description</th><th>Actions</th></tr>";
+echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="100"/><col width="100"/><col width="180"/><col width="200"/><col width="400"/><col width="200"/></colgroup>';
+echo "<tr><th>Pattern</th><th>Amount</th><th>Last Update</th><th>Assigned Fix Version</th><th>Description</th><th>Actions</th></tr>";
 echo '</table>';
 
 // get all groups
-$query = "SELECT fix, pattern, amount, id FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' ORDER BY fix desc, amount desc, pattern asc";
+$query = "SELECT fix, pattern, amount, id, description FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' ORDER BY fix desc, amount desc, pattern asc";
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 $numrows = mysql_num_rows($result);
@@ -124,10 +127,42 @@ if ($numrows > 0) {
 		$pattern = $row[1];
 		$amount = $row[2];
 		$groupid = $row[3];
+		$description = $row[4];
+		$lastupdate = '';
+		
+		// get all groups
+		$query2 = "SELECT max(timestamp) FROM ".$dbcrashtable." WHERE groupid = '".$groupid."'";
+		$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query));
+		$numrows2 = mysql_num_rows($result2);
+		if ($numrows2 > 0) {
+			$row2 = mysql_fetch_row($result2);
+			$lastupdate = $row2[0];
+		}
+		mysql_free_result($result2);
+		
+		if ($push_amount_group > 1 && $amount >= $push_amount_group)
+		{
+			$amount = "<b><font color='red'>".$amount."</font></b>";
+		}
 		
 		echo "<form name='update".$groupid."' action='groups.php' method='get'><input type='hidden' name='bundleidentifier' value='".$bundleidentifier."'/><input type='hidden' name='version' value='".$version."'/><input type='hidden' name='id' value='".$groupid."'/>";
-		echo '<table class="bottom" cellspacing="0"cellpadding="2"><colgroup><col width="100"/><col width="100"/><col width="200"/><col width="400"/><col width="100"/><col width="100"/></colgroup>';
-		echo "<tr align='center'><td><a href='crashes.php?groupid=".$groupid."&bundleidentifier=".$bundleidentifier."&version=".$version."'>".$pattern."</a></td><td>".$amount."</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description'>".$description."</textarea></td><td><input type='submit' value='Update'/></td><td><a href='download.php?groupid=".$groupid."'>Download</a><br/><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."'>Delete</a></td></tr>";
+		echo '<table class="bottom" cellspacing="0"cellpadding="2"><colgroup><col width="100"/><col width="100"/><col width="180"/><col width="200"/><col width="400"/><col width="100"/><col width="100"/></colgroup>';
+		echo "<tr align='center'><td><a href='crashes.php?groupid=".$groupid."&bundleidentifier=".$bundleidentifier."&version=".$version."'>".$pattern."</a></td><td>".$amount."</td><td>";
+		
+		if ($lastupdate != "" && ($timestamp = strtotime($lastupdate)) !== false)
+		{
+			if (time() - $timestamp < 60*24*24)
+				$lastupdate = "<font color='".$color24h."'>".$lastupdate."</font>";
+			else if (time() - $timestamp < 60*24*24*2)
+				$lastupdate = "<font color='".$color48h."'>".$lastupdate."</font>";
+			else if (time() - $timestamp < 60*24*24*3)
+				$lastupdate = "<font color='".$color72h."'>".$lastupdate."</font>";
+			else
+				$lastupdate = "<font color='".$colorOther."'>".$lastupdate."</font>";
+		}
+		echo $lastupdate;
+		
+		echo "</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description'>".$description."</textarea></td><td><input type='submit' value='Update'/></td><td><a href='download.php?groupid=".$groupid."'>Download</a><br/><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."'>Delete</a></td></tr>";
 		echo "</form>";
 		echo '</table>';
 	}

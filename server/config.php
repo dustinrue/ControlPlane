@@ -52,4 +52,16 @@ $dbsymbolicatetable = 'symbolicated';   // contains a todo list of crash log dat
 $acceptallapps = false;                  // if set to true, all crash logs will be added and todo entries for symbolication will be added too
                                         // otherwise the app identifiers need to be added in the UI and todo can be turned on individually
 
+$push_activated = true;									// activate push notifications via Prowl?
+$push_newtype = true;										// do send a push notification if a new crash group has been created
+$push_amount_group = 10;								// the amount of crashes found for a type which invokes a push notification to be send, 1 to deactivate
+$push_prowlids = '8f427b9be6ae44985b8417fa6747ecb7cbf3a738';		// Up to 5 comma separated prowl api ids which should get the notifications
+
+$color24h = "red";											// color of timestamp if the latest crash is within the last 24h in Version view
+$color48h = "orange";										// color of timestamp if the latest crash is within the last 48h in Version view
+$color72h = "black";										// color of timestamp if the latest crash is within the last 72h in Version view
+$colorOther = "grey";										// color of timestamp for older last crashes in Version view
+
+date_default_timezone_set('Europe/Berlin');			// set the default timezone (see http://de3.php.net/manual/en/timezones.php)
+
 ?>

@@ -93,7 +93,7 @@ echo '<html><head><link rel="stylesheet" type="text/css" href="body.css"></head>
 if (!$acceptallapps)
 	echo '<a href="app_name.php">Apps</a> - ';
 
-echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">Versions</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">'.$bundleidentifier.' Version '.$version.'</a> - <a href="crashes.php'.$pagelink.'">Crashes</a><br/><br/>';
+echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a> - <a href="crashes.php'.$pagelink.'">Crashes</a><br/><br/>';
 
 
 echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="450"/><col width="500"/><col width="100"/></colgroup>';
@@ -119,7 +119,7 @@ if ($numrows > 0) {
 		
 		$description = "User: ".$userid."\nContact: ".$contact."\nDescription:\n".$description;
 		
-		$todo = 1;
+		$todo = 2;
 		$query2 = "SELECT done FROM ".$dbsymbolicatetable." WHERE crashid = ".$crashid;
 		$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query));
 
@@ -131,12 +131,22 @@ if ($numrows > 0) {
 		}
 		mysql_free_result($result2);
 	
+		if ($timestamp != "" && ($timestampvalue = strtotime($timestamp)) !== false)
+		{
+			if (time() - $timestampvalue < 60*24*24)
+				$timestamp = "<font color='red'>".$timestamp."</font>";
+			else if (time() - $timestampvalue < 60*24*24*2)
+				$timestamp = "<font color='orange'>".$timestamp."</font>";
+		}
+
 		echo '<table class="bottom" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="450"/><col width="500"/><col width="100"/></colgroup>';
 		echo "<tr valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."</td><td><textarea rows='10' style='width:95%' readonly>".$description."</textarea></td><td><textarea rows='10' style='width:95%' wrap='off' readonly>".$log."</textarea></td><td><a href='download.php?crashid=".$crashid."'>Download</a><br><br>";
 		if ($todo == 0)
 			echo "Symolication in progress";
 		else
 			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."'>Symbolicate</a>";
+		if ($todo == 2)
+			echo "<br/>(Not done!)";
 		echo "</td></tr>";
 		echo '</table>';
 	}

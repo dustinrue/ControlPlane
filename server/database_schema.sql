@@ -31,6 +31,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE IF NOT EXISTS `apps` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
   `bundleidentifier` varchar(250) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `symbolicate` tinyint(4) default '0',
   PRIMARY KEY  (`id`),
   KEY `symbolicate` (`symbolicate`)

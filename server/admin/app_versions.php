@@ -95,7 +95,7 @@ echo '<html><head><link rel="stylesheet" type="text/css" href="body.css"></head>
 if ($acceptallapps)
 	echo '<a href="app_versions.php">Versions</a><br/><br/>';
 else
-	echo '<a href="app_name.php">Apps</a> - <a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">Versions</a><br/><br/>';
+	echo '<a href="app_name.php">Apps</a> - <a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a><br/><br/>';
 
 echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="400"/><col width="100"/><col width="200"/><col width="100"/><col width="100"/><col width="100"/></colgroup>';
 echo "<tr><th>Name</th><th>Version</th><th>Status</th><th>Groups</th><th>Total Crashes</th><th>Actions</th></tr>";

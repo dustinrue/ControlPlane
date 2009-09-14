@@ -34,7 +34,14 @@
 //
 
 require_once('config.php');
-	
+
+include('ProwlPHP.php');
+
+if ($push_activated && $push_prowlids != "")
+	$prowl = new Prowl($push_prowlids);
+else
+	$push_activated = false;
+
 function xml_for_result($result)
 {
 	return '<?xml version="1.0" encoding="UTF-8"?><result>'.$result.'</result>'; 
@@ -68,6 +75,7 @@ $userid = "";
 $contact = "";
 $description = "";
 $logdata = "";
+$appname = "";
 
 
 function reading($reader, $tag)
@@ -144,10 +152,10 @@ while ($reader->read())
 	{
 		$bundleidentifier = mysql_real_escape_string(reading($reader, "bundleidentifier"));
 	} else if ($reader->name == "version" && $reader->nodeType == XMLReader::ELEMENT) {
-	  	$version = mysql_real_escape_string(reading($reader, "version"));
+	  $version = mysql_real_escape_string(reading($reader, "version"));
 		if( !ValidateString( $version, array('format'=>VALIDATE_NUM . VALIDATE_SPACE . VALIDATE_PUNCTUATION) ) ) die(xml_for_result(RESULT_FAILURE));
 	} else if ($reader->name == "senderversion" && $reader->nodeType == XMLReader::ELEMENT) {
-  		$senderversion = mysql_real_escape_string(reading($reader, "senderversion"));
+  	$senderversion = mysql_real_escape_string(reading($reader, "senderversion"));
 		if (!ValidateString( $senderversion, array('format'=>VALIDATE_NUM . VALIDATE_SPACE . VALIDATE_PUNCTUATION) ) ) die(xml_for_result(RESULT_FAILURE));
 	} else if ($reader->name == "applicationname" && $reader->nodeType == XMLReader::ELEMENT) {
 		$applicationname = mysql_real_escape_string(reading($reader, "applicationname"));
@@ -166,6 +174,13 @@ while ($reader->read())
 
 $reader->close();
 
+// don't proceed if we don't have anything to search for
+if ($bundleidentifier == "")
+	die("No valid data entered!");
+	
+// by default set the appname to bundleidentifier, so it has some meaningful value for sure
+$appname = $bundleidentifier;
+
 // store the status of the fix version for this crash
 $fix_status = VERSION_STATUS_UNKNOWN;
 
@@ -179,11 +194,21 @@ if ($acceptallapps)
 	// external symbolification will is turned on by default when accepting all crash logs
 	$acceptlog = true;
 	$symbolicate = true;
+	
+	// get the app name
+	$query = "SELECT name FROM ".$dbapptable." where bundleidentifier = '".$bundleidentifier."'";
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
+	$numrows = mysql_num_rows($result);
+	if ($numrows == 1) {
+		$appname = $row[0];
+	}
+	mysql_free_result($result);
 }
 else
 {
 	// the bundleidentifier is the important string we use to find a match
-	$query = "SELECT id, symbolicate FROM ".$dbapptable." where bundleidentifier = '".$bundleidentifier."'";
+	$query = "SELECT id, symbolicate, name FROM ".$dbapptable." where bundleidentifier = '".$bundleidentifier."'";
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 	$numrows = mysql_num_rows($result);
@@ -194,8 +219,11 @@ else
 		$row = mysql_fetch_row($result);
 		
 		// check if a todo entry shall be added to create remote symbolification
-		if ($row[0] == 1)
+		if ($row[1] == 1)
 			$symbolicate = true;
+			
+		// get the app name
+		$appname = $row[2];
 	}
 	mysql_free_result($result);
 }
@@ -238,7 +266,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 	if (strlen($crash_offset) > 0)
 	{
 		// get all the known bug patterns for the current app version
-		$query = "SELECT id, fix FROM ".$dbgrouptable." WHERE affected = '".$version."' and pattern = '".mysql_real_escape_string($crash_offset)."'";
+		$query = "SELECT id, fix, amount FROM ".$dbgrouptable." WHERE affected = '".$version."' and pattern = '".mysql_real_escape_string($crash_offset)."'";
 		$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
 
 		$numrows = mysql_num_rows($result);
@@ -248,6 +276,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 			// assign this bug to the group
 			$row = mysql_fetch_row($result);
 			$log_groupid = $row[0];
+			$amount = $row[2];
 
 			mysql_free_result($result);
 
@@ -265,6 +294,17 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 				$row = mysql_fetch_row($result);
 				$fix_status = $row[0];
 			}
+			
+			if ($push_activated && $push_amount_group > 1 && $push_amount_group == $amount)
+			{
+				$prowl->push(array(
+						'application'=>$appname,
+						'event'=>'Critical Crash',
+						'description'=>'Version '.$version.' Pattern '.$crash_offset.' has a MORE than '.$push_amount_group.' crashes!\n Sent at ' . date('H:i:s'),
+						'priority'=>0,
+      		),true);
+      }
+
 			mysql_free_result($result);
 		} else if ($numrows == 0)
 		{
@@ -273,6 +313,16 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 			$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
 			
 			$log_groupid = mysql_insert_id($link);
+			
+			if ($push_activated && $push_newtype)
+			{
+				$prowl->push(array(
+						'application'=>$appname,
+						'event'=>'New Crashtype',
+						'description'=>'Version '.$version.' has a new type of crash!\n Sent at ' . date('H:i:s'),
+						'priority'=>0,
+					),true);
+			}
 		}		
 	}
 	
