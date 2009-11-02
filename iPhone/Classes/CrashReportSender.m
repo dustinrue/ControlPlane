@@ -185,11 +185,36 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";	// 
 	}
 }
 
+- (void)registerOnline
+{
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(wentOnline:)
+												 name:@"kNetworkReachabilityChangedNotification"
+											   object:nil];            
+}
+
+- (void)unregisterOnline
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:@"kNetworkReachabilityChangedNotification"
+												  object:nil];
+}
+
+- (void)wentOnline:(NSNotification *)note
+{
+	[self unregisterOnline];
+	[self attemptCrashReportSubmission];
+}
+
 - (void)attemptCrashReportSubmission
 {
 	_submitTimer = nil;
 	
-	if ([self hasPendingCrashReport] && [self _isSubmissionHostReachable]) {
+	if (![self _isSubmissionHostReachable]) {
+		[self registerOnline];
+	} else if ([self hasPendingCrashReport]) {
+		[self unregisterOnline];
+        
 		if (![[NSUserDefaults standardUserDefaults] boolForKey:kAutomaticallySendCrashReports]) {
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CrashDataFoundTitle", @"Title showing in the alert box when crash report data has been found")
 																message:NSLocalizedString(@"CrashDataFoundDescription", @"Description explaining that crash data has been found and ask the user if the data might be uplaoded to the developers server")
