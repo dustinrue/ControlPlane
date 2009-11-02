@@ -28,20 +28,6 @@
 		1D3623250D0F684500981E51 /* CrashReporterDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashReporterDemoAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* CrashReporterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrashReporterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1E3CD7061010C3AB00883026 /* app_name.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = app_name.php; sourceTree = "<group>"; };
-		1E3CD7071010C3AB00883026 /* app_versions.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = app_versions.php; sourceTree = "<group>"; };
-		1E3CD7081010C3AB00883026 /* body.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = body.css; sourceTree = "<group>"; };
-		1E3CD7091010C3AB00883026 /* crash_get.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crash_get.php; sourceTree = "<group>"; };
-		1E3CD70A1010C3AB00883026 /* crash_update.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crash_update.php; sourceTree = "<group>"; };
-		1E3CD70B1010C3AB00883026 /* crashes.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crashes.php; sourceTree = "<group>"; };
-		1E3CD70C1010C3AB00883026 /* download.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = download.php; sourceTree = "<group>"; };
-		1E3CD70D1010C3AB00883026 /* groups.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = groups.php; sourceTree = "<group>"; };
-		1E3CD70E1010C3AB00883026 /* symbolicate.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = symbolicate.php; sourceTree = "<group>"; };
-		1E3CD70F1010C3AB00883026 /* symbolicate_todo.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = symbolicate_todo.php; sourceTree = "<group>"; };
-		1E3CD7101010C3AB00883026 /* config.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = config.php; sourceTree = "<group>"; };
-		1E3CD7111010C3AB00883026 /* crash_v200.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crash_v200.php; sourceTree = "<group>"; };
-		1E3CD7121010C3AB00883026 /* database_schema.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = database_schema.sql; sourceTree = "<group>"; };
-		1E3CD72B1010C3F000883026 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		1E94B43C0F5F227A002D4D2C /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		1E94B4840F5F229D002D4D2C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		1E94B5730F5F2A97002D4D2C /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -100,34 +86,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1E3CD7041010C3AB00883026 /* server */ = {
-			isa = PBXGroup;
-			children = (
-				1E3CD7051010C3AB00883026 /* admin */,
-				1E3CD7101010C3AB00883026 /* config.php */,
-				1E3CD7111010C3AB00883026 /* crash_v200.php */,
-				1E3CD7121010C3AB00883026 /* database_schema.sql */,
-			);
-			path = server;
-			sourceTree = "<group>";
-		};
-		1E3CD7051010C3AB00883026 /* admin */ = {
-			isa = PBXGroup;
-			children = (
-				1E3CD7061010C3AB00883026 /* app_name.php */,
-				1E3CD7071010C3AB00883026 /* app_versions.php */,
-				1E3CD7081010C3AB00883026 /* body.css */,
-				1E3CD7091010C3AB00883026 /* crash_get.php */,
-				1E3CD70A1010C3AB00883026 /* crash_update.php */,
-				1E3CD70B1010C3AB00883026 /* crashes.php */,
-				1E3CD70C1010C3AB00883026 /* download.php */,
-				1E3CD70D1010C3AB00883026 /* groups.php */,
-				1E3CD70E1010C3AB00883026 /* symbolicate.php */,
-				1E3CD70F1010C3AB00883026 /* symbolicate_todo.php */,
-			);
-			path = admin;
-			sourceTree = "<group>";
-		};
 		1E94B4F50F5F2592002D4D2C /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,11 +98,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				1E3CD72B1010C3F000883026 /* README.txt */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				1E3CD7041010C3AB00883026 /* server */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
