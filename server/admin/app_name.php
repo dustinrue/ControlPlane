@@ -40,7 +40,7 @@ require_once('../config.php');
 
 if ($acceptallapps)
 {
-	die('<html><head><META http-equiv="refresh" content="0;URL=app_versions.php"></head><body></body</html>'); 
+	die('<html><head><META http-equiv="refresh" content="0;URL=app_versions.php"></head><body></body></html>'); 
 }
 
 function end_with_result($result)

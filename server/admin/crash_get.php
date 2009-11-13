@@ -39,7 +39,7 @@ require_once('../config.php');
 
 function end_with_result($result)
 {
-	return '<html><body>'.$result.'</body</html>'; 
+	return '<html><body>'.$result.'</body></html>'; 
 }
 
 $allowed_args = ',id,';

@@ -88,9 +88,11 @@ if ($id != "-1" && $id != "" && $fixversion != "-1") {
 
 	$query = "DELETE FROM ".$dbcrashtable." WHERE groupid = ".$groupid;
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
-
-	$query = "DELETE FROM ".$dbgrouptable." WHERE id = ".$groupid;
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+	
+	if ($groupid != "0") {
+		$query = "DELETE FROM ".$dbgrouptable." WHERE id = ".$groupid;
+		$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+	}
 }
 
 if ($id != "-1" && $id != "" && $description != "-1") {
@@ -163,15 +165,15 @@ if ($numrows > 0) {
 		echo $lastupdate;
 		
 		echo "</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description'>".$description."</textarea></td><td><input type='submit' value='Update'/></td><td><a href='download.php?groupid=".$groupid."'>Download</a><br/><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."'>Delete</a></td></tr>";
-		echo "</form>";
 		echo '</table>';
+		echo "</form>";
 	}
 	
 	mysql_free_result($result);
 }
 
 // get all bugs not assigned to groups
-$query = "SELECT count(*) FROM ".$dbcrashtable." WHERE groupid= 0 and bundleidentifier = '".$bundleidentifier."' AND version = '".$version."'";
+$query = "SELECT count(*) FROM ".$dbcrashtable." WHERE groupid = 0 and bundleidentifier = '".$bundleidentifier."' AND version = '".$version."'";
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$dbcrashtable));
 
 $numrows = mysql_num_rows($result);
@@ -180,14 +182,13 @@ if ($numrows > 0) {
 	$amount = $row[0];
 	if ($amount > 0)
 	{
-		echo "<tr><td colspan='3'>Ungrouped crash reports: <a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."'>".$amount."</a></td></tr>";		
+		echo "Ungrouped crash reports: <a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."'>".$amount."</a> (<a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=0'>Delete</a>)";		
 	}
 	mysql_free_result($result);
 }
 
 mysql_close($link);
 
-echo '</table>';
 echo '</body></html>';
 
 ?>

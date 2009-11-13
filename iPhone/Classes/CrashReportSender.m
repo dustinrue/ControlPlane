@@ -39,6 +39,7 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";	// 
 
 @interface CrashReportSender ()
 
+- (void)attemptCrashReportSubmission;
 - (void)showCrashStatusMessage;
 
 - (void)handleCrashReport;
@@ -348,7 +349,10 @@ NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";	// 
 	if ([elementName isEqualToString:@"result"]) {
 		if ([_contentOfProperty intValue] > _serverResult) {
 			_serverResult = [_contentOfProperty intValue];
-		}
+		} else {
+            CrashReportStatus errorcode = [_contentOfProperty intValue];
+            NSLog(@"CrashReporter ended in error code: %i", errorcode);
+        }
 	}
 }
 

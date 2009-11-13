@@ -139,6 +139,7 @@ CREATE TABLE IF NOT EXISTS `versions` (
   `bundleidentifier` varchar(250) collate utf8_unicode_ci default NULL,
   `version` varchar(20) collate utf8_unicode_ci default NULL,
   `status` int(11) NOT NULL default '0',
+  `push` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `version` (`version`,`status`),
   KEY `applicationname` (`bundleidentifier`)

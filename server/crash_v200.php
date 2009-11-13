@@ -35,12 +35,13 @@
 
 require_once('config.php');
 
-include('ProwlPHP.php');
+if ($push_activated && $push_prowlids != "") {
+	include('ProwlPHP.php');
 
-if ($push_activated && $push_prowlids != "")
 	$prowl = new Prowl($push_prowlids);
-else
+} else {
 	$push_activated = false;
+}
 
 function xml_for_result($result)
 {
@@ -51,8 +52,8 @@ $allowed_args = ',xmlstring,';
 
 /* Verbindung aufbauen, auswählen einer Datenbank */
 $link = mysql_connect($server, $loginsql, $passsql)
-    or die(xml_for_result(RESULT_FAILURE));
-mysql_select_db($base) or die(xml_for_result(RESULT_FAILURE));
+    or die(xml_for_result(FAILURE_DATABASE_NOT_AVAILABLE));
+mysql_select_db($base) or die(xml_for_result(FAILURE_DATABASE_NOT_AVAILABLE));
 
 foreach(array_keys($_POST) as $k) {
     $temp = ",$k,";
@@ -60,7 +61,7 @@ foreach(array_keys($_POST) as $k) {
 }
 if (!isset($xmlstring)) $xmlstring = "";
 
-if ($xmlstring == "") die(xml_for_result(RESULT_FAILURE));
+if ($xmlstring == "") die(xml_for_result(FAILURE_INVALID_POST_DATA));
 
 $reader = new XMLReader();
 
@@ -153,10 +154,10 @@ while ($reader->read())
 		$bundleidentifier = mysql_real_escape_string(reading($reader, "bundleidentifier"));
 	} else if ($reader->name == "version" && $reader->nodeType == XMLReader::ELEMENT) {
 	  $version = mysql_real_escape_string(reading($reader, "version"));
-		if( !ValidateString( $version, array('format'=>VALIDATE_NUM . VALIDATE_SPACE . VALIDATE_PUNCTUATION) ) ) die(xml_for_result(RESULT_FAILURE));
+		if( !ValidateString( $version, array('format'=>VALIDATE_NUM . VALIDATE_ALPHA. VALIDATE_SPACE . VALIDATE_PUNCTUATION) ) ) die(xml_for_result(FAILURE_XML_VERSION_NOT_ALLOWED));
 	} else if ($reader->name == "senderversion" && $reader->nodeType == XMLReader::ELEMENT) {
   	$senderversion = mysql_real_escape_string(reading($reader, "senderversion"));
-		if (!ValidateString( $senderversion, array('format'=>VALIDATE_NUM . VALIDATE_SPACE . VALIDATE_PUNCTUATION) ) ) die(xml_for_result(RESULT_FAILURE));
+		if (!ValidateString( $senderversion, array('format'=>VALIDATE_NUM . VALIDATE_ALPHA. VALIDATE_SPACE . VALIDATE_PUNCTUATION) ) ) die(xml_for_result(FAILURE_XML_SENDER_VERSION_NOT_ALLOWED));
 	} else if ($reader->name == "applicationname" && $reader->nodeType == XMLReader::ELEMENT) {
 		$applicationname = mysql_real_escape_string(reading($reader, "applicationname"));
 	} else if ($reader->name == "systemversion" && $reader->nodeType == XMLReader::ELEMENT) {
@@ -184,6 +185,12 @@ $appname = $bundleidentifier;
 // store the status of the fix version for this crash
 $fix_status = VERSION_STATUS_UNKNOWN;
 
+// the status of the buggy version
+$version_status = VERSION_STATUS_UNKNOWN;
+
+// by default assume push is turned of for the found version
+$push = $push_default_version;
+
 // check out if we accept this app and version of the app
 $acceptlog = false;
 $symbolicate = false;
@@ -191,13 +198,13 @@ $symbolicate = false;
 // shall we accept any crash log or only ones that are named in the database
 if ($acceptallapps)
 {
-	// external symbolification will is turned on by default when accepting all crash logs
+	// external symbolification is turned on by default when accepting all crash logs
 	$acceptlog = true;
 	$symbolicate = true;
 	
 	// get the app name
 	$query = "SELECT name FROM ".$dbapptable." where bundleidentifier = '".$bundleidentifier."'";
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_SEARCH_APP_NAME));
 
 	$numrows = mysql_num_rows($result);
 	if ($numrows == 1) {
@@ -209,7 +216,7 @@ else
 {
 	// the bundleidentifier is the important string we use to find a match
 	$query = "SELECT id, symbolicate, name FROM ".$dbapptable." where bundleidentifier = '".$bundleidentifier."'";
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_SEARCH_APP_NAME));
 
 	$numrows = mysql_num_rows($result);
 	if ($numrows == 1) {
@@ -262,12 +269,28 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 	// stores the group this crashlog is associated to, by default to none
 	$log_groupid = 0;
 
+	// check if the version is already added and the status of the version and push status
+	$query = "SELECT id, status, push FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$version."'";
+	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_CHECK_VERSION_EXISTS));
+
+	$numrows = mysql_num_rows($result);
+	if ($numrows == 0) {
+		// version is not available, so add it with status VERSION_STATUS_AVAILABLE
+		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status, push) values ('".$bundleidentifier."', '".$version."', ".VERSION_STATUS_UNKNOWN.", ".$push_default_version.")";
+		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_VERSION));
+	} else {
+			$row = mysql_fetch_row($result);
+			$version_status = $row[1];
+			$push = $row[2];
+			mysql_free_result($result);
+	}
+
 	// if the offset string is not empty, we try a grouping
 	if (strlen($crash_offset) > 0)
 	{
 		// get all the known bug patterns for the current app version
 		$query = "SELECT id, fix, amount FROM ".$dbgrouptable." WHERE affected = '".$version."' and pattern = '".mysql_real_escape_string($crash_offset)."'";
-		$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
+		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_FIND_KNOWN_PATTERNS));
 
 		$numrows = mysql_num_rows($result);
 		
@@ -280,14 +303,14 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 
 			mysql_free_result($result);
 
-			// update the occurances of this group
+			// update the occurances of this pattern
 			$query = "UPDATE ".$dbgrouptable." SET amount=amount+1 WHERE id=".$log_groupid;
-			$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
+			$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_UPDATE_PATTERN_OCCURANCES));
 
 			// check the status of the bugfix version
 			$query = "SELECT status FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$row[1]."'";
-			$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
-
+			$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_CHECK_BUGFIX_STATUS));
+			
 			$numrows = mysql_num_rows($result);
 			if ($numrows == 1)
 			{
@@ -295,7 +318,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 				$fix_status = $row[0];
 			}
 			
-			if ($push_activated && $push_amount_group > 1 && $push_amount_group == $amount)
+			if ($push_activated && $push_amount_group > 1 && $push_amount_group == $amount && $push >= PUSH_ACTIVATED && $version_status != VERSION_STATUS_DISCONTINUED)
 			{
 				$prowl->push(array(
 						'application'=>$appname,
@@ -308,13 +331,13 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 			mysql_free_result($result);
 		} else if ($numrows == 0)
 		{
-			// create a new group for this bug and set amount of occurrances to 1
+			// create a new pattern for this bug and set amount of occurrances to 1
 			$query = "INSERT INTO ".$dbgrouptable." (bundleidentifier, affected, pattern, amount) values ('".$bundleidentifier."', '".$version."', '".$crash_offset."', 1)";
-			$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
+			$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_PATTERN));
 			
 			$log_groupid = mysql_insert_id($link);
 			
-			if ($push_activated && $push_newtype)
+			if ($push_activated && $push == PUSH_ACTIVATED && $version_status != VERSION_STATUS_DISCONTINUED)
 			{
 				$prowl->push(array(
 						'application'=>$appname,
@@ -326,34 +349,26 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 		}		
 	}
 	
-	// check if the version is already added
-	$query = "SELECT id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$version."'";
-	$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
-
-	$numrows = mysql_num_rows($result);
-	if ($numrows == 0) {
-		// version is not available, so add it with status VERSION_STATUS_AVAILABLE
-		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status) values ('".$bundleidentifier."', '".$version."', ".VERSION_STATUS_UNKNOWN.")";
-		$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
-	}
-
-	// now insert the crashlog into the database
-	
-	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".$logdata."', '".$log_groupid."')";
-	$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
-	
-	// if this crash log has to be manually symbolicated, add a todo entry
-	if ($symbolicate)
+	// only add the data if the version is not set to discontinued
+	if ($version_status != VERSION_STATUS_DISCONTINUED)
 	{
-		$new_crashid = mysql_insert_id($link);
+		// now insert the crashlog into the database
+		$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".$logdata."', '".$log_groupid."')";
+		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
+	
+		// if this crash log has to be manually symbolicated, add a todo entry
+		if ($symbolicate)
+		{
+			$new_crashid = mysql_insert_id($link);
 
-		$query = "INSERT INTO ".$dbsymbolicatetable." (crashid, done) values (".$new_crashid.", 0)";
-		$result = mysql_query($query) or die(xml_for_result(RESULT_FAILURE));
+			$query = "INSERT INTO ".$dbsymbolicatetable." (crashid, done) values (".$new_crashid.", 0)";
+			$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_SYMBOLICATE_TODO));
+		}
 	}
 } else if ($acceptlog == false)
 {
 	mysql_close($link);
-	die(xml_for_result(RESULT_FAILURE));
+	die(xml_for_result(FAILURE_INVALID_INCOMING_DATA));
 }
 	
 /* schliessen der Verbinung */

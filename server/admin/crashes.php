@@ -40,10 +40,10 @@ require_once('../config.php');
 
 function end_with_result($result)
 {
-	return '<html><body>'.$result.'</body</html>'; 
+	return '<html><body>'.$result.'</body></html>'; 
 }
 
-$allowed_args = ',groupid,bundleidentifier,version,symbolicate,';
+$allowed_args = ',groupid,bundleidentifier,version,symbolicate,all,';
 
 $link = mysql_connect($server, $loginsql, $passsql)
     or die(end_with_result('No database connection'));
@@ -54,6 +54,7 @@ foreach(array_keys($_GET) as $k) {
     if(strpos($allowed_args,$temp) !== false) { $$k = $_GET[$k]; }
 }
 
+if (!isset($all)) $all = false;
 if (!isset($groupid)) $groupid = "";
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
@@ -70,6 +71,7 @@ if ($groupid == "") {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&version='.$version.'&groupid='.$groupid;
 	$whereclause = " WHERE groupid = ".$groupid;
 }
+if ($all) $pagelink .= "&all=true";
 
 if ($symbolicate != '')
 {
@@ -102,6 +104,9 @@ echo '</table>';
 
 // get all groups
 $query = "SELECT userid, contact, systemversion, description, log, timestamp, id FROM ".$dbcrashtable.$whereclause." ORDER BY systemversion desc, timestamp desc";
+if (!$all) {
+	$query .= " limit ".$default_amount_crashes;
+}
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 $numrows = mysql_num_rows($result);
@@ -154,8 +159,31 @@ if ($numrows > 0) {
 	mysql_free_result($result);
 }
 
-mysql_close($link);
+if (!$all) {
+
+	$amount = 0;
+
+	if ($groupid == "")
+		$groupid=0;
+	
+	$query = "SELECT amount FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' and id = ".$groupid;
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
+	$numrows = mysql_num_rows($result);
+	if ($numrows == 1) {
+		// get the status
+		$row = mysql_fetch_row($result);
+		$amount = $row[0];
+	}
+	
+	mysql_free_result($result);
+
+	if ($amount > $default_amount_crashes)
+		echo "<a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."&all=true'>Show all ".$amount." entries</a>";		
+}
 
 echo '</body></html>';
+
+mysql_close($link);
 
 ?>

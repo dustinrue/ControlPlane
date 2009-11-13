@@ -47,9 +47,36 @@ Server side files:
 - /server/admin/ contains all administration scripts
 - /server/admin/symbolicate.php needs to be copied to a local mac, and the url has to be adjusted to access the scripts on your server
 
-Installation:
+Server Installation:
 - Copy the server scripts to your web server
 - Execute the SQL statements from database_schema.sql in your MySQL database on the web server
+
+Server Database Configuration:
+- Adjust settings in /server/CONFIG.PHP:
+    $server = 'your.server.com';            // database server hostname
+    $loginsql = 'database_username';        // username to access the database
+    $passsql = 'database_password';         // password for the above username
+    $base = 'database_name';                // database name which contains the below listed tables
+- Adjust $default_amount_crashes, this defines the amount of crashes listed right away per pattern, if there are more, those are shown after clicking on a link at the end of the shortened list
+- Adjust your local timezone in the last line: date_default_timezone_set('Europe/Berlin') (see http://de3.php.net/manual/en/timezones.php)
+- If you DO NOT want to limit the server to accept only dataa for your applications:
+  - set $acceptallapps to true
+- Otherwise:
+  - start the web interface
+  - add the bundle identifiers of the permitted apps, e.g. "de.buzzworks.crashreporterdemo" (this is the same bundle identifier string as used in the info.plist of your app!)
+  
+Server Enable Push Notifications:
+- NOTICE: Push Notification requires the Server PHP installation to have curl addon installed!
+- NOTICE: Push Notifications are implemented using Prowl iPhone app and web service, you need the app and an Prowl API key!
+- Adjust settings in /server/CONFIG.PHP:
+    - set $push_activated to true
+    - if you don't want a push message for every new pattern, set $push_newtype to false
+    - adjust $push_amount_group to the amount of crash occurences of a pattern when a push message should be sent
+    - add up to 5 comma separated prowl api keys into $push_prowlids to receive the push messages on the device
+    - adjust $push_default_version, defines if you want to receive pushes for automatically created new versions for your apps
+- If push is activated, check the web interface for push settings per app version
+    
+iPhone Project Installation:
 - Include CrashReportSender.h and CrashReportSender.m into your project
 - Include CrashReporter.framework into your project
 - In your appDelegate.m include
@@ -60,7 +87,8 @@ Installation:
 	}  
   where CRASH_REPORTER_URL points to your crash_v200.php URL
 - Done.
-  
+- When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in CrashReportSender.h
+
 Feel free to add enhancements, fixes, changes and provide them back to the community!
 
 Thanks
