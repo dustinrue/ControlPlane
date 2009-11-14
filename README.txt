@@ -47,11 +47,16 @@ Server side files:
 - /server/admin/ contains all administration scripts
 - /server/admin/symbolicate.php needs to be copied to a local mac, and the url has to be adjusted to access the scripts on your server
 
-Server Installation:
-- Copy the server scripts to your web server
+
+SERVER INSTALLATION:
+
+- Copy the server scripts to your web server:
+  All files inside /server except the content of the /server/local directory
 - Execute the SQL statements from database_schema.sql in your MySQL database on the web server
 
-Server Database Configuration:
+
+SERVER DATABASE CONFIGURATION:
+
 - Adjust settings in /server/CONFIG.PHP:
     $server = 'your.server.com';            // database server hostname
     $loginsql = 'database_username';        // username to access the database
@@ -64,8 +69,9 @@ Server Database Configuration:
 - Otherwise:
   - start the web interface
   - add the bundle identifiers of the permitted apps, e.g. "de.buzzworks.crashreporterdemo" (this is the same bundle identifier string as used in the info.plist of your app!)
-  
-Server Enable Push Notifications:
+
+SERVER ENABLE PUSH NOTIFICATIONS:
+
 - NOTICE: Push Notification requires the Server PHP installation to have curl addon installed!
 - NOTICE: Push Notifications are implemented using Prowl iPhone app and web service, you need the app and an Prowl API key!
 - Adjust settings in /server/CONFIG.PHP:
@@ -75,8 +81,41 @@ Server Enable Push Notifications:
     - add up to 5 comma separated prowl api keys into $push_prowlids to receive the push messages on the device
     - adjust $push_default_version, defines if you want to receive pushes for automatically created new versions for your apps
 - If push is activated, check the web interface for push settings per app version
-    
-iPhone Project Installation:
+
+
+SETUP LOCAL SYMBOLIFICATION:
+
+- NOTICE: These are the instructions when using Mac OS X 10.6.2
+- Copy the files inside of /server/local onto a local directory on your Intel Mac running at least Mac OS X 10.6.2 having the iPhone SDK 3.x installed
+- Adjust settings in local/serverconfig.php
+  - set $hostname to the server hostname running the server side part, e.g. www.crashreporterdemo.com
+  - if the /admin/ directory on the server is access restricted, set the required username into $webuser and password into $webpwd
+  - adjust the path to access the scripts (will be appended to $hostname):
+    - $downloadtodosurl = '/admin/symbolicate_todo.php';  // the path to the script delivering the todo list
+    - $getcrashdataurl = '/admin/crash_get.php?id=';      // the path to the script delivering the crashlog
+    - $updatecrashdataurl = '/admin/crash_update.php';    // the path to the script updating the crashlog
+- Copy the symbolicatecrash executable into an accessable path, e.g. via
+    cp /Developer/Platforms/iPhoneOS.platform/Developer/Library/PrivateFrameworks/DTDeviceKit.framework/Versions/A/Resources/symbolicatecrash /usr/local/bin/
+- Copy the .app package and .app.dSYM package of each version into the local directory where scripts are located
+  Best is to add the version number to the filename, so multiple versions of the same app can be symbolicated.
+  Example:  CrashReporterDemo_1_0.app
+            CrashReporterDemo_1_0.app.dSYM
+            CrashReporterDemoBeta_1_1.app
+            CrashReporterDemoBeta_1_1.app.dSYM
+- Test symbolification:
+  - Download a crash report into the local directory from above
+  - run "symbolicatecrash nameofthecrashlogfile ."
+  - if the output shows function names and line numbers for your code and apples code, everything is fine and ready to go, otherwise there is a problem :(
+- If test was successful, try to execute "php symbolicate.php"
+  This will print some error message which can be ignored
+- Open the web interface and check the crashlogs if they are now symbolicated
+- If everything went fine, setup a cron job
+- IMPORTANT: Don't forget to add new builds with .app and .app.dSYM packages to the directory, so symbolification will be done correctly
+  There is currently no checking if a package is found in the directory before symbolification is started, no matter if it was or not, the result will be uploaded to the server
+  
+
+IPHONE PROJECT INSTALLATION:
+
 - Include CrashReportSender.h and CrashReportSender.m into your project
 - Include CrashReporter.framework into your project
 - In your appDelegate.m include
@@ -88,6 +127,8 @@ iPhone Project Installation:
   where CRASH_REPORTER_URL points to your crash_v200.php URL
 - Done.
 - When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in CrashReportSender.h
+
+
 
 Feel free to add enhancements, fixes, changes and provide them back to the community!
 
