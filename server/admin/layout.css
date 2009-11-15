@@ -1,0 +1,33 @@
+html, body {
+  font-family: 'helvetica neue', helvetica, arial, sans, sans-serif;
+}
+
+a {
+  color: #ff4c7b;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #128ab2;
+  text-decoration: underline;
+}
+
+td {
+  vertical-align: top;
+}
+
+table, td, th {
+  border: 1px solid #ddd;
+}
+
+table, td {
+    border-top: 0;
+}
+
+table, form {
+    margin: 0;    
+}
+
+th {
+  background: #ddd;
+}

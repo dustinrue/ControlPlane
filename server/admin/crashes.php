@@ -90,16 +90,24 @@ if ($symbolicate != '')
 }
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><link rel="stylesheet" type="text/css" href="body.css"></head><body>';
+echo '<html><head><title></title>';
+echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
+echo '<link rel="stylesheet" type="text/css" href="layout.css">';
+echo '</head><body><div id="container" class="container prepend-top append-bottom">';
+echo '<h1>'.$admintitle.'</h1>';
+
+$cols = '<colgroup><col width="80"/><col width="190"/><col width="500"/><col width="110"/></colgroup>';
+
+echo '<h2>';
 
 if (!$acceptallapps)
 	echo '<a href="app_name.php">Apps</a> - ';
 
-echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a> - <a href="crashes.php'.$pagelink.'">Crashes</a><br/><br/>';
+echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a> - <a href="crashes.php'.$pagelink.'">Crashes</a><br/></h2>';
 
 
-echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="450"/><col width="500"/><col width="100"/></colgroup>';
-echo "<tr><th>System</th><th>Timestamp</th><th>Description</th><th>Log</th><th>Action</th></tr>";
+echo '<table>'.$cols;
+echo "<tr><th>System</th><th>Timestamp / Description</th><th>Log</th><th>Action</th></tr>";
 echo '</table>';
 
 // get all groups
@@ -144,12 +152,12 @@ if ($numrows > 0) {
 				$timestamp = "<font color='orange'>".$timestamp."</font>";
 		}
 
-		echo '<table class="bottom" cellspacing="0" cellpadding="2"><colgroup><col width="80"/><col width="180"/><col width="450"/><col width="500"/><col width="100"/></colgroup>';
-		echo "<tr valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."</td><td><textarea rows='10' style='width:95%' readonly>".$description."</textarea></td><td><textarea rows='10' style='width:95%' wrap='off' readonly>".$log."</textarea></td><td><a href='download.php?crashid=".$crashid."'>Download</a><br><br>";
+		echo '<table>'.$cols;
+		echo "<tr valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."<br/><textarea class='short' readonly>".$description."</textarea></td><td><textarea wrap='off' class='log' readonly>".$log."</textarea></td><td><a href='download.php?crashid=".$crashid."' class='button'>Download</a><br><br>";
 		if ($todo == 0)
 			echo "Symolication in progress";
 		else
-			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."'>Symbolicate</a>";
+			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."' class='button'>Symbolicate</a>";
 		if ($todo == 2)
 			echo "<br/>(Not done!)";
 		echo "</td></tr>";
@@ -179,7 +187,7 @@ if (!$all) {
 	mysql_free_result($result);
 
 	if ($amount > $default_amount_crashes)
-		echo "<a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."&all=true'>Show all ".$amount." entries</a>";		
+		echo "<a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."&all=true' class='button'>Show all ".$amount." entries</a>";
 }
 
 echo '</body></html>';

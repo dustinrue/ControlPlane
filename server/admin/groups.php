@@ -105,14 +105,22 @@ if ($fixversion == "-1") $fixversion = "";
 if ($description == "-1") $description = "";
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><link rel="stylesheet" type="text/css" href="body.css"></head><body>';
+echo '<html><head><title></title>';
+echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
+echo '<link rel="stylesheet" type="text/css" href="layout.css">';
+echo '</head><body><div id="container" class="container prepend-top append-bottom">';
+echo '<h1>'.$admintitle.'</h1>';
 
+
+echo '<h2>';
 if (!$acceptallapps)
 	echo '<a href="app_name.php">Apps</a> - ';
 
-echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a><br/><br/>';
+echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a></h2>';
 
-echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="100"/><col width="100"/><col width="180"/><col width="200"/><col width="400"/><col width="200"/></colgroup>';
+$cols = '<colgroup><col width="90"/><col width="50"/><col width="100"/><col width="180"/><col width="360"/><col width="190"/></colgroup>';
+
+echo '<table>'.$cols;
 echo "<tr><th>Pattern</th><th>Amount</th><th>Last Update</th><th>Assigned Fix Version</th><th>Description</th><th>Actions</th></tr>";
 echo '</table>';
 
@@ -148,8 +156,8 @@ if ($numrows > 0) {
 		}
 		
 		echo "<form name='update".$groupid."' action='groups.php' method='get'><input type='hidden' name='bundleidentifier' value='".$bundleidentifier."'/><input type='hidden' name='version' value='".$version."'/><input type='hidden' name='id' value='".$groupid."'/>";
-		echo '<table class="bottom" cellspacing="0"cellpadding="2"><colgroup><col width="100"/><col width="100"/><col width="180"/><col width="200"/><col width="400"/><col width="100"/><col width="100"/></colgroup>';
-		echo "<tr align='center'><td><a href='crashes.php?groupid=".$groupid."&bundleidentifier=".$bundleidentifier."&version=".$version."'>".$pattern."</a></td><td>".$amount."</td><td>";
+		echo '<table>'.$cols;
+		echo "<tr><td><a href='crashes.php?groupid=".$groupid."&bundleidentifier=".$bundleidentifier."&version=".$version."'>".$pattern."</a></td><td>".$amount."</td><td>";
 		
 		if ($lastupdate != "" && ($timestamp = strtotime($lastupdate)) !== false)
 		{
@@ -164,7 +172,7 @@ if ($numrows > 0) {
 		}
 		echo $lastupdate;
 		
-		echo "</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description'>".$description."</textarea></td><td><input type='submit' value='Update'/></td><td><a href='download.php?groupid=".$groupid."'>Download</a><br/><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."'>Delete</a></td></tr>";
+		echo "</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description' class='description'>".$description."</textarea></td><td><button type='submit' class='button'>Update</button><a href='download.php?groupid=".$groupid."' class='button'>Download</a><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."' class='button'>Delete</a></td></tr>";
 		echo '</table>';
 		echo "</form>";
 	}
@@ -182,7 +190,9 @@ if ($numrows > 0) {
 	$amount = $row[0];
 	if ($amount > 0)
 	{
-		echo "Ungrouped crash reports: <a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."'>".$amount."</a> (<a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=0'>Delete</a>)";		
+        echo '<table>'.$cols;
+		echo "<tr><td><a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."'>Ungrouped</a></td><td>".$amount."</td><td></td><td></td><td></td><td><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=0' class='button'>Delete</td></tr>";		
+		echo '</table>';
 	}
 	mysql_free_result($result);
 }

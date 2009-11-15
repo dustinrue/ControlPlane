@@ -82,13 +82,29 @@ if ($query != "")
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><link rel="stylesheet" type="text/css" href="body.css"></head><body>';
+echo '<html><head><title></title>';
+echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
+echo '<link rel="stylesheet" type="text/css" href="layout.css">';
+echo '</head><body><div id="container" class="container prepend-top append-bottom">';
+echo '<h1>'.$admintitle.'</h1>';
 
-echo '<a href="app_name.php">Apps</a><br/><br/>';
+echo '<h2><a href="app_name.php">Apps</a></h2>';
 
-echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="350"/><col width="200"/><col width="200"/><col width="150"/></colgroup>';
+$cols = '<colgroup><col width="300"/><col width="200"/><col width="200"/><col width="150"/></colgroup>';
+echo '<table>'.$cols;
 echo "<tr><th>Bundle identifier</th><th>Name</th><th>Symbolicate</th><th>Actions</th></tr>";
 echo '</table>';
+
+if (!$acceptallapps)
+{
+	echo "<form name='add_app' action='app_name.php' method='get'>";
+	echo '<table>'.$cols;
+	
+	echo "<tr align='center'><td><input type='text' name='bundleidentifier' size='25' maxlength='50'/></td><td><input type='text' name='name' size='20' maxlength='250'/></td><td><select name='symbolicate'><option value=0 selected>Don't symbolicate</option><option value=1>Symbolicate</option></select></td><td><button type='submit' class='button'>Create new App</button></td></tr>";
+
+	
+	echo '</table></form>';
+}
 
 // get all applications and their symbolication status
 $query = "SELECT bundleidentifier, symbolicate, id, name FROM ".$dbapptable." ORDER BY bundleidentifier asc, symbolicate desc";
@@ -103,9 +119,9 @@ if ($numrows > 0) {
 		$symbolicate = $row[1];
 		$id = $row[2];
 		$name = $row[3];
-				
+		
 		echo "<form name='update".$id."' action='app_name.php' method='get'><input type='hidden' name='id' value='".$id."'/>";
-		echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="350"/><col width="200"/><col width="200"/><col width="100"/><col width="50"/></colgroup>';
+		echo '<table>'.$cols;
 
 		echo "<tr align='center'><td><a href='app_versions.php?bundleidentifier=".$bundleidentifier."'>".$bundleidentifier."</a></td>";
 		echo "<td><input type='text' name='name' size='20' maxlength='250' value='".$name."'/></td>";
@@ -118,8 +134,8 @@ if ($numrows > 0) {
 			
 		echo ">Symbolicate</option></select></td>";
 		
-		echo "<td><input type='submit' value='Update'/></td>";
-		echo "<td><a href='app_name.php?id=".$id."'>Delete</a></td>";
+		echo "<td><button class='button' type='submit'>Update</button>";
+		echo " <a href='app_name.php?id=".$id."' class='button'>Delete</a></td>";
 		echo "</tr></table></form>";
 	}
 	
@@ -127,16 +143,6 @@ if ($numrows > 0) {
 }
 
 mysql_close($link);
-
-if (!$acceptallapps)
-{
-	echo "<form name='add_app' action='app_name.php' method='get'>";
-	echo '<table class="bottom" cellspacing="0" cellpadding="2"><col width="350"/><col width="200"/><col width="200"/><col width="150"/></colgroup>';
-	
-	echo "<tr align='center'><td><input type='text' name='bundleidentifier' size='30' maxlength='50'/></td><td><input type='text' name='name' size='20' maxlength='250'/></td><td><select name='symbolicate'><option value=0 selected>Don't symbolicate</option><option value=1>Symbolicate</option></select></td><td><input type='submit' value='Add App'/></td></tr>";
-	
-	echo '</table></form>';
-}
 
 echo '</body></html>';
 

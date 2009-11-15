@@ -84,6 +84,8 @@ $color48h = "orange";							// color of timestamp if the latest crash is within 
 $color72h = "black";							// color of timestamp if the latest crash is within the last 72h in Version view
 $colorOther = "grey";							// color of timestamp for older last crashes in Version view
 
+$admintitle = "CrashReporter Admin Interface";  // Adjust this string to your own title string shown on top of every page
+
 date_default_timezone_set('Europe/Berlin');	    // set the default timezone (see http://de3.php.net/manual/en/timezones.php)
 
 ?>

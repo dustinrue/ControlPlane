@@ -91,16 +91,67 @@ if ($bundleidentifier != "" && $status != "" && $id == "" && $version != "") {
 }
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><link rel="stylesheet" type="text/css" href="body.css"></head><body>';
+echo '<html><head><title></title>';
+echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
+echo '<link rel="stylesheet" type="text/css" href="layout.css">';
+echo '</head><body><div id="container" class="container prepend-top append-bottom">';
+echo '<h1>'.$admintitle.'</h1>';
 
 if ($acceptallapps)
-	echo '<a href="app_versions.php">Versions</a><br/><br/>';
+	echo '<h2><a href="app_versions.php">Versions</a></h2>';
 else
-	echo '<a href="app_name.php">Apps</a> - <a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a><br/><br/>';
+	echo '<h2><a href="app_name.php">Apps</a> - <a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a></h2>';
 
-echo '<table class="top" cellspacing="0" cellpadding="2"><colgroup><col width="400"/><col width="100"/><col width="200"/><col width="80"/><col width="100"/><col width="100"/><col width="100"/></colgroup>';
+$cols = '<colgroup><col width="200"/><col width="100"/><col width="120"/><col width="80"/><col width="80"/><col width="80"/><col width="160"/></colgroup>';
+echo '<table>'.$cols;
 echo "<tr><th>Name</th><th>Version</th><th>Status</th><th>Push</th><th>Groups</th><th>Total Crashes</th><th>Actions</th></tr>";
 echo '</table>';
+
+echo "<form name='add_version' action='app_versions.php' method='get'>";
+if (!$acceptallapps)
+	echo "<input type='hidden' name='bundleidentifier' value='".$bundleidentifier."'/>";
+
+echo '<table>'.$cols;
+
+echo "<tr align='center'><td>";
+
+if ($acceptallapps)
+	echo "<input type='text' name='bundleidentifier' size='25' maxlength='50'/>";
+else
+	echo $bundleidentifier;
+
+echo "</td><td><input type='text' name='version' size='7' maxlength='20'/></td><td><select name='status'>";
+
+for ($i=0; $i < count($statusversions); $i++)
+{
+	echo "<option value='".$i."'>".$statusversions[$i]."</option>";
+}
+echo "</select></td><td>";
+
+if ($push_activated) {
+	echo "<select name='push' onchange='javascript:document.update".$id.".submit();'>";
+		
+	echo "<option value='".PUSH_OFF."'";
+	if ($push_default_version == PUSH_OFF)
+		echo " selected ";
+	echo ">OFF</option>";
+	echo "<option value='".PUSH_ACTIVATED."'";
+	if ($push_default_version == PUSH_ACTIVATED)
+		echo " selected ";
+	echo ">ALL</option>";
+	echo "<option value='".PUSH_ACTIVATED_AMOUNT."'";
+	if ($push_default_version == PUSH_ACTIVATED_AMOUNT)
+		echo " selected ";
+	echo ">&gt; ".$push_amount_group."</option>";
+			
+	echo "</select>";
+} else {
+	echo "<input type='hidden' name='push' value='".PUSH_OFF."'/>";
+}
+
+echo "</td><td><br/></td><td><br/></td><td><button type='submit' class='button'>Add Version</button></td></tr>";
+
+echo '</table></form>';
 
 // get all applications and their versions, amount of groups and amount of total bug reports
 if ($acceptallapps)
@@ -148,7 +199,7 @@ if ($numrows > 0) {
 		}
 		
 		echo "<form name='update".$id."' action='app_versions.php' method='get'><input type='hidden' name='id' value='".$id."'/><input type='hidden' name='bundleidentifier' value='".$bundleidentifier."'/>";
-		echo '<table class="bottom" cellspacing="0" cellpadding="2"><colgroup><col width="400"/><col width="100"/><col width="200"/><col width="80"/><col width="100"/><col width="100"/><col width="100"/></colgroup>';
+		echo '<table>'.$cols;
 
 
 		echo "<tr align='center'><td>".$bundleidentifier."</td><td>";
@@ -204,7 +255,7 @@ if ($numrows > 0) {
 				$row2 = mysql_fetch_row($result2);
 				if ($row2[0] == 0)
 				{
-					echo " <a href='app_versions.php?id=".$id."&bundleidentifier=".$bundleidentifier."'>Delete</a>";
+					echo " <a href='app_versions.php?id=".$id."&bundleidentifier=".$bundleidentifier."' class='button'>Delete</a>";
 				}
 				
 				mysql_free_result($result2);
@@ -217,52 +268,6 @@ if ($numrows > 0) {
 }
 
 mysql_close($link);
-
-echo "<form name='add_version' action='app_versions.php' method='get'>";
-if (!$acceptallapps)
-	echo "<input type='hidden' name='bundleidentifier' value='".$bundleidentifier."'/>";
-
-echo '<table class="bottom" cellspacing="0" cellpadding="2"><colgroup><col width="400"/><col width="100"/><col width="200"/><col width="80"/><col width="200"/><col width="100"/></colgroup>';
-
-echo "<tr align='center'><td>";
-
-if ($acceptallapps)
-	echo "<input type='text' name='bundleidentifier' size='30' maxlength='50'/>";
-else
-	echo $bundleidentifier;
-
-echo "</td><td><input type='text' name='version' size='10' maxlength='20'/></td><td><select name='status'>";
-
-for ($i=0; $i < count($statusversions); $i++)
-{
-	echo "<option value='".$i."'>".$statusversions[$i]."</option>";
-}
-echo "</select></td><td>";
-
-if ($push_activated) {
-	echo "<select name='push' onchange='javascript:document.update".$id.".submit();'>";
-		
-	echo "<option value='".PUSH_OFF."'";
-	if ($push_default_version == PUSH_OFF)
-		echo " selected ";
-	echo ">OFF</option>";
-	echo "<option value='".PUSH_ACTIVATED."'";
-	if ($push_default_version == PUSH_ACTIVATED)
-		echo " selected ";
-	echo ">ALL</option>";
-	echo "<option value='".PUSH_ACTIVATED_AMOUNT."'";
-	if ($push_default_version == PUSH_ACTIVATED_AMOUNT)
-		echo " selected ";
-	echo ">&gt; ".$push_amount_group."</option>";
-			
-	echo "</select>";
-} else {
-	echo "<input type='hidden' name='push' value='".PUSH_OFF."'/>";
-}
-
-echo "</td><td><br/></td><td><input type='submit' value='Add Version'/></td></tr>";
-
-echo '</table></form>';
 
 echo '</body></html>';
 
