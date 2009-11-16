@@ -31,3 +31,7 @@ table, form {
 th {
   background: #ddd;
 }
+
+textarea.description {width:250px;height:70px;padding:5px;}
+textarea.short {width:160px;height:100px;padding:5px;}
+textarea.log {width:470px;height:120px;padding:5px;}
