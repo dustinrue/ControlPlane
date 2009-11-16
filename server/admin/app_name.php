@@ -135,7 +135,7 @@ if ($numrows > 0) {
 		echo ">Symbolicate</option></select></td>";
 		
 		echo "<td><button class='button' type='submit'>Update</button>";
-		echo " <a href='app_name.php?id=".$id."' class='button'>Delete</a></td>";
+		echo " <a href='app_name.php?id=".$id."' class='button' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td>";
 		echo "</tr></table></form>";
 	}
 	

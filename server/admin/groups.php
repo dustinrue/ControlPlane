@@ -172,7 +172,7 @@ if ($numrows > 0) {
 		}
 		echo $lastupdate;
 		
-		echo "</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description' class='description'>".$description."</textarea></td><td><button type='submit' class='button'>Update</button><a href='download.php?groupid=".$groupid."' class='button'>Download</a><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."' class='button'>Delete</a></td></tr>";
+		echo "</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description' class='description'>".$description."</textarea></td><td><button type='submit' class='button'>Update</button><a href='download.php?groupid=".$groupid."' class='button'>Download</a><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."' class='button' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td></tr>";
 		echo '</table>';
 		echo "</form>";
 	}

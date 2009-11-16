@@ -255,7 +255,7 @@ if ($numrows > 0) {
 				$row2 = mysql_fetch_row($result2);
 				if ($row2[0] == 0)
 				{
-					echo " <a href='app_versions.php?id=".$id."&bundleidentifier=".$bundleidentifier."' class='button'>Delete</a>";
+					echo " <a href='app_versions.php?id=".$id."&bundleidentifier=".$bundleidentifier."' class='button' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a>";
 				}
 				
 				mysql_free_result($result2);
