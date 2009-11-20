@@ -37,27 +37,15 @@
 //
 
 require_once('../config.php');
+require_once('common.inc');
 
 if ($acceptallapps)
 {
 	die('<html><head><META http-equiv="refresh" content="0;URL=app_versions.php"></head><body></body></html>'); 
 }
 
-function end_with_result($result)
-{
-	return '<html><body>'.$result.'</body</html>'; 
-}
-
-$allowed_args = ',bundleidentifier,symbolicate,id,name,';
-
-$link = mysql_connect($server, $loginsql, $passsql)
-    or die(end_with_result('No database connection'));
-mysql_select_db($base) or die(end_with_result('No database connection'));
-
-foreach(array_keys($_GET) as $k) {
-    $temp = ",$k,";
-    if(strpos($allowed_args,$temp) !== false) { $$k = $_GET[$k]; }
-}
+init_database();
+parse_parameters(',bundleidentifier,symbolicate,id,name,');
 
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($symbolicate)) $symbolicate = "";
@@ -81,12 +69,7 @@ if ($id != "" && $symbolicate != "") {
 if ($query != "")
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
-echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><title></title>';
-echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
-echo '<link rel="stylesheet" type="text/css" href="layout.css">';
-echo '</head><body><div id="container" class="container prepend-top append-bottom">';
-echo '<h1>'.$admintitle.'</h1>';
+show_header('- Apps');
 
 echo '<h2><a href="app_name.php">Apps</a></h2>';
 
@@ -125,14 +108,10 @@ if ($numrows > 0) {
 
 		echo "<tr align='center'><td><a href='app_versions.php?bundleidentifier=".$bundleidentifier."'>".$bundleidentifier."</a></td>";
 		echo "<td><input type='text' name='name' size='20' maxlength='250' value='".$name."'/></td>";
-		echo "<td><select name='symbolicate' onchange='javascript:document.update".$id.".submit();'><option value=0";
-		if ($symbolicate == 0)
-			echo " selected";			
-		echo ">Don't symbolicate</option><option value=1";
-		if ($symbolicate == 1)
-			echo " selected";
-			
-		echo ">Symbolicate</option></select></td>";
+		echo "<td><select name='symbolicate' onchange='javascript:document.update".$id.".submit();'>";
+        add_option("Don't symbolicate", 0, $symbolicate);
+        add_option('Symbolicate', 1, $symbolicate);			
+		echo "</select></td>";
 		
 		echo "<td><button class='button' type='submit'>Update</button>";
 		echo " <a href='app_name.php?id=".$id."' class='button' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td>";

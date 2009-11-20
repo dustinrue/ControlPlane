@@ -41,22 +41,10 @@
 //
 
 require_once('../config.php');
+require_once('common.inc');
 
-function end_with_result($result)
-{
-	return '<html><body>'.$result.'</body</html>'; 
-}
-
-$allowed_args = ',bundleidentifier,version,fixversion,id,description,groupid,';
-
-$link = mysql_connect($server, $loginsql, $passsql)
-    or die(end_with_result('No database connection'));
-mysql_select_db($base) or die(end_with_result('No database connection'));
-
-foreach(array_keys($_GET) as $k) {
-    $temp = ",$k,";
-    if(strpos($allowed_args,$temp) !== false) { $$k = $_GET[$k]; }
-}
+init_database();
+parse_parameters(',bundleidentifier,version,fixversion,id,description,groupid,');
 
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
@@ -104,19 +92,15 @@ if ($id == "-1") $$id = "";
 if ($fixversion == "-1") $fixversion = "";
 if ($description == "-1") $description = "";
 
-echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><title></title>';
-echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
-echo '<link rel="stylesheet" type="text/css" href="layout.css">';
-echo '</head><body><div id="container" class="container prepend-top append-bottom">';
-echo '<h1>'.$admintitle.'</h1>';
-
+show_header('- Crash Patterns');
 
 echo '<h2>';
 if (!$acceptallapps)
 	echo '<a href="app_name.php">Apps</a> - ';
 
-echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a></h2>';
+echo create_link($bundleidentifier, 'app_versions.php', false, 'bundleidentifier').' - '.create_link('Version '.$version, 'groups.php', false, 'bundleidentifier,version').'</h2>';
+
+show_search("", -1);
 
 $cols = '<colgroup><col width="90"/><col width="50"/><col width="100"/><col width="180"/><col width="360"/><col width="190"/></colgroup>';
 

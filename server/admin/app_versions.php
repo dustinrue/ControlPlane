@@ -40,22 +40,10 @@
 //
 
 require_once('../config.php');
+require_once('common.inc');
 
-function end_with_result($result)
-{
-	return '<html><body>'.$result.'</body></html>'; 
-}
-
-$allowed_args = ',bundleidentifier,version,status,symbolicate,id,push,';
-
-$link = mysql_connect($server, $loginsql, $passsql)
-    or die(end_with_result('No database connection'));
-mysql_select_db($base) or die(end_with_result('No database connection'));
-
-foreach(array_keys($_GET) as $k) {
-    $temp = ",$k,";
-    if(strpos($allowed_args,$temp) !== false) { $$k = $_GET[$k]; }
-}
+init_database();
+parse_parameters(',bundleidentifier,version,status,symbolicate,id,push,');
 
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
@@ -90,19 +78,16 @@ if ($bundleidentifier != "" && $status != "" && $id == "" && $version != "") {
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 }
 
-echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><title></title>';
-echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
-echo '<link rel="stylesheet" type="text/css" href="layout.css">';
-echo '</head><body><div id="container" class="container prepend-top append-bottom">';
-echo '<h1>'.$admintitle.'</h1>';
+show_header('- App Versions');
 
 if ($acceptallapps)
 	echo '<h2><a href="app_versions.php">Versions</a></h2>';
 else
-	echo '<h2><a href="app_name.php">Apps</a> - <a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a></h2>';
+	echo '<h2><a href="app_name.php">Apps</a> - '.create_link($bundleidentifier, 'app_versions.php', false, 'bundleidentifier').'</h2>';
 
-$cols = '<colgroup><col width="200"/><col width="100"/><col width="120"/><col width="80"/><col width="80"/><col width="80"/><col width="160"/></colgroup>';
+show_search("", -1);
+
+$cols = '<colgroup><col width="220"/><col width="80"/><col width="120"/><col width="80"/><col width="80"/><col width="80"/><col width="160"/></colgroup>';
 echo '<table>'.$cols;
 echo "<tr><th>Name</th><th>Version</th><th>Status</th><th>Push</th><th>Groups</th><th>Total Crashes</th><th>Actions</th></tr>";
 echo '</table>';
@@ -124,26 +109,15 @@ echo "</td><td><input type='text' name='version' size='7' maxlength='20'/></td><
 
 for ($i=0; $i < count($statusversions); $i++)
 {
-	echo "<option value='".$i."'>".$statusversions[$i]."</option>";
+    add_option($statusversions[$i], $i, $status);
 }
 echo "</select></td><td>";
 
 if ($push_activated) {
 	echo "<select name='push' onchange='javascript:document.update".$id.".submit();'>";
-		
-	echo "<option value='".PUSH_OFF."'";
-	if ($push_default_version == PUSH_OFF)
-		echo " selected ";
-	echo ">OFF</option>";
-	echo "<option value='".PUSH_ACTIVATED."'";
-	if ($push_default_version == PUSH_ACTIVATED)
-		echo " selected ";
-	echo ">ALL</option>";
-	echo "<option value='".PUSH_ACTIVATED_AMOUNT."'";
-	if ($push_default_version == PUSH_ACTIVATED_AMOUNT)
-		echo " selected ";
-	echo ">&gt; ".$push_amount_group."</option>";
-			
+    add_option('OFF', PUSH_OFF, $push_default_version);
+    add_option('ALL', PUSH_ACTIVATED, $push_default_version);
+    add_option('&gt; '.$push_amount_group, PUSH_ACTIVATED_AMOUNT, $push_default_version);		
 	echo "</select>";
 } else {
 	echo "<input type='hidden' name='push' value='".PUSH_OFF."'/>";
@@ -224,20 +198,9 @@ if ($numrows > 0) {
 		echo "</td><td>";
 		if ($push_activated) {
 			echo "<select name='push' onchange='javascript:document.update".$id.".submit();'>";
-		
-			echo "<option value='".PUSH_OFF."'";
-			if ($push == 0)
-				echo " selected ";				
-			echo ">OFF</option>";
-			echo "<option value='".PUSH_ACTIVATED."'";
-			if ($push == 1)
-				echo " selected ";				
-			echo ">ALL</option>";
-			echo "<option value='".PUSH_ACTIVATED_AMOUNT."'";
-			if ($push == 2)
-				echo " selected ";				
-			echo ">&gt; ".$push_amount_group."</option>";
-			
+		    add_option('OFF', PUSH_OFF, $push);
+            add_option('ALL', PUSH_ACTIVATED, $push);
+            add_option('&gt; '.$push_amount_group, PUSH_ACTIVATED_AMOUNT, $push);					
 			echo "</select>";
 		} else {
 			echo "<input type='hidden' name='push' value='".PUSH_OFF."'/>";

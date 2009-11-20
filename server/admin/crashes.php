@@ -37,34 +37,35 @@
 //
 
 require_once('../config.php');
+require_once('common.inc');
 
-function end_with_result($result)
-{
-	return '<html><body>'.$result.'</body></html>'; 
-}
-
-$allowed_args = ',groupid,bundleidentifier,version,symbolicate,all,';
-
-$link = mysql_connect($server, $loginsql, $passsql)
-    or die(end_with_result('No database connection'));
-mysql_select_db($base) or die(end_with_result('No database connection'));
-
-foreach(array_keys($_GET) as $k) {
-    $temp = ",$k,";
-    if(strpos($allowed_args,$temp) !== false) { $$k = $_GET[$k]; }
-}
+init_database();
+parse_parameters(',groupid,bundleidentifier,version,symbolicate,all,search,type,');
 
 if (!isset($all)) $all = false;
 if (!isset($groupid)) $groupid = "";
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
 if (!isset($symbolicate)) $symbolicate = "";
+if (!isset($search)) $search = "";
+if (!isset($type)) $type = "";
 
-if ($bundleidentifier == "" && $version == "") die(end_with_result('Wrong parameters'));
+if ($bundleidentifier == "" && ($version == "" || $type = "")) die(end_with_result('Wrong parameters'));
 
 $whereclause = "";
 $pagelink = "";
-if ($groupid == "") {
+if ($search != "" && $type != "") {
+	$pagelink = '?bundleidentifier='.$bundleidentifier.'&search='.$search.'&type='.$type;
+	$whereclause = " WHERE bundleidentifier = '".$bundleidentifier."'";
+	if ($type == SEARCH_TYPE_ID)
+        $whereclause .= " AND id = '".$search."'";
+    else if ($type == SEARCH_TYPE_DESCRIPTION)
+        $whereclause .= " AND description like '%".$search."%'";
+    else if ($type  == SEARCH_TYPE_CRASHLOG)
+        $whereclause .= " AND log like '%".$search."%'";
+    if ($version != "")
+    	$whereclause .= " AND version = '".$version."'";
+} else if ($groupid == "") {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&version='.$version;
 	$whereclause = " WHERE bundleidentifier = '".$bundleidentifier."' AND version = '".$version."' AND groupid = 0";
 } else {
@@ -89,12 +90,7 @@ if ($symbolicate != '')
 	$result = mysql_query($query) or die('Error in SQL '.$dbsymbolicatetable);
 }
 
-echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
-echo '<html><head><title></title>';
-echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
-echo '<link rel="stylesheet" type="text/css" href="layout.css">';
-echo '</head><body><div id="container" class="container prepend-top append-bottom">';
-echo '<h1>'.$admintitle.'</h1>';
+show_header('- List');
 
 $cols = '<colgroup><col width="80"/><col width="190"/><col width="500"/><col width="110"/></colgroup>';
 
@@ -103,8 +99,13 @@ echo '<h2>';
 if (!$acceptallapps)
 	echo '<a href="app_name.php">Apps</a> - ';
 
-echo '<a href="app_versions.php?bundleidentifier='.$bundleidentifier.'">'.$bundleidentifier.'</a> - <a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Version '.$version.'</a> - <a href="crashes.php'.$pagelink.'">Crashes</a><br/></h2>';
+echo create_link($bundleidentifier, 'app_versions.php', false, 'bundleidentifier').' - ';
+if ($version != "")
+    echo create_link('Version '.$version, 'groups.php', false, 'bundleidentifier,version').' - ';
+echo create_link('Crashes', 'crashes.php', false, $pagelink).'</h2>';
 
+if ($search != "" || $type != "")
+    show_search($search, $type);
 
 echo '<table>'.$cols;
 echo "<tr><th>System</th><th>Timestamp / Description</th><th>Log</th><th>Action</th></tr>";
@@ -170,11 +171,15 @@ if ($numrows > 0) {
 if (!$all) {
 
 	$amount = 0;
-
-	if ($groupid == "")
-		$groupid=0;
 	
-	$query = "SELECT amount FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' and id = ".$groupid;
+	if ($search != "" && $type != "")
+        $query = "SELECT count(*) FROM ".$dbcrashtable.$whereclause;
+    else {
+    	if ($groupid == "")
+    		$groupid = 0;
+
+    	$query = "SELECT amount FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' and id = ".$groupid;
+	}
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 	$numrows = mysql_num_rows($result);
@@ -187,7 +192,7 @@ if (!$all) {
 	mysql_free_result($result);
 
 	if ($amount > $default_amount_crashes)
-		echo "<a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."&all=true' class='button'>Show all ".$amount." entries</a>";
+        echo create_link('Show all '.$amount.' entries', 'crashes.php', true, ',bundleidentifier,version,groupid,search,type,all=true');
 }
 
 echo '</body></html>';
