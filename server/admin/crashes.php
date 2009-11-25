@@ -40,7 +40,7 @@ require_once('../config.php');
 require_once('common.inc');
 
 init_database();
-parse_parameters(',groupid,bundleidentifier,version,symbolicate,all,search,type,');
+parse_parameters(',groupid,bundleidentifier,version,symbolicate,all,search,type,fixversion,description,');
 
 if (!isset($all)) $all = false;
 if (!isset($groupid)) $groupid = "";
@@ -49,12 +49,28 @@ if (!isset($version)) $version = "";
 if (!isset($symbolicate)) $symbolicate = "";
 if (!isset($search)) $search = "";
 if (!isset($type)) $type = "";
+if (!isset($fixversion)) $fixversion = "-1";
+if (!isset($description)) $description = "-1";
 
-if ($bundleidentifier == "" && ($version == "" || $type = "")) die(end_with_result('Wrong parameters'));
+if ($bundleidentifier == "" && ($version == "" || $type = "" || $fixversion = "-1" || $description = "-1")) die(end_with_result('Wrong parameters'));
 
 $whereclause = "";
 $pagelink = "";
-if ($search != "" && $type != "") {
+if ($groupid != "" && $fixversion != "-1") {
+	$query = "UPDATE ".$dbgrouptable." SET fix = '".$fixversion."' WHERE id = ".$groupid;
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+	
+	// check if the fix version is already added, if not add it
+	$query = "SELECT id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$fixversion."'";
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+	
+	$numrows = mysql_num_rows($result);
+	if ($numrows == 0) {
+		// version is not available, so add it with status VERSION_STATUS_AVAILABLE
+		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status) values ('".$bundleidentifier."', '".$fixversion."', ".VERSION_STATUS_UNKNOWN.")";
+		$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+	}
+} else if ($search != "" && $type != "") {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&search='.$search.'&type='.$type;
 	$whereclause = " WHERE bundleidentifier = '".$bundleidentifier."'";
 	if ($type == SEARCH_TYPE_ID)
@@ -72,6 +88,12 @@ if ($search != "" && $type != "") {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&version='.$version.'&groupid='.$groupid;
 	$whereclause = " WHERE groupid = ".$groupid;
 }
+
+if ($groupid != "" && $description != "-1") {
+	$query = "UPDATE ".$dbgrouptable." SET description = '".$description."' WHERE id = ".$groupid;
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+}
+
 if ($all) $pagelink .= "&all=true";
 
 if ($symbolicate != '')
@@ -106,6 +128,39 @@ echo create_link('Crashes', 'crashes.php', false, $pagelink).'</h2>';
 
 if ($search != "" || $type != "")
     show_search($search, $type);
+
+if ($groupid !='') {
+    $cols2 = '<colgroup><col width="280"/><col width="500"/><col width="190"/></colgroup>';
+
+    $query = "SELECT fix, description FROM ".$dbgrouptable." WHERE id = '".$groupid."'";
+    $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
+    $numrows = mysql_num_rows($result);
+    if ($numrows > 0) {
+        // get the status
+        while ($row = mysql_fetch_row($result))
+        {
+            $fix = $row[0];
+            $description = $row[1];
+            
+            echo '<form name="search" action="crashes.php" method="get">';
+            echo '<input type="hidden" name="bundleidentifier" value="'.$bundleidentifier.'"/>';
+            echo '<input type="hidden" name="groupid" value="'.$groupid.'"/>';
+            if ($search != "")
+                echo '<input type="hidden" name="search" value="'.$search.'"/>';
+            if ($type != "")
+                echo '<input type="hidden" name="type" value="'.$type.'"/>';
+            if ($version != "")
+                echo '<input type="hidden" name="version" value="'.$version.'"/>';
+            echo '<table>'.$cols2.'<tr><th>Assigned Fix Version</th><th>Description</th><th>Actions</th></tr>';
+            echo '<tr><td><input type="text" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/></td>';
+            echo '<td><textarea cols="50" rows="2" name="description" class="description">'.$description.'</textarea></td>';
+            echo '<td><button type="submit" class="button" style="float:right;">Update</button></td></tr>';
+            echo '</table></form>';
+        }
+    }
+   	mysql_free_result($result);
+}
 
 echo '<table>'.$cols;
 echo "<tr><th>System</th><th>Timestamp / Description</th><th>Log</th><th>Action</th></tr>";
@@ -166,6 +221,10 @@ if ($numrows > 0) {
 	}
 	
 	mysql_free_result($result);
+} else {
+		echo '<table>'.$cols;
+		echo '<tr><td colspan="4">No data found</td></tr>';
+		echo '</table>';
 }
 
 if (!$all) {

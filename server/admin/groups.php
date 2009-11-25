@@ -60,7 +60,7 @@ if ($id != "-1" && $id != "" && $fixversion != "-1") {
 	$query = "UPDATE ".$dbgrouptable." SET fix = '".$fixversion."' WHERE id = ".$id;
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 	
-	// check if the fix version is alreadz added, if not add it
+	// check if the fix version is already added, if not add it
 	$query = "SELECT id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$fixversion."'";
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 	
