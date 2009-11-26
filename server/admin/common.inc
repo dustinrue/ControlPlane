@@ -122,4 +122,40 @@ function show_search($text, $currenttype)
     echo '</table></form>';
 }
 
+function currentPageURL()
+{
+    $pageURL = 'http';
+    if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+    $pageURL .= "://";
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+    } else {
+        $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+    }
+    return $pageURL;
+}
+
+function create_issue($bundleidentifier, $issuelink)
+{
+    global $dbapptable, $createIssueTitle;
+    
+    $query = "SELECT issuetrackerurl FROM ".$dbapptable." WHERE bundleidentifier = '".$bundleidentifier."'";
+    $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
+    $numrows = mysql_num_rows($result);
+    if ($numrows > 0) {
+        // get the status
+        while ($row = mysql_fetch_row($result))
+        {
+            $issuetrackerurl = $row[0];
+            $issuetrackerurl = str_replace('%subject%', urlencode($createIssueTitle), $issuetrackerurl);
+            $issuetrackerurl = str_replace('%description%', urlencode('Crash Log: '.$issuelink), $issuetrackerurl);
+            return "<a href='".$issuetrackerurl."' target='_new' class='button'>New issue</a>";
+        }
+    }
+    
+    return '';
+}
+
+
 ?>

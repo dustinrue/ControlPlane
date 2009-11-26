@@ -45,21 +45,22 @@ if ($acceptallapps)
 }
 
 init_database();
-parse_parameters(',bundleidentifier,symbolicate,id,name,');
+parse_parameters(',bundleidentifier,symbolicate,id,name,issuetrackerurl,');
 
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($symbolicate)) $symbolicate = "";
 if (!isset($id)) $id = "";
 if (!isset($name)) $name = "";
+if (!isset($issuetrackerurl)) $issuetrackerurl = "";
 
 $query = "";
 // update the app
 if ($id != "" && $symbolicate != "") {
-	$query = "UPDATE ".$dbapptable." SET symbolicate = ".$symbolicate.", name = '".$name."' WHERE id = ".$id;
+	$query = "UPDATE ".$dbapptable." SET symbolicate = ".$symbolicate.", name = '".$name."', issuetrackerurl = '".$issuetrackerurl."' WHERE id = ".$id;
 } else if ($bundleidentifier != "" && $id == "" && $symbolicate != "") {
 	// insert new app
 	// version is not available, so add it with status VERSION_STATUS_AVAILABLE
-	$query = "INSERT INTO ".$dbapptable." (bundleidentifier, name, symbolicate) values ('".$bundleidentifier."', '".$name."', ".$symbolicate.")";
+	$query = "INSERT INTO ".$dbapptable." (bundleidentifier, name, symbolicate, issuetrackerurl) values ('".$bundleidentifier."', '".$name."', ".$symbolicate.", '".$issuetrackerurl."')";
 } else if ($symbolicate != "" && $id != "") {
 	$query = "UPDATE ".$dbapptable." SET symbolicate = ".$symbolicate." WHERE id = ".$id;
 } else if ($id != "" && $symbolicate == "") {
@@ -75,7 +76,7 @@ echo '<h2><a href="app_name.php">Apps</a></h2>';
 
 $cols = '<colgroup><col width="300"/><col width="200"/><col width="200"/><col width="150"/></colgroup>';
 echo '<table>'.$cols;
-echo "<tr><th>Bundle identifier</th><th>Name</th><th>Symbolicate</th><th>Actions</th></tr>";
+echo "<tr><th>Bundle identifier</th><th>Name / Issue Tracker</th><th>Symbolicate</th><th>Actions</th></tr>";
 echo '</table>';
 
 if (!$acceptallapps)
@@ -83,14 +84,14 @@ if (!$acceptallapps)
 	echo "<form name='add_app' action='app_name.php' method='get'>";
 	echo '<table>'.$cols;
 	
-	echo "<tr align='center'><td><input type='text' name='bundleidentifier' size='25' maxlength='50'/></td><td><input type='text' name='name' size='20' maxlength='250'/></td><td><select name='symbolicate'><option value=0 selected>Don't symbolicate</option><option value=1>Symbolicate</option></select></td><td><button type='submit' class='button'>Create new App</button></td></tr>";
+	echo "<tr align='center'><td><input type='text' name='bundleidentifier' size='25' maxlength='50'/></td><td><input type='text' name='name' size='25' maxlength='250'/><br/><input type='text' name='issuetrackerurl' size='25' maxlength='4000' placeholder='%subject% %description%'/></td><td><select name='symbolicate'><option value=0 selected>Don't symbolicate</option><option value=1>Symbolicate</option></select></td><td><button type='submit' class='button'>Create new App</button></td></tr>";
 
 	
 	echo '</table></form>';
 }
 
 // get all applications and their symbolication status
-$query = "SELECT bundleidentifier, symbolicate, id, name FROM ".$dbapptable." ORDER BY bundleidentifier asc, symbolicate desc";
+$query = "SELECT bundleidentifier, symbolicate, id, name, issuetrackerurl FROM ".$dbapptable." ORDER BY bundleidentifier asc, symbolicate desc";
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 $numrows = mysql_num_rows($result);
@@ -102,12 +103,13 @@ if ($numrows > 0) {
 		$symbolicate = $row[1];
 		$id = $row[2];
 		$name = $row[3];
+		$issuetrackerurl = $row[4];
 		
 		echo "<form name='update".$id."' action='app_name.php' method='get'><input type='hidden' name='id' value='".$id."'/>";
 		echo '<table>'.$cols;
 
 		echo "<tr align='center'><td><a href='app_versions.php?bundleidentifier=".$bundleidentifier."'>".$bundleidentifier."</a></td>";
-		echo "<td><input type='text' name='name' size='20' maxlength='250' value='".$name."'/></td>";
+		echo "<td><input type='text' name='name' size='25' maxlength='250' value='".$name."'/><br/><input type='text' name='issuetrackerurl' size='25' maxlength='4000' value='".$issuetrackerurl."' placeholder='%subject% %description%'/></td>";
 		echo "<td><select name='symbolicate' onchange='javascript:document.update".$id.".submit();'>";
         add_option("Don't symbolicate", 0, $symbolicate);
         add_option('Symbolicate', 1, $symbolicate);			

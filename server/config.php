@@ -90,6 +90,8 @@ $colorOther = "grey";							// color of timestamp for older last crashes in Vers
 
 $admintitle = "CrashReporter Admin Interface";  // Adjust this string to your own title string shown on top of every page
 
+$createIssueTitle = "New crash type";           // The title given for a new issue
+
 date_default_timezone_set('Europe/Berlin');	    // set the default timezone (see http://de3.php.net/manual/en/timezones.php)
 
 ?>

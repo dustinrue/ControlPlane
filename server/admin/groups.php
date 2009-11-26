@@ -156,9 +156,13 @@ if ($numrows > 0) {
 		}
 		echo $lastupdate;
 		
-		echo "</td><td><input type='text' name='fixversion' size='20' maxlength='20' value='".$fix."'/></td><td><textarea cols='50' rows='2' name='description' class='description'>".$description."</textarea></td><td><button type='submit' class='button'>Update</button><a href='download.php?groupid=".$groupid."' class='button'>Download</a><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."' class='button' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td></tr>";
+		echo '</td><td><input type="text" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/></td><td><textarea cols="50" rows="2" name="description" class="description">'.$description.'</textarea></td><td><button type="submit" class="button">Update</button><a href="download.php?groupid='.$groupid.'" class="button">Download</a>';
+		$issuelink = currentPageURL();
+		$issuelink = substr($issuelink, 0, strrpos($issuelink, "/")+1);
+		echo create_issue($bundleidentifier, $issuelink.'crashes.php?groupid='.$groupid.'&bundleidentifier='.$bundleidentifier.'&version='.$version);
+		echo '<a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'&groupid='.$groupid.'" class="button redButton" onclick="return confirm(\"Do you really want to delete this item?\");">Delete</a></td></tr>';
 		echo '</table>';
-		echo "</form>";
+		echo '</form>';
 	}
 	
 	mysql_free_result($result);

@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `apps` (
   `bundleidentifier` varchar(250) NOT NULL,
   `name` varchar(50) NOT NULL,
   `symbolicate` tinyint(4) default '0',
+  `issuetrackerurl` text default NULL,
   PRIMARY KEY  (`id`),
   KEY `symbolicate` (`symbolicate`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;

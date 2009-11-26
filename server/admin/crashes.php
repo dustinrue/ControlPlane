@@ -155,7 +155,9 @@ if ($groupid !='') {
             echo '<table>'.$cols2.'<tr><th>Assigned Fix Version</th><th>Description</th><th>Actions</th></tr>';
             echo '<tr><td><input type="text" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/></td>';
             echo '<td><textarea cols="50" rows="2" name="description" class="description">'.$description.'</textarea></td>';
-            echo '<td><button type="submit" class="button" style="float:right;">Update</button></td></tr>';
+            echo '<td><button type="submit" class="button">Update</button>';
+         	echo create_issue($bundleidentifier, currentPageURL());
+            echo '</td></tr>';
             echo '</table></form>';
         }
     }
@@ -216,15 +218,16 @@ if ($numrows > 0) {
 			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."' class='button'>Symbolicate</a>";
 		if ($todo == 2)
 			echo "<br/>(Not done!)";
+			
 		echo "</td></tr>";
 		echo '</table>';
 	}
 	
 	mysql_free_result($result);
 } else {
-		echo '<table>'.$cols;
-		echo '<tr><td colspan="4">No data found</td></tr>';
-		echo '</table>';
+    echo '<table>'.$cols;
+	echo '<tr><td colspan="4">No data found</td></tr>';
+	echo '</table>';
 }
 
 if (!$all) {

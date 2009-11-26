@@ -32,6 +32,16 @@ th {
   background: #ddd;
 }
 
+a.redButton:hover {
+    background-color: #ff0000 !important;
+    color: white !important;
+}
+
+a.redButton {
+    background-color: #cc0000 !important;
+    color: white !important;
+}
+
 textarea.description {
     width:250px;
     height:70px;
