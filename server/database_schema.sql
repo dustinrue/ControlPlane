@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS `apps` (
   `name` varchar(50) NOT NULL,
   `symbolicate` tinyint(4) default '0',
   `issuetrackerurl` text default NULL,
+  `notifyemail` text default NULL,
+  `notifypush` text default NULL,
   PRIMARY KEY  (`id`),
   KEY `symbolicate` (`symbolicate`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
@@ -140,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `versions` (
   `bundleidentifier` varchar(250) collate utf8_unicode_ci default NULL,
   `version` varchar(20) collate utf8_unicode_ci default NULL,
   `status` int(11) NOT NULL default '0',
-  `push` int(11) NOT NULL default '0',
+  `notify` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `version` (`version`,`status`),
   KEY `applicationname` (`bundleidentifier`)

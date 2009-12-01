@@ -12,6 +12,12 @@ a:hover {
   text-decoration: underline;
 }
 
+td.message {
+  color: #990000;
+  text-decoration: none;
+    font-size:90%;
+}
+
 td {
   vertical-align: top;
 }
@@ -33,13 +39,13 @@ th {
 }
 
 a.redButton:hover {
-    background-color: #ff0000 !important;
-    color: white !important;
+    background-color: #ff0000!important;
+    color: white!important;
 }
 
 a.redButton {
-    background-color: #cc0000 !important;
-    color: white !important;
+    background-color: #cc0000!important;
+    color: white!important;
 }
 
 textarea.description {

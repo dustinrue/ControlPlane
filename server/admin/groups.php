@@ -160,7 +160,7 @@ if ($numrows > 0) {
 		$issuelink = currentPageURL();
 		$issuelink = substr($issuelink, 0, strrpos($issuelink, "/")+1);
 		echo create_issue($bundleidentifier, $issuelink.'crashes.php?groupid='.$groupid.'&bundleidentifier='.$bundleidentifier.'&version='.$version);
-		echo '<a href="groups.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'&groupid='.$groupid.'" class="button redButton" onclick="return confirm(\"Do you really want to delete this item?\");">Delete</a></td></tr>';
+		echo "<a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=".$groupid."' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td></tr>";
 		echo '</table>';
 		echo '</form>';
 	}
@@ -179,7 +179,9 @@ if ($numrows > 0) {
 	if ($amount > 0)
 	{
         echo '<table>'.$cols;
-		echo "<tr><td><a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."'>Ungrouped</a></td><td>".$amount."</td><td></td><td></td><td></td><td><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=0' class='button'>Delete</td></tr>";		
+		echo '<tr><td><a href="crashes.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Ungrouped</a></td>';
+		echo '<td>'.$amount.'</td><td></td><td></td><td></td>';
+		echo "<td><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=0' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td></tr>";
 		echo '</table>';
 	}
 	mysql_free_result($result);

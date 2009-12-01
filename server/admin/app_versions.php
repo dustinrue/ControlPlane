@@ -43,13 +43,13 @@ require_once('../config.php');
 require_once('common.inc');
 
 init_database();
-parse_parameters(',bundleidentifier,version,status,symbolicate,id,push,');
+parse_parameters(',bundleidentifier,version,status,symbolicate,id,notify,');
 
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
 if (!isset($status)) $status = "";
 if (!isset($id)) $id = "";
-if (!isset($push)) $push = PUSH_OFF;
+if (!isset($notify)) $notify = NOTIFY_OFF;
 if (!isset($symbolicate)) $symbolicate = 0;
 
 // add the new app & version
@@ -69,8 +69,8 @@ if ($bundleidentifier != "" && $status != "" && $id == "" && $version != "") {
 		$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
 	}
 	mysql_free_result($result);
-} else if ($id != "" && ($status != "" || $push != "")) {
-	$query = "UPDATE ".$dbversiontable." SET status = ".$status.", push = ".$push." WHERE id = ".$id;
+} else if ($id != "" && ($status != "" || $notify != "")) {
+	$query = "UPDATE ".$dbversiontable." SET status = ".$status.", notify = ".$notify." WHERE id = ".$id;
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 } else if ($id != "" && $status == "") {
 	// delete a version
@@ -89,7 +89,7 @@ show_search("", -1);
 
 $cols = '<colgroup><col width="220"/><col width="80"/><col width="120"/><col width="80"/><col width="80"/><col width="80"/><col width="160"/></colgroup>';
 echo '<table>'.$cols;
-echo "<tr><th>Name</th><th>Version</th><th>Status</th><th>Push</th><th>Groups</th><th>Total Crashes</th><th>Actions</th></tr>";
+echo "<tr><th>Name</th><th>Version</th><th>Status</th><th>Notify</th><th>Groups</th><th>Total Crashes</th><th>Actions</th></tr>";
 echo '</table>';
 
 echo "<form name='add_version' action='app_versions.php' method='get'>";
@@ -109,18 +109,18 @@ echo "</td><td><input type='text' name='version' size='7' maxlength='20'/></td><
 
 for ($i=0; $i < count($statusversions); $i++)
 {
-    add_option($statusversions[$i], $i, $status);
+    add_option($statusversions[$i], $i, -1);
 }
 echo "</select></td><td>";
 
-if ($push_activated) {
-	echo "<select name='push' onchange='javascript:document.update".$id.".submit();'>";
-    add_option('OFF', PUSH_OFF, $push_default_version);
-    add_option('ALL', PUSH_ACTIVATED, $push_default_version);
-    add_option('&gt; '.$push_amount_group, PUSH_ACTIVATED_AMOUNT, $push_default_version);		
+if ($push_activated || $mail_activated) {
+	echo "<select name='notify' onchange='javascript:document.update".$id.".submit();'>";
+    add_option('OFF', NOTIFY_OFF, $notify_default_version);
+    add_option('ALL', NOTIFY_ACTIVATED, $notify_default_version);
+    add_option('&gt; '.$notify_amount_group, NOTIFY_ACTIVATED_AMOUNT, $notify_default_version);		
 	echo "</select>";
 } else {
-	echo "<input type='hidden' name='push' value='".PUSH_OFF."'/>";
+	echo "<input type='hidden' name='notify' value='".NOTIFY_OFF."'/>";
 }
 
 echo "</td><td><br/></td><td><br/></td><td><button type='submit' class='button'>Add Version</button></td></tr>";
@@ -129,9 +129,9 @@ echo '</table></form>';
 
 // get all applications and their versions, amount of groups and amount of total bug reports
 if ($acceptallapps)
-	$query = "SELECT bundleidentifier, version, status, push, id FROM ".$dbversiontable." ORDER BY bundleidentifier asc, version desc, status desc";
+	$query = "SELECT bundleidentifier, version, status, notify, id FROM ".$dbversiontable." ORDER BY bundleidentifier asc, version desc, status desc";
 else
-	$query = "SELECT bundleidentifier, version, status, push, id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' ORDER BY bundleidentifier asc, version desc, status desc";
+	$query = "SELECT bundleidentifier, version, status, notify, id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' ORDER BY bundleidentifier asc, version desc, status desc";
 
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
@@ -143,7 +143,7 @@ if ($numrows > 0) {
 		$bundleidentifier = $row[0];
 		$version = $row[1];
 		$status = $row[2];
-		$push = $row[3];
+		$notify = $row[3];
 		$id = $row[4];
 		$groups = 0;
 		$totalcrashes = 0;
@@ -175,7 +175,6 @@ if ($numrows > 0) {
 		echo "<form name='update".$id."' action='app_versions.php' method='get'><input type='hidden' name='id' value='".$id."'/><input type='hidden' name='bundleidentifier' value='".$bundleidentifier."'/>";
 		echo '<table>'.$cols;
 
-
 		echo "<tr align='center'><td>".$bundleidentifier."</td><td>";
 		
 		if ($groups > 0 || $totalcrashes > 0)
@@ -196,14 +195,14 @@ if ($numrows > 0) {
 		echo "</select>";
 		
 		echo "</td><td>";
-		if ($push_activated) {
-			echo "<select name='push' onchange='javascript:document.update".$id.".submit();'>";
-		    add_option('OFF', PUSH_OFF, $push);
-            add_option('ALL', PUSH_ACTIVATED, $push);
-            add_option('&gt; '.$push_amount_group, PUSH_ACTIVATED_AMOUNT, $push);					
+		if ($push_activated || $mail_activated) {
+			echo "<select name='notify' onchange='javascript:document.update".$id.".submit();'>";
+		    add_option('OFF', NOTIFY_OFF, $notify);
+            add_option('ALL', NOTIFY_ACTIVATED, $notify);
+            add_option('&gt; '.$notify_amount_group, NOTIFY_ACTIVATED_AMOUNT, $notify);					
 			echo "</select>";
 		} else {
-			echo "<input type='hidden' name='push' value='".PUSH_OFF."'/>";
+			echo "<input type='hidden' name='notify' value='".NOTIFY_OFF."'/>";
 		}
 		
 		echo "</td><td>".$groups."</td><td>".$totalcrashes."</td><td>";
