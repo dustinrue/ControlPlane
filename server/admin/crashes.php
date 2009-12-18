@@ -70,6 +70,8 @@ if ($groupid != "" && $fixversion != "-1") {
 		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status) values ('".$bundleidentifier."', '".$fixversion."', ".VERSION_STATUS_UNKNOWN.")";
 		$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 	}
+	$pagelink = '?bundleidentifier='.$bundleidentifier.'&version='.$version.'&groupid='.$groupid;
+	$whereclause = " WHERE groupid = ".$groupid;
 } else if ($search != "" && $type != "") {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&search='.$search.'&type='.$type;
 	$whereclause = " WHERE bundleidentifier = '".$bundleidentifier."'";
@@ -124,7 +126,22 @@ if (!$acceptallapps)
 echo create_link($bundleidentifier, 'app_versions.php', false, 'bundleidentifier').' - ';
 if ($version != "")
     echo create_link('Version '.$version, 'groups.php', false, 'bundleidentifier,version').' - ';
-echo create_link('Crashes', 'crashes.php', false, $pagelink).'</h2>';
+if ($groupid != "") {
+	$query = "SELECT pattern FROM ".$dbgrouptable." WHERE id = ".$groupid;
+	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
+
+	$numrows = mysql_num_rows($result);
+	if ($numrows == 1) {
+        $row = mysql_fetch_row($result);
+        echo create_link($row[0], 'crashes.php', false, $pagelink).'</h2>';
+	} else {
+        echo create_link('Crashes', 'crashes.php', false, $pagelink).'</h2>';
+	}
+	mysql_free_result($result);
+
+} else {
+    echo create_link('Crashes', 'crashes.php', false, $pagelink).'</h2>';
+}
 
 if ($search != "" || $type != "")
     show_search($search, $type);
@@ -218,7 +235,7 @@ if ($numrows > 0) {
 			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."' class='button'>Symbolicate</a>";
 		if ($todo == 2)
 			echo "<br/>(Not done!)";
-			
+
 		echo "</td></tr>";
 		echo '</table>';
 	}
@@ -238,9 +255,12 @@ if (!$all) {
         $query = "SELECT count(*) FROM ".$dbcrashtable.$whereclause;
     else {
     	if ($groupid == "")
+    	{
     		$groupid = 0;
-
-    	$query = "SELECT amount FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' and id = ".$groupid;
+            $query = "SELECT count(*) FROM ".$dbcrashtable." WHERE groupid = 0 and bundleidentifier = '".$bundleidentifier."' AND version = '".$version."'";
+        } else {
+        	$query = "SELECT amount FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' and id = ".$groupid;
+        }
 	}
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
@@ -250,12 +270,13 @@ if (!$all) {
 		$row = mysql_fetch_row($result);
 		$amount = $row[0];
 	}
-	
+		
 	mysql_free_result($result);
 
 	if ($amount > $default_amount_crashes)
-        echo create_link('Show all '.$amount.' entries', 'crashes.php', true, ',bundleidentifier,version,groupid,search,type,all=true');
+        echo create_link('Show all '.$amount.' entries', 'crashes.php', true, 'bundleidentifier,version,groupid,search,type,all=true');
 }
+
 
 echo '</body></html>';
 

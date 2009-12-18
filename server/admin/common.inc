@@ -85,13 +85,24 @@ function create_link($text, $link, $button, $variables)
     } else {
         $result .= '?';
         $vars = explode(',', $variables);
-    
+        
+        $i = 0;
         foreach(array_keys($vars) as $k) {
             if (strpos($vars[$k], '=') === false)
             {
-                if (isset($GLOBALS[$vars[$k]]) && $GLOBALS[$vars[$k]] != "")
-                    $result .= '&'.$vars[$k].'='.$GLOBALS[$vars[$k]];
+                if (isset($GLOBALS[$vars[$k]]) && $GLOBALS[$vars[$k]] != "") {
+                    if ($i > 0) {
+                        $result .= '&';
+                    }
+                    $result .= $vars[$k].'='.$GLOBALS[$vars[$k]];
+                }
+            } else {
+                if ($i > 0) {
+                    $result .= '&';
+                }
+                $result .= $vars[$k];
             }
+            $i++;
         }
     }
     $result .= '"';

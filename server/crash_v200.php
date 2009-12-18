@@ -291,7 +291,53 @@ if (sizeof($push_array) > 5) {
 // add the crash data to the database
 if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifier != "" && $acceptlog == true)
 {
-    // first try to find the offset of the crashing thread to assign this crash to a crash group
+    // Since analyzing the log data seems to have problems, first add it to the database, then read it, since it seems that one is fine then
+
+    // first check if the version status is not discontinued
+    
+   	// check if the version is already added and the status of the version and notify status
+	$query = "SELECT id, status, notify FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$version."'";
+	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_CHECK_VERSION_EXISTS));
+
+	$numrows = mysql_num_rows($result);
+	if ($numrows == 0) {
+        // version is not available, so add it with status VERSION_STATUS_AVAILABLE
+		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status, notify) values ('".$bundleidentifier."', '".$version."', ".VERSION_STATUS_UNKNOWN.", ".$notify_default_version.")";
+		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_VERSION));
+	} else {
+        $row = mysql_fetch_row($result);
+		$version_status = $row[1];
+		$notify = $row[2];
+		mysql_free_result($result);
+	}
+
+	if ($version_status == VERSION_STATUS_DISCONTINUED)
+	{
+    	mysql_close($link);
+    	die(xml_for_result(FAILURE_VERSION_DISCONTINUED));
+	}
+
+    // now insert the crashlog into the database
+	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".$logdata."', '0')";
+	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
+	
+	$new_crashid = mysql_insert_id($link);
+
+    // now read the crashlog again and process
+    $query = "SELECT log FROM ".$dbcrashtable." WHERE id = '".$new_crashid."'";
+	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_CHECK_VERSION_EXISTS));
+
+	$numrows = mysql_num_rows($result);
+		
+	if ($numrows == 1)
+	{
+		// assign this bug to the group
+		$row = mysql_fetch_row($result);
+        $logdata = $row[0];
+		mysql_free_result($result);
+    }
+    
+    // now try to find the offset of the crashing thread to assign this crash to a crash group
 	
 	// this stores the offset which we need for grouping
 	$crash_offset = "";
@@ -320,22 +366,6 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 
 	// stores the group this crashlog is associated to, by default to none
 	$log_groupid = 0;
-
-	// check if the version is already added and the status of the version and notify status
-	$query = "SELECT id, status, notify FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$version."'";
-	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_CHECK_VERSION_EXISTS));
-
-	$numrows = mysql_num_rows($result);
-	if ($numrows == 0) {
-        // version is not available, so add it with status VERSION_STATUS_AVAILABLE
-		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status, notify) values ('".$bundleidentifier."', '".$version."', ".VERSION_STATUS_UNKNOWN.", ".$notify_default_version.")";
-		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_VERSION));
-	} else {
-        $row = mysql_fetch_row($result);
-		$version_status = $row[1];
-		$notify = $row[2];
-		mysql_free_result($result);
-	}
 	
 	// if the offset string is not empty, we try a grouping
 	if (strlen($crash_offset) > 0)
@@ -370,7 +400,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 				$fix_status = $row[0];
 			}
 
-			if ($notify_amount_group > 1 && $notify_amount_group == $amount && $notify >= NOTIFY_ACTIVATED && $version_status != VERSION_STATUS_DISCONTINUED)
+			if ($notify_amount_group > 1 && $notify_amount_group == $amount && $notify >= NOTIFY_ACTIVATED)
 			{
                 // send push notification
                 if ($push_activated)
@@ -406,7 +436,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 			
 			$log_groupid = mysql_insert_id($link);
 
-			if ($version_status != VERSION_STATUS_DISCONTINUED && $notify == NOTIFY_ACTIVATED)
+			if ($notify == NOTIFY_ACTIVATED)
 			{
                 // send push notification
                 if ($push_activated)
@@ -436,21 +466,15 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 		}
 	}
 	
-	// only add the data if the version is not set to discontinued
-	if ($version_status != VERSION_STATUS_DISCONTINUED)
-	{
-		// now insert the crashlog into the database
-		$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".$logdata."', '".$log_groupid."')";
-		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
+	// now insert the crashlog into the database
+	$query = "UPDATE ".$dbcrashtable." set log = '".$logdata."', groupid = '".$log_groupid."' WHERE ID = '".$new_crashid."'";
+	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
 	
-		// if this crash log has to be manually symbolicated, add a todo entry
-		if ($symbolicate)
-		{
-			$new_crashid = mysql_insert_id($link);
-
-			$query = "INSERT INTO ".$dbsymbolicatetable." (crashid, done) values (".$new_crashid.", 0)";
-			$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_SYMBOLICATE_TODO));
-		}
+	// if this crash log has to be manually symbolicated, add a todo entry
+	if ($symbolicate)
+	{
+		$query = "INSERT INTO ".$dbsymbolicatetable." (crashid, done) values (".$new_crashid.", 0)";
+		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_SYMBOLICATE_TODO));
 	}
 } else if ($acceptlog == false)
 {

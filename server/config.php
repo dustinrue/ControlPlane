@@ -55,6 +55,7 @@ define("FAILURE_SQL_ADD_CRASHLOG", -17);                // SQL for adding crash 
 define("FAILURE_SQL_ADD_SYMBOLICATE_TODO", -18);        // SQL for adding a symoblicate todo entry in the database failed
 define("FAILURE_XML_VERSION_NOT_ALLOWED", -20); 		// XML: Version string contains not allowed characters, only alphanumberical including space and . are allowed
 define("FAILURE_XML_SENDER_VERSION_NOT_ALLOWED", -21);  // XML: Sender ersion string contains not allowed characters, only alphanumberical including space and . are allowed
+define("FAILURE_VERSION_DISCONTINUED", -30);            // The app version causing this crash has been discontinued
 
 define("SEARCH_TYPE_ID", 0);                            // Search for a crash ID
 define("SEARCH_TYPE_DESCRIPTION", 1);                   // Search for in the crash descriptions

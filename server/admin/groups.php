@@ -181,7 +181,8 @@ if ($numrows > 0) {
         echo '<table>'.$cols;
 		echo '<tr><td><a href="crashes.php?bundleidentifier='.$bundleidentifier.'&version='.$version.'">Ungrouped</a></td>';
 		echo '<td>'.$amount.'</td><td></td><td></td><td></td>';
-		echo "<td><a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=0' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td></tr>";
+        echo "<td><a href='regroup.php?bundleidentifier=".$bundleidentifier."&version=".$version."' class='button'>Re-Group</a>";
+		echo "<a href='groups.php?bundleidentifier=".$bundleidentifier."&version=".$version."&groupid=0' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td></tr>";
 		echo '</table>';
 	}
 	mysql_free_result($result);
