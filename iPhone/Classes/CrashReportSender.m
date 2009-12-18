@@ -33,10 +33,6 @@
 
 #define USER_AGENT @"CrashReportSender/1.0"
 
-NSString *kCrashReportAnalyzerStarted = @"CrashReportAnalyzerStarted";			// flags if the crashlog analyzer is started. since this may crash we need to track it
-NSString *kCrashReportActivated = @"CrashReportActivated";						// flags if the crashreporter is activated at all
-NSString *kAutomaticallySendCrashReports = @"AutomaticallySendCrashReports";	// flags if the crashreporter should automatically send crashes without asking the user again
-
 @interface CrashReportSender ()
 
 - (void)attemptCrashReportSubmission;
@@ -702,12 +698,23 @@ finish:
 - (BOOL)_isSubmissionHostReachable
 {
 	SCNetworkReachabilityFlags flags;
-    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [[_submissionURL host] UTF8String]);
-	BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);
-	
-	if (reachability != nil)
-		CFRelease(reachability);
-	
+    SCNetworkReachabilityRef reachabilityRef = nil;
+    
+    if (![_submissionURL host] || ![[_submissionURL host] length]) {
+		return NO;
+	}
+    
+    reachabilityRef = SCNetworkReachabilityCreateWithName(NULL, [[_submissionURL host] UTF8String]);
+    
+	if (!reachabilityRef) {
+		return NO;
+	}
+    
+	BOOL gotFlags = SCNetworkReachabilityGetFlags(reachabilityRef, &flags);
+    
+    if (reachabilityRef != nil)
+		CFRelease(reachabilityRef);
+    
 	return gotFlags && flags & kSCNetworkReachabilityFlagsReachable && (flags & kSCNetworkReachabilityFlagsIsWWAN || !(flags & kSCNetworkReachabilityFlagsConnectionRequired));
 }
 

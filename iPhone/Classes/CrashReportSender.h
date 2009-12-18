@@ -29,8 +29,9 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *AutomaticallySendCrashReports;
-extern NSString *CrashReportActivated;
+#define kCrashReportAnalyzerStarted @"CrashReportAnalyzerStarted"			// flags if the crashlog analyzer is started. since this may crash we need to track it
+#define kCrashReportActivated @"CrashReportActivated"						// flags if the crashreporter is activated at all
+#define kAutomaticallySendCrashReports @"AutomaticallySendCrashReports"		// flags if the crashreporter should automatically send crashes without asking the user again
 
 typedef enum CrashAlertType {
 	CrashAlertTypeSend = 0,
@@ -38,6 +39,7 @@ typedef enum CrashAlertType {
 } CrashAlertType;
 
 typedef enum CrashReportStatus {
+	CrashReportStatusFailureVersionDiscontinued = -30,          // This app version is set to discontinued, no new crash reports accepted by the server
 	CrashReportStatusFailureXMLSenderVersionNotAllowed = -21,   // XML: Sender ersion string contains not allowed characters, only alphanumberical including space and . are allowed
 	CrashReportStatusFailureXMLVersionNotAllowed = -20,         // XML: Version string contains not allowed characters, only alphanumberical including space and . are allowed
 	CrashReportStatusFailureSQLAddSymbolicateTodo = -18,        // SQL for adding a symoblicate todo entry in the database failed
