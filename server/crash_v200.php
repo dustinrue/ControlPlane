@@ -35,8 +35,16 @@
 
 require_once('config.php');
 
+if (!class_exists('XMLReader', false)) die(xml_for_result(FAILURE_PHP_XMLREADER_CLASS));
+
 if ($push_activated && $push_prowlids != "") {
+    $curl_info = curl_version();	// Checks for cURL function and SSL version. Thanks Adrian Rollett!
+    if(!function_exists('curl_exec') || empty($curl_info['ssl_version']))
+        die(xml_for_result(FAILURE_PHP_CURL_LIB));
+		
 	include('ProwlPHP.php');
+
+    if (!class_exists('Prowl', false)) die(xml_for_result(FAILURE_PHP_PROWL_CLASS));
 
 	$prowl = new Prowl($push_prowlids);
 } else {
@@ -169,7 +177,7 @@ while ($reader->read())
 	} else if ($reader->name == "description" && $reader->nodeType == XMLReader::ELEMENT) {
 		$description = mysql_real_escape_string(reading($reader, "description"));
 	} else if ($reader->name == "log" && $reader->nodeType == XMLReader::ELEMENT) {
-		$logdata = mysql_real_escape_string(reading($reader, "log"));
+		$logdata = reading($reader, "log");
 	}
 }
 
@@ -317,33 +325,13 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
     	die(xml_for_result(FAILURE_VERSION_DISCONTINUED));
 	}
 
-    // now insert the crashlog into the database
-	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".$logdata."', '0')";
-	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
-	
-	$new_crashid = mysql_insert_id($link);
-
-    // now read the crashlog again and process
-    $query = "SELECT log FROM ".$dbcrashtable." WHERE id = '".$new_crashid."'";
-	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_CHECK_VERSION_EXISTS));
-
-	$numrows = mysql_num_rows($result);
-		
-	if ($numrows == 1)
-	{
-		// assign this bug to the group
-		$row = mysql_fetch_row($result);
-        $logdata = $row[0];
-		mysql_free_result($result);
-    }
-    
     // now try to find the offset of the crashing thread to assign this crash to a crash group
 	
 	// this stores the offset which we need for grouping
 	$crash_offset = "";
 	
 	// extract the block which contains the data of the crashing thread
-	preg_match('%Thread [0-9]+ Crashed:\n(.*?)\n\n%s', $logdata, $matches);
+	preg_match('%Thread [0-9]+ Crashed:\n(.*?)\n\n%is', $logdata, $matches);
 	
 	//make sure $matches[1] exists
 	if (is_array($matches) && count($matches) >= 2)
@@ -466,10 +454,12 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 		}
 	}
 	
-	// now insert the crashlog into the database
-	$query = "UPDATE ".$dbcrashtable." set log = '".$logdata."', groupid = '".$log_groupid."' WHERE ID = '".$new_crashid."'";
+    // now insert the crashlog into the database
+	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".mysql_real_escape_string($logdata)."', '".$log_groupid."')";
 	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
 	
+	$new_crashid = mysql_insert_id($link);
+
 	// if this crash log has to be manually symbolicated, add a todo entry
 	if ($symbolicate)
 	{
