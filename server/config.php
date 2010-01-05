@@ -56,6 +56,9 @@ define("FAILURE_SQL_ADD_SYMBOLICATE_TODO", -18);        // SQL for adding a symo
 define("FAILURE_XML_VERSION_NOT_ALLOWED", -20); 		// XML: Version string contains not allowed characters, only alphanumberical including space and . are allowed
 define("FAILURE_XML_SENDER_VERSION_NOT_ALLOWED", -21);  // XML: Sender ersion string contains not allowed characters, only alphanumberical including space and . are allowed
 define("FAILURE_VERSION_DISCONTINUED", -30);            // The app version causing this crash has been discontinued
+define("FAILURE_PHP_XMLREADER_CLASS", -40);             // PHP: XMLReader class is not available in PHP
+define("FAILURE_PHP_PROWL_CLASS", -41);                 // PHP: Prowl class is not available in PHP
+define("FAILURE_PHP_CURL_LIB", -41);                    // PHP: cURL library missing vital functions or does not support SSL. cURL w/SSL is required to execute ProwlPHP.
 
 define("SEARCH_TYPE_ID", 0);                            // Search for a crash ID
 define("SEARCH_TYPE_DESCRIPTION", 1);                   // Search for in the crash descriptions

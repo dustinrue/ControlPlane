@@ -44,6 +44,7 @@ Server side files:
 - /server/database_schema.sql contains all the default tables
 - /server/crash_v200.php is the file that is invoked by the iPhone app
 - /server/config.php contains database access information
+- /server/test_setup.php simple script that checks if everything required on the server is available
 - /server/admin/ contains all administration scripts
 - /server/admin/symbolicate.php needs to be copied to a local mac, and the url has to be adjusted to access the scripts on your server
 
@@ -69,6 +70,7 @@ SERVER DATABASE CONFIGURATION:
 - Otherwise:
   - start the web interface
   - add the bundle identifiers of the permitted apps, e.g. "de.buzzworks.crashreporterdemo" (this is the same bundle identifier string as used in the info.plist of your app!)
+- Invoke test_setup.php via the browser to check if everything is setup correctly and Push can be used or not
 
 SERVER ENABLE PUSH NOTIFICATIONS:
 
@@ -122,7 +124,7 @@ IPHONE PROJECT INSTALLATION:
   #import "CrashReportSender.h"
 - In your appDelegate applicationDidFinishLaunching function include
   if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport]) {
-		[[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL];
+		[[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL delegate:self activateFeedback:NO];
 	}  
   where CRASH_REPORTER_URL points to your crash_v200.php URL
 - Done.
