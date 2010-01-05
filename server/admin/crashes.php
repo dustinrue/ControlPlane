@@ -40,10 +40,11 @@ require_once('../config.php');
 require_once('common.inc');
 
 init_database();
-parse_parameters(',groupid,bundleidentifier,version,symbolicate,all,search,type,fixversion,description,');
+parse_parameters(',deleteid,groupid,bundleidentifier,version,symbolicate,all,search,type,fixversion,description,');
 
 if (!isset($all)) $all = false;
 if (!isset($groupid)) $groupid = "";
+if (!isset($deleteid)) $deleteid = "";
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
 if (!isset($symbolicate)) $symbolicate = "";
@@ -56,6 +57,11 @@ if ($bundleidentifier == "" && ($version == "" || $type = "" || $fixversion = "-
 
 $whereclause = "";
 $pagelink = "";
+
+if ($deleteid != "") {
+    $query = "DELETE from " . $dbcrashtable . " WHERE id=" . $deleteid;
+    $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));  
+}
 if ($groupid != "" && $fixversion != "-1") {
 	$query = "UPDATE ".$dbgrouptable." SET fix = '".$fixversion."' WHERE id = ".$groupid;
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
@@ -233,6 +239,9 @@ if ($numrows > 0) {
 			echo "Symolication in progress";
 		else
 			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."' class='button'>Symbolicate</a>";
+			
+        echo "<br><br><a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."&deleteid=".$crashid."' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td>";
+			
 		if ($todo == 2)
 			echo "<br/>(Not done!)";
 
