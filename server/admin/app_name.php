@@ -76,9 +76,9 @@ show_header('- Apps');
 
 echo '<h2><a href="app_name.php">Apps</a></h2>';
 
-$cols = '<colgroup><col width="300"/><col width="200"/><col width="200"/><col width="150"/></colgroup>';
+$cols = '<colgroup><col width="300"/><col width="200"/><col width="200"/><col width="80"/><col width="150"/></colgroup>';
 echo '<table>'.$cols;
-echo "<tr><th>Bundle identifier / Name</th><th>Email - / Push Notifications</th><th>Symbolicate / Issue Tracker</th><th>Actions</th></tr>";
+echo "<tr><th>Bundle identifier / Name</th><th>Email - / Push Notifications</th><th>Symbolicate / Issue Tracker</th><th>Crashes</th><th>Actions</th></tr>";
 echo '</table>';
 
 if (!$acceptallapps)
@@ -100,6 +100,7 @@ if (!$acceptallapps)
     echo "</td>";
 	echo "<td><select name='symbolicate'><option value=0 selected>Don't symbolicate</option><option value=1>Symbolicate</option></select>";
 	echo "<br/><input type='text' name='issuetrackerurl' size='25' maxlength='4000' placeholder='%subject% %description%'/></td>";
+	echo "<td></td>";
 	echo "<td><button type='submit' class='button'>Create new App</button></td></tr>";	
 	echo '</table></form>';
 }
@@ -141,6 +142,21 @@ if ($numrows > 0) {
         add_option('Symbolicate', 1, $symbolicate);			
 		echo "</select><br/><input type='text' name='issuetrackerurl' size='25' maxlength='4000' value='".$issuetrackerurl."' placeholder='%subject% %description%'/></td>";
 		
+		// get the total number of crashes
+        $query2 = "SELECT count(*) FROM ".$dbcrashtable." WHERE bundleidentifier = '".$bundleidentifier."'";
+        $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
+
+        $totalcrashes = 0;
+        $numrows2 = mysql_num_rows($result2);
+        if ($numrows2 > 0) {
+            $row2 = mysql_fetch_row($result2);
+            $totalcrashes = $row2[0];
+            
+            mysql_free_result($result2);
+        }
+        
+        echo "<td>" . $totalcrashes . "</td>";
+
 		echo "<td><button class='button' type='submit'>Update</button>";
 		echo " <a href='app_name.php?id=".$id."' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td>";
 		echo "</tr></table></form>";
