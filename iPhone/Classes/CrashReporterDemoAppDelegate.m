@@ -31,7 +31,7 @@
 #import "CrashReporterDemoViewController.h"
 #import "CrashReportSender.h"
 
-#define CRASH_REPORTER_URL [NSURL URLWithString:@"http:/your.server.com/crash_v200.php"]
+#define CRASH_REPORTER_URL [NSURL URLWithString:@"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"]
 
 @implementation CrashReporterDemoAppDelegate
 
