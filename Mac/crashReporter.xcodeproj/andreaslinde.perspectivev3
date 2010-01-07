@@ -211,12 +211,16 @@
 				<string>XCToolbarPerspectiveControl</string>
 				<string>NSToolbarSeparatorItem</string>
 				<string>active-combo-popup</string>
+				<string>active-executable-popup</string>
 				<string>action</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
+				<string>debugger-enable-breakpoints</string>
+				<string>buildOrClean</string>
+				<string>go</string>
 				<string>build-and-go</string>
 				<string>com.apple.ide.PBXToolbarStopButton</string>
-				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>get-info</string>
+				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>com.apple.pbx.toolbar.searchfield</string>
 			</array>
 			<key>ControllerClassBaseName</key>
@@ -230,8 +234,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -278,7 +280,13 @@
 								<string>1C37FBAC04509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
-							<array/>
+							<array>
+								<array>
+									<integer>14</integer>
+									<integer>10</integer>
+									<integer>0</integer>
+								</array>
+							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
 							<string>{{0, 0}, {255, 919}}</string>
 						</dict>
@@ -297,7 +305,7 @@
 							<real>255</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>73 50 1538 978 0 0 1680 1028 </string>
+						<string>525 440 1538 978 0 0 2560 1418 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -313,7 +321,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1E61C97F1029B72E00F7D48E</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>CrashReporterDemoAppDelegate.m</string>
+								<string>Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -321,32 +329,22 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1E61C9801029B72E00F7D48E</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>CrashReporterDemoAppDelegate.m</string>
+										<string>Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1EB83B921043E57F0008F756</string>
+										<string>1ED28A4810F64B73004F0EA2</string>
 										<key>history</key>
 										<array>
 											<string>1EB612AD102B7EC700B206A7</string>
-											<string>1EB612AE102B7EC700B206A7</string>
 											<string>1EB612B0102B7EC700B206A7</string>
 											<string>1E013A68102C2CBB00D6E3EA</string>
 											<string>1ECA4084102C7CB10059806E</string>
 											<string>1E7F72F81042F248004AF159</string>
-											<string>1E7F73C9104307FC004AF159</string>
-											<string>1EB83B901043E57F0008F756</string>
-											<string>1EB83B891043E5540008F756</string>
-										</array>
-										<key>prevStack</key>
-										<array>
-											<string>1E01398A102C291100D6E3EA</string>
-											<string>1E01399F102C294200D6E3EA</string>
-											<string>1E0139B9102C299400D6E3EA</string>
-											<string>1E013A08102C2B2A00D6E3EA</string>
-											<string>1E013ACF102C6B6200D6E3EA</string>
-											<string>1E013B68102C7B9400D6E3EA</string>
-											<string>1EB83B911043E57F0008F756</string>
+											<string>1ED28A4110F64B36004F0EA2</string>
+											<string>1ED28A4210F64B36004F0EA2</string>
+											<string>1ED28A4510F64B5E004F0EA2</string>
+											<string>1ED28A4610F64B5E004F0EA2</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -360,18 +358,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1261, 652}}</string>
+								<string>{{0, 0}, {1261, 646}}</string>
 								<key>RubberWindowFrame</key>
-								<string>73 50 1538 978 0 0 1680 1028 </string>
+								<string>525 440 1538 978 0 0 2560 1418 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>652pt</string>
+							<string>646pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>280pt</string>
+							<string>286pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -385,9 +383,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1261, 253}}</string>
+										<string>{{10, 27}, {1261, 259}}</string>
 										<key>RubberWindowFrame</key>
-										<string>73 50 1538 978 0 0 1680 1028 </string>
+										<string>525 440 1538 978 0 0 2560 1418 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -432,7 +430,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>XCMainBuildResultsModuleGUID</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Build</string>
+										<string>Build Results</string>
 										<key>XCBuildResultsTrigger_Collapse</key>
 										<integer>1021</integer>
 										<key>XCBuildResultsTrigger_Open</key>
@@ -469,11 +467,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>1EB83B931043E57F0008F756</string>
+				<string>1ED28A3C10F64A79004F0EA2</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>1EB83B941043E57F0008F756</string>
+				<string>1ED28A3D10F64A79004F0EA2</string>
 				<string>1E61C97F1029B72E00F7D48E</string>
-				<string>1EB83B951043E57F0008F756</string>
+				<string>1ED28A3E10F64A79004F0EA2</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -664,7 +662,7 @@
 		<string>/Users/andreaslinde/SourceCode/CrashReporterDemo/Mac/crashReporter.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>73 50 1538 978 0 0 1680 1028 </string>
+	<string>525 440 1538 978 0 0 2560 1418 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
