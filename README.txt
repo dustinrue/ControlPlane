@@ -132,7 +132,27 @@ IPHONE PROJECT INSTALLATION:
 
 
 MAC PROJECT INSTALLATION:
+- Include CrashReporterSender.framework into your project
+- In your appDelegate change the invocation of the main window to the following structure
 
+    - (void) showMainApplicationWindow
+    {
+    	[window makeFirstResponder: nil];
+	   [window makeKeyAndOrderFront:nil];
+    }
+
+
+    - (void)applicationDidFinishLaunching:(NSNotification *)note
+    {
+    	// Launch the crash reporter task
+	   if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport])
+	   {
+            [[CrashReportSender sharedCrashReportSender] processCrashReportToURL:[NSURL URLWithString:CRASH_REPORTER_URL delegate:self companyName:COMPANY_NAME];
+	   } else {
+            [self showMainApplicationWindow];
+	   }
+    }
+- Done.
 
 
 
