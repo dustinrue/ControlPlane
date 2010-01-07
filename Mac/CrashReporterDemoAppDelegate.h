@@ -29,7 +29,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CrashReporterDemoAppDelegate : NSObject {
+@interface CrashReporterDemoAppDelegate : NSObject <CrashReportSenderDelegate> {
     IBOutlet NSWindow *window;
 }
 

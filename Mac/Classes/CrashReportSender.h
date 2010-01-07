@@ -47,11 +47,14 @@ typedef enum CrashReportStatus {
 // This protocol is used to send the image updates
 @protocol CrashReportSenderDelegate <NSObject>
 
+@required
+
+- (void) showMainApplicationWindow;				// Invoked once the modal sheets are gone
+
 @optional
 
-- (NSString *) crashReportUserID;					// Return the userid the crashreport should contain, empty by default
+- (NSString *) crashReportUserID;				// Return the userid the crashreport should contain, empty by default
 - (NSString *) crashReportContact;				// Return the contact value (e.g. email) the crashreport should contain, empty by default
-- (void) showMainApplicationWindow;				// Invoked once the modal sheets are gone
 @end
 
 @interface CrashReportSender : NSObject
@@ -71,8 +74,7 @@ typedef enum CrashReportStatus {
 
 + (CrashReportSender *)sharedCrashReportSender;
 
-- (BOOL) hasPendingCrashReport;
-- (void) processCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate companyName:(NSString *)companyName;
+- (void) sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate companyName:(NSString *)companyName;
 
 - (void) cancelReport;
 - (void) sendReport:(NSString *)xml;

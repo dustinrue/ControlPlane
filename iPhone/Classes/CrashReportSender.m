@@ -46,6 +46,7 @@
 - (void)_postXML:(NSString*)xml toURL:(NSURL*)url;
 - (BOOL)_isSubmissionHostReachable;
 
+- (BOOL)hasPendingCrashReport;
 - (void)wentOnline:(NSNotification *)note;
 
 @end
@@ -171,17 +172,20 @@
 		return NO;
 }
 
-- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback
+- (void)sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback;
 {
-	[_submissionURL autorelease];
-	_submissionURL = [submissionURL copy];
-	
-	_crashReportFeedbackActivated = activateFeedback;
-	_delegate = delegate;
-	
-	if (_submitTimer == nil) {
-		_submitTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(attemptCrashReportSubmission) userInfo:nil repeats:NO];
-	}
+    if ([self hasPendingCrashReport])
+    {
+        [_submissionURL autorelease];
+        _submissionURL = [submissionURL copy];
+        
+        _crashReportFeedbackActivated = activateFeedback;
+        _delegate = delegate;
+        
+        if (_submitTimer == nil) {
+            _submitTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(attemptCrashReportSubmission) userInfo:nil repeats:NO];
+        }
+    }
 }
 
 - (void)registerOnline

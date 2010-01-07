@@ -31,6 +31,8 @@
 
 @interface CrashReportSender(private)
 - (void) searchCrashLogFile:(NSString *)path;
+- (BOOL) hasPendingCrashReport;
+- (void) returnToMainApplication;
 @end
 
 @interface CrashReportSenderUI(private)
@@ -137,28 +139,39 @@
 }
 
 
-- (void) processCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate companyName:(NSString *)companyName
+- (void) sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate companyName:(NSString *)companyName
 {
-	_submissionURL = [submissionURL copy];
-	_delegate = delegate;
-	_companyName = companyName;
-	
-	_crashReportSenderUI = [[CrashReportSenderUI alloc] init:self crashFile:_crashFile companyName:_companyName applicationName:[self applicationName]];
-	[_crashReportSenderUI askCrashReportDetails];
+    if ([self hasPendingCrashReport])
+    {
+        _submissionURL = [submissionURL copy];
+        _delegate = delegate;
+        _companyName = companyName;
+        
+        _crashReportSenderUI = [[CrashReportSenderUI alloc] init:self crashFile:_crashFile companyName:_companyName applicationName:[self applicationName]];
+        [_crashReportSenderUI askCrashReportDetails];
+    } else {
+        [self returnToMainApplication];
+    }
 }
+
+
+- (void) returnToMainApplication
+{
+	if ( _delegate != nil && [_delegate respondsToSelector:@selector(showMainApplicationWindow)])
+		[_delegate showMainApplicationWindow];
+}
+
 
 
 - (void) cancelReport
 {
-	if ( _delegate != nil && [_delegate respondsToSelector:@selector(showMainApplicationWindow)])
-		[_delegate showMainApplicationWindow];
+    [self returnToMainApplication];
 }
 
 
 - (void) sendReport:(NSString *)xml
 {
-	if ( _delegate != nil && [_delegate respondsToSelector:@selector(showMainApplicationWindow)])
-		[_delegate showMainApplicationWindow];
+    [self returnToMainApplication];
 	
 	NSTimer *_submitTimer;
 	_submitTimer = [NSTimer scheduledTimerWithTimeInterval:0.0 target:self selector:@selector(postXML:) userInfo:xml repeats:NO];	 

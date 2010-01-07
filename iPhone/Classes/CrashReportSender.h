@@ -100,8 +100,7 @@ typedef enum CrashReportStatus {
 
 + (CrashReportSender *)sharedCrashReportSender;
 
-- (BOOL)hasPendingCrashReport;
+- (void)sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback;
 
-- (void)scheduleCrashReportSubmissionToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback;
 
 @end

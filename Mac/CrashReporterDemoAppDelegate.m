@@ -30,10 +30,13 @@
 #import <CrashReportSender/crashReportSender.h>
 #import "CrashReporterDemoAppDelegate.h"
 
+#define CRASH_REPORTER_URL [NSURL URLWithString:@"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"]
+
 @implementation CrashReporterDemoAppDelegate
 
 
 // if the main nibs window is set to hidden on startup, this will show it
+// this delegate method is required to be implemented!
 - (void) showMainApplicationWindow
 {
 	[window makeFirstResponder: nil];
@@ -44,14 +47,9 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
 	// Launch the crash reporter task
-	if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport])
-	{
-		[[CrashReportSender sharedCrashReportSender] processCrashReportToURL:[NSURL URLWithString:@"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"] 
-                                                                    delegate:self 
-                                                                 companyName:@"CrashReporterDemo"];
-	} else {
-		[self showMainApplicationWindow];
-	}
+    [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL
+                                                             delegate:self 
+                                                          companyName:@"CrashReporterDemo"];
 }
 
 

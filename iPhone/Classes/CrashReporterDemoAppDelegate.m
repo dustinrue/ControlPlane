@@ -46,11 +46,9 @@
 	[window addSubview:viewController.view];
 	[window makeKeyAndVisible];
   
-    if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport]) {
-        [[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL 
-                                                                               delegate:self 
-                                                                       activateFeedback:YES];
-	}  
+    [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL 
+                                                             delegate:self 
+                                                     activateFeedback:YES];
 }
 
 
