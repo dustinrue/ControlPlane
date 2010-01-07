@@ -46,7 +46,9 @@
 	// Launch the crash reporter task
 	if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport])
 	{
-		[[CrashReportSender sharedCrashReportSender] processCrashReportToURL:[NSURL URLWithString:@"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"] delegate:self companyName:@"CrashReporterDemo"];
+		[[CrashReportSender sharedCrashReportSender] processCrashReportToURL:[NSURL URLWithString:@"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"] 
+                                                                    delegate:self 
+                                                                 companyName:@"CrashReporterDemo"];
 	} else {
 		[self showMainApplicationWindow];
 	}
