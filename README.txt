@@ -48,7 +48,6 @@ Server side files:
 - /server/admin/ contains all administration scripts
 - /server/admin/symbolicate.php needs to be copied to a local mac, and the url has to be adjusted to access the scripts on your server
 
-
 SERVER INSTALLATION:
 
 - Copy the server scripts to your web server:
@@ -129,6 +128,12 @@ IPHONE PROJECT INSTALLATION:
   where CRASH_REPORTER_URL points to your crash_v200.php URL
 - Done.
 - When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in CrashReportSender.h
+
+
+
+MAC PROJECT INSTALLATION:
+
+
 
 
 
