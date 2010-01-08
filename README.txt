@@ -120,11 +120,9 @@ IPHONE PROJECT INSTALLATION:
 - Include CrashReportSender.h and CrashReportSender.m into your project
 - Include CrashReporter.framework into your project
 - In your appDelegate.m include
-  #import "CrashReportSender.h"
+    #import "CrashReportSender.h"
 - In your appDelegate applicationDidFinishLaunching function include
-  if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport]) {
-		[[CrashReportSender sharedCrashReportSender] scheduleCrashReportSubmissionToURL:CRASH_REPORTER_URL delegate:self activateFeedback:NO];
-	}  
+    [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL delegate:self activateFeedback:NO];
   where CRASH_REPORTER_URL points to your crash_v200.php URL
 - Done.
 - When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in CrashReportSender.h
@@ -133,25 +131,26 @@ IPHONE PROJECT INSTALLATION:
 
 MAC PROJECT INSTALLATION:
 - Include CrashReporterSender.framework into your project
+- In your appDelegate.m include
+    #import "CrashReportSender.h"
 - In your appDelegate change the invocation of the main window to the following structure
 
+    // this delegate method is required
     - (void) showMainApplicationWindow
     {
-    	[window makeFirstResponder: nil];
-	   [window makeKeyAndOrderFront:nil];
+        // launch the main app window
+        // remember not to automatically show the main window if using NIBs
+        [window makeFirstResponder: nil];
+        [window makeKeyAndOrderFront:nil];
     }
 
 
     - (void)applicationDidFinishLaunching:(NSNotification *)note
     {
     	// Launch the crash reporter task
-	   if ([[CrashReportSender sharedCrashReportSender] hasPendingCrashReport])
-	   {
-            [[CrashReportSender sharedCrashReportSender] processCrashReportToURL:[NSURL URLWithString:CRASH_REPORTER_URL delegate:self companyName:COMPANY_NAME];
-	   } else {
-            [self showMainApplicationWindow];
-	   }
+        [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL delegate:self companyName:COMPANY_NAME];
     }
+
 - Done.
 
 
