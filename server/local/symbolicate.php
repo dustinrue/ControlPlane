@@ -128,7 +128,7 @@ if ($content !== false && strlen($content) > 0)
 		
 			echo "  Symbolicating ...\n";
 				
-			exec('symbolicatecrash '.$filename.' . > '.$resultfilename);
+			exec('./symbolicatecrash -o '.$resultfilename.' '.$filename);
 	
 			unlink($filename);
 			

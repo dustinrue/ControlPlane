@@ -97,12 +97,12 @@ SETUP LOCAL SYMBOLIFICATION:
     - $updatecrashdataurl = '/admin/crash_update.php';    // the path to the script updating the crashlog
 - Copy the symbolicatecrash executable into an accessable path, e.g. via
     cp /Developer/Platforms/iPhoneOS.platform/Developer/Library/PrivateFrameworks/DTDeviceKit.framework/Versions/A/Resources/symbolicatecrash /usr/local/bin/
-- Copy the .app package and .app.dSYM package of each version into the local directory where scripts are located
-  Best is to add the version number to the filename, so multiple versions of the same app can be symbolicated.
-  Example:  CrashReporterDemo_1_0.app
-            CrashReporterDemo_1_0.app.dSYM
-            CrashReporterDemoBeta_1_1.app
-            CrashReporterDemoBeta_1_1.app.dSYM
+- Copy the .app package and .app.dSYM package of each version into any directory of your Mac
+  Best is to add the version number to the directory of each version, so multiple versions of the same app can be symbolicated.
+  Example:  CrashReporterDemo_1_0/CrashReporterDemo.app
+            CrashReporterDemo_1_0/CrashReporterDemo.app.dSYM
+            CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app
+            CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app.dSYM
 - Test symbolification:
   - Download a crash report into the local directory from above
   - run "symbolicatecrash nameofthecrashlogfile ."
