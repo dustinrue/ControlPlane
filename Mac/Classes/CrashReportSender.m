@@ -141,10 +141,11 @@
 
 - (void) sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate companyName:(NSString *)companyName
 {
+    _delegate = delegate;
+    
     if ([self hasPendingCrashReport])
     {
         _submissionURL = [submissionURL copy];
-        _delegate = delegate;
         _companyName = companyName;
         
         _crashReportSenderUI = [[CrashReportSenderUI alloc] init:self crashFile:_crashFile companyName:_companyName applicationName:[self applicationName]];
