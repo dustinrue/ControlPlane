@@ -420,7 +420,7 @@
 	if ((err = Gestalt(gestaltSystemVersionMinor, &versionMinor)) != noErr)  versionMinor= 0;
 	if ((err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix)) != noErr) versionBugFix = 0;
 	
-	_xml = [[NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description>%@</description><log><![CDATA[%@]]></log></crash>",
+	_xml = [[NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
 			[[_delegate applicationName] UTF8String],
 			[[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] UTF8String],
 			[NSString stringWithFormat:@"%i.%i.%i", versionMajor, versionMinor, versionBugFix],
