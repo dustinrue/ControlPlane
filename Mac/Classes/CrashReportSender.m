@@ -61,7 +61,7 @@
 	
 	if ( self != nil)
 	{
-		_serverResult = CrashReportStatusFailure;
+		_serverResult = CrashReportStatusFailureDatabaseNotAvailable;
 
 		_delegate = nil;
 		_companyName = @"";
