@@ -29,6 +29,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define CRASHREPORTSENDER_MAX_CONSOLE_SIZE 50000
+
 typedef enum CrashAlertType {
 	CrashAlertTypeSend = 0,
 	CrashAlertTypeFeedback = 1,

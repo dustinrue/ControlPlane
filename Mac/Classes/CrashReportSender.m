@@ -476,6 +476,12 @@
 		[_consoleContent appendString:@"\n"];
 	}
 	
+    // Now limit the content to CRASHREPORTSENDER_MAX_CONSOLE_SIZE (default: 50kByte)
+    if ([_consoleContent length] > CRASHREPORTSENDER_MAX_CONSOLE_SIZE)
+    {
+        _consoleContent = (NSMutableString *)[_consoleContent substringWithRange:NSMakeRange([_consoleContent length]-CRASHREPORTSENDER_MAX_CONSOLE_SIZE-1, CRASHREPORTSENDER_MAX_CONSOLE_SIZE)]; 
+    }
+        
 	[crashLogTextView setString:[NSString stringWithFormat:@"%@\n\n%@", _crashLogContent, _consoleContent]];
 
 
