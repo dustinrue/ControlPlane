@@ -78,9 +78,9 @@ SERVER ENABLE PUSH NOTIFICATIONS:
 - Adjust settings in /server/CONFIG.PHP:
     - set $push_activated to true
     - if you don't want a push message for every new pattern, set $push_newtype to false
-    - adjust $push_amount_group to the amount of crash occurences of a pattern when a push message should be sent
+    - adjust $notify_amount_group to the amount of crash occurences of a pattern when a push message should be sent
     - add up to 5 comma separated prowl api keys into $push_prowlids to receive the push messages on the device
-    - adjust $push_default_version, defines if you want to receive pushes for automatically created new versions for your apps
+    - adjust $notify_default_version, defines if you want to receive pushes for automatically created new versions for your apps
 - If push is activated, check the web interface for push settings per app version
 
 
