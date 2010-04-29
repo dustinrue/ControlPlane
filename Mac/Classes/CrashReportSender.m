@@ -94,14 +94,15 @@
 {
 	NSFileManager* fman = [NSFileManager defaultManager];
 	
+    NSError* error;
 	NSMutableArray* filesWithModificationDate = [NSMutableArray array];
-	NSArray* crashLogFiles = [fman directoryContentsAtPath:path];
+	NSArray* crashLogFiles = [fman contentsOfDirectoryAtPath:path error:&error];
 	NSEnumerator* filesEnumerator = [crashLogFiles objectEnumerator];
 	NSString* crashFile;
 	while((crashFile = [filesEnumerator nextObject]))
 	{
 		NSString* crashLogPath = [path stringByAppendingPathComponent:crashFile];
-		NSDate* modDate = [[[NSFileManager defaultManager] fileAttributesAtPath:crashLogPath traverseLink: YES] fileModificationDate];
+		NSDate* modDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:crashLogPath error:&error] fileModificationDate];
 		[filesWithModificationDate addObject:[NSDictionary dictionaryWithObjectsAndKeys:crashFile,@"name",crashLogPath,@"path",modDate,@"modDate",nil]];
 	}
 	
@@ -121,11 +122,11 @@
 - (BOOL) hasPendingCrashReport
 {
 	BOOL returnValue = NO;
-	
+	NSError* error;
+    
 	NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"];
 	
-	NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath: _crashFile
-																				traverseLink: YES] fileModificationDate];
+	NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileModificationDate];
 	
 	if (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending))
 	{

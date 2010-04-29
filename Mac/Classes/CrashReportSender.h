@@ -73,7 +73,11 @@ typedef enum CrashReportStatus {
 - (NSString *) crashReportContact;				// Return the contact value (e.g. email) the crashreport should contain, empty by default
 @end
 
+#if (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_5)
 @interface CrashReportSender : NSObject
+#else
+@interface CrashReportSender : NSObject<NSXMLParserDelegate>
+#endif
 {
 	CrashReportStatus	_serverResult;
 	int					_statusCode;
