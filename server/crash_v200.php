@@ -331,7 +331,11 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 	$crash_offset = "";
 	
 	// extract the block which contains the data of the crashing thread
-	preg_match('%Thread [0-9]+ Crashed:\n(.*?)\n\n%is', $logdata, $matches);
+	// Example:
+	// Thread 8 Crashed:  Dispatch queue: com.apple.root.default-priority
+	// 0   org.stuntaz.Foo	0x000a4368 -[MyClass function:error:] + 31 (MyClass.m:249)
+	//
+  	preg_match('%Thread [0-9]+ Crashed:.*?\n(.*?)\n\n%is', $logdata, $matches);
 	
 	//make sure $matches[1] exists
 	if (is_array($matches) && count($matches) >= 2)
