@@ -74,7 +74,7 @@ typedef enum CrashReportStatus {
 
 @end
 
-@interface CrashReportSender : NSObject {
+@interface CrashReportSender : NSObject <NSXMLParserDelegate> {
 	NSTimer *_submitTimer;
 	
 	NSMutableString *_contentOfProperty;
