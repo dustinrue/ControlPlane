@@ -30,7 +30,6 @@
 #import <CrashReporter/CrashReporter.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "CrashReportSender.h"
-#import "UIDevice-hardware.h"
 
 #define USER_AGENT @"CrashReportSender/1.0"
 
@@ -615,7 +614,7 @@
 	
 	/* Images */
 	[xmlString appendFormat:@"Binary Images:\n"];
-    int i = 0;
+
     for (PLCrashReportBinaryImageInfo *imageInfo in report.images) {
 		NSString *uuid;
 		/* Fetch the UUID if it exists */
@@ -624,20 +623,16 @@
 		else
 			uuid = @"???";
 		
-        NSString *device = nil;
+        NSString *device = @"\?\?\? (\?\?\?)";
         
-        if (i == 0) {
-            // This is for standard builds, if compiling optimized armv7 version, replace with armv7
-            device = @"armv6";            
-        } else {
-            if ([[UIDevice currentDevice] platformCapabilities] & UIDeviceSupportsARMV7) {
-                device = @"armv7";
-            } else {
-                device = @"armv6";
-            }
-        }
-        i++;
-        
+#ifdef _ARM_ARCH_7 
+        device = @"armv7";
+#endif
+
+#ifdef _ARM_ARCH_6
+        device = @"armv6";
+#endif
+                
 		/* base_address - terminating_address file_name identifier (<version>) <uuid> file_path */
 		[xmlString appendFormat:@"0x%" PRIx64 " - 0x%" PRIx64 "  %@ %@ <%@> %@\n",
 					 imageInfo.imageBaseAddress,
