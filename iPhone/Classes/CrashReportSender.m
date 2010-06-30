@@ -173,7 +173,7 @@
 		return NO;
 }
 
-- (void)sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback;
+- (void)sendCrashReportToURL:(NSURL *)submissionURL delegate:(id <CrashReportSenderDelegate>)delegate activateFeedback:(BOOL)activateFeedback;
 {
     if ([self hasPendingCrashReport])
     {

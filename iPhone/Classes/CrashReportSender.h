@@ -89,7 +89,7 @@ typedef enum CrashReportStatus {
 	int _amountCrashes;
 	BOOL _crashIdenticalCurrentVersion;
 	
-	id _delegate;
+	id <CrashReportSenderDelegate> _delegate;
 	
 	NSMutableArray *_crashFiles;
 	
@@ -100,7 +100,7 @@ typedef enum CrashReportStatus {
 
 + (CrashReportSender *)sharedCrashReportSender;
 
-- (void)sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate activateFeedback:(BOOL)activateFeedback;
+- (void)sendCrashReportToURL:(NSURL *)submissionURL delegate:(id <CrashReportSenderDelegate>)delegate activateFeedback:(BOOL)activateFeedback;
 
 
 @end
