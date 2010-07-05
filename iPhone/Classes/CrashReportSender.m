@@ -470,14 +470,26 @@
 	}
 	
 	/* Map to Apple-style code type */
-	const char *codeType;
+	NSString *codeType;
 	switch (report.systemInfo.architecture) {
 		case PLCrashReportArchitectureARM:
-			codeType = "ARM (Native)";
+			codeType = @"ARM (Native)";
             lp64 = false;
 			break;
+        case PLCrashReportArchitectureX86_32:
+            codeType = @"X86";
+            lp64 = false;
+            break;
+        case PLCrashReportArchitectureX86_64:
+            codeType = @"X86-64";
+            lp64 = true;
+            break;
+        case PLCrashReportArchitecturePPC:
+            codeType = @"PPC";
+            lp64 = false;
+            break;
 		default:
-			codeType = "ARM (Native)";
+			codeType = @"ARM (Native)";
             lp64 = false;
 			break;
 	}
