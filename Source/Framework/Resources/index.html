@@ -1,0 +1,417 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+
+<style type="text/css">
+	.animation {
+		-webkit-animation-name: grow;
+		-webkit-animation-iteration-count: infinite;
+		-webkit-animation-direction: normal;
+		-webkit-animation-duration: 1.25s;
+		-webkit-transform: rotatex(0deg);
+		-webkit-transform-origin: middle middle;
+		-webkit-animation-transition-timing-function: ease-in;
+	}
+	
+	@-webkit-keyframes grow {
+		0% {
+		-webkit-transform:scale(1.0);
+		opacity:0.8;
+		}
+		50% {
+		-webkit-transform:scale(0.90);
+		opacity:1.0;
+		}
+		100% {
+		-webkit-transform:scale(1.0);
+		opacity:0.8;
+		}
+	}
+	
+	.beacon{
+		position: absolute;
+		width: 100%;
+	    height: 100%;
+		border: 5px solid rgba(230,240,250,1.0);
+		border-radius: 5000px;
+        -webkit-box-sizing: border-box;
+		-webkit-shadow: 1px 1px 1px #000;
+		-webkit-box-shadow: 0 0px 7px rgba(25,105,215,1.0);
+        background: rgba(25,105,215,0.3);
+	}
+	.beacon2{
+		position: absolute;
+		-webkit-box-shadow:inset 0 0 7px rgba(25,105,215,1.0);
+		width: 100%;
+	    height: 100%;  
+	    -webkit-box-sizing: border-box;
+	    border-radius: 5000px;
+	    border: 1px solid rgba(230,240,250,1.0);
+
+	}
+		
+	.dot {
+	    position: absolute;
+	    background-image: url(dot.png);
+	    width: 100%;
+	    height: 100%;
+	    -webkit-box-sizing: border-box;
+	    background-repeat: no-repeat; background-position: center; 
+	}
+	
+	.userLocation {
+	    position: relative;
+	}
+	
+</style>
+
+<style type="text/css">
+div.roundedrect
+{
+    background-color: red;
+    opacity: 0.5;
+    -webkit-border-radius: 5000;
+}
+</style>
+
+<script type="text/javascript">
+  var markers = new Array();
+  
+  // Start New API
+  var map;
+  var userLocationMarker = null;
+  var overlays = new Array();
+  
+  UserLocationOverlay.prototype = new google.maps.OverlayView();
+
+  function UserLocationOverlay() {
+    // We define a property to hold the image's div. We'll 
+    // actually create this div upon receipt of the onAdd() 
+    // method so we'll leave it null for now.
+    this.div_ = null;
+    this.radius_ = 0;
+    this.center_ = new google.maps.LatLng(0,0);
+  }
+  
+  UserLocationOverlay.prototype.setCenter = function(center) {
+      this.center_ = center;
+  }
+  
+  UserLocationOverlay.prototype.setRadius = function(radius) {
+      this.radius_ = radius;
+  }
+  
+  UserLocationOverlay.prototype.onAdd = function() {
+
+    // Note: an overlay's receipt of onAdd() indicates that
+    // the map's panes are now available for attaching
+    // the overlay to the map via the DOM.
+
+    // Create the DIV and set some basic attributes.
+    var div = document.createElement('DIV');
+    div.style.borderStyle = "none";
+    div.style.borderWidth = "0px";
+    div.style.position = "absolute";
+    
+    var innerUserLocationDiv = document.createElement('DIV');
+    div.className = "userLocation";
+    
+    div.appendChild(innerUserLocationDiv);
+    
+    var beaconDiv = document.createElement('DIV');
+    beaconDiv.className = "beacon animation";
+    var beacon2Div = document.createElement('DIV');
+    beacon2Div.className = "beacon2 animation";
+    var dotDiv = document.createElement('DIV');
+    dotDiv.className = "dot";
+    
+    innerUserLocationDiv.appendChild(beaconDiv);
+    innerUserLocationDiv.appendChild(beacon2Div);
+    innerUserLocationDiv.appendChild(dotDiv);
+
+    // Set the overlay's div_ property to this DIV
+    this.div_ = div;
+
+    // We add an overlay to a map via one of the map's panes.
+    // We'll add this overlay to the overlayImage pane.
+    var panes = this.getPanes();
+    panes.overlayImage.appendChild(div);
+  }
+  
+  UserLocationOverlay.prototype.draw = function() {
+
+    // Size and position the overlay. We use a southwest and northeast
+    // position of the overlay to peg it to the correct position and size.
+    // We need to retrieve the projection from this overlay to do this.
+    var overlayProjection = this.getProjection();
+
+    // Retrieve the southwest and northeast coordinates of this overlay
+    // in latlngs and convert them to pixels coordinates.
+    // We'll use these coordinates to resize the DIV.
+    // get bounds by faking a circle
+    var circle = new google.maps.Circle();
+    circle.setRadius(this.radius_);
+    circle.setCenter(this.center_);
+    var bounds = circle.getBounds();
+    var sw = overlayProjection.fromLatLngToDivPixel(bounds.getSouthWest());
+    var ne = overlayProjection.fromLatLngToDivPixel(bounds.getNorthEast());
+
+    // Resize the image's DIV to fit the indicated dimensions.
+    var div = this.div_;
+    div.style.left = sw.x + 'px';
+    div.style.top = ne.y + 'px';
+    div.style.width = (ne.x - sw.x) + 'px';
+    div.style.height = (sw.y - ne.y) + 'px';
+  } 
+
+  UserLocationOverlay.prototype.onRemove = function() {
+    this.div_.parentNode.removeChild(this.div_);
+    this.div_ = null;
+  }
+  
+  
+  function getMapType()
+  {
+      var mapType = google.maps.MapTypeId.ROADMAP;
+      switch (map.mapTypeId)
+      {
+        case google.maps.MapTypeId.ROADMAP:
+            mapType = 0;
+            break;
+        case google.maps.MapTypeId.SATELLITE:
+            mapType = 1;
+            break;
+        case google.maps.MapTypeId.HYBRID:
+            mapType = 2;
+            break;
+        default:
+            mapType = 0;
+      }
+      return mapType;
+  }
+  
+  function setMapType(mapType)
+  {
+      if (mapType == 0)
+        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+      else if (mapType == 1)
+        map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+      else if (mapType == 2)
+        map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+      return 0;
+  }
+  
+  function getCenterCoordinate()
+  {
+      var latlong = map.getCenter();
+      return JSON.stringify({"latitude":latlong.lat(), "longitude":latlong.lng()});
+  }
+  
+  function setCenterCoordinateAnimated(lat, lng, animated)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      if (animated == true)
+        map.panTo(latlng);
+      else
+        map.setCenter(latlng);  
+  }
+  
+  function getRegion()
+  {
+      var latlongBounds = map.getBounds();
+      var centerLatitude = latlongBounds.getCenter().lat();
+      var centerLongitude = latlongBounds.getCenter().lng();
+      var latitudeDelta = latlongBounds.toSpan().lat();// Math.abs(latlongBounds.getNorthEast().lat() - latlongBounds.getSouthWest().lat())/2.0;
+      var longitudeDelta = latlongBounds.toSpan().lng(); //Math.abs(latlongBounds.getNorthEast().lng() - latlongBounds.getSouthWest().lng())/2.0;
+      var value = {"center": {"latitude": centerLatitude, "longitude": centerLongitude},
+        "latitudeDelta": latitudeDelta,
+        "longitudeDelta": longitudeDelta};
+      return JSON.stringify(value);
+  }
+  
+  function setRegionAnimated(centerLatitude, centerLongitude, latitudeDelta, longitudeDelta, animated)
+  {
+      var sw = new google.maps.LatLng(centerLatitude - latitudeDelta/2.0 , centerLongitude - longitudeDelta/2.0);
+      var ne = new google.maps.LatLng(centerLatitude + latitudeDelta/2.0 , centerLongitude + longitudeDelta/2.0);
+      var center = new google.maps.LatLng(centerLatitude, centerLongitude);
+      var bounds = new google.maps.LatLngBounds(sw, ne);
+      if (animated == true)
+        map.panToBounds(bounds);
+      else
+        map.fitBounds(bounds);
+  }
+  
+  // User Location Functions
+  
+  function createUserLocationMarker() {
+    userLocationMarker = new UserLocationOverlay();
+  }
+  
+  function setUserLocationLatitudeLongitude(lat, lng)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      userLocationMarker.setCenter(latlng);
+  }
+  
+  function setUserLocationRadius(meters)
+  {
+      userLocationMarker.setRadius(meters);
+  }
+  
+  function setUserLocationVisible(visible)
+  {
+      userLocationMarker.setMap(visible ? map : null);
+  }
+  
+  function isUserLocationVisible()
+  {
+      if (userLocationMarker == null)
+        return false;
+      var region = map.getBounds();
+      return (region.contains(userLocationMarker.getCenter()));
+  }
+  
+  // Overlay Functions
+  
+  function addOverlay(anOverlay)
+  {
+      if (overlays.indexOf(anOverlay) != -1)
+        return false;
+    
+      anOverlay.setMap(map);
+      overlays.push(anOverlay);
+      return true;
+  }
+  
+  function testOverlay(anOverlay, options)
+  {
+      var ne = new google.maps.LatLng(49.84770356304121, -97.1528089768459);
+      var moreOptions = {"radius": 400, "center": ne};
+      anOverlay.setOptions(moreOptions);
+      anOverlay.setOptions(options);
+      return JSON.stringify(options);
+  }
+  
+  function setOverlayOption(anOverlay, optionName, optionValue)
+  {
+      var ne = new google.maps.LatLng(49.84770356304121, -97.1528089768459);
+      var moreOptions = {"radius": 400, "center": ne};
+      //anOverlay.setOptions(moreOptions);
+      var option  = new Object();
+      option[optionName] = optionValue;// {optionName.toString(): optionValue};
+      anOverlay.setOptions(option);
+      return JSON.stringify(option);
+  }
+  
+  function removeOverlay(anOverlay)
+  {
+      if (overlays.indexOf(anOverlay) == -1)
+        return;
+      anOverlay.setMap(null);
+      overlays.filter(function(element, index, array) { return element != anOverlay  });
+  }
+  
+  
+  // End New API
+  
+  function setMarkerRadius(radius)
+  {
+    for (i=0;i<markers.length;i++)
+    {
+      markers[i].setRadius(radius);
+    }
+    return markers;
+  }
+  
+  function setCenter(lat, lng)
+  {
+    var latlng = new google.maps.LatLng(lat, lng);
+    map.setCenter(latlng);
+  }
+  
+  function addMarker(lat, lng, radius) {
+    var latlng = new google.maps.LatLng(lat, lng);
+    var image = 'marker.png';
+    var marker = new google.maps.Marker({
+        position: latlng, 
+        map: map,
+        icon: image,
+        title:"Hello World!"
+    });
+    
+    google.maps.event.addListener(marker, 'click', function() {
+      window.NetworkLocation.markerSelected("test");
+    });
+
+    var circleOverlay = new google.maps.Circle({
+        center: latlng,
+        clickable: true,
+        fillColor: "#FF0000",
+        fillOpacity: 0.5,
+        map: map,
+        radius: radius, 
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 3.0
+    });
+
+    google.maps.event.addListener(circleOverlay, 'click', function() {
+      window.NetworkLocation.markerSelected("test");
+    });
+    markers.push(circleOverlay);
+  }
+  
+  function initialize() {
+    var latlng = new google.maps.LatLng(49.85770356304121, -97.1528089768459);
+    var myOptions = {
+      zoom: 13,
+      center: latlng,
+      disableDefaultUI: true,
+      navigationControl: true,
+      scrollwheel: false,
+      navigationControlOptions: {
+          style: google.maps.NavigationControlStyle.SMALL,
+          position: google.maps.ControlPosition.TOP_LEFT
+      },
+      scaleControl: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    
+    createUserLocationMarker();
+    //setUserLocationRadius(222);
+    //setUserLocationLatitudeLongitude(49.8708880903330, -97.1528089768459);
+    //setUserLocationVisible(true);
+    
+    var anOverlay = new google.maps.Circle();
+    var ne = new google.maps.LatLng(49.84770356304121, -97.1528089768459);
+    var radius = 400;
+    var options = {"strokeWeight": 3.0, "fillColor": "#ff0000", "fillOpacity": 0.3,
+        "strokeColor": "#ff0000", "strokeOpacity": 1.0};
+    var moreOptions = {"radius": radius, "center": ne};
+    var colorOptions = {"strokeColor": "#ff0000"};
+    //addOverlay(anOverlay);
+    //anOverlay.setOptions(options);
+    anOverlay.setOptions(moreOptions);
+    anOverlay.setOptions(colorOptions);
+    
+    var polygonOverlay = new google.maps.Polygon();
+    var p1 = new google.maps.LatLng(49.83770356304121, -97.1628089768459);
+    var p2 = new google.maps.LatLng(49.86770356304121, -97.1628089768459);
+    var p3 = new google.maps.LatLng(49.86770356304121, -97.2028089768459);
+    var p4 = new google.maps.LatLng(49.85070356304121, -97.1758089768459);
+    var p5 = new google.maps.LatLng(49.85470356304121, -97.1758089768459);
+    var p6 = new google.maps.LatLng(49.85470356304121, -97.1828089768459);
+
+    polygonOverlay.setOptions({"paths": [[p1, p2, p3], [p4,p5,p6]]});
+    //polygonOverlay.setMap(map);
+    
+  }
+
+</script>
+</head>
+<body onload="initialize()">
+  <div id="map_canvas" style="width:100%; height:100%"></div>
+</body>
+</html>
