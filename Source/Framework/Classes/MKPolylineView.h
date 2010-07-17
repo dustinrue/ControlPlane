@@ -1,14 +1,14 @@
 //
 //  MKPolylineView.h
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/15/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MKPolyline.h"
-#import "MKOverlayPathView.h"
+#import <MapKit/MKPolyline.h>
+#import <MapKit/MKOverlayPathView.h>
 
 @interface MKPolylineView : MKOverlayPathView {
     NSArray *path;

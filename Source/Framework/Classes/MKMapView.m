@@ -1,6 +1,6 @@
 //
 //  MKMapView.m
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/11/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.
@@ -8,12 +8,12 @@
 
 #import "MKMapView.h"
 #import "JSON.h"
-#import "MKUserLocation.h"
+#import <MapKit/MKUserLocation.h>
 #import "MKUserLocation+Private.h"
-#import "MKCircleView.h"
-#import "MKCircle.h"
-#import "MKPolyline.h"
-#import "MKPolygon.h"
+#import <MapKit/MKCircleView.h>
+#import <MapKit/MKCircle.h>
+#import <MapKit/MKPolyline.h>
+#import <MapKit/MKPolygon.h>
 
 @interface MKMapView (Private)
 

@@ -7,10 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <MapKit/MapKit.h>
 
 @class MKMapView;
 
-@interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate> {
+@interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate, MKMapViewDelegate> {
     NSWindow *window;
     IBOutlet MKMapView *mapView;
 }

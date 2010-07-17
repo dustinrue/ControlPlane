@@ -1,6 +1,6 @@
 //
 //  MKCircle.h
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/12/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.
@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CoreLocation/CoreLocation.h>
-#import "MKShape.h"
-#import "MKOverlay.h"
-#import "MKGeometry.h"
+#import <MapKit/MKShape.h>
+#import <MapKit/MKOverlay.h>
+#import <MapKit/MKGeometry.h>
 
 @interface MKCircle : MKShape <MKOverlay> {
     CLLocationDistance radius;

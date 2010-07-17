@@ -1,14 +1,14 @@
 //
 //  MKPolygonView.h
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/15/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MKPolygon.h"
-#import "MKOverlayPathView.h"
+#import <MapKit/MKPolygon.h>
+#import <MapKit/MKOverlayPathView.h>
 
 @interface MKPolygonView : MKOverlayPathView{
     NSArray *path;

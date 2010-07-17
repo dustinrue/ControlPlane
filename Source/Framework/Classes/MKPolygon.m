@@ -1,6 +1,6 @@
 //
 //  MKPolygon.m
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/15/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.

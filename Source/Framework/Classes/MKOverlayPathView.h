@@ -1,13 +1,13 @@
 //
 //  MKOverlayPathView.h
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/12/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MKOverlayView.h"
+#import <MapKit/MKOverlayView.h>
 
 @interface MKOverlayPathView : MKOverlayView {
     NSColor *fillColor;

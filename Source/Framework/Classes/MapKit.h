@@ -1,24 +1,24 @@
 /*
  *  MapKit.h
- *  MapPrototype
+ *  MapKit
  *
  *  Created by Rick Fillion on 7/11/10.
  *  Copyright 2010 Centrix.ca. All rights reserved.
  *
  */
 
-#import "MKMapView.h"
-#import "MKTypes.h"
-#import "MKGeometry.h"
-#import "MKUserLocation.h"
-#import "MKOverlay.h"
-#import "MKShape.h"
-#import "MKCircle.h"
-#import "MKOverlayView.h"
-#import "MKOverlayPathView.h"
-#import "MKCircleView.h"
-#import "MKMultiPoint.h"
-#import "MKPolyline.h"
-#import "MKPolylineView.h"
-#import "MKPolygon.h"
-#import "MKPolygonView.h"
+#import <MapKit/MKMapView.h>
+#import <MapKit/MKTypes.h>
+#import <MapKit/MKGeometry.h>
+#import <MapKit/MKUserLocation.h>
+#import <MapKit/MKOverlay.h>
+#import <MapKit/MKShape.h>
+#import <MapKit/MKCircle.h>
+#import <MapKit/MKOverlayView.h>
+#import <MapKit/MKOverlayPathView.h>
+#import <MapKit/MKCircleView.h>
+#import <MapKit/MKMultiPoint.h>
+#import <MapKit/MKPolyline.h>
+#import <MapKit/MKPolylineView.h>
+#import <MapKit/MKPolygon.h>
+#import <MapKit/MKPolygonView.h>

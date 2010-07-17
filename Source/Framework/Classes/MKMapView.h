@@ -1,6 +1,6 @@
 //
 //  MKMapView.h
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/11/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.
@@ -9,9 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "MKTypes.h"
-#import "MKGeometry.h"
-#import "MKOverlay.h"
+#import <MapKit/MKTypes.h>
+#import <MapKit/MKGeometry.h>
+#import <MapKit/MKOverlay.h>
 
 @protocol MKMapViewDelegate;
 @class MKUserLocation;

@@ -1,14 +1,14 @@
 //
 //  MKPolyline.h
-//  MapPrototype
+//  MapKit
 //
 //  Created by Rick Fillion on 7/15/10.
 //  Copyright 2010 Centrix.ca. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MKMultiPoint.h"
-#import "MKOverlay.h"
+#import <MapKit/MKMultiPoint.h>
+#import <MapKit/MKOverlay.h>
 
 @interface MKPolyline : MKMultiPoint <MKOverlay>
 
