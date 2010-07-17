@@ -32,7 +32,7 @@
 
 @implementation NSObject (NSObject_SBJSON)
 
-- (NSString *)BSAJSONFragment {
+- (NSString *)JSONFragment {
     SBJsonWriter *jsonWriter = [SBJsonWriter new];
     NSString *json = [jsonWriter stringWithFragment:self];    
     if (!json)
@@ -41,7 +41,7 @@
     return json;
 }
 
-- (NSString *)BSAJSONRepresentation {
+- (NSString *)JSONRepresentation {
     SBJsonWriter *jsonWriter = [SBJsonWriter new];    
     NSString *json = [jsonWriter stringWithObject:self];
     if (!json)

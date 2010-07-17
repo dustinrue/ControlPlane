@@ -32,7 +32,7 @@
 
 @implementation NSString (NSString_SBJSON)
 
-- (id)MKJSONFragmentValue
+- (id)JSONFragmentValue
 {
     SBJsonParser *jsonParser = [SBJsonParser new];    
     id repr = [jsonParser fragmentWithString:self];    
@@ -42,7 +42,7 @@
     return repr;
 }
 
-- (id)MKJSONValue
+- (id)JSONValue
 {
     SBJsonParser *jsonParser = [SBJsonParser new];
     id repr = [jsonParser objectWithString:self];

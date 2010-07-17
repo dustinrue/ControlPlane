@@ -14,7 +14,7 @@
 		5F6EF18211F13F710077E84F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF13B11F13B170077E84F /* Cocoa.framework */; };
 		5F6EF18A11F13FDC0077E84F /* MapKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
 		5F84F0F711F21A4F008D3A32 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAF80711F14955004753A9 /* CoreLocation.framework */; };
-		5F84F10A11F21B88008D3A32 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F84F10911F21B88008D3A32 /* index.html */; };
+		5F84F10A11F21B88008D3A32 /* MapKit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F84F10911F21B88008D3A32 /* MapKit.html */; };
 		5FBAF77511F14518004753A9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
 		5FBAF7A711F147EF004753A9 /* NSColor+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */; };
 		5FBAF7A811F147EF004753A9 /* NSColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */; };
@@ -103,7 +103,7 @@
 		5F6EF16A11F13CB70077E84F /* DemoAppApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoAppApplicationDelegate.m; sourceTree = "<group>"; };
 		5F6EF17D11F13F690077E84F /* MapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6EF18711F13FA40077E84F /* MapKit-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MapKit-Info.plist"; sourceTree = "<group>"; };
-		5F84F10911F21B88008D3A32 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		5F84F10911F21B88008D3A32 /* MapKit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MapKit.html; sourceTree = "<group>"; };
 		5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Additions.h"; sourceTree = "<group>"; };
 		5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Additions.m"; sourceTree = "<group>"; };
 		5FBAF7AB11F1482E004753A9 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5F84F10911F21B88008D3A32 /* index.html */,
+				5F84F10911F21B88008D3A32 /* MapKit.html */,
 				5F6EF18711F13FA40077E84F /* MapKit-Info.plist */,
 			);
 			path = Resources;
@@ -484,7 +484,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F84F10A11F21B88008D3A32 /* index.html in Resources */,
+				5F84F10A11F21B88008D3A32 /* MapKit.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

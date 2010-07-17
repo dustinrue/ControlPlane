@@ -27,6 +27,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define JSONFragmentValue MKJSONFragmentValue
+#define JSONValue MKJSONValue
+
 #import <Foundation/Foundation.h>
 
 /**
@@ -44,7 +47,7 @@ This is a category on NSString that adds methods for parsing the target string.
  
  @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
  */
-- (id)MKJSONFragmentValue;
+- (id)JSONFragmentValue;
 
 /**
  @brief Returns the NSDictionary or NSArray represented by the current string's JSON representation.
@@ -53,6 +56,6 @@ This is a category on NSString that adds methods for parsing the target string.
 
  Returns the NSDictionary or NSArray represented by the current string's JSON representation.
  */
-- (id)MKJSONValue;
+- (id)JSONValue;
 
 @end

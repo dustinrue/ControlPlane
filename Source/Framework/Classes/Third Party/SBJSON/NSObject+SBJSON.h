@@ -27,6 +27,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define JSONFragment MKJSONFragment
+#define JSONRepresentation MKJSONRepresentation
+
 #import <Foundation/Foundation.h>
 
 
@@ -52,7 +55,7 @@
  
  @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
  */
-- (NSString *)MKJSONFragment;
+- (NSString *)JSONFragment;
 
 /**
  @brief Returns a string containing the receiver encoded in JSON.
@@ -62,7 +65,7 @@
  @li NSDictionary
  @li NSArray
  */
-- (NSString *)MKJSONRepresentation;
+- (NSString *)JSONRepresentation;
 
 @end
 

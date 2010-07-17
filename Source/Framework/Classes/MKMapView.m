@@ -48,7 +48,7 @@
         
         // TODO : make this suck less.
         NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
-        NSString *indexPath = [frameworkBundle pathForResource:@"index" ofType:@"html"];
+        NSString *indexPath = [frameworkBundle pathForResource:@"MapKit" ofType:@"html"];
         [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:indexPath]]]; 
         [[[webView mainFrame] frameView] setAllowsScrolling:NO];
         [self addSubview:webView];
@@ -99,7 +99,7 @@
 {
     WebScriptObject *webScriptObject = [webView windowScriptObject];
     NSString *json = [webScriptObject evaluateWebScript:@"getCenterCoordinate()"];
-    NSDictionary *latlong = [json MKJSONValue];
+    NSDictionary *latlong = [json JSONValue];
     NSNumber *latitude = [latlong objectForKey:@"latitude"];
     NSNumber *longitude = [latlong objectForKey:@"longitude"];
 
@@ -132,7 +132,7 @@
 {
     WebScriptObject *webScriptObject = [webView windowScriptObject];
     NSString *json = [webScriptObject evaluateWebScript:@"getRegion()"];
-    NSDictionary *regionDict = [json MKJSONValue];
+    NSDictionary *regionDict = [json JSONValue];
     
     NSNumber *centerLatitude = [regionDict valueForKeyPath:@"center.latitude"];
     NSNumber *centerLongitude = [regionDict valueForKeyPath:@"center.longitude"];

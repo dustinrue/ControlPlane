@@ -4,76 +4,56 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 
 <style type="text/css">
-	.animation {
-		-webkit-animation-name: grow;
-		-webkit-animation-iteration-count: infinite;
-		-webkit-animation-direction: normal;
-		-webkit-animation-duration: 1.25s;
-		-webkit-transform: rotatex(0deg);
-		-webkit-transform-origin: middle middle;
-		-webkit-animation-transition-timing-function: ease-in;
-	}
-	
-	@-webkit-keyframes grow {
-		0% {
-		-webkit-transform:scale(1.0);
-		opacity:0.8;
-		}
-		50% {
-		-webkit-transform:scale(0.90);
-		opacity:1.0;
-		}
-		100% {
-		-webkit-transform:scale(1.0);
-		opacity:0.8;
-		}
-	}
-	
-	.beacon{
-		position: absolute;
-		width: 100%;
-	    height: 100%;
-		border: 5px solid rgba(230,240,250,1.0);
-		border-radius: 5000px;
+    .animation {
+        -webkit-animation-name: grow;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-direction: normal;
+        -webkit-animation-duration: 1.25s;
+        -webkit-transform: rotatex(0deg);
+        -webkit-transform-origin: middle middle;
+        -webkit-animation-transition-timing-function: ease-in;
+    }
+    
+    @-webkit-keyframes grow {
+        0% {
+            -webkit-transform:scale(1.0);
+            opacity:0.8;
+        }
+        50% {
+            -webkit-transform:scale(0.90);
+            opacity:1.0;
+        }
+        100% {
+            -webkit-transform:scale(1.0);
+            opacity:0.8;
+        }
+    }
+    
+    .beacon{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 4px solid rgba(100,140,221,0.9);
+        border-radius: 5000px;
         -webkit-box-sizing: border-box;
-		-webkit-shadow: 1px 1px 1px #000;
-		-webkit-box-shadow: 0 0px 7px rgba(25,105,215,1.0);
-        background: rgba(25,105,215,0.3);
-	}
-	.beacon2{
-		position: absolute;
-		-webkit-box-shadow:inset 0 0 7px rgba(25,105,215,1.0);
-		width: 100%;
-	    height: 100%;  
-	    -webkit-box-sizing: border-box;
-	    border-radius: 5000px;
-	    border: 1px solid rgba(230,240,250,1.0);
-
-	}
-		
-	.dot {
-	    position: absolute;
-	    background-image: url(dot.png);
-	    width: 100%;
-	    height: 100%;
-	    -webkit-box-sizing: border-box;
-	    background-repeat: no-repeat; background-position: center; 
-	}
-	
-	.userLocation {
-	    position: relative;
-	}
-	
+        /* -webkit-box-shadow: 0 0px 4px rgba(25,105,215,1.0); */
+        background: rgba(15,95,245,0.1);
+    }
+        
+    .dot {
+        position: absolute;
+        background: -webkit-gradient(radial, 35% 25%, 1, 35% 25%, 4, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0.0))),
+                    -webkit-gradient(linear, 0% 0%, 45% 90%, from(rgb(10,120,189)), to(rgb(59,165,255)), color-stop(0.5, rgb(41,99,255)),color-stop(0.75, rgb(61,130,255)));
+        -webkit-box-shadow: 0px 0px 3px rgba(70,130,255,0.85),
+                            inset 0px 1px 1px rgba(240,240,240,0.6);
+        border: 1px solid rgba(2,75,145,0.95);
+        width: 16px;
+        height: 16px;
+        border-radius:20px;
+        -webkit-box-sizing: border-box;
+    }
 </style>
-
-<style type="text/css">
-div.roundedrect
-{
-    background-color: red;
-    opacity: 0.5;
-    -webkit-border-radius: 5000;
-}
-</style>
+        
 
 <script type="text/javascript">
   var markers = new Array();
@@ -122,12 +102,10 @@ div.roundedrect
     var beaconDiv = document.createElement('DIV');
     beaconDiv.className = "beacon animation";
     var beacon2Div = document.createElement('DIV');
-    beacon2Div.className = "beacon2 animation";
     var dotDiv = document.createElement('DIV');
     dotDiv.className = "dot";
     
     innerUserLocationDiv.appendChild(beaconDiv);
-    innerUserLocationDiv.appendChild(beacon2Div);
     innerUserLocationDiv.appendChild(dotDiv);
 
     // Set the overlay's div_ property to this DIV
