@@ -12,6 +12,7 @@
 #import <MapKit/MKTypes.h>
 #import <MapKit/MKGeometry.h>
 #import <MapKit/MKOverlay.h>
+#import <MapKit/MKAnnotationView.h>
 
 @protocol MKMapViewDelegate;
 @class MKUserLocation;
@@ -23,6 +24,7 @@
     MKUserLocation *userLocation;
     BOOL showsUserLocation;
     NSMutableArray *overlays;
+    NSMutableArray *annotations;
     
 @private
     WebView *webView;
@@ -31,6 +33,9 @@
     // Overlays
     CFMutableDictionaryRef overlayViews;
     CFMutableDictionaryRef overlayScriptObjects;
+    // Annotations
+    CFMutableDictionaryRef annotationViews;
+    CFMutableDictionaryRef annotationScriptObjects;
 
     
 }
@@ -45,6 +50,8 @@
 @property(nonatomic, getter=isZoomEnabled) BOOL zoomEnabled;
 @property(nonatomic, readonly, getter=isUserLocationVisible) BOOL userLocationVisible;
 @property(nonatomic, readonly) NSArray *overlays;
+@property(nonatomic, readonly) NSArray *annotations;
+
 
 
 - (void)setCenterCoordinate:(CLLocationCoordinate2D)coordinate animated:(BOOL)animated;
@@ -60,6 +67,15 @@
 - (void)removeOverlay:(id < MKOverlay >)overlay;
 - (void)removeOverlays:(NSArray *)overlays;
 - (MKOverlayView *)viewForOverlay:(id < MKOverlay >)overlay;
+
+// Annotations
+- (void)addAnnotation:(id < MKAnnotation >)annotation;
+- (void)addAnnotations:(NSArray *)annotations;
+- (void)removeAnnotation:(id < MKAnnotation >)annotation;
+- (void)removeAnnotations:(NSArray *)annotations;
+- (MKAnnotationView *)viewForAnnotation:(id < MKAnnotation >)annotation;
+- (MKAnnotationView *)dequeueReusableAnnotationViewWithIdentifier:(NSString *)identifier;
+
 
 @end
 
@@ -77,12 +93,12 @@
 // mapView:viewForAnnotation: provides the view for each annotation.
 // This method may be called for all or some of the added annotations.
 // For MapKit provided annotations (eg. MKUserLocation) return nil to use the MapKit provided annotation view.
-//- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation;
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation;
 
 // mapView:didAddAnnotationViews: is called after the annotation views have been added and positioned in the map.
 // The delegate can implement this method to animate the adding of the annotations views.
 // Use the current positions of the annotation views as the destinations of the animation.
-//- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views;
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views;
 
 // mapView:annotationView:calloutAccessoryControlTapped: is called when the user taps on left & right callout accessory UIControls.
 //- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control;

@@ -8,6 +8,7 @@
 
 #import "DemoAppApplicationDelegate.h"
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 @implementation DemoAppApplicationDelegate
 
@@ -116,17 +117,22 @@
 
 // Managing Annotation Views
 
-/*
- - (MKAnnotationView *)mapView:(MKMapView *)aMapView viewForAnnotation:(id <MKAnnotation>)annotation
- {
- NSLog(@"mapView: %@ viewForAnnotation: %@", aMapView, annotation);
- }
+
+- (MKAnnotationView *)mapView:(MKMapView *)aMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    NSLog(@"mapView: %@ viewForAnnotation: %@", aMapView, annotation);
+    MKAnnotationView *view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MarkerTest" ofType:@"png"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    view.imageUrl = [url absoluteString];
+    return view;
+}
  
- - (void)mapView:(MKMapView *)aMapView didAddAnnotationViews:(NSArray *)views
- {
- NSLog(@"mapView: %@ didAddAnnotationViews: %@", aMapView, views);
- }
- 
+- (void)mapView:(MKMapView *)aMapView didAddAnnotationViews:(NSArray *)views
+{
+    NSLog(@"mapView: %@ didAddAnnotationViews: %@", aMapView, views);
+}
+ /*
  - (void)mapView:(MKMapView *)aMapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
  {
  NSLog(@"mapView: %@ annotationView: %@ calloutAccessoryControlTapped: %@", aMapView, view, control);

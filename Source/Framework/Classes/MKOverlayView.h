@@ -7,22 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <WebKit/WebKit.h>
 #import <MapKit/MKOverlay.h>
+#import <MapKit/MKView.h>
 
-
-@interface MKOverlayView : NSObject {
+@interface MKOverlayView : MKView {
     id <MKOverlay> overlay;
 }
 
 @property (nonatomic, readonly) id <MKOverlay> overlay;
-// TODO : might want to rename this one.
-@property (nonatomic, readonly) NSString *objectName;
-@property (nonatomic, readonly) NSDictionary *options;
+
 
 - (id)initWithOverlay:(id <MKOverlay>)anOverlay;
 
-- (void)draw:(WebScriptObject *)overlayScriptObject;// withWindowScriptObject:(WebScriptObject *)windowScriptObject;
-- (WebScriptObject *)overlayScriptObjectFromMapSriptObject:(WebScriptObject *)mapScriptObject;
 
 @end

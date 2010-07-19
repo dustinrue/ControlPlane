@@ -32,7 +32,7 @@
 }
 
 
-- (NSString *)objectName
+- (NSString *)viewPrototypeName
 {
     return @"google.maps.Circle";
 }

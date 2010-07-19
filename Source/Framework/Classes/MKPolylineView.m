@@ -31,7 +31,7 @@
     return [super overlay];
 }
 
-- (NSString *)objectName
+- (NSString *)viewPrototypeName
 {
     return @"google.maps.Polyline";
 }

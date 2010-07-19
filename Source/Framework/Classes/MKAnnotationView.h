@@ -7,6 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <MapKit/MKView.h>
+#import <WebKit/WebKit.h>
 
 enum {
     MKAnnotationViewDragStateNone = 0,      // View is at rest, sitting on the map.
@@ -21,16 +23,19 @@ typedef NSUInteger MKAnnotationViewDragState;
 @protocol MKAnnotation;
 
 
-@interface MKAnnotationView : NSObject {
+@interface MKAnnotationView : MKView {
     NSString *reuseIdentifier;
     id <MKAnnotation> annotation;
-    NSImage *image;
+    NSString *imageUrl;
     CGPoint centerOffset;
     CGPoint calloutOffset;
     BOOL enabled;
     BOOL highlighted;
     BOOL selected;
-    BOOL canShowCallout;   
+    BOOL canShowCallout;
+@private
+    WebScriptObject *markerImage;
+    WebScriptObject *latlngCenter;
 }
 
 - (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier;
@@ -41,7 +46,7 @@ typedef NSUInteger MKAnnotationViewDragState;
 
 @property (nonatomic, retain) id <MKAnnotation> annotation;
 
-@property (nonatomic, retain) NSImage *image;
+@property (nonatomic, copy) NSString *imageUrl;
 
 // By default, the center of annotation view is placed over the coordinate of the annotation.
 // centerOffset is the offset in pixels from the center of the annotion view.

@@ -62,6 +62,7 @@
   var map;
   var userLocationMarker = null;
   var overlays = new Array();
+  var annotations = new Array();
   
   UserLocationOverlay.prototype = new google.maps.OverlayView();
 
@@ -290,6 +291,27 @@
       overlays.filter(function(element, index, array) { return element != anOverlay  });
   }
   
+  
+  // Annotations Functions
+  
+  function addAnnotation(anAnnotation)
+  {
+      if (annotations.indexOf(anAnnotation) != -1)
+        return false;
+    
+      anAnnotation.setMap(map);
+      annotations.push(anAnnotation);
+      return true;
+  }
+  
+  function removeAnnotation(anAnnotation)
+  {
+      if (annotations.indexOf(anAnnotation) == -1)
+        return;
+      anAnnotation.setMap(null);
+      annotations.filter(function(element, index, array) { return element != anAnnotation  });
+  }
+  
   // End New API
   
   function setMarkerRadius(radius)
@@ -383,6 +405,12 @@
 
     polygonOverlay.setOptions({"paths": [[p1, p2, p3], [p4,p5,p6]]});
     //polygonOverlay.setMap(map);
+    /*
+    var marker = new google.maps.Marker();
+    var markerImage = new google.maps.MarkerImage('file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', null, null, null, null);
+    var markerOptions = {"icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
+    addAnnotation(marker);
+    marker.setOptions(markerOptions); */
     
   }
 

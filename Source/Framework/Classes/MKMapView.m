@@ -14,6 +14,8 @@
 #import <MapKit/MKCircle.h>
 #import <MapKit/MKPolyline.h>
 #import <MapKit/MKPolygon.h>
+#import <MapKit/MKAnnotationView.h>
+#import <MapKit/MKPointAnnotation.h>
 
 @interface MKMapView (Private)
 
@@ -25,6 +27,7 @@
 - (void)delegateWillStartLocatingUser;
 - (void)delegateDidStopLocatingUser;
 - (void)delegateDidAddOverlayViews:(NSArray *)overlayViews;
+- (void)delegateDidAddAnnotationViews:(NSArray *)annotationViews;
 
 // WebView integration
 - (void)setUserLocationMarkerVisible:(BOOL)visible;
@@ -50,6 +53,11 @@
         overlays = [[NSMutableArray array] retain];
         overlayViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         overlayScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        
+        // Create the annotation data structures
+        annotations = [[NSMutableArray array] retain];
+        annotationViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        annotationScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         
         // TODO : make this suck less.
         NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
@@ -331,6 +339,87 @@
     return (MKOverlayView *)CFDictionaryGetValue(overlayViews, overlay);
 }
 
+#pragma mark Annotations
+
+- (NSArray *)annotations
+{
+    return [[annotations copy] autorelease];
+}
+
+- (void)addAnnotation:(id < MKAnnotation >)annotation
+{
+    // check if maybe we already have this one.
+    if ([annotations containsObject:annotation])
+        return;
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    
+    MKAnnotationView *annotationView = nil;
+    if ([self.delegate respondsToSelector:@selector(mapView:viewForAnnotation:)])
+        annotationView = [self.delegate mapView:self viewForAnnotation:annotation];
+    if (!annotationView)
+    {
+        // TODO: Handle the case where we have no view
+    }
+    
+    WebScriptObject *annotationScriptObject = [annotationView overlayScriptObjectFromMapSriptObject:webScriptObject];
+    
+    [annotations addObject:annotation];
+    CFDictionarySetValue(annotationViews, annotation, annotationView);
+    CFDictionarySetValue(annotationScriptObjects, annotation, annotationScriptObject);
+    
+    NSArray *args = [NSArray arrayWithObject:annotationScriptObject];
+    [webScriptObject callWebScriptMethod:@"addAnnotation" withArguments:args];
+    [annotationView draw:annotationScriptObject];
+    
+    // TODO: refactor how this works so that we can send one batch call
+    // when they called addAnnotations:
+    [self delegateDidAddAnnotationViews:[NSArray arrayWithObject:annotationView]];
+}
+
+- (void)addAnnotations:(NSArray *)someAnnotations
+{
+    for (id<MKAnnotation>annotation in someAnnotations)
+    {
+        [self addAnnotation: annotation];
+    }
+}
+
+- (void)removeAnnotation:(id < MKAnnotation >)annotation
+{
+    if (![annotations containsObject:annotation])
+        return;
+    
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+    NSArray *args = [NSArray arrayWithObject:annotationScriptObject];
+    [webScriptObject callWebScriptMethod:@"removeAnnotation" withArguments:args];
+    
+    CFDictionaryRemoveValue(annotationViews, annotation);
+    CFDictionaryRemoveValue(annotationScriptObjects, annotation);
+    
+    [annotations removeObject:annotation];
+}
+
+- (void)removeAnnotations:(NSArray *)someAnnotations
+{
+    for (id<MKAnnotation>annotation in someAnnotations)
+    {
+        [self removeAnnotation: annotation];
+    }
+}
+
+- (MKAnnotationView *)viewForAnnotation:(id < MKAnnotation >)annotation
+{
+    if (![annotations containsObject:annotation])
+        return nil;
+    return (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
+}
+
+- (MKAnnotationView *)dequeueReusableAnnotationViewWithIdentifier:(NSString *)identifier
+{
+    // Unsupported for now.
+    return nil; 
+}
 
 #pragma mark Faked Properties
 
@@ -413,7 +502,7 @@
     innerCoords[1].longitude = -97.1758089768459;
     innerCoords[2].latitude = 49.85470356304121;
     innerCoords[2].longitude = -97.1828089768459;
-/*    
+    
     MKCircle *circle1 = [MKCircle circleWithCenterCoordinate:coord radius: 400];
     MKCircle *circle2 = [MKCircle circleWithCenterCoordinate:coords[0] radius: 400];
     MKCircle *circle3 = [MKCircle circleWithCenterCoordinate:coords[1] radius: 400];
@@ -435,8 +524,12 @@
     NSLog(@"5: %@", [self overlays]);
     [self insertOverlay:circle6 belowOverlay:circle1];
     NSLog(@"6: %@", [self overlays]);
+    [self removeOverlay:circle1];
 
-*/
+    MKPointAnnotation *pointAnnotation = [[[MKPointAnnotation alloc] init] autorelease];
+    pointAnnotation.coordinate = coord;
+    [self addAnnotation:pointAnnotation];
+    
     
     //MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:3];
     //MKPolygon *innerPolygon = [MKPolygon polygonWithCoordinates:innerCoords count:3];
@@ -496,11 +589,19 @@
     }
 }
 
-- (void)delegateDidAddOverlayViews:(NSArray *)somOverlayViews
+- (void)delegateDidAddOverlayViews:(NSArray *)someOverlayViews
 {
     if (delegate && [delegate respondsToSelector:@selector(mapView:didAddOverlayViews:)])
     {
-        [delegate mapView:self didAddOverlayViews:somOverlayViews];
+        [delegate mapView:self didAddOverlayViews:someOverlayViews];
+    }
+}
+
+- (void)delegateDidAddAnnotationViews:(NSArray *)someAnnotationViews
+{
+    if (delegate && [delegate respondsToSelector:@selector(mapView:didAddAnnotationViews:)])
+    {
+        [delegate mapView:self didAddAnnotationViews:someAnnotationViews];
     }
 }
 

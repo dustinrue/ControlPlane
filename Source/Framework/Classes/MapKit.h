@@ -22,3 +22,4 @@
 #import <MapKit/MKPolylineView.h>
 #import <MapKit/MKPolygon.h>
 #import <MapKit/MKPolygonView.h>
+#import <MapKit/MKView.h>
