@@ -15,6 +15,12 @@
 		5F6EF18A11F13FDC0077E84F /* MapKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
 		5F84F0F711F21A4F008D3A32 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAF80711F14955004753A9 /* CoreLocation.framework */; };
 		5F84F10A11F21B88008D3A32 /* MapKit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F84F10911F21B88008D3A32 /* MapKit.html */; };
+		5F84F20511F3E956008D3A32 /* MKPointAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F84F20311F3E956008D3A32 /* MKPointAnnotation.h */; };
+		5F84F20611F3E956008D3A32 /* MKPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F20411F3E956008D3A32 /* MKPointAnnotation.m */; };
+		5F84F23A11F3ED6E008D3A32 /* MKAnnotationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F84F23811F3ED6E008D3A32 /* MKAnnotationView.h */; };
+		5F84F23B11F3ED6E008D3A32 /* MKAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F23911F3ED6E008D3A32 /* MKAnnotationView.m */; };
+		5F84F25711F3F173008D3A32 /* MKPinAnnotationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F84F25511F3F173008D3A32 /* MKPinAnnotationView.h */; };
+		5F84F25811F3F173008D3A32 /* MKPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F25611F3F173008D3A32 /* MKPinAnnotationView.m */; };
 		5FBAF77511F14518004753A9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
 		5FBAF7A711F147EF004753A9 /* NSColor+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */; };
 		5FBAF7A811F147EF004753A9 /* NSColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */; };
@@ -104,6 +110,12 @@
 		5F6EF17D11F13F690077E84F /* MapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6EF18711F13FA40077E84F /* MapKit-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MapKit-Info.plist"; sourceTree = "<group>"; };
 		5F84F10911F21B88008D3A32 /* MapKit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MapKit.html; sourceTree = "<group>"; };
+		5F84F20311F3E956008D3A32 /* MKPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKPointAnnotation.h; sourceTree = "<group>"; };
+		5F84F20411F3E956008D3A32 /* MKPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPointAnnotation.m; sourceTree = "<group>"; };
+		5F84F23811F3ED6E008D3A32 /* MKAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKAnnotationView.h; sourceTree = "<group>"; };
+		5F84F23911F3ED6E008D3A32 /* MKAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKAnnotationView.m; sourceTree = "<group>"; };
+		5F84F25511F3F173008D3A32 /* MKPinAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKPinAnnotationView.h; sourceTree = "<group>"; };
+		5F84F25611F3F173008D3A32 /* MKPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPinAnnotationView.m; sourceTree = "<group>"; };
 		5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Additions.h"; sourceTree = "<group>"; };
 		5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Additions.m"; sourceTree = "<group>"; };
 		5FBAF7AB11F1482E004753A9 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -220,7 +232,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAF7D911F1487C004753A9 /* Overlays */,
+				5F84F20B11F3E9C1008D3A32 /* Annotations And Overlays */,
 				5FBAF7A411F147DC004753A9 /* Categories */,
 				5FBAF7A911F147FF004753A9 /* Third Party */,
 				5FBAF7C511F1486D004753A9 /* MKMapView.h */,
@@ -232,7 +244,6 @@
 				5FBAF7CB11F1486D004753A9 /* MKUserLocation.m */,
 				5FBAF7CC11F1486D004753A9 /* MKUserLocation+Private.h */,
 				5FBAF7CD11F1486D004753A9 /* MKUserLocation+Private.m */,
-				5FBAF7CE11F1486D004753A9 /* MKAnnotation.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -303,6 +314,40 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		5F84F20211F3E930008D3A32 /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				5F84F23C11F3EDB8008D3A32 /* Views */,
+				5F84F20311F3E956008D3A32 /* MKPointAnnotation.h */,
+				5F84F20411F3E956008D3A32 /* MKPointAnnotation.m */,
+			);
+			name = Annotations;
+			sourceTree = "<group>";
+		};
+		5F84F20B11F3E9C1008D3A32 /* Annotations And Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				5FBAF7DE11F14889004753A9 /* MKOverlay.h */,
+				5FBAF7CE11F1486D004753A9 /* MKAnnotation.h */,
+				5FBAF7DA11F14889004753A9 /* MKShape.h */,
+				5FBAF7DB11F14889004753A9 /* MKShape.m */,
+				5FBAF7D911F1487C004753A9 /* Overlays */,
+				5F84F20211F3E930008D3A32 /* Annotations */,
+			);
+			name = "Annotations And Overlays";
+			sourceTree = "<group>";
+		};
+		5F84F23C11F3EDB8008D3A32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5F84F23811F3ED6E008D3A32 /* MKAnnotationView.h */,
+				5F84F23911F3ED6E008D3A32 /* MKAnnotationView.m */,
+				5F84F25511F3F173008D3A32 /* MKPinAnnotationView.h */,
+				5F84F25611F3F173008D3A32 /* MKPinAnnotationView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		5FBAF7A411F147DC004753A9 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,12 +388,9 @@
 		5FBAF7D911F1487C004753A9 /* Overlays */ = {
 			isa = PBXGroup;
 			children = (
-				5FBAF7F011F1488F004753A9 /* Overlay Views */,
-				5FBAF7DA11F14889004753A9 /* MKShape.h */,
-				5FBAF7DB11F14889004753A9 /* MKShape.m */,
+				5FBAF7F011F1488F004753A9 /* Views */,
 				5FBAF7DC11F14889004753A9 /* MKCircle.h */,
 				5FBAF7DD11F14889004753A9 /* MKCircle.m */,
-				5FBAF7DE11F14889004753A9 /* MKOverlay.h */,
 				5FBAF7DF11F14889004753A9 /* MKMultiPoint.h */,
 				5FBAF7E011F14889004753A9 /* MKMultiPoint.m */,
 				5FBAF7E111F14889004753A9 /* MKPolyline.h */,
@@ -359,7 +401,7 @@
 			name = Overlays;
 			sourceTree = "<group>";
 		};
-		5FBAF7F011F1488F004753A9 /* Overlay Views */ = {
+		5FBAF7F011F1488F004753A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				5FBAF7F111F148A5004753A9 /* MKOverlayView.h */,
@@ -373,7 +415,7 @@
 				5FBAF7F911F148A5004753A9 /* MKPolygonView.h */,
 				5FBAF7FA11F148A5004753A9 /* MKPolygonView.m */,
 			);
-			name = "Overlay Views";
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,6 +451,9 @@
 				5FBAF7FF11F148A5004753A9 /* MKCircleView.h in Headers */,
 				5FBAF80111F148A5004753A9 /* MKPolylineView.h in Headers */,
 				5FBAF80311F148A5004753A9 /* MKPolygonView.h in Headers */,
+				5F84F20511F3E956008D3A32 /* MKPointAnnotation.h in Headers */,
+				5F84F23A11F3ED6E008D3A32 /* MKAnnotationView.h in Headers */,
+				5F84F25711F3F173008D3A32 /* MKPinAnnotationView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +569,9 @@
 				5FBAF80011F148A5004753A9 /* MKCircleView.m in Sources */,
 				5FBAF80211F148A5004753A9 /* MKPolylineView.m in Sources */,
 				5FBAF80411F148A5004753A9 /* MKPolygonView.m in Sources */,
+				5F84F20611F3E956008D3A32 /* MKPointAnnotation.m in Sources */,
+				5F84F23B11F3ED6E008D3A32 /* MKAnnotationView.m in Sources */,
+				5F84F25811F3F173008D3A32 /* MKPinAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

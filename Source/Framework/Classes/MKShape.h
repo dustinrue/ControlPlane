@@ -10,14 +10,13 @@
 #import <MapKit/MKAnnotation.h>
 
 @interface MKShape : NSObject <MKAnnotation> {
-    CLLocationCoordinate2D coordinate;
+    @package
     NSString *title;
     NSString *subtitle;
 }
 
 @property (copy) NSString *title;
 @property (copy) NSString *subtitle;
-@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 
 @end

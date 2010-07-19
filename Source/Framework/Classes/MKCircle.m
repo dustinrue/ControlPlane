@@ -17,21 +17,13 @@
 
 @implementation MKCircle
 
+@synthesize coordinate, radius;
 
 + (MKCircle *)circleWithCenterCoordinate:(CLLocationCoordinate2D)aCoord radius:(CLLocationDistance)aRadius
 {
     return [[[self alloc] initWithCenterCoordinate:aCoord radius:aRadius] autorelease];
 }
 
-- (CLLocationCoordinate2D) coordinate
-{
-    return [super coordinate];
-}
-
-- (CLLocationDistance) radius
-{
-    return radius;
-}
 
 - (MKCoordinateRegion)region
 {

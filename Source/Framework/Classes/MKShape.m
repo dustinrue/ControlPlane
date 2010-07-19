@@ -11,7 +11,15 @@
 
 @implementation MKShape
 
-@synthesize title, subtitle, coordinate;
+@synthesize title, subtitle;
+
+- (CLLocationCoordinate2D)coordinate
+{
+    CLLocationCoordinate2D coord;
+    coord.longitude = 0.0;
+    coord.latitude = 0.0;
+    return coord;
+}
 
 - (void)dealloc
 {
