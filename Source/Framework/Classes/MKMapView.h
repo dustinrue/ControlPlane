@@ -17,17 +17,21 @@
 @class MKUserLocation;
 @class MKOverlayView;
 
-@interface MKMapView : NSView <CLLocationManagerDelegate> {
-    WebView *webView;
-    
+@interface MKMapView : NSView <CLLocationManagerDelegate> {    
     id <MKMapViewDelegate> delegate;
     MKMapType mapType;
-    
-    CLLocationManager *locationManager;
     MKUserLocation *userLocation;
     BOOL showsUserLocation;
-    
     NSMutableArray *overlays;
+    
+@private
+    WebView *webView;
+    CLLocationManager *locationManager;
+    BOOL hasSetCenterCoordinate;
+    // Overlays
+    CFMutableDictionaryRef overlayViews;
+    CFMutableDictionaryRef overlayScriptObjects;
+
     
 }
 @property (nonatomic, assign) id <MKMapViewDelegate> delegate;

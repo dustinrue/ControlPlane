@@ -273,12 +273,12 @@
   
   function setOverlayOption(anOverlay, optionName, optionValue)
   {
-      var ne = new google.maps.LatLng(49.84770356304121, -97.1528089768459);
-      var moreOptions = {"radius": 400, "center": ne};
-      //anOverlay.setOptions(moreOptions);
       var option  = new Object();
       option[optionName] = optionValue;// {optionName.toString(): optionValue};
-      anOverlay.setOptions(option);
+      if (anOverlay && anOverlay.setOptions)
+      {
+          anOverlay.setOptions(option);
+      }
       return JSON.stringify(option);
   }
   
@@ -289,7 +289,6 @@
       anOverlay.setMap(null);
       overlays.filter(function(element, index, array) { return element != anOverlay  });
   }
-  
   
   // End New API
   

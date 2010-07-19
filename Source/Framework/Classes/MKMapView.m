@@ -29,6 +29,7 @@
 // WebView integration
 - (void)setUserLocationMarkerVisible:(BOOL)visible;
 - (void)updateUserLocationMarkerWithLocaton:(CLLocation *)location;
+- (void)updateOverlayZIndexes;
 
 @end
 
@@ -40,11 +41,15 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        overlays = [[NSMutableArray array] retain];
         // Initialization code here.
         webView = [[WebView alloc] initWithFrame:[self bounds]];
         [webView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [webView setFrameLoadDelegate:self];
+        
+        // Create the overlay data structures
+        overlays = [[NSMutableArray array] retain];
+        overlayViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        overlayScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         
         // TODO : make this suck less.
         NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
@@ -73,6 +78,10 @@
     [locationManager release];
     [userLocation release];
     [overlays release];
+    CFRelease(overlayViews);
+    overlayViews = NULL;
+    CFRelease(overlayScriptObjects);
+    overlayScriptObjects = NULL;
     [super dealloc];
 }
 
@@ -125,6 +134,7 @@
     WebScriptObject *webScriptObject = [webView windowScriptObject];
     [webScriptObject callWebScriptMethod:@"setCenterCoordinateAnimated" withArguments:args];
     [self didChangeValueForKey:@"region"];
+    hasSetCenterCoordinate = YES;
 }
 
 
@@ -206,22 +216,7 @@
 
 - (void)addOverlay:(id < MKOverlay >)overlay
 {
-//TODO
-    WebScriptObject *webScriptObject = [webView windowScriptObject];
-    
-    MKOverlayView *overlayView = nil;
-    if ([self.delegate respondsToSelector:@selector(mapView:viewForOverlay:)])
-        overlayView = [self.delegate mapView:self viewForOverlay:overlay];
-    if (!overlayView)
-    {
-        // TODO: Handle the case where we have no view
-    }
-    
-    WebScriptObject *overlayObject = [overlayView overlayScriptObjectFromMapSriptObject:webScriptObject];
-    NSArray *args = [NSArray arrayWithObject:overlayObject];
-    [webScriptObject callWebScriptMethod:@"addOverlay" withArguments:args];
-    [overlayView draw:overlayObject];
-    [self delegateDidAddOverlayViews:[NSArray arrayWithObject:overlayView]];
+    [self insertOverlay:overlay atIndex:[overlays count]];
 }
 
 - (void)addOverlays:(NSArray *)someOverlays
@@ -234,27 +229,91 @@
 
 - (void)exchangeOverlayAtIndex:(NSUInteger)index1 withOverlayAtIndex:(NSUInteger)index2
 {
-    //TODO
+    if (index1 >= [overlays count] || index2 >= [overlays count])
+    {
+        NSLog(@"exchangeOverlayAtIndex: either index1 or index2 is above the bounds of the overlays array.");
+        return;
+    }
+    
+    id < MKOverlay > overlay1 = [[overlays objectAtIndex: index1] retain];
+    id < MKOverlay > overlay2 = [[overlays objectAtIndex: index2] retain];
+    [overlays replaceObjectAtIndex:index2 withObject:overlay1];
+    [overlays replaceObjectAtIndex:index1 withObject:overlay2];
+    [overlay1 release];
+    [overlay2 release];
+    [self updateOverlayZIndexes];
 }
 
 - (void)insertOverlay:(id < MKOverlay >)overlay aboveOverlay:(id < MKOverlay >)sibling
 {
-    //TODO
+    if (![overlays containsObject:sibling])
+        return;
+    
+    NSUInteger indexOfSibling = [overlays indexOfObject:sibling];
+    [self insertOverlay:overlay atIndex: indexOfSibling+1];
 }
 
 - (void)insertOverlay:(id < MKOverlay >)overlay atIndex:(NSUInteger)index
 {
-    //TODO
+    // check if maybe we already have this one.
+    if ([overlays containsObject:overlay])
+        return;
+    
+    // Make sure we have a valid index.
+    if (index > [overlays count])
+        index = [overlays count];
+    
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    
+    MKOverlayView *overlayView = nil;
+    if ([self.delegate respondsToSelector:@selector(mapView:viewForOverlay:)])
+        overlayView = [self.delegate mapView:self viewForOverlay:overlay];
+    if (!overlayView)
+    {
+        // TODO: Handle the case where we have no view
+    }
+    
+    WebScriptObject *overlayScriptObject = [overlayView overlayScriptObjectFromMapSriptObject:webScriptObject];
+    
+    [overlays insertObject:overlay atIndex:index];
+    CFDictionarySetValue(overlayViews, overlay, overlayView);
+    CFDictionarySetValue(overlayScriptObjects, overlay, overlayScriptObject);
+    
+    NSArray *args = [NSArray arrayWithObject:overlayScriptObject];
+    [webScriptObject callWebScriptMethod:@"addOverlay" withArguments:args];
+    [overlayView draw:overlayScriptObject];
+    
+    [self updateOverlayZIndexes];
+    
+    // TODO: refactor how this works so that we can send one batch call
+    // when they called addOverlays:
+    [self delegateDidAddOverlayViews:[NSArray arrayWithObject:overlayView]];
 }
 
 - (void)insertOverlay:(id < MKOverlay >)overlay belowOverlay:(id < MKOverlay >)sibling
 {
-    //TODO
+    if (![overlays containsObject:sibling])
+        return;
+    
+    NSUInteger indexOfSibling = [overlays indexOfObject:sibling];
+    [self insertOverlay:overlay atIndex: indexOfSibling];    
 }
 
 - (void)removeOverlay:(id < MKOverlay >)overlay
 {
-    //TODO
+    if (![overlays containsObject:overlay])
+        return;
+    
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    WebScriptObject *overlayScriptObject = (WebScriptObject *)CFDictionaryGetValue(overlayScriptObjects, overlay);
+    NSArray *args = [NSArray arrayWithObject:overlayScriptObject];
+    [webScriptObject callWebScriptMethod:@"removeOverlay" withArguments:args];
+
+    CFDictionaryRemoveValue(overlayViews, overlay);
+    CFDictionaryRemoveValue(overlayScriptObjects, overlay);
+
+    [overlays removeObject:overlay];
+    [self updateOverlayZIndexes];
 }
 
 - (void)removeOverlays:(NSArray *)someOverlays
@@ -267,8 +326,9 @@
 
 - (MKOverlayView *)viewForOverlay:(id < MKOverlay >)overlay
 {
-    //TODO
-    return nil;
+    if (![overlays containsObject:overlay])
+        return nil;
+    return (MKOverlayView *)CFDictionaryGetValue(overlayViews, overlay);
 }
 
 
@@ -304,7 +364,8 @@
      didUpdateToLocation: (CLLocation *)newLocation
             fromLocation: (CLLocation *)oldLocation
 {
-    [self setCenterCoordinate:newLocation.coordinate];
+    if (!hasSetCenterCoordinate)
+        [self setCenterCoordinate:newLocation.coordinate];
     [userLocation _setLocation:newLocation];
     [self updateUserLocationMarkerWithLocaton:newLocation];
     [self setUserLocationMarkerVisible:YES];
@@ -316,8 +377,6 @@
     [self delegateDidFailToLocateUserWithError:error];
     [self setUserLocationMarkerVisible:NO];
 }
-
-#pragma mark WebFrameLoadDelegate
 
 #pragma mark WebFrameLoadDelegate
 
@@ -338,8 +397,6 @@
     CLLocationCoordinate2D coord;
     coord.latitude = 49.84770356304121;
     coord.longitude = -97.1728089768459;
-    MKCircle *circle = [MKCircle circleWithCenterCoordinate:coord radius: 400];
-//    [self addOverlay: circle];
 
     CLLocationCoordinate2D coords[3];
     coords[0].latitude = 49.83770356304121;
@@ -356,12 +413,36 @@
     innerCoords[1].longitude = -97.1758089768459;
     innerCoords[2].latitude = 49.85470356304121;
     innerCoords[2].longitude = -97.1828089768459;
-    
-    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:3];
-    MKPolygon *innerPolygon = [MKPolygon polygonWithCoordinates:innerCoords count:3];
-    MKPolygon *polygon = [MKPolygon polygonWithCoordinates:coords count:3 interiorPolygons:[NSArray arrayWithObject:innerPolygon]];
+/*    
+    MKCircle *circle1 = [MKCircle circleWithCenterCoordinate:coord radius: 400];
+    MKCircle *circle2 = [MKCircle circleWithCenterCoordinate:coords[0] radius: 400];
+    MKCircle *circle3 = [MKCircle circleWithCenterCoordinate:coords[1] radius: 400];
+    MKCircle *circle4 = [MKCircle circleWithCenterCoordinate:coords[2] radius: 400];
+    MKCircle *circle5 = [MKCircle circleWithCenterCoordinate:innerCoords[0] radius: 400];
+    MKCircle *circle6 = [MKCircle circleWithCenterCoordinate:innerCoords[1] radius: 400];
+    MKCircle *circle7 = [MKCircle circleWithCenterCoordinate:innerCoords[2] radius: 400];
 
-    [self addOverlay: polygon];
+    NSLog(@"start: %@", [self overlays]);
+    [self insertOverlay:circle1 atIndex:0];
+    NSLog(@"1: %@", [self overlays]);
+    [self insertOverlay:circle2 atIndex:1];
+    NSLog(@"2: %@", [self overlays]);
+    [self insertOverlay:circle3 atIndex:1];
+    NSLog(@"3: %@", [self overlays]);
+    [self insertOverlay:circle4 atIndex:1];
+    NSLog(@"4: %@", [self overlays]);
+    [self insertOverlay:circle5 aboveOverlay:circle1];
+    NSLog(@"5: %@", [self overlays]);
+    [self insertOverlay:circle6 belowOverlay:circle1];
+    NSLog(@"6: %@", [self overlays]);
+
+*/
+    
+    //MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:3];
+    //MKPolygon *innerPolygon = [MKPolygon polygonWithCoordinates:innerCoords count:3];
+    //MKPolygon *polygon = [MKPolygon polygonWithCoordinates:coords count:3 interiorPolygons:[NSArray arrayWithObject:innerPolygon]];
+
+    //[self addOverlay: polygon];
 }
 
 
@@ -415,11 +496,11 @@
     }
 }
 
-- (void)delegateDidAddOverlayViews:(NSArray *)overlayViews
+- (void)delegateDidAddOverlayViews:(NSArray *)somOverlayViews
 {
     if (delegate && [delegate respondsToSelector:@selector(mapView:didAddOverlayViews:)])
     {
-        [delegate mapView:self didAddOverlayViews:overlayViews];
+        [delegate mapView:self didAddOverlayViews:somOverlayViews];
     }
 }
 
@@ -451,6 +532,23 @@
             nil];
     [webScriptObject callWebScriptMethod:@"setUserLocationLatitudeLongitude" withArguments:args];
     //NSLog(@"caling setUserLocationLatitudeLongitude with %@", args);
+}
+
+- (void)updateOverlayZIndexes
+{
+    //NSLog(@"updating overlay z indexes of :%@", overlays);
+    NSUInteger zIndex = 4000; // some arbitrary starting value
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    for (id <MKOverlay> overlay in overlays)
+    {
+        WebScriptObject *overlayScriptObject = (WebScriptObject *)CFDictionaryGetValue(overlayScriptObjects, overlay);
+        if (overlayScriptObject)
+        {
+            NSArray *args = [NSArray arrayWithObjects: overlayScriptObject, @"zIndex", [NSNumber numberWithInteger:zIndex], nil];
+            [webScriptObject callWebScriptMethod:@"setOverlayOption" withArguments:args];
+        }
+        zIndex++;
+    }
 }
 
 @end

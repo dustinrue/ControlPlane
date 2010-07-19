@@ -161,9 +161,9 @@
 
 - (MKOverlayView *)mapView:(MKMapView *)aMapView viewForOverlay:(id <MKOverlay>)overlay
 {
-    NSLog(@"mapView: %@ viewForOverlay: %@", aMapView, overlay);
-    //MKCircleView *circleView = [[[MKCircleView alloc] initWithCircle:overlay] autorelease];
-    //return circleView;
+    //NSLog(@"mapView: %@ viewForOverlay: %@", aMapView, overlay);
+    MKCircleView *circleView = [[[MKCircleView alloc] initWithCircle:overlay] autorelease];
+    return circleView;
     //    MKPolylineView *polylineView = [[[MKPolylineView alloc] initWithPolyline:overlay] autorelease];
     //    return polylineView;
     MKPolygonView *polygonView = [[[MKPolygonView alloc] initWithPolygon:overlay] autorelease];
