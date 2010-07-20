@@ -381,6 +381,12 @@
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
     
+    var regionChangeFunction = function(){window.MKMapView.webviewReportingRegionChange();};
+    
+    google.maps.event.addListener(map, 'drag', regionChangeFunction);
+    google.maps.event.addListener(map, 'zoom_changed', regionChangeFunction);
+    
+    
     createUserLocationMarker();
     //setUserLocationRadius(222);
     //setUserLocationLatitudeLongitude(49.8708880903330, -97.1528089768459);

@@ -36,6 +36,7 @@
 - (void)updateUserLocationMarkerWithLocaton:(CLLocation *)location;
 - (void)updateOverlayZIndexes;
 - (void)annotationScriptObjectSelected:(WebScriptObject *)annotationScriptObject;
+- (void)webviewReportingRegionChange;
 
 @end
 
@@ -53,12 +54,22 @@
         name = @"annotationScriptObjectSelected";
     }
     
+    if (sel == @selector(webviewReportingRegionChange))
+    {
+        name = @"webviewReportingRegionChange";
+    }
+    
     return name;
 }
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector
 {
     if (aSelector == @selector(annotationScriptObjectSelected:))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(webviewReportingRegionChange))
     {
         return NO;
     }
@@ -759,6 +770,16 @@
             [self selectAnnotation:annotation animated:NO];
         }
     }
+}
+
+- (void)webviewReportingRegionChange
+{
+    [self delegateRegionDidChangeAnimated:NO];
+    [self willChangeValueForKey:@"centerCoordinate"];
+    [self didChangeValueForKey:@"centerCoordinate"];
+    [self willChangeValueForKey:@"region"];
+    [self didChangeValueForKey:@"region"];
+
 }
 
 @end
