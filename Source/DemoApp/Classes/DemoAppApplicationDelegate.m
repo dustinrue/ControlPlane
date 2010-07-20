@@ -152,17 +152,17 @@
 
 
 // Selecting Annotation Views
-/*
- - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
- {
- NSLog(@"mapView: %@ didSelectAnnotationView: %@", aMapView, view);
- }
- 
- - (void)mapView:(MKMapView *)aMapView didDeselectAnnotationView:(MKAnnotationView *)view
- {
- NSLog(@"mapView: %@ didDeselectAnnotationView: %@", aMapView, view);
- }
- */
+
+- (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    NSLog(@"mapView: %@ didSelectAnnotationView: %@", aMapView, view);
+}
+
+- (void)mapView:(MKMapView *)aMapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    NSLog(@"mapView: %@ didDeselectAnnotationView: %@", aMapView, view);
+}
+
 
 // Managing Overlay Views
 

@@ -28,11 +28,14 @@
 - (void)delegateDidStopLocatingUser;
 - (void)delegateDidAddOverlayViews:(NSArray *)overlayViews;
 - (void)delegateDidAddAnnotationViews:(NSArray *)annotationViews;
+- (void)delegateDidSelectAnnotationView:(MKAnnotationView *)view;
+- (void)delegateDidDeselectAnnotationView:(MKAnnotationView *)view;
 
 // WebView integration
 - (void)setUserLocationMarkerVisible:(BOOL)visible;
 - (void)updateUserLocationMarkerWithLocaton:(CLLocation *)location;
 - (void)updateOverlayZIndexes;
+- (void)annotationScriptObjectSelected:(WebScriptObject *)annotationScriptObject;
 
 @end
 
@@ -40,6 +43,28 @@
 @implementation MKMapView
 
 @synthesize delegate, mapType, showsUserLocation;
+
++ (NSString *) webScriptNameForSelector:(SEL)sel
+{
+    NSString *name = nil;
+    
+    if (sel == @selector(annotationScriptObjectSelected:))
+    {
+        name = @"annotationScriptObjectSelected";
+    }
+    
+    return name;
+}
+
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector
+{
+    if (aSelector == @selector(annotationScriptObjectSelected:))
+    {
+        return NO;
+    }
+
+    return YES;
+}
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -56,6 +81,7 @@
         
         // Create the annotation data structures
         annotations = [[NSMutableArray array] retain];
+        selectedAnnotations = [[NSMutableArray array] retain];
         annotationViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         annotationScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
         
@@ -90,6 +116,12 @@
     overlayViews = NULL;
     CFRelease(overlayScriptObjects);
     overlayScriptObjects = NULL;
+    [annotations release];
+    [selectedAnnotations release];
+    CFRelease(annotationViews);
+    annotationViews = NULL;
+    CFRelease(annotationScriptObjects);
+    annotationScriptObjects = NULL;
     [super dealloc];
 }
 
@@ -425,6 +457,49 @@
     return nil; 
 }
 
+- (void)selectAnnotation:(id < MKAnnotation >)annotation animated:(BOOL)animated
+{
+    if ([selectedAnnotations containsObject:annotation])
+        return;
+    // TODO : probably want to do something here...
+    id view = CFDictionaryGetValue(annotationViews, annotation);
+    [self delegateDidSelectAnnotationView:view];
+    [selectedAnnotations addObject:annotation];
+}
+
+- (void)deselectAnnotation:(id < MKAnnotation >)annotation animated:(BOOL)animated
+{
+    // TODO : animate this if called for.
+    if (![selectedAnnotations containsObject:annotation])
+        return;
+    // TODO : probably want to do something here...
+    id view = CFDictionaryGetValue(annotationViews, annotation);
+    [self delegateDidDeselectAnnotationView:view];
+    [selectedAnnotations removeObject:annotation];
+}
+
+- (NSArray *)selectedAnnotations
+{
+    return [[selectedAnnotations copy] autorelease];
+}
+
+- (void)setSelectedAnnotations:(NSArray *)someAnnotations
+{
+    // Deselect whatever was selected
+    NSArray *oldSelectedAnnotations = [self selectedAnnotations];
+    for (id <MKAnnotation> annotation in oldSelectedAnnotations)
+    {
+        [self deselectAnnotation:annotation animated:NO];
+    }
+    NSMutableArray *newSelectedAnnotations = [NSMutableArray arrayWithArray: [[someAnnotations copy] autorelease]];
+    [selectedAnnotations release];
+    selectedAnnotations = [newSelectedAnnotations retain];
+    
+    // If it's manually set and there's more than one, you only select the first according to the docs.
+    if ([selectedAnnotations count] > 0)
+        [self selectedAnnotation:[selectedAnnotations objectAtIndex:0] animated:NO];
+}
+
 #pragma mark Faked Properties
 
 - (BOOL)isScrollEnabled
@@ -476,6 +551,7 @@
 - (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowScriptObject forFrame:(WebFrame *)frame
 {
     [windowScriptObject setValue:windowScriptObject forKey:@"WindowScriptObject"];
+    [windowScriptObject setValue:self forKey:@"MKMapView"];
 }
 
 
@@ -532,6 +608,7 @@
 
     MKPointAnnotation *pointAnnotation = [[[MKPointAnnotation alloc] init] autorelease];
     pointAnnotation.coordinate = coord;
+    pointAnnotation.title = @"Some Title";
     [self addAnnotation:pointAnnotation];
     
     
@@ -609,6 +686,22 @@
     }
 }
 
+- (void)delegateDidSelectAnnotationView:(MKAnnotationView *)view
+{
+    if (delegate && [delegate respondsToSelector:@selector(mapView:didSelectAnnotationView:)])
+    {
+        [delegate mapView:self didSelectAnnotationView:view];
+    }
+}
+
+- (void)delegateDidDeselectAnnotationView:(MKAnnotationView *)view
+{
+    if (delegate && [delegate respondsToSelector:@selector(mapView:didDeselectAnnotationView:)])
+    {
+        [delegate mapView:self didDeselectAnnotationView:view];
+    }
+}
+
 #pragma mark Private WebView Integration
 
 - (void)setUserLocationMarkerVisible:(BOOL)visible
@@ -653,6 +746,18 @@
             [webScriptObject callWebScriptMethod:@"setOverlayOption" withArguments:args];
         }
         zIndex++;
+    }
+}
+
+- (void)annotationScriptObjectSelected:(WebScriptObject *)annotationScriptObject
+{
+    for (id <MKAnnotation> annotation in annotations)
+    {
+        WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+        if ([scriptObject isEqual:annotationScriptObject])
+        {
+            [self selectAnnotation:annotation animated:NO];
+        }
     }
 }
 

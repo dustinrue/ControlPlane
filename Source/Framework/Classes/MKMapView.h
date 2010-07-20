@@ -25,6 +25,7 @@
     BOOL showsUserLocation;
     NSMutableArray *overlays;
     NSMutableArray *annotations;
+    NSMutableArray *selectedAnnotations;
     
 @private
     WebView *webView;
@@ -51,7 +52,7 @@
 @property(nonatomic, readonly, getter=isUserLocationVisible) BOOL userLocationVisible;
 @property(nonatomic, readonly) NSArray *overlays;
 @property(nonatomic, readonly) NSArray *annotations;
-
+@property(nonatomic, copy) NSArray *selectedAnnotations;
 
 
 - (void)setCenterCoordinate:(CLLocationCoordinate2D)coordinate animated:(BOOL)animated;
@@ -75,6 +76,11 @@
 - (void)removeAnnotations:(NSArray *)annotations;
 - (MKAnnotationView *)viewForAnnotation:(id < MKAnnotation >)annotation;
 - (MKAnnotationView *)dequeueReusableAnnotationViewWithIdentifier:(NSString *)identifier;
+- (void)selectAnnotation:(id < MKAnnotation >)annotation animated:(BOOL)animated;
+- (void)deselectAnnotation:(id < MKAnnotation >)annotation animated:(BOOL)animated;
+
+
+
 
 
 @end
@@ -109,6 +115,8 @@
 
 
 // iOS 4.0 additions:
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view;
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view;
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation;
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error;
 - (void)mapViewWillStartLocatingUser:(MKMapView *)mapView;

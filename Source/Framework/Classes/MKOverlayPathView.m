@@ -36,6 +36,7 @@
     NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:[super options]];
     
     [options setObject:[NSNumber numberWithFloat:lineWidth] forKey:@"strokeWeight"];
+    [options setObject:[NSNumber numberWithBool:NO] forKey:@"clickable"];
 
     if (fillColor)
     {

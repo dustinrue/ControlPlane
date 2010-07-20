@@ -301,6 +301,9 @@
     
       anAnnotation.setMap(map);
       annotations.push(anAnnotation);
+      google.maps.event.addListener(anAnnotation, 'click', function() {
+        window.MKMapView.annotationScriptObjectSelected(anAnnotation);
+      });
       return true;
   }
   
