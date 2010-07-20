@@ -23,3 +23,5 @@
 #import <MapKit/MKPolygon.h>
 #import <MapKit/MKPolygonView.h>
 #import <MapKit/MKView.h>
+#import <MapKit/MKAnnotationView.h>
+#import <MapKit/MKPinAnnotationView.h>

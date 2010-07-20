@@ -17,6 +17,9 @@
 		5F76C78A11F4EDE000713BBA /* MKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F76C78811F4EDE000713BBA /* MKView.m */; };
 		5F76C82111F4F85E00713BBA /* MarkerTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F76C82011F4F85E00713BBA /* MarkerTest.png */; };
 		5F76C83A11F4FC8F00713BBA /* MarkerTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F76C82011F4F85E00713BBA /* MarkerTest.png */; };
+		5F76C88011F52BFC00713BBA /* MKPinAnnotationColorRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F76C87F11F52BFC00713BBA /* MKPinAnnotationColorRed.png */; };
+		5F76C89A11F52DFA00713BBA /* MKPinAnnotationColorGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F76C89811F52DFA00713BBA /* MKPinAnnotationColorGreen.png */; };
+		5F76C89B11F52DFA00713BBA /* MKPinAnnotationColorPurple.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F76C89911F52DFA00713BBA /* MKPinAnnotationColorPurple.png */; };
 		5F84F0F711F21A4F008D3A32 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBAF80711F14955004753A9 /* CoreLocation.framework */; };
 		5F84F10A11F21B88008D3A32 /* MapKit.html in Resources */ = {isa = PBXBuildFile; fileRef = 5F84F10911F21B88008D3A32 /* MapKit.html */; };
 		5F84F20511F3E956008D3A32 /* MKPointAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F84F20311F3E956008D3A32 /* MKPointAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -116,6 +119,9 @@
 		5F76C78711F4EDE000713BBA /* MKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKView.h; sourceTree = "<group>"; };
 		5F76C78811F4EDE000713BBA /* MKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKView.m; sourceTree = "<group>"; };
 		5F76C82011F4F85E00713BBA /* MarkerTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MarkerTest.png; sourceTree = "<group>"; };
+		5F76C87F11F52BFC00713BBA /* MKPinAnnotationColorRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MKPinAnnotationColorRed.png; sourceTree = "<group>"; };
+		5F76C89811F52DFA00713BBA /* MKPinAnnotationColorGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MKPinAnnotationColorGreen.png; sourceTree = "<group>"; };
+		5F76C89911F52DFA00713BBA /* MKPinAnnotationColorPurple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MKPinAnnotationColorPurple.png; sourceTree = "<group>"; };
 		5F84F10911F21B88008D3A32 /* MapKit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MapKit.html; sourceTree = "<group>"; };
 		5F84F20311F3E956008D3A32 /* MKPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKPointAnnotation.h; sourceTree = "<group>"; };
 		5F84F20411F3E956008D3A32 /* MKPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPointAnnotation.m; sourceTree = "<group>"; };
@@ -230,6 +236,9 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F76C89811F52DFA00713BBA /* MKPinAnnotationColorGreen.png */,
+				5F76C89911F52DFA00713BBA /* MKPinAnnotationColorPurple.png */,
+				5F76C87F11F52BFC00713BBA /* MKPinAnnotationColorRed.png */,
 				5F76C82011F4F85E00713BBA /* MarkerTest.png */,
 				5F84F10911F21B88008D3A32 /* MapKit.html */,
 				5F6EF18711F13FA40077E84F /* MapKit-Info.plist */,
@@ -543,6 +552,9 @@
 			files = (
 				5F84F10A11F21B88008D3A32 /* MapKit.html in Resources */,
 				5F76C82111F4F85E00713BBA /* MarkerTest.png in Resources */,
+				5F76C88011F52BFC00713BBA /* MKPinAnnotationColorRed.png in Resources */,
+				5F76C89A11F52DFA00713BBA /* MKPinAnnotationColorGreen.png in Resources */,
+				5F76C89B11F52DFA00713BBA /* MKPinAnnotationColorPurple.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

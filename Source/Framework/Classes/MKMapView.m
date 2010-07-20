@@ -279,6 +279,8 @@
     if (!overlayView)
     {
         // TODO: Handle the case where we have no view
+        NSLog(@"Wasn't able to create a MKOverlayView for overlay: %@", overlay);
+        return;
     }
     
     WebScriptObject *overlayScriptObject = [overlayView overlayScriptObjectFromMapSriptObject:webScriptObject];
@@ -359,6 +361,8 @@
     if (!annotationView)
     {
         // TODO: Handle the case where we have no view
+        NSLog(@"Wasn't able to create a MKAnnotationView for annotation: %@", annotation);
+        return;
     }
     
     WebScriptObject *annotationScriptObject = [annotationView overlayScriptObjectFromMapSriptObject:webScriptObject];

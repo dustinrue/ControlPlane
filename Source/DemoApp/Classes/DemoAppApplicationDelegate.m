@@ -121,10 +121,11 @@
 - (MKAnnotationView *)mapView:(MKMapView *)aMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     NSLog(@"mapView: %@ viewForAnnotation: %@", aMapView, annotation);
-    MKAnnotationView *view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"MarkerTest" ofType:@"png"];
-    NSURL *url = [NSURL fileURLWithPath:path];
-    view.imageUrl = [url absoluteString];
+    //MKAnnotationView *view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
+    MKPinAnnotationView *view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"MarkerTest" ofType:@"png"];
+    //NSURL *url = [NSURL fileURLWithPath:path];
+    //view.imageUrl = [url absoluteString];
     return view;
 }
  
