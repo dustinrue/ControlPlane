@@ -621,6 +621,10 @@
     pointAnnotation.coordinate = coord;
     pointAnnotation.title = @"Some Title";
     [self addAnnotation:pointAnnotation];
+    MKPointAnnotation *pointAnnotation2 = [[[MKPointAnnotation alloc] init] autorelease];
+    pointAnnotation2.coordinate = coords[0];
+    pointAnnotation2.title = @"Another Title";
+    [self addAnnotation:pointAnnotation2];
     
     
     //MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:3];
@@ -762,6 +766,9 @@
 
 - (void)annotationScriptObjectSelected:(WebScriptObject *)annotationScriptObject
 {
+    // Deselect everything that was selected
+    [self setSelectedAnnotations:[NSArray array]];
+    
     for (id <MKAnnotation> annotation in annotations)
     {
         WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);

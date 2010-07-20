@@ -13,4 +13,10 @@
 
 @synthesize coordinate;
 
+- (NSString *)description
+{
+    NSString *superDescription = [super description];
+    return [superDescription stringByAppendingFormat:@" <%f, %f> %@ - %@", self.coordinate.latitude, self.coordinate.longitude, self.title, self.subtitle];
+}
+
 @end
