@@ -28,6 +28,10 @@
 		5F84F23B11F3ED6E008D3A32 /* MKAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F23911F3ED6E008D3A32 /* MKAnnotationView.m */; };
 		5F84F25711F3F173008D3A32 /* MKPinAnnotationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F84F25511F3F173008D3A32 /* MKPinAnnotationView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F84F25811F3F173008D3A32 /* MKPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F84F25611F3F173008D3A32 /* MKPinAnnotationView.m */; };
+		5FB7406F11F8C77C00AB2079 /* MKMapView+DelegateWrappers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB7406D11F8C77C00AB2079 /* MKMapView+DelegateWrappers.h */; };
+		5FB7407011F8C77C00AB2079 /* MKMapView+DelegateWrappers.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7406E11F8C77C00AB2079 /* MKMapView+DelegateWrappers.m */; };
+		5FB7407711F8C81800AB2079 /* MKMapView+WebViewIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB7407511F8C81800AB2079 /* MKMapView+WebViewIntegration.h */; };
+		5FB7407811F8C81800AB2079 /* MKMapView+WebViewIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7407611F8C81800AB2079 /* MKMapView+WebViewIntegration.m */; };
 		5FBAF77511F14518004753A9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
 		5FBAF7A711F147EF004753A9 /* NSColor+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */; };
 		5FBAF7A811F147EF004753A9 /* NSColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */; };
@@ -129,6 +133,10 @@
 		5F84F23911F3ED6E008D3A32 /* MKAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKAnnotationView.m; sourceTree = "<group>"; };
 		5F84F25511F3F173008D3A32 /* MKPinAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKPinAnnotationView.h; sourceTree = "<group>"; };
 		5F84F25611F3F173008D3A32 /* MKPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPinAnnotationView.m; sourceTree = "<group>"; };
+		5FB7406D11F8C77C00AB2079 /* MKMapView+DelegateWrappers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+DelegateWrappers.h"; sourceTree = "<group>"; };
+		5FB7406E11F8C77C00AB2079 /* MKMapView+DelegateWrappers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+DelegateWrappers.m"; sourceTree = "<group>"; };
+		5FB7407511F8C81800AB2079 /* MKMapView+WebViewIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+WebViewIntegration.h"; sourceTree = "<group>"; };
+		5FB7407611F8C81800AB2079 /* MKMapView+WebViewIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+WebViewIntegration.m"; sourceTree = "<group>"; };
 		5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Additions.h"; sourceTree = "<group>"; };
 		5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Additions.m"; sourceTree = "<group>"; };
 		5FBAF7AB11F1482E004753A9 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -254,6 +262,10 @@
 				5FBAF7A911F147FF004753A9 /* Third Party */,
 				5FBAF7C511F1486D004753A9 /* MKMapView.h */,
 				5FBAF7C611F1486D004753A9 /* MKMapView.m */,
+				5FB7406D11F8C77C00AB2079 /* MKMapView+DelegateWrappers.h */,
+				5FB7406E11F8C77C00AB2079 /* MKMapView+DelegateWrappers.m */,
+				5FB7407511F8C81800AB2079 /* MKMapView+WebViewIntegration.h */,
+				5FB7407611F8C81800AB2079 /* MKMapView+WebViewIntegration.m */,
 				5FBAF7C711F1486D004753A9 /* MKTypes.h */,
 				5FBAF7C811F1486D004753A9 /* MKGeometry.h */,
 				5FBAF7C911F1486D004753A9 /* MapKit.h */,
@@ -474,6 +486,8 @@
 				5F84F23A11F3ED6E008D3A32 /* MKAnnotationView.h in Headers */,
 				5F84F25711F3F173008D3A32 /* MKPinAnnotationView.h in Headers */,
 				5F76C78911F4EDE000713BBA /* MKView.h in Headers */,
+				5FB7406F11F8C77C00AB2079 /* MKMapView+DelegateWrappers.h in Headers */,
+				5FB7407711F8C81800AB2079 /* MKMapView+WebViewIntegration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +612,8 @@
 				5F84F23B11F3ED6E008D3A32 /* MKAnnotationView.m in Sources */,
 				5F84F25811F3F173008D3A32 /* MKPinAnnotationView.m in Sources */,
 				5F76C78A11F4EDE000713BBA /* MKView.m in Sources */,
+				5FB7407011F8C77C00AB2079 /* MKMapView+DelegateWrappers.m in Sources */,
+				5FB7407811F8C81800AB2079 /* MKMapView+WebViewIntegration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
