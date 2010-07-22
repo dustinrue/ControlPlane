@@ -27,7 +27,8 @@
 @synthesize highlighted;
 @synthesize selected;
 @synthesize canShowCallout;
- 
+@synthesize draggable;
+@synthesize dragState;
 
 - (id)initWithAnnotation:(id <MKAnnotation>)anAnnotation reuseIdentifier:(NSString *)aReuseIdentifier
 {
@@ -76,6 +77,7 @@
     if ([self.annotation title])
         [options setObject:[self.annotation title] forKey:@"title"];
     
+    [options setObject:[NSNumber numberWithBool:draggable] forKey:@"draggable"];
     //NSLog(@"options = %@", options);
     
     return [[options copy] autorelease];

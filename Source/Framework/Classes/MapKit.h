@@ -25,3 +25,4 @@
 #import <MapKit/MKView.h>
 #import <MapKit/MKAnnotationView.h>
 #import <MapKit/MKPinAnnotationView.h>
+#import <MapKit/MKPointAnnotation.h>

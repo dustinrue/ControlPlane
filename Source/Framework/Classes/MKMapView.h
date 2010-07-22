@@ -121,7 +121,7 @@
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error;
 - (void)mapViewWillStartLocatingUser:(MKMapView *)mapView;
 - (void)mapViewDidStopLocatingUser:(MKMapView *)mapView;
-
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState;
 
 
 @end

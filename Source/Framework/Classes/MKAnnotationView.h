@@ -33,6 +33,8 @@ typedef NSUInteger MKAnnotationViewDragState;
     BOOL highlighted;
     BOOL selected;
     BOOL canShowCallout;
+    BOOL draggable;
+    MKAnnotationViewDragState dragState;
 @private
     WebScriptObject *markerImage;
     WebScriptObject *latlngCenter;
@@ -69,7 +71,7 @@ typedef NSUInteger MKAnnotationViewDragState;
 // The annotation must have a title for the callout to be shown.
 @property (nonatomic) BOOL canShowCallout;
 
-/*
+
 // If YES and the underlying id<MKAnnotation> responds to setCoordinate:, 
 // the user will be able to drag this annotation view around the map.
 @property (nonatomic, getter=isDraggable) BOOL draggable;
@@ -77,6 +79,6 @@ typedef NSUInteger MKAnnotationViewDragState;
 // Automatically set to MKAnnotationViewDragStateStarting, Canceling, and Ending when necessary.
 // Implementer is responsible for transitioning to Dragging and None states as appropriate.
 @property (nonatomic) MKAnnotationViewDragState dragState;
-*/
+
 
 @end

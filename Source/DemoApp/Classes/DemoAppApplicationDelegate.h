@@ -14,14 +14,14 @@
 @interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate, MKMapViewDelegate> {
     NSWindow *window;
     IBOutlet MKMapView *mapView;
+    NSNumber *circleRadius;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 
 
 - (IBAction)setMapType:(id)sender;
-- (IBAction)getCenter:(id)sender;
-- (IBAction)setCenter:(id)sender;
-- (IBAction)checkLocationVisible:(id)sender;
+- (IBAction)addCircle:(id)sender;
+- (IBAction)addPin:(id)sender;
 
 @end

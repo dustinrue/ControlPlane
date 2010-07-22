@@ -26,43 +26,20 @@
     NSSegmentedControl *segmentedControl = (NSSegmentedControl *)sender;
     [mapView setMapType:[segmentedControl selectedSegment]];
 }
-- (IBAction)getCenter:(id)sender
+
+- (IBAction)addCircle:(id)sender
 {
-    CLLocationCoordinate2D coord = [mapView centerCoordinate];
-    NSLog(@"coord = {%f, %f}", coord.longitude, coord.latitude);
-    MKCoordinateRegion region = [mapView region];
-    NSLog(@"region = {%f, %f} {%f, %f}", region.center.latitude, region.center.longitude, region.span.latitudeDelta, region.span.longitudeDelta);
-    
+    MKCircle *circle = [[MKCircle circleWithCenterCoordinate:[mapView centerCoordinate] radius:[circleRadius intValue]] autorelease];
+    [mapView addOverlay:circle];
 }
 
-- (IBAction)setCenter:(id)sender
+- (IBAction)addPin:(id)sender
 {
-    CLLocationCoordinate2D coord;
-    coord.latitude = 49.88746321737416;
-    coord.longitude = -97.14002115786904;
-    //[mapView setCenterCoordinate:coord animated:NO];
-    
-    MKCoordinateRegion region;
-    region = [mapView region];
-    
-    region.center.latitude = 49.887461;
-    region.center.longitude = -97.140021;
-    region.span.latitudeDelta = 0.009098;
-    region.span.longitudeDelta = 0.003830;
-    
-    //region = [mapView region];
-    // NSLog(@"before = {%f, %f} {%f, %f}", region.center.latitude, region.center.longitude, region.span.latitudeDelta, region.span.longitudeDelta);
-    [mapView setRegion:region animated: YES];
-    region = [mapView region];
-    //NSLog(@"after = {%f, %f} {%f, %f}", region.center.latitude, region.center.longitude, region.span.latitudeDelta, region.span.longitudeDelta);
-    
+    MKPointAnnotation *pin = [[[MKPointAnnotation alloc] init] autorelease];
+    pin.coordinate = [mapView centerCoordinate];
+    [mapView addAnnotation:pin];
 }
 
-- (IBAction)checkLocationVisible:(id)sender
-{
-    BOOL visible = [mapView isUserLocationVisible];
-    NSLog(@"visible = %d", visible);
-}
 
 #pragma mark MapView Delegate
 
@@ -123,6 +100,7 @@
     NSLog(@"mapView: %@ viewForAnnotation: %@", aMapView, annotation);
     //MKAnnotationView *view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
     MKPinAnnotationView *view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
+    view.draggable = YES;
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"MarkerTest" ofType:@"png"];
     //NSURL *url = [NSURL fileURLWithPath:path];
     //view.imageUrl = [url absoluteString];
@@ -180,6 +158,14 @@
 - (void)mapView:(MKMapView *)aMapView didAddOverlayViews:(NSArray *)overlayViews
 {
     NSLog(@"mapView: %@ didAddOverlayViews: %@", aMapView, overlayViews);
+}
+
+- (void)mapView:(MKMapView *)aMapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
+{
+    NSLog(@"mapView: %@ annotationView: %@ didChangeDragState:%d fromOldState:%d", aMapView, annotationView, newState, oldState);
+    MKPointAnnotation *annotation = annotationView.annotation;
+    NSLog(@"annotation = %@", annotation);
+    
 }
 
 

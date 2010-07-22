@@ -30,13 +30,18 @@
 - (void)delegateDidAddAnnotationViews:(NSArray *)annotationViews;
 - (void)delegateDidSelectAnnotationView:(MKAnnotationView *)view;
 - (void)delegateDidDeselectAnnotationView:(MKAnnotationView *)view;
+- (void)delegateAnnotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState;
 
 // WebView integration
 - (void)setUserLocationMarkerVisible:(BOOL)visible;
 - (void)updateUserLocationMarkerWithLocaton:(CLLocation *)location;
 - (void)updateOverlayZIndexes;
 - (void)annotationScriptObjectSelected:(WebScriptObject *)annotationScriptObject;
+- (void)annotationScriptObjectDragStart:(WebScriptObject *)annotationScriptObject;
+- (void)annotationScriptObjectDrag:(WebScriptObject *)annotationScriptObject;
+- (void)annotationScriptObjectDragEnd:(WebScriptObject *)annotationScriptObject;
 - (void)webviewReportingRegionChange;
+- (CLLocationCoordinate2D)coordinateForAnnotationScriptObject:(WebScriptObject *)annotationScriptObject;
 
 @end
 
@@ -59,6 +64,21 @@
         name = @"webviewReportingRegionChange";
     }
     
+    if (sel == @selector(annotationScriptObjectDragStart:))
+    {
+        name = @"annotationScriptObjectDragStart";
+    }
+    
+    if (sel == @selector(annotationScriptObjectDrag:))
+    {
+        name = @"annotationScriptObjectDrag";
+    }
+    
+    if (sel == @selector(annotationScriptObjectDragEnd:))
+    {
+        name = @"annotationScriptObjectDragEnd";
+    }
+    
     return name;
 }
 
@@ -70,6 +90,21 @@
     }
     
     if (aSelector == @selector(webviewReportingRegionChange))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(annotationScriptObjectDragStart:))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(annotationScriptObjectDrag:))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(annotationScriptObjectDragEnd:))
     {
         return NO;
     }
@@ -593,7 +628,7 @@
     innerCoords[1].longitude = -97.1758089768459;
     innerCoords[2].latitude = 49.85470356304121;
     innerCoords[2].longitude = -97.1828089768459;
-    
+    /*
     MKCircle *circle1 = [MKCircle circleWithCenterCoordinate:coord radius: 400];
     MKCircle *circle2 = [MKCircle circleWithCenterCoordinate:coords[0] radius: 400];
     MKCircle *circle3 = [MKCircle circleWithCenterCoordinate:coords[1] radius: 400];
@@ -625,7 +660,7 @@
     pointAnnotation2.coordinate = coords[0];
     pointAnnotation2.title = @"Another Title";
     [self addAnnotation:pointAnnotation2];
-    
+    */
     
     //MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:3];
     //MKPolygon *innerPolygon = [MKPolygon polygonWithCoordinates:innerCoords count:3];
@@ -717,6 +752,16 @@
     }
 }
 
+- (void)delegateAnnotationView:(MKAnnotationView *)annotationView 
+            didChangeDragState:(MKAnnotationViewDragState)newState 
+                  fromOldState:(MKAnnotationViewDragState)oldState
+{
+    if (delegate && [delegate respondsToSelector:@selector(mapView:annotationView:didChangeDragState:fromOldState:)])
+    {
+        [delegate mapView:self annotationView:annotationView didChangeDragState:newState fromOldState:oldState];
+    }
+}
+
 #pragma mark Private WebView Integration
 
 - (void)setUserLocationMarkerVisible:(BOOL)visible
@@ -779,6 +824,70 @@
     }
 }
 
+- (void)annotationScriptObjectDragStart:(WebScriptObject *)annotationScriptObject
+{
+    //NSLog(@"annotationScriptObjectDragStart:");
+    for (id <MKAnnotation> annotation in annotations)
+    {
+        WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+        if ([scriptObject isEqual:annotationScriptObject])
+        {
+            MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
+            // it has to be an annotation that actually supports moving.
+            if ([annotation respondsToSelector:@selector(setCoordinate:)])
+            {
+                view.dragState = MKAnnotationViewDragStateStarting;
+                [self delegateAnnotationView:view didChangeDragState:MKAnnotationViewDragStateStarting fromOldState:MKAnnotationViewDragStateNone];
+            }
+        }
+    }
+}
+
+- (void)annotationScriptObjectDrag:(WebScriptObject *)annotationScriptObject
+{
+    //NSLog(@"annotationScriptObjectDrag:");
+    for (id <MKAnnotation> annotation in annotations)
+    {
+        WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+        if ([scriptObject isEqual:annotationScriptObject])
+        {
+            MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
+            // it has to be an annotation that actually supports moving.
+            if ([annotation respondsToSelector:@selector(setCoordinate:)])
+            {
+                CLLocationCoordinate2D newCoordinate = [self coordinateForAnnotationScriptObject:annotationScriptObject];
+                [annotation setCoordinate:newCoordinate];
+                if (view.dragState != MKAnnotationViewDragStateDragging)
+                {
+                    view.dragState = MKAnnotationViewDragStateNone;
+                    [self delegateAnnotationView:view didChangeDragState:MKAnnotationViewDragStateDragging fromOldState:MKAnnotationViewDragStateStarting];
+                }
+            }
+        }
+    }
+}
+
+- (void)annotationScriptObjectDragEnd:(WebScriptObject *)annotationScriptObject
+{
+    //NSLog(@"annotationScriptObjectDragEnd");
+    for (id <MKAnnotation> annotation in annotations)
+    {
+        WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+        if ([scriptObject isEqual:annotationScriptObject])
+        {
+            MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
+            // it has to be an annotation that actually supports moving.
+            if ([annotation respondsToSelector:@selector(setCoordinate:)])
+            {
+                CLLocationCoordinate2D newCoordinate = [self coordinateForAnnotationScriptObject:annotationScriptObject];
+                [annotation setCoordinate:newCoordinate];
+                view.dragState = MKAnnotationViewDragStateNone;
+                [self delegateAnnotationView:view didChangeDragState:MKAnnotationViewDragStateNone fromOldState:MKAnnotationViewDragStateDragging];
+            }
+        }
+    }
+}
+
 - (void)webviewReportingRegionChange
 {
     [self delegateRegionDidChangeAnimated:NO];
@@ -786,7 +895,24 @@
     [self didChangeValueForKey:@"centerCoordinate"];
     [self willChangeValueForKey:@"region"];
     [self didChangeValueForKey:@"region"];
+}
 
+- (CLLocationCoordinate2D)coordinateForAnnotationScriptObject:(WebScriptObject *)annotationScriptObject
+{
+    CLLocationCoordinate2D coord;
+    coord.latitude = 0.0;
+    coord.longitude = 0.0;
+    WebScriptObject *windowScriptObject = [webView windowScriptObject];
+    
+    NSString *json = [windowScriptObject callWebScriptMethod:@"coordinateForAnnotation" withArguments:[NSArray arrayWithObject:annotationScriptObject]];
+    NSDictionary *latlong = [json JSONValue];
+    NSNumber *latitude = [latlong objectForKey:@"latitude"];
+    NSNumber *longitude = [latlong objectForKey:@"longitude"];
+    
+    coord.latitude = [latitude doubleValue];
+    coord.longitude = [longitude doubleValue];
+    
+    return coord;
 }
 
 @end

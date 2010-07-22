@@ -304,6 +304,15 @@
       google.maps.event.addListener(anAnnotation, 'click', function() {
         window.MKMapView.annotationScriptObjectSelected(anAnnotation);
       });
+      google.maps.event.addListener(anAnnotation, 'dragstart', function() {
+        window.MKMapView.annotationScriptObjectDragStart(anAnnotation);
+      });
+      google.maps.event.addListener(anAnnotation, 'drag', function() {
+        window.MKMapView.annotationScriptObjectDrag(anAnnotation);
+      });
+      google.maps.event.addListener(anAnnotation, 'dragend', function() {
+        window.MKMapView.annotationScriptObjectDragEnd(anAnnotation);
+      });
       return true;
   }
   
@@ -313,6 +322,15 @@
         return;
       anAnnotation.setMap(null);
       annotations.filter(function(element, index, array) { return element != anAnnotation  });
+  }
+  
+  function coordinateForAnnotation(anAnnotation)
+  {
+      if (!anAnnotation || annotations.indexOf(anAnnotation) == -1)
+        return JSON.stringify({"latitude": 0, "longitude":0});
+        
+      var latlong = anAnnotation.getPosition();
+      return JSON.stringify({"latitude":latlong.lat(), "longitude":latlong.lng()});
   }
   
   // End New API
