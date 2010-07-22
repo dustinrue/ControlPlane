@@ -7,9 +7,74 @@
 //
 
 #import "MKMapView+WebViewIntegration.h"
+#import "MKMapView+DelegateWrappers.h"
+#import "JSON.h"
 
 
 @implementation MKMapView (WebViewIntegration)
+
++ (NSString *) webScriptNameForSelector:(SEL)sel
+{
+    NSString *name = nil;
+    
+    if (sel == @selector(annotationScriptObjectSelected:))
+    {
+        name = @"annotationScriptObjectSelected";
+    }
+    
+    if (sel == @selector(webviewReportingRegionChange))
+    {
+        name = @"webviewReportingRegionChange";
+    }
+    
+    if (sel == @selector(annotationScriptObjectDragStart:))
+    {
+        name = @"annotationScriptObjectDragStart";
+    }
+    
+    if (sel == @selector(annotationScriptObjectDrag:))
+    {
+        name = @"annotationScriptObjectDrag";
+    }
+    
+    if (sel == @selector(annotationScriptObjectDragEnd:))
+    {
+        name = @"annotationScriptObjectDragEnd";
+    }
+    
+    return name;
+}
+
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector
+{
+    if (aSelector == @selector(annotationScriptObjectSelected:))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(webviewReportingRegionChange))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(annotationScriptObjectDragStart:))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(annotationScriptObjectDrag:))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(annotationScriptObjectDragEnd:))
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 - (void)setUserLocationMarkerVisible:(BOOL)visible
 {
