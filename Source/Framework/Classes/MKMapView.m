@@ -193,10 +193,15 @@
 - (CLLocationCoordinate2D)centerCoordinate
 {
     WebScriptObject *webScriptObject = [webView windowScriptObject];
+    NSNumber *latitude = nil; 
+    NSNumber *longitude = nil;
     NSString *json = [webScriptObject evaluateWebScript:@"getCenterCoordinate()"];
-    NSDictionary *latlong = [json JSONValue];
-    NSNumber *latitude = [latlong objectForKey:@"latitude"];
-    NSNumber *longitude = [latlong objectForKey:@"longitude"];
+    if ([json isKindOfClass:[NSString class]])
+    {
+        NSDictionary *latlong = [json JSONValue];
+        latitude = [latlong objectForKey:@"latitude"];
+        longitude = [latlong objectForKey:@"longitude"];
+    }
 
     CLLocationCoordinate2D centerCoordinate;
     centerCoordinate.latitude = [latitude doubleValue];
