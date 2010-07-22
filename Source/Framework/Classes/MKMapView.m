@@ -832,10 +832,10 @@
         WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
         if ([scriptObject isEqual:annotationScriptObject])
         {
-            MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
             // it has to be an annotation that actually supports moving.
             if ([annotation respondsToSelector:@selector(setCoordinate:)])
             {
+                MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
                 view.dragState = MKAnnotationViewDragStateStarting;
                 [self delegateAnnotationView:view didChangeDragState:MKAnnotationViewDragStateStarting fromOldState:MKAnnotationViewDragStateNone];
             }
@@ -851,12 +851,12 @@
         WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
         if ([scriptObject isEqual:annotationScriptObject])
         {
-            MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
             // it has to be an annotation that actually supports moving.
             if ([annotation respondsToSelector:@selector(setCoordinate:)])
             {
                 CLLocationCoordinate2D newCoordinate = [self coordinateForAnnotationScriptObject:annotationScriptObject];
-                [annotation setCoordinate:newCoordinate];
+                [(id)annotation setCoordinate:newCoordinate];
+                MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
                 if (view.dragState != MKAnnotationViewDragStateDragging)
                 {
                     view.dragState = MKAnnotationViewDragStateNone;
@@ -875,12 +875,12 @@
         WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
         if ([scriptObject isEqual:annotationScriptObject])
         {
-            MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
             // it has to be an annotation that actually supports moving.
             if ([annotation respondsToSelector:@selector(setCoordinate:)])
             {
                 CLLocationCoordinate2D newCoordinate = [self coordinateForAnnotationScriptObject:annotationScriptObject];
-                [annotation setCoordinate:newCoordinate];
+                [(id)annotation setCoordinate:newCoordinate];
+                MKAnnotationView *view = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
                 view.dragState = MKAnnotationViewDragStateNone;
                 [self delegateAnnotationView:view didChangeDragState:MKAnnotationViewDragStateNone fromOldState:MKAnnotationViewDragStateDragging];
             }
