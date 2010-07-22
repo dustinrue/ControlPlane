@@ -492,7 +492,7 @@
     if ([selectedAnnotations containsObject:annotation])
         return;
     // TODO : probably want to do something here...
-    id view = CFDictionaryGetValue(annotationViews, annotation);
+    id view = (id)CFDictionaryGetValue(annotationViews, annotation);
     [self delegateDidSelectAnnotationView:view];
     [selectedAnnotations addObject:annotation];
 }
@@ -503,7 +503,7 @@
     if (![selectedAnnotations containsObject:annotation])
         return;
     // TODO : probably want to do something here...
-    id view = CFDictionaryGetValue(annotationViews, annotation);
+    id view = (id)CFDictionaryGetValue(annotationViews, annotation);
     [self delegateDidDeselectAnnotationView:view];
     [selectedAnnotations removeObject:annotation];
 }
@@ -527,7 +527,7 @@
     
     // If it's manually set and there's more than one, you only select the first according to the docs.
     if ([selectedAnnotations count] > 0)
-        [self selectedAnnotation:[selectedAnnotations objectAtIndex:0] animated:NO];
+        [self selectAnnotation:[selectedAnnotations objectAtIndex:0] animated:NO];
 }
 
 #pragma mark Faked Properties
@@ -592,65 +592,6 @@
     {
         [self locationManager: locationManager didUpdateToLocation: userLocation.location fromLocation:nil];
     }
-    
-    CLLocationCoordinate2D coord;
-    coord.latitude = 49.84770356304121;
-    coord.longitude = -97.1728089768459;
-
-    CLLocationCoordinate2D coords[3];
-    coords[0].latitude = 49.83770356304121;
-    coords[0].longitude = -97.1628089768459;
-    coords[1].latitude = 49.86770356304121;
-    coords[1].longitude = -97.1628089768459;
-    coords[2].latitude = 49.86770356304121;
-    coords[2].longitude = -97.2028089768459;
-    
-    CLLocationCoordinate2D innerCoords[3];
-    innerCoords[0].latitude = 49.85070356304121;
-    innerCoords[0].longitude = -97.1758089768459;
-    innerCoords[1].latitude = 49.85470356304121;
-    innerCoords[1].longitude = -97.1758089768459;
-    innerCoords[2].latitude = 49.85470356304121;
-    innerCoords[2].longitude = -97.1828089768459;
-    /*
-    MKCircle *circle1 = [MKCircle circleWithCenterCoordinate:coord radius: 400];
-    MKCircle *circle2 = [MKCircle circleWithCenterCoordinate:coords[0] radius: 400];
-    MKCircle *circle3 = [MKCircle circleWithCenterCoordinate:coords[1] radius: 400];
-    MKCircle *circle4 = [MKCircle circleWithCenterCoordinate:coords[2] radius: 400];
-    MKCircle *circle5 = [MKCircle circleWithCenterCoordinate:innerCoords[0] radius: 400];
-    MKCircle *circle6 = [MKCircle circleWithCenterCoordinate:innerCoords[1] radius: 400];
-    MKCircle *circle7 = [MKCircle circleWithCenterCoordinate:innerCoords[2] radius: 400];
-
-    NSLog(@"start: %@", [self overlays]);
-    [self insertOverlay:circle1 atIndex:0];
-    NSLog(@"1: %@", [self overlays]);
-    [self insertOverlay:circle2 atIndex:1];
-    NSLog(@"2: %@", [self overlays]);
-    [self insertOverlay:circle3 atIndex:1];
-    NSLog(@"3: %@", [self overlays]);
-    [self insertOverlay:circle4 atIndex:1];
-    NSLog(@"4: %@", [self overlays]);
-    [self insertOverlay:circle5 aboveOverlay:circle1];
-    NSLog(@"5: %@", [self overlays]);
-    [self insertOverlay:circle6 belowOverlay:circle1];
-    NSLog(@"6: %@", [self overlays]);
-    [self removeOverlay:circle1];
-
-    MKPointAnnotation *pointAnnotation = [[[MKPointAnnotation alloc] init] autorelease];
-    pointAnnotation.coordinate = coord;
-    pointAnnotation.title = @"Some Title";
-    [self addAnnotation:pointAnnotation];
-    MKPointAnnotation *pointAnnotation2 = [[[MKPointAnnotation alloc] init] autorelease];
-    pointAnnotation2.coordinate = coords[0];
-    pointAnnotation2.title = @"Another Title";
-    [self addAnnotation:pointAnnotation2];
-    */
-    
-    //MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coords count:3];
-    //MKPolygon *innerPolygon = [MKPolygon polygonWithCoordinates:innerCoords count:3];
-    //MKPolygon *polygon = [MKPolygon polygonWithCoordinates:coords count:3 interiorPolygons:[NSArray arrayWithObject:innerPolygon]];
-
-    //[self addOverlay: polygon];
 }
 
 @end
