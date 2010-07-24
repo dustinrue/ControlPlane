@@ -8,6 +8,7 @@
  */
 
 #import <MapKit/MKMapView.h>
+#import <MapKit/MKMapView+Additions.h>
 #import <MapKit/MKTypes.h>
 #import <MapKit/MKGeometry.h>
 #import <MapKit/MKUserLocation.h>

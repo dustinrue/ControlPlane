@@ -333,6 +333,27 @@
       return JSON.stringify({"latitude":latlong.lat(), "longitude":latlong.lng()});
   }
   
+  // Javascript and CSS addons
+  
+  function addJavascriptTag(url)
+  {
+      var scriptElement = document.createElement('SCRIPT');
+      scriptElement.type = "text/javascript";
+      scriptElement.src = url;
+      var head = document.getElementsByTagName("head")[0];
+      head.appendChild(scriptElement);   
+  }
+  
+  function addStylesheetTag(url)
+  {
+      var linkElement = document.createElement('LINK');
+      linkElement.type = "text/css";
+      linkElement.href = url;
+      linkElement.rel = "stylesheet";
+      var head = document.getElementsByTagName("head")[0];
+      head.appendChild(linkElement);
+  }
+  
   // End New API
   
   function setMarkerRadius(radius)

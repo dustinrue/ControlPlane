@@ -32,6 +32,8 @@
 		5FB7407011F8C77C00AB2079 /* MKMapView+DelegateWrappers.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7406E11F8C77C00AB2079 /* MKMapView+DelegateWrappers.m */; };
 		5FB7407711F8C81800AB2079 /* MKMapView+WebViewIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB7407511F8C81800AB2079 /* MKMapView+WebViewIntegration.h */; };
 		5FB7407811F8C81800AB2079 /* MKMapView+WebViewIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7407611F8C81800AB2079 /* MKMapView+WebViewIntegration.m */; };
+		5FB740FF11FB4BD200AB2079 /* MKMapView+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB740FD11FB4BD200AB2079 /* MKMapView+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5FB7410011FB4BD200AB2079 /* MKMapView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB740FE11FB4BD200AB2079 /* MKMapView+Additions.m */; };
 		5FBAF77511F14518004753A9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
 		5FBAF7A711F147EF004753A9 /* NSColor+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */; };
 		5FBAF7A811F147EF004753A9 /* NSColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */; };
@@ -137,6 +139,8 @@
 		5FB7406E11F8C77C00AB2079 /* MKMapView+DelegateWrappers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+DelegateWrappers.m"; sourceTree = "<group>"; };
 		5FB7407511F8C81800AB2079 /* MKMapView+WebViewIntegration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+WebViewIntegration.h"; sourceTree = "<group>"; };
 		5FB7407611F8C81800AB2079 /* MKMapView+WebViewIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+WebViewIntegration.m"; sourceTree = "<group>"; };
+		5FB740FD11FB4BD200AB2079 /* MKMapView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+Additions.h"; sourceTree = "<group>"; };
+		5FB740FE11FB4BD200AB2079 /* MKMapView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+Additions.m"; sourceTree = "<group>"; };
 		5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Additions.h"; sourceTree = "<group>"; };
 		5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Additions.m"; sourceTree = "<group>"; };
 		5FBAF7AB11F1482E004753A9 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -262,6 +266,8 @@
 				5FBAF7A911F147FF004753A9 /* Third Party */,
 				5FBAF7C511F1486D004753A9 /* MKMapView.h */,
 				5FBAF7C611F1486D004753A9 /* MKMapView.m */,
+				5FB740FD11FB4BD200AB2079 /* MKMapView+Additions.h */,
+				5FB740FE11FB4BD200AB2079 /* MKMapView+Additions.m */,
 				5FB7406D11F8C77C00AB2079 /* MKMapView+DelegateWrappers.h */,
 				5FB7406E11F8C77C00AB2079 /* MKMapView+DelegateWrappers.m */,
 				5FB7407511F8C81800AB2079 /* MKMapView+WebViewIntegration.h */,
@@ -488,6 +494,7 @@
 				5F76C78911F4EDE000713BBA /* MKView.h in Headers */,
 				5FB7406F11F8C77C00AB2079 /* MKMapView+DelegateWrappers.h in Headers */,
 				5FB7407711F8C81800AB2079 /* MKMapView+WebViewIntegration.h in Headers */,
+				5FB740FF11FB4BD200AB2079 /* MKMapView+Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +621,7 @@
 				5F76C78A11F4EDE000713BBA /* MKView.m in Sources */,
 				5FB7407011F8C77C00AB2079 /* MKMapView+DelegateWrappers.m in Sources */,
 				5FB7407811F8C81800AB2079 /* MKMapView+WebViewIntegration.m in Sources */,
+				5FB7410011FB4BD200AB2079 /* MKMapView+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
