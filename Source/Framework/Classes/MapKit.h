@@ -27,3 +27,4 @@
 #import <MapKit/MKAnnotationView.h>
 #import <MapKit/MKPinAnnotationView.h>
 #import <MapKit/MKPointAnnotation.h>
+#import <MapKit/MKReverseGeocoder.h>

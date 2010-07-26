@@ -19,6 +19,14 @@
     NSLog(@"applicationDidFinishLaunching:");    
     [mapView setShowsUserLocation: YES];
     [mapView setDelegate: self];
+    
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = 49.8578255;
+    coordinate.longitude = -97.16531639999999;
+    MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate: coordinate];
+    reverseGeocoder.delegate = self;
+    [reverseGeocoder start];
+    //[reverseGeocoder performSelector:@selector(start) withObject:nil afterDelay:0.0];
 }
 
 - (IBAction)setMapType:(id)sender
@@ -40,6 +48,17 @@
     [mapView addAnnotation:pin];
 }
 
+#pragma mark MKReverseGeocoderDelegate
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
+{
+    NSLog(@"found placemark: %@", placemark);
+}
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error
+{
+    NSLog(@"MKReverseGeocoder didFailWithError: %@", error);
+}
 
 #pragma mark MapView Delegate
 

@@ -11,7 +11,7 @@
 
 @class MKMapView;
 
-@interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate, MKMapViewDelegate> {
+@interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate, MKMapViewDelegate, MKReverseGeocoderDelegate> {
     NSWindow *window;
     IBOutlet MKMapView *mapView;
     NSNumber *circleRadius;

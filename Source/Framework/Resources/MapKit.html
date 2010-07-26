@@ -354,6 +354,33 @@
       head.appendChild(linkElement);
   }
   
+  // Reverse Geocoding
+  
+  function reverseGeocode(lat, lng)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      var geocoder = new google.maps.Geocoder();
+      var MKReverseGeocoder = window.MKReverseGeocoder;
+      geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0])
+                    MKReverseGeocoder.didSucceedWithAddress(JSON.stringify(results[0]));
+                else
+                    MKReverseGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+                //alert(JSON.stringify(results[0]));
+            }
+            else if (status == google.maps.GeocoderStatus.ZERO_RESULTS)
+            {
+                MKReverseGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+            } 
+            else {
+                alert("error");
+                MKReverseGeocoder.didFailWithError("MKErrorDomain");
+            }
+          });
+    return MKReverseGeocoder;
+  }
+  
   // End New API
   
   function setMarkerRadius(radius)
@@ -459,7 +486,7 @@
     var markerOptions = {"icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
     addAnnotation(marker);
     marker.setOptions(markerOptions); */
-    
+    //reverseGeocode(49.8578255,-97.16531639999999);
   }
 
 </script>
