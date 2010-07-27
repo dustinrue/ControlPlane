@@ -14,4 +14,10 @@
 - (void)addJavascriptTag:(NSString *)urlString;
 - (void)addStylesheetTag:(NSString *)urlString;
 
+// Easy Geocoder
+- (void)showAddress:(NSString *)address;
+
+// NSControl
+- (void)takeStringValueFrom:(id)sender;
+
 @end

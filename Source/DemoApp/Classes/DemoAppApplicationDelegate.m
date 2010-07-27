@@ -48,6 +48,11 @@
     [mapView addAnnotation:pin];
 }
 
+- (IBAction)searchAddress:(id)sender
+{
+    [mapView showAddress:[addressTextField stringValue]];
+}
+
 #pragma mark MKReverseGeocoderDelegate
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark

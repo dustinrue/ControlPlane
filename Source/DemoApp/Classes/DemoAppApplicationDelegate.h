@@ -14,6 +14,7 @@
 @interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate, MKMapViewDelegate, MKReverseGeocoderDelegate> {
     NSWindow *window;
     IBOutlet MKMapView *mapView;
+    IBOutlet NSTextField *addressTextField;
     NSNumber *circleRadius;
 }
 
@@ -23,5 +24,6 @@
 - (IBAction)setMapType:(id)sender;
 - (IBAction)addCircle:(id)sender;
 - (IBAction)addPin:(id)sender;
+- (IBAction)searchAddress:(id)sender;
 
 @end
