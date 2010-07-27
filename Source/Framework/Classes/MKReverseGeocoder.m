@@ -10,7 +10,7 @@
  Note:  I'm not particularly proud of this class.  It was mostly coded at 1am with a "fuck, just get it working" attitude.
  Things that could use some fixing by someone who wants to use it seriously:
  - Every MKReverseGeocoder loads up a WebView instance.  Just to get access to javascript.  Change it to load one for everyone.
- - There's this weird issue where the window.MKReverseGeocoder object isn't ready when I want it.  That's why there's the 0.5 sec delay.
+ - There's this weird issue where the window.MKReverseGeocoder object isn't ready when I want it.  That's why there's the rescheduling.
  */
 
 #import "MKReverseGeocoder.h"
@@ -101,7 +101,7 @@
         return;
     querying = YES;
     if (webViewLoaded)
-        [self performSelector:@selector(_start) withObject:nil afterDelay:0.5];
+        [self _start];
 }
 
 - (void)cancel
@@ -161,7 +161,7 @@
     [[webView windowScriptObject] setValue:self forKey:@"MKReverseGeocoder"];
     webViewLoaded = YES;
     if (self.querying)
-        [self performSelector:@selector(_start) withObject:nil afterDelay:0.5];
+        [self _start];
 }
 
 #pragma mark Private
@@ -205,7 +205,8 @@
     if (!val)
     {
         // something went wrong, call the failure delegate
-        [self didFailWithError:@"MKErrorDomain"];
+        NSLog(@"MKReverseGeocoder tried to start but the script wasn't ready, rescheduling");
+        [self performSelector:@selector(_start) withObject:nil afterDelay:0.1];
     }
 }
 
