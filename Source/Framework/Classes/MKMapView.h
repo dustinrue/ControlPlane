@@ -18,7 +18,7 @@
 @class MKUserLocation;
 @class MKOverlayView;
 
-@interface MKMapView : NSView <CLLocationManagerDelegate> {    
+@interface MKMapView : NSView <CLLocationManagerDelegate, NSCoding> {    
     id <MKMapViewDelegate> delegate;
     MKMapType mapType;
     MKUserLocation *userLocation;

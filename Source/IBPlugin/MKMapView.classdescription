@@ -1,0 +1,10 @@
+{
+	Actions = {
+		"takeStringAddressFrom:" = id;
+	};
+	Outlets = {
+		delegate = id;
+	};
+	ClassName = MKMapView;
+	SuperClass = NSView;
+}

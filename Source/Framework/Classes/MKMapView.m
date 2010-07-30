@@ -21,6 +21,7 @@
 
 @interface MKMapView (Private)
 
+- (void)customInit;
 
 @end
 
@@ -31,47 +32,66 @@
 
 
 - (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
-        webView = [[WebView alloc] initWithFrame:[self bounds]];
-        [webView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [webView setFrameLoadDelegate:self];
-        
-        // Create the overlay data structures
-        overlays = [[NSMutableArray array] retain];
-        overlayViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        overlayScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        
-        // Create the annotation data structures
-        annotations = [[NSMutableArray array] retain];
-        selectedAnnotations = [[NSMutableArray array] retain];
-        annotationViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        annotationScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        
-        // TODO : make this suck less.
-        NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
-        NSString *indexPath = [frameworkBundle pathForResource:@"MapKit" ofType:@"html"];
-        [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:indexPath]]]; 
-        [[[webView mainFrame] frameView] setAllowsScrolling:NO];
-        [self addSubview:webView];
-        
-        // Create a user location
-        userLocation = [MKUserLocation new];
-        
-        // Get CoreLocation Manager
-        locationManager = [CLLocationManager new];
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        
+    if (self = [super initWithFrame:frame]) 
+    {
+        [self customInit];
     }
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if (self = [super initWithCoder:decoder])
+    {
+        [self customInit];
+    }
+    return self;
+}
+
+- (void)customInit
+{
+    // Initialization code here.
+    if (!webView)
+    {
+        webView = [[WebView alloc] initWithFrame:[self bounds]];
+    }
+
+    [webView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [webView setFrameLoadDelegate:self];
+    
+    // Create the overlay data structures
+    overlays = [[NSMutableArray array] retain];
+    overlayViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    overlayScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    
+    // Create the annotation data structures
+    annotations = [[NSMutableArray array] retain];
+    selectedAnnotations = [[NSMutableArray array] retain];
+    annotationViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    annotationScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    
+    // TODO : make this suck less.
+    NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
+    NSString *indexPath = [frameworkBundle pathForResource:@"MapKit" ofType:@"html"];
+    [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:indexPath]]]; 
+    [[[webView mainFrame] frameView] setAllowsScrolling:NO];
+    [self addSubview:webView];
+    
+    // Create a user location
+    userLocation = [MKUserLocation new];
+    
+    // Get CoreLocation Manager
+    locationManager = [CLLocationManager new];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+}
+
 - (void)dealloc
 {
+    [webView setFrameLoadDelegate:nil];
+    delegate = nil;
     [webView removeFromSuperview];
-    [webView release];
+    [webView autorelease];
     [locationManager stopUpdatingLocation];
     [locationManager release];
     [userLocation release];
@@ -87,6 +107,12 @@
     CFRelease(annotationScriptObjects);
     annotationScriptObjects = NULL;
     [super dealloc];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [super encodeWithCoder:encoder];
+    [encoder encodeObject:webView forKey:@"webView"];
 }
 
 - (void)setFrame:(NSRect)frameRect
