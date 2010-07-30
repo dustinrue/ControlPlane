@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5F199EE8120257FB0083FE72 /* MapKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
+		5F199EE8120257FB0083FE72 /* MapKitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */; };
 		5F6EF13C11F13B170077E84F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF13B11F13B170077E84F /* Cocoa.framework */; };
 		5F6EF14411F13B4B0077E84F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6EF14311F13B4B0077E84F /* MainMenu.xib */; };
 		5F6EF15011F13BCB0077E84F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6EF14F11F13BCB0077E84F /* main.m */; };
 		5F6EF16B11F13CB70077E84F /* DemoAppApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6EF16A11F13CB70077E84F /* DemoAppApplicationDelegate.m */; };
 		5F6EF18211F13F710077E84F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF13B11F13B170077E84F /* Cocoa.framework */; };
-		5F6EF18A11F13FDC0077E84F /* MapKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
+		5F6EF18A11F13FDC0077E84F /* MapKitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */; };
 		5F76C78911F4EDE000713BBA /* MKView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F76C78711F4EDE000713BBA /* MKView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F76C78A11F4EDE000713BBA /* MKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F76C78811F4EDE000713BBA /* MKView.m */; };
 		5F76C82111F4F85E00713BBA /* MarkerTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F76C82011F4F85E00713BBA /* MarkerTest.png */; };
@@ -42,7 +42,7 @@
 		5FB7417311FD53B500AB2079 /* MKPlacemark+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FB7417111FD53B500AB2079 /* MKPlacemark+Private.h */; };
 		5FB7417411FD53B500AB2079 /* MKPlacemark+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7417211FD53B500AB2079 /* MKPlacemark+Private.m */; };
 		5FB7436711FE6F0500AB2079 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF13B11F13B170077E84F /* Cocoa.framework */; };
-		5FB7436811FE6F1300AB2079 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
+		5FB7436811FE6F1300AB2079 /* MapKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */; };
 		5FB7437211FE6F4C00AB2079 /* InterfaceBuilderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FB7437111FE6F4C00AB2079 /* InterfaceBuilderKit.framework */; };
 		5FB7437E11FE700600AB2079 /* MKMapView.classdescription in Resources */ = {isa = PBXBuildFile; fileRef = 5FB7437D11FE700600AB2079 /* MKMapView.classdescription */; };
 		5FB7438411FE705E00AB2079 /* MapKitPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7438311FE705E00AB2079 /* MapKitPlugin.m */; };
@@ -51,7 +51,7 @@
 		5FB743B411FE74B100AB2079 /* MapView.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB743B311FE74B100AB2079 /* MapView.png */; };
 		5FB7440211FE798D00AB2079 /* MapKitPluginInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB743A011FE72C800AB2079 /* MapKitPluginInspector.xib */; };
 		5FB7440311FE799800AB2079 /* MapKitPluginLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB743A211FE72C800AB2079 /* MapKitPluginLibrary.nib */; };
-		5FBAF77511F14518004753A9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKit.framework */; };
+		5FBAF77511F14518004753A9 /* MapKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */; };
 		5FBAF7A711F147EF004753A9 /* NSColor+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */; };
 		5FBAF7A811F147EF004753A9 /* NSColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBAF7A611F147EF004753A9 /* NSColor+Additions.m */; };
 		5FBAF7B811F1482E004753A9 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAF7AB11F1482E004753A9 /* JSON.h */; };
@@ -126,7 +126,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5F199EE8120257FB0083FE72 /* MapKit.framework in Copy Frameworks */,
+				5F199EE8120257FB0083FE72 /* MapKitFramework.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,7 +137,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5F6EF18A11F13FDC0077E84F /* MapKit.framework in Copy Frameworks */,
+				5F6EF18A11F13FDC0077E84F /* MapKitFramework.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,7 +155,7 @@
 		5F6EF15211F13BE70077E84F /* DemoApp_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoApp_Prefix.pch; sourceTree = "<group>"; };
 		5F6EF16911F13CB70077E84F /* DemoAppApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoAppApplicationDelegate.h; sourceTree = "<group>"; };
 		5F6EF16A11F13CB70077E84F /* DemoAppApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoAppApplicationDelegate.m; sourceTree = "<group>"; };
-		5F6EF17D11F13F690077E84F /* MapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F6EF17D11F13F690077E84F /* MapKitFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapKitFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6EF18711F13FA40077E84F /* MapKit-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MapKit-Info.plist"; sourceTree = "<group>"; };
 		5F76C78711F4EDE000713BBA /* MKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKView.h; sourceTree = "<group>"; };
 		5F76C78811F4EDE000713BBA /* MKView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKView.m; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F84F0F711F21A4F008D3A32 /* CoreLocation.framework in Frameworks */,
-				5FBAF77511F14518004753A9 /* MapKit.framework in Frameworks */,
+				5FBAF77511F14518004753A9 /* MapKitFramework.framework in Frameworks */,
 				5F6EF13C11F13B170077E84F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,7 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FB7436711FE6F0500AB2079 /* Cocoa.framework in Frameworks */,
-				5FB7436811FE6F1300AB2079 /* MapKit.framework in Frameworks */,
+				5FB7436811FE6F1300AB2079 /* MapKitFramework.framework in Frameworks */,
 				5FB7437211FE6F4C00AB2079 /* InterfaceBuilderKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,7 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				5F6EF13511F13B0D0077E84F /* DemoApp.app */,
-				5F6EF17D11F13F690077E84F /* MapKit.framework */,
+				5F6EF17D11F13F690077E84F /* MapKitFramework.framework */,
 				5FB7435711FE6E4A00AB2079 /* MapKit.ibplugin */,
 			);
 			name = Products;
@@ -667,7 +667,7 @@
 			);
 			name = MapKitFramework;
 			productName = MapKit;
-			productReference = 5F6EF17D11F13F690077E84F /* MapKit.framework */;
+			productReference = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		5FB7435611FE6E4A00AB2079 /* MapKit */ = {
@@ -922,7 +922,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = MapKit;
+				PRODUCT_NAME = MapKitFramework;
 			};
 			name = Debug;
 		};
@@ -954,7 +954,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = MapKit;
+				PRODUCT_NAME = MapKitFramework;
 				ZERO_LINK = NO;
 			};
 			name = Release;

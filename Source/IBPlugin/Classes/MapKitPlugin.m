@@ -16,7 +16,12 @@
 }
 
 - (NSArray *)requiredFrameworks {
-    return [NSArray arrayWithObjects:[NSBundle bundleWithIdentifier:@"ca.centrix.MapKit"], nil];
+    return [NSArray arrayWithObjects:[NSBundle bundleWithIdentifier:@"ca.centrix.MapKitFramework"], nil];
+}
+
+- (NSString *)label
+{
+    return @"Map Kit";
 }
 
 @end
