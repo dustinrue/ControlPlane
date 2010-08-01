@@ -63,9 +63,7 @@
 </style>
         
 
-<script type="text/javascript">
-  var markers = new Array();
-  
+<script type="text/javascript">  
   // Start New API
   var map;
   var userLocationMarker = null;
@@ -271,15 +269,6 @@
       return true;
   }
   
-  function testOverlay(anOverlay, options)
-  {
-      var ne = new google.maps.LatLng(49.84770356304121, -97.1528089768459);
-      var moreOptions = {"radius": 400, "center": ne};
-      anOverlay.setOptions(moreOptions);
-      anOverlay.setOptions(options);
-      return JSON.stringify(options);
-  }
-  
   function setOverlayOption(anOverlay, optionName, optionValue)
   {
       var option  = new Object();
@@ -410,53 +399,6 @@
   }
   
   // End New API
-  
-  function setMarkerRadius(radius)
-  {
-    for (i=0;i<markers.length;i++)
-    {
-      markers[i].setRadius(radius);
-    }
-    return markers;
-  }
-  
-  function setCenter(lat, lng)
-  {
-    var latlng = new google.maps.LatLng(lat, lng);
-    map.setCenter(latlng);
-  }
-  
-  function addMarker(lat, lng, radius) {
-    var latlng = new google.maps.LatLng(lat, lng);
-    var image = 'marker.png';
-    var marker = new google.maps.Marker({
-        position: latlng, 
-        map: map,
-        icon: image,
-        title:"Hello World!"
-    });
-    
-    google.maps.event.addListener(marker, 'click', function() {
-      window.NetworkLocation.markerSelected("test");
-    });
-
-    var circleOverlay = new google.maps.Circle({
-        center: latlng,
-        clickable: true,
-        fillColor: "#FF0000",
-        fillOpacity: 0.5,
-        map: map,
-        radius: radius, 
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
-        strokeWeight: 3.0
-    });
-
-    google.maps.event.addListener(circleOverlay, 'click', function() {
-      window.NetworkLocation.markerSelected("test");
-    });
-    markers.push(circleOverlay);
-  }
   
   function initialize() {
     var latlng = new google.maps.LatLng(49.85770356304121, -97.1528089768459);
