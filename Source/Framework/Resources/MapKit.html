@@ -207,8 +207,8 @@
       var latlongBounds = map.getBounds();
       var centerLatitude = latlongBounds.getCenter().lat();
       var centerLongitude = latlongBounds.getCenter().lng();
-      var latitudeDelta = latlongBounds.toSpan().lat();// Math.abs(latlongBounds.getNorthEast().lat() - latlongBounds.getSouthWest().lat())/2.0;
-      var longitudeDelta = latlongBounds.toSpan().lng(); //Math.abs(latlongBounds.getNorthEast().lng() - latlongBounds.getSouthWest().lng())/2.0;
+      var latitudeDelta = latlongBounds.toSpan().lat();
+      var longitudeDelta = latlongBounds.toSpan().lng();
       var value = {"center": {"latitude": centerLatitude, "longitude": centerLongitude},
         "latitudeDelta": latitudeDelta,
         "longitudeDelta": longitudeDelta};
@@ -366,6 +366,7 @@
                     if (!latLng)
                         return;
                     setCenterCoordinateAnimated(latLng.lat(), latLng.lng(), true);
+                    if(window.MKMapView) {window.MKMapView.webviewReportingRegionChange();}
                 }
             }
           });
