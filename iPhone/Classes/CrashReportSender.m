@@ -637,14 +637,14 @@
 		
         NSString *device = @"\?\?\? (\?\?\?)";
         
-#ifdef _ARM_ARCH_7 
-        device = @"armv7";
-#endif
-
 #ifdef _ARM_ARCH_6
         device = @"armv6";
 #endif
                 
+#ifdef _ARM_ARCH_7 
+        device = @"armv7";
+#endif
+        
 		/* base_address - terminating_address file_name identifier (<version>) <uuid> file_path */
 		[xmlString appendFormat:@"0x%" PRIx64 " - 0x%" PRIx64 "  %@ %@ <%@> %@\n",
 					 imageInfo.imageBaseAddress,
