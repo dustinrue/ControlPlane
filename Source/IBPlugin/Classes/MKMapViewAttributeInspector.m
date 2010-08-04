@@ -6,13 +6,23 @@
 //  Copyright 2010 Centrix.ca. All rights reserved.
 //
 
-#import "MapKitPluginInspector.h"
+#import "MKMapViewAttributeInspector.h"
 
 
-@implementation MapKitPluginInspector
+@implementation MKMapViewAttributeInspector
 
 - (NSString *)viewNibName {
-	return @"MapKitPluginInspector";
+	return @"MKMapViewAttributeInspector";
+}
+
+- (NSString *)label
+{
+    return @"Map View";
+}
+
+- (void)awakeFromNib
+{
+
 }
 
 - (void)refresh {

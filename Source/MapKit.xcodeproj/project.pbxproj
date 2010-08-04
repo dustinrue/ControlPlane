@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5F199EE8120257FB0083FE72 /* MapKitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */; };
+		5F19A03E1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F19A03D1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m */; };
 		5F6EF13C11F13B170077E84F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF13B11F13B170077E84F /* Cocoa.framework */; };
 		5F6EF14411F13B4B0077E84F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6EF14311F13B4B0077E84F /* MainMenu.xib */; };
 		5F6EF15011F13BCB0077E84F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6EF14F11F13BCB0077E84F /* main.m */; };
@@ -46,10 +47,9 @@
 		5FB7437211FE6F4C00AB2079 /* InterfaceBuilderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FB7437111FE6F4C00AB2079 /* InterfaceBuilderKit.framework */; };
 		5FB7437E11FE700600AB2079 /* MKMapView.classdescription in Resources */ = {isa = PBXBuildFile; fileRef = 5FB7437D11FE700600AB2079 /* MKMapView.classdescription */; };
 		5FB7438411FE705E00AB2079 /* MapKitPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7438311FE705E00AB2079 /* MapKitPlugin.m */; };
-		5FB7438811FE70AC00AB2079 /* MapKitPluginInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7438711FE70AC00AB2079 /* MapKitPluginInspector.m */; };
-		5FB7438A11FE713900AB2079 /* MKMapViewIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7438911FE713900AB2079 /* MKMapViewIntegration.m */; };
+		5FB7438811FE70AC00AB2079 /* MKMapViewAttributeInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7438711FE70AC00AB2079 /* MKMapViewAttributeInspector.m */; };
 		5FB743B411FE74B100AB2079 /* MapView.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB743B311FE74B100AB2079 /* MapView.png */; };
-		5FB7440211FE798D00AB2079 /* MapKitPluginInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB743A011FE72C800AB2079 /* MapKitPluginInspector.xib */; };
+		5FB7440211FE798D00AB2079 /* MKMapViewAttributeInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB743A011FE72C800AB2079 /* MKMapViewAttributeInspector.xib */; };
 		5FB7440311FE799800AB2079 /* MapKitPluginLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5FB743A211FE72C800AB2079 /* MapKitPluginLibrary.nib */; };
 		5FBAF77511F14518004753A9 /* MapKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */; };
 		5FBAF7A711F147EF004753A9 /* NSColor+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */; };
@@ -147,6 +147,7 @@
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		5F19A03D1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+MapKitPlugin.m"; sourceTree = "<group>"; };
 		5F6EF13511F13B0D0077E84F /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6EF13B11F13B170077E84F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		5F6EF14311F13B4B0077E84F /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -187,11 +188,10 @@
 		5FB7437D11FE700600AB2079 /* MKMapView.classdescription */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.ibClassDescription; path = MKMapView.classdescription; sourceTree = "<group>"; };
 		5FB7438211FE705E00AB2079 /* MapKitPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapKitPlugin.h; sourceTree = "<group>"; };
 		5FB7438311FE705E00AB2079 /* MapKitPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapKitPlugin.m; sourceTree = "<group>"; };
-		5FB7438611FE70AC00AB2079 /* MapKitPluginInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapKitPluginInspector.h; sourceTree = "<group>"; };
-		5FB7438711FE70AC00AB2079 /* MapKitPluginInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapKitPluginInspector.m; sourceTree = "<group>"; };
-		5FB7438911FE713900AB2079 /* MKMapViewIntegration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMapViewIntegration.m; sourceTree = "<group>"; };
+		5FB7438611FE70AC00AB2079 /* MKMapViewAttributeInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKMapViewAttributeInspector.h; sourceTree = "<group>"; };
+		5FB7438711FE70AC00AB2079 /* MKMapViewAttributeInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKMapViewAttributeInspector.m; sourceTree = "<group>"; };
 		5FB7439511FE727100AB2079 /* MapKitPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MapKitPlugin-Info.plist"; sourceTree = "<group>"; };
-		5FB743A011FE72C800AB2079 /* MapKitPluginInspector.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapKitPluginInspector.xib; path = ../../../../Desktop/IBPluginTemplate/MapKitPluginInspector.xib; sourceTree = SOURCE_ROOT; };
+		5FB743A011FE72C800AB2079 /* MKMapViewAttributeInspector.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MKMapViewAttributeInspector.xib; path = ../../../../Desktop/IBPluginTemplate/MKMapViewAttributeInspector.xib; sourceTree = SOURCE_ROOT; };
 		5FB743A211FE72C800AB2079 /* MapKitPluginLibrary.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MapKitPluginLibrary.nib; path = ../../../../Desktop/IBPluginTemplate/MapKitPluginLibrary.nib; sourceTree = SOURCE_ROOT; };
 		5FB743B311FE74B100AB2079 /* MapView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MapView.png; sourceTree = "<group>"; };
 		5FBAF7A511F147EF004753A9 /* NSColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Additions.h"; sourceTree = "<group>"; };
@@ -487,10 +487,11 @@
 		5FB7434311FE6D9400AB2079 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5F19A03D1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m */,
 				5FB7438211FE705E00AB2079 /* MapKitPlugin.h */,
 				5FB7438311FE705E00AB2079 /* MapKitPlugin.m */,
-				5FB7438611FE70AC00AB2079 /* MapKitPluginInspector.h */,
-				5FB7438711FE70AC00AB2079 /* MapKitPluginInspector.m */,
+				5FB7438611FE70AC00AB2079 /* MKMapViewAttributeInspector.h */,
+				5FB7438711FE70AC00AB2079 /* MKMapViewAttributeInspector.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -498,7 +499,6 @@
 		5FB7434411FE6D9900AB2079 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				5FB7438911FE713900AB2079 /* MKMapViewIntegration.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -507,7 +507,7 @@
 			isa = PBXGroup;
 			children = (
 				5FB743B311FE74B100AB2079 /* MapView.png */,
-				5FB743A011FE72C800AB2079 /* MapKitPluginInspector.xib */,
+				5FB743A011FE72C800AB2079 /* MKMapViewAttributeInspector.xib */,
 				5FB743A211FE72C800AB2079 /* MapKitPluginLibrary.nib */,
 				5FB7439511FE727100AB2079 /* MapKitPlugin-Info.plist */,
 			);
@@ -736,7 +736,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FB7437E11FE700600AB2079 /* MKMapView.classdescription in Resources */,
-				5FB7440211FE798D00AB2079 /* MapKitPluginInspector.xib in Resources */,
+				5FB7440211FE798D00AB2079 /* MKMapViewAttributeInspector.xib in Resources */,
 				5FB7440311FE799800AB2079 /* MapKitPluginLibrary.nib in Resources */,
 				5FB743B411FE74B100AB2079 /* MapView.png in Resources */,
 			);
@@ -796,8 +796,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FB7438411FE705E00AB2079 /* MapKitPlugin.m in Sources */,
-				5FB7438811FE70AC00AB2079 /* MapKitPluginInspector.m in Sources */,
-				5FB7438A11FE713900AB2079 /* MKMapViewIntegration.m in Sources */,
+				5FB7438811FE70AC00AB2079 /* MKMapViewAttributeInspector.m in Sources */,
+				5F19A03E1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -967,7 +967,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
-					"\"$(BUILD_DIR)/$(CONFIGURATION)/SRScopeBar.framework\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_DIR)/Library/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1000,7 +999,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
-					"\"$(BUILD_DIR)/$(CONFIGURATION)/SRScopeBar.framework\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_DIR)/Library/Frameworks\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;

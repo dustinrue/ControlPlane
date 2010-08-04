@@ -44,8 +44,18 @@
     if (self = [super initWithCoder:decoder])
     {
         [self customInit];
+        [self setMapType:[decoder decodeIntegerForKey:@"mapType"]];
+        [self setShowsUserLocation:[decoder decodeBoolForKey:@"showsUserLocation"]];
     }
     return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [super encodeWithCoder:encoder];
+    //[encoder encodeObject:webView forKey:@"webView"];
+    [encoder encodeInteger:[self mapType] forKey:@"mapType"];
+    [encoder encodeBool:[self showsUserLocation] forKey:@"showsUserLocation"];
 }
 
 - (void)customInit
@@ -109,11 +119,7 @@
     [super dealloc];
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
-    [super encodeWithCoder:encoder];
-    [encoder encodeObject:webView forKey:@"webView"];
-}
+
 
 - (void)setFrame:(NSRect)frameRect
 {
@@ -216,8 +222,6 @@
 
 - (void)setShowsUserLocation:(BOOL)show
 {
-    if (show == showsUserLocation)
-        return;
     showsUserLocation = show;
     if (showsUserLocation)
     {
@@ -557,6 +561,10 @@
     {
         [self locationManager: locationManager didUpdateToLocation: userLocation.location fromLocation:nil];
     }
+    
+    // In case we have to resume state from NSCoding
+    [self setMapType:[self mapType]];
+    [self setShowsUserLocation:[self showsUserLocation]];
 }
 
 @end

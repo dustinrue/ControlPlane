@@ -8,7 +8,7 @@
 
 #import <InterfaceBuilderKit/InterfaceBuilderKit.h>
 #import <MapKit/MKMapView.h>
-#import "MapKitPluginInspector.h"
+#import "MKMapViewAttributeInspector.h"
 
 @implementation MKMapView ( MapKitPlugin )
 
@@ -18,11 +18,12 @@
 	// Remove the comments and replace "MyFirstProperty" and "MySecondProperty" 
 	// in the following line with a list of your view's KVC-compliant properties.
     //[[keyPaths objectForKey:IBAttributeKeyPaths] addObjectsFromArray:[NSArray arrayWithObjects:/* @"MyFirstProperty", @"MySecondProperty",*/ nil]];
+    [[keyPaths objectForKey:IBAttributeKeyPaths] addObjectsFromArray:[NSArray arrayWithObjects:@"mapType", @"showsUserLocation", nil]];
 }
 
 - (void)ibPopulateAttributeInspectorClasses:(NSMutableArray *)classes {
     [super ibPopulateAttributeInspectorClasses:classes];
-    //[classes addObject:[MapKitPluginInspector class]];
+    [classes addObject:[MKMapViewAttributeInspector class]];
 }
 
 @end

@@ -9,8 +9,8 @@
 #import <InterfaceBuilderKit/InterfaceBuilderKit.h>
 
 
-@interface MapKitPluginInspector : IBInspector {
-
+@interface MKMapViewAttributeInspector : IBInspector {
+    IBOutlet NSPopUpButton *mapTypePopUpButton;
 }
 
 @end
