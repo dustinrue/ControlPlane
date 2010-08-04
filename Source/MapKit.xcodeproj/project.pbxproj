@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5F199EE8120257FB0083FE72 /* MapKitFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF17D11F13F690077E84F /* MapKitFramework.framework */; };
 		5F19A03E1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F19A03D1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m */; };
+		5F19A0491208F9260083FE72 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5F19A0471208F9260083FE72 /* License.rtf */; };
+		5F19A04A1208F9260083FE72 /* Release Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5F19A0481208F9260083FE72 /* Release Notes.rtf */; };
 		5F6EF13C11F13B170077E84F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F6EF13B11F13B170077E84F /* Cocoa.framework */; };
 		5F6EF14411F13B4B0077E84F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6EF14311F13B4B0077E84F /* MainMenu.xib */; };
 		5F6EF15011F13BCB0077E84F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6EF14F11F13BCB0077E84F /* main.m */; };
@@ -148,6 +150,8 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		5F19A03D1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+MapKitPlugin.m"; sourceTree = "<group>"; };
+		5F19A0471208F9260083FE72 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
+		5F19A0481208F9260083FE72 /* Release Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Release Notes.rtf"; sourceTree = "<group>"; };
 		5F6EF13511F13B0D0077E84F /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6EF13B11F13B170077E84F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		5F6EF14311F13B4B0077E84F /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -313,6 +317,8 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F19A0471208F9260083FE72 /* License.rtf */,
+				5F19A0481208F9260083FE72 /* Release Notes.rtf */,
 				5F76C89811F52DFA00713BBA /* MKPinAnnotationColorGreen.png */,
 				5F76C89911F52DFA00713BBA /* MKPinAnnotationColorPurple.png */,
 				5F76C87F11F52BFC00713BBA /* MKPinAnnotationColorRed.png */,
@@ -728,6 +734,8 @@
 				5F76C88011F52BFC00713BBA /* MKPinAnnotationColorRed.png in Resources */,
 				5F76C89A11F52DFA00713BBA /* MKPinAnnotationColorGreen.png in Resources */,
 				5F76C89B11F52DFA00713BBA /* MKPinAnnotationColorPurple.png in Resources */,
+				5F19A0491208F9260083FE72 /* License.rtf in Resources */,
+				5F19A04A1208F9260083FE72 /* Release Notes.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
