@@ -8,7 +8,7 @@
         margin: 0px;
         border: 1px solid rgba(129, 133, 141, 1.0);
     }
-    .animation {
+    .growAnimation {
         -webkit-animation-name: grow;
         -webkit-animation-iteration-count: infinite;
         -webkit-animation-direction: normal;
@@ -107,7 +107,7 @@
     div.appendChild(innerUserLocationDiv);
     
     var beaconDiv = document.createElement('DIV');
-    beaconDiv.className = "beacon animation";
+    beaconDiv.className = "beacon growAnimation";
     var beacon2Div = document.createElement('DIV');
     var dotDiv = document.createElement('DIV');
     dotDiv.className = "dot";
