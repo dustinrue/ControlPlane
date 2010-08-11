@@ -8,15 +8,6 @@
         margin: 0px;
         border: 1px solid rgba(129, 133, 141, 1.0);
     }
-    .growAnimation {
-        -webkit-animation-name: grow;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-direction: normal;
-        -webkit-animation-duration: 1.25s;
-        -webkit-transform: rotatex(0deg);
-        -webkit-transform-origin: middle middle;
-        -webkit-animation-transition-timing-function: ease-in;
-    }
     
     @-webkit-keyframes grow {
         0% {
@@ -33,6 +24,33 @@
         }
     }
     
+    .growAnimation {
+        -webkit-animation-name: grow;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-direction: normal;
+        -webkit-animation-duration: 1.25s;
+        -webkit-transform: rotatex(0deg);
+        -webkit-transform-origin: middle middle;
+        -webkit-animation-transition-timing-function: ease-in;
+    }
+        
+    @-webkit-keyframes drop {
+     0% {
+       -webkit-transform: translateY(-100px);
+     }
+     100% {
+       -webkit-transform: translateX(0%);
+     }
+    }
+    
+    .dropAnimation
+    {
+        -webkit-animation-name: drop;
+        -webkit-animation-duration: 0.30s;
+        -webkit-iteration-count: 1;
+        -webkit-animation-timing-function: ease-in;
+    }
+    
     .beacon{
         position: absolute;
         width: 100%;
@@ -40,7 +58,6 @@
         border: 4px solid rgba(100,140,221,0.9);
         border-radius: 5000px;
         -webkit-box-sizing: border-box;
-        /* -webkit-box-shadow: 0 0px 4px rgba(25,105,215,1.0); */
         background: rgba(15,95,245,0.1);
     }
         
@@ -151,6 +168,156 @@
   } 
 
   UserLocationOverlay.prototype.onRemove = function() {
+    this.div_.parentNode.removeChild(this.div_);
+    this.div_ = null;
+  }
+  
+  // Annotation
+  
+  AnnotationOverlay.prototype = new google.maps.OverlayView();
+
+  function AnnotationOverlay() {
+    // We define a property to hold the image's div. We'll 
+    // actually create this div upon receipt of the onAdd() 
+    // method so we'll leave it null for now.
+    this.div_ = null;
+    this.imageUrl_ = null;
+    this.imageTag_ = null;
+    this.marker_ = null; 
+    this.set('position', new google.maps.LatLng(0,0));
+    this.marker_ = new google.maps.Marker();
+    var markerImage = new google.maps.MarkerImage('TransparentPixel.png', new google.maps.Size(1, 1), null, null, null);
+    this.marker_.setIcon(markerImage);
+    this.marker_.bindTo('map', this);
+    this.marker_.bindTo('position', this);
+    var me = this;
+    // Figure out a better way to call draw when position has changed.
+    google.maps.event.addListener(this.marker_, 'position_changed', function() {
+      me.draw();
+    });
+  }
+  
+  AnnotationOverlay.prototype.getMarker = function()
+  {
+      return this.marker_;
+  }
+  
+  AnnotationOverlay.prototype.setImageUrl = function(url) {
+      this.imageUrl_ = url;
+      if (this.imageTag_)
+      {
+          this.imageTag_.src = url;
+      }
+  }
+  
+  AnnotationOverlay.prototype.getImageUrl = function() {
+      return this.imageUrl_;
+  }
+  
+  AnnotationOverlay.prototype.setOptions = function(options) {
+      //google.maps.OverlayView.prototype.setOptions(this, options);
+      var marker = this.marker_;
+      var annotation = this;
+      for (option in options)
+      {
+          var value = options[option];
+          if (option == "imageUrl")
+          {
+              annotation.setImageUrl(value);
+          }
+          else if (option == "position")
+          {
+              annotation.set('position', value);
+          }
+          else if (option == "draggable")
+          {
+              marker.setOptions({"draggable": value});
+          }
+      }
+  }
+  
+  AnnotationOverlay.prototype.updateMarker = function() {
+      var imageHeight =  this.imageTag_.offsetHeight;
+      var imageWidth = this.imageTag_.offsetWidth;
+      var markerImage = new google.maps.MarkerImage('TransparentPixel.png', new google.maps.Size(imageWidth, imageHeight), null, null, null);
+      this.marker_.setIcon(markerImage);
+      //this.marker_.setOptions({"draggable": true});
+  }
+  
+  AnnotationOverlay.prototype.onAdd = function() {
+     
+    // Note: an overlay's receipt of onAdd() indicates that
+    // the map's panes are now available for attaching
+    // the overlay to the map via the DOM.
+    var me = this;
+    
+
+
+    // Create the DIV and set some basic attributes.
+    var div = document.createElement('DIV');
+    div.className = "dropAnimation";
+    div.style.borderStyle = "none";
+    div.style.borderWidth = "0px";
+    div.style.position = "absolute";
+    
+    var imageTag = document.createElement('IMG');
+    imageTag.addEventListener(
+        'error',
+        function(event) {
+            AnnotationOverlay.prototype.draw.call(me);
+        },
+        false
+    );
+    
+    imageTag.addEventListener(
+        'load',
+        function(event) {
+            AnnotationOverlay.prototype.updateMarker.call(me);
+            AnnotationOverlay.prototype.draw.call(me);
+        },
+        false
+    );
+    this.imageTag_ = imageTag;
+
+    div.appendChild(imageTag);
+    // Set the overlay's div_ property to this DIV
+    this.div_ = div;
+
+    // We add an overlay to a map via one of the map's panes.
+    // We'll add this overlay to the overlayImage pane.
+    var panes = this.getPanes();
+    panes.overlayImage.appendChild(div);
+    
+    // set the image in case it's been set before we got here
+    this.setImageUrl(this.imageUrl_);
+  }
+  
+  AnnotationOverlay.prototype.draw = function() {
+    if (!this.div_)
+        return;
+    // Size and position the overlay. We use a southwest and northeast
+    // position of the overlay to peg it to the correct position and size.
+    // We need to retrieve the projection from this overlay to do this.
+    var overlayProjection = this.getProjection();
+
+    // Retrieve the southwest and northeast coordinates of this overlay
+    // in latlngs and convert them to pixels coordinates.
+    // We'll use these coordinates to resize the DIV.
+    // get bounds by faking a circle
+
+    var pxPoint = overlayProjection.fromLatLngToDivPixel(this.get('position'));
+    var imageWidth = this.imageTag_.offsetWidth;
+    var imageHeight = this.imageTag_.offsetHeight;
+    
+    // Resize the image's DIV to fit the indicated dimensions.
+    var div = this.div_;
+    div.style.left = pxPoint.x - imageWidth/2.0 + 'px';
+    div.style.top = pxPoint.y - imageHeight + 'px';
+    div.style.width = imageWidth + 'px';
+    div.style.height = imageHeight + 'px';
+  } 
+
+  AnnotationOverlay.prototype.onRemove = function() {
     this.div_.parentNode.removeChild(this.div_);
     this.div_ = null;
   }
@@ -273,6 +440,7 @@
   {
       var option  = new Object();
       option[optionName] = optionValue;// {optionName.toString(): optionValue};
+      
       if (anOverlay && anOverlay.setOptions)
       {
           anOverlay.setOptions(option);
@@ -298,18 +466,22 @@
     
       anAnnotation.setMap(map);
       annotations.push(anAnnotation);
-      google.maps.event.addListener(anAnnotation, 'click', function() {
-        window.MKMapView.annotationScriptObjectSelected(anAnnotation);
-      });
-      google.maps.event.addListener(anAnnotation, 'dragstart', function() {
-        window.MKMapView.annotationScriptObjectDragStart(anAnnotation);
-      });
-      google.maps.event.addListener(anAnnotation, 'drag', function() {
-        window.MKMapView.annotationScriptObjectDrag(anAnnotation);
-      });
-      google.maps.event.addListener(anAnnotation, 'dragend', function() {
-        window.MKMapView.annotationScriptObjectDragEnd(anAnnotation);
-      });
+      if (anAnnotation.getMarker)
+      {
+          var marker = anAnnotation.getMarker();
+          google.maps.event.addListener(marker, 'click', function() {
+            window.MKMapView.annotationScriptObjectSelected(anAnnotation);
+          });
+          google.maps.event.addListener(marker, 'dragstart', function() {
+            window.MKMapView.annotationScriptObjectDragStart(anAnnotation);
+          });
+          google.maps.event.addListener(marker, 'drag', function() {
+            window.MKMapView.annotationScriptObjectDrag(anAnnotation);
+          });
+          google.maps.event.addListener(marker, 'dragend', function() {
+            window.MKMapView.annotationScriptObjectDragEnd(anAnnotation);
+          });
+      }
       return true;
   }
   
@@ -326,7 +498,7 @@
       if (!anAnnotation || annotations.indexOf(anAnnotation) == -1)
         return JSON.stringify({"latitude": 0, "longitude":0});
         
-      var latlong = anAnnotation.getPosition();
+      var latlong = anAnnotation.get('position');
       return JSON.stringify({"latitude":latlong.lat(), "longitude":latlong.lng()});
   }
   
@@ -451,12 +623,15 @@
 
     polygonOverlay.setOptions({"paths": [[p1, p2, p3], [p4,p5,p6]]});
     //polygonOverlay.setMap(map);
-    /*
-    var marker = new google.maps.Marker();
+    
+    var marker = new AnnotationOverlay();
     var markerImage = new google.maps.MarkerImage('file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', null, null, null, null);
-    var markerOptions = {"icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
+    //var markerOptions = {"draggable": true, "icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
+    var markerOptions = {"draggable": true, "imageUrl": 'file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
+    
+    marker.setOptions(markerOptions);
     addAnnotation(marker);
-    marker.setOptions(markerOptions); */
+    //marker.setOptions(markerOptions); */
     //reverseGeocode(49.8578255,-97.16531639999999);
     //showAddress("255 Provencher Blvd Winnipeg MB")
   }

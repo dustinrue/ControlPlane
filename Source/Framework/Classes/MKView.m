@@ -30,7 +30,7 @@
     {
         id value = [theOptions objectForKey:key];
         [windowScriptObject callWebScriptMethod:@"setOverlayOption" withArguments:[NSArray arrayWithObjects:overlayScriptObject, key, value, nil]];
-        //NSLog(@"return value from setOption = %@", val);
+        //NSLog(@"return value from setOption(%@) = %@",key, val);
     }
 }
 
