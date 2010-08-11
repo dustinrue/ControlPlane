@@ -3,83 +3,6 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 
-<style type="text/css">
-    body {
-        margin: 0px;
-        border: 1px solid rgba(129, 133, 141, 1.0);
-    }
-    
-    @-webkit-keyframes grow {
-        0% {
-            -webkit-transform:scale(1.0);
-            opacity:0.8;
-        }
-        50% {
-            -webkit-transform:scale(0.90);
-            opacity:1.0;
-        }
-        100% {
-            -webkit-transform:scale(1.0);
-            opacity:0.8;
-        }
-    }
-    
-    .growAnimation {
-        -webkit-animation-name: grow;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-direction: normal;
-        -webkit-animation-duration: 1.25s;
-        -webkit-transform: rotatex(0deg);
-        -webkit-transform-origin: middle middle;
-        -webkit-animation-transition-timing-function: ease-in;
-    }
-        
-    @-webkit-keyframes drop {
-     0% {
-       -webkit-transform: translateY(-100px);
-     }
-     100% {
-       -webkit-transform: translateX(0%);
-     }
-    }
-    
-    .dropAnimation
-    {
-        -webkit-animation-name: drop;
-        -webkit-animation-duration: 0.30s;
-        -webkit-iteration-count: 1;
-        -webkit-animation-timing-function: ease-in;
-    }
-    
-    .beacon{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 4px solid rgba(100,140,221,0.9);
-        border-radius: 5000px;
-        -webkit-box-sizing: border-box;
-        background: rgba(15,95,245,0.1);
-    }
-        
-    .dot {
-        position: absolute;
-        background: -webkit-gradient(radial, 35% 25%, 1, 35% 25%, 4, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0.0))),
-                    -webkit-gradient(linear, 0% 0%, 45% 90%, from(rgb(10,120,189)), to(rgb(59,165,255)), color-stop(0.5, rgb(41,99,255)),color-stop(0.75, rgb(61,130,255)));
-        -webkit-box-shadow: 0px 0px 3px rgba(70,130,255,0.85),
-                            inset 0px 1px 1px rgba(240,240,240,0.6);
-        border: 1px solid rgba(2,75,145,0.95);
-        width: 16px;
-        height: 16px;
-        border-radius:20px;
-        -webkit-box-sizing: border-box;
-	    top:50%; 
-	    margin-top:-7px;
-	    left: 50%;
-	    margin-left: -7px;
-    }
-</style>
-        
-
 <script type="text/javascript">  
   // Start New API
   var map;
@@ -634,6 +557,9 @@
     //marker.setOptions(markerOptions); */
     //reverseGeocode(49.8578255,-97.16531639999999);
     //showAddress("255 Provencher Blvd Winnipeg MB")
+    
+    addStylesheetTag("Animations.css");
+    addStylesheetTag("Stylesheet.css");
   }
 
 </script>
