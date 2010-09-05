@@ -119,8 +119,12 @@ IPHONE PROJECT INSTALLATION:
 
 - Include CrashReportSender.h and CrashReportSender.m into your project
 - Include CrashReporter.framework into your project
-- In your appDelegate.m include
-    #import "CrashReportSender.h"
+- Add the Apple framework SystemConfiguration zu your project
+- In your appDelegate.h include
+
+      #import "CrashReportSender.h"
+
+  and let your appDelegate implement the protocol CrashReportSenderDelegate
 - In your appDelegate applicationDidFinishLaunching function include
     [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL delegate:self activateFeedback:NO];
   where CRASH_REPORTER_URL points to your crash_v200.php URL
