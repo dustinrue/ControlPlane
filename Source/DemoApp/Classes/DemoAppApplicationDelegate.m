@@ -45,6 +45,7 @@
 {
     MKPointAnnotation *pin = [[[MKPointAnnotation alloc] init] autorelease];
     pin.coordinate = [mapView centerCoordinate];
+    pin.title = @"My Place 2";
     [mapView addAnnotation:pin];
 }
 

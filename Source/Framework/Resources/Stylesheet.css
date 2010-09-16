@@ -30,3 +30,105 @@ body {
     left: 50%;
     margin-left: -7px;
 }
+
+
+.zoomControls {
+    position:absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 9999;
+}
+.zoom{
+	height: 24px;
+	width: 24px;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(254,254,254,1.0)), to(rgba(242,242,240,1.0)));
+	border-radius:4px;
+	margin: 3px;
+	position: relative;
+	-webkit-box-shadow:0px 0px 1px rgba(0,0,0,1.0);
+}
+.zoom:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(235,235,235,1.0)), to(rgba(222,222,220,1.0)));
+	-webkit-box-shadow:0px 0px 1px rgba(30,30,30,0.9);
+}
+.out{
+	height: 2px;
+	width: 12px;
+	background-color: #949494;
+	position: absolute;
+	top:50%;
+	margin-top:-2px;
+	left: 50%;
+    margin-left: -7px;
+    border: 1px solid #888;
+    border-top: 1px solid #696969;
+}
+
+.in{
+	height: 12px;
+	width: 2px;
+	background-color: #949494;
+	position: absolute;
+	top:50%;
+	margin-top:-7px;
+	left: 50%;
+    margin-left: -2px;
+    border: 1px solid #888;
+    border-top: 1px solid #696969;
+}
+.in2{
+	height: 12px;
+	width: 2px;
+	background-color: #949494;
+	position: absolute;
+	top:50%;
+	margin-top:-6px;
+	left: 50%;
+    margin-left: -1px;
+}
+
+/* Annotation Callout */
+
+span.annotationCalloutText 
+{
+    display:inline-block;
+    padding-top:10;
+    padding-left:0;
+    padding-right: 0;
+    z-index:100; 
+    color: rgba(0,1,0,0); 
+    max-width:250px;
+    font-size:16px; 
+    font-family: Lucida Grande; 
+    font-weight:bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+div.annotationCalloutTextWrapper
+{
+    display: inline; height:100%; float:left;
+    margin-left: 21px;
+    margin-right: 21px;
+    /*border: 1px solid blue;*/
+}
+
+canvas.annotationCallout
+{
+    height:100%; 
+    width:100%; 
+    left:0px; 
+    top:0px; 
+    position:absolute; 
+}
+div.annotationCalloutWrapper
+{
+    z-index:99; 
+    position:absolute; 
+    left:299px; 
+    top:158px;
+    height:64px;
+	width: auto;
+    display: none;
+}
+
+/* End Annotation Callout */

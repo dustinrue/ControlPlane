@@ -3,7 +3,38 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 
+<style type="text/css">
+
+
+</style>
+
 <script type="text/javascript">  
+
+document.getElementsByClassName = function(cl) {
+    var retnode = [];
+    var myclass = new RegExp('\\b'+cl+'\\b');
+    var elem = this.getElementsByTagName('*');
+    for (var i = 0; i < elem.length; i++) {
+        var classes = elem[i].className;
+        if (myclass.test(classes)) retnode.push(elem[i]);
+    }
+    return retnode;
+};
+
+window.onwebkitanimationend =  function(event) {
+    var e = event ? event : window.event;
+    var currentTarget = e.currentTarget;
+	if (e.animationName == "annotationCalloutPulse")
+	{
+	    annotationCallouts = document.getElementsByClassName("annotationCalloutWrapper annotationCalloutPulseAnimation");
+	    for (index in annotationCallouts)
+	    {
+	        var annotationCallout = annotationCallouts[index];
+	        annotationCallout.className = "annotationCalloutWrapper";
+	    }
+	};
+};
+
   // Start New API
   var map;
   var userLocationMarker = null;
@@ -106,7 +137,10 @@
     this.div_ = null;
     this.imageUrl_ = null;
     this.imageTag_ = null;
-    this.marker_ = null; 
+    this.marker_ = null;
+    this.calloutWrapper_ = null;
+    this.calloutCanvas_ = null;
+    this.calloutText_ = null;
     this.set('position', new google.maps.LatLng(0,0));
     this.marker_ = new google.maps.Marker();
     var markerImage = new google.maps.MarkerImage('TransparentPixel.png', new google.maps.Size(1, 1), null, null, null);
@@ -118,6 +152,8 @@
     google.maps.event.addListener(this.marker_, 'position_changed', function() {
       me.draw();
     });
+    
+    this.createCallout(); 
   }
   
   AnnotationOverlay.prototype.getMarker = function()
@@ -167,6 +203,211 @@
       //this.marker_.setOptions({"draggable": true});
   }
   
+  AnnotationOverlay.prototype.createCallout = function() {
+        /* Creates something that looks like this:
+        <div id="myCallout" class="annotationCalloutWrapper">
+     	    <canvas id="myCalloutCanvas" class="annotationCallout"></canvas>
+     	    <div class="annotationCalloutLeftPad"></div>
+     	    <div class="annotationCalloutTextWrapper">
+     	        <span id="myCalloutText" class="annotationCalloutText">asfd</span>
+     	    </div>
+     	    <div class="annotationCalloutRightPad"></div>
+     	</div>
+     	*/
+      var calloutWrapperDiv = document.createElement('DIV');
+      calloutWrapperDiv.className = "annotationCalloutWrapper";
+      //calloutWrapperDiv.setAttribute('id','myCallout');
+      
+      var canvasElement = document.createElement("CANVAS");
+      canvasElement.className = "annotationCallout";
+      //canvasElement.setAttribute('id','myCalloutCanvas');
+      
+      var calloutTextWrapperDiv = document.createElement("DIV");
+      calloutTextWrapperDiv.className = "annotationCalloutTextWrapper";
+      
+      var calloutTextSpan = document.createElement("SPAN");
+      calloutTextSpan.className = "annotationCalloutText";
+      //calloutTextSpan.setAttribute('id','myCalloutText');
+      
+      calloutTextWrapperDiv.appendChild(calloutTextSpan);
+      
+      calloutWrapperDiv.appendChild(canvasElement);
+      calloutWrapperDiv.appendChild(calloutTextWrapperDiv);
+      
+      this.calloutWrapper_ = calloutWrapperDiv;
+      this.calloutCanvas_ = canvasElement;
+      this.calloutText_ = calloutTextSpan;
+  }
+  
+  AnnotationOverlay.prototype.drawCallout = function() {
+      
+      // get the canvas element using the DOM
+      var canvas = this.calloutCanvas_;
+       // use getContext to use the canvas for drawing
+      var ctx = canvas.getContext('2d');
+
+      var width = canvas.offsetWidth;
+      var height = canvas.offsetHeight;
+      // Reset the coordinate space.
+      canvas.width = width;
+      canvas.height = height;
+      var offset = 0.5
+      
+      var radius = 5.0;
+      var TIP_HEIGHT = 13;
+      var TIP_WIDTH = 27;
+      var MARGIN = 4.0;
+      var minx = MARGIN + offset;
+      var midx = Math.round((width-MARGIN)/2) + offset;
+      var maxx = width - 2*MARGIN + offset;
+      var miny = MARGIN + offset;
+      var midy = MARGIN + Math.round((height-2*MARGIN)/2.0) - Math.round(TIP_HEIGHT/2) + offset;
+      var maxy = height - 2*MARGIN -TIP_HEIGHT + offset;
+
+      var tipTopLeftX = midx - Math.round(TIP_WIDTH/2);
+      var tipTopLeftY = maxy;
+      var tipTopRightX = midx + Math.round(TIP_WIDTH/2);
+      var tipTopRightY = maxy;
+      var tipBottomX = midx;
+      var tipBottomY = maxy + TIP_HEIGHT;
+
+      ctx.beginPath();
+      ctx.moveTo(minx, midy); // left edge
+      ctx.arc(minx+radius, miny+radius, radius, Math.PI, (3/2)*Math.PI, false);  // top left corner to top edge
+      ctx.arc(maxx-radius, miny+radius, radius,(3/2)*Math.PI, 0, false);  // top right corner, to right edge
+      ctx.arc(maxx-radius, maxy-radius, radius, 0, (1/2)*Math.PI, false);   // bottom right corner, to bottom edge
+      ctx.lineTo(tipTopRightX, tipTopRightY);  // down to tip
+      ctx.lineTo(tipBottomX, tipBottomY);  // down to tip
+      ctx.lineTo(tipTopLeftX, tipTopLeftY);  // back up to bottom edge-ish.
+      ctx.arc(minx+radius, maxy-radius, radius, (1/2)*Math.PI, Math.PI, false); // bottom left corner, to left edge
+      ctx.closePath();
+
+
+      
+      // Prep to draw shadow (WebKit doesn't support drawing shadows on gradients, so a hack is needed.)
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 3;
+      ctx.shadowColor = 'rgba(0,0,0,0.4);';
+      ctx.fill();
+      // Clear the path to draw the real stuff.
+      {
+          ctx.save();
+          ctx.globalCompositeOperation = 'copy';
+          ctx.fillStyle = 'rgba(0,0,0,0)';
+          ctx.fill();
+          ctx.restore();
+      }
+      // Draw real fill
+      var lingrad = ctx.createLinearGradient(0,0,0,maxy);    
+      lingrad.addColorStop(0, 'rgba(130,130,130,0.62);');
+      lingrad.addColorStop(0.55 , 'rgba(55,55,55,0.62);'); 
+      lingrad.addColorStop(0.5501 , 'rgba(20,20,20,0.62);'); 
+      lingrad.addColorStop(1, 'rgba(10,10,10,0.62);'); 
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#555'; //'rgba(0.9,0.9,0.9,1.0)';
+      ctx.stroke();
+      ctx.fillStyle = lingrad;
+      ctx.fill();
+      
+      minx = minx+1;
+      maxx = maxx-1;
+      miny = miny+1;
+      maxy = maxy-1;
+
+      tipTopLeftY = tipTopLeftY - 1;
+      tipTopRightY = tipTopRightY - 1;
+      tipBottomY = tipBottomY - 1;
+      
+      ctx.beginPath();
+      ctx.moveTo(minx, midy); // left edge
+      ctx.arc(minx+radius, miny+radius, radius, Math.PI, (3/2)*Math.PI, false);  // top left corner to top edge
+      ctx.arc(maxx-radius, miny+radius, radius,(3/2)*Math.PI, 0, false);  // top right corner, to right edge
+      ctx.arc(maxx-radius, maxy-radius, radius, 0, (1/2)*Math.PI, false);   // bottom right corner, to bottom edge
+      ctx.lineTo(tipTopRightX, tipTopRightY);  // down to tip
+      ctx.lineTo(tipBottomX, tipBottomY);  // down to tip
+      ctx.lineTo(tipTopLeftX, tipTopLeftY);  // back up to bottom edge-ish.
+      ctx.arc(minx+radius, maxy-radius, radius, (1/2)*Math.PI, Math.PI, false); // bottom left corner, to left edge
+      ctx.closePath();
+      
+      
+      var lingrad = ctx.createLinearGradient(0,0,0,height);   
+      lingrad.addColorStop(0, 'rgba(250,250,250,0.95);');
+      lingrad.addColorStop(0.3 , 'rgba(130,130,130,0.1);'); 
+      lingrad.addColorStop(0.75, 'rgba(150,150,150,0.1);');
+      lingrad.addColorStop(1, 'rgba(210,210,210,0.2);'); 
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = lingrad;
+      ctx.stroke();			
+      
+      // draw text.
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 16px Lucida Grande";
+      var text = this.calloutText_.innerHTML;
+      var ellipsisText = "...";
+      var ellipsisTextSize = ctx.measureText(ellipsisText);
+      var maxWidth = 250;
+      var textSize = ctx.measureText(text);
+      var truncated = false;
+      newText = text;
+      if (textSize.width > maxWidth)
+      {
+      	while(textSize.width + ellipsisTextSize.width > maxWidth)
+      	{
+      		newText = newText.substring(0, newText.length-1);
+              textSize = ctx.measureText(newText);
+      	}
+      	truncated = true;
+	    }
+  	if (truncated){
+  		newText =  newText + ellipsisText;
+  	}
+      ctx.shadowBlur = 1;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = -1;
+      ctx.shadowColor = 'rgba(0,0,0,1);';
+      
+      var leftOffset = this.calloutText_.offsetLeft;
+      ctx.fillText(newText, leftOffset, 30);
+      
+  }
+  
+  AnnotationOverlay.prototype.setCalloutText = function (newText) {
+      this.calloutText_.innerHTML = newText;
+      this.drawCallout();
+  }
+  
+  AnnotationOverlay.prototype.pulseCallout = function () {
+      this.calloutWrapper_.className = "annotationCalloutWrapper annotationCalloutPulseAnimation";
+  }
+  
+  AnnotationOverlay.prototype.placeCallout = function () {
+      if (this.div_ == null)
+        return;
+        
+      var annotationCalloutElementWidth = this.calloutWrapper_.offsetWidth;
+	  var annotationCalloutElementHeight = this.calloutWrapper_.offsetHeight;
+	  var annotationElementCenterX = this.div_.offsetLeft + (this.div_.offsetWidth/2);
+	  var annotationElementTop = this.div_.offsetTop;
+	    
+	  this.calloutWrapper_.style.left = (annotationElementCenterX - (annotationCalloutElementWidth/2) ) + 2 + "px";
+	  this.calloutWrapper_.style.top = (annotationElementTop - annotationCalloutElementHeight) + 5 + "px";
+  }
+  
+  AnnotationOverlay.prototype.setCalloutHidden = function (isHidden) {
+        if (isHidden)
+        {
+            this.calloutWrapper_.style.display = "none";
+        }
+        else
+        {
+            this.calloutWrapper_.style.display = "block";
+            this.drawCallout();
+            this.placeCallout();
+            this.pulseCallout();
+        }
+  }
+  
   AnnotationOverlay.prototype.onAdd = function() {
      
     // Note: an overlay's receipt of onAdd() indicates that
@@ -210,6 +451,8 @@
     // We'll add this overlay to the overlayImage pane.
     var panes = this.getPanes();
     panes.overlayImage.appendChild(div);
+    panes.overlayImage.appendChild(this.calloutWrapper_);
+
     
     // set the image in case it's been set before we got here
     this.setImageUrl(this.imageUrl_);
@@ -238,6 +481,8 @@
     div.style.top = pxPoint.y - imageHeight + 'px';
     div.style.width = imageWidth + 'px';
     div.style.height = imageHeight + 'px';
+    this.placeCallout();
+    this.drawCallout();
   } 
 
   AnnotationOverlay.prototype.onRemove = function() {
@@ -425,6 +670,22 @@
       return JSON.stringify({"latitude":latlong.lat(), "longitude":latlong.lng()});
   }
   
+  function setAnnotationCalloutHidden(anAnnotation, isHidden)
+  {
+      if (annotations.indexOf(anAnnotation) == -1)
+        return;
+      
+      anAnnotation.setCalloutHidden(isHidden);
+  }
+  
+  function setAnnotationCalloutText(anAnnotation, text)
+  {
+      if (annotations.indexOf(anAnnotation) == -1)
+        return;
+      
+      anAnnotation.setCalloutText(text);
+  }
+  
   // Javascript and CSS addons
   
   function addJavascriptTag(url)
@@ -502,7 +763,7 @@
       zoom: 13,
       center: latlng,
       disableDefaultUI: true,
-      navigationControl: true,
+      navigationControl: false,
       scrollwheel: false,
       navigationControlOptions: {
           style: google.maps.NavigationControlStyle.SMALL,
@@ -554,6 +815,9 @@
     
     marker.setOptions(markerOptions);
     addAnnotation(marker);
+    marker.setCalloutText("My Title");
+    marker.setCalloutHidden(false);
+
     //marker.setOptions(markerOptions); */
     //reverseGeocode(49.8578255,-97.16531639999999);
     //showAddress("255 Provencher Blvd Winnipeg MB")
@@ -565,6 +829,18 @@
 </script>
 </head>
 <body onload="initialize()">
-  <div id="map_canvas" style="width:100%; height:100%"></div>
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+    <div class="zoomControls">
+        <div class="zoom" onClick="map.setZoom(map.getZoom()+1);">
+    		<div class="in"></div>
+    		<div class="out"></div>
+    		<div class="in2"></div>
+    	</div>
+
+    	<div class="zoom" onClick="map.setZoom(map.getZoom()-1);">
+    		<div class="out"></div>
+    	</div>
+    </div>
+
 </body>
 </html>

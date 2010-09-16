@@ -460,21 +460,39 @@
 {
     if ([selectedAnnotations containsObject:annotation])
         return;
-    // TODO : probably want to do something here...
+// TODO: probably want to do something here...
     id view = (id)CFDictionaryGetValue(annotationViews, annotation);
     [self delegateDidSelectAnnotationView:view];
     [selectedAnnotations addObject:annotation];
+    
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+
+    if (annotation.title)
+    {
+        NSArray *args = [NSArray arrayWithObjects:annotationScriptObject, annotation.title, nil];
+        [webScriptObject callWebScriptMethod:@"setAnnotationCalloutText" withArguments:args];
+        args = [NSArray arrayWithObjects:annotationScriptObject, [NSNumber numberWithBool:NO], nil];
+        [webScriptObject callWebScriptMethod:@"setAnnotationCalloutHidden" withArguments:args];
+    }
+
 }
 
 - (void)deselectAnnotation:(id < MKAnnotation >)annotation animated:(BOOL)animated
 {
-    // TODO : animate this if called for.
+// TODO : animate this if called for.
     if (![selectedAnnotations containsObject:annotation])
         return;
-    // TODO : probably want to do something here...
+// TODO: probably want to do something here...
     id view = (id)CFDictionaryGetValue(annotationViews, annotation);
     [self delegateDidDeselectAnnotationView:view];
     [selectedAnnotations removeObject:annotation];
+    
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+    
+    NSArray *args = [NSArray arrayWithObjects:annotationScriptObject, [NSNumber numberWithBool:YES], nil];
+    [webScriptObject callWebScriptMethod:@"setAnnotationCalloutHidden" withArguments:args];
 }
 
 - (NSArray *)selectedAnnotations
