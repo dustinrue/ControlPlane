@@ -14,6 +14,15 @@
 @synthesize pinColor;
 @synthesize animatesDrop;
 
+- (id)initWithAnnotation:(id <MKAnnotation>)anAnnotation reuseIdentifier:(NSString *)aReuseIdentifier
+{
+    if (self = [super initWithAnnotation:anAnnotation reuseIdentifier:aReuseIdentifier])
+    {
+        self.canShowCallout = YES;
+    }
+    return self;
+}
+
 - (NSString *)imageUrl
 {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
@@ -35,15 +44,6 @@
     NSString *path = [bundle pathForResource:filename ofType:@"png"];
     NSURL *url = [NSURL fileURLWithPath:path];
     return [url absoluteString];
-}
-
-- (void)setAnimatesDrop:(BOOL)animates
-{
-    if (animates)
-    {
-        // TODO : figure out a way to animate this in.
-        NSLog(@"animatesDrop isn't supported in this version.");
-    }
 }
 
 @end

@@ -13,12 +13,16 @@
 @implementation DemoAppApplicationDelegate
 
 @synthesize window;
+@synthesize pinTitle;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    NSLog(@"applicationDidFinishLaunching:");    
+    //NSLog(@"applicationDidFinishLaunching:");    
     [mapView setShowsUserLocation: YES];
     [mapView setDelegate: self];
+    
+    pinNames = [[NSArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", @"Six", @"Seven", @"Eight", @"Nine", @"Ten", @"Eleven", @"Twelve", nil] retain];
+
     
     CLLocationCoordinate2D coordinate;
     coordinate.latitude = 49.8578255;
@@ -26,7 +30,6 @@
     MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate: coordinate];
     reverseGeocoder.delegate = self;
     [reverseGeocoder start];
-    //[reverseGeocoder performSelector:@selector(start) withObject:nil afterDelay:0.0];
 }
 
 - (IBAction)setMapType:(id)sender
@@ -45,7 +48,7 @@
 {
     MKPointAnnotation *pin = [[[MKPointAnnotation alloc] init] autorelease];
     pin.coordinate = [mapView centerCoordinate];
-    pin.title = @"My Place 2";
+    pin.title = self.pinTitle;
     [mapView addAnnotation:pin];
 }
 
@@ -54,16 +57,45 @@
     [mapView showAddress:[addressTextField stringValue]];
 }
 
+- (IBAction)demo:(id)sender
+{
+    for (int i = 0; i<[pinNames count]; i++)
+    {
+        [self performSelector:@selector(addPinForIndex:) withObject:[NSNumber numberWithInt:i] afterDelay: i * 0.25];
+    }
+}
+
+- (void)addPinForIndex:(NSNumber *)indexNumber
+{
+    CLLocationCoordinate2D centerCoordinate = [mapView centerCoordinate];
+    NSUInteger total = [pinNames count];
+    NSUInteger index = [indexNumber intValue];
+    double maxLatOffset = 0.01;
+    double maxLngOffset = 0.02;
+    NSString *name = [pinNames objectAtIndex:[indexNumber intValue]];
+
+    MKPointAnnotation *pin = [[[MKPointAnnotation alloc] init] autorelease];
+    CLLocationCoordinate2D pinCoord = centerCoordinate;
+    double latOffset = maxLatOffset * cosf(2*M_PI * ((double)index/(double)total));
+    double lngOffset = maxLngOffset * sinf(2*M_PI * ((double)index/(double)total));
+    pinCoord.latitude += latOffset;
+    pinCoord.longitude += lngOffset;
+    pin.coordinate = pinCoord;
+    pin.title = name;
+    [mapView addAnnotation:pin];
+
+}
+
 #pragma mark MKReverseGeocoderDelegate
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
 {
-    NSLog(@"found placemark: %@", placemark);
+    //NSLog(@"found placemark: %@", placemark);
 }
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error
 {
-    NSLog(@"MKReverseGeocoder didFailWithError: %@", error);
+    //NSLog(@"MKReverseGeocoder didFailWithError: %@", error);
 }
 
 #pragma mark MapView Delegate
@@ -72,28 +104,28 @@
 
 - (void)mapView:(MKMapView *)aMapView regionWillChangeAnimated:(BOOL)animated
 {
-    NSLog(@"mapView: %@ regionWillChangeAnimated: %d", aMapView, animated);
+    //NSLog(@"mapView: %@ regionWillChangeAnimated: %d", aMapView, animated);
 }
 
 - (void)mapView:(MKMapView *)aMapView regionDidChangeAnimated:(BOOL)animated
 {
-    NSLog(@"mapView: %@ regionDidChangeAnimated: %d", aMapView, animated);
+    //NSLog(@"mapView: %@ regionDidChangeAnimated: %d", aMapView, animated);
 }
 
 //Loading the Map Data
 - (void)mapViewWillStartLoadingMap:(MKMapView *)aMapView
 {
-    NSLog(@"mapViewWillStartLoadingMap: %@", aMapView);
+    //NSLog(@"mapViewWillStartLoadingMap: %@", aMapView);
 }
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)aMapView
 {
-    NSLog(@"mapViewDidFinishLoadingMap: %@", aMapView);
+    //NSLog(@"mapViewDidFinishLoadingMap: %@", aMapView);
 }
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)aMapView withError:(NSError *)error
 {
-    NSLog(@"mapViewDidFailLoadingMap: %@ withError: %@", aMapView, error);
+    //NSLog(@"mapViewDidFailLoadingMap: %@ withError: %@", aMapView, error);
 }
 
 // Tracking the User Location
@@ -122,7 +154,7 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)aMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
-    NSLog(@"mapView: %@ viewForAnnotation: %@", aMapView, annotation);
+    //NSLog(@"mapView: %@ viewForAnnotation: %@", aMapView, annotation);
     //MKAnnotationView *view = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
     MKPinAnnotationView *view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"blah"] autorelease];
     view.draggable = YES;
@@ -134,7 +166,7 @@
  
 - (void)mapView:(MKMapView *)aMapView didAddAnnotationViews:(NSArray *)views
 {
-    NSLog(@"mapView: %@ didAddAnnotationViews: %@", aMapView, views);
+    //NSLog(@"mapView: %@ didAddAnnotationViews: %@", aMapView, views);
 }
  /*
  - (void)mapView:(MKMapView *)aMapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
@@ -158,12 +190,12 @@
 
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    NSLog(@"mapView: %@ didSelectAnnotationView: %@", aMapView, view);
+    //NSLog(@"mapView: %@ didSelectAnnotationView: %@", aMapView, view);
 }
 
 - (void)mapView:(MKMapView *)aMapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
-    NSLog(@"mapView: %@ didDeselectAnnotationView: %@", aMapView, view);
+    //NSLog(@"mapView: %@ didDeselectAnnotationView: %@", aMapView, view);
 }
 
 
@@ -182,14 +214,14 @@
 
 - (void)mapView:(MKMapView *)aMapView didAddOverlayViews:(NSArray *)overlayViews
 {
-    NSLog(@"mapView: %@ didAddOverlayViews: %@", aMapView, overlayViews);
+    //NSLog(@"mapView: %@ didAddOverlayViews: %@", aMapView, overlayViews);
 }
 
 - (void)mapView:(MKMapView *)aMapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
 {
-    NSLog(@"mapView: %@ annotationView: %@ didChangeDragState:%d fromOldState:%d", aMapView, annotationView, newState, oldState);
-    MKPointAnnotation *annotation = annotationView.annotation;
-    NSLog(@"annotation = %@", annotation);
+    //NSLog(@"mapView: %@ annotationView: %@ didChangeDragState:%d fromOldState:%d", aMapView, annotationView, newState, oldState);
+    //MKPointAnnotation *annotation = annotationView.annotation;
+    //NSLog(@"annotation = %@", annotation);
     
 }
 

@@ -16,14 +16,17 @@
     IBOutlet MKMapView *mapView;
     IBOutlet NSTextField *addressTextField;
     NSNumber *circleRadius;
+    NSString *pinTitle;
+    NSArray *pinNames;
 }
 
 @property (assign) IBOutlet NSWindow *window;
-
+@property (retain) NSString *pinTitle;
 
 - (IBAction)setMapType:(id)sender;
 - (IBAction)addCircle:(id)sender;
 - (IBAction)addPin:(id)sender;
 - (IBAction)searchAddress:(id)sender;
+- (IBAction)demo:(id)sender;
 
 @end

@@ -460,15 +460,15 @@
 {
     if ([selectedAnnotations containsObject:annotation])
         return;
-// TODO: probably want to do something here...
-    id view = (id)CFDictionaryGetValue(annotationViews, annotation);
-    [self delegateDidSelectAnnotationView:view];
+
+    MKAnnotationView *annotationView = (id)CFDictionaryGetValue(annotationViews, annotation);
+    [self delegateDidSelectAnnotationView:annotationView];
     [selectedAnnotations addObject:annotation];
     
     WebScriptObject *webScriptObject = [webView windowScriptObject];
     WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
 
-    if (annotation.title)
+    if (annotation.title && annotationView.canShowCallout)
     {
         NSArray *args = [NSArray arrayWithObjects:annotationScriptObject, annotation.title, nil];
         [webScriptObject callWebScriptMethod:@"setAnnotationCalloutText" withArguments:args];
@@ -483,9 +483,9 @@
 // TODO : animate this if called for.
     if (![selectedAnnotations containsObject:annotation])
         return;
-// TODO: probably want to do something here...
-    id view = (id)CFDictionaryGetValue(annotationViews, annotation);
-    [self delegateDidDeselectAnnotationView:view];
+
+    MKAnnotationView *annotationView = (id)CFDictionaryGetValue(annotationViews, annotation);
+    [self delegateDidDeselectAnnotationView:annotationView];
     [selectedAnnotations removeObject:annotation];
     
     WebScriptObject *webScriptObject = [webView windowScriptObject];
