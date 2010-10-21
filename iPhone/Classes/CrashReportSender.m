@@ -67,7 +67,7 @@
 - (id) init
 {
 	self = [super init];
-
+	
 	if ( self != nil)
 	{
 		_serverResult = -1;
@@ -99,7 +99,7 @@
 			_crashFiles = [[NSMutableArray alloc] init];
 			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 			_crashesDir = [[NSString stringWithFormat:@"%@", [[paths objectAtIndex:0] stringByAppendingPathComponent:@"/crashes/"]] retain];
-
+			
 			NSFileManager *fm = [NSFileManager defaultManager];
 			
 			if (![fm fileExistsAtPath:_crashesDir])
@@ -112,11 +112,11 @@
 			
 			PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
 			NSError *error;
-
+			
 			// Check if we previously crashed
 			if ([crashReporter hasPendingCrashReport])
 				[self handleCrashReport];
-
+			
 			// Enable the Crash Reporter
 			if (![crashReporter enableCrashReporterAndReturnError: &error])
 				NSLog(@"Warning: Could not enable crash reporter: %@", error);
@@ -220,12 +220,12 @@
 		[self unregisterOnline];
         
 		if (![[NSUserDefaults standardUserDefaults] boolForKey: kAutomaticallySendCrashReports]) {
-			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"CrashDataFoundTitle", @"Title showing in the alert box when crash report data has been found")
-																message:NSLocalizedString(@"CrashDataFoundDescription", @"Description explaining that crash data has been found and ask the user if the data might be uplaoded to the developers server")
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"CrashDataFoundTitle", @"CrashReporter", @"Title showing in the alert box when crash report data has been found")
+																message:NSLocalizedStringFromTable(@"CrashDataFoundDescription", @"CrashReporter", @"Description explaining that crash data has been found and ask the user if the data might be uplaoded to the developers server")
 															   delegate:self
-													  cancelButtonTitle:NSLocalizedString(@"No", @"")
-													  otherButtonTitles:NSLocalizedString(@"Yes", @""), NSLocalizedString(@"Always", @""), nil];
-
+													  cancelButtonTitle:NSLocalizedStringFromTable(@"No", @"CrashReporter", @"")
+													  otherButtonTitles:NSLocalizedStringFromTable(@"Yes", @"CrashReporter", @""), NSLocalizedStringFromTable(@"Always", @"CrashReporter", @""), nil];
+			
 			[alertView setTag: CrashAlertTypeSend];
 			[alertView show];
 			[alertView release];
@@ -244,27 +244,27 @@
 	if (_crashReportFeedbackActivated && _amountCrashes == 0 && _serverResult >= CrashReportStatusAssigned && _crashIdenticalCurrentVersion)
 	{
 		// show some feedback to the user about the crash status
-		
+		NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 		switch (_serverResult) {
 			case CrashReportStatusAssigned:
-				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CrashResponseTitle", @"Title for the alertview giving feedback about the crash")
-													   message: NSLocalizedString(@"CrashResponseNextRelease", @"Full text telling the bug is fixed and will be available in an upcoming release")
+				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedStringFromTable(@"CrashResponseTitle", @"CrashReporter", @"Title for the alertview giving feedback about the crash")
+													   message:[NSString stringWithFormat:NSLocalizedStringFromTable(@"CrashResponseNextRelease", @"CrashReporter", @"Full text telling the bug is fixed and will be available in an upcoming release"), appName]
 													  delegate: self
-											 cancelButtonTitle: NSLocalizedString(@"Ok", @"")
+											 cancelButtonTitle: NSLocalizedStringFromTable(@"OK", @"CrashReporter", @"")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusSubmitted:
-				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CrashResponseTitle", @"Title for the alertview giving feedback about the crash")
-													   message: NSLocalizedString(@"CrashResponseWaitingApple", @"Full text telling the bug is fixed and the new release is waiting at Apple for approval")
+				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedStringFromTable(@"CrashResponseTitle", @"CrashReporter", @"Title for the alertview giving feedback about the crash")
+													   message: [NSString stringWithFormat:NSLocalizedStringFromTable(@"CrashResponseWaitingApple", @"CrashReporter", @"Full text telling the bug is fixed and the new release is waiting at Apple for approval"), appName]
 													  delegate: self
-											 cancelButtonTitle: NSLocalizedString(@"Ok", @"")
+											 cancelButtonTitle: NSLocalizedStringFromTable(@"OK", @"CrashReporter", @"")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusAvailable:
-				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CrashResponseTitle", @"Title for the alertview giving feedback about the crash")
-													   message: NSLocalizedString(@"CrashResponseAvailable", @"Full text telling the bug is fixed and an update is available in the AppStore for download")
+				alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedStringFromTable(@"CrashResponseTitle", @"CrashReporter", @"Title for the alertview giving feedback about the crash")
+													   message: [NSString stringWithFormat:NSLocalizedStringFromTable(@"CrashResponseAvailable", @"CrashReporter", @"Full text telling the bug is fixed and an update is available in the AppStore for download"), appName]
 													  delegate: self
-											 cancelButtonTitle: NSLocalizedString(@"Ok", @"")
+											 cancelButtonTitle: NSLocalizedStringFromTable(@"OK", @"CrashReporter", @"")
 											 otherButtonTitles: nil];
 				break;
 			default:
@@ -392,7 +392,7 @@
 - (void)_sendCrashReports
 {
 	NSError *error;
-		
+	
 	NSString *userid = @"";
 	NSString *contact = @"";
 	NSString *description = @"";
@@ -401,18 +401,18 @@
 	{
 		userid = [_delegate crashReportUserID];
 	}
-
+	
 	if (_delegate != nil && [_delegate respondsToSelector:@selector(crashReportContact)])
 	{
 		contact = [_delegate crashReportContact];
 	}
-
+	
 	if (_delegate != nil && [_delegate respondsToSelector:@selector(crashReportDescription)])
 	{
 		description = [_delegate crashReportDescription];
 	}
 	
-
+	
 	for (int i=0; i < [_crashFiles count]; i++)
 	{
 		NSString *filename = [_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]];
@@ -451,7 +451,7 @@
 - (NSString *)_crashLogStringForReport:(PLCrashReport *)report
 {
 	NSMutableString *xmlString = [NSMutableString string];
-
+	
 	/* Header */
     boolean_t lp64;
 	
@@ -548,7 +548,7 @@
 	/* Exception code */
 	[xmlString appendFormat:@"Exception Type:  %s\n", [report.signalInfo.name UTF8String]];
     [xmlString appendFormat:@"Exception Codes: %@ at 0x%" PRIx64 "\n", report.signalInfo.code, report.signalInfo.address];
-
+	
     for (PLCrashReportThreadInfo *thread in report.threads) {
         if (thread.crashed) {
             [xmlString appendFormat: @"Crashed Thread:  %ld\n", (long) thread.threadNumber];
@@ -626,7 +626,7 @@
 	
 	/* Images */
 	[xmlString appendFormat:@"Binary Images:\n"];
-
+	
     for (PLCrashReportBinaryImageInfo *imageInfo in report.images) {
 		NSString *uuid;
 		/* Fetch the UUID if it exists */
@@ -640,19 +640,19 @@
 #ifdef _ARM_ARCH_6
         device = @"armv6";
 #endif
-                
+		
 #ifdef _ARM_ARCH_7 
         device = @"armv7";
 #endif
         
 		/* base_address - terminating_address file_name identifier (<version>) <uuid> file_path */
 		[xmlString appendFormat:@"0x%" PRIx64 " - 0x%" PRIx64 "  %@ %@ <%@> %@\n",
-					 imageInfo.imageBaseAddress,
-					 imageInfo.imageBaseAddress + imageInfo.imageSize,
-					 [imageInfo.imageName lastPathComponent],
-					 device,
-					 uuid,
-					 imageInfo.imageName];
+		 imageInfo.imageBaseAddress,
+		 imageInfo.imageBaseAddress + imageInfo.imageSize,
+		 [imageInfo.imageName lastPathComponent],
+		 device,
+		 uuid,
+		 imageInfo.imageName];
 	}
 	
 	return xmlString;
@@ -710,7 +710,7 @@
 	[_responseData release];
 	_responseData = nil;
 	[connection autorelease];
-
+	
 	if (_delegate != nil && [_delegate respondsToSelector:@selector(connectionClosed)])
 	{
 		[_delegate connectionClosed];
@@ -739,7 +739,7 @@
 	[_responseData release];
 	_responseData = nil;
 	[connection autorelease];
-
+	
 	if (_delegate != nil && [_delegate respondsToSelector:@selector(connectionClosed)])
 	{
 		[_delegate connectionClosed];
@@ -785,19 +785,19 @@
 			goto finish;
 		}
 	}
-		
+	
 	// Purge the report
 finish:
 	// mark the end of the routine
 	_crashReportAnalyzerStarted = 0;
 	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:_crashReportAnalyzerStarted] forKey:kCrashReportAnalyzerStarted];
-		
+	
 	[crashReporter purgePendingCrashReport];
 	return;
 }
 
 #pragma mark Reachability
-		
+
 - (BOOL)_isSubmissionHostReachable
 {
 	SCNetworkReachabilityFlags flags;

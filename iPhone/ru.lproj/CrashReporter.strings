@@ -15,7 +15,7 @@
 "No" = "Да";
 
 /* For dialogs ok buttons */
-"Ok" = "Ok";
+"OK" = "OK";
 
 
 /* Crash dialog */
@@ -30,16 +30,16 @@
 "Always" = "Всегда";
 
 /* Text showing in a processing box that the crash data is being uploaded to the server */
-"Sending" = "Отправка...";
+"Sending" = "Отправка…";
 
 /* Title for the alertview giving feedback about the crash */
 "CrashResponseTitle" = "Статус ошибки";
 
 /* Full text telling the bug is fixed and will be available in the next release */
-"CrashResponseNextRelease" = "Причина Вашей ошибки уже решена и исправление будет включено в следующую версию YOURAPPNAME";
+"CrashResponseNextRelease" = "Причина Вашей ошибки уже решена и исправление будет включено в следующую версию %@";
 
 /* Full text telling the bug is fixed and the new release is waiting at Apple */
-"CrashResponseWaitingApple" = "Причина Вашей ошибки уже решена и новая версия YOURAPPNAME уже ожидает одобрения от Apple";
+"CrashResponseWaitingApple" = "Причина Вашей ошибки уже решена и новая версия %@ уже ожидает одобрения от Apple";
 
 /* Full text telling the bug is fixed and an update is available in the AppStore */
-"CrashResponseAvailable" = "Причина Вашей ошибки уже решена и новая версия YOURAPPNAME уже доступна. Пожалуйста, обновите программу!";
+"CrashResponseAvailable" = "Причина Вашей ошибки уже решена и новая версия %@ уже доступна. Пожалуйста, обновите программу!";

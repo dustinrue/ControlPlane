@@ -15,7 +15,7 @@
 "No" = "Ei";
 
 /* For dialogs ok buttons */
-"Ok" = "OK";
+"OK" = "OK";
 
 
 /* Crash dialog */
@@ -30,16 +30,16 @@
 "Always" = "Aina";
 
 /* Text showing in a processing box that the crash data is being uploaded to the server */
-"Sending" = "Lähetetään ...";
+"Sending" = "Lähetetään…";
 
 /* Title for the alertview giving feedback about the crash */
 "CrashResponseTitle" = "Virheilmoituksen tila";
 
 /* Full text telling the bug is fixed and will be available in the next release */
-"CrashResponseNextRelease" = "Virhe, joka aiheutti kaatumisen, on jo ratkaistu ja korjaus sisältyy seuraavaan versioon YOURAPPNAMEillä.";
+"CrashResponseNextRelease" = "Virhe, joka aiheutti kaatumisen, on jo ratkaistu ja korjaus sisältyy seuraavaan versioon %@ illä.";
 
 /* Full text telling the bug is fixed and the new release is waiting at Apple */
-"CrashResponseWaitingApple" = "Virhe, joka aiheutti kaatumisen, on jo ratkaistu ja seuraava versio YOURAPPNAMEillä odottaa Applen hyväksyntää.";
+"CrashResponseWaitingApple" = "Virhe, joka aiheutti kaatumisen, on jo ratkaistu ja seuraava versio %@ illä odottaa Applen hyväksyntää.";
 
 /* Full text telling the bug is fixed and an update is available in the AppStore */
-"CrashResponseAvailable" = "Virhe, joka aiheutti kaatumisen, on jo ratkaistu, ja uudempi versio YOURAPPNAMEillä on saatavilla. Päivitäthän siihen!";
+"CrashResponseAvailable" = "Virhe, joka aiheutti kaatumisen, on jo ratkaistu, ja uudempi versio %@ illä on saatavilla. Päivitäthän siihen!";
