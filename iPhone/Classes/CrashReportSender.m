@@ -637,12 +637,10 @@
 		
         NSString *device = @"\?\?\? (\?\?\?)";
         
-#ifdef _ARM_ARCH_6
-        device = @"armv6";
-#endif
-		
 #ifdef _ARM_ARCH_7 
         device = @"armv7";
+#else
+        device = @"armv6";
 #endif
         
 		/* base_address - terminating_address file_name identifier (<version>) <uuid> file_path */
