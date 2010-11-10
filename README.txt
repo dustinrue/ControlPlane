@@ -75,6 +75,9 @@
   - add the bundle identifiers of the permitted apps, e.g. `"de.buzzworks.crashreporterdemo"` (this is the same bundle identifier string as used in the `info.plist` of your app!)
 - Invoke `test_setup.php` via the browser to check if everything is setup correctly and Push can be used or not
 
+- If you are upgrading a previous edition, invoke 'migrate.php' first to update the database setup
+
+
 ## SERVER ENABLE PUSH NOTIFICATIONS
 
 - **NOTICE**: Push Notification requires the Server PHP installation to have curl addon installed!
@@ -96,9 +99,9 @@
   - set `$hostname` to the server hostname running the server side part, e.g. `www.crashreporterdemo.com`
   - if the `/admin/` directory on the server is access restricted, set the required username into `$webuser` and password into `$webpwd`
   - adjust the path to access the scripts (will be appended to `$hostname`):
-    - `$downloadtodosurl = '/admin/symbolicate_todo.php';`  // the path to the script delivering the todo list
-    - `$getcrashdataurl = '/admin/crash_get.php?id=';`      // the path to the script delivering the crashlog
-    - `$updatecrashdataurl = '/admin/crash_update.php';`    // the path to the script updating the crashlog
+    - `$downloadtodosurl = '/admin/actionapi.php?action=getsymbolicationtodo';`	// the path to the script delivering the todo list
+    - `$getcrashdataurl = '/admin/actionapi.php?action=getlogcrashid&id=';`		// the path to the script delivering the crashlog
+    - `$updatecrashdataurl = '/admin/crash_update.php';`						// the path to the script updating the crashlog
 - Copy the symbolicatecrash executable into an accessable path, e.g. via
     `cp /Developer/Platforms/iPhoneOS.platform/Developer/Library/PrivateFrameworks/DTDeviceKit.framework/Versions/A/Resources/symbolicatecrash /usr/local/bin/`
 - Copy the `.app` package and `.app.dSYM` package of each version into any directory of your Mac

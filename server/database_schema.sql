@@ -103,10 +103,13 @@ CREATE TABLE IF NOT EXISTS `crash_groups` (
   `pattern` varchar(250) collate utf8_unicode_ci NOT NULL default '',
   `description` text collate utf8_unicode_ci,
   `amount` bigint(20) default '0',
+  `latesttimestamp` bigint(20) default '0',
   PRIMARY KEY  (`id`),
   KEY `affected` (`affected`,`fix`),
   KEY `applicationname` (`bundleidentifier`),
-  KEY `pattern` (`pattern`)
+  KEY `pattern` (`pattern`),
+  KEY `amount` (`amount`),
+  KEY `latesttimestamp` (`latesttimestamp`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

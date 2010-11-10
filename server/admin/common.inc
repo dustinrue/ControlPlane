@@ -39,14 +39,31 @@ function show_header($title)
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML  4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">';
     echo '<html><head><title>'.$admintitle.' '.$title.'</title>';
     echo '<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection"><link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]--><link rel="stylesheet" href="blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">';
-    echo '<link rel="stylesheet" type="text/css" href="layout.css">';
+    echo '<link rel="stylesheet" type="text/css" href="css/layout.css">';
+    echo '<link rel="stylesheet" type="text/css" href="css/style.css">';
+    echo "<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js'></script>";
+    echo "<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js'></script>";
+    echo "<script type='text/javascript' src='js/jquery.chromatable.js'></script>";
+    echo "<script type='text/javascript' src='js/functions.js'></script>";
+?>
+<!--[if IE]><script language="javascript" type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+<script language="javascript" type="text/javascript" src="js/jquery.jqplot.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/jqplot.barRenderer.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/jqplot.categoryAxisRenderer.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="js/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="js/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="js/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="js/jqplot.pointLabels.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery.jqplot.css" />
+<?php
     echo '</head><body><div id="container" class="container prepend-top append-bottom">';
     echo '<h1>'.$admintitle.'</h1>';
 }
 
 function end_with_result($result)
 {
-	return '<html><body>'.$result.'</body</html>'; 
+	return '<html><body>'.$result.'</body></html>'; 
 }
 
 function init_database()
@@ -66,6 +83,14 @@ function parse_parameters($allowed_args)
     }
 }
 
+function parse_parameters_post($allowed_args)
+{
+    foreach(array_keys($_POST) as $k) {
+        $temp = ",$k,";
+        if(strpos($allowed_args,$temp) !== false) { $GLOBALS[$k] = $_POST[$k]; }
+    }
+}
+
 
 function add_option($text, $value, $currentvalue)
 {
@@ -76,7 +101,7 @@ function add_option($text, $value, $currentvalue)
 }
 
 function create_link($text, $link, $button, $variables)
-{
+{    
     $result = "";
     $result .= '<a href="'.$link;
     if (strpos($variables,'?') !== false)
@@ -114,7 +139,7 @@ function create_link($text, $link, $button, $variables)
     return $result;
 }
 
-function show_search($text, $currenttype)
+function show_search($text, $currenttype, $break)
 {
     global $bundleidentifier, $version;
     
@@ -122,15 +147,16 @@ function show_search($text, $currenttype)
     echo '<input type="hidden" name="bundleidentifier" value="'.$bundleidentifier.'"/>';
     if ($version != "")
         echo '<input type="hidden" name="version" value="'.$version.'"/>';
-    echo '<table><tr><th></th></tr>';
-    echo '<tr><td style="text-align:right;vertical-align:right;"><input type="search" placeholder="Search this" name="search" size="25" maxlength="100"';
+    echo '<input type="search" placeholder="Search this" name="search" size="45" maxlength="100"';
     if ($text != "" && $currenttype != "") echo ' value="'.$text.'"';
-    echo '/> <select name="type">';
+    echo '/>';
+    if ($break) echo "<br/>";
+    echo '<select name="type">';
     add_option('ID', SEARCH_TYPE_ID, $currenttype);
     add_option('Description', SEARCH_TYPE_DESCRIPTION, $currenttype);
     add_option('Crashlog', SEARCH_TYPE_CRASHLOG, $currenttype);
-    echo '</select>&nbsp;&nbsp;<button type="submit" class="button" style="float:right;">Search</button></td></tr>';
-    echo '</table></form>';
+    echo '</select>&nbsp;&nbsp;<button type="submit" class="button" style="float: right;">Search</button><br/>';
+    echo '</form>';
 }
 
 function currentPageURL()
@@ -158,10 +184,13 @@ function create_issue($bundleidentifier, $issuelink)
         // get the status
         while ($row = mysql_fetch_row($result))
         {
-            $issuetrackerurl = $row[0];
-            $issuetrackerurl = str_replace('%subject%', urlencode($createIssueTitle), $issuetrackerurl);
-            $issuetrackerurl = str_replace('%description%', urlencode('Crash Log: '.$issuelink), $issuetrackerurl);
-            return "<a href='".$issuetrackerurl."' target='_new' class='button'>New issue</a>";
+            if ($row[0] != "")
+            {
+                $issuetrackerurl = $row[0];
+                $issuetrackerurl = str_replace('%subject%', urlencode($createIssueTitle), $issuetrackerurl);
+                $issuetrackerurl = str_replace('%description%', urlencode('Crash Log: '.$issuelink), $issuetrackerurl);
+                return "<a href='".$issuetrackerurl."' target='_new' class='button'>New issue</a>";
+            }
         }
     }
     

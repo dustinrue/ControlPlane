@@ -40,45 +40,21 @@ require_once('../config.php');
 require_once('common.inc');
 
 init_database();
-parse_parameters(',deleteid,groupid,bundleidentifier,version,symbolicate,all,search,type,fixversion,description,');
+parse_parameters(',groupid,bundleidentifier,version,search,type,');
 
 if (!isset($all)) $all = false;
 if (!isset($groupid)) $groupid = "";
-if (!isset($deleteid)) $deleteid = "";
 if (!isset($bundleidentifier)) $bundleidentifier = "";
 if (!isset($version)) $version = "";
-if (!isset($symbolicate)) $symbolicate = "";
 if (!isset($search)) $search = "";
 if (!isset($type)) $type = "";
-if (!isset($fixversion)) $fixversion = "-1";
-if (!isset($description)) $description = "-1";
 
-if ($bundleidentifier == "" && ($version == "" || $type = "" || $fixversion = "-1" || $description = "-1")) die(end_with_result('Wrong parameters'));
+if ($bundleidentifier == "" && ($version == "" || $type = "")) die(end_with_result('Wrong parameters'));
 
 $whereclause = "";
 $pagelink = "";
 
-if ($deleteid != "") {
-    $query = "DELETE from " . $dbcrashtable . " WHERE id=" . $deleteid;
-    $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));  
-}
-if ($groupid != "" && $fixversion != "-1") {
-	$query = "UPDATE ".$dbgrouptable." SET fix = '".$fixversion."' WHERE id = ".$groupid;
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
-	
-	// check if the fix version is already added, if not add it
-	$query = "SELECT id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$fixversion."'";
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
-	
-	$numrows = mysql_num_rows($result);
-	if ($numrows == 0) {
-		// version is not available, so add it with status VERSION_STATUS_AVAILABLE
-		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status) values ('".$bundleidentifier."', '".$fixversion."', ".VERSION_STATUS_UNKNOWN.")";
-		$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
-	}
-	$pagelink = '?bundleidentifier='.$bundleidentifier.'&version='.$version.'&groupid='.$groupid;
-	$whereclause = " WHERE groupid = ".$groupid;
-} else if ($search != "" && $type != "") {
+if ($search != "" && $type != "") {
 	$pagelink = '?bundleidentifier='.$bundleidentifier.'&search='.$search.'&type='.$type;
 	$whereclause = " WHERE bundleidentifier = '".$bundleidentifier."'";
 	if ($type == SEARCH_TYPE_ID)
@@ -97,32 +73,9 @@ if ($groupid != "" && $fixversion != "-1") {
 	$whereclause = " WHERE groupid = ".$groupid;
 }
 
-if ($groupid != "" && $description != "-1") {
-	$query = "UPDATE ".$dbgrouptable." SET description = '".$description."' WHERE id = ".$groupid;
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
-}
-
-if ($all) $pagelink .= "&all=true";
-
-if ($symbolicate != '')
-{
-	$query = "SELECT id FROM ".$dbsymbolicatetable." WHERE crashid = ".$symbolicate;
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
-
-	$numrows = mysql_num_rows($result);
-	mysql_free_result($result);
-
-	if ($numrows > 0)
-		$query = "UPDATE ".$dbsymbolicatetable." SET done = 0 WHERE crashid = ".$symbolicate;
-	else
-		$query = "INSERT INTO ".$dbsymbolicatetable." (crashid, done) values (".$symbolicate.", 0)";
-
-	$result = mysql_query($query) or die('Error in SQL '.$dbsymbolicatetable);
-}
-
 show_header('- List');
 
-$cols = '<colgroup><col width="80"/><col width="190"/><col width="500"/><col width="110"/></colgroup>';
+$cols = '<colgroup><col width="80"/><col width="140"/><col width="310"/><col width="350"/></colgroup>';
 
 echo '<h2>';
 
@@ -130,8 +83,10 @@ if (!$acceptallapps)
 	echo '<a href="app_name.php">Apps</a> - ';
 
 echo create_link($bundleidentifier, 'app_versions.php', false, 'bundleidentifier').' - ';
+
 if ($version != "")
     echo create_link('Version '.$version, 'groups.php', false, 'bundleidentifier,version').' - ';
+
 if ($groupid != "") {
 	$query = "SELECT pattern FROM ".$dbgrouptable." WHERE id = ".$groupid;
 	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
@@ -139,7 +94,11 @@ if ($groupid != "") {
 	$numrows = mysql_num_rows($result);
 	if ($numrows == 1) {
         $row = mysql_fetch_row($result);
-        echo create_link($row[0], 'crashes.php', false, $pagelink).'</h2>';
+        $title = $row[0];
+        if (strlen($title) > 20) {
+            $title = substr($title,0,20)."...";
+        }
+        echo create_link($title, 'crashes.php', false, $pagelink).'</h2>';
 	} else {
         echo create_link('Crashes', 'crashes.php', false, $pagelink).'</h2>';
 	}
@@ -152,8 +111,15 @@ if ($groupid != "") {
 if ($search != "" || $type != "")
     show_search($search, $type);
 
+$osticks = "";
+$osvalues = "";
+
+$crashestime = false;
+$crashvaluesarray = array();
+$crashvalues = "";
+
 if ($groupid !='') {
-    $cols2 = '<colgroup><col width="280"/><col width="500"/><col width="190"/></colgroup>';
+    $cols2 = '<colgroup><col width="280"/><col width="340"/><col width="340"/></colgroup>';
 
     $query = "SELECT fix, description FROM ".$dbgrouptable." WHERE id = '".$groupid."'";
     $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
@@ -161,58 +127,76 @@ if ($groupid !='') {
     $numrows = mysql_num_rows($result);
     if ($numrows > 0) {
         // get the status
-        while ($row = mysql_fetch_row($result))
-        {
+        while ($row = mysql_fetch_row($result)) {
             $fix = $row[0];
             $description = $row[1];
             
-            echo '<form name="search" action="crashes.php" method="get">';
-            echo '<input type="hidden" name="bundleidentifier" value="'.$bundleidentifier.'"/>';
-            echo '<input type="hidden" name="groupid" value="'.$groupid.'"/>';
-            if ($search != "")
-                echo '<input type="hidden" name="search" value="'.$search.'"/>';
-            if ($type != "")
-                echo '<input type="hidden" name="type" value="'.$type.'"/>';
-            if ($version != "")
-                echo '<input type="hidden" name="version" value="'.$version.'"/>';
-            echo '<table>'.$cols2.'<tr><th>Assigned Fix Version</th><th>Description</th><th>Actions</th></tr>';
-            echo '<tr><td><input type="text" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/></td>';
-            echo '<td><textarea cols="50" rows="2" name="description" class="description">'.$description.'</textarea></td>';
-            echo '<td><button type="submit" class="button">Update</button>';
-         	echo create_issue($bundleidentifier, currentPageURL());
-            echo '</td></tr>';
-            echo '</table></form>';
+            echo '<table>'.$cols2.'<tr><th>Group Details</th><th>Crashes over time</th><th>System OS Overview</th></tr>';
+            echo '<tr><td>';
+            
+            echo '<form name="groupmetadata" action="" method="get">';
+            echo '<b>Assigned Fix Version</b>:<br/><input type="text" id="fixversion'.$groupid.'" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/><br/>';
+            echo '<b>Description</b>:<br/><textarea id="description'.$groupid.'" cols="50" rows="2" name="description" class="description">'.$description.'</textarea><br/>';
+            echo "<a href='javascript:updateGroupMeta(".$groupid.")' class='button'>Update</a>";
+         	  echo create_issue($bundleidentifier, currentPageURL());
+            echo '</form></td>';
+            
+            // get the amount of crashes
+            $amount = 0;
+            $query2 = "SELECT count(*) FROM ".$dbcrashtable.$whereclause;
+            $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
+            $numrows2 = mysql_num_rows($result2);
+            if ($numrows2 == 1) {
+                $row2 = mysql_fetch_row($result2);
+                $amount = $row2[0];
+            }
+            mysql_free_result($result2);
+
+            echo "<td><div id=\"crashdiv\" style=\"height:280px;width:330px; \"></td><td><div id=\"osdiv\" style=\"height:280px;width:330px; \"></div>"; 
+
+            // get the amount of crashes per system version
+            $crashestime = true;
+            
+            $osticks = "";
+            $osvalues = "";
+            $query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." group by systemversion order by systemversion desc";
+            $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
+            $numrows2 = mysql_num_rows($result2);
+            if ($numrows2 > 0) {
+                // get the status
+                while ($row2 = mysql_fetch_row($result2)) {
+                    if ($osticks != "") $osticks = $osticks.", ";
+                    $osticks .= "'".$row2[0]."'";
+                    if ($osvalues != "") $osvalues = $osvalues.", ";
+                    $osvalues .= $row2[1];
+                }
+            }
+            mysql_free_result($result2);
+            echo '</td></tr></table>';
+
         }
     }
    	mysql_free_result($result);
 }
 
-echo '<table>'.$cols;
-echo "<tr><th>System</th><th>Timestamp / Description</th><th>Log</th><th>Action</th></tr>";
-echo '</table>';
+echo '<table id="crashlist">'.$cols;
+echo "<thead><tr><th>System</th><th>Timestamp</th><th>User / Contact</th><th>Action</th></tr></thead>";
+echo '<tbody>';
 
-// get all groups
-$query = "SELECT userid, contact, systemversion, description, log, timestamp, id FROM ".$dbcrashtable.$whereclause." ORDER BY systemversion desc, timestamp desc";
-if (!$all) {
-	$query .= " limit ".$default_amount_crashes;
-}
+// get all crashes
+$query = "SELECT userid, contact, systemversion, timestamp, id FROM ".$dbcrashtable.$whereclause." ORDER BY systemversion desc, timestamp desc";
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 $numrows = mysql_num_rows($result);
 if ($numrows > 0) {
 	// get the status
-	while ($row = mysql_fetch_row($result))
-	{
+	while ($row = mysql_fetch_row($result)) {
 		$userid = $row[0];
 		$contact = $row[1];
 		$systemversion = $row[2];
-		$description = $row[3];
-		$log = $row[4];
-		$timestamp = $row[5];
-		$crashid = $row[6];
-		
-		$description = "User: ".$userid."\nContact: ".$contact."\nDescription:\n".$description;
-		
+		$timestamp = $row[3];
+		$crashid = $row[4];
+				
 		$todo = 2;
 		$query2 = "SELECT done FROM ".$dbsymbolicatetable." WHERE crashid = ".$crashid;
 		$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query));
@@ -224,71 +208,135 @@ if ($numrows > 0) {
 			$todo = $row2[0];
 		}
 		mysql_free_result($result2);
-	
+		
+		$now = time();
+		
 		if ($timestamp != "" && ($timestampvalue = strtotime($timestamp)) !== false)
 		{
-			if (time() - $timestampvalue < 60*24*24)
-				$timestamp = "<font color='red'>".$timestamp."</font>";
-			else if (time() - $timestampvalue < 60*24*24*2)
-				$timestamp = "<font color='orange'>".$timestamp."</font>";
+            $timeindex = substr($timestamp, 0, 10);
+
+            if ($now - $timestampvalue < 60*24*24)
+                $timestamp = "<font color='".$color24h."'>".$timestamp."</font>";
+            else if ($now - $timestampvalue < 60*24*24*2)
+                $timestamp = "<font color='".$color48h."'>".$timestamp."</font>";
+            else if ($now - $timestampvalue < 60*24*24*3)
+                $timestamp = "<font color='".$color72h."'>".$timestamp."</font>";
+            else
+                $timestamp = "<font color='".$colorOther."'>".$timestamp."</font>";
+                
+            // add the value to the chart stuff
+            
+            if (!array_key_exists($timeindex, $crashvaluesarray)) {
+                $crashvaluesarray[$timeindex] = 0;
+            }
+            $crashvaluesarray[$timeindex]++;
 		}
 
-		echo '<table>'.$cols;
-		echo "<tr valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."<br/><textarea class='short' readonly>".$description."</textarea></td><td><textarea wrap='off' class='log' readonly>".$log."</textarea></td><td><a href='download.php?crashid=".$crashid."' class='button'>Download</a><br><br>";
-		if ($todo == 0)
-			echo "Symolication in progress";
-		else
-			echo "<a href='crashes.php".$pagelink."&symbolicate=".$crashid."' class='button'>Symbolicate</a>";
-			
-        echo "<br><br><a href='crashes.php?bundleidentifier=".$bundleidentifier."&version=".$version."&deleteid=".$crashid."' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td>";
-			
-		if ($todo == 2)
-			echo "<br/>(Not done!)";
+		echo "<tr id='crashrow".$crashid."' valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."</td><td>".$userid."<br/>".$contact."</td><td>";
+		echo "<a href='javascript:showCrashID(".$crashid.")' class='button'>View</a>";
 
-		echo "</td></tr>";
-		echo '</table>';
+		echo "<a href='actionapi.php?action=downloadcrashid&id=".$crashid."' class='button'>Download</a> ";
+		echo "<span id='symbolicate".$crashid."'>";
+		if ($todo == 0)
+			echo "Symolicating...";
+		else {
+    		echo "<a href='javascript:symbolicateCrashID(".$crashid.")' class='button'>Symbolicate";
+    		if ($todo != 2)
+                echo " again";
+    		echo "</a>";
+        }
+
+        echo "</span>";
+			
+        echo " <a href='javascript:deleteCrashID(".$crashid.",";
+        if ($groupid != "") {
+            echo $groupid;
+		} else {
+            echo "-1";
+		}
+        echo ")' class='button redButton' onclick='return confirm(\"Do you really want to delete this item?\");'>Delete</a></td>";
+
+		echo "</tr>";
 	}
 	
 	mysql_free_result($result);
 } else {
-    echo '<table>'.$cols;
 	echo '<tr><td colspan="4">No data found</td></tr>';
-	echo '</table>';
 }
+echo '</tbody></table>';
 
-if (!$all) {
-
-	$amount = 0;
-	
-	if ($search != "" && $type != "")
-        $query = "SELECT count(*) FROM ".$dbcrashtable.$whereclause;
-    else {
-    	if ($groupid == "")
-    	{
-    		$groupid = 0;
-            $query = "SELECT count(*) FROM ".$dbcrashtable." WHERE groupid = 0 and bundleidentifier = '".$bundleidentifier."' AND version = '".$version."'";
-        } else {
-        	$query = "SELECT amount FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' AND affected = '".$version."' and id = ".$groupid;
-        }
-	}
-	$result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
-
-	$numrows = mysql_num_rows($result);
-	if ($numrows == 1) {
-		// get the status
-		$row = mysql_fetch_row($result);
-		$amount = $row[0];
-	}
-		
-	mysql_free_result($result);
-
-	if ($amount > $default_amount_crashes)
-        echo create_link('Show all '.$amount.' entries', 'crashes.php', true, 'bundleidentifier,version,groupid,search,type,all=true');
-}
-
-
-echo '</body></html>';
+echo "<table>".$cols;
+echo "<tr><th colspan='2'>Description</th><th colspan='2'>Log</th></tr>";
+echo "<tr><td colspan='2'><div id='descriptionarea' class='short'></div></td><td colspan='2'><div id='logarea' class='log'></div></td></tr></table>";
 
 mysql_close($link);
 
 ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#crashlist").chromatable({
+        width: "930px",
+        height: "330px",
+        scrolling: "yes"
+    });
+
+    $.jqplot.config.enablePlugins = true;
+
+<?php
+    if ($crashestime && sizeof($crashvaluesarray) > 0) {
+        foreach ($crashvaluesarray as $key => $value) {
+            if ($crashvalues != "") $crashvalues = $crashvalues.", ";
+            $crashvalues .= "['".$key."', ".$value."]";
+        }
+
+?>
+    line1 = [<?php echo $crashvalues; ?>];
+    plot1 = $.jqplot('crashdiv', [line1], {
+        seriesDefaults: {showMarker:false},
+        series:[
+            {pointLabels:{
+                show: false
+            }}],
+        axes:{
+            xaxis:{
+                renderer:$.jqplot.DateAxisRenderer,
+                rendererOptions:{tickRenderer:$.jqplot.CanvasAxisTickRenderer},
+                tickOptions:{formatString:'%#d-%b'}
+            },
+            yaxis:{
+                min: 0,
+                tickOptions:{formatString:'%.0f'}
+            }
+        },
+        highlighter: {sizeAdjust: 7.5}
+    });
+<?php
+    }
+    
+    if ($osticks != "") {
+?>
+    line1 = [<?php echo $osvalues; ?>];
+    plot1 = $.jqplot('osdiv', [line1], {
+        seriesDefaults: {
+                renderer:$.jqplot.BarRenderer
+            },
+        axes:{
+            xaxis:{
+                renderer:$.jqplot.CategoryAxisRenderer,
+                ticks:[<?php echo $osticks; ?>]
+            },
+            yaxis:{
+                min: 0,
+                tickOptions:{formatString:'%.0f'}
+            }
+        },
+        highlighter: {show: false}
+    });
+<?php
+    }
+?>
+
+});
+</script>
+
+</body></html>

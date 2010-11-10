@@ -56,6 +56,32 @@ function xml_for_result($result)
 	return '<?xml version="1.0" encoding="UTF-8"?><result>'.$result.'</result>'; 
 }
 
+function parseblock($matches, $appString)
+{
+    $result_offset = "";
+    //make sure $matches[1] exists
+	if (is_array($matches) && count($matches) >= 2)
+	{
+		$result = explode("\n", $matches[1]);
+		foreach ($result as $line)
+		{
+			// search for the first occurance of the application name
+			if (strpos($line, $appString) !== false)
+			{
+				preg_match('/[0-9]+\s+[^\s]+\s+([^\s]+) /', $line, $matches);
+
+                if (count($matches) >= 2) {
+                    if ($result_offset != "")
+                        $result_offset .= "%";
+                    $result_offset .= $matches[1];
+                }
+			}
+		}
+	}
+	
+	return $result_offset;
+}
+
 $allowed_args = ',xmlstring,';
 
 /* Verbindung aufbauen, auswählen einer Datenbank */
@@ -331,11 +357,20 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 	$crash_offset = "";
 	
 	// extract the block which contains the data of the crashing thread
-	// Example:
-	// Thread 8 Crashed:  Dispatch queue: com.apple.root.default-priority
-	// 0   org.stuntaz.Foo	0x000a4368 -[MyClass function:error:] + 31 (MyClass.m:249)
-	//
   	preg_match('%Thread [0-9]+ Crashed:.*?\n(.*?)\n\n%is', $logdata, $matches);
+    $crash_offset = parseblock($matches, $applicationname);	
+    if ($crash_offset == "") {
+        $crash_offset = parseblock($matches, $bundleidentifier);
+    }
+    if ($crash_offset == "") {
+        preg_match('%Thread [0-9]+ Crashed:\n(.*?)\n\n%is', $logdata, $matches);
+        $crash_offset = parseblock($matches, $applicationname);
+    }
+    if ($crash_offset == "") {
+        $crash_offset = parseblock($matches, $bundleidentifier);
+    }
+/*	
+	preg_match('%Thread [0-9]+ Crashed:\n(.*?)\n\n%is', $logdata, $matches);
 	
 	//make sure $matches[1] exists
 	if (is_array($matches) && count($matches) >= 2)
@@ -348,14 +383,15 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 			{
 				preg_match('/[0-9]+\s+[^\s]+\s+([^\s]+) /', $line, $matches);
 
-				if (count($matches) >= 2) {
-					$crash_offset = $matches[1];
-				}
-				break;
+                if (count($matches) >= 2) {
+                    if ($crash_offset != "")
+                        $crash_offset .= "%";
+                    $crash_offset .= $matches[1];
+                }
 			}
 		}
 	}
-
+*/
 	// stores the group this crashlog is associated to, by default to none
 	$log_groupid = 0;
 	
@@ -363,7 +399,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 	if (strlen($crash_offset) > 0)
 	{
 		// get all the known bug patterns for the current app version
-		$query = "SELECT id, fix, amount FROM ".$dbgrouptable." WHERE affected = '".$version."' and pattern = '".mysql_real_escape_string($crash_offset)."'";
+		$query = "SELECT id, fix, amount FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' and affected = '".$version."' and pattern = '".mysql_real_escape_string($crash_offset)."'";
 		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_FIND_KNOWN_PATTERNS));
 
 		$numrows = mysql_num_rows($result);
@@ -378,7 +414,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 			mysql_free_result($result);
 
 			// update the occurances of this pattern
-			$query = "UPDATE ".$dbgrouptable." SET amount=amount+1 WHERE id=".$log_groupid;
+			$query = "UPDATE ".$dbgrouptable." SET amount=amount+1, latesttimestamp = ".time()." WHERE id=".$log_groupid;
 			$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_UPDATE_PATTERN_OCCURANCES));
 
 			// check the status of the bugfix version
@@ -423,7 +459,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
             mysql_free_result($result);
         } else if ($numrows == 0) {
             // create a new pattern for this bug and set amount of occurrances to 1
-            $query = "INSERT INTO ".$dbgrouptable." (bundleidentifier, affected, pattern, amount) values ('".$bundleidentifier."', '".$version."', '".$crash_offset."', 1)";
+            $query = "INSERT INTO ".$dbgrouptable." (bundleidentifier, affected, pattern, amount, latesttimestamp) values ('".$bundleidentifier."', '".$version."', '".$crash_offset."', 1, ".time().")";
             $result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_PATTERN));
 			
 			$log_groupid = mysql_insert_id($link);
@@ -459,7 +495,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 	}
 	
     // now insert the crashlog into the database
-	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".mysql_real_escape_string($logdata)."', '".$log_groupid."')";
+	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid, timestamp) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".mysql_real_escape_string($logdata)."', '".$log_groupid."', '".date("Y-m-d H:i:s")."')";
 	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
 	
 	$new_crashid = mysql_insert_id($link);
