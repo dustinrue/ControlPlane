@@ -137,7 +137,7 @@ if ($groupid !='') {
             echo '<form name="groupmetadata" action="" method="get">';
             echo '<b>Assigned Fix Version</b>:<br/><input type="text" id="fixversion'.$groupid.'" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/><br/>';
             echo '<b>Description</b>:<br/><textarea id="description'.$groupid.'" cols="50" rows="2" name="description" class="description">'.$description.'</textarea><br/>';
-            echo "<a href='javascript:updateGroupMeta(".$groupid.")' class='button'>Update</a>";
+            echo "<a href=\"javascript:updateGroupMeta(".$groupid.",'".$bundleidentifier."')\" class='button'>Update</a><br/>";
          	  echo create_issue($bundleidentifier, currentPageURL());
             echo '</form></td>';
             

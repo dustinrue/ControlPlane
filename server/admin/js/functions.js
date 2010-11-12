@@ -79,13 +79,14 @@ function symbolicateCrashID (crashid) {
     });
 }
 
-function updateGroupMeta (groupid) {
+function updateGroupMeta (groupid, bundleidentifier) {
     $.ajax({
         type: "POST",
         url: 'actionapi.php',
         data: ({
             action: 'updategroupid', 
             id: groupid, 
+            bundleidentifier: bundleidentifier, 
             fixversion: $("#fixversion" + groupid).val(), 
             description: $("#description" + groupid).val()
         }),

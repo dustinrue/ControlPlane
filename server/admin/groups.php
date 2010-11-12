@@ -173,7 +173,7 @@ if ($numrows > 0) {
     }
         	
 		echo '</td><td><input type="text" id="fixversion'.$groupid.'" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/></td><td><textarea id="description'.$groupid.'" cols="50" rows="2" name="description" class="description">'.$description.'</textarea></td><td>';
-        echo "<a href='javascript:updateGroupMeta(".$groupid.")' class='button'>Update</a>";
+    echo "<a href=\"javascript:updateGroupMeta(".$groupid.",'".$bundleidentifier."')\" class='button'>Update</a> ";
 		echo "<a href='actionapi.php?action=downloadcrashid&groupid=".$groupid."' class='button'>Download</a> ";
 		$issuelink = currentPageURL();
 		$issuelink = substr($issuelink, 0, strrpos($issuelink, "/")+1);

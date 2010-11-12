@@ -106,27 +106,24 @@ if ($action == "deletecrashid" && $id != "") {
     $query = "DELETE FROM ".$dbgrouptable." WHERE bundleidentifier = '".$bundleidentifier."' and affected = '".$version."'";
     $result = mysql_query($query) or die('Error in SQL '.$query);
 } else if ($action == "updategroupid" && $id != "") {
-    if ($fixversion != "") {
-        $query = "UPDATE ".$dbgrouptable." SET fix = '".$fixversion."' WHERE id = ".$id;
-        $result = mysql_query($query) or die('Error in SQL '.$query);
-        
-        // check if the fix version is already added, if not add it
-        $query = "SELECT id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$fixversion."'";
-        $result = mysql_query($query) or die('Error in SQL '.$query);
-        
-        $numrows = mysql_num_rows($result);
-        if ($numrows == 0) {
-            // version is not available, so add it with status VERSION_STATUS_AVAILABLE
-            $query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status) values ('".$bundleidentifier."', '".$fixversion."', ".VERSION_STATUS_UNKNOWN.")";
-            $result = mysql_query($query) or die('Error in SQL '.$query);
-        }
-        mysql_free_result($result);
-    }
-    
-    if ($description != "") {
-        $query = "UPDATE ".$dbgrouptable." SET description = '".$description."' WHERE id = ".$id;
-        $result = mysql_query($query) or die('Error in SQL '.$query);
-    }
+  $query = "UPDATE ".$dbgrouptable." SET fix = '".$fixversion."' WHERE id = ".$id;
+  $result = mysql_query($query) or die('Error in SQL '.$query);
+
+  if ($fixversion != "") {
+      // check if the fix version is already added, if not add it
+      $query = "SELECT id FROM ".$dbversiontable." WHERE bundleidentifier = '".$bundleidentifier."' and version = '".$fixversion."'";
+      $result = mysql_query($query) or die('Error in SQL '.$query);        
+      $numrows = mysql_num_rows($result);
+      mysql_free_result($result);
+      if ($numrows == 0) {
+          // version is not available, so add it with status VERSION_STATUS_AVAILABLE
+          $query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status) values ('".$bundleidentifier."', '".$fixversion."', ".VERSION_STATUS_UNKNOWN.")";
+          $result = mysql_query($query) or die('Error in SQL '.$query);
+      }
+  }
+      
+  $query = "UPDATE ".$dbgrouptable." SET description = '".$description."' WHERE id = ".$id;
+  $result = mysql_query($query) or die('Error in SQL '.$query);
 } else if ($action == "symbolicatecrashid" && $id != "") {
     $query = "SELECT id FROM ".$dbsymbolicatetable." WHERE crashid = ".$id;
     $result = mysql_query($query) or die('Error in SQL '.$query);
