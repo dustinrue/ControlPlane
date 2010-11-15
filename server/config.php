@@ -84,6 +84,10 @@ $push_activated = false;                        // activate push notifications v
 $push_prowlids = '';                            // Up to 5 comma separated prowl api keys which should get the notifications
                                                 // can also be set per app, this is a global setting also effective when acceptallapps is true
 
+$boxcar_activated = true;						// Separate setting for Boxcar, so as to not interfere with Prowl config
+$boxcar_uid = "";								// Boxcar user email
+$boxcar_pwd = "";								// Boxcar password
+
 $mail_activated = true;					        // activate email notifications
 $mail_addresses = '';                           // , separated mail addresses to send notification emails to
                                                 // can also be set per app, this is a global setting also effective when acceptallapps is true

@@ -37,18 +37,32 @@ require_once('config.php');
 
 if (!class_exists('XMLReader', false)) die(xml_for_result(FAILURE_PHP_XMLREADER_CLASS));
 
-if ($push_activated && $push_prowlids != "") {
-    $curl_info = curl_version();	// Checks for cURL function and SSL version. Thanks Adrian Rollett!
-    if(!function_exists('curl_exec') || empty($curl_info['ssl_version']))
-        die(xml_for_result(FAILURE_PHP_CURL_LIB));
-		
-	include('ProwlPHP.php');
+if ($push_activated || $boxcar_activated) {
+	
+	$curl_info = curl_version();	// Checks for cURL function and SSL version. Thanks Adrian Rollett!
+	if(!function_exists('curl_exec') || empty($curl_info['ssl_version']))
+    	die(xml_for_result(FAILURE_PHP_CURL_LIB));
+	
+	if ($push_prowlids != "") {
+		include('ProwlPHP.php');
 
-    if (!class_exists('Prowl', false)) die(xml_for_result(FAILURE_PHP_PROWL_CLASS));
+    	if (!class_exists('Prowl', false)) die(xml_for_result(FAILURE_PHP_PROWL_CLASS));
 
-	$prowl = new Prowl($push_prowlids);
+		$prowl = new Prowl($push_prowlids);
+	} else {
+		$push_activated = false;
+	}
+	
+	if ($boxcar_uid != "" && $boxcar_pwd != ""){
+		include('class.boxcar.php');
+	} else {
+		$boxcar_activated = false;
+	}
+	
 } else {
+	
 	$push_activated = false;
+	$boxcar_activated = false;
 }
 
 function xml_for_result($result)
@@ -430,7 +444,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 
 			if ($notify_amount_group > 1 && $notify_amount_group == $amount && $notify >= NOTIFY_ACTIVATED)
 			{
-                // send push notification
+                // send prowl notification
                 if ($push_activated)
                 {
                     $prowl->push(array(
@@ -440,7 +454,14 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 						'priority'=>0,
                     ),true);
                 }
-                
+
+                // send boxcar notification
+				if($boxcar_activated)
+				{
+					$boxcar = new Boxcar($boxcar_uid, $boxcar_pwd);
+					print_r($boxcar->send($appname, 'Version '.$version.' Pattern '.$crash_offset.' has a MORE than '.$notify_amount_group.' crashes!\n Sent at ' . date('H:i:s')));
+				}
+				
                 // send email notification
                 if ($mail_activated)
                 {

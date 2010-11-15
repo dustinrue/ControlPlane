@@ -95,7 +95,9 @@ if (!$acceptallapps)
         echo "Email notifications not activated!<br/>";
 	if ($push_activated)
         echo "<input type='text' name='pushids' size='25' maxlength='250' placeholder='max. 5 , separated Prowl IDs'/>";
-    else
+    else if ($boxcar_activated)
+		echo "Boxcar notifications set for $boxcar_uid<br/>";
+	else
         echo "Push notifications not activated!";
     echo "</td>";
 	echo "<td><select name='symbolicate'><option value=0 selected>Don't symbolicate</option><option value=1>Symbolicate</option></select>";
@@ -134,7 +136,9 @@ if ($numrows > 0) {
             echo "Email notifications not activated!<br/>";
     	if ($push_activated)
             echo "<input type='text' name='pushids' size='25' maxlength='250' placeholder='max. 5 , separated Prowl IDs' value='".$push."'/>";
-        else
+        else if ($boxcar_activated)
+			echo "Boxcar notifications set for $boxcar_uid<br/>";
+	    else
             echo "Push notifications not activated!";
         echo "</td>";
 		echo "<td><select name='symbolicate' onchange='javascript:document.update".$id.".submit();'>";

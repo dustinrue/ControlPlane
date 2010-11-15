@@ -49,7 +49,18 @@ else
     if (!class_exists('Prowl', false)) echo "FAILED"; else echo "passed";
 }
 echo "<br>";
-		
+
+echo "Boxcar: ";
+$curl_info = curl_version();	// Checks for cURL function and SSL version. Thanks Adrian Rollett!
+if(!function_exists('curl_exec') || empty($curl_info['ssl_version']))
+    echo "FAILED (cURL library missing or does not support SSL)";
+else
+{
+	include('class.boxcar.php');
+    if (!class_exists('Boxcar', false)) echo "FAILED"; else echo "passed";
+}
+echo "<br>";
+
 echo "Database access: ";
 $link = mysql_connect($server, $loginsql, $passsql);
 if ($link === false) echo "FAILED";
