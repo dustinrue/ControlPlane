@@ -42,6 +42,8 @@ function end_with_result($result) {
 
 $link = mysql_connect($server, $loginsql, $passsql);
 
+$con = mysql_select_db($base, $link);
+
 $query = "ALTER TABLE ".$dbgrouptable." ADD COLUMN latesttimestamp BIGINT";
 $result = mysql_query($query) or die(end_with_result('Error in SQL: '.$query));
 
