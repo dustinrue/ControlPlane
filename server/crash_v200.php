@@ -111,6 +111,12 @@ if (!isset($xmlstring)) $xmlstring = "";
 
 if ($xmlstring == "") die(xml_for_result(FAILURE_INVALID_POST_DATA));
 
+// Fix parsing bug in pre 1.0 mac client and iOS client, fixed in latest commi
+$xmlstring = str_replace("<description><![CDATA[", "<description>", $xmlstring);
+$xmlstring = str_replace("]]></description>", "</description>", $xmlstring);
+$xmlstring = str_replace("<description>", "<description><![CDATA[", $xmlstring);
+$xmlstring = str_replace("</description>", "]]></description>", $xmlstring);
+
 $reader = new XMLReader();
 
 $reader->XML($xmlstring);

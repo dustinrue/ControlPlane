@@ -429,7 +429,7 @@
 				_crashIdenticalCurrentVersion = NO;
 			}
 			
-			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description>%@</description><log><![CDATA[%@]]></log></crash>",
+			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
 							 [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
 							 report.applicationInfo.applicationIdentifier,
 							 [[UIDevice currentDevice] systemVersion],
