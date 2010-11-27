@@ -115,17 +115,17 @@
 //Loading the Map Data
 - (void)mapViewWillStartLoadingMap:(MKMapView *)aMapView
 {
-    //NSLog(@"mapViewWillStartLoadingMap: %@", aMapView);
+    NSLog(@"mapViewWillStartLoadingMap: %@", aMapView);
 }
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)aMapView
 {
-    //NSLog(@"mapViewDidFinishLoadingMap: %@", aMapView);
+    NSLog(@"mapViewDidFinishLoadingMap: %@", aMapView);
 }
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)aMapView withError:(NSError *)error
 {
-    //NSLog(@"mapViewDidFailLoadingMap: %@ withError: %@", aMapView, error);
+    NSLog(@"mapViewDidFailLoadingMap: %@ withError: %@", aMapView, error);
 }
 
 // Tracking the User Location

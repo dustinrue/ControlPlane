@@ -60,7 +60,7 @@
 
 - (void)customInit
 {
-    // Initialization code here.
+    // Initialization code here.    
     if (!webView)
     {
         webView = [[WebView alloc] initWithFrame:[self bounds]];
@@ -571,6 +571,23 @@
     [windowScriptObject setValue:self forKey:@"MKMapView"];
 }
 
+- (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
+{
+    if ([frame isEqual:[webView mainFrame]])
+        [self delegateWillStartLoadingMap];
+}
+
+- (void)webView:(WebView *)sender didFailProvisionalLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
+{
+    if ([frame isEqual:[webView mainFrame]])
+        [self delegateDidFailLoadingMapWithError:error];
+}
+
+- (void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame
+{
+    if ([frame isEqual:[webView mainFrame]])
+        [self delegateDidFailLoadingMapWithError:error];
+}
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
@@ -583,6 +600,9 @@
     // In case we have to resume state from NSCoding
     [self setMapType:[self mapType]];
     [self setShowsUserLocation:[self showsUserLocation]];
+    
+    if ([frame isEqual:[webView mainFrame]])
+        [self delegateDidFinishLoadingMap];
 }
 
 @end

@@ -758,21 +758,42 @@ window.onwebkitanimationend =  function(event) {
   // End New API
   
   function initialize() {
-    var latlng = new google.maps.LatLng(49.85770356304121, -97.1528089768459);
-    var myOptions = {
-      zoom: 13,
-      center: latlng,
-      disableDefaultUI: true,
-      navigationControl: false,
-      scrollwheel: false,
-      navigationControlOptions: {
-          style: google.maps.NavigationControlStyle.SMALL,
-          position: google.maps.ControlPosition.TOP_LEFT
-      },
-      scaleControl: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    // Start asynchronous load of CSS
+    addStylesheetTag("Animations.css");
+    addStylesheetTag("Stylesheet.css");
+      
+    map = null;
+    try {
+        var latlng = new google.maps.LatLng(49.85770356304121, -97.1528089768459);
+        var myOptions = {
+          zoom: 13,
+          center: latlng,
+          disableDefaultUI: true,
+          navigationControl: false,
+          scrollwheel: false,
+          navigationControlOptions: {
+              style: google.maps.NavigationControlStyle.SMALL,
+              position: google.maps.ControlPosition.TOP_LEFT
+          },
+          scaleControl: true,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    } 
+    catch(err)
+    {
+        if(window.MKMapView) 
+        {
+            window.MKMapView.webviewReportingLoadFailure();
+        }
+        
+    }
+    
+    if (map == null)
+    {
+        var mapView = document.getElementById("map_canvas");
+        mapView.innerHTML = "<div class='mapKitLoadError'><div class='mapKitLoadErrorCenter'><div class='mapKitLoadErrorMessage'>Error Loading MapView, an internet connection is required.</div></div></div>";
+    }
     
     var regionChangeFunction = function(){ if(window.MKMapView) {window.MKMapView.webviewReportingRegionChange();}};
     
@@ -784,7 +805,7 @@ window.onwebkitanimationend =  function(event) {
     //setUserLocationRadius(222);
     //setUserLocationLatitudeLongitude(49.8708880903330, -97.1528089768459);
     //setUserLocationVisible(true);
-    
+    /*
     var anOverlay = new google.maps.Circle();
     var ne = new google.maps.LatLng(49.84770356304121, -97.1528089768459);
     var radius = 400;
@@ -813,7 +834,7 @@ window.onwebkitanimationend =  function(event) {
     //var markerOptions = {"draggable": true, "icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
     var markerOptions = {"draggable": true, "imageUrl": 'file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
     
-    marker.setOptions(markerOptions);
+    marker.setOptions(markerOptions); */
     //addAnnotation(marker);
     //marker.setCalloutText("My Title");
     //marker.setCalloutHidden(false);
@@ -822,14 +843,16 @@ window.onwebkitanimationend =  function(event) {
     //reverseGeocode(49.8578255,-97.16531639999999);
     //showAddress("255 Provencher Blvd Winnipeg MB")
     
-    addStylesheetTag("Animations.css");
-    addStylesheetTag("Stylesheet.css");
+
   }
 
 </script>
 </head>
 <body onload="initialize()">
-    <div id="map_canvas" style="width:100%; height:100%"></div>
+    <div id="map_canvas" style="width:100%; height:100%">
+        Loading MapKit...
+        
+    </div>
     <div class="zoomControls">
         <div class="zoom" onClick="map.setZoom(map.getZoom()+1);">
     		<div class="in"></div>

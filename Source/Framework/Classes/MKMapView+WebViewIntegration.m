@@ -27,6 +27,11 @@
         name = @"webviewReportingRegionChange";
     }
     
+    if (sel == @selector(webviewReportingLoadFailure))
+    {
+        name = @"webviewReportingLoadFailure";
+    }
+    
     if (sel == @selector(annotationScriptObjectDragStart:))
     {
         name = @"annotationScriptObjectDragStart";
@@ -53,6 +58,11 @@
     }
     
     if (aSelector == @selector(webviewReportingRegionChange))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(webviewReportingLoadFailure))
     {
         return NO;
     }
@@ -207,6 +217,12 @@
     [self didChangeValueForKey:@"centerCoordinate"];
     [self willChangeValueForKey:@"region"];
     [self didChangeValueForKey:@"region"];
+}
+
+- (void)webviewReportingLoadFailure
+{
+    NSError *error = [NSError errorWithDomain:@"ca.centrix.MapKit" code:0 userInfo:nil];
+    [self delegateDidFailLoadingMapWithError:error];
 }
 
 - (CLLocationCoordinate2D)coordinateForAnnotationScriptObject:(WebScriptObject *)annotationScriptObject
