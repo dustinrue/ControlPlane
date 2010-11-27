@@ -779,6 +779,13 @@ window.onwebkitanimationend =  function(event) {
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        
+        var regionChangeFunction = function(){ if(window.MKMapView) {window.MKMapView.webviewReportingRegionChange();}};
+
+        google.maps.event.addListener(map, 'drag', regionChangeFunction);
+        google.maps.event.addListener(map, 'zoom_changed', regionChangeFunction);
+
+        createUserLocationMarker();
     } 
     catch(err)
     {
@@ -786,7 +793,6 @@ window.onwebkitanimationend =  function(event) {
         {
             window.MKMapView.webviewReportingLoadFailure();
         }
-        
     }
     
     if (map == null)
@@ -795,13 +801,7 @@ window.onwebkitanimationend =  function(event) {
         mapView.innerHTML = "<div class='mapKitLoadError'><div class='mapKitLoadErrorCenter'><div class='mapKitLoadErrorMessage'>Error Loading MapView, an internet connection is required.</div></div></div>";
     }
     
-    var regionChangeFunction = function(){ if(window.MKMapView) {window.MKMapView.webviewReportingRegionChange();}};
-    
-    google.maps.event.addListener(map, 'drag', regionChangeFunction);
-    google.maps.event.addListener(map, 'zoom_changed', regionChangeFunction);
-    
-    
-    createUserLocationMarker();
+
     //setUserLocationRadius(222);
     //setUserLocationLatitudeLongitude(49.8708880903330, -97.1528089768459);
     //setUserLocationVisible(true);
@@ -842,8 +842,6 @@ window.onwebkitanimationend =  function(event) {
     //marker.setOptions(markerOptions); */
     //reverseGeocode(49.8578255,-97.16531639999999);
     //showAddress("255 Provencher Blvd Winnipeg MB")
-    
-
   }
 
 </script>
