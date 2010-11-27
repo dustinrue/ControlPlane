@@ -205,7 +205,7 @@
     if (!val)
     {
         // something went wrong, call the failure delegate
-        NSLog(@"MKReverseGeocoder tried to start but the script wasn't ready, rescheduling");
+        //NSLog(@"MKReverseGeocoder tried to start but the script wasn't ready, rescheduling");
         [self performSelector:@selector(_start) withObject:nil afterDelay:0.1];
     }
 }
