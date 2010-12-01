@@ -192,6 +192,10 @@ window.onwebkitanimationend =  function(event) {
           {
               marker.setOptions({"draggable": value});
           }
+          else if (option == "title")
+          {
+              annotation.setCalloutText(value);
+          }
       }
   }
   
@@ -240,7 +244,7 @@ window.onwebkitanimationend =  function(event) {
   }
   
   AnnotationOverlay.prototype.drawCallout = function() {
-      
+
       // get the canvas element using the DOM
       var canvas = this.calloutCanvas_;
        // use getContext to use the canvas for drawing
@@ -358,10 +362,10 @@ window.onwebkitanimationend =  function(event) {
               textSize = ctx.measureText(newText);
       	}
       	truncated = true;
-	    }
-  	if (truncated){
-  		newText =  newText + ellipsisText;
-  	}
+	  }
+  	  if (truncated){
+        newText =  newText + ellipsisText;
+  	  }
       ctx.shadowBlur = 1;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = -1;
@@ -369,7 +373,6 @@ window.onwebkitanimationend =  function(event) {
       
       var leftOffset = this.calloutText_.offsetLeft;
       ctx.fillText(newText, leftOffset, 30);
-      
   }
   
   AnnotationOverlay.prototype.setCalloutText = function (newText) {
@@ -383,6 +386,9 @@ window.onwebkitanimationend =  function(event) {
   
   AnnotationOverlay.prototype.placeCallout = function () {
       if (this.div_ == null)
+        return;
+        
+      if (this.calloutWrapper_ ==  null)
         return;
         
       var annotationCalloutElementWidth = this.calloutWrapper_.offsetWidth;
@@ -638,16 +644,20 @@ window.onwebkitanimationend =  function(event) {
       {
           var marker = anAnnotation.getMarker();
           google.maps.event.addListener(marker, 'click', function() {
-            window.MKMapView.annotationScriptObjectSelected(anAnnotation);
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectSelected(anAnnotation);
           });
           google.maps.event.addListener(marker, 'dragstart', function() {
-            window.MKMapView.annotationScriptObjectDragStart(anAnnotation);
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectDragStart(anAnnotation);
           });
           google.maps.event.addListener(marker, 'drag', function() {
-            window.MKMapView.annotationScriptObjectDrag(anAnnotation);
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectDrag(anAnnotation);
           });
           google.maps.event.addListener(marker, 'dragend', function() {
-            window.MKMapView.annotationScriptObjectDragEnd(anAnnotation);
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectDragEnd(anAnnotation);
           });
       }
       return true;
@@ -832,12 +842,17 @@ window.onwebkitanimationend =  function(event) {
     var marker = new AnnotationOverlay();
     var markerImage = new google.maps.MarkerImage('file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', null, null, null, null);
     //var markerOptions = {"draggable": true, "icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
-    var markerOptions = {"draggable": true, "imageUrl": 'file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
+    var markerOptions = {"draggable": true, "imageUrl": 'file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Release/MapKit.framework/Resources/MKPinAnnotationColorRed.png', "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459), "title": "1"};
     
-    marker.setOptions(markerOptions); */
-    //addAnnotation(marker);
+    setOverlayOption(marker, "draggable", markerOptions["draggable"]);
+    setOverlayOption(marker, "title", "asdf");
+    setOverlayOption(marker, "imageUrl", markerOptions["imageUrl"]);
+    setOverlayOption(marker, "position", markerOptions["position"]);
+    
+    //marker.setOptions(markerOptions); 
+    addAnnotation(marker);
     //marker.setCalloutText("My Title");
-    //marker.setCalloutHidden(false);
+    marker.setCalloutHidden(false); 
 
     //marker.setOptions(markerOptions); */
     //reverseGeocode(49.8578255,-97.16531639999999);
