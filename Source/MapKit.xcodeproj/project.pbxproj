@@ -250,8 +250,8 @@
 		5FBAF7FA11F148A5004753A9 /* MKPolygonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPolygonView.m; sourceTree = "<group>"; };
 		5FBAF80711F14955004753A9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5FBAF80B11F14964004753A9 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		5FE8314712A60AF600728ECE /* MapKitPluginLibrary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapKitPluginLibrary.xib; path = IBPlugin/Resources/MapKitPluginLibrary.xib; sourceTree = "<group>"; };
-		5FE8314B12A60BFF00728ECE /* MKMapViewAttributeInspector.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MKMapViewAttributeInspector.xib; path = IBPlugin/Resources/MKMapViewAttributeInspector.xib; sourceTree = "<group>"; };
+		5FE8314712A60AF600728ECE /* MapKitPluginLibrary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapKitPluginLibrary.xib; sourceTree = "<group>"; };
+		5FE8314B12A60BFF00728ECE /* MKMapViewAttributeInspector.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MKMapViewAttributeInspector.xib; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -307,8 +307,6 @@
 				5FB7434111FE6D5C00AB2079 /* IBPlugin */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				5FE8314712A60AF600728ECE /* MapKitPluginLibrary.xib */,
-				5FE8314B12A60BFF00728ECE /* MKMapViewAttributeInspector.xib */,
 			);
 			name = MapKit;
 			sourceTree = "<group>";
@@ -523,6 +521,8 @@
 		5FB7434511FE6D9F00AB2079 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FE8314712A60AF600728ECE /* MapKitPluginLibrary.xib */,
+				5FE8314B12A60BFF00728ECE /* MKMapViewAttributeInspector.xib */,
 				5FB743B311FE74B100AB2079 /* MapView.png */,
 				5FB7439511FE727100AB2079 /* MapKitPlugin-Info.plist */,
 			);

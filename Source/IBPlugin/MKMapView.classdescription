@@ -1,6 +1,6 @@
 {
 	Actions = {
-		"takeStringAddressFrom:" = id;
+		"takeStringValueFrom:" = id;
 	};
 	Outlets = {
 		delegate = id;
