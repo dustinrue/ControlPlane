@@ -492,6 +492,7 @@ window.onwebkitanimationend =  function(event) {
   } 
 
   AnnotationOverlay.prototype.onRemove = function() {
+    this.calloutWrapper_.parentNode.removeChild(this.calloutWrapper_);
     this.div_.parentNode.removeChild(this.div_);
     this.div_ = null;
   }
