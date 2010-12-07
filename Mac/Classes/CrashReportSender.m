@@ -28,6 +28,7 @@
  */
 
 #import "crashReportSender.h"
+#import <sys/sysctl.h>
 
 @interface CrashReportSender(private)
 - (void) searchCrashLogFile:(NSString *)path;
@@ -161,6 +162,39 @@
 {
 	if ( _delegate != nil && [_delegate respondsToSelector:@selector(showMainApplicationWindow)])
 		[_delegate showMainApplicationWindow];
+}
+
+
+- (NSString*) modelVersion
+{
+    NSString * modelString  = nil;
+    int        modelInfo[2] = { CTL_HW, HW_MODEL };
+    size_t     modelSize;
+	
+    if (sysctl(modelInfo,
+               2,
+               NULL,
+               &modelSize,
+               NULL, 0) == 0)
+    {
+        void * modelData = malloc(modelSize);
+        
+        if (modelData)
+        {
+            if (sysctl(modelInfo,
+                       2,
+                       modelData,
+                       &modelSize,
+                       NULL, 0) == 0)
+            {
+                modelString = [NSString stringWithUTF8String:modelData];
+            }
+            
+            free(modelData);
+        }
+    }
+    
+    return modelString;
 }
 
 
@@ -421,12 +455,13 @@
 	if ((err = Gestalt(gestaltSystemVersionMinor, &versionMinor)) != noErr)  versionMinor= 0;
 	if ((err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix)) != noErr) versionBugFix = 0;
 	
-	_xml = [[NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
+	_xml = [[NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><platform>%@</platform><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
 			[[_delegate applicationName] UTF8String],
 			[[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] UTF8String],
 			[NSString stringWithFormat:@"%i.%i.%i", versionMajor, versionMinor, versionBugFix],
 			[_delegate applicationVersion],
 			[_delegate applicationVersion],
+			[_delegate modelVersion],
 			userid,
 			contact,
 			notes,

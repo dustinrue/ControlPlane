@@ -66,16 +66,6 @@ $osvalues = "";
 $crashvaluesarray = array();
 $crashvalues = "";
 
-$cols2 = '<colgroup><col width="280"/><col width="340"/><col width="340"/></colgroup>';
-echo '<table>'.$cols2.'<tr><th>Group Details</th><th>Crashes over time</th><th>System OS Overview</th></tr>';
-echo '<tr><td>';
-            
-show_search("", -1, true);
-
-echo "<br/><br/>";
-echo " <a href=\"javascript:deleteGroups('$bundleidentifier','$version')\" class=\"button redButton\" onclick=\"return confirm('Do you really want to delete all items?');\">Delete All</a>";
-
-echo '</td>';
 
 // get the amount of crashes over time
 
@@ -99,27 +89,68 @@ if ($numrows > 0) {
 }
 mysql_free_result($result);
 
-echo "<td><div id=\"crashdiv\" style=\"height:280px;width:330px; \"></td><td><div id=\"osdiv\" style=\"height:280px;width:330px; \"></div>"; 
+
+$cols2 = '<colgroup><col width="320"/><col width="320"/><col width="320"/></colgroup>';
+echo '<table>'.$cols2.'<tr><th>Platform Overview</th><th>Crashes over time</th><th>System OS Overview</th></tr>';
+
+echo "<tr><td><div id=\"platformdiv\" style=\"height:280px;width:310px; \"></div></td>";
+echo "<td><div id=\"crashdiv\" style=\"height:280px;width:310px; \"></div></td>";
+echo "<td><div id=\"osdiv\" style=\"height:280px;width:310px; \"></div></td></tr>"; 
 
 // get the amount of crashes per system version
+$crashestime = true;
 
 $osticks = "";
 $osvalues = "";
-$query = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable." WHERE bundleidentifier = '".$bundleidentifier."' AND version = '".$version."' group by systemversion order by systemversion desc";
+$query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." group by systemversion order by systemversion desc";
+$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
+$numrows2 = mysql_num_rows($result2);
+if ($numrows2 > 0) {
+	// get the status
+	while ($row2 = mysql_fetch_row($result2)) {
+		if ($osticks != "") $osticks = $osticks.", ";
+		$osticks .= "'".$row2[0]."'";
+		if ($osvalues != "") $osvalues = $osvalues.", ";
+		$osvalues .= $row2[1];
+	}
+}
+mysql_free_result($result2);
+
+// get the amount of crashes per system version
+$crashestime = true;
+
+$platformticks = "";
+$platformvalues = "";
+$query = "SELECT platform, COUNT(platform) FROM ".$dbcrashtable." where platform != \"\" group by platform order by platform desc";
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 $numrows = mysql_num_rows($result);
 if ($numrows > 0) {
-  while ($row = mysql_fetch_row($result)) {
-    if ($osticks != "") $osticks = $osticks.", ";
-    $osticks .= "'".$row[0]."'";
-    if ($osvalues != "") $osvalues = $osvalues.", ";
-    $osvalues .= $row[1];
-  }
+	// get the status
+	while ($row = mysql_fetch_row($result)) {
+		if ($platformticks != "") $platformticks = $platformticks.", ";
+		$platformticks .= "'".$row[0]."'";
+		if ($platformvalues != "") $platformvalues = $platformvalues.", ";
+		$platformvalues .= $row[1];
+	}
 }
-echo '</td></tr></table>';
-
 mysql_free_result($result);
+echo '</table>';
 
+
+// START Group Deta
+$cols2 = '<colgroup><col width="950"/></colgroup>';
+echo '<table>'.$cols2.'<tr><th>Group Details</th></tr>';
+echo '<tr><td>';
+            
+show_search("", -1, true, "");
+
+echo " <a href=\"javascript:deleteGroups('$bundleidentifier','$version')\" style=\"float: right; margin-top:-35px;\" class=\"button redButton\" onclick=\"return confirm('Do you really want to delete all items?');\">Delete All</a>";
+
+echo '</tr></td></table>';
+// END Group Details
+
+
+// START Group Listing
 $cols = '<colgroup><col width="90"/><col width="50"/><col width="100"/><col width="180"/><col width="360"/><col width="190"/></colgroup>';
 
 echo '<table>'.$cols;
@@ -247,9 +278,31 @@ $(document).ready(function(){
 <?php
     }
     
-    if ($osticks != "") {
+    if ($platformticks != "") {
 ?>
-    line1 = [<?php echo $osvalues; ?>];
+    line1 = [<?php echo $platformvalues; ?>];
+    plot1 = $.jqplot('platformdiv', [line1], {
+        seriesDefaults: {
+                renderer:$.jqplot.BarRenderer
+            },
+        axes:{
+            xaxis:{
+                renderer:$.jqplot.CategoryAxisRenderer,
+                ticks:[<?php echo $platformticks; ?>]
+            },
+            yaxis:{
+                min: 0,
+                tickOptions:{formatString:'%.0f'}
+            }
+        },
+        highlighter: {show: false}
+    });
+<?php
+    }
+    
+    if ($osticks != "") { 
+?>
+   line1 = [<?php echo $osvalues; ?>];
     plot1 = $.jqplot('osdiv', [line1], {
         seriesDefaults: {
                 renderer:$.jqplot.BarRenderer
@@ -269,7 +322,6 @@ $(document).ready(function(){
 <?php
     }
 ?>
-
 });
 </script>
 

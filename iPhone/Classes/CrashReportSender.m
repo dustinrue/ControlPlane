@@ -31,7 +31,13 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "CrashReportSender.h"
 
+#include <sys/sysctl.h>
+
 #define USER_AGENT @"CrashReportSender/1.0"
+
+@interface UIDevice (Hardware)
+- (NSString *) platformString;
+@end
 
 @interface CrashReportSender ()
 
@@ -429,16 +435,18 @@
 				_crashIdenticalCurrentVersion = NO;
 			}
 			
-			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
+			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><platform>%@</platform><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
 							 [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
 							 report.applicationInfo.applicationIdentifier,
 							 [[UIDevice currentDevice] systemVersion],
+							 [[UIDevice currentDevice] platformString],
 							 [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
 							 report.applicationInfo.applicationVersion,
 							 userid,
 							 contact,
 							 description,
 							 crashLogString];
+
 			
 			[self _postXML:xml toURL:_submissionURL];
 		}
@@ -820,3 +828,58 @@ finish:
 }
 
 @end
+
+
+@implementation UIDevice (Hardware)
+
+- (NSString *) platformString
+{
+	size_t size;
+	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+	char *answer = malloc(size);
+	sysctlbyname("hw.machine", answer, &size, NULL, 0);
+	NSString *platform = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
+	free(answer);
+
+	// if ([platform isEqualToString:@"XX"])			return UIDeviceUnknown;
+	
+	if ([platform isEqualToString:@"iFPGA"])		return @"iFPGA";
+	
+	if ([platform isEqualToString:@"iPhone1,1"])	return @"iPhone 1G";
+	if ([platform isEqualToString:@"iPhone1,2"])	return @"iPhone 3G";
+	if ([platform hasPrefix:@"iPhone2"])	return @"iPhone 3GS";
+	if ([platform hasPrefix:@"iPhone3"])			return @"iPhone 4";
+	if ([platform hasPrefix:@"iPhone4"])			return @"iPhone 5";
+	
+	if ([platform isEqualToString:@"iPod1,1"])   return @"iPod touch 1G";
+	if ([platform isEqualToString:@"iPod2,1"])   return @"iPod touch 2G";
+	if ([platform isEqualToString:@"iPod3,1"])   return @"iPod touch 3G";
+	if ([platform isEqualToString:@"iPod4,1"])   return @"iPod touch 4G";
+	
+	if ([platform isEqualToString:@"iPad1,1"])   return @"iPad 1G";
+	if ([platform isEqualToString:@"iPad2,1"])   return @"iPad 2G";
+	
+	if ([platform isEqualToString:@"AppleTV2,1"])	return @"Apple TV 2G";
+	
+	/*
+	 MISSING A SOLUTION HERE TO DATE TO DIFFERENTIATE iPAD and iPAD 3G.... SORRY!
+	 */
+	
+	if ([platform hasPrefix:@"iPhone"]) return @"Unknown iPhone";
+	if ([platform hasPrefix:@"iPod"]) return @"Unknown iPod";
+	if ([platform hasPrefix:@"iPad"]) return @"Unknown iPad";
+	
+	if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"]) // thanks Jordan Breeding
+	{
+		if ([[UIScreen mainScreen] bounds].size.width < 768)
+			return @"iPhone Simulator";
+		else 
+			return @"iPad Simulator";
+		
+		return @"iPhone Simulator";
+	}
+	return @"Unknown iOS device";
+}
+
+@end
+

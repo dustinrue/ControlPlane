@@ -92,6 +92,8 @@ typedef enum CrashReportStatus {
 	CrashReportSenderUI *_crashReportSenderUI;
 }
 
+- (NSString*) modelVersion;
+
 + (CrashReportSender *)sharedCrashReportSender;
 
 - (void) sendCrashReportToURL:(NSURL *)submissionURL delegate:(id)delegate companyName:(NSString *)companyName;

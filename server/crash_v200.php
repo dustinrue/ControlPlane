@@ -124,6 +124,7 @@ $reader->XML($xmlstring);
 $bundleidentifier = "";
 $applicationname = "";
 $systemversion = "";
+$platform = "";
 $senderversion = "";
 $version = "";
 $userid = "";
@@ -224,6 +225,8 @@ while ($reader->read())
 		$description = mysql_real_escape_string(reading($reader, "description"));
 	} else if ($reader->name == "log" && $reader->nodeType == XMLReader::ELEMENT) {
 		$logdata = reading($reader, "log");
+	} else if ($reader->name == "platform" && $reader->nodeType == XMLReader::ELEMENT) {
+		$platform = reading($reader, "platform");
 	}
 }
 
@@ -522,7 +525,7 @@ if ($logdata != "" && $version != "" & $applicationname != "" && $bundleidentifi
 	}
 	
     // now insert the crashlog into the database
-	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, senderversion, version, description, log, groupid, timestamp) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$senderversion."', '".$version."', '".$description."', '".mysql_real_escape_string($logdata)."', '".$log_groupid."', '".date("Y-m-d H:i:s")."')";
+	$query = "INSERT INTO ".$dbcrashtable." (userid, contact, bundleidentifier, applicationname, systemversion, platform, senderversion, version, description, log, groupid, timestamp) values ('".$userid."', '".$contact."', '".$bundleidentifier."', '".$applicationname."', '".$systemversion."', '".$platform."', '".$senderversion."', '".$version."', '".$description."', '".mysql_real_escape_string($logdata)."', '".$log_groupid."', '".date("Y-m-d H:i:s")."')";
 	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_CRASHLOG));
 	
 	$new_crashid = mysql_insert_id($link);

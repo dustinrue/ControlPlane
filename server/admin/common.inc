@@ -139,7 +139,7 @@ function create_link($text, $link, $button, $variables)
     return $result;
 }
 
-function show_search($text, $currenttype, $break)
+function show_search($text, $currenttype, $break, $style = "float: right;")
 {
     global $bundleidentifier, $version;
     
@@ -155,7 +155,7 @@ function show_search($text, $currenttype, $break)
     add_option('ID', SEARCH_TYPE_ID, $currenttype);
     add_option('Description', SEARCH_TYPE_DESCRIPTION, $currenttype);
     add_option('Crashlog', SEARCH_TYPE_CRASHLOG, $currenttype);
-    echo '</select>&nbsp;&nbsp;<button type="submit" class="button" style="float: right;">Search</button><br/>';
+    echo '</select><button type="submit" class="button" style="'.$style.'">Search</button><br/>';
     echo '</form>';
 }
 

@@ -131,13 +131,61 @@ if ($groupid !='') {
             $fix = $row[0];
             $description = $row[1];
             
-            echo '<table>'.$cols2.'<tr><th>Group Details</th><th>Crashes over time</th><th>System OS Overview</th></tr>';
-            echo '<tr><td>';
+            $cols2 = '<colgroup><col width="316"/><col width="316"/><col width="315"/></colgroup>';
+			echo '<table>'.$cols2.'<tr><th>Platform Overview</th><th>Crashes over time</th><th>System OS Overview</th></tr>';
+			
+			echo "<tr><td><div id=\"platformdiv\" style=\"height:280px;width:306px; \"></div></td>";
+			echo "<td><div id=\"crashdiv\" style=\"height:280px;width:306px; \"></div></td>";
+			echo "<td><div id=\"osdiv\" style=\"height:280px;width:305px; \"></div></td></tr></table>"; 
+			
+			// get the amount of crashes per system version
+			$crashestime = true;
+			
+			$osticks = "";
+			$osvalues = "";
+			$query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." group by systemversion order by systemversion desc";
+			$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
+			$numrows2 = mysql_num_rows($result2);
+			if ($numrows2 > 0) {
+				// get the status
+				while ($row2 = mysql_fetch_row($result2)) {
+					if ($osticks != "") $osticks = $osticks.", ";
+					$osticks .= "'".$row2[0]."'";
+					if ($osvalues != "") $osvalues = $osvalues.", ";
+					$osvalues .= $row2[1];
+				}
+			}
+			mysql_free_result($result2);
+			
+			// get the amount of crashes per system version
+			$crashestime = true;
+			
+			$platformticks = "";
+			$platformvalues = "";
+			$query2 = "SELECT platform, COUNT(platform) FROM ".$dbcrashtable.$whereclause." AND platform != \"\" group by platform order by platform desc";
+			$result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
+			$numrows2 = mysql_num_rows($result2);
+			if ($numrows2 > 0) {
+				// get the status
+				while ($row2 = mysql_fetch_row($result2)) {
+					if ($platformticks != "") $platformticks = $platformticks.", ";
+					$platformticks .= "'".$row2[0]."'";
+					if ($platformvalues != "") $platformvalues = $platformvalues.", ";
+					$platformvalues .= $row2[1];
+				}
+			}
+			mysql_free_result($result2);
+			
+			
+			
+			$cols2 = '<colgroup><col width="950"/></colgroup>';
+			echo '<table>'.$cols2.'<tr><th>Group Details</th></tr>';
+			echo '<tr><td>';
             
             echo '<form name="groupmetadata" action="" method="get">';
-            echo '<b>Assigned Fix Version</b>:<br/><input type="text" id="fixversion'.$groupid.'" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/><br/>';
-            echo '<b>Description</b>:<br/><textarea id="description'.$groupid.'" cols="50" rows="2" name="description" class="description">'.$description.'</textarea><br/>';
-            echo "<a href=\"javascript:updateGroupMeta(".$groupid.",'".$bundleidentifier."')\" class='button'>Update</a><br/>";
+            echo '<b style="vertical-align: top;">Description:</b><textarea id="description'.$groupid.'" cols="50" rows="2" name="description" class="description" style="margin-left: 10px;">'.$description.'</textarea>';
+            echo '<b style="vertical-align: top; margin-left:20px;">Assigned Fix Version:</b><input style="vertical-align: top; margin-left:10px;" type="text" id="fixversion'.$groupid.'" name="fixversion" size="20" maxlength="20" value="'.$fix.'"/>';
+            echo "<a href=\"javascript:updateGroupMeta(".$groupid.",'".$bundleidentifier."')\" class='button' style='float: right;'>Update</a>";
          	  echo create_issue($bundleidentifier, currentPageURL());
             echo '</form></td>';
             
@@ -151,29 +199,6 @@ if ($groupid !='') {
                 $amount = $row2[0];
             }
             mysql_free_result($result2);
-
-            echo "<td><div id=\"crashdiv\" style=\"height:280px;width:330px; \"></td><td><div id=\"osdiv\" style=\"height:280px;width:330px; \"></div>"; 
-
-            // get the amount of crashes per system version
-            $crashestime = true;
-            
-            $osticks = "";
-            $osvalues = "";
-            $query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." group by systemversion order by systemversion desc";
-            $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
-            $numrows2 = mysql_num_rows($result2);
-            if ($numrows2 > 0) {
-                // get the status
-                while ($row2 = mysql_fetch_row($result2)) {
-                    if ($osticks != "") $osticks = $osticks.", ";
-                    $osticks .= "'".$row2[0]."'";
-                    if ($osvalues != "") $osvalues = $osvalues.", ";
-                    $osvalues .= $row2[1];
-                }
-            }
-            mysql_free_result($result2);
-            echo '</td></tr></table>';
-
         }
     }
    	mysql_free_result($result);
@@ -313,7 +338,29 @@ $(document).ready(function(){
 <?php
     }
     
-    if ($osticks != "") {
+    if ($platformticks != "") {
+?>
+    line1 = [<?php echo $platformvalues; ?>];
+    plot1 = $.jqplot('platformdiv', [line1], {
+        seriesDefaults: {
+                renderer:$.jqplot.BarRenderer
+            },
+        axes:{
+            xaxis:{
+                renderer:$.jqplot.CategoryAxisRenderer,
+                ticks:[<?php echo $platformticks; ?>]
+            },
+            yaxis:{
+                min: 0,
+                tickOptions:{formatString:'%.0f'}
+            }
+        },
+        highlighter: {show: false}
+    });
+<?php
+    }
+    
+    if ($osticks != "") { 
 ?>
     line1 = [<?php echo $osvalues; ?>];
     plot1 = $.jqplot('osdiv', [line1], {
@@ -333,9 +380,8 @@ $(document).ready(function(){
         highlighter: {show: false}
     });
 <?php
-    }
+  }
 ?>
-
 });
 </script>
 
