@@ -131,6 +131,34 @@
     }
 }
 
+- (void)updateAnnotationZIndexes
+{
+    NSUInteger zIndex = 6000; // some arbitrary starting value
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    
+    NSArray *sortedAnnotations = [annotations sortedArrayUsingComparator: ^(id <MKAnnotation> ann1, id <MKAnnotation> ann2) {
+        if (ann1.coordinate.latitude < ann2.coordinate.latitude) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        
+        if (ann1.coordinate.latitude > ann2.coordinate.latitude) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return (NSComparisonResult)NSOrderedSame;
+    }];
+    
+    for (id <MKAnnotation> annotation in sortedAnnotations)
+    {
+        WebScriptObject *overlayScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+        if (overlayScriptObject)
+        {
+            NSArray *args = [NSArray arrayWithObjects: overlayScriptObject, @"zIndex", [NSNumber numberWithInteger:zIndex], nil];
+            [webScriptObject callWebScriptMethod:@"setOverlayOption" withArguments:args];
+        }
+        zIndex++;
+    }
+}
+
 - (void)annotationScriptObjectSelected:(WebScriptObject *)annotationScriptObject
 {
     // Deselect everything that was selected

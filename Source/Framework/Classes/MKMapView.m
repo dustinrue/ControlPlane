@@ -406,6 +406,8 @@
     [webScriptObject callWebScriptMethod:@"addAnnotation" withArguments:args];
     [annotationView draw:annotationScriptObject];
     
+    [self updateAnnotationZIndexes];
+    
     // TODO: refactor how this works so that we can send one batch call
     // when they called addAnnotations:
     [self delegateDidAddAnnotationViews:[NSArray arrayWithObject:annotationView]];

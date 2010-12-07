@@ -196,6 +196,14 @@ window.onwebkitanimationend =  function(event) {
           {
               annotation.setCalloutText(value);
           }
+          else if (option == "zIndex")
+          {
+              if (annotation.div_)
+                annotation.div_.style.zIndex = value;
+              if (annotation.imageTag_)
+                annotation.imageTag_.style.zIndex = value;
+              marker.setOptions({"zIndex": value});
+          }
       }
   }
   

@@ -14,6 +14,7 @@
 - (void)setUserLocationMarkerVisible:(BOOL)visible;
 - (void)updateUserLocationMarkerWithLocaton:(CLLocation *)location;
 - (void)updateOverlayZIndexes;
+- (void)updateAnnotationZIndexes;
 - (void)annotationScriptObjectSelected:(WebScriptObject *)annotationScriptObject;
 - (void)annotationScriptObjectDragStart:(WebScriptObject *)annotationScriptObject;
 - (void)annotationScriptObjectDrag:(WebScriptObject *)annotationScriptObject;
