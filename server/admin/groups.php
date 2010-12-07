@@ -128,7 +128,7 @@ if ($numrows > 0) {
 	// get the status
 	while ($row = mysql_fetch_row($result)) {
 		if ($platformticks != "") $platformticks = $platformticks.", ";
-		$platformticks .= "'".$row[0]."'";
+		$platformticks .= "'".mapPlatform($row[0])."'";
 		if ($platformvalues != "") $platformvalues = $platformvalues.", ";
 		$platformvalues .= $row[1];
 	}

@@ -169,7 +169,7 @@ if ($groupid !='') {
 				// get the status
 				while ($row2 = mysql_fetch_row($result2)) {
 					if ($platformticks != "") $platformticks = $platformticks.", ";
-					$platformticks .= "'".$row2[0]."'";
+					$platformticks .= "'".mapPlatform($row2[0])."'";
 					if ($platformvalues != "") $platformvalues = $platformvalues.", ";
 					$platformvalues .= $row2[1];
 				}

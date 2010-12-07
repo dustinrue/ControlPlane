@@ -197,5 +197,54 @@ function create_issue($bundleidentifier, $issuelink)
     return '';
 }
 
+   
+
+function stringEndsWith($haystack,$needle,$case=true) {
+    if($case){return (strcmp(substr($haystack, strlen($haystack) - strlen($needle)),$needle)===0);}
+    return (strcasecmp(substr($haystack, strlen($haystack) - strlen($needle)),$needle)===0);
+}
+
+function mapPlatform($device)
+{
+	$platform = $device;
+	
+	switch ($device) {
+		case "iPhone1,1":
+			$platform = "1G";
+			break;
+		case "iPhone1,2":
+			$platform = "3G";
+			break;
+		case "iPhone2,1":
+			$platform = "3GS";
+			break;
+		case "iPhone3,1":
+			$platform = "4";
+			break;
+		case "iPad1,1":
+			$platform = "iPad";
+			break;
+		case "iPod1,1":
+			$platform = "iPod1G";
+			break;
+		case "iPod2,1":
+			$platform = "iPod2G";
+			break;
+		case "iPod3,1":
+			$platform = "iPod3G";
+			break;
+		case "iPod4,1":
+			$platform = "iPod4G";
+			break;
+		case "AppleTV2,1":
+			$platform = "atv2G";
+			break;
+	}
+	
+	if (stringEndsWith($platform, "86") || $platform == "x86_64")
+		$platform = "Simulator";
+
+	return $platform;
+}
 
 ?>

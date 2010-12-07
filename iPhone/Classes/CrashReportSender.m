@@ -35,10 +35,6 @@
 
 #define USER_AGENT @"CrashReportSender/1.0"
 
-@interface UIDevice (Hardware)
-- (NSString *) platformString;
-@end
-
 @interface CrashReportSender ()
 
 - (void)attemptCrashReportSubmission;
@@ -51,6 +47,7 @@
 - (NSString *)_crashLogStringForReport:(PLCrashReport *)report;
 - (void)_postXML:(NSString*)xml toURL:(NSURL*)url;
 - (BOOL)_isSubmissionHostReachable;
+- (NSString *)_getDevicePlatform;
 
 - (BOOL)hasPendingCrashReport;
 - (void)wentOnline:(NSNotification *)note;
@@ -382,6 +379,18 @@
 #pragma mark -
 #pragma mark Private
 
+
+- (NSString *)_getDevicePlatform
+{
+	size_t size;
+	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+	char *answer = malloc(size);
+	sysctlbyname("hw.machine", answer, &size, NULL, 0);
+	NSString *platform = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
+	free(answer);
+	return platform;
+}
+
 - (void)_cleanCrashReports
 {
 	NSError *error;
@@ -439,7 +448,7 @@
 							 [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
 							 report.applicationInfo.applicationIdentifier,
 							 [[UIDevice currentDevice] systemVersion],
-							 [[UIDevice currentDevice] platformString],
+							 [self _getDevicePlatform],
 							 [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
 							 report.applicationInfo.applicationVersion,
 							 userid,
@@ -827,59 +836,5 @@ finish:
 	return gotFlags && flags & kSCNetworkReachabilityFlagsReachable && (flags & kSCNetworkReachabilityFlagsIsWWAN || !(flags & kSCNetworkReachabilityFlagsConnectionRequired));
 }
 
-@end
-
-
-@implementation UIDevice (Hardware)
-
-- (NSString *) platformString
-{
-	size_t size;
-	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-	char *answer = malloc(size);
-	sysctlbyname("hw.machine", answer, &size, NULL, 0);
-	NSString *platform = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
-	free(answer);
-
-	// if ([platform isEqualToString:@"XX"])			return UIDeviceUnknown;
-	
-	if ([platform isEqualToString:@"iFPGA"])		return @"iFPGA";
-	
-	if ([platform isEqualToString:@"iPhone1,1"])	return @"iPhone 1G";
-	if ([platform isEqualToString:@"iPhone1,2"])	return @"iPhone 3G";
-	if ([platform hasPrefix:@"iPhone2"])	return @"iPhone 3GS";
-	if ([platform hasPrefix:@"iPhone3"])			return @"iPhone 4";
-	if ([platform hasPrefix:@"iPhone4"])			return @"iPhone 5";
-	
-	if ([platform isEqualToString:@"iPod1,1"])   return @"iPod touch 1G";
-	if ([platform isEqualToString:@"iPod2,1"])   return @"iPod touch 2G";
-	if ([platform isEqualToString:@"iPod3,1"])   return @"iPod touch 3G";
-	if ([platform isEqualToString:@"iPod4,1"])   return @"iPod touch 4G";
-	
-	if ([platform isEqualToString:@"iPad1,1"])   return @"iPad 1G";
-	if ([platform isEqualToString:@"iPad2,1"])   return @"iPad 2G";
-	
-	if ([platform isEqualToString:@"AppleTV2,1"])	return @"Apple TV 2G";
-	
-	/*
-	 MISSING A SOLUTION HERE TO DATE TO DIFFERENTIATE iPAD and iPAD 3G.... SORRY!
-	 */
-	
-	if ([platform hasPrefix:@"iPhone"]) return @"Unknown iPhone";
-	if ([platform hasPrefix:@"iPod"]) return @"Unknown iPod";
-	if ([platform hasPrefix:@"iPad"]) return @"Unknown iPad";
-	
-	if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"]) // thanks Jordan Breeding
-	{
-		if ([[UIScreen mainScreen] bounds].size.width < 768)
-			return @"iPhone Simulator";
-		else 
-			return @"iPad Simulator";
-		
-		return @"iPhone Simulator";
-	}
-	return @"Unknown iOS device";
-}
 
 @end
-
