@@ -203,6 +203,8 @@ window.onwebkitanimationend =  function(event) {
               if (annotation.imageTag_)
                 annotation.imageTag_.style.zIndex = value;
               marker.setOptions({"zIndex": value});
+              if (annotation.calloutWrapper_)
+                annotation.calloutWrapper_.style.zIndex = value;
           }
       }
   }

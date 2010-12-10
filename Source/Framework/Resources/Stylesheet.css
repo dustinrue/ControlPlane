@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     border: 1px solid rgba(129, 133, 141, 1.0);
+    -webkit-user-select: none;
 }
 
 
