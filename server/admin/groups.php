@@ -102,7 +102,7 @@ $crashestime = true;
 
 $osticks = "";
 $osvalues = "";
-$query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." group by systemversion order by systemversion desc";
+$query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." WHERE bundleidentifier = '".$bundleidentifier."' AND version = '".$version."' group by systemversion order by systemversion desc";
 $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
 $numrows2 = mysql_num_rows($result2);
 if ($numrows2 > 0) {
@@ -121,7 +121,7 @@ $crashestime = true;
 
 $platformticks = "";
 $platformvalues = "";
-$query = "SELECT platform, COUNT(platform) FROM ".$dbcrashtable." where platform != \"\" group by platform order by platform desc";
+$query = "SELECT platform, COUNT(platform) FROM ".$dbcrashtable." WHERE bundleidentifier = '".$bundleidentifier."' AND version = '".$version."' AND platform != \"\" group by platform order by platform desc";
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 $numrows = mysql_num_rows($result);
 if ($numrows > 0) {
