@@ -801,11 +801,23 @@ window.onwebkitanimationend =  function(event) {
         };
         map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
         
-        var regionChangeFunction = function(){ if(window.MKMapView) {window.MKMapView.webviewReportingRegionChange();}};
-
+        var regionChangeFunction = function(){ 
+            if(window.MKMapView) {
+                window.MKMapView.webviewReportingRegionChange();
+            }
+        };
+        
+        var clickFunction = function(mouseEvent){ 
+            if(window.MKMapView) {
+                var jsonLatLong = JSON.stringify({"latitude":mouseEvent.latLng.lat(), "longitude":mouseEvent.latLng.lng()});
+                window.MKMapView.webviewReportingClick(jsonLatLong);
+            }
+        };
+        
         google.maps.event.addListener(map, 'drag', regionChangeFunction);
         google.maps.event.addListener(map, 'zoom_changed', regionChangeFunction);
-
+        google.maps.event.addListener(map, 'click', clickFunction);
+        
         createUserLocationMarker();
     } 
     catch(err)
@@ -815,6 +827,7 @@ window.onwebkitanimationend =  function(event) {
             window.MKMapView.webviewReportingLoadFailure();
         }
     }
+
     
     if (map == null)
     {

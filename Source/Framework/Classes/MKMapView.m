@@ -18,6 +18,7 @@
 #import <MapKit/MKPointAnnotation.h>
 #import "MKMapView+DelegateWrappers.h"
 #import "MKMapView+WebViewIntegration.h"
+#import "MKWebView.h"
 
 @interface MKMapView (Private)
 
@@ -63,7 +64,7 @@
     // Initialization code here.    
     if (!webView)
     {
-        webView = [[WebView alloc] initWithFrame:[self bounds]];
+        webView = [[MKWebView alloc] initWithFrame:[self bounds]];
     }
 
     [webView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];

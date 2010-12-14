@@ -9,6 +9,7 @@
 #import "MKMapView+WebViewIntegration.h"
 #import "MKMapView+DelegateWrappers.h"
 #import "JSON.h"
+#import "MKWebView.h"
 
 
 @implementation MKMapView (WebViewIntegration)
@@ -31,7 +32,12 @@
     {
         name = @"webviewReportingLoadFailure";
     }
-    
+
+    if (sel == @selector(webviewReportingClick:))
+    {
+        name = @"webviewReportingClick";
+    }
+        
     if (sel == @selector(annotationScriptObjectDragStart:))
     {
         name = @"annotationScriptObjectDragStart";
@@ -63,6 +69,11 @@
     }
     
     if (aSelector == @selector(webviewReportingLoadFailure))
+    {
+        return NO;
+    }
+    
+    if (aSelector == @selector(webviewReportingClick:))
     {
         return NO;
     }
@@ -251,6 +262,30 @@
 {
     NSError *error = [NSError errorWithDomain:@"ca.centrix.MapKit" code:0 userInfo:nil];
     [self delegateDidFailLoadingMapWithError:error];
+}
+
+- (void)webviewReportingClick:(NSString *)jsonEncodedLatLng
+{
+    // Deselect all annoations
+    NSArray * currentlySelectedAnnotations = [self selectedAnnotations];
+    for (id <MKAnnotation> annotation in currentlySelectedAnnotations)
+    {
+        [self deselectAnnotation:annotation animated:YES];
+    }
+
+    // Give the delegate the opportunity to do something
+    // if the clicked and held for more than 0.5 secs.
+    NSTimeInterval timeSinceMouseDown = [[NSDate date] timeIntervalSinceDate:[webView lastHitTestDate]];
+    if (timeSinceMouseDown > 0.5)
+    {
+        NSDictionary *latlong = [jsonEncodedLatLng JSONValue];
+        NSNumber *latitude = [latlong objectForKey:@"latitude"];
+        NSNumber *longitude = [latlong objectForKey:@"longitude"];
+        CLLocationCoordinate2D coordinate;
+        coordinate.latitude = [latitude doubleValue];
+        coordinate.longitude = [longitude doubleValue];
+        [self delegateUserDidClickAndHoldAtCoordinate:coordinate];
+    }
 }
 
 - (CLLocationCoordinate2D)coordinateForAnnotationScriptObject:(WebScriptObject *)annotationScriptObject

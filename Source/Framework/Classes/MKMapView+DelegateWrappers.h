@@ -39,5 +39,7 @@
 // Managing Overlay Views
 - (void)delegateDidAddOverlayViews:(NSArray *)overlayViews;
 
+// MacMapKit additions
+- (void)delegateUserDidClickAndHoldAtCoordinate:(CLLocationCoordinate2D)coordinate;
 
 @end

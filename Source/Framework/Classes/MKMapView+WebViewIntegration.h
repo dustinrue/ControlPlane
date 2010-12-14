@@ -21,6 +21,7 @@
 - (void)annotationScriptObjectDragEnd:(WebScriptObject *)annotationScriptObject;
 - (void)webviewReportingRegionChange;
 - (void)webviewReportingLoadFailure;
+- (void)webviewReportingClick:(NSString *)jsonEncodedLatLng;
 - (CLLocationCoordinate2D)coordinateForAnnotationScriptObject:(WebScriptObject *)annotationScriptObject;
 
 @end

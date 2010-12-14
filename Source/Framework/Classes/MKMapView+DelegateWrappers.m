@@ -125,5 +125,15 @@
     }
 }
 
+// MacMapKit additions
+- (void)delegateUserDidClickAndHoldAtCoordinate:(CLLocationCoordinate2D)coordinate;
+{
+    if (delegate && [delegate respondsToSelector:@selector(mapView:userDidClickAndHoldAtCoordinate:)])
+    {
+        [delegate mapView:self userDidClickAndHoldAtCoordinate:coordinate];
+    }
+
+}
+
 
 @end

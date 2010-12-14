@@ -11,6 +11,8 @@
 		5F19A03E1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F19A03D1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m */; };
 		5F19A0491208F9260083FE72 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5F19A0471208F9260083FE72 /* License.rtf */; };
 		5F19A04A1208F9260083FE72 /* Release Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5F19A0481208F9260083FE72 /* Release Notes.rtf */; };
+		5F39D6FE12B5AB50001B32CD /* MKWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F39D6FC12B5AB50001B32CD /* MKWebView.h */; };
+		5F39D6FF12B5AB50001B32CD /* MKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F39D6FD12B5AB50001B32CD /* MKWebView.m */; };
 		5F585A5D12110FE7005F437E /* TransparentPixel.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F585A5C12110FE6005F437E /* TransparentPixel.png */; };
 		5F585AAF121231B6005F437E /* Animations.css in Resources */ = {isa = PBXBuildFile; fileRef = 5F585AAD121231B6005F437E /* Animations.css */; };
 		5F585AB0121231B6005F437E /* Stylesheet.css in Resources */ = {isa = PBXBuildFile; fileRef = 5F585AAE121231B6005F437E /* Stylesheet.css */; };
@@ -155,6 +157,8 @@
 		5F19A03D1208F6DE0083FE72 /* MKMapView+MapKitPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+MapKitPlugin.m"; sourceTree = "<group>"; };
 		5F19A0471208F9260083FE72 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		5F19A0481208F9260083FE72 /* Release Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Release Notes.rtf"; sourceTree = "<group>"; };
+		5F39D6FC12B5AB50001B32CD /* MKWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKWebView.h; sourceTree = "<group>"; };
+		5F39D6FD12B5AB50001B32CD /* MKWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKWebView.m; sourceTree = "<group>"; };
 		5F585A5C12110FE6005F437E /* TransparentPixel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TransparentPixel.png; path = ../Framework/Resources/TransparentPixel.png; sourceTree = "<group>"; };
 		5F585AAD121231B6005F437E /* Animations.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Animations.css; sourceTree = "<group>"; };
 		5F585AAE121231B6005F437E /* Stylesheet.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Stylesheet.css; sourceTree = "<group>"; };
@@ -359,6 +363,8 @@
 				5FBAF7CB11F1486D004753A9 /* MKUserLocation.m */,
 				5FBAF7CC11F1486D004753A9 /* MKUserLocation+Private.h */,
 				5FBAF7CD11F1486D004753A9 /* MKUserLocation+Private.m */,
+				5F39D6FC12B5AB50001B32CD /* MKWebView.h */,
+				5F39D6FD12B5AB50001B32CD /* MKWebView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 				5FB7411B11FB50B800AB2079 /* MKPlacemark.h in Headers */,
 				5FB7413411FB52AF00AB2079 /* MKReverseGeocoder.h in Headers */,
 				5FB7417311FD53B500AB2079 /* MKPlacemark+Private.h in Headers */,
+				5F39D6FE12B5AB50001B32CD /* MKWebView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,6 +822,7 @@
 				5FB7411C11FB50B800AB2079 /* MKPlacemark.m in Sources */,
 				5FB7413511FB52AF00AB2079 /* MKReverseGeocoder.m in Sources */,
 				5FB7417411FD53B500AB2079 /* MKPlacemark+Private.m in Sources */,
+				5F39D6FF12B5AB50001B32CD /* MKWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

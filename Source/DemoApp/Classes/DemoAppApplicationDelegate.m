@@ -225,5 +225,15 @@
     
 }
 
+// MacMapKit additions
+- (void)mapView:(MKMapView *)aMapView userDidClickAndHoldAtCoordinate:(CLLocationCoordinate2D)coordinate;
+{
+    //NSLog(@"mapView: %@ userDidClickAndHoldAtCoordinate: (%f, %f)", aMapView, coordinate.latitude, coordinate.longitude);
+    MKPointAnnotation *pin = [[[MKPointAnnotation alloc] init] autorelease];
+    pin.coordinate = coordinate;
+    pin.title = @"Hi.";
+    [mapView addAnnotation:pin];
+}
+
 
 @end

@@ -17,6 +17,7 @@
 @protocol MKMapViewDelegate;
 @class MKUserLocation;
 @class MKOverlayView;
+@class MKWebView;
 
 @interface MKMapView : NSView <CLLocationManagerDelegate, NSCoding> {    
     id <MKMapViewDelegate> delegate;
@@ -28,7 +29,7 @@
     NSMutableArray *selectedAnnotations;
     
 @private
-    WebView *webView;
+    MKWebView *webView;
     CLLocationManager *locationManager;
     BOOL hasSetCenterCoordinate;
     // Overlays
@@ -123,5 +124,7 @@
 - (void)mapViewDidStopLocatingUser:(MKMapView *)mapView;
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState;
 
+// MacMapKit additions
+- (void)mapView:(MKMapView *)mapView userDidClickAndHoldAtCoordinate:(CLLocationCoordinate2D)coordinate;
 
 @end
