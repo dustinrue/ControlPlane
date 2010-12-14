@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 
-#define MKWebViewWillMouseDown @"MKWebViewWillMouseDown"
-
 @interface MKWebView : WebView 
 {
     NSDate *lastHitTestDate;

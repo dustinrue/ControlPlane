@@ -22,7 +22,6 @@
 - (NSView *)hitTest:(NSPoint)aPoint
 {
     //NSLog(@"hitTest: %@", NSStringFromPoint(aPoint));
-    //[[NSNotificationCenter defaultCenter] postNotificationName:MKWebViewWillMouseDown object:self];
     [lastHitTestDate release];
     lastHitTestDate = [[NSDate date] retain];
     return [super hitTest:aPoint];
