@@ -131,7 +131,6 @@
 
 - (void) dealloc
 {
-	[super dealloc];
 	[_crashesDir release];
 	[_crashFiles release];
 	if (_submitTimer != nil)
@@ -139,6 +138,7 @@
 		[_submitTimer invalidate];
 		[_submitTimer release];
 	}
+	[super dealloc];
 }
 
 
