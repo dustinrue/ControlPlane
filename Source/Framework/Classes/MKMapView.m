@@ -29,7 +29,7 @@
 
 @implementation MKMapView
 
-@synthesize delegate, mapType, showsUserLocation;
+@synthesize delegate, mapType, userLocation, showsUserLocation;
 
 
 - (id)initWithFrame:(NSRect)frame {

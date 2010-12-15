@@ -44,7 +44,7 @@
 @property (nonatomic, assign) id <MKMapViewDelegate> delegate;
 
 @property(nonatomic) MKMapType mapType;
-
+@property(nonatomic, readonly) MKUserLocation *userLocation;
 @property(nonatomic) MKCoordinateRegion region;
 @property(nonatomic) CLLocationCoordinate2D centerCoordinate;
 @property(nonatomic) BOOL showsUserLocation;
