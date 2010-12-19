@@ -263,7 +263,7 @@ if ($numrows > 0) {
 		echo "<a href='actionapi.php?action=downloadcrashid&id=".$crashid."' class='button'>Download</a> ";
 		echo "<span id='symbolicate".$crashid."'>";
 		if ($todo == 0)
-			echo "Symolicating...";
+			echo "Symbolicating...";
 		else {
     		echo "<a href='javascript:symbolicateCrashID(".$crashid.")' class='button'>Symbolicate";
     		if ($todo != 2)
