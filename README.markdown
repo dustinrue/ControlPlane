@@ -173,11 +173,17 @@
 - Done.
 
 
+# ACKNOWLEDGMENTS
+
+**The following 3rd party open source libraries have been used:**
+
+- PLCrashReporter by Landon Fuller (http://code.google.com/p/plcrashreporter/)
+- bluescreen css framework (http://blueprintcss.org/)
 
 
 Feel free to add enhancements, fixes, changes and provide them back to the community!
 
-Thanks
-Andreas Linde
-http://www.andreaslinde.com/
-http://www.buzzworks.de/
+Thanks  
+Andreas Linde  
+http://www.andreaslinde.com/  
+http://www.buzzworks.de/  
