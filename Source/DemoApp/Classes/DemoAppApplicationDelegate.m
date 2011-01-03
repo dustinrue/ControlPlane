@@ -30,6 +30,15 @@
     MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate: coordinate];
     reverseGeocoder.delegate = self;
     [reverseGeocoder start];
+    
+    MKGeocoder *geocoderNoCoord = [[MKGeocoder alloc] initWithAddress:@"777 Corydon Ave, Winnipeg MB"];
+    geocoderNoCoord.delegate = self;
+    [geocoderNoCoord start];
+    
+    MKGeocoder *geocoderCoord = [[MKGeocoder alloc] initWithAddress:@"1250 St. James St" nearCoordinate:coordinate];
+    geocoderCoord.delegate = self;
+    [geocoderCoord start];
+    
 }
 
 - (IBAction)setMapType:(id)sender
@@ -98,6 +107,18 @@
     //NSLog(@"MKReverseGeocoder didFailWithError: %@", error);
 }
 
+#pragma mark MKGeocoderDelegate
+
+- (void)geocoder:(MKGeocoder *)geocoder didFindCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    //NSLog(@"MKGeocoder found (%f, %f) for %@", coordinate.latitude, coordinate.longitude, geocoder.address);
+}
+
+- (void)geocoder:(MKGeocoder *)geocoder didFailWithError:(NSError *)error
+{
+    //NSLog(@"MKGeocoder didFailWithError: %@", error);
+}
+
 #pragma mark MapView Delegate
 
 // Responding to Map Position Changes
@@ -115,17 +136,17 @@
 //Loading the Map Data
 - (void)mapViewWillStartLoadingMap:(MKMapView *)aMapView
 {
-    NSLog(@"mapViewWillStartLoadingMap: %@", aMapView);
+    //NSLog(@"mapViewWillStartLoadingMap: %@", aMapView);
 }
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)aMapView
 {
-    NSLog(@"mapViewDidFinishLoadingMap: %@", aMapView);
+    //NSLog(@"mapViewDidFinishLoadingMap: %@", aMapView);
 }
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)aMapView withError:(NSError *)error
 {
-    NSLog(@"mapViewDidFailLoadingMap: %@ withError: %@", aMapView, error);
+    //NSLog(@"mapViewDidFailLoadingMap: %@ withError: %@", aMapView, error);
 }
 
 // Tracking the User Location

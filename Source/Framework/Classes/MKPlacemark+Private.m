@@ -14,8 +14,14 @@
 {
     if (self = [super init])
     {
-        coordinate.latitude = [[result valueForKeyPath:@"geometry.location.b"] doubleValue];
-        coordinate.longitude = [[result valueForKeyPath:@"geometry.location.c"] doubleValue];
+        NSNumber *latitudeNumber = [result valueForKeyPath:@"geometry.location.b"];
+        if (!latitudeNumber)
+            latitudeNumber = [result valueForKeyPath:@"geometry.location.wa"];
+        NSNumber *longitudeNumber = [result valueForKeyPath:@"geometry.location.c"];
+        if (!longitudeNumber)
+            longitudeNumber = [result valueForKeyPath:@"geometry.location.ya"];
+        coordinate.latitude = [latitudeNumber doubleValue];
+        coordinate.longitude = [longitudeNumber doubleValue];
         NSArray *components = [result objectForKey:@"address_components"];
         if (components)
         {

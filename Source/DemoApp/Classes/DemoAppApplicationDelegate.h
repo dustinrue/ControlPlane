@@ -11,7 +11,7 @@
 
 @class MKMapView;
 
-@interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate, MKMapViewDelegate, MKReverseGeocoderDelegate> {
+@interface DemoAppApplicationDelegate : NSObject <NSApplicationDelegate, MKMapViewDelegate, MKReverseGeocoderDelegate, MKGeocoderDelegate> {
     NSWindow *window;
     IBOutlet MKMapView *mapView;
     IBOutlet NSTextField *addressTextField;

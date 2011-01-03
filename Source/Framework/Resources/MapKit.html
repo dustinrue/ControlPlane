@@ -776,6 +776,42 @@ window.onwebkitanimationend =  function(event) {
     return MKReverseGeocoder;
   }
   
+  // Geocoding
+  
+  function geocode(address, lat, lng)
+  {
+      var latlng = null;
+      if (lat != null)
+      {
+          latlng = new google.maps.LatLng(lat, lng);
+      }
+
+      var geocoder = new google.maps.Geocoder();
+      var MKGeocoder = window.MKGeocoder;
+      var request = latlng ? {'address': address, 'latLng': latlng} : {'address': address};
+     
+      geocoder.geocode(request, 
+        function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0])
+                    MKGeocoder.didSucceedWithResult(JSON.stringify(results[0]));
+                else
+                    MKGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+                //alert(JSON.stringify(results[0]));
+            }
+            else if (status == google.maps.GeocoderStatus.ZERO_RESULTS)
+            {
+                MKGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+            } 
+            else {
+                alert("error");
+                MKGeocoder.didFailWithError("MKErrorDomain");
+            }
+        }
+      );
+      return MKGeocoder;
+  }
+  
   // End New API
   
   function initialize() {
@@ -817,7 +853,7 @@ window.onwebkitanimationend =  function(event) {
         google.maps.event.addListener(map, 'drag', regionChangeFunction);
         google.maps.event.addListener(map, 'zoom_changed', regionChangeFunction);
         google.maps.event.addListener(map, 'click', clickFunction);
-        
+                
         createUserLocationMarker();
     } 
     catch(err)
