@@ -85,6 +85,7 @@
 	_companyName = nil;
 	_delegate = nil;
 	_submissionURL = nil;
+    [_crashFile release];
 	[_crashReportSenderUI release];
 	
 	[super dealloc];
@@ -107,13 +108,13 @@
 		[filesWithModificationDate addObject:[NSDictionary dictionaryWithObjectsAndKeys:crashFile,@"name",crashLogPath,@"path",modDate,@"modDate",nil]];
 	}
 	
-	NSSortDescriptor* dateSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"modDate" ascending:YES];
+	NSSortDescriptor* dateSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"modDate" ascending:YES] autorelease];
 	NSArray* sortedFiles = [filesWithModificationDate sortedArrayUsingDescriptors:[NSArray arrayWithObject:dateSortDescriptor]];
 	
 	NSPredicate* filterPredicate = [NSPredicate predicateWithFormat:@"name BEGINSWITH %@", [self applicationName]];
 	NSArray* filteredFiles = [sortedFiles filteredArrayUsingPredicate:filterPredicate];
 	
-	_crashFile = [[filteredFiles valueForKeyPath:@"path"] lastObject];	
+	_crashFile = [[[filteredFiles valueForKeyPath:@"path"] lastObject] copy];
 }
 
 
@@ -129,7 +130,7 @@
 	
 	NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileModificationDate];
 	
-	if (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending))
+	if (!lastCrashDate || (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending)))
 	{
 		returnValue = YES;
 	}
@@ -209,8 +210,7 @@
 {
     [self returnToMainApplication];
 	
-	NSTimer *_submitTimer;
-	_submitTimer = [NSTimer scheduledTimerWithTimeInterval:0.0 target:self selector:@selector(postXML:) userInfo:xml repeats:NO];	 
+    [NSTimer scheduledTimerWithTimeInterval:0.0 target:self selector:@selector(postXML:) userInfo:xml repeats:NO];	 
 }
 
 - (void) postXML:(NSTimer *) timer
@@ -443,17 +443,15 @@
 	
 	[[self window] makeFirstResponder: nil];
 	
-	OSErr err;
-	
 	NSString *userid = @"";
 	NSString *contact = @"";
 	
 	NSString *notes = [NSString stringWithFormat:@"Comments:\n%@\n\nConsole:\n%@", [descriptionTextField stringValue], _consoleContent];	
 	
 	SInt32 versionMajor, versionMinor, versionBugFix;
-	if ((err = Gestalt(gestaltSystemVersionMajor, &versionMajor)) != noErr) versionMajor = 0;
-	if ((err = Gestalt(gestaltSystemVersionMinor, &versionMinor)) != noErr)  versionMinor= 0;
-	if ((err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix)) != noErr) versionBugFix = 0;
+	if (Gestalt(gestaltSystemVersionMajor, &versionMajor) != noErr) versionMajor = 0;
+	if (Gestalt(gestaltSystemVersionMinor, &versionMinor) != noErr)  versionMinor= 0;
+	if (Gestalt(gestaltSystemVersionBugFix, &versionBugFix) != noErr) versionBugFix = 0;
 	
 	_xml = [[NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><platform>%@</platform><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
 			[[_delegate applicationName] UTF8String],
@@ -498,7 +496,7 @@
 	NSMutableArray* applicationStrings = [NSMutableArray array];
 	
 	NSString* searchString = [[_delegate applicationName] stringByAppendingString:@"["];
-	while (currentObject = [theEnum nextObject])
+	while ( (currentObject = [theEnum nextObject]) )
 	{
 		if ([currentObject rangeOfString:searchString].location != NSNotFound)
 			[applicationStrings addObject: currentObject];
