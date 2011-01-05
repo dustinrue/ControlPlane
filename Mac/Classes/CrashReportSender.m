@@ -41,6 +41,9 @@
 - (void) endCrashReporter;
 @end
 
+const CGFloat kCommentsHeight = 105;
+const CGFloat kDetailsHeight = 285;
+
 @implementation CrashReportSender
 
 
@@ -380,7 +383,8 @@
 	{
 		[self setShowComments: NO];
 		
-		windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height + 105);
+		windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height + kCommentsHeight);
+        windowFrame.origin.y -= kCommentsHeight;
 		[[self window] setFrame: windowFrame
 						display: YES
 						animate: YES];
@@ -391,7 +395,8 @@
 	{
 		[self setShowComments: NO];
 		
-		windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height - 105);
+		windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height - kCommentsHeight);
+        windowFrame.origin.y += kCommentsHeight;
 		[[self window] setFrame: windowFrame
 						display: YES
 						animate: YES];
@@ -403,7 +408,8 @@
 {
 	NSRect windowFrame = [[self window] frame];
 
-	windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height + 399);
+	windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height + kDetailsHeight);
+    windowFrame.origin.y -= kDetailsHeight;
 	[[self window] setFrame: windowFrame
 					display: YES
 					animate: YES];
@@ -419,7 +425,8 @@
 
 	[self setShowDetails:NO];
 
-	windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height - 399);
+	windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height - kDetailsHeight);
+    windowFrame.origin.y += kDetailsHeight;
 	[[self window] setFrame: windowFrame
 					display: YES
 					animate: YES];
