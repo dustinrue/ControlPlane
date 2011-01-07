@@ -351,7 +351,6 @@
 				GCC_PREFIX_HEADER = crashReporter_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				PRODUCT_NAME = CrashReportSender;
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
@@ -367,7 +366,6 @@
 				GCC_PREFIX_HEADER = crashReporter_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				PRODUCT_NAME = CrashReportSender;
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
