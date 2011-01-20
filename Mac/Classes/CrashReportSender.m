@@ -127,19 +127,22 @@ const CGFloat kDetailsHeight = 285;
 - (BOOL) hasPendingCrashReport
 {
 	BOOL returnValue = NO;
-	NSError* error;
     
-	NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"];
-	
-	NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileModificationDate];
-	
-	if (!lastCrashDate || (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending)))
-	{
-		returnValue = YES;
-	}
-	
-	[[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate
-											 forKey: @"CrashReportSender.lastCrashDate"];
+    if (_crashFile) {
+        NSError* error;
+        
+        NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"];
+        
+        NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileModificationDate];
+        
+        if (!lastCrashDate || (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending)))
+        {
+            returnValue = YES;
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate
+                                                 forKey: @"CrashReportSender.lastCrashDate"];
+    }
 	
 	return returnValue;
 }
