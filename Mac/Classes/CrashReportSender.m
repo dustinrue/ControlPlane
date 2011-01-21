@@ -220,14 +220,14 @@
 	
 	[request setTimeoutInterval: 15];
 	[request setHTTPMethod:@"POST"];
-	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data, boundary=%@", boundary];
+	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
 	[request setValue:contentType forHTTPHeaderField:@"Content-type"];
 	
 	NSMutableData *postBody =  [NSMutableData data];
-	[postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[postBody appendData:[@"Content-Disposition: form-data; name=\"xmlstring\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[postBody appendData:[[timer userInfo] dataUsingEncoding:NSUTF8StringEncoding]];
-	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
 	
 	_serverResult = CrashReportStatusUnknown;
