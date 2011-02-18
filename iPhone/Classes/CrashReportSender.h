@@ -96,6 +96,10 @@ typedef enum CrashReportStatus {
 	NSURL *_submissionURL;
 	NSMutableData *_responseData;
 	NSInteger _statusCode;
+    
+    NSURLConnection *_urlConnection;
+
+    NSData *_crashData;
 }
 
 + (CrashReportSender *)sharedCrashReportSender;

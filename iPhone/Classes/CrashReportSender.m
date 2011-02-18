@@ -78,7 +78,9 @@
 		_crashIdenticalCurrentVersion = YES;
 		_crashReportFeedbackActivated = NO;
 		_delegate = nil;
-		
+		_crashData = nil;
+        _urlConnection = nil;
+        
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kCrashReportAnalyzerStarted];
 		if (testValue == nil)
 		{
@@ -131,6 +133,10 @@
 
 - (void) dealloc
 {
+    [_urlConnection cancel];
+    _urlConnection = nil;
+    [_crashData release];
+    
 	[_crashesDir release];
 	[_crashFiles release];
 	if (_submitTimer != nil)
@@ -313,7 +319,7 @@
 
 #pragma mark NSXMLParser
 
-- (void)parseXMLFileAtURL:(NSString *)url parseError:(NSError **)error
+- (BOOL)parseXMLFileAtURL:(NSString *)url parseError:(NSError **)error
 {	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
 	// Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
@@ -331,6 +337,8 @@
 	}
 	
 	[parser release];
+    
+    return (parseError) ? YES : NO;
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
@@ -703,7 +711,7 @@
 		[_delegate connectionOpened];
 	}
 	
-	[[NSURLConnection connectionWithRequest:request delegate:self] retain];
+	_urlConnection = [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
 #pragma mark NSURLConnection Delegate
@@ -774,15 +782,15 @@
 	NSError *error;
 	
 	// Try loading the crash report
-	NSData *crashData = [NSData dataWithData:[crashReporter loadPendingCrashReportDataAndReturnError: &error]];
+	_crashData = [[NSData alloc] initWithData:[crashReporter loadPendingCrashReportDataAndReturnError: &error]];
 	
 	NSString *cacheFilename = [NSString stringWithFormat: @"%.0f", [NSDate timeIntervalSinceReferenceDate]];
 	
-	if (crashData == nil) {
+	if (_crashData == nil) {
 		NSLog(@"Could not load crash report: %@", error);
 		goto finish;
 	} else {
-		[crashData writeToFile:[_crashesDir stringByAppendingPathComponent: cacheFilename] atomically:YES];
+		[_crashData writeToFile:[_crashesDir stringByAppendingPathComponent: cacheFilename] atomically:YES];
 	}
 	
 	// check if the next call ran successfully the last time
@@ -794,7 +802,7 @@
 		
 		// We could send the report from here, but we'll just print out
 		// some debugging info instead
-		PLCrashReport *report = [[[PLCrashReport alloc] initWithData: [crashData retain] error: &error] autorelease];
+		PLCrashReport *report = [[[PLCrashReport alloc] initWithData: _crashData error: &error] autorelease];
 		if (report == nil) {
 			NSLog(@"Could not parse crash report");
 			goto finish;
