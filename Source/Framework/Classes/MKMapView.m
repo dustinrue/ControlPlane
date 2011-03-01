@@ -465,8 +465,8 @@
         return;
 
     MKAnnotationView *annotationView = (id)CFDictionaryGetValue(annotationViews, annotation);
-    [self delegateDidSelectAnnotationView:annotationView];
     [selectedAnnotations addObject:annotation];
+    [self delegateDidSelectAnnotationView:annotationView];
     
     WebScriptObject *webScriptObject = [webView windowScriptObject];
     WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
@@ -488,9 +488,9 @@
         return;
 
     MKAnnotationView *annotationView = (id)CFDictionaryGetValue(annotationViews, annotation);
-    [self delegateDidDeselectAnnotationView:annotationView];
     [selectedAnnotations removeObject:annotation];
-    
+    [self delegateDidDeselectAnnotationView:annotationView];
+
     WebScriptObject *webScriptObject = [webView windowScriptObject];
     WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
     
