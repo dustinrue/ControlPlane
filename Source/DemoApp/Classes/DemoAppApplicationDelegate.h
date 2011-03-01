@@ -28,5 +28,6 @@
 - (IBAction)addPin:(id)sender;
 - (IBAction)searchAddress:(id)sender;
 - (IBAction)demo:(id)sender;
+- (IBAction)addAdditionalCSS:(id)sender;
 
 @end

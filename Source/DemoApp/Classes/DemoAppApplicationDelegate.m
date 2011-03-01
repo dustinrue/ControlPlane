@@ -95,6 +95,12 @@
 
 }
 
+- (IBAction)addAdditionalCSS:(id)sender
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MapViewAdditions" ofType:@"css"];
+    [mapView performSelector:@selector(addStylesheetTag:) withObject:path afterDelay:1.0];
+}
+
 #pragma mark MKReverseGeocoderDelegate
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
