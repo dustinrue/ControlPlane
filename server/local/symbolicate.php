@@ -50,7 +50,7 @@ function doPost($postdata)
 		return 'error'; 
 	} 
 	else { 
-		$temp = "POST ".$uri."  HTTP/1.1\r\n"; 
+		$temp = "POST ".$uri." HTTP/1.1\r\n"; 
 		$temp .= "Host: ".$host."\r\n"; 
 		$temp .= "User-Agent: PHP Script\r\n"; 
 		$temp .= "Content-Type: application/x-www-form-urlencoded\r\n";
