@@ -129,7 +129,8 @@
 
 - Include `CrashReportSender.h` and `CrashReportSender.m` into your project
 - Include `CrashReporter.framework` into your project
-- Add the Apple framework `SystemConfiguration.framework` zu your project
+- Add the "-all_load" flag to your projects build configurations "Other Linker Flags"
+- Add the Apple framework `SystemConfiguration.framework` to your project
 - In your `appDelegate.h` include
 
       #import "CrashReportSender.h"
