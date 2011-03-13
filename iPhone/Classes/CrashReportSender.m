@@ -781,25 +781,26 @@
 	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
 	NSError *error;
 	
-	// Try loading the crash report
-	_crashData = [[NSData alloc] initWithData:[crashReporter loadPendingCrashReportDataAndReturnError: &error]];
-	
-	NSString *cacheFilename = [NSString stringWithFormat: @"%.0f", [NSDate timeIntervalSinceReferenceDate]];
-	
-	if (_crashData == nil) {
-		NSLog(@"Could not load crash report: %@", error);
-		goto finish;
-	} else {
-		[_crashData writeToFile:[_crashesDir stringByAppendingPathComponent: cacheFilename] atomically:YES];
-	}
-	
-	// check if the next call ran successfully the last time
+    // check if the next call ran successfully the last time
 	if (_crashReportAnalyzerStarted == 0)
 	{
 		// mark the start of the routine
 		_crashReportAnalyzerStarted = 1;
 		[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:_crashReportAnalyzerStarted] forKey:kCrashReportAnalyzerStarted];
 		
+        
+        // Try loading the crash report
+        _crashData = [[NSData alloc] initWithData:[crashReporter loadPendingCrashReportDataAndReturnError: &error]];
+	
+        NSString *cacheFilename = [NSString stringWithFormat: @"%.0f", [NSDate timeIntervalSinceReferenceDate]];
+	
+        if (_crashData == nil) {
+            NSLog(@"Could not load crash report: %@", error);
+            goto finish;
+        } else {
+            [_crashData writeToFile:[_crashesDir stringByAppendingPathComponent: cacheFilename] atomically:YES];
+        }
+	
 		// We could send the report from here, but we'll just print out
 		// some debugging info instead
 		PLCrashReport *report = [[[PLCrashReport alloc] initWithData: _crashData error: &error] autorelease];
