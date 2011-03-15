@@ -25,7 +25,7 @@
 
 - (NSString *)imageUrl
 {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSBundle *bundle = [NSBundle bundleForClass:[MKPinAnnotationView class]];
     NSString *filename = nil;
     switch (pinColor) {
         case MKPinAnnotationColorRed:

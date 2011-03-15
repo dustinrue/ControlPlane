@@ -69,6 +69,7 @@
 
     [webView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [webView setFrameLoadDelegate:self];
+    [webView setMaintainsBackForwardList:NO];
     
     // Create the overlay data structures
     overlays = [[NSMutableArray array] retain];
@@ -82,7 +83,7 @@
     annotationScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     
     // TODO : make this suck less.
-    NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
+    NSBundle *frameworkBundle = [NSBundle bundleForClass:[MKMapView class]];
     NSString *indexPath = [frameworkBundle pathForResource:@"MapKit" ofType:@"html"];
     [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:indexPath]]]; 
     [[[webView mainFrame] frameView] setAllowsScrolling:NO];
@@ -119,8 +120,6 @@
     annotationScriptObjects = NULL;
     [super dealloc];
 }
-
-
 
 - (void)setFrame:(NSRect)frameRect
 {

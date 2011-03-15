@@ -172,7 +172,7 @@
     {
         // create it
         // TODO : make this suck less.
-        NSBundle *frameworkBundle = [NSBundle bundleForClass:[self class]];
+        NSBundle *frameworkBundle = [NSBundle bundleForClass:[MKReverseGeocoder class]];
         NSString *indexPath = [frameworkBundle pathForResource:@"MapKit" ofType:@"html"];
         webView = [[WebView alloc] initWithFrame:NSZeroRect frameName:nil groupName:nil];
         [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:indexPath]]]; 
