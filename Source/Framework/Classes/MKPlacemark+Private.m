@@ -17,9 +17,13 @@
         NSNumber *latitudeNumber = [result valueForKeyPath:@"geometry.location.b"];
         if (!latitudeNumber)
             latitudeNumber = [result valueForKeyPath:@"geometry.location.wa"];
+        if (!latitudeNumber)
+            latitudeNumber = [result valueForKeyPath:@"geometry.location.Ba"];
         NSNumber *longitudeNumber = [result valueForKeyPath:@"geometry.location.c"];
         if (!longitudeNumber)
             longitudeNumber = [result valueForKeyPath:@"geometry.location.ya"];
+        if (!longitudeNumber)
+            longitudeNumber = [result valueForKeyPath:@"geometry.location.Da"];
         coordinate.latitude = [latitudeNumber doubleValue];
         coordinate.longitude = [longitudeNumber doubleValue];
         NSArray *components = [result objectForKey:@"address_components"];
