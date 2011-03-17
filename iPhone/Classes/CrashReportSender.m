@@ -134,6 +134,7 @@
 - (void) dealloc
 {
     [_urlConnection cancel];
+    [_urlConnection release]; 
     _urlConnection = nil;
     [_crashData release];
     
@@ -161,7 +162,7 @@
             
 			NSDirectoryEnumerator *dirEnum = [fm enumeratorAtPath: _crashesDir];
 			
-			while (file = [dirEnum nextObject])
+			while ((file = [dirEnum nextObject]))
 			{
 				NSDictionary *fileAttributes = [fm attributesOfItemAtPath:[_crashesDir stringByAppendingPathComponent:file] error:&error];
 				if ([[fileAttributes objectForKey:NSFileSize] intValue] > 0)
@@ -711,7 +712,7 @@
 		[_delegate connectionOpened];
 	}
 	
-	_urlConnection = [NSURLConnection connectionWithRequest:request delegate:self];
+	_urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 #pragma mark NSURLConnection Delegate
