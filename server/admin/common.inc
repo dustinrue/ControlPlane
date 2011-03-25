@@ -228,7 +228,13 @@ function mapPlatform($device)
 			$platform = "iPad";
 			break;
         case "iPad2,1":
-            $platform = "iPad 2";
+            $platform = "iPad2 WiFi";
+            break;
+        case "iPad2,1":
+        	$platform = "iPad2 GSM";
+            break;
+        case "iPad2,1":
+        	$platform = "iPad2 CDMA";
             break;
 		case "iPod1,1":
 			$platform = "iPod1G";
