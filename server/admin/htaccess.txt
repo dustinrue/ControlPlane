@@ -1,0 +1,8 @@
+#Rename this file to .htaccess to password protect your admin forlder
+#Create the .htpasswd using the htpasswd utility on your server
+
+
+AuthUserFile /full/path/to/.htpasswd
+AuthType Basic
+AuthName "My Secret Folder"
+Require valid-user
