@@ -1,0 +1,226 @@
+TQuincyDemo
+v7
+r0
+t325194919.825953
+cCheck dependencies
+cProcessInfoPlistFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Info.plist QuincyDemo-Info.plist
+cPBXCp build/Debug/QuincyDemo.app/Contents/Frameworks/Quincy.framework build/Debug/Quincy.framework
+cCompileXIB /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/MainMenu.xib
+cProcessPCH /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/AppKit-dlbkjopqzfbtvfeaeltkhmayhjju/AppKit.h.gch /Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h normal x86_64 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/QuincyDemoAppDelegate.o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/main.o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/main.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
+cLd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo normal x86_64
+cGenerateDSYMFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app.dSYM /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo
+cTouch /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app
+
+N/Developer3/SDKs/MacOSX10.5.sdk
+c000000004D8CE66700000000000000EE
+t1301079655
+s238
+
+N/Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h
+c000000004864BB88000000000000170F
+t1214561160
+s5903
+
+N/Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
+c0000000040C4AA6800000000000001E5
+t1086630504
+s485
+
+N/System/Library/Frameworks/AppKit.framework/AppKit
+c000000004CD606210000000002B48610
+t1289094689
+s45385232
+
+N/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004D5B397F0000000000B3E980
+t1297824127
+s11790720
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.h
+c000000004DB1D91F00000000000019B3
+t1303501087
+s6579
+i<Cocoa/Cocoa.h>
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/MainMenu.xib
+c000000004DB1DAAC000000000000B5D8
+t1303501484
+s46552
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.h
+c000000004DB1D27800000000000005C2
+t1303499384
+s1474
+i<Cocoa/Cocoa.h>
+i<Quincy/BWQuincyManager.h>
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.m
+c000000004DB1D47F00000000000008F2
+t1303499903
+s2290
+i"QuincyDemoAppDelegate.h"
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework
+c000000004DB1DD2400000000000000CC
+t1303502116
+s204
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Quincy
+c000000004DB1DD24000000000000B440
+t1303502116
+s46144
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app
+t1303502119
+s102
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app.dSYM
+t1303502119
+s102
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Frameworks/Quincy.framework
+t1303502117
+s204
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Info.plist
+t1303502117
+s1451
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo
+t1303502119
+s15320
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/PkgInfo
+t1303502117
+s8
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Resources/MainMenu.nib
+t1303502118
+s6739
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/QuincyDemo.LinkFileList
+c000000004DB1DD25000000000000011B
+t1303502117
+s283
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/QuincyDemoAppDelegate.o
+t1303502119
+s26052
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/main.o
+t1303502119
+s5040
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/main.m
+c000000004D83E776000000000000056F
+t1300490102
+s1391
+i<Cocoa/Cocoa.h>
+
+N/var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/AppKit-dlbkjopqzfbtvfeaeltkhmayhjju/AppKit.h.gch
+t1303502119
+s50507344
+
+NQuincyDemo-Info.plist
+c000000004DAA1713000000000000043E
+t1302992659
+s1086
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies325194917#325194917#0(0"0(0#1#0"8636567936#0"0#
+
+CCompileC build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/QuincyDemoAppDelegate.o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
+s325194919.647400
+e325194919.755092
+r1
+xCompileC
+xbuild/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/QuincyDemoAppDelegate.o
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.m
+xnormal
+xx86_64
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@89"Compile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.m325194919#325194919#0(0"0(0#0#81"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.m8644925504#1792"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    setenv LANG en_US.US-ASCII    /Developer3/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer3/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-generated-files.hmap -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-own-target-headers.hmap -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-all-target-headers.hmap -iquote /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-project-headers.hmap -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/include -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/DerivedSources/x86_64 -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/DerivedSources -include /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/AppKit-dlbkjopqzfbtvfeaeltkhmayhjju/AppKit.h -c /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemoAppDelegate.m -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/QuincyDemoAppDelegate.o0#
+
+CCompileC build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/main.o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/main.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
+s325194919.648173
+e325194919.745527
+r1
+xCompileC
+xbuild/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/main.o
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/main.m
+xnormal
+xx86_64
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@72"Compile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/main.m325194919#325194919#0(0"0(0#0#64"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/main.m8637950176#1758"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    setenv LANG en_US.US-ASCII    /Developer3/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer3/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-generated-files.hmap -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-own-target-headers.hmap -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-all-target-headers.hmap -iquote /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-project-headers.hmap -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/include -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/DerivedSources/x86_64 -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/DerivedSources -include /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/AppKit-dlbkjopqzfbtvfeaeltkhmayhjju/AppKit.h -c /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/main.m -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/main.o0#
+
+CCompileXIB /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/MainMenu.xib
+s325194917.907558
+e325194918.051582
+r1
+xCompileXIB
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/MainMenu.xib
+lSLF07#2@23"CompileXIB MainMenu.xib325194917#325194918#0(0"0(0#0#70"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/MainMenu.xib8642219296#398"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /Developer3/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Resources/MainMenu.nib /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/MainMenu.xib --sdk /Developer3/SDKs/MacOSX10.5.sdk0#
+
+CGenerateDSYMFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app.dSYM /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo
+s325194919.774539
+e325194919.823722
+r1
+xGenerateDSYMFile
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app.dSYM
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo
+lSLF07#2@101"GenerateDSYMFile build/Debug/QuincyDemo.app.dSYM build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo325194919#325194919#0(0"0(0#0#110"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo8642135008#302"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /Developer3/usr/bin/dsymutil /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app.dSYM0#
+
+CLd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo normal x86_64
+s325194919.755159
+e325194919.774472
+r1
+xLd
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo
+xnormal
+xx86_64
+lSLF07#2@115"Link /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo325194919#325194919#0(0"0(0#0#0"8647950944#807"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    setenv MACOSX_DEPLOYMENT_TARGET 10.5    /Developer3/usr/bin/gcc-4.2 -arch x86_64 -isysroot /Developer3/SDKs/MacOSX10.5.sdk -L/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -filelist /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/Objects-normal/x86_64/QuincyDemo.LinkFileList -mmacosx-version-min=10.5 -framework Foundation -framework AppKit -framework Foundation -framework AppKit -framework Quincy -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/MacOS/QuincyDemo0#
+
+CPBXCp build/Debug/QuincyDemo.app/Contents/Frameworks/Quincy.framework build/Debug/Quincy.framework
+s325194917.902114
+e325194917.907494
+r1
+xPBXCp
+xbuild/Debug/QuincyDemo.app/Contents/Frameworks/Quincy.framework
+xbuild/Debug/Quincy.framework
+lSLF07#2@33"Copy build/Debug/Quincy.framework325194917#325194917#0(0"0(0#0#86"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework8647093024#420"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /Developer3/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -resolve-src-symlinks /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Frameworks0#
+
+CProcessInfoPlistFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Info.plist QuincyDemo-Info.plist
+s325194917.899048
+e325194917.902055
+r1
+xProcessInfoPlistFile
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Info.plist
+xQuincyDemo-Info.plist
+lSLF07#2@29"Process QuincyDemo-Info.plist325194917#325194917#0(0"0(0#0#79"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/QuincyDemo-Info.plist8642698304#376"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    builtin-infoPlistUtility QuincyDemo-Info.plist -genpkginfo /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/PkgInfo -expandbuildsettings -platform macosx -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app/Contents/Info.plist0#
+
+CProcessPCH /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/AppKit-dlbkjopqzfbtvfeaeltkhmayhjju/AppKit.h.gch /Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h normal x86_64 objective-c com.apple.compilers.gcc.4_2
+s325194918.051683
+e325194919.647240
+r1
+xProcessPCH
+x/var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/AppKit-dlbkjopqzfbtvfeaeltkhmayhjju/AppKit.h.gch
+x/Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h
+xnormal
+xx86_64
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@102"Precompile /Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h325194918#325194919#0(0"0(0#0#91"/Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h8649569760#1654"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    setenv LANG en_US.US-ASCII    /Developer3/usr/bin/gcc-4.2 -x objective-c-header -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer3/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -iquote /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-generated-files.hmap -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-own-target-headers.hmap -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-all-target-headers.hmap -iquote /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/QuincyDemo-project-headers.hmap -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/include -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/DerivedSources/x86_64 -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/QuincyDemo.build/DerivedSources -c /Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h -o /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/AppKit-dlbkjopqzfbtvfeaeltkhmayhjju/AppKit.h.gch0#
+
+CTouch /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app
+s325194919.823789
+e325194919.825931
+r1
+xTouch
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app
+lSLF07#2@90"Touch /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app325194919#325194919#0(0"0(0#0#0"8649769824#172"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /usr/bin/touch -c /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/QuincyDemo.app0#
+

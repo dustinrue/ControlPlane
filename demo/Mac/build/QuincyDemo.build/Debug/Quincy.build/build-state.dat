@@ -1,0 +1,278 @@
+TQuincy
+v7
+r0
+t325194916.070302
+cCheck dependencies
+cSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/Current A
+cSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Resources Versions/Current/Resources
+cSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Quincy Versions/Current/Quincy
+cSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Headers Versions/Current/Headers
+cProcessInfoPlistFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/Info.plist Info.plist
+cCpHeader build/Debug/Quincy.framework/Versions/A/Headers/BWQuincyManager.h ../../client/Mac/BWQuincyManager.h
+cStripNIB /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyMain.nib
+cProcessPCH /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/Quincy_Prefix-dckxhfkyyklotqadudbjiydikquj/Quincy_Prefix.pch.gch Quincy_Prefix.pch normal x86_64 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/QuincyDemo.build/Debug/Quincy.build/Objects-normal/x86_64/BWQuincyManager.o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
+cLd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy normal x86_64
+cGenerateDSYMFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework.dSYM /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy
+cTouch /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework
+
+N/Developer3/SDKs/MacOSX10.5.sdk
+c000000004D8CE66700000000000000EE
+t1301079655
+s238
+
+N/Developer3/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
+c0000000040C4AA6800000000000001E5
+t1086630504
+s485
+
+N/Developer3/SDKs/MacOSX10.5.sdk/usr/include/sys/sysctl.h
+c0000000047E883D1000000000000795B
+t1206420433
+s31067
+
+N/System/Library/Frameworks/Cocoa.framework/Cocoa
+c000000004A1F2D63000000000000A5E0
+t1243557219
+s42464
+
+N/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004D5B397F0000000000B3E980
+t1297824127
+s11790720
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/client/Mac/BWQuincyManager.h
+c000000004DB1D91F00000000000019B3
+t1303501087
+s6579
+i<Cocoa/Cocoa.h>
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyMain.nib
+c000000004DB1DD160000000000000088
+t1303502102
+s136
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.h
+c000000004DB1D91F00000000000019B3
+t1303501087
+s6579
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.m
+c000000004DB1DCAF00000000000042E6
+t1303501999
+s17126
+i"BWQuincyManager.h"
+i<sys/sysctl.h>
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyDemoMain.nib
+c000000004DAA1B020000000000000088
+t1302993666
+s136
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyMain.nib
+c000000004DB1DD160000000000000088
+t1303502102
+s136
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/Quincy_Prefix.pch
+c000000004B46121200000000000000A2
+t1262883346
+s162
+i<Cocoa/Cocoa.h>
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework
+t1303502116
+s204
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework.dSYM
+t1303502116
+s102
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Headers
+t3
+s24
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Quincy
+t3
+s23
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Resources
+t3
+s26
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Headers/BWQuincyManager.h
+t1303502113
+s6579
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy
+t1303502116
+s46144
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/BWQuincyMain.nib
+t2
+s0
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/Info.plist
+t1303502113
+s945
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/QuincyDemoMain.nib
+t1303501718
+s15527
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/QuincyMain.nib
+t1303502113
+s16021
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/Current
+t3
+s1
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/Objects-normal/x86_64/BWQuincyManager.o
+t1303502115
+s87708
+
+N/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/Objects-normal/x86_64/Quincy.LinkFileList
+c000000004DB1DD21000000000000008C
+t1303502113
+s140
+
+N/var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/Quincy_Prefix-dckxhfkyyklotqadudbjiydikquj/Quincy_Prefix.pch.gch
+t1303502115
+s51106064
+
+NInfo.plist
+c000000004DAA17040000000000000225
+t1302992644
+s549
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies325194913#325194913#0(0"0(0#1#0"8646213056#0"0#
+
+CCompileC build/QuincyDemo.build/Debug/Quincy.build/Objects-normal/x86_64/BWQuincyManager.o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
+s325194915.789698
+e325194915.942360
+r1
+xCompileC
+xbuild/QuincyDemo.build/Debug/Quincy.build/Objects-normal/x86_64/BWQuincyManager.o
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.m
+xnormal
+xx86_64
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@100"Compile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.m325194915#325194915#0(0"0(0#0#92"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.m8648260896#1273"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    setenv LANG en_US.US-ASCII    /Developer3/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer3/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/Quincy.hmap -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/include -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/DerivedSources/x86_64 -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/DerivedSources -include /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/Quincy_Prefix-dckxhfkyyklotqadudbjiydikquj/Quincy_Prefix.pch -c /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.m -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/Objects-normal/x86_64/BWQuincyManager.o0#
+
+CCpHeader build/Debug/Quincy.framework/Versions/A/Headers/BWQuincyManager.h ../../client/Mac/BWQuincyManager.h
+s325194913.612177
+e325194913.615888
+r1
+xCpHeader
+xbuild/Debug/Quincy.framework/Versions/A/Headers/BWQuincyManager.h
+x../../client/Mac/BWQuincyManager.h
+lSLF07#2@39"Copy ../../client/Mac/BWQuincyManager.h325194913#325194913#0(0"0(0#0#92"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.h8647167616#427"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /Developer3/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -resolve-src-symlinks /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyManager.h /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Headers0#
+
+CGenerateDSYMFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework.dSYM /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy
+s325194916.058385
+e325194916.068131
+r1
+xGenerateDSYMFile
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework.dSYM
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy
+lSLF07#2@97"GenerateDSYMFile build/Debug/Quincy.framework.dSYM build/Debug/Quincy.framework/Versions/A/Quincy325194916#325194916#0(0"0(0#0#104"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy8647933088#298"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /Developer3/usr/bin/dsymutil /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework.dSYM0#
+
+CLd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy normal x86_64
+s325194915.942446
+e325194916.058321
+r1
+xLd
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy
+xnormal
+xx86_64
+lSLF07#2@109"Link /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy325194915#325194916#0(0"0(0#0#0"8646494464#813"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    setenv MACOSX_DEPLOYMENT_TARGET 10.5    /Developer3/usr/bin/gcc-4.2 -arch x86_64 -dynamiclib -isysroot /Developer3/SDKs/MacOSX10.5.sdk -L/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -filelist /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/Objects-normal/x86_64/Quincy.LinkFileList -install_name @executable_path/../Frameworks/Quincy.framework/Versions/A/Quincy -mmacosx-version-min=10.5 -framework Cocoa -framework Foundation -single_module -compatibility_version 1 -current_version 1 -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Quincy0#
+
+CProcessInfoPlistFile /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/Info.plist Info.plist
+s325194913.609584
+e325194913.612124
+r1
+xProcessInfoPlistFile
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/Info.plist
+xInfo.plist
+lSLF07#2@18"Process Info.plist325194913#325194913#0(0"0(0#0#68"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/Info.plist8643973856#265"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    builtin-infoPlistUtility Info.plist -expandbuildsettings -platform macosx -o /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/Info.plist0#
+
+CProcessPCH /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/Quincy_Prefix-dckxhfkyyklotqadudbjiydikquj/Quincy_Prefix.pch.gch Quincy_Prefix.pch normal x86_64 objective-c com.apple.compilers.gcc.4_2
+s325194913.692276
+e325194915.789509
+r1
+xProcessPCH
+x/var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/Quincy_Prefix-dckxhfkyyklotqadudbjiydikquj/Quincy_Prefix.pch.gch
+xQuincy_Prefix.pch
+xnormal
+xx86_64
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@28"Precompile Quincy_Prefix.pch325194913#325194915#0(0"0(0#0#75"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/Quincy_Prefix.pch8649849760#1118"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    setenv LANG en_US.US-ASCII    /Developer3/usr/bin/gcc-4.2 -x objective-c-header -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer3/SDKs/MacOSX10.5.sdk -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/Quincy.hmap -F/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/include -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/DerivedSources/x86_64 -I/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/QuincyDemo.build/Debug/Quincy.build/DerivedSources -c /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/Quincy_Prefix.pch -o /var/folders/rn/rnB-OMGGE9qg22wVDcFSD++++TM/-Caches-/com.apple.Xcode.502/SharedPrecompiledHeaders/Quincy_Prefix-dckxhfkyyklotqadudbjiydikquj/Quincy_Prefix.pch.gch0#
+
+CStripNIB /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/BWQuincyMain.nib
+r0
+
+CStripNIB /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyDemoMain.nib
+s325194517.929906
+e325194518.050724
+r1
+xStripNIB
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyDemoMain.nib
+lSLF07#2@44"StripNIB ../../client/Mac/QuincyDemoMain.nib325194517#325194518#0(0"0(0#0#93"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyDemoMain.nib8648040672#361"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /Developer3/usr/bin/ibtool --strip /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/QuincyDemoMain.nib --output-format human-readable-text /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyDemoMain.nib0#
+
+CStripNIB /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyMain.nib
+s325194913.615945
+e325194913.692168
+r1
+xStripNIB
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyMain.nib
+lSLF07#2@40"StripNIB ../../client/Mac/QuincyMain.nib325194913#325194913#0(0"0(0#0#89"/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyMain.nib8645629344#353"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /Developer3/usr/bin/ibtool --strip /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/A/Resources/QuincyMain.nib --output-format human-readable-text /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/../../client/Mac/QuincyMain.nib0#
+
+CSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Headers Versions/Current/Headers
+s325194913.607498
+e325194913.609503
+r1
+xSymLink
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Headers
+xVersions/Current/Headers
+lSLF07#2@102"Process /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Headers325194913#325194913#0(0"0(0#0#0"8646312864#201"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /bin/ln -sf Versions/Current/Headers /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Headers0#
+
+CSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Quincy Versions/Current/Quincy
+s325194913.605891
+e325194913.608177
+r1
+xSymLink
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Quincy
+xVersions/Current/Quincy
+lSLF07#2@101"Process /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Quincy325194913#325194913#0(0"0(0#0#0"8647343264#199"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /bin/ln -sf Versions/Current/Quincy /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Quincy0#
+
+CSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Resources Versions/Current/Resources
+s325194913.605415
+e325194913.608082
+r1
+xSymLink
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Resources
+xVersions/Current/Resources
+lSLF07#2@104"Process /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Resources325194913#325194913#0(0"0(0#0#0"8648039520#205"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /bin/ln -sf Versions/Current/Resources /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Resources0#
+
+CSymLink /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/Current A
+s325194913.604736
+e325194913.607358
+r1
+xSymLink
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/Current
+xA
+lSLF07#2@111"Process /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/Current325194913#325194913#0(0"0(0#0#0"8649057824#187"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /bin/ln -sf A /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework/Versions/Current0#
+
+CTouch /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework
+s325194916.068188
+e325194916.070276
+r1
+xTouch
+x/Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework
+lSLF07#2@92"Touch /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework325194916#325194916#0(0"0(0#0#0"8647222208#174"    cd /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac    /usr/bin/touch -c /Users/andreaslinde/SourceCode/CrashReporterDemo/demo/Mac/build/Debug/Quincy.framework0#
+
