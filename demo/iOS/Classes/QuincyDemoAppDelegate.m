@@ -30,26 +30,26 @@
 #import "QuincyDemoAppDelegate.h"
 #import "QuincyDemoViewController.h"
 
-//#define CRASH_REPORTER_URL @"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"
-#define CRASH_REPORTER_URL @"http://0.0.0.0:3000/api/2/apps/de.serenity.HockeyPlus/crashes"
-
 @implementation QuincyDemoAppDelegate
 
 @synthesize window;
 @synthesize viewController;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application
-{	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	_application = application;
 	
 	// Override point for customization after app launch    
 	[window addSubview:viewController.view];
 	[window makeKeyAndVisible];
   
-    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:CRASH_REPORTER_URL];
+    // MacDevCrashReports Example URL: http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U
+    // Self hosted Example URL: http://yourserver.com/crash_v200.php
+    // HockeyApp Example URL: https://beta.hockeyapp.com/
+
+    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://bigmac.local:3000/"];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];
     [[BWQuincyManager sharedQuincyManager] setFeedbackActivated:YES];
-    [[BWQuincyManager sharedQuincyManager] setUsingAttachments:YES];
+    [[BWQuincyManager sharedQuincyManager] setUsingHockeyApp:YES];
 }
 
 

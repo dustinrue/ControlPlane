@@ -55,6 +55,8 @@ NSBundle *quincyBundle() {
 - (void)handleCrashReport;
 - (void)_cleanCrashReports;
 
+- (void)_checkForFeedbackStatus;
+
 - (void)_performSendingCrashReports;
 - (void)_sendCrashReports;
 - (void)reachabilityChanged:(NSNotification *)notification;
@@ -72,8 +74,10 @@ NSBundle *quincyBundle() {
 
 @synthesize delegate = _delegate;
 @synthesize submissionURL = _submissionURL;
-@synthesize usingAttachments = _usingAttachments;
 @synthesize feedbackActivated = _feedbackActivated;
+
+@synthesize usingHockeyApp = _usingHockeyApp;
+@synthesize appIdentifier = _appIdentifier;
 
 + (BWQuincyManager *)sharedQuincyManager {
 	static BWQuincyManager *quincyManager = nil;
@@ -88,7 +92,6 @@ NSBundle *quincyBundle() {
 - (id) init {
     if ((self = [super init])) {
 		_serverResult = -1;
-		_amountCrashes = 0;
 		_crashIdenticalCurrentVersion = YES;
 		_crashData = nil;
         _urlConnection = nil;
@@ -96,7 +99,8 @@ NSBundle *quincyBundle() {
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
-        self.usingAttachments = NO;
+        self.usingHockeyApp = NO;
+        self.appIdentifier = nil;
 
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kQuincyKitAnalyzerStarted];
 		if (testValue) {
@@ -166,6 +170,11 @@ NSBundle *quincyBundle() {
 }
 
 
+- (NSString *)encodedAppIdentifier_ {
+    return (self.appIdentifier ? [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+}
+
+
 #pragma mark -
 #pragma mark setter
 - (void)setSubmissionURL:(NSString *)anSubmissionURL {
@@ -230,10 +239,8 @@ NSBundle *quincyBundle() {
 		}
 		
 		if ([_crashFiles count] > 0) {
-			_amountCrashes = [_crashFiles count];
 			return YES;
-		}
-		else
+		} else
 			return NO;
 	} else
 		return NO;
@@ -272,9 +279,8 @@ NSBundle *quincyBundle() {
 - (void) showCrashStatusMessage {
 	UIAlertView *alertView;
 	
-	_amountCrashes--;
-	if (_feedbackActivated && _amountCrashes == 0 && _serverResult >= CrashReportStatusAssigned && _crashIdenticalCurrentVersion)
-	{
+	if (_serverResult >= CrashReportStatusAssigned && 
+        _crashIdenticalCurrentVersion) {
 		// show some feedback to the user about the crash status
 		NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 		switch (_serverResult) {
@@ -304,8 +310,7 @@ NSBundle *quincyBundle() {
 				break;
 		}
 		
-		if (alertView != nil)
-		{
+		if (alertView != nil) {
 			[alertView setTag: QuincyKitAlertTypeFeedback];
 			[alertView show];
 			[alertView release];
@@ -376,6 +381,7 @@ NSBundle *quincyBundle() {
 		elementName = qName;
 	}
 	
+    // open source implementation
 	if ([elementName isEqualToString: @"result"]) {
 		if ([_contentOfProperty intValue] > _serverResult) {
 			_serverResult = [_contentOfProperty intValue];
@@ -383,6 +389,14 @@ NSBundle *quincyBundle() {
             CrashReportStatus errorcode = [_contentOfProperty intValue];
             NSLog(@"CrashReporter ended in error code: %i", errorcode);
         }
+	}
+    // HockeyApp implementation
+    else if ([elementName isEqualToString: @"id"]) {
+        _feedbackRequestID = [_contentOfProperty copy];
+	} else if ([elementName isEqualToString: @"delay"]) {
+        _feedbackDelayInterval = [_contentOfProperty intValue];
+	} else if ([elementName isEqualToString: @"status"]) {
+        _serverResult = [_contentOfProperty intValue];
 	}
 }
 
@@ -441,7 +455,9 @@ NSBundle *quincyBundle() {
 		description = [self.delegate crashReportDescription];
 	}
 	
-	
+    NSMutableString *crashes = nil;
+    _crashIdenticalCurrentVersion = NO;
+    
 	for (int i=0; i < [_crashFiles count]; i++) {
 		NSString *filename = [_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]];
 		NSData *crashData = [NSData dataWithContentsOfFile:filename];
@@ -449,30 +465,40 @@ NSBundle *quincyBundle() {
 		if ([crashData length] > 0) {
 			PLCrashReport *report = [[[PLCrashReport alloc] initWithData:crashData error:&error] autorelease];
 			
+            if (report == nil) {
+                NSLog(@"Could not parse crash report");
+                continue;
+            }
+
 			NSString *crashLogString = [self _crashLogStringForReport:report];
 			
-			if ([report.applicationInfo.applicationVersion compare:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] != NSOrderedSame) {
-				_crashIdenticalCurrentVersion = NO;
+			if ([report.applicationInfo.applicationVersion compare:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] == NSOrderedSame) {
+				_crashIdenticalCurrentVersion = YES;
 			}
 			
-			NSString *xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><platform>%@</platform><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
-							 [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
-							 report.applicationInfo.applicationIdentifier,
-							 [[UIDevice currentDevice] systemVersion],
-							 [self _getDevicePlatform],
-							 [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
-							 report.applicationInfo.applicationVersion,
-							 userid,
-							 contact,
-							 description,
-							 crashLogString];
-
-			
-			[self _postXML:xml toURL:[NSURL URLWithString:self.submissionURL]];
+            if (crashes == nil) {
+                crashes = [NSMutableString string];
+            }
+            
+			[crashes appendFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><platform>%@</platform><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
+             [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
+             report.applicationInfo.applicationIdentifier,
+             [[UIDevice currentDevice] systemVersion],
+             [self _getDevicePlatform],
+             [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
+             report.applicationInfo.applicationVersion,
+             userid,
+             contact,
+             description,
+             crashLogString];
 		}
 	}
 	
-	[self _cleanCrashReports];
+    if (crashes != nil) {
+        [self _postXML:[NSString stringWithFormat:@"<crashes>%@</crashes>", crashes]
+                 toURL:[NSURL URLWithString:self.submissionURL]];
+        
+    }
 }
 
 - (void)_sendCrashReports {
@@ -693,10 +719,41 @@ NSBundle *quincyBundle() {
 	return xmlString;
 }
 
-- (void)_postXML:(NSString*)xml toURL:(NSURL*)url {
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-	NSString *boundary = @"----FOO";
+- (void)_checkForFeedbackStatus {
+   	NSMutableURLRequest *request = nil;
+    
+    request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+                                                   [self encodedAppIdentifier_]]];
+    
+	[request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
+	[request setValue:USER_AGENT forHTTPHeaderField:@"User-Agent"];
+	[request setTimeoutInterval: 15];
+	[request setHTTPMethod:@"GET"];
+    
+	_serverResult = CrashReportStatusUnknown;
+	_statusCode = 200;
 	
+	//Release when done in the delegate method
+	_responseData = [[NSMutableData alloc] init];
+	
+	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionOpened)]) {
+		[self.delegate connectionOpened];
+	}
+	
+	_urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];    
+}
+
+- (void)_postXML:(NSString*)xml toURL:(NSURL*)url {
+	NSMutableURLRequest *request = nil;
+    NSString *boundary = @"----FOO";
+
+    if ([self isUsingHockeyApp]) {
+        request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+                                                       [self encodedAppIdentifier_]]];
+    } else {
+        request = [NSMutableURLRequest requestWithURL:url];
+    }
+		
 	[request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
 	[request setValue:USER_AGENT forHTTPHeaderField:@"User-Agent"];
 	[request setTimeoutInterval: 15];
@@ -706,7 +763,7 @@ NSBundle *quincyBundle() {
 	
 	NSMutableData *postBody =  [NSMutableData data];
 	[postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    if ([self isUsingAttachments]) {
+    if ([self isUsingHockeyApp]) {
         [postBody appendData:[@"Content-Disposition: form-data; name=\"xml\"; filename=\"crash.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
         [postBody appendData:[[NSString stringWithFormat:@"Content-Type: text/xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     } else {
@@ -728,6 +785,10 @@ NSBundle *quincyBundle() {
 	}
 	
 	_urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    if (_urlConnection) {
+        [self _cleanCrashReports];
+    }
 }
 
 #pragma mark NSURLConnection Delegate
@@ -750,23 +811,21 @@ NSBundle *quincyBundle() {
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
 		[self.delegate connectionClosed];
 	}
-	
-	[self showCrashStatusMessage];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	if (_statusCode >= 200 && _statusCode < 400) {
-		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:_responseData];
-		// Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
-		[parser setDelegate:self];
-		// Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
-		[parser setShouldProcessNamespaces:NO];
-		[parser setShouldReportNamespacePrefixes:NO];
-		[parser setShouldResolveExternalEntities:NO];
-		
-		[parser parse];
-		
-		[parser release];
+        NSXMLParser *parser = [[NSXMLParser alloc] initWithData:_responseData];
+        // Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
+        [parser setDelegate:self];
+        // Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
+        [parser setShouldProcessNamespaces:NO];
+        [parser setShouldReportNamespacePrefixes:NO];
+        [parser setShouldResolveExternalEntities:NO];
+        
+        [parser parse];
+            
+        [parser release];
 	}
 	
 	[_responseData release];
@@ -777,7 +836,21 @@ NSBundle *quincyBundle() {
 		[self.delegate connectionClosed];
 	}
 	
-	[self showCrashStatusMessage];
+    if ([self isFeedbackActivated]) {
+        if ([self isUsingHockeyApp]) {
+            // only proceed if the server did not report any problem
+            if (_serverResult == CrashReportStatusQueued) {
+                // the report is still in the queue
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_checkForFeedbackStatus) object:nil];
+                [self performSelector:@selector(_checkForFeedbackStatus) withObject:nil afterDelay:_feedbackDelayInterval];
+            } else {
+                // we do have a status, show it if needed
+                [self showCrashStatusMessage];
+            }
+        } else {
+            [self showCrashStatusMessage];
+        }
+    }
 }
 
 - (void)reachabilityChanged:(NSNotification *)notification {
@@ -825,22 +898,12 @@ NSBundle *quincyBundle() {
 	
         if (_crashData == nil) {
             NSLog(@"Could not load crash report: %@", error);
-            goto finish;
         } else {
             [_crashData writeToFile:[_crashesDir stringByAppendingPathComponent: cacheFilename] atomically:YES];
-        }
-	
-		// We could send the report from here, but we'll just print out
-		// some debugging info instead
-		PLCrashReport *report = [[[PLCrashReport alloc] initWithData: _crashData error: &error] autorelease];
-		if (report == nil) {
-			NSLog(@"Could not parse crash report");
-			goto finish;
 		}
 	}
 	
 	// Purge the report
-finish:
 	// mark the end of the routine
 	_analyzerStarted = 0;
 	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:_analyzerStarted] forKey:kQuincyKitAnalyzerStarted];

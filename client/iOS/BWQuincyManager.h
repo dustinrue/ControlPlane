@@ -50,6 +50,9 @@ typedef enum QuincyKitAlertType {
 } CrashAlertType;
 
 typedef enum CrashReportStatus {
+    // The status of the crash is queued, need to check later (HockeyApp)
+	CrashReportStatusQueued = -80,
+
     // This app version is set to discontinued, no new crash reports accepted by the server
 	CrashReportStatusFailureVersionDiscontinued = -30,
     
@@ -133,7 +136,11 @@ typedef enum CrashReportStatus {
 
     BOOL _feedbackActivated;
 
-    BOOL _usingAttachments;
+    BOOL _usingHockeyApp;
+    NSString *_appIdentifier;
+
+    NSString *_feedbackRequestID;
+    float _feedbackDelayInterval;
 
 	NSMutableString *_contentOfProperty;
 	CrashReportStatus _serverResult;
@@ -141,7 +148,6 @@ typedef enum CrashReportStatus {
 	int _analyzerStarted;
 	NSString *_crashesDir;
 	
-	int _amountCrashes;
 	BOOL _crashIdenticalCurrentVersion;
     BOOL _crashReportActivated;
 
@@ -173,9 +179,15 @@ typedef enum CrashReportStatus {
 // if NO, the user will not see any feedback information (default)
 @property (nonatomic, assign, getter=isFeedbackActivated) BOOL feedbackActivated;
 
-// if YES, the crash report XML data will be send as an attachment, required if you are using HockeyApp
-// if NO, the XML data will be send as form value (default)
-@property (nonatomic, assign, getter=isUsingAttachments) BOOL usingAttachments;
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// HockeyApp Settings
+
+// if YES, if you are using HockeyApp on the server side
+// if NO, if you are using your own open source server (default)
+@property (nonatomic, assign, getter=isUsingHockeyApp) BOOL usingHockeyApp;
+
+// If you only allow accessing your app via the HockeyApp identifier instead of the bundle identifier (optional)
+@property (nonatomic, retain) NSString *appIdentifier;
 
 @end
