@@ -348,7 +348,7 @@ foreach ($crashes as $crash) {
         // first check if the version status is not discontinued
     
        	// check if the version is already added and the status of the version and notify status
-    	$query = "SELECT id, status, notify FROM ".$dbversiontable." WHERE bundleidentifier = '".$crash["bundleidentifier"]."' and version = '".$$crash["version"]."'";
+    	$query = "SELECT id, status, notify FROM ".$dbversiontable." WHERE bundleidentifier = '".$crash["bundleidentifier"]."' and version = '".$crash["version"]."'";
     	$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_CHECK_VERSION_EXISTS));
 
     	$numrows = mysql_num_rows($result);
