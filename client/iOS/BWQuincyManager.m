@@ -722,7 +722,7 @@ NSBundle *quincyBundle() {
 - (void)_checkForFeedbackStatus {
    	NSMutableURLRequest *request = nil;
     
-    request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+    request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"https://beta.hockeyapp.net/api/2/apps/%@/crashes",
                                                    [self encodedAppIdentifier_]]];
     
 	[request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
@@ -748,7 +748,7 @@ NSBundle *quincyBundle() {
     NSString *boundary = @"----FOO";
 
     if ([self isUsingHockeyApp]) {
-        request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+        request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"https://beta.hockeyapp.net/api/2/apps/%@/crashes",
                                                        [self encodedAppIdentifier_]]];
     } else {
         request = [NSMutableURLRequest requestWithURL:url];
