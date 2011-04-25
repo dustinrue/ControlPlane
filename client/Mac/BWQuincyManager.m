@@ -483,8 +483,8 @@ const CGFloat kDetailsHeight = 285;
 	
 	_consoleContent = [NSMutableString string];
 	
-	int i;
-	for(i = [applicationStrings count]-1; (i>=0 && i>[applicationStrings count]-100); i--) {
+    NSInteger i;
+    for(i = ((NSInteger)[applicationStrings count])-1; (i>=0 && i>((NSInteger)[applicationStrings count])-100); i--) {
 		[_consoleContent appendString:[applicationStrings objectAtIndex:i]];
 		[_consoleContent appendString:@"\n"];
 	}
