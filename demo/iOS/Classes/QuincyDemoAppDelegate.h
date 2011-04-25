@@ -2,7 +2,7 @@
  * Author: Andreas Linde <mail@andreaslinde.de>
  *         Kent Sutherland
  *
- * Copyright (c) 2009 Andreas Linde & Kent Sutherland. All rights reserved.
+ * Copyright (c) 2009-2011 Andreas Linde & Kent Sutherland.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person

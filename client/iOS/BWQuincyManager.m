@@ -33,7 +33,7 @@
 
 #include <sys/sysctl.h>
 
-#define USER_AGENT @"QuincyKit/1.0"
+#define USER_AGENT @"QuincyKit/2.0"
 
 NSBundle *quincyBundle() {
     static NSBundle* bundle = nil;
