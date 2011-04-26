@@ -98,6 +98,53 @@ function parseblock($matches, $appString) {
 	return $result_offset;
 }
 
+function doPost($url, $postdata) {
+    $url = parse_url($url);
+
+    if (!isset($url['port'])) {
+        if ($url['scheme'] == 'http') { $url['port']=80; }
+        elseif ($url['scheme'] == 'https') { $url['port']=443; }
+    }
+    $url['query']=isset($url['query'])?$url['query']:'';
+
+    $url['protocol']=$url['scheme'].'://';
+    
+    $handle = fsockopen($url['host'], $url['port'], $errno, $errstr, 30);
+	if (!$handle) { 
+		return 'error'; 
+	} else { 
+		$temp = "POST ".$uri." HTTP/1.1\r\n"; 
+		$temp .= "Host: ".$host."\r\n"; 
+		$temp .= "User-Agent: PHP Script\r\n"; 
+		$temp .= "Content-Type: application/x-www-form-urlencoded\r\n";
+		$temp .= "Content-Length: ".strlen($postdata)."\r\n"; 
+		$temp .= "Connection: close\r\n\r\n"; 
+		$temp .= $postdata; 
+		$temp .= "\r\n\r\n";
+		
+		fwrite($handle, $temp); 
+		
+		$response = '';
+		
+		while (!feof($handle)) 
+			$response.=fgets($handle, 128); 
+			
+		$response=split("\r\n\r\n",$response);
+		
+		$header=$response[0]; 
+		$responsecontent=$response[1]; 
+		
+		if(!(strpos($header,"Transfer-Encoding: chunked")===false)) {
+			$aux=split("\r\n",$responsecontent); 
+			for($i=0;$i<count($aux);$i++) 
+				if($i==0 || ($i%2==0)) 
+					$aux[$i]=""; 
+			$responsecontent=implode("",$aux); 
+		} 
+		return chop($responsecontent); 
+	} 
+}
+
 $allowed_args = ',xmlstring,';
 
 /* Verbindung aufbauen, auswählen einer Datenbank */
@@ -264,6 +311,8 @@ foreach ($crashes as $crash) {
     $acceptlog = false;
     $symbolicate = false;
 
+    $hockeyappidentifier = '';
+    
     // shall we accept any crash log or only ones that are named in the database
     if ($acceptallapps) {
 	    // external symbolification is turned on by default when accepting all crash logs
@@ -271,19 +320,20 @@ foreach ($crashes as $crash) {
 	    $symbolicate = true;
 	
 	    // get the app name
-	    $query = "SELECT name FROM ".$dbapptable." where bundleidentifier = '".$crash["bundleidentifier"]."'";
+	    $query = "SELECT name, hockeyappidentifier FROM ".$dbapptable." where bundleidentifier = '".$crash["bundleidentifier"]."'";
 	    $result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_SEARCH_APP_NAME));
 
 	    $numrows = mysql_num_rows($result);
 	    if ($numrows == 1) {
 		    $crash["appname"] = $row[0];
+		    $hockeyappidentifier = $row[1];
 		    $notify_emails = $mail_addresses;
 		    $notify_pushids = $push_prowlids;
 	    }
 	    mysql_free_result($result);
     } else {
 	    // the bundleidentifier is the important string we use to find a match
-	    $query = "SELECT id, symbolicate, name, notifyemail, notifypush FROM ".$dbapptable." where bundleidentifier = '".$crash["bundleidentifier"]."'";
+	    $query = "SELECT id, symbolicate, name, notifyemail, notifypush, hockeyappidentifier FROM ".$dbapptable." where bundleidentifier = '".$crash["bundleidentifier"]."'";
 	    $result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_SEARCH_APP_NAME));
 
 	    $numrows = mysql_num_rows($result);
@@ -302,6 +352,8 @@ foreach ($crashes as $crash) {
 			
 		    $notify_emails = $row[3];
 		    $notify_pushids = $row[4];
+		    
+		    $hockeyappidentifier = $row[5];
 	    }
 	
         // add global email addresses
@@ -338,6 +390,28 @@ foreach ($crashes as $crash) {
 
     // add the crash data to the database
     if ($crash["logdata"] != "" && $crash["version"] != "" & $crash["applicationname"] != "" && $crash["bundleidentifier"] != "" && $acceptlog == true) {
+        // check if we need to redirect this crash
+        if ($hockeyappidentifier != '') {
+            // we assume all crashes in this xml goe to the same app, since it is coming from one client. so push them all at once to HockeyApp
+            $result = doPost($hockeyAppURL."api/2/apps/".$hockeyappidentifier."/crashes", $xmlstring);
+            
+            // now parse the result we got back and send it to the client
+            $responseReader = new XMLReader();
+            
+            while ($responseReader->read()) {
+	            if ($responseReader->name == "status" && $responseReader->nodeType == XMLReader::ELEMENT) {
+                    echo xml_for_result(mysql_real_escape_string(reading($responseReader, "status")));
+	            }
+            }
+
+            $responseReader->close();
+            
+    	    $lastError = 0;
+    	    
+    	    // HockeyApp doesn't support direct feedback, it requires the new client to do that. So exit right away.
+    	    exit;
+        }
+
     	// is this a jailbroken device?
     	$jailbreak = 0;
     	if(strpos($crash["logdata"], "MobileSubstrate") !== false)
