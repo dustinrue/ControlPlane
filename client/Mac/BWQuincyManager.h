@@ -114,16 +114,15 @@ typedef enum CrashReportStatus {
 @interface BWQuincyManager : NSObject {
 	CrashReportStatus	_serverResult;
 	
-    NSMutableData		*_responseData;
     NSInteger			_statusCode;
     
 	NSMutableString		*_contentOfProperty;
 
 	id					_delegate;
-    
+
 	NSString			*_submissionURL;
 	NSString			*_companyName;
-    BOOL				_usingAttachments;
+    NSString			*_appIdentifier;
 
 	NSString			*_crashFile;
 	
@@ -146,9 +145,8 @@ typedef enum CrashReportStatus {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // settings
 
-// if YES, the crash report XML data will be send as an attachment, required if you are using HockeyApp
-// if NO, the XML data will be send as form value (default)
-@property (nonatomic, assign, getter=isUsingAttachments) BOOL usingAttachments;
+// If you want to use HockeyApp instead of your own server, this is required
+@property (nonatomic, retain) NSString *appIdentifier;
 
 
 - (void) cancelReport;

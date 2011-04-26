@@ -76,7 +76,6 @@ NSBundle *quincyBundle() {
 @synthesize submissionURL = _submissionURL;
 @synthesize feedbackActivated = _feedbackActivated;
 
-@synthesize usingHockeyApp = _usingHockeyApp;
 @synthesize appIdentifier = _appIdentifier;
 
 + (BWQuincyManager *)sharedQuincyManager {
@@ -96,10 +95,10 @@ NSBundle *quincyBundle() {
 		_crashData = nil;
         _urlConnection = nil;
 		_submissionURL = nil;
+        _responseData = nil;
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
-        self.usingHockeyApp = NO;
         self.appIdentifier = nil;
 
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kQuincyKitAnalyzerStarted];
@@ -156,7 +155,10 @@ NSBundle *quincyBundle() {
     
     [_submissionURL release];
     _submissionURL = nil;
-     
+    
+    [_appIdentifier release];
+    _appIdentifier = nil;
+    
     [_urlConnection cancel];
     [_urlConnection release]; 
     _urlConnection = nil;
@@ -170,11 +172,6 @@ NSBundle *quincyBundle() {
 }
 
 
-- (NSString *)encodedAppIdentifier_ {
-    return (self.appIdentifier ? [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] : [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
-}
-
-
 #pragma mark -
 #pragma mark setter
 - (void)setSubmissionURL:(NSString *)anSubmissionURL {
@@ -184,6 +181,15 @@ NSBundle *quincyBundle() {
     }
     
     [self performSelector:@selector(startManager) withObject:nil afterDelay:1.0f];
+}
+
+- (void)setAppIdentifier:(NSString *)anAppIdentifier {    
+    if (_appIdentifier != anAppIdentifier) {
+        [_appIdentifier release];
+        _appIdentifier = [anAppIdentifier copy];
+    }
+    
+    [self setSubmissionURL:@"https://beta.hockeyapp.net/"];
 }
 
 
@@ -723,7 +729,8 @@ NSBundle *quincyBundle() {
    	NSMutableURLRequest *request = nil;
     
     request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"https://beta.hockeyapp.net/api/2/apps/%@/crashes",
-                                                   [self encodedAppIdentifier_]]];
+                                                   [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                                   ]];
     
 	[request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
 	[request setValue:USER_AGENT forHTTPHeaderField:@"User-Agent"];
@@ -733,7 +740,7 @@ NSBundle *quincyBundle() {
 	_serverResult = CrashReportStatusUnknown;
 	_statusCode = 200;
 	
-	//Release when done in the delegate method
+	// Release when done in the delegate method
 	_responseData = [[NSMutableData alloc] init];
 	
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionOpened)]) {
@@ -747,9 +754,10 @@ NSBundle *quincyBundle() {
 	NSMutableURLRequest *request = nil;
     NSString *boundary = @"----FOO";
 
-    if ([self isUsingHockeyApp]) {
+    if (self.appIdentifier) {
         request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"https://beta.hockeyapp.net/api/2/apps/%@/crashes",
-                                                       [self encodedAppIdentifier_]]];
+                                                       [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                                       ]];
     } else {
         request = [NSMutableURLRequest requestWithURL:url];
     }

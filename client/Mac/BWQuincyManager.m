@@ -51,7 +51,7 @@ const CGFloat kDetailsHeight = 285;
 @synthesize delegate = _delegate;
 @synthesize submissionURL = _submissionURL;
 @synthesize companyName = _companyName;
-@synthesize usingAttachments = _usingAttachments;
+@synthesize appIdentifier = _appIdentifier;
 
 + (BWQuincyManager *)sharedQuincyManager {
 	static BWQuincyManager *quincyManager = nil;
@@ -67,8 +67,10 @@ const CGFloat kDetailsHeight = 285;
     if ((self = [super init])) {
 		_serverResult = CrashReportStatusFailureDatabaseNotAvailable;
 		_quincyUI = nil;
+        
 		_submissionURL = nil;
-
+        _appIdentifier = nil;
+        
         _crashFile = nil;
         
 		self.delegate = nil;
@@ -81,6 +83,8 @@ const CGFloat kDetailsHeight = 285;
 	_companyName = nil;
 	_delegate = nil;
 	_submissionURL = nil;
+    _appIdentifier = nil;
+    
     [_crashFile release];
 	[_quincyUI release];
 	
@@ -119,6 +123,15 @@ const CGFloat kDetailsHeight = 285;
     }
     
     [self performSelector:@selector(startManager) withObject:nil afterDelay:0.1f];
+}
+
+- (void)setAppIdentifier:(NSString *)anAppIdentifier {    
+    if (_appIdentifier != anAppIdentifier) {
+        [_appIdentifier release];
+        _appIdentifier = [anAppIdentifier copy];
+    }
+    
+    [self setSubmissionURL:@"https://beta.hockeyapp.net/"];
 }
 
 #pragma mark -
@@ -253,10 +266,6 @@ const CGFloat kDetailsHeight = 285;
 			
 			[parser release];
 		}
-		
-// TODO: The following line causes the app to crash, why !?
-//		[responseData release];
-//		responseData = nil;
 	}
 }
 

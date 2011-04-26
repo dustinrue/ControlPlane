@@ -136,7 +136,6 @@ typedef enum CrashReportStatus {
 
     BOOL _feedbackActivated;
 
-    BOOL _usingHockeyApp;
     NSString *_appIdentifier;
 
     NSString *_feedbackRequestID;
@@ -179,15 +178,7 @@ typedef enum CrashReportStatus {
 // if NO, the user will not see any feedback information (default)
 @property (nonatomic, assign, getter=isFeedbackActivated) BOOL feedbackActivated;
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// HockeyApp Settings
-
-// if YES, if you are using HockeyApp on the server side
-// if NO, if you are using your own open source server (default)
-@property (nonatomic, assign, getter=isUsingHockeyApp) BOOL usingHockeyApp;
-
-// If you only allow accessing your app via the HockeyApp identifier instead of the bundle identifier (optional)
+// If you want to use HockeyApp instead of your own server, this is required
 @property (nonatomic, retain) NSString *appIdentifier;
 
 @end

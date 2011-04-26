@@ -42,14 +42,11 @@
 	[window addSubview:viewController.view];
 	[window makeKeyAndVisible];
   
-    // MacDevCrashReports Example URL: http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U
-    // Self hosted Example URL: http://yourserver.com/crash_v200.php
-    // HockeyApp Example URL: https://beta.hockeyapp.com/
+    // setSubmissionURL for self hosted Example: http://yourserver.com/crash_v200.php
+    // setAppIdentifier for HockeyApp Example: 6463991af4a2da3f9cb320533c83b156
 
-    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://bigmac.local:3000/"];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];
-    [[BWQuincyManager sharedQuincyManager] setFeedbackActivated:YES];
-    [[BWQuincyManager sharedQuincyManager] setUsingHockeyApp:YES];
+    [[BWQuincyManager sharedQuincyManager] setAppIdentifier:@"6463991af4a2da3f9cb320533c83b156"];
 }
 
 

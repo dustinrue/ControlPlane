@@ -29,12 +29,9 @@
 
 #import "QuincyDemoAppDelegate.h"
 
-//#define CRASH_REPORTER_URL @"http://macdevcrashreports.com/submitcrash/1/y1w7sIYcbXxpO5U"
-#define CRASH_REPORTER_URL @"http://0.0.0.0:3000/api/2/apps/de.serenity.HockeyPlus/crashes"
-
 @implementation QuincyDemoAppDelegate
 
-// if the main nibs window is set to hidden on startup, this will show it
+// set the main nibs window to hidden on startup
 // this delegate method is required to be implemented!
 - (void) showMainApplicationWindow {
 	[window makeFirstResponder: nil];
@@ -44,10 +41,13 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)note {
 	// Launch the crash reporter task
-    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:CRASH_REPORTER_URL];
-    [[BWQuincyManager sharedQuincyManager] setCompanyName:@"CrashReporterDemo"];
+    
+    // setSubmissionURL for self hosted Example: http://yourserver.com/crash_v200.php
+    // setAppIdentifier for HockeyApp Example: 658b693ff4c164e65168fe0f43112ac0
+    
+    [[BWQuincyManager sharedQuincyManager] setCompanyName:@"My company"];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];
-    [[BWQuincyManager sharedQuincyManager] setUsingAttachments:YES];
+    [[BWQuincyManager sharedQuincyManager] setAppIdentifier:@"658b693ff4c164e65168fe0f43112ac0"];
 }
 
 
