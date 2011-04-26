@@ -8,24 +8,20 @@
 
 #import "MKPlacemark+Private.h"
 
+@interface MKPlacemark (ReallyPrivate)
+
+- (CLLocationCoordinate2D)_coordinateFromGoogleGeocoderResult:(NSDictionary *)result;
+
+@end
+
+
 @implementation MKPlacemark (Private)
 
 - (id)initWithGoogleGeocoderResult:(NSDictionary *)result
 {
     if (self = [super init])
     {
-        NSNumber *latitudeNumber = [result valueForKeyPath:@"geometry.location.b"];
-        if (!latitudeNumber)
-            latitudeNumber = [result valueForKeyPath:@"geometry.location.wa"];
-        if (!latitudeNumber)
-            latitudeNumber = [result valueForKeyPath:@"geometry.location.Ba"];
-        NSNumber *longitudeNumber = [result valueForKeyPath:@"geometry.location.c"];
-        if (!longitudeNumber)
-            longitudeNumber = [result valueForKeyPath:@"geometry.location.ya"];
-        if (!longitudeNumber)
-            longitudeNumber = [result valueForKeyPath:@"geometry.location.Da"];
-        coordinate.latitude = [latitudeNumber doubleValue];
-        coordinate.longitude = [longitudeNumber doubleValue];
+	coordinate = [self _coordinateFromGoogleGeocoderResult:result];
         NSArray *components = [result objectForKey:@"address_components"];
         if (components)
         {
@@ -69,6 +65,23 @@
         
     }
     return self;
+}
+
+#pragma mark -
+#pragma mark Really Private
+
+- (CLLocationCoordinate2D)_coordinateFromGoogleGeocoderResult:(NSDictionary *)result
+{
+    NSDictionary *location = [result valueForKeyPath:@"geometry.location"];
+    NSArray *orderedKeys = [[location allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSString *latitudeKey = [orderedKeys objectAtIndex:0];
+    NSString *longitudeKey = [orderedKeys objectAtIndex:1];
+    NSNumber *latitude = [location objectForKey:latitudeKey];
+    NSNumber *longitude = [location objectForKey:longitudeKey];
+    CLLocationCoordinate2D aCoordinate;
+    aCoordinate.latitude = [latitude doubleValue];
+    aCoordinate.longitude = [longitude doubleValue];
+    return aCoordinate;
 }
 
 @end

@@ -604,7 +604,8 @@
     [self setShowsUserLocation:[self showsUserLocation]];
     
     if ([frame isEqual:[webView mainFrame]])
-        [self delegateDidFinishLoadingMap];
+	[self performSelector:@selector(delegateDidFinishLoadingMap) withObject:nil afterDelay:0.5];
+        //[self delegateDidFinishLoadingMap];
 }
 
 @end
