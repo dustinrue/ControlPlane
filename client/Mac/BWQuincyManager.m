@@ -225,6 +225,8 @@ const CGFloat kDetailsHeight = 285;
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_submissionURL]];
 	NSString *boundary = @"----FOO";
 	
+	[request setValue:@"Quincy/Mac" forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
 	[request setTimeoutInterval: 15];
 	[request setHTTPMethod:@"POST"];
 	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];

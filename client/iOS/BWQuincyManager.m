@@ -33,8 +33,6 @@
 
 #include <sys/sysctl.h>
 
-#define USER_AGENT @"QuincyKit/2.0"
-
 NSBundle *quincyBundle() {
     static NSBundle* bundle = nil;
     if (!bundle) {
@@ -733,7 +731,8 @@ NSBundle *quincyBundle() {
                                                    ]];
     
 	[request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
-	[request setValue:USER_AGENT forHTTPHeaderField:@"User-Agent"];
+	[request setValue:@"Quincy/iOS" forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
 	[request setTimeoutInterval: 15];
 	[request setHTTPMethod:@"GET"];
     
@@ -763,7 +762,8 @@ NSBundle *quincyBundle() {
     }
 		
 	[request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
-	[request setValue:USER_AGENT forHTTPHeaderField:@"User-Agent"];
+	[request setValue:@"Quincy/iOS" forHTTPHeaderField:@"User-Agent"];
+    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
 	[request setTimeoutInterval: 15];
 	[request setHTTPMethod:@"POST"];
 	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
