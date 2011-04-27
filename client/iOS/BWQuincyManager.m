@@ -349,27 +349,6 @@ NSBundle *quincyBundle() {
 
 #pragma mark NSXMLParser
 
-- (BOOL)parseXMLFileAtURL:(NSString *)url parseError:(NSError **)error {	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
-	// Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
-	[parser setDelegate:self];
-	// Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	[parser setShouldResolveExternalEntities:NO];
-	
-	[parser parse];
-	
-	NSError *parseError = [parser parserError];
-	if (parseError && error) {
-		*error = parseError;
-	}
-	
-	[parser release];
-    
-    return (parseError) ? YES : NO;
-}
-
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
 	if (qName) {
 		elementName = qName;
@@ -377,7 +356,7 @@ NSBundle *quincyBundle() {
 	
 	if ([elementName isEqualToString:@"result"]) {
 		_contentOfProperty = [NSMutableString string];
-	}
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
@@ -393,14 +372,6 @@ NSBundle *quincyBundle() {
             CrashReportStatus errorcode = [_contentOfProperty intValue];
             NSLog(@"CrashReporter ended in error code: %i", errorcode);
         }
-	}
-    // HockeyApp implementation
-    else if ([elementName isEqualToString: @"id"]) {
-        _feedbackRequestID = [_contentOfProperty copy];
-	} else if ([elementName isEqualToString: @"delay"]) {
-        _feedbackDelayInterval = ([_contentOfProperty floatValue] * 0.01);  // we get back ms, but need s
-	} else if ([elementName isEqualToString: @"status"]) {
-        _serverResult = [_contentOfProperty intValue];
 	}
 }
 
@@ -726,9 +697,10 @@ NSBundle *quincyBundle() {
 - (void)_checkForFeedbackStatus {
    	NSMutableURLRequest *request = nil;
     
-    request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+    request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes/%@",
                                                                         self.submissionURL,
-                                                                        [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                                                        [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                                                                        _feedbackRequestID
                                                                         ]
                                                    ]];
     
@@ -827,17 +799,30 @@ NSBundle *quincyBundle() {
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	if (_statusCode >= 200 && _statusCode < 400) {
-        NSXMLParser *parser = [[NSXMLParser alloc] initWithData:_responseData];
-        // Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
-        [parser setDelegate:self];
-        // Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
-        [parser setShouldProcessNamespaces:NO];
-        [parser setShouldReportNamespacePrefixes:NO];
-        [parser setShouldResolveExternalEntities:NO];
+        if (self.appIdentifier) {
+            // HockeyApp uses PList XML format
+            NSMutableDictionary *response = [NSPropertyListSerialization propertyListFromData:_responseData
+                                                                             mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                                                                       format:nil
+                                                                             errorDescription:NULL];
+            _serverResult = [[response objectForKey:@"status"] intValue];
+            _feedbackRequestID = [[NSString alloc] initWithString:[response objectForKey:@"id"]];
+            _feedbackDelayInterval = [[response objectForKey:@"delay"] floatValue];
+            if (_feedbackDelayInterval > 0)
+                _feedbackDelayInterval *= 0.01;            
+        } else {
+            NSXMLParser *parser = [[NSXMLParser alloc] initWithData:_responseData];
+            // Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
+            [parser setDelegate:self];
+            // Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
+            [parser setShouldProcessNamespaces:NO];
+            [parser setShouldReportNamespacePrefixes:NO];
+            [parser setShouldResolveExternalEntities:NO];
         
-        [parser parse];
+            [parser parse];
             
-        [parser release];
+            [parser release];
+        }
         
         if ([self isFeedbackActivated]) {
             if (self.appIdentifier) {
