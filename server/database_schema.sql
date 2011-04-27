@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `apps` (
   `issuetrackerurl` text default NULL,
   `notifyemail` text default NULL,
   `notifypush` text default NULL,
+  `hockeyappidentifier` text default NULL,
   PRIMARY KEY  (`id`),
   KEY `symbolicate` (`symbolicate`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
