@@ -94,10 +94,10 @@ NSBundle *quincyBundle() {
         _urlConnection = nil;
 		_submissionURL = nil;
         _responseData = nil;
+        _appIdentifier = nil;
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
-        self.appIdentifier = nil;
 
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kQuincyKitAnalyzerStarted];
 		if (testValue) {
@@ -398,7 +398,7 @@ NSBundle *quincyBundle() {
     else if ([elementName isEqualToString: @"id"]) {
         _feedbackRequestID = [_contentOfProperty copy];
 	} else if ([elementName isEqualToString: @"delay"]) {
-        _feedbackDelayInterval = [_contentOfProperty intValue];
+        _feedbackDelayInterval = ([_contentOfProperty floatValue] * 0.01);  // we get back ms, but need s
 	} else if ([elementName isEqualToString: @"status"]) {
         _serverResult = [_contentOfProperty intValue];
 	}
@@ -726,8 +726,10 @@ NSBundle *quincyBundle() {
 - (void)_checkForFeedbackStatus {
    	NSMutableURLRequest *request = nil;
     
-    request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"https://beta.hockeyapp.net/api/2/apps/%@/crashes",
-                                                   [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+    request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+                                                                        self.submissionURL,
+                                                                        [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                                                        ]
                                                    ]];
     
 	[request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
@@ -754,8 +756,10 @@ NSBundle *quincyBundle() {
     NSString *boundary = @"----FOO";
 
     if (self.appIdentifier) {
-        request = [NSMutableURLRequest requestWithURL:[NSString stringWithFormat:@"https://beta.hockeyapp.net/api/2/apps/%@/crashes",
-                                                       [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+                                                                            self.submissionURL,
+                                                                            [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                                                            ]
                                                        ]];
     } else {
         request = [NSMutableURLRequest requestWithURL:url];
@@ -771,7 +775,7 @@ NSBundle *quincyBundle() {
 	
 	NSMutableData *postBody =  [NSMutableData data];
 	[postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    if ([self isUsingHockeyApp]) {
+    if (self.appIdentifier) {
         [postBody appendData:[@"Content-Disposition: form-data; name=\"xml\"; filename=\"crash.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
         [postBody appendData:[[NSString stringWithFormat:@"Content-Type: text/xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     } else {
@@ -834,6 +838,22 @@ NSBundle *quincyBundle() {
         [parser parse];
             
         [parser release];
+        
+        if ([self isFeedbackActivated]) {
+            if (self.appIdentifier) {
+                // only proceed if the server did not report any problem
+                if (_serverResult == CrashReportStatusQueued) {
+                    // the report is still in the queue
+                    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_checkForFeedbackStatus) object:nil];
+                    [self performSelector:@selector(_checkForFeedbackStatus) withObject:nil afterDelay:_feedbackDelayInterval];
+                } else {
+                    // we do have a status, show it if needed
+                    [self showCrashStatusMessage];
+                }
+            } else {
+                [self showCrashStatusMessage];
+            }
+        }
 	}
 	
 	[_responseData release];
@@ -843,22 +863,6 @@ NSBundle *quincyBundle() {
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
 		[self.delegate connectionClosed];
 	}
-	
-    if ([self isFeedbackActivated]) {
-        if ([self isUsingHockeyApp]) {
-            // only proceed if the server did not report any problem
-            if (_serverResult == CrashReportStatusQueued) {
-                // the report is still in the queue
-                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_checkForFeedbackStatus) object:nil];
-                [self performSelector:@selector(_checkForFeedbackStatus) withObject:nil afterDelay:_feedbackDelayInterval];
-            } else {
-                // we do have a status, show it if needed
-                [self showCrashStatusMessage];
-            }
-        } else {
-            [self showCrashStatusMessage];
-        }
-    }
 }
 
 - (void)reachabilityChanged:(NSNotification *)notification {
