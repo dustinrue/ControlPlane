@@ -1,6 +1,6 @@
     Author: Andreas Linde <mail@andreaslinde.de>
 
-    Copyright (c) 2009-2011 Andreas Linde. All rights reserved.
+    Copyright (c) 2009-2011 Andreas Linde.
     All rights reserved.
 
     Permission is hereby granted, free of charge, to any person
@@ -25,12 +25,13 @@
     OTHER DEALINGS IN THE SOFTWARE.
 
 
-# Main features of this demo project
+# Main features of QuincyKit
 
 - (Automatically) send crash reports to a developers database
 - Let the user decide per crash to (not) send data or always send
 - The user has the option to provide additional information in the settings, like email address for contacting the user
 - Give the user immediate feedback if the crash is known and will be fixed in the next update, or if the update is already waiting at Apple for approval, or if the update is already available to install
+
 
 # Main features on backend side for the developer
 
@@ -41,6 +42,7 @@
 - Assign bugfix versions for each crash group and define a status for each version, which can be used to provide some feedback for the user
   like: Bug already fixed, new version with bugfix already available, etc.
 
+
 ## Server side files
 
 - `/server/database_schema.sql` contains all the default tables
@@ -49,6 +51,7 @@
 - `/server/test_setup.php` simple script that checks if everything required on the server is available
 - `/server/admin/` contains all administration scripts
 - `/server/admin/symbolicate.php` needs to be copied to a local mac, and the url has to be adjusted to access the scripts on your server
+
 
 # SERVER INSTALLATION
 
@@ -77,6 +80,7 @@
 
 - If you are upgrading a previous edition, invoke 'migrate.php' first to update the database setup
 
+
 ## UPDATE TO HOCKEYKIT 2.0
 
 - Add the new database fields to the following tables:
@@ -90,6 +94,7 @@
         `jailbreak` int(11) unsigned default '0'
     
 - If you are upgrading from an early version, please make sure the database follows the schema defined in *database_schema.sql*.
+
 
 ## SERVER ENABLE PUSH NOTIFICATIONS
 
@@ -189,6 +194,30 @@
 - Done.
 
 
+# BRANCHES:
+The branching structure follows the git flow concept, defined by Vincent Driessen: http://nvie.com/posts/a-successful-git-branching-model/
+
+* Master branch:
+
+	The main branch where the source code of HEAD always reflects a production-ready state.
+
+* Develop branch:
+
+	Consider this to be the main branch where the source code of HEAD always reflects a state with the latest delivered development changes for the next release. Some would call this the “integration branch”.
+
+* Feature branches:
+
+	These are used to develop new features for the upcoming or a distant future release. The essence of a feature branch is that it exists as long as the feature is in development, but will eventually be merged back into develop (to definitely add the new feature to the upcoming release) or discarded (in case of a disappointing experiment).
+
+* Release branches:
+
+	These branches support preparation of a new production release. By using this, the develop branch is cleared to receive features for the next big release.
+
+* Hotfix branches:
+
+	Hotfix branches are very much like release branches in that they are also meant to prepare for a new production release, albeit unplanned.
+
+
 # ACKNOWLEDGMENTS
 
 **The following 3rd party open source libraries have been used:**
@@ -201,5 +230,6 @@ Feel free to add enhancements, fixes, changes and provide them back to the commu
 
 Thanks  
 Andreas Linde  
-http://www.andreaslinde.com/  
-http://www.buzzworks.de/  
+http://www.andreaslinde.com/
+http://www.buzzworks.de/
+http://www.hockeyapp.net/
