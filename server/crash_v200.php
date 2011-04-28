@@ -67,7 +67,7 @@ if ($push_activated || $boxcar_activated) {
 
 // Check for mail code injection
 foreach($_REQUEST as $fields => $value) {
-    if (eregi("TO:", $value) || eregi("CC:", $value) || eregi("CCO:", $value) || eregi("Content-Type", $value)) {
+	if (preg_match('/TO:/i', $value) || preg_match('/CC:/i', $value) || preg_match('/CCO:/i', $value) || preg_match('/Content-Type:/i', $value)) {
         $mail_activated = false;
     }
 }
@@ -112,35 +112,43 @@ function doPost($url, $postdata) {
     $handle = fsockopen($url['host'], $url['port'], $errno, $errstr, 30);
 	if (!$handle) { 
 		return 'error'; 
-	} else { 
-		$temp = "POST ".$uri." HTTP/1.1\r\n"; 
-		$temp .= "Host: ".$host."\r\n"; 
+	} else {
+		srand((double)microtime()*1000000);
+        $boundary = "---------------------".substr(md5(rand(0,32000)),0,10);
+        
+        $data = "--$boundary\r\n";
+        $data .="Content-Disposition: form-data; name=\"xml\"; filename=\"crash.xml\"\r\n";
+        $data .= "Content-Type: text/xml\r\n\r\n";
+        $data .= "".$postdata."\r\n";
+        $data .="--$boundary--\r\n";
+
+		$temp = "POST ".$url['path']." HTTP/1.1\r\n"; 
+		$temp .= "Host: ".$url['host']."\r\n"; 
 		$temp .= "User-Agent: PHP Script\r\n"; 
-		$temp .= "Content-Type: application/x-www-form-urlencoded\r\n";
-		$temp .= "Content-Length: ".strlen($postdata)."\r\n"; 
-		$temp .= "Connection: close\r\n\r\n"; 
-		$temp .= $postdata; 
-		$temp .= "\r\n\r\n";
-		
-		fwrite($handle, $temp); 
+		$temp .= "Content-Type: multipart/form-data; boundary=$boundary\r\n";
+        $temp .= "Content-length: " . strlen($data) . "\r\n\r\n";                 
+                 
+		fwrite($handle, $temp.$data); 
 		
 		$response = '';
 		
 		while (!feof($handle)) 
 			$response.=fgets($handle, 128); 
-			
-		$response=split("\r\n\r\n",$response);
 		
+		$response=preg_split('/\r\n\r\n/',$response);
+
 		$header=$response[0]; 
 		$responsecontent=$response[1]; 
 		
 		if(!(strpos($header,"Transfer-Encoding: chunked")===false)) {
-			$aux=split("\r\n",$responsecontent); 
+			$aux=preg_split('/\r\n/',$responsecontent);
 			for($i=0;$i<count($aux);$i++) 
 				if($i==0 || ($i%2==0)) 
 					$aux[$i]=""; 
 			$responsecontent=implode("",$aux); 
 		} 
+		
+		fclose($handle);
 		return chop($responsecontent); 
 	} 
 }
@@ -378,7 +386,7 @@ foreach ($crashes as $crash) {
     }
 
     // Make sure we only have a max of 5 prowl ids
-    $push_array = split(',', $notify_pushids, 6);
+	$push_array=preg_split('/[,]+/',$notify_pushids);
     if (sizeof($push_array) > 5) {
         $notify_pushids = '';
         for ($i=0; $i < 5; $i++) {
@@ -392,22 +400,15 @@ foreach ($crashes as $crash) {
     if ($crash["logdata"] != "" && $crash["version"] != "" & $crash["applicationname"] != "" && $crash["bundleidentifier"] != "" && $acceptlog == true) {
         // check if we need to redirect this crash
         if ($hockeyappidentifier != '') {
-            // we assume all crashes in this xml goe to the same app, since it is coming from one client. so push them all at once to HockeyApp
-            $result = doPost($hockeyAppURL."api/2/apps/".$hockeyappidentifier."/crashes", $xmlstring);
-            
-            // now parse the result we got back and send it to the client
-            $responseReader = new XMLReader();
-            
-            while ($responseReader->read()) {
-	            if ($responseReader->name == "status" && $responseReader->nodeType == XMLReader::ELEMENT) {
-                    echo xml_for_result(mysql_real_escape_string(reading($responseReader, "status")));
-	            }
-            }
+        	if (!isset($hockeyAppURL))
+        	    $hockeyAppURL = "https://beta.hockeyapp.net/";
 
-            $responseReader->close();
+            // we assume all crashes in this xml goes to the same app, since it is coming from one client. so push them all at once to HockeyApp
+            $result = doPost($hockeyAppURL."api/2/apps/".$hockeyappidentifier."/crashes", utf8_encode($xmlstring));
             
-    	    $lastError = 0;
-    	    
+            // we do not parse the result, values are different anyway, so simply return unknown status            
+   	        echo xml_for_result(VERSION_STATUS_UNKNOWN);
+
     	    // HockeyApp doesn't support direct feedback, it requires the new client to do that. So exit right away.
     	    exit;
         }

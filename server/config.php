@@ -110,7 +110,7 @@ $admintitle = "CrashReporter Admin Interface";  // Adjust this string to your ow
 
 $createIssueTitle = "New crash type";           // The title given for a new issue
 
-$hockeyAppURL = 'http://0.0.0.0:3000/';         // The HockeyApp server address to route the crashes to, this should normally never be edited!
+$hockeyAppURL = 'https://beta.hockeyapp.net/';  // The HockeyApp server address to route the crashes to, this should normally never be edited!
 
 date_default_timezone_set('Europe/Berlin');	    // set the default timezone (see http://de3.php.net/manual/en/timezones.php)
 
