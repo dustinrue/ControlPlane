@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `apps` (
   `issuetrackerurl` text default NULL,
   `notifyemail` text default NULL,
   `notifypush` text default NULL,
+  `hockeyappidentifier` text default NULL,
   PRIMARY KEY  (`id`),
   KEY `symbolicate` (`symbolicate`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
@@ -71,7 +72,9 @@ CREATE TABLE IF NOT EXISTS `crash` (
   `log` text collate utf8_unicode_ci NOT NULL,
   `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `groupid` bigint(20) unsigned default '0',
+  `jailbreak` int(11) unsigned default '0',
   PRIMARY KEY  (`id`),
+  KEY `jailbreak` (`jailbreak`),
   KEY `timestamp` (`timestamp`),
   KEY `applicationname` (`applicationname`),
   KEY `userid` (`userid`),

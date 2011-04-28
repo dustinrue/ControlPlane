@@ -3,7 +3,7 @@
 	/*
 	 * Author: Andreas Linde <mail@andreaslinde.de>
 	 *
-	 * Copyright (c) 2009 Andreas Linde & Kent Sutherland. All rights reserved.
+	 * Copyright (c) 2009-2011 Andreas Linde & Kent Sutherland.
 	 * All rights reserved.
 	 *
 	 * Permission is hereby granted, free of charge, to any person
@@ -221,21 +221,21 @@ function mapPlatform($device)
 		case "iPhone3,1":
 			$platform = "4";
 			break;
-        case "iPhone3,3":
-            $platform = "4 CDMA";
-            break;
+    case "iPhone3,3":
+      $platform = "4 CDMA";
+      break;
 		case "iPad1,1":
 			$platform = "iPad";
 			break;
-        case "iPad2,1":
-            $platform = "iPad2 WiFi";
-            break;
-        case "iPad2,1":
-        	$platform = "iPad2 GSM";
-            break;
-        case "iPad2,1":
-        	$platform = "iPad2 CDMA";
-            break;
+    case "iPad2,1":
+      $platform = "iPad2 WiFi";
+      break;
+    case "iPad2,2":
+    	$platform = "iPad2 GSM";
+      break;
+    case "iPad2,3":
+    	$platform = "iPad2 CDMA";
+      break;
 		case "iPod1,1":
 			$platform = "iPod1G";
 			break;

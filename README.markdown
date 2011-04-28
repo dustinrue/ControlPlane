@@ -1,6 +1,6 @@
     Author: Andreas Linde <mail@andreaslinde.de>
 
-    Copyright (c) 2009 Andreas Linde. All rights reserved.
+    Copyright (c) 2009-2011 Andreas Linde. All rights reserved.
     All rights reserved.
 
     Permission is hereby granted, free of charge, to any person
@@ -77,6 +77,19 @@
 
 - If you are upgrading a previous edition, invoke 'migrate.php' first to update the database setup
 
+## UPDATE TO HOCKEYKIT 2.0
+
+- Add the new database fields to the following tables:
+
+  **apps**
+  
+        `hockeyappidentifier` text default NULL
+
+  **crash**
+
+        `jailbreak` int(11) unsigned default '0'
+    
+- If you are upgrading from an early version, please make sure the database follows the schema defined in *database_schema.sql*.
 
 ## SERVER ENABLE PUSH NOTIFICATIONS
 
@@ -99,19 +112,20 @@
   - set `$hostname` to the server hostname running the server side part, e.g. `www.crashreporterdemo.com`
   - if the `/admin/` directory on the server is access restricted, set the required username into `$webuser` and password into `$webpwd`
   - adjust the path to access the scripts (will be appended to `$hostname`):
-    - `$downloadtodosurl = '/admin/actionapi.php?action=getsymbolicationtodo';`	// the path to the script delivering the todo list
-    - `$getcrashdataurl = '/admin/actionapi.php?action=getlogcrashid&id=';`		// the path to the script delivering the crashlog
-    - `$updatecrashdataurl = '/admin/crash_update.php';`						// the path to the script updating the crashlog
+      - `$downloadtodosurl = '/admin/actionapi.php?action=getsymbolicationtodo';`	// the path to the script delivering the todo list
+      - `$getcrashdataurl = '/admin/actionapi.php?action=getlogcrashid&id=';`		// the path to the script delivering the crashlog
+      - `$updatecrashdataurl = '/admin/crash_update.php';`						// the path to the script updating the crashlog
 - Copy the symbolicatecrash executable into an accessable path, e.g. via
+
     `cp /Developer/Platforms/iPhoneOS.platform/Developer/Library/PrivateFrameworks/DTDeviceKit.framework/Versions/A/Resources/symbolicatecrash /usr/local/bin/`
 - Copy the `.app` package and `.app.dSYM` package of each version into any directory of your Mac
   Best is to add the version number to the directory of each version, so multiple versions of the same app can be symbolicated.
   Example:
   
-      CrashReporterDemo_1_0/CrashReporterDemo.app
-      CrashReporterDemo_1_0/CrashReporterDemo.app.dSYM
-      CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app
-      CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app.dSYM
+        CrashReporterDemo_1_0/CrashReporterDemo.app
+        CrashReporterDemo_1_0/CrashReporterDemo.app.dSYM
+        CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app
+        CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app.dSYM
       
 - Test symbolification:
   - Download a crash report into the local directory from above
