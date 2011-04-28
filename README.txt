@@ -129,7 +129,8 @@
 
 - Include `CrashReportSender.h` and `CrashReportSender.m` into your project
 - Include `CrashReporter.framework` into your project
-- Add the Apple framework `SystemConfiguration.framework` zu your project
+- Add the "-all_load" flag to your projects build configurations "Other Linker Flags"
+- Add the Apple framework `SystemConfiguration.framework` to your project
 - In your `appDelegate.h` include
 
       #import "CrashReportSender.h"
@@ -142,6 +143,7 @@
   where `CRASH_REPORTER_URL` points to your `crash_v200.php` URL
 - Done.
 - When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in `CrashReportSender.h`
+- IMPORTANT: DO NOT include the hockey localization files of languages you do not support in the main app! So if you do not have a russian localization of your app, do NOT include the ru.lproj into your application, otherwise the app will show placeholders of your apps strings since it thinks there should be a russian localization for the rest of the app too.
 
 
 

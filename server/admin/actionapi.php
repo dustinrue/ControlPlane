@@ -122,7 +122,7 @@ if ($action == "deletecrashid" && $id != "") {
       }
   }
       
-  $query = "UPDATE ".$dbgrouptable." SET description = '".$description."' WHERE id = ".$id;
+  $query = "UPDATE ".$dbgrouptable." SET description = '".mysql_real_escape_string($description)."' WHERE id = ".$id;
   $result = mysql_query($query) or die('Error in SQL '.$query);
 } else if ($action == "symbolicatecrashid" && $id != "") {
     $query = "SELECT id FROM ".$dbsymbolicatetable." WHERE crashid = ".$id;

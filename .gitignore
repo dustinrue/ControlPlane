@@ -2,3 +2,4 @@
 /Mac/build
 **/*.xcodeproj/*
 !**/*.xcodeproj/project.pbxproj
+*.swp
