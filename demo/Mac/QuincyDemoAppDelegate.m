@@ -44,10 +44,11 @@
     
     // setSubmissionURL for self hosted Example: http://yourserver.com/crash_v200.php
     // setAppIdentifier for HockeyApp Example: 658b693ff4c164e65168fe0f43112ac0
+    //    [[BWQuincyManager sharedQuincyManager] setAppIdentifier:@"658b693ff4c164e65168fe0f43112ac0"];
+    //    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
     
     [[BWQuincyManager sharedQuincyManager] setCompanyName:@"My company"];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];
-    [[BWQuincyManager sharedQuincyManager] setAppIdentifier:@"658b693ff4c164e65168fe0f43112ac0"];
 }
 
 
