@@ -145,7 +145,7 @@ if ($numrows > 0) {
             echo "Push notifications not activated!";
         echo "</td>";
 		echo "<td><input type='text' name='issuetrackerurl' size='25' maxlength='4000' value='".$issuetrackerurl."' placeholder='%subject% %description%'/><br>";
-		echo "<input type='text' name='hockeyappidentifier' size='25' '".$hockeyappidentifier."' maxlength='4000' placeholder='HockeyApp Public Identifier'/></td>";
+		echo "<input type='text' name='hockeyappidentifier' size='25' value='".$hockeyappidentifier."' maxlength='4000' placeholder='HockeyApp Public Identifier'/></td>";
 
 		echo "<td><select name='symbolicate' onchange='javascript:document.update".$id.".submit();'>";
         add_option("Don't symbolicate", 0, $symbolicate);
