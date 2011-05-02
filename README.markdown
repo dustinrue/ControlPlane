@@ -81,7 +81,7 @@
 - If you are upgrading a previous edition, invoke 'migrate.php' first to update the database setup
 
 
-## UPDATE TO HOCKEYKIT 2.0
+## UPDATE TO QUINCYKIT 2.0
 
 - Add the new database fields to the following tables:
 
@@ -120,17 +120,15 @@
       - `$downloadtodosurl = '/admin/actionapi.php?action=getsymbolicationtodo';`	// the path to the script delivering the todo list
       - `$getcrashdataurl = '/admin/actionapi.php?action=getlogcrashid&id=';`		// the path to the script delivering the crashlog
       - `$updatecrashdataurl = '/admin/crash_update.php';`						// the path to the script updating the crashlog
-- Copy the symbolicatecrash executable into an accessable path, e.g. via
-
-    `cp /Developer/Platforms/iPhoneOS.platform/Developer/Library/PrivateFrameworks/DTDeviceKit.framework/Versions/A/Resources/symbolicatecrash /usr/local/bin/`
+- Copy the patched symbolicatecrash executable from https://gist.github.com/316924 into an accessable path
 - Copy the `.app` package and `.app.dSYM` package of each version into any directory of your Mac
   Best is to add the version number to the directory of each version, so multiple versions of the same app can be symbolicated.
   Example:
   
-        CrashReporterDemo_1_0/CrashReporterDemo.app
-        CrashReporterDemo_1_0/CrashReporterDemo.app.dSYM
-        CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app
-        CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app.dSYM
+        QuincyDemo_1_0/QuincyDemo.app
+        QuincyDemo_1_0/QuincyDemo.app.dSYM
+        QuincyDemoBeta_1_1/QuincyDemoBeta.app
+        QuincyDemoBeta_1_1/QuincyDemoBeta.app.dSYM
       
 - Test symbolification:
   - Download a crash report into the local directory from above
@@ -146,32 +144,33 @@
 
 # IPHONE PROJECT INSTALLATION
 
-- Include `CrashReportSender.h` and `CrashReportSender.m` into your project
+- Include `BWQuincyManager.h`, `BWQuincyManager.m` and `Quincy.bundle` into your project
 - Include `CrashReporter.framework` into your project
 - Add the "-all_load" flag to your projects build configurations "Other Linker Flags"
 - Add the Apple framework `SystemConfiguration.framework` to your project
 - In your `appDelegate.h` include
 
-      #import "CrashReportSender.h"
+      #import "BWQuincyManager.h"
 
-  and let your appDelegate implement the protocol `CrashReportSenderDelegate`
+  and let your appDelegate implement the protocol `BWQuincyManagerDelegate`
 - In your appDelegate applicationDidFinishLaunching function include
 
-      [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL delegate:self activateFeedback:NO];
+      [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
       
-  where `CRASH_REPORTER_URL` points to your `crash_v200.php` URL
 - Done.
-- When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in `CrashReportSender.h`
-- IMPORTANT: DO NOT include the hockey localization files of languages you do not support in the main app! So if you do not have a russian localization of your app, do NOT include the ru.lproj into your application, otherwise the app will show placeholders of your apps strings since it thinks there should be a russian localization for the rest of the app too.
-
+- When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in `BWQuincyManager.h`
 
 
 # MAC PROJECT INSTALLATION
 
-- Include `CrashReporterSender.framework` into your project
-- In your `appDelegate.m` include
+- Include `Quincy.framework.framework` into your project
+- In your `appDelegate.h` include
 
-      #import "CrashReportSender.h"
+      #import <Quincy/BWQuincyManager.h>
+
+- In your appDelegate.h add the BWQuincyManagerDelegate protocol to your appDelegate
+
+      @interface DemoAppDelegate : NSObject <BWQuincyManagerDelegate> {}
 
 - In your `appDelegate` change the invocation of the main window to the following structure
 
@@ -188,7 +187,8 @@
     - (void)applicationDidFinishLaunching:(NSNotification *)note
     {
       // Launch the crash reporter task
-      [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL delegate:self companyName:COMPANY_NAME];
+      [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
+      [[BWQuincyManager sharedQuincyManager] setDelegate:self];
     }
 
 - Done.
