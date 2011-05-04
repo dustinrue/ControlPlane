@@ -33,7 +33,7 @@
 
 NSBundle *quincyBundle();
 
-#define BWLocalize(StringToken) NSLocalizedStringFromTableInBundle(StringToken, @"Quincy", quincyBundle(), @"")
+#define BWQuincyLocalize(StringToken) NSLocalizedStringFromTableInBundle(StringToken, @"Quincy", quincyBundle(), @"")
 
 // flags if the crashlog analyzer is started. since this may theoretically crash we need to track it
 #define kQuincyKitAnalyzerStarted @"QuincyKitAnalyzerStarted"
@@ -43,6 +43,12 @@ NSBundle *quincyBundle();
 
 // flags if the crashreporter should automatically send crashes without asking the user again
 #define kAutomaticallySendCrashReports @"AutomaticallySendCrashReports"
+
+// stores the set of crashreports that have been approved but aren't sent yet
+#define kApprovedCrashReports @"ApprovedCrashReports"
+
+// Notification message which QuincyManager is listening to, to retry sending pending crash reports to the server
+#define BWQuincyNetworkBecomeReachable @"NetworkDidBecomeReachable"
 
 typedef enum QuincyKitAlertType {
 	QuincyKitAlertTypeSend = 0,
@@ -159,8 +165,7 @@ typedef enum CrashReportStatus {
 
     NSData *_crashData;
     
-    id reachability_;
-
+    BOOL _sendingInProgress;
 }
 
 + (BWQuincyManager *)sharedQuincyManager;

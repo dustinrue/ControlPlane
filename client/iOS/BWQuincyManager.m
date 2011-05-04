@@ -47,7 +47,6 @@ NSBundle *quincyBundle() {
 
 - (void)startManager;
 
-- (void)attemptCrashReportSubmission;
 - (void)showCrashStatusMessage;
 
 - (void)handleCrashReport;
@@ -57,14 +56,13 @@ NSBundle *quincyBundle() {
 
 - (void)_performSendingCrashReports;
 - (void)_sendCrashReports;
-- (void)reachabilityChanged:(NSNotification *)notification;
 
 - (NSString *)_crashLogStringForReport:(PLCrashReport *)report;
 - (void)_postXML:(NSString*)xml toURL:(NSURL*)url;
 - (NSString *)_getDevicePlatform;
 
+- (BOOL)hasNonApprovedCrashReports;
 - (BOOL)hasPendingCrashReport;
-- (void)wentOnline:(NSNotification *)note;
 
 @end
 
@@ -95,6 +93,7 @@ NSBundle *quincyBundle() {
 		_submissionURL = nil;
         _responseData = nil;
         _appIdentifier = nil;
+        _sendingInProgress = NO;
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
@@ -128,17 +127,20 @@ NSBundle *quincyBundle() {
 				
 				[fm createDirectoryAtPath:_crashesDir withIntermediateDirectories: YES attributes: attributes error: &theError];
 			}
-			
+
 			PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-			NSError *error;
+			NSError *error = NULL;
 			
 			// Check if we previously crashed
-			if ([crashReporter hasPendingCrashReport])
+			if ([crashReporter hasPendingCrashReport]) {
 				[self handleCrashReport];
-			
+            }
+            
 			// Enable the Crash Reporter
 			if (![crashReporter enableCrashReporterAndReturnError: &error])
 				NSLog(@"Warning: Could not enable crash reporter: %@", error);
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startManager) name:BWQuincyNetworkBecomeReachable object:nil];
 		}
 	}
 	return self;
@@ -146,10 +148,8 @@ NSBundle *quincyBundle() {
 
 
 - (void) dealloc {
-    [reachability_ performSelector:NSSelectorFromString(@"stopNotifier")];    
-    [reachability_ release];
-    
     self.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:BWQuincyNetworkBecomeReachable object:nil];
     
     [_submissionURL release];
     _submissionURL = nil;
@@ -192,36 +192,44 @@ NSBundle *quincyBundle() {
 
 
 #pragma mark -
-#pragma mark optional Reachability
-
-// weak-linked reachability
-- (void)setupReachability:(SEL)selector {    
-    if (reachability_) {
-        [reachability_ performSelector:NSSelectorFromString(@"stopNotifier")];    
-        [reachability_ release];
-        reachability_ = nil;
-    }
-    
-    Class reachabilityClass = NSClassFromString(@"Reachability");
-    if (reachabilityClass) {
-        NSString *hostName = [[NSURL URLWithString:self.submissionURL] host];
-        NSLog(@"setting up reachability for %@", hostName);
-        reachability_ = [[reachabilityClass performSelector:NSSelectorFromString(@"reachabilityWithHostName:") withObject:hostName] retain];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:selector name:@"kNetworkReachabilityChangedNotification" object:reachability_];
-        if ([reachability_ respondsToSelector:NSSelectorFromString(@"startNotifier")]) {
-            [reachability_ performSelector:NSSelectorFromString(@"startNotifier")];
-        }
-    }
-}
-
-#pragma mark -
 #pragma mark private methods
 
 // begin the startup process
 - (void)startManager {
-    if ([self hasPendingCrashReport]) {
-        [self attemptCrashReportSubmission];
+    if (!_sendingInProgress && [self hasPendingCrashReport]) {
+        _sendingInProgress = YES;
+        if ([self hasNonApprovedCrashReports]) {
+            if (![[NSUserDefaults standardUserDefaults] boolForKey: kAutomaticallySendCrashReports]) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:BWQuincyLocalize(@"CrashDataFoundTitle")
+                                                                    message:BWQuincyLocalize(@"CrashDataFoundDescription")
+                                                                   delegate:self
+                                                          cancelButtonTitle:BWQuincyLocalize(@"No")
+                                                          otherButtonTitles:BWQuincyLocalize(@"Yes"), BWQuincyLocalize(@"Always"), nil];
+                
+                [alertView setTag: QuincyKitAlertTypeSend];
+                [alertView show];
+                [alertView release];
+            } else {
+                [self _sendCrashReports];
+            }
+        } else {
+            [self _sendCrashReports];
+        }
     }
+}
+
+- (BOOL)hasNonApprovedCrashReports {
+    NSDictionary *approvedCrashReports = [[NSUserDefaults standardUserDefaults] dictionaryForKey: kApprovedCrashReports];
+
+    if (!approvedCrashReports || [approvedCrashReports count] == 0) return YES;
+    
+	for (int i=0; i < [_crashFiles count]; i++) {
+		NSString *filename = [_crashFiles objectAtIndex:i];
+        
+        if (![approvedCrashReports objectForKey:filename]) return YES;
+    }
+    
+    return NO;
 }
 
 - (BOOL)hasPendingCrashReport {
@@ -229,8 +237,8 @@ NSBundle *quincyBundle() {
 		NSFileManager *fm = [NSFileManager defaultManager];
 		
 		if ([_crashFiles count] == 0 && [fm fileExistsAtPath:_crashesDir]) {
-			NSString *file;
-            NSError *error = nil;
+			NSString *file = nil;
+            NSError *error = NULL;
             
 			NSDirectoryEnumerator *dirEnum = [fm enumeratorAtPath: _crashesDir];
 			
@@ -250,35 +258,6 @@ NSBundle *quincyBundle() {
 		return NO;
 }
 
-- (void)unregisterOnline {
-    [reachability_ performSelector:NSSelectorFromString(@"stopNotifier")];    
-
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:@"kNetworkReachabilityChangedNotification"
-												  object:nil];
-}
-
-- (void)wentOnline:(NSNotification *)note {
-	[self unregisterOnline];
-	[self attemptCrashReportSubmission];
-}
-
-- (void)attemptCrashReportSubmission {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey: kAutomaticallySendCrashReports]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:BWLocalize(@"CrashDataFoundTitle")
-                                                            message:BWLocalize(@"CrashDataFoundDescription")
-                                                           delegate:self
-                                                  cancelButtonTitle:BWLocalize(@"No")
-                                                  otherButtonTitles:BWLocalize(@"Yes"), BWLocalize(@"Always"), nil];
-			
-        [alertView setTag: QuincyKitAlertTypeSend];
-        [alertView show];
-        [alertView release];
-	} else {
-        [self _sendCrashReports];
-    }
-}
-
 
 - (void) showCrashStatusMessage {
 	UIAlertView *alertView;
@@ -289,24 +268,24 @@ NSBundle *quincyBundle() {
 		NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 		switch (_serverResult) {
 			case CrashReportStatusAssigned:
-				alertView = [[UIAlertView alloc] initWithTitle: BWLocalize(@"CrashResponseTitle")
-													   message:[NSString stringWithFormat:BWLocalize(@"CrashResponseNextRelease"), appName]
+				alertView = [[UIAlertView alloc] initWithTitle: BWQuincyLocalize(@"CrashResponseTitle")
+													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseNextRelease"), appName]
 													  delegate: self
-											 cancelButtonTitle: BWLocalize(@"OK")
+											 cancelButtonTitle: BWQuincyLocalize(@"OK")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusSubmitted:
-				alertView = [[UIAlertView alloc] initWithTitle: BWLocalize(@"CrashResponseTitle")
-													   message: [NSString stringWithFormat:BWLocalize(@"CrashResponseWaitingApple"), appName]
+				alertView = [[UIAlertView alloc] initWithTitle: BWQuincyLocalize(@"CrashResponseTitle")
+													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseWaitingApple"), appName]
 													  delegate: self
-											 cancelButtonTitle: BWLocalize(@"OK")
+											 cancelButtonTitle: BWQuincyLocalize(@"OK")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusAvailable:
-				alertView = [[UIAlertView alloc] initWithTitle: BWLocalize(@"CrashResponseTitle")
-													   message: [NSString stringWithFormat:BWLocalize(@"CrashResponseAvailable"), appName]
+				alertView = [[UIAlertView alloc] initWithTitle: BWQuincyLocalize(@"CrashResponseTitle")
+													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseAvailable"), appName]
 													  delegate: self
-											 cancelButtonTitle: BWLocalize(@"OK")
+											 cancelButtonTitle: BWQuincyLocalize(@"OK")
 											 otherButtonTitles: nil];
 				break;
 			default:
@@ -330,6 +309,7 @@ NSBundle *quincyBundle() {
 	if ([alertView tag] == QuincyKitAlertTypeSend) {
 		switch (buttonIndex) {
 			case 0:
+                _sendingInProgress = NO;
 				[self _cleanCrashReports];
 				break;
 			case 1:
@@ -400,19 +380,12 @@ NSBundle *quincyBundle() {
 	return platform;
 }
 
-- (void)_cleanCrashReports {
-	NSError *error;
-	
-	NSFileManager *fm = [NSFileManager defaultManager];
-	
-	for (int i=0; i < [_crashFiles count]; i++) {		
-		[fm removeItemAtPath:[_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]] error:&error];
-	}
-	[_crashFiles removeAllObjects];	
-}
 
 - (void)_performSendingCrashReports {
-	NSError *error;
+    NSMutableDictionary *approvedCrashReports = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] dictionaryForKey: kApprovedCrashReports]];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+	NSError *error = NULL;
 	
 	NSString *userid = @"";
 	NSString *contact = @"";
@@ -466,9 +439,18 @@ NSBundle *quincyBundle() {
              contact,
              description,
              crashLogString];
-		}
+            
+            // store this crash report as user approved, so if it fails it will retry automatically
+            [approvedCrashReports setObject:[NSNumber numberWithBool:YES] forKey:[_crashFiles objectAtIndex:i]];
+		} else {
+            // we cannot do anything with this report, so delete it
+            [fm removeItemAtPath:filename error:&error];
+        }
 	}
 	
+    [[NSUserDefaults standardUserDefaults] setObject:approvedCrashReports forKey:kApprovedCrashReports];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     if (crashes != nil) {
         [self _postXML:[NSString stringWithFormat:@"<crashes>%@</crashes>", crashes]
                  toURL:[NSURL URLWithString:self.submissionURL]];
@@ -476,15 +458,23 @@ NSBundle *quincyBundle() {
     }
 }
 
-- (void)_sendCrashReports {
-    // initial update check if we don't have reachability
-    if (!NSClassFromString(@"Reachability")) {
-        [self performSelector:@selector(_performSendingCrashReports) withObject:nil afterDelay:0.0f];
-    } else {
-        // we did not check yet, so force reachability to check
-        [self setupReachability:@selector(reachabilityChanged:)];
+- (void)_cleanCrashReports {
+    NSError *error = NULL;
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    for (int i=0; i < [_crashFiles count]; i++) {		
+        [fm removeItemAtPath:[_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]] error:&error];
     }
+    [_crashFiles removeAllObjects];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kApprovedCrashReports];
+    [[NSUserDefaults standardUserDefaults] synchronize];    
+}
 
+- (void)_sendCrashReports {
+    // send it to the next runloop
+    [self performSelector:@selector(_performSendingCrashReports) withObject:nil afterDelay:0.0f];
 }
 
 - (NSString *)_crashLogStringForReport:(PLCrashReport *)report {
@@ -770,8 +760,8 @@ NSBundle *quincyBundle() {
 	
 	_urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
-    if (_urlConnection) {
-        [self _cleanCrashReports];
+    if (!_urlConnection) {
+        _sendingInProgress = NO;
     }
 }
 
@@ -795,10 +785,14 @@ NSBundle *quincyBundle() {
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
 		[self.delegate connectionClosed];
 	}
+    
+    _sendingInProgress = NO;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	if (_statusCode >= 200 && _statusCode < 400) {
+        [self _cleanCrashReports];
+        
         if (self.appIdentifier) {
             // HockeyApp uses PList XML format
             NSMutableDictionary *response = [NSPropertyListSerialization propertyListFromData:_responseData
@@ -848,28 +842,8 @@ NSBundle *quincyBundle() {
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
 		[self.delegate connectionClosed];
 	}
-}
-
-- (void)reachabilityChanged:(NSNotification *)notification {
-    id reachability = reachability_;
-    if ([notification.object isKindOfClass:NSClassFromString(@"Reachability")]) {
-        reachability = notification.object;
-    }
-    if (reachability) {
-        NSInteger networkStatus;
-        SEL currentReachabilityStatusSelector = NSSelectorFromString(@"currentReachabilityStatus");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[reachability methodSignatureForSelector:currentReachabilityStatusSelector]];
-        invocation.target = reachability;
-        invocation.selector = currentReachabilityStatusSelector;
-        [invocation invoke];
-        [invocation getReturnValue:&networkStatus];
-        
-        // 0 = NotReachable
-        BOOL isOffline = networkStatus == 0;
-        if (!isOffline) {
-            [self _performSendingCrashReports];
-        }
-    }
+    
+    _sendingInProgress = NO;
 }
 
 #pragma mark PLCrashReporter
@@ -879,7 +853,7 @@ NSBundle *quincyBundle() {
 //
 - (void) handleCrashReport {
 	PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
-	NSError *error;
+	NSError *error = NULL;
 	
     // check if the next call ran successfully the last time
 	if (_analyzerStarted == 0) {
