@@ -70,6 +70,7 @@ NSBundle *quincyBundle() {
 
 @synthesize delegate = _delegate;
 @synthesize submissionURL = _submissionURL;
+@synthesize showAlwaysButton = _showAlwaysButton;
 @synthesize feedbackActivated = _feedbackActivated;
 
 @synthesize appIdentifier = _appIdentifier;
@@ -97,7 +98,8 @@ NSBundle *quincyBundle() {
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
-
+        self.showAlwaysButton = NO;
+        
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kQuincyKitAnalyzerStarted];
 		if (testValue) {
 			_analyzerStarted = [[NSUserDefaults standardUserDefaults] integerForKey:kQuincyKitAnalyzerStarted];
@@ -204,7 +206,11 @@ NSBundle *quincyBundle() {
                                                                     message:BWQuincyLocalize(@"CrashDataFoundDescription")
                                                                    delegate:self
                                                           cancelButtonTitle:BWQuincyLocalize(@"No")
-                                                          otherButtonTitles:BWQuincyLocalize(@"Yes"), BWQuincyLocalize(@"Always"), nil];
+                                                          otherButtonTitles:BWQuincyLocalize(@"Yes"), nil];
+                
+                if ([self isShowingAlwaysButton]) {
+                    [alertView addButtonWithTitle:BWQuincyLocalize(@"Always")];
+                }
                 
                 [alertView setTag: QuincyKitAlertTypeSend];
                 [alertView show];

@@ -140,6 +140,7 @@ typedef enum CrashReportStatus {
     
     id <BWQuincyManagerDelegate> _delegate;
 
+    BOOL _showAlwaysButton;
     BOOL _feedbackActivated;
 
     NSString *_appIdentifier;
@@ -178,6 +179,10 @@ typedef enum CrashReportStatus {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // settings
+
+// if YES, the user will get the option to choose "Always" for sending crash reports. This will cause the dialog not work properly in landscape mode!
+// if NO, the dialog will not show a "Always" button (default)
+@property (nonatomic, assign, getter=isShowingAlwaysButton) BOOL showAlwaysButton;
 
 // if YES, the user will be presented with a status of the crash, if known
 // if NO, the user will not see any feedback information (default)
