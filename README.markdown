@@ -150,12 +150,12 @@
 - Add the Apple framework `SystemConfiguration.framework` to your project
 - In your `appDelegate.h` include
 
-      #import "BWQuincyManager.h"
+        #import "BWQuincyManager.h"
 
   and let your appDelegate implement the protocol `BWQuincyManagerDelegate`
 - In your appDelegate applicationDidFinishLaunching function include
 
-      [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
+        [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
       
 - Done.
 - When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in `BWQuincyManager.h`
@@ -163,33 +163,33 @@
 
 # MAC PROJECT INSTALLATION
 
-- Include `Quincy.framework.framework` into your project
+- Include `Quincy.framework` into your project
 - In your `appDelegate.h` include
 
-      #import <Quincy/BWQuincyManager.h>
+        #import <Quincy/BWQuincyManager.h>
 
 - In your appDelegate.h add the BWQuincyManagerDelegate protocol to your appDelegate
 
-      @interface DemoAppDelegate : NSObject <BWQuincyManagerDelegate> {}
+        @interface DemoAppDelegate : NSObject <BWQuincyManagerDelegate> {}
 
 - In your `appDelegate` change the invocation of the main window to the following structure
 
-    // this delegate method is required
-    - (void) showMainApplicationWindow
-    {
-        // launch the main app window
-        // remember not to automatically show the main window if using NIBs
-        [window makeFirstResponder: nil];
-        [window makeKeyAndOrderFront:nil];
-    }
+        // this delegate method is required
+        - (void) showMainApplicationWindow
+        {
+            // launch the main app window
+            // remember not to automatically show the main window if using NIBs
+            [window makeFirstResponder: nil];
+            [window makeKeyAndOrderFront:nil];
+        }
 
 
-    - (void)applicationDidFinishLaunching:(NSNotification *)note
-    {
-      // Launch the crash reporter task
-      [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
-      [[BWQuincyManager sharedQuincyManager] setDelegate:self];
-    }
+        - (void)applicationDidFinishLaunching:(NSNotification *)note
+        {
+          // Launch the crash reporter task
+          [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
+          [[BWQuincyManager sharedQuincyManager] setDelegate:self];
+        }
 
 - Done.
 
