@@ -47,7 +47,6 @@
     //    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
     //    [[BWQuincyManager sharedQuincyManager] setAppIdentifier:@"6463991af4a2da3f9cb320533c83b156"];
 
-//    [[BWQuincyManager sharedQuincyManager] setShowAlwaysButton:YES];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];
 }
 

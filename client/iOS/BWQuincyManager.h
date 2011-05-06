@@ -180,8 +180,8 @@ typedef enum CrashReportStatus {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // settings
 
-// if YES, the user will get the option to choose "Always" for sending crash reports. This will cause the dialog not work properly in landscape mode!
-// if NO, the dialog will not show a "Always" button (default)
+// if YES, the user will get the option to choose "Always" for sending crash reports. This will cause the dialog not to show the alert description text landscape mode! (default)
+// if NO, the dialog will not show a "Always" button
 @property (nonatomic, assign, getter=isShowingAlwaysButton) BOOL showAlwaysButton;
 
 // if YES, the user will be presented with a status of the crash, if known

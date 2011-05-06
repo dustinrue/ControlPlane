@@ -98,7 +98,7 @@ NSBundle *quincyBundle() {
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
-        self.showAlwaysButton = NO;
+        self.showAlwaysButton = YES;
         
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kQuincyKitAnalyzerStarted];
 		if (testValue) {
