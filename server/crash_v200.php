@@ -290,6 +290,9 @@ $reader->close();
 
 $lastError = 0;
 
+// store the best version status to return feedback
+$best_status = VERSION_STATUS_UNKNOWN;
+
 // go through all crah reports
 foreach ($crashes as $crash) {
 
@@ -595,6 +598,10 @@ foreach ($crashes as $crash) {
     	$lastError = FAILURE_INVALID_INCOMING_DATA;
     	continue;
     }
+    
+    if ($crash["fix_status"] > $best_status)
+        $best_status = $crash["fix_status"];
+
 }
 
 /* schliessen der Verbinung */
@@ -604,13 +611,6 @@ mysql_close($link);
 if ($lastError != 0) {
     echo xml_for_result($lastError);
 } else {
-    // now find the best status and return that
-    $best_status = VERSION_STATUS_UNKNOWN;
-    
-    foreach ($crashes as $crash) {
-        if ($crash["fix_status"] > $best_status)
-            $best_status = $crash["fix_status"];
-    }
     echo xml_for_result($best_status);
 }
 ?>
