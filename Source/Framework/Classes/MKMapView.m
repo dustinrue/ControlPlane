@@ -303,6 +303,11 @@
         index = [overlays count];
     
     WebScriptObject *webScriptObject = [webView windowScriptObject];
+    if ([webScriptObject isKindOfClass:[WebUndefined class]])
+    {
+	NSLog(@"MapKit view isn't ready to add overlay: %@", overlay);
+	return;
+    }
     
     MKOverlayView *overlayView = nil;
     if ([self.delegate respondsToSelector:@selector(mapView:viewForOverlay:)])
@@ -315,6 +320,11 @@
     }
     
     WebScriptObject *overlayScriptObject = [overlayView overlayScriptObjectFromMapSriptObject:webScriptObject];
+    if ([overlayScriptObject isKindOfClass:[WebUndefined class]])
+    {
+	NSLog(@"Error creating internal representation of overlay view for overlay: %@", overlay);
+	return;
+    }
     
     [overlays insertObject:overlay atIndex:index];
     CFDictionarySetValue(overlayViews, overlay, overlayView);
@@ -384,7 +394,13 @@
     // check if maybe we already have this one.
     if ([annotations containsObject:annotation])
         return;
+    
     WebScriptObject *webScriptObject = [webView windowScriptObject];
+    if ([webScriptObject isKindOfClass:[WebUndefined class]])
+    {
+	NSLog(@"MapKit view isn't ready to add annotation: %@", annotation);
+	return;
+    }
     
     MKAnnotationView *annotationView = nil;
     if ([self.delegate respondsToSelector:@selector(mapView:viewForAnnotation:)])
@@ -397,6 +413,11 @@
     }
     
     WebScriptObject *annotationScriptObject = [annotationView overlayScriptObjectFromMapSriptObject:webScriptObject];
+    if ([annotationScriptObject isKindOfClass:[WebUndefined class]])
+    {
+	NSLog(@"Error creating internal representation of annotation view for annotation: %@", annotation);
+	return;
+    }
     
     [annotations addObject:annotation];
     CFDictionarySetValue(annotationViews, annotation, annotationView);
