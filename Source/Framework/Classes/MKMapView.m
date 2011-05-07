@@ -90,12 +90,7 @@
     [self addSubview:webView];
     
     // Create a user location
-    userLocation = [MKUserLocation new];
-    
-    // Get CoreLocation Manager
-    locationManager = [CLLocationManager new];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    userLocation = [[MKUserLocation alloc] init];
 }
 
 - (void)dealloc
@@ -222,7 +217,19 @@
 
 - (void)setShowsUserLocation:(BOOL)show
 {
+    BOOL oldValue = showsUserLocation;
     showsUserLocation = show;
+    
+    if (oldValue == NO && showsUserLocation == YES)
+    {
+	[self delegateWillStartLocatingUser];
+	// To be sure we get all of the delegate calls from CoreLocation, we have to recreate the manager.
+	// Unfortunately if you just call stop/start, it'll never resend the kCLErrorDenied error.
+	locationManager = [[CLLocationManager alloc] init];
+	locationManager.delegate = self;
+	locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    }
+    
     if (showsUserLocation)
     {
         [userLocation _setUpdating:YES];
@@ -233,7 +240,14 @@
         [self setUserLocationMarkerVisible: NO];
         [userLocation _setUpdating:NO];
         [locationManager stopUpdatingLocation];
+	[locationManager release];
+	locationManager = nil;
         [userLocation _setLocation:nil];
+    }
+    
+    if (oldValue == YES && showsUserLocation == NO)
+    {
+	[self delegateDidStopLocatingUser];
     }
 }
 
@@ -584,6 +598,11 @@
 {
     [self delegateDidFailToLocateUserWithError:error];
     [self setUserLocationMarkerVisible:NO];
+    
+    if ([error code] == kCLErrorDenied)
+    {
+	[self setShowsUserLocation:NO];
+    }
 }
 
 #pragma mark WebFrameLoadDelegate
