@@ -55,6 +55,8 @@
 
 # SERVER INSTALLATION
 
+The server requires at least PHP 5.2 and a MySQL server installation!
+
 - Copy the server scripts to your web server:
   All files inside /server except the content of the `/server/local` directory
 - Execute the SQL statements from `database_schema.sql` in your MySQL database on the web server
