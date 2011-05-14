@@ -104,13 +104,14 @@ function doPost($url, $postdata) {
     if (!isset($url['port'])) {
         if ($url['scheme'] == 'http') { $url['port']=80; }
         elseif ($url['scheme'] == 'https') { $url['port']=443; }
+        elseif ($url['scheme'] == 'ssl') { $url['port']=443; }
     }
     $url['query']=isset($url['query'])?$url['query']:'';
 
     $url['protocol']=$url['scheme'].'://';
     
-    $handle = fsockopen($url['host'], $url['port'], $errno, $errstr, 30);
-	if (!$handle) { 
+    $handle = fsockopen($url['protocol'].$url['host'], $url['port'], $errno, $errstr, 30);
+	if (!$handle) {
 		return 'error'; 
 	} else {
 		srand((double)microtime()*1000000);
@@ -123,11 +124,11 @@ function doPost($url, $postdata) {
         $data .="--$boundary--\r\n";
 
 		$temp = "POST ".$url['path']." HTTP/1.1\r\n"; 
-		$temp .= "Host: ".$url['host']."\r\n"; 
-		$temp .= "User-Agent: PHP Script\r\n"; 
+		$temp .= "Host: ".$url['host']."\r\n";
+		$temp .= "User-Agent: PHP Script\r\n";
 		$temp .= "Content-Type: multipart/form-data; boundary=$boundary\r\n";
-        $temp .= "Content-length: " . strlen($data) . "\r\n\r\n";                 
-                 
+        $temp .= "Content-length: " . strlen($data) . "\r\n\r\n";
+        
 		fwrite($handle, $temp.$data); 
 		
 		$response = '';
@@ -182,19 +183,21 @@ $crashIndex = -1;
 $crashes = array();
 
 function reading($reader, $tag) {
-  $input = "";
+	$input = "";
 	while ($reader->read()) {
-        if ($reader->nodeType == XMLReader::TEXT
-            || $reader->nodeType == XMLReader::CDATA
-            || $reader->nodeType == XMLReader::WHITESPACE
-            || $reader->nodeType == XMLReader::SIGNIFICANT_WHITESPACE) {
-            $input .= $reader->value;
-        } else if ($reader->nodeType == XMLReader::END_ELEMENT
-                && $reader->name == $tag) {
-            break;
-        }
-    }
-	return $input;
+    	if ($reader->nodeType == XMLReader::TEXT ||
+        	$reader->nodeType == XMLReader::CDATA ||
+        	$reader->nodeType == XMLReader::WHITESPACE ||
+        	$reader->nodeType == XMLReader::SIGNIFICANT_WHITESPACE)
+    	{
+			$input .= $reader->value;
+		} else if ($reader->nodeType == XMLReader::END_ELEMENT
+			&& $reader->name == $tag)
+		{
+			break;
+		}
+	}
+    return $input;
 }
 
 define('VALIDATE_NUM',          '0-9');
@@ -403,14 +406,17 @@ foreach ($crashes as $crash) {
     if ($crash["logdata"] != "" && $crash["version"] != "" & $crash["applicationname"] != "" && $crash["bundleidentifier"] != "" && $acceptlog == true) {
         // check if we need to redirect this crash
         if ($hockeyappidentifier != '') {
-        	if (!isset($hockeyAppURL))
-        	    $hockeyAppURL = "https://beta.hockeyapp.net/";
-
+            if (!isset($hockeyAppURL))
+        	    $hockeyAppURL = "ssl://beta.hockeyapp.net/";
+        	    
             // we assume all crashes in this xml goes to the same app, since it is coming from one client. so push them all at once to HockeyApp
             $result = doPost($hockeyAppURL."api/2/apps/".$hockeyappidentifier."/crashes", utf8_encode($xmlstring));
             
             // we do not parse the result, values are different anyway, so simply return unknown status            
-   	        echo xml_for_result(VERSION_STATUS_UNKNOWN);
+            echo xml_for_result(VERSION_STATUS_UNKNOWN);
+
+			/* schliessen der Verbinung */
+			mysql_close($link);
 
     	    // HockeyApp doesn't support direct feedback, it requires the new client to do that. So exit right away.
     	    exit;
