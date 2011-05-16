@@ -345,10 +345,15 @@ $(document).ready(function(){
         seriesDefaults: {
                 renderer:$.jqplot.BarRenderer
             },
+        axesDefaults: {
+          tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+          tickOptions: { fontSize: '9px'}          
+        },
         axes:{
             xaxis:{
                 renderer:$.jqplot.CategoryAxisRenderer,
-                ticks:[<?php echo $platformticks; ?>]
+                ticks:[<?php echo $platformticks; ?>],
+                tickOptions: { angle: -30}
             },
             yaxis:{
                 min: 0,
@@ -371,20 +376,20 @@ $(document).ready(function(){
         seriesDefaults: {showMarker:false},
         series:[
             {pointLabels:{
-                show: false
+                show: true
             }}],
         axes:{
             xaxis:{
                 renderer:$.jqplot.DateAxisRenderer,
                 rendererOptions:{tickRenderer:$.jqplot.CanvasAxisTickRenderer},
-                tickOptions:{formatString:'%#d-%b'}
+                tickOptions:{formatString:'%m/%d',fontSize: '9px' }
             },
             yaxis:{
                 min: 0,
                 tickOptions:{formatString:'%.0f'}
             }
         },
-        highlighter: {sizeAdjust: 7.5}
+        highlighter: {show: false}
     });
 <?php
     }
