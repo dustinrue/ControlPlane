@@ -261,7 +261,7 @@ if ($numrows > 0) {
 
 		echo "<tr id='crashrow".$crashid."' valign='top' align='center'>";
 		echo "<td>".$systemversion;
-		if ($platform != "") echo "<br/>".$platform;
+		if ($platform != "") echo "<br/>".mapPlatform($platform);
 		if ($jailbreak == 1) echo "<br/>Jailbroken";
 		echo "</td>";
 		echo "<td>".$timestamp."</td><td>".$userid."<br/>".$contact."</td><td>";
