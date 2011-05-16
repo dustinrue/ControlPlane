@@ -102,6 +102,8 @@ $crashestime = true;
 
 $osticks = "";
 $osvalues = "";
+$whereclause = "";
+
 $query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." WHERE bundleidentifier = '".$bundleidentifier."' AND version = '".$version."' group by systemversion order by systemversion desc";
 $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
 $numrows2 = mysql_num_rows($result2);
@@ -175,7 +177,7 @@ if ($numrows > 0) {
 		$description = $row[4];
 		$lastupdate = $row[5];
 		
-		if ($push_amount_group > 1 && $amount >= $push_amount_group)
+		if ($notify_amount_group > 1 && $amount >= $notify_amount_group)
 		{
 			$amount = "<b><font color='red'>".$amount."</font></b>";
 		}
