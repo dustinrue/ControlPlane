@@ -98,7 +98,7 @@ NSBundle *quincyBundle() {
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
-        self.showAlwaysButton = YES;
+        self.showAlwaysButton = NO;
         
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kQuincyKitAnalyzerStarted];
 		if (testValue) {
@@ -274,21 +274,21 @@ NSBundle *quincyBundle() {
 		NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 		switch (_serverResult) {
 			case CrashReportStatusAssigned:
-				alertView = [[UIAlertView alloc] initWithTitle: BWQuincyLocalize(@"CrashResponseTitle")
+				alertView = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseTitle"), appName ]
 													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseNextRelease"), appName]
 													  delegate: self
 											 cancelButtonTitle: BWQuincyLocalize(@"OK")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusSubmitted:
-				alertView = [[UIAlertView alloc] initWithTitle: BWQuincyLocalize(@"CrashResponseTitle")
+				alertView = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseTitle"), appName ]
 													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseWaitingApple"), appName]
 													  delegate: self
 											 cancelButtonTitle: BWQuincyLocalize(@"OK")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusAvailable:
-				alertView = [[UIAlertView alloc] initWithTitle: BWQuincyLocalize(@"CrashResponseTitle")
+				alertView = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseTitle"), appName ]
 													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseAvailable"), appName]
 													  delegate: self
 											 cancelButtonTitle: BWQuincyLocalize(@"OK")
@@ -354,10 +354,11 @@ NSBundle *quincyBundle() {
 	if ([elementName isEqualToString: @"result"]) {
 		if ([_contentOfProperty intValue] > _serverResult) {
 			_serverResult = [_contentOfProperty intValue];
+			NSLog(@"CrashReporter ended in error code: %i", [_contentOfProperty intValue]);
 		} else {
-            CrashReportStatus errorcode = [_contentOfProperty intValue];
-            NSLog(@"CrashReporter ended in error code: %i", errorcode);
-        }
+			CrashReportStatus errorcode = [_contentOfProperty intValue];
+			NSLog(@"CrashReporter ended in error code: %i", errorcode);
+		}
 	}
 }
 
