@@ -134,6 +134,8 @@ mysql_free_result($result);
 
 $osticks = "";
 $osvalues = "";
+$whereclause = "";
+
 $query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." WHERE bundleidentifier = '".$bundleidentifier."' group by systemversion order by systemversion desc";
 $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
 $numrows2 = mysql_num_rows($result2);
