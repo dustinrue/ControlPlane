@@ -29,9 +29,11 @@
 
 #import <CrashReporter/CrashReporter.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <UIKit/UIKit.h>
 #import "BWQuincyManager.h"
 
 #include <sys/sysctl.h>
+#include <inttypes.h> //needed for PRIx64 macro
 
 NSBundle *quincyBundle() {
     static NSBundle* bundle = nil;
