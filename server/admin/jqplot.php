@@ -38,7 +38,7 @@
         seriesDefaults: {showMarker:false},
         series:[
             {pointLabels:{
-                show: true
+                show: false
             }}],
         axes:{
             xaxis:{
@@ -63,10 +63,15 @@
         seriesDefaults: {
                 renderer:$.jqplot.BarRenderer
             },
+        axesDefaults: {
+          tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+          tickOptions: { fontSize: '9px'}          
+        },
         axes:{
             xaxis:{
                 renderer:$.jqplot.CategoryAxisRenderer,
-                ticks:[<?php echo $osticks; ?>]
+                ticks:[<?php echo $osticks; ?>],
+                tickOptions: { angle: -30}
             },
             yaxis:{
                 min: 0,
