@@ -62,7 +62,7 @@ typedef enum CrashReportStatus {
     // This app version is set to discontinued, no new crash reports accepted by the server
 	CrashReportStatusFailureVersionDiscontinued = -30,
     
-    // XML: Sender ersion string contains not allowed characters, only alphanumberical including space and . are allowed
+    // XML: Sender version string contains not allowed characters, only alphanumberical including space and . are allowed
 	CrashReportStatusFailureXMLSenderVersionNotAllowed = -21,
     
     // XML: Version string contains not allowed characters, only alphanumberical including space and . are allowed
