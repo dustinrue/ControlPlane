@@ -231,7 +231,7 @@ NSBundle *quincyBundle() {
 
     if (!approvedCrashReports || [approvedCrashReports count] == 0) return YES;
     
-	for (int i=0; i < [_crashFiles count]; i++) {
+	for (NSUInteger i=0; i < [_crashFiles count]; i++) {
 		NSString *filename = [_crashFiles objectAtIndex:i];
         
         if (![approvedCrashReports objectForKey:filename]) return YES;
@@ -414,7 +414,7 @@ NSBundle *quincyBundle() {
     NSMutableString *crashes = nil;
     _crashIdenticalCurrentVersion = NO;
     
-	for (int i=0; i < [_crashFiles count]; i++) {
+	for (NSUInteger i=0; i < [_crashFiles count]; i++) {
 		NSString *filename = [_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]];
 		NSData *crashData = [NSData dataWithContentsOfFile:filename];
 		
@@ -471,7 +471,7 @@ NSBundle *quincyBundle() {
     
     NSFileManager *fm = [NSFileManager defaultManager];
     
-    for (int i=0; i < [_crashFiles count]; i++) {		
+    for (NSUInteger i=0; i < [_crashFiles count]; i++) {		
         [fm removeItemAtPath:[_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]] error:&error];
     }
     [_crashFiles removeAllObjects];
