@@ -334,7 +334,7 @@
     }
     
     WebScriptObject *overlayScriptObject = [overlayView overlayScriptObjectFromMapScriptObject:webScriptObject];
-    if ([overlayScriptObject isKindOfClass:[WebUndefined class]])
+    if (![overlayScriptObject isKindOfClass:[WebScriptObject class]])
     {
 	NSLog(@"Error creating internal representation of overlay view for overlay: %@", overlay);
 	return;
@@ -427,7 +427,7 @@
     }
     
     WebScriptObject *annotationScriptObject = [annotationView overlayScriptObjectFromMapScriptObject:webScriptObject];
-    if ([annotationScriptObject isKindOfClass:[WebUndefined class]])
+    if (![annotationScriptObject isKindOfClass:[WebScriptObject class]])
     {
 	NSLog(@"Error creating internal representation of annotation view for annotation: %@", annotation);
 	return;
