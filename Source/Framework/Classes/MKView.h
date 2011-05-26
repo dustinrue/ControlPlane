@@ -19,6 +19,6 @@
 
 
 - (void)draw:(WebScriptObject *)overlayScriptObject;
-- (WebScriptObject *)overlayScriptObjectFromMapSriptObject:(WebScriptObject *)mapScriptObject;
+- (WebScriptObject *)overlayScriptObjectFromMapScriptObject:(WebScriptObject *)mapScriptObject;
 
 @end

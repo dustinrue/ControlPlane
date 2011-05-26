@@ -333,7 +333,7 @@
         return;
     }
     
-    WebScriptObject *overlayScriptObject = [overlayView overlayScriptObjectFromMapSriptObject:webScriptObject];
+    WebScriptObject *overlayScriptObject = [overlayView overlayScriptObjectFromMapScriptObject:webScriptObject];
     if ([overlayScriptObject isKindOfClass:[WebUndefined class]])
     {
 	NSLog(@"Error creating internal representation of overlay view for overlay: %@", overlay);
@@ -426,7 +426,7 @@
         return;
     }
     
-    WebScriptObject *annotationScriptObject = [annotationView overlayScriptObjectFromMapSriptObject:webScriptObject];
+    WebScriptObject *annotationScriptObject = [annotationView overlayScriptObjectFromMapScriptObject:webScriptObject];
     if ([annotationScriptObject isKindOfClass:[WebUndefined class]])
     {
 	NSLog(@"Error creating internal representation of annotation view for annotation: %@", annotation);
@@ -610,7 +610,7 @@
 - (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowScriptObject forFrame:(WebFrame *)frame
 {
     [windowScriptObject setValue:windowScriptObject forKey:@"WindowScriptObject"];
-    [windowScriptObject setValue:self forKey:@"MKMapView"];
+    //[windowScriptObject setValue:self forKey:@"MKMapView"];
 }
 
 - (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
