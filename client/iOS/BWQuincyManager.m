@@ -29,9 +29,11 @@
 
 #import <CrashReporter/CrashReporter.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <UIKit/UIKit.h>
 #import "BWQuincyManager.h"
 
 #include <sys/sysctl.h>
+#include <inttypes.h> //needed for PRIx64 macro
 
 NSBundle *quincyBundle() {
     static NSBundle* bundle = nil;
@@ -87,7 +89,7 @@ NSBundle *quincyBundle() {
 
 - (id) init {
     if ((self = [super init])) {
-		_serverResult = -1;
+		_serverResult = CrashReportStatusUnknown;
 		_crashIdenticalCurrentVersion = YES;
 		_crashData = nil;
         _urlConnection = nil;
@@ -229,7 +231,7 @@ NSBundle *quincyBundle() {
 
     if (!approvedCrashReports || [approvedCrashReports count] == 0) return YES;
     
-	for (int i=0; i < [_crashFiles count]; i++) {
+	for (NSUInteger i=0; i < [_crashFiles count]; i++) {
 		NSString *filename = [_crashFiles objectAtIndex:i];
         
         if (![approvedCrashReports objectForKey:filename]) return YES;
@@ -353,10 +355,9 @@ NSBundle *quincyBundle() {
     // open source implementation
 	if ([elementName isEqualToString: @"result"]) {
 		if ([_contentOfProperty intValue] > _serverResult) {
-			_serverResult = [_contentOfProperty intValue];
-			NSLog(@"CrashReporter ended in error code: %i", [_contentOfProperty intValue]);
+			_serverResult = (CrashReportStatus)[_contentOfProperty intValue];
 		} else {
-			CrashReportStatus errorcode = [_contentOfProperty intValue];
+            CrashReportStatus errorcode = (CrashReportStatus)[_contentOfProperty intValue];
 			NSLog(@"CrashReporter ended in error code: %i", errorcode);
 		}
 	}
@@ -380,7 +381,7 @@ NSBundle *quincyBundle() {
 - (NSString *)_getDevicePlatform {
 	size_t size;
 	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-	char *answer = malloc(size);
+	char *answer = (char*)malloc(size);
 	sysctlbyname("hw.machine", answer, &size, NULL, 0);
 	NSString *platform = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
 	free(answer);
@@ -413,7 +414,7 @@ NSBundle *quincyBundle() {
     NSMutableString *crashes = nil;
     _crashIdenticalCurrentVersion = NO;
     
-	for (int i=0; i < [_crashFiles count]; i++) {
+	for (NSUInteger i=0; i < [_crashFiles count]; i++) {
 		NSString *filename = [_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]];
 		NSData *crashData = [NSData dataWithContentsOfFile:filename];
 		
@@ -470,7 +471,7 @@ NSBundle *quincyBundle() {
     
     NSFileManager *fm = [NSFileManager defaultManager];
     
-    for (int i=0; i < [_crashFiles count]; i++) {		
+    for (NSUInteger i=0; i < [_crashFiles count]; i++) {		
         [fm removeItemAtPath:[_crashesDir stringByAppendingPathComponent:[_crashFiles objectAtIndex:i]] error:&error];
     }
     [_crashFiles removeAllObjects];
@@ -806,7 +807,7 @@ NSBundle *quincyBundle() {
                                                                              mutabilityOption:NSPropertyListMutableContainersAndLeaves
                                                                                        format:nil
                                                                              errorDescription:NULL];
-            _serverResult = [[response objectForKey:@"status"] intValue];
+            _serverResult = (CrashReportStatus)[[response objectForKey:@"status"] intValue];
             _feedbackRequestID = [[NSString alloc] initWithString:[response objectForKey:@"id"]];
             _feedbackDelayInterval = [[response objectForKey:@"delay"] floatValue];
             if (_feedbackDelayInterval > 0)

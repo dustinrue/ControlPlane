@@ -373,7 +373,7 @@ foreach ($crashes as $crash) {
         // add global email addresses
 	    if ($mail_addresses != '') {
             if ($notify_emails != '') {
-                $notify_emails .= ';'.$mail_addresses;
+        $notify_emails .= ','.$mail_addresses;
             } else {
                 $notify_emails = $mail_addresses;
             }
@@ -544,10 +544,11 @@ foreach ($crashes as $crash) {
                         $subject = $crash["appname"].': Critical Crash';
                     
                         if ($crash_url != '')
-                            $url = "Link: ".$crash_url."admin/crashes.php?bundleidentifier=".$crash["bundleidentifier"]."&version=".$crash["version"]."&groupid=".$log_groupid."\n\n";
+              $url = "<".$crash_url."admin/crashes.php?bundleidentifier=".$crash["bundleidentifier"]."&version=".$crash["version"]."&groupid=".$log_groupid.">\n\n";
                         else
                             $url = "\n";
-                        $message = "Version ".$crash["version"]." Pattern ".$crash_offset." has a MORE than ".$notify_amount_group." crashes!\n".$url."Sent at ".date('H:i:s');
+            $message = "Version ".$crash["version"]." Pattern ".$crash_offset." has MORE than ".$notify_amount_group." crashes!\n".$url."Sent at ".date('H:i:s');
+            // $message .= $c;
 
                         mail($notify_emails, $subject, $message, 'From: '.$mail_from. "\r\n");
                     }
@@ -577,10 +578,11 @@ foreach ($crashes as $crash) {
                         $subject = $crash["appname"].': New Crash type';
 
                         if ($crash_url != '')
-                            $url = "Link: ".$crash_url."admin/crashes.php?bundleidentifier=".$crash["bundleidentifier"]."&version=".$crash["version"]."&groupid=".$log_groupid."\n\n";
+                $url = "<".$crash_url."admin/crashes.php?bundleidentifier=".$crash["bundleidentifier"]."&version=".$crash["version"]."&groupid=".$log_groupid.">\n\n";
                         else
                             $url = "\n";
-                        $message = "Version ".$crash["version"]." has a new type of crash!\n".$url."Sent at ".date('H:i:s');
+              $message = "Version ".$crash["version"]." has a new type of crash!\n\n".$url."Sent at ".date('H:i:s');
+              // $message .= $c;
 
                         mail($notify_emails, $subject, $message, 'From: '.$mail_from. "\r\n");
                     }
