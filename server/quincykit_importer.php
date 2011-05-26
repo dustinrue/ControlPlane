@@ -356,8 +356,8 @@ $folder->close();
 mysql_close($link);
 
 if ($included) {
-#  unlink($crash_folder . '/crash.txt');
-#  rmdir($crash_folder);
+  unlink($crash_folder . '/crash.txt');
+  rmdir($crash_folder);
 }
 
 ?>
