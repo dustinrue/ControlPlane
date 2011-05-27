@@ -135,5 +135,15 @@
 
 }
 
+- (NSArray *)delegateContextMenuItemsForAnnotationView:(MKAnnotationView *)view
+{
+    NSArray *items = [NSArray array];
+    if (delegate && [delegate respondsToSelector:@selector(mapView:contextMenuItemsForAnnotationView:)])
+    {
+	items = [delegate mapView:self contextMenuItemsForAnnotationView:view];
+    }
+    return items;
+}
+
 
 @end

@@ -53,6 +53,11 @@
         name = @"annotationScriptObjectDragEnd";
     }
     
+    if (sel == @selector(annotationScriptObjectRightClick:))
+    {
+	name = @"annotationScriptObjectRightClick";
+    }
+    
     return name;
 }
 
@@ -91,6 +96,11 @@
     if (aSelector == @selector(annotationScriptObjectDragEnd:))
     {
         return NO;
+    }
+    
+    if (aSelector == @selector(annotationScriptObjectRightClick:))
+    {
+	return NO;
     }
     
     return YES;
@@ -285,6 +295,53 @@
         coordinate.latitude = [latitude doubleValue];
         coordinate.longitude = [longitude doubleValue];
         [self delegateUserDidClickAndHoldAtCoordinate:coordinate];
+    }
+}
+
+- (void)annotationScriptObjectRightClick:(WebScriptObject *)annotationScriptObject
+{
+    //NSLog(@"annotationScriptObjectRightClick");
+
+    // Find the actual MKAnnotationView
+    MKAnnotationView *annotationView = nil;
+    for (id <MKAnnotation> annotation in annotations)
+    {
+        WebScriptObject *scriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+        if ([scriptObject isEqual:annotationScriptObject])
+        {
+	    annotationView = (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
+        }
+    }
+    
+    // If not found, bail.
+    if (!annotationView)
+	return;
+    
+    
+    // Create a corresponding NSEvent object so that we can popup a context menu
+    NSPoint pointOnScreen = [NSEvent mouseLocation];
+    NSPoint pointInBase = [[self window] convertScreenToBase: pointOnScreen];
+    
+    NSEvent *event = [NSEvent mouseEventWithType:NSRightMouseUp  
+                                        location:pointInBase
+				   modifierFlags:[NSEvent modifierFlags]
+				       timestamp:0
+				    windowNumber:[[self window] windowNumber] 
+					 context:[NSGraphicsContext currentContext]
+				     eventNumber:0
+				      clickCount:1 
+					pressure:1.0];
+    
+    // Create the menu and display it if it has anything.
+    NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+    NSArray *items = [self delegateContextMenuItemsForAnnotationView:annotationView];
+    if ([items count] > 0)
+    {
+	for (NSMenuItem *item in items)
+	{
+	    [menu addItem:item];
+	}
+	[NSMenu popUpContextMenu:menu withEvent:event forView:self];	
     }
 }
 

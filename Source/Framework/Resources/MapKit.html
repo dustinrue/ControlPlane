@@ -658,6 +658,10 @@ window.onwebkitanimationend =  function(event) {
             if (window.MKMapView) 
               window.MKMapView.annotationScriptObjectSelected(anAnnotation);
           });
+          google.maps.event.addListener(marker, 'rightclick', function() {
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectRightClick(anAnnotation);
+          });
           google.maps.event.addListener(marker, 'dragstart', function() {
             if (window.MKMapView) 
               window.MKMapView.annotationScriptObjectDragStart(anAnnotation);

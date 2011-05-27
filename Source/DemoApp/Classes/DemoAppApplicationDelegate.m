@@ -262,5 +262,11 @@
     [mapView addAnnotation:pin];
 }
 
+- (NSArray *)mapView:(MKMapView *)mapView contextMenuItemsForAnnotationView:(MKAnnotationView *)view
+{
+    NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:@"Delete It" action:@selector(delete:) keyEquivalent:@""] autorelease];
+    return [NSArray arrayWithObject:item];
+}
+
 
 @end

@@ -41,5 +41,6 @@
 
 // MacMapKit additions
 - (void)delegateUserDidClickAndHoldAtCoordinate:(CLLocationCoordinate2D)coordinate;
+- (NSArray *)delegateContextMenuItemsForAnnotationView:(MKAnnotationView *)view;
 
 @end

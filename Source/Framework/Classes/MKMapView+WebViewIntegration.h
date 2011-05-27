@@ -19,6 +19,7 @@
 - (void)annotationScriptObjectDragStart:(WebScriptObject *)annotationScriptObject;
 - (void)annotationScriptObjectDrag:(WebScriptObject *)annotationScriptObject;
 - (void)annotationScriptObjectDragEnd:(WebScriptObject *)annotationScriptObject;
+- (void)annotationScriptObjectRightClick:(WebScriptObject *)annotationScriptObject;
 - (void)webviewReportingRegionChange;
 - (void)webviewReportingLoadFailure;
 - (void)webviewReportingClick:(NSString *)jsonEncodedLatLng;
