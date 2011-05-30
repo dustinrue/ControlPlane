@@ -204,8 +204,10 @@ NSBundle *quincyBundle() {
         _sendingInProgress = YES;
         if ([self hasNonApprovedCrashReports]) {
             if (![[NSUserDefaults standardUserDefaults] boolForKey: kAutomaticallySendCrashReports]) {
+                NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:BWQuincyLocalize(@"CrashDataFoundTitle")
-                                                                    message:BWQuincyLocalize(@"CrashDataFoundDescription")
+                                                                    message:[NSString stringWithFormat:BWQuincyLocalize(@"CrashDataFoundDescription"), appName]
                                                                    delegate:self
                                                           cancelButtonTitle:BWQuincyLocalize(@"No")
                                                           otherButtonTitles:BWQuincyLocalize(@"Yes"), nil];
