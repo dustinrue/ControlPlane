@@ -18,6 +18,7 @@
 
 - (void)didSucceedWithResult:(NSString *)jsonEncodedGeocoderResult;
 - (void)didFailWithError:(NSString *)status;
+- (void)didReachQueryLimit;
 
 @end
 
@@ -52,6 +53,11 @@
         name = @"didFailWithError";
     }
     
+    if (sel == @selector(didReachQueryLimit))
+    {
+	name = @"didReachQueryLimit";
+    }
+    
     
     return name;
 }
@@ -66,6 +72,11 @@
     if (aSelector == @selector(didFailWithError:))
     {
         return NO;
+    }
+    
+    if (aSelector == @selector(didReachQueryLimit))
+    {
+	return NO;
     }
     
     return YES;
@@ -159,6 +170,15 @@
     querying = NO;
 }
 
+- (void)didReachQueryLimit
+{
+    // Retry again in half a second
+    if (self.querying)
+    {
+	[self performSelector:@selector(_start) withObject:nil afterDelay:0.5];
+    }
+}
+
 #pragma mark WebFrameLoadDelegate
 
 - (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowScriptObject forFrame:(WebFrame *)frame
@@ -173,8 +193,10 @@
     //NSLog(@"didFinishLoad:");
     [[webView windowScriptObject] setValue:self forKey:@"MKGeocoder"];
     webViewLoaded = YES;
-    if (self.querying)
+    if (self.querying && [sender mainFrame] == frame)
+    {
         [self _start];
+    }
 }
 
 #pragma mark Private
@@ -197,6 +219,7 @@
 }
 - (void)destroyWebView
 {
+    [webView close];
     NSInteger count = [webView retainCount];
     [webView release];
     if (count <= 1)

@@ -772,7 +772,11 @@ window.onwebkitanimationend =  function(event) {
             else if (status == google.maps.GeocoderStatus.ZERO_RESULTS)
             {
                 MKReverseGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
-            } 
+            }
+	    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT)
+	    {
+		MKReverseGeocoder.didReachQueryLimit();
+	    }
             else {
                 alert("error");
                 MKReverseGeocoder.didFailWithError("MKErrorDomain");
@@ -808,6 +812,10 @@ window.onwebkitanimationend =  function(event) {
             {
                 MKGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
             } 
+	    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT)
+	    {
+		MKReverseGeocoder.didReachQueryLimit();
+	    }
             else {
                 alert("error");
                 MKGeocoder.didFailWithError("MKErrorDomain");
