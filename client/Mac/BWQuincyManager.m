@@ -131,7 +131,7 @@ const CGFloat kDetailsHeight = 285;
         _appIdentifier = [anAppIdentifier copy];
     }
     
-    [self setSubmissionURL:@"https://beta.hockeyapp.net/"];
+    [self setSubmissionURL:[NSString stringWithFormat:@"https://beta.hockeyapp.net/api/2/apps/%@/crashes", anAppIdentifier]];
 }
 
 #pragma mark -
@@ -234,7 +234,7 @@ const CGFloat kDetailsHeight = 285;
 	
 	NSMutableData *postBody =  [NSMutableData data];	
     [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    if ([self isUsingAttachments]) {
+    if (self.appIdentifier) {
         [postBody appendData:[@"Content-Disposition: form-data; name=\"xml\"; filename=\"crash.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
         [postBody appendData:[[NSString stringWithFormat:@"Content-Type: text/xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     } else {
