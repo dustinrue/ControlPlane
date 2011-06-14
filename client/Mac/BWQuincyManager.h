@@ -111,7 +111,7 @@ typedef enum CrashReportStatus {
 -(NSString *) crashReportContact;
 @end
 
-@interface BWQuincyManager : NSObject {
+@interface BWQuincyManager : NSObject <NSXMLParserDelegate> {
 	CrashReportStatus	_serverResult;
 	
     NSInteger			_statusCode;
