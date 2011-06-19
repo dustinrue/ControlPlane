@@ -75,6 +75,7 @@ NSBundle *quincyBundle() {
 @synthesize showAlwaysButton = _showAlwaysButton;
 @synthesize feedbackActivated = _feedbackActivated;
 @synthesize autoSubmitCrashReport = _autoSubmitCrashReport;
+@synthesize autoSubmitDeviceUDID = _autoSubmitDeviceUDID;
 
 @synthesize appIdentifier = _appIdentifier;
 
@@ -103,6 +104,7 @@ NSBundle *quincyBundle() {
         self.feedbackActivated = NO;
         self.showAlwaysButton = NO;
         self.autoSubmitCrashReport = NO;
+        self.autoSubmitDeviceUDID = NO;
         
 		NSString *testValue = [[NSUserDefaults standardUserDefaults] stringForKey:kQuincyKitAnalyzerStarted];
 		if (testValue) {
@@ -417,7 +419,9 @@ NSBundle *quincyBundle() {
 	NSString *contact = @"";
 	NSString *description = @"";
 	
-	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(crashReportUserID)]) {
+    if (self.autoSubmitDeviceUDID) {
+        userid = [[UIDevice currentDevice] uniqueIdentifier];
+    } else if (self.delegate != nil && [self.delegate respondsToSelector:@selector(crashReportUserID)]) {
 		userid = [self.delegate crashReportUserID];
 	}
 	
