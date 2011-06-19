@@ -142,6 +142,7 @@ typedef enum CrashReportStatus {
 
     BOOL _showAlwaysButton;
     BOOL _feedbackActivated;
+    BOOL _autoSubmitCrashReport;
 
     NSString *_appIdentifier;
 
@@ -187,6 +188,10 @@ typedef enum CrashReportStatus {
 // if YES, the user will be presented with a status of the crash, if known
 // if NO, the user will not see any feedback information (default)
 @property (nonatomic, assign, getter=isFeedbackActivated) BOOL feedbackActivated;
+
+// if YES, the crash report will be submitted without asking the user
+// if NO, the user will be asked if the crash report can be submitted (default)
+@property (nonatomic, assign, getter=isAutoSubmitCrashReport) BOOL autoSubmitCrashReport;
 
 // If you want to use HockeyApp instead of your own server, this is required
 @property (nonatomic, retain) NSString *appIdentifier;
