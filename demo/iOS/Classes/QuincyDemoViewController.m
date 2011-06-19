@@ -30,33 +30,10 @@
 
 @implementation QuincyDemoViewController
 
-@synthesize triggerButtonMemoryLeak;
 @synthesize triggerButtonCrash;
 
 
-- (void) allocMoreMemory
-{
-	NSLog(@"Alloc");
-	NSData *memory1 = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Default.png"]];
-	[memory1 retain];
-	NSData *memory2 = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Default.png"]];
-	[memory2 retain];
-}
- 
- 
-- (IBAction) triggerMemoryLeak
-{
-	NSTimer *newTimer;
-	newTimer = [NSTimer scheduledTimerWithTimeInterval: 0.1
-																							target: self
-																						selector: @selector(allocMoreMemory)
-																						userInfo: nil
-																						 repeats: YES];
-}
-
-
-- (IBAction) triggerCrash
-{
+- (IBAction) triggerCrash {
 	/* Trigger a crash */
 	CFRelease(NULL);
 }

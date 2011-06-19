@@ -29,15 +29,12 @@
 #import <UIKit/UIKit.h>
 
 @interface QuincyDemoViewController : UIViewController {
-	IBOutlet UIButton *triggerButtonMemoryLeak;
 	IBOutlet UIButton *triggerButtonCrash;
 	
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *triggerButtonMemoryLeak;
 @property (nonatomic, retain) IBOutlet UIButton *triggerButtonCrash;
 
-- (IBAction) triggerMemoryLeak;
 - (IBAction) triggerCrash;
 
 @end
