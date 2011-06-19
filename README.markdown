@@ -122,7 +122,7 @@ The server requires at least PHP 5.2 and a MySQL server installation!
       - `$downloadtodosurl = '/admin/actionapi.php?action=getsymbolicationtodo';`	// the path to the script delivering the todo list
       - `$getcrashdataurl = '/admin/actionapi.php?action=getlogcrashid&id=';`		// the path to the script delivering the crashlog
       - `$updatecrashdataurl = '/admin/crash_update.php';`						// the path to the script updating the crashlog
-- Copy the patched symbolicatecrash executable from https://gist.github.com/316924 into the same local directory where you copied the files in the first step into
+- Make the modified symbolicatecrash.pl file from the `/server/local/` directory executable: `chmod + x symbolicatecrash.pl`
 - Copy the `.app` package and `.app.dSYM` package of each version into any directory of your Mac
   Best is to add the version number to the directory of each version, so multiple versions of the same app can be symbolicated.
   Example:
