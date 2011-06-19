@@ -380,8 +380,22 @@ NSBundle *quincyBundle() {
 #pragma mark Private
 
 
+- (NSString *)_getOSVersionBuild {
+    size_t size = 0;    
+    NSString *osBuildVersion = nil;
+    
+	sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+	char *answer = (char*)malloc(size);
+	int result = sysctlbyname("kern.osversion", answer, &size, NULL, 0);
+    if (result >= 0) {
+        osBuildVersion = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
+    }
+    
+    return osBuildVersion;   
+}
+
 - (NSString *)_getDevicePlatform {
-	size_t size;
+	size_t size = 0;
 	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
 	char *answer = (char*)malloc(size);
 	sysctlbyname("hw.machine", answer, &size, NULL, 0);
@@ -578,7 +592,12 @@ NSBundle *quincyBundle() {
 	
 	/* System info */
 	[xmlString appendFormat:@"Date/Time:       %s\n", [[report.systemInfo.timestamp description] UTF8String]];
-	[xmlString appendFormat:@"OS Version:      %s %s\n", osName, [report.systemInfo.operatingSystemVersion UTF8String]];
+    NSString *buildNumber = [self _getOSVersionBuild];
+    if (buildNumber) {
+        [xmlString appendFormat:@"OS Version:      %s %s (%s)\n", osName, [report.systemInfo.operatingSystemVersion UTF8String], [buildNumber UTF8String]];
+    } else {
+        [xmlString appendFormat:@"OS Version:      %s %s\n", osName, [report.systemInfo.operatingSystemVersion UTF8String]];
+    }
 	[xmlString appendString:@"Report Version:  104\n"];
 	
 	[xmlString appendString:@"\n"];
