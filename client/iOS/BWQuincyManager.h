@@ -31,7 +31,7 @@
 
 #define kQuincyBundleName @"Quincy.bundle"
 
-NSBundle *quincyBundle();
+NSBundle *quincyBundle(void);
 
 #define BWQuincyLocalize(StringToken) NSLocalizedStringFromTableInBundle(StringToken, @"Quincy", quincyBundle(), @"")
 
