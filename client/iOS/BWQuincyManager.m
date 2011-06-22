@@ -35,7 +35,7 @@
 #include <sys/sysctl.h>
 #include <inttypes.h> //needed for PRIx64 macro
 
-NSBundle *quincyBundle() {
+NSBundle *quincyBundle(void) {
     static NSBundle* bundle = nil;
     if (!bundle) {
         NSString* path = [[[NSBundle mainBundle] resourcePath]
