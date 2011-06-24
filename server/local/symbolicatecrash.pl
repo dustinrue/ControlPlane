@@ -12,9 +12,10 @@
 #
 
 use strict;
-use warnings;
+#use warnings;
 use Getopt::Std;
 use Cwd qw(realpath);
+use Math::BigInt;
 
 #############################
 
@@ -340,7 +341,7 @@ sub matchesUUID
 			print STDERR "Given UUID $uuid for '$path' is really UUID $test\n" if $opt{v};
 		}
     } else {
-		print "Can't understand the output from otool ($TEST_uuid -> '$otool -arch $arch -l $path')\n";
+		print STDERR "Can't understand the output from otool ($TEST_uuid -> '$otool -arch $arch -l $path')\n" if $opt{v};
 	}
 
     return 0;
@@ -476,7 +477,7 @@ sub parse_sections {
 }
 
 sub parse_images {
-    my ($log_ref, $report_version) = @_;
+    my ($log_ref, $report_version, $default_arch) = @_;
     
     my $section = parse_section($log_ref,'Binary Images Description',multiline=>1);
     if (!defined($section)) {
@@ -493,7 +494,7 @@ sub parse_images {
     my ($pat, $app, %captures);
 
     # FIXME: This should probably be passed in as an argument
-    my $default_arch = 'armv6';
+#    my $default_arch = 'armv6';
     
     #To get all the architectures for string matching.
     my $arch_flattened = join('|', values(%architectures));
@@ -527,7 +528,6 @@ sub parse_images {
                       'path' => \$7);
     }
     elsif($report_version == 6) { # TheRealKerni   
-        $default_arch = 'i386';
         $pat = '                                                                                                                                                                                              
             ^\s* (\w+) \s* \- \s* (\w+) \s*     (?# the range base and extent [1,2] )                                                                                                                                 
             (\+)?                               (?# the application may have a + in front of the name [3] )                                                                                                   
@@ -539,26 +539,26 @@ sub parse_images {
         %captures = ( 'base' => \$1, 'extent' => \$2, 'plus' => \$3,
                       'bundlename' => \$4, 'uuid' => \$5, 'path' => \$6);
     }
-    elsif($report_version == 9) { # TheRealKerni
+    elsif($report_version == 9) { # TheRealKerni   
         $pat = '                                                                                                                                                                                              
             ^\s* (\w+) \s* \- \s* (\w+) \s*     (?# the range base and extent [1,2] )                                                                                                                                 
             (\+)?                               (?# the application may have a + in front of the name [3] )                                                                                                   
             (.+)                                (?# bundle name [4] )                                                                                                                                                 
-            \s+ \(.+\) \s*                   (?# the versions--generally "??? [???]" )                                                                                                                             
+            \s+ \(.+\) \s*                      (?# the versions--generally "??? [???]" )                                                                                                                             
             \<?([^\s]{36})?\>?                  (?# possible UUID [5] )                                                                                                                                               
             \s* (\/.*)\s*$                      (?# first fwdslash to end we hope is path [6] )                                                                                                                       
             ';
         %captures = ( 'base' => \$1, 'extent' => \$2, 'plus' => \$3,
                       'bundlename' => \$4, 'uuid' => \$5, 'path' => \$6);
     }
-
+    
     for my $line (@lines) {
         next if $line =~ /PEF binary:/; # ignore these
         
 	$line =~ s/(&(\w+);?)/$entity2char{$2} || $1/eg;
         
 	if ($line =~ /$pat/ox) {
-	    
+
         # Dereference references 
         my %image;
         while((my $key, my $val) = each(%captures)) {
@@ -713,8 +713,19 @@ sub parse_OSVersion {
 sub parse_arch {
     my ($log_ref) = @_;
     my $codeType = parse_section($log_ref,'Code Type');
-    $codeType =~ /(\w+)/;
-    my $arch = $architectures{$1};
+    
+    my $value = 0;
+    
+	if ( $codeType eq "X86-64 (Native)" ) {
+	    $value = "X86-64";
+	} elsif ( $codeType eq "PPC-64 (Native)" ) {
+	    $value = "PPC-64";
+	} else {
+	    $codeType =~ /(\w+)/;
+	    $value = $1;
+	}
+
+    my $arch = $architectures{$value};
     die "Error: Unknown architecture $1" unless defined $arch;
     return $arch;
 }
@@ -731,7 +742,7 @@ sub findImageByNameAndAddress {
     my ($images,$bundle,$address) = @_;
     my $key = $bundle;
     
-    #print STDERR "findImageByNameAndAddress($bundle,$address) ... ";
+    #print STDERR "findImageByNameAndAddress($bundle,$address) ... \n";
     
     my $binary = $$images{$bundle};
     
@@ -956,8 +967,12 @@ sub symbolicate_log {
     my $report_version = parse_report_version($log_ref);
     $report_version or die "No crash report version in $file";
     
+    # extract arch -- this doesn't really mean much now that we can mulitple archs in a backtrace.  Manage the arch in each stack frame.
+    my $arch = parse_arch($log_ref);
+    print STDERR "Arch of Logfile: $arch\n" if $opt{v};
+
     # read the binary images
-    my ($images,$first_bundle) = parse_images($log_ref, $report_version);
+    my ($images,$first_bundle) = parse_images($log_ref, $report_version, $arch);
     
     # -A option: just lookup app symbols
     $images = { $first_bundle => $$images{$first_bundle} } if $opt{A};
@@ -997,9 +1012,6 @@ sub symbolicate_log {
     # extract build
     my ($version, $build) = parse_OSVersion($log_ref);
     print STDERR "OS Version $version Build $build\n" if $opt{v};
-    # extract arch -- this doesn't really mean much now that we can mulitple archs in a backtrace.  Manage the arch in each stack frame.
-    #my $arch = parse_arch($log_ref);
-    #print STDERR "Arch of Logfile: $arch\n" if $opt{v};
     
     # sort out just the images needed for this backtrace
     prune_used_images($images,$bt);
