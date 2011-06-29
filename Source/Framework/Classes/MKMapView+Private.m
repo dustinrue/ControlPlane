@@ -7,7 +7,8 @@
 //
 
 #import "MKMapView+Private.h"
-
+#import "MKWebView.h"
+#import "MKUserLocation.h"
 
 @implementation MKMapView (Private)
 
