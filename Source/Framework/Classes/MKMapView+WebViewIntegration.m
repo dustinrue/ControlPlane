@@ -10,6 +10,7 @@
 #import "MKMapView+DelegateWrappers.h"
 #import "JSON.h"
 #import "MKWebView.h"
+#import "MKMapView+Private.h"
 
 
 @implementation MKMapView (WebViewIntegration)
@@ -36,6 +37,11 @@
     if (sel == @selector(webviewReportingClick:))
     {
         name = @"webviewReportingClick";
+    }
+    
+    if (sel == @selector(webviewReportingReloadGmaps))
+    {
+	name = @"webviewReportingReloadGmaps";
     }
         
     if (sel == @selector(annotationScriptObjectDragStart:))
@@ -81,6 +87,11 @@
     if (aSelector == @selector(webviewReportingClick:))
     {
         return NO;
+    }
+    
+    if (aSelector == @selector(webviewReportingReloadGmaps))
+    {
+	return NO;
     }
     
     if (aSelector == @selector(annotationScriptObjectDragStart:))
@@ -296,6 +307,11 @@
         coordinate.longitude = [longitude doubleValue];
         [self delegateUserDidClickAndHoldAtCoordinate:coordinate];
     }
+}
+
+- (void)webviewReportingReloadGmaps
+{
+    [self loadMapKitHtml];
 }
 
 - (void)annotationScriptObjectRightClick:(WebScriptObject *)annotationScriptObject
