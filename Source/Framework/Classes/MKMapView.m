@@ -69,6 +69,7 @@
 
     [webView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [webView setFrameLoadDelegate:self];
+    [webView setUIDelegate:self];
     [webView setMaintainsBackForwardList:NO];
     
     // Create the overlay data structures
@@ -95,6 +96,7 @@
 
 - (void)dealloc
 {
+    [webView close];
     [webView setFrameLoadDelegate:nil];
     delegate = nil;
     [webView removeFromSuperview];
@@ -646,6 +648,13 @@
     if ([frame isEqual:[webView mainFrame]])
 	[self performSelector:@selector(delegateDidFinishLoadingMap) withObject:nil afterDelay:0.5];
         //[self delegateDidFinishLoadingMap];
+}
+
+#pragma mark WebUIDelegate
+
+- (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
+{
+    return [NSArray array];
 }
 
 @end
