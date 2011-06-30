@@ -516,6 +516,59 @@
         [self selectAnnotation:[selectedAnnotations objectAtIndex:0] animated:NO];
 }
 
+#pragma mark Converting Map Coordinates
+
+- (NSPoint)convertCoordinate:(CLLocationCoordinate2D)coordinate toPointToView:(NSView *)view
+{
+    NSPoint point = {0,0};
+    NSArray *args = [NSArray arrayWithObjects:
+                     [NSNumber numberWithDouble:coordinate.latitude],
+                     [NSNumber numberWithDouble:coordinate.longitude],
+		     nil];
+    WebScriptObject *webScriptObject = [webView windowScriptObject];
+    NSString *json = [webScriptObject callWebScriptMethod:@"convertCoordinate" withArguments:args];
+    NSNumber *x = nil; 
+    NSNumber *y = nil;
+    if ([json isKindOfClass:[NSString class]])
+    {
+        NSDictionary *xy = [json JSONValue];
+        x = [xy objectForKey:@"x"];
+        y = [xy objectForKey:@"y"];
+    }
+    
+    point.x = [x integerValue];
+    point.y = [y integerValue];
+    
+    point = [webView convertPoint:point toView:view];
+    
+    return point;
+}
+
+- (CLLocationCoordinate2D)convertPoint:(CGPoint)point toCoordinateFromView:(NSView *)view
+{
+// TODO: Implement
+    NSLog(@"-[MKMapView convertPoint: toCoordinateFromView:] not implemented yet");
+    CLLocationCoordinate2D coordinate;
+    
+    return coordinate;
+}
+
+- (MKCoordinateRegion)convertRect:(CGRect)rect toRegionFromView:(NSView *)view
+{
+// TODO: Implement
+    NSLog(@"-[MKMapView convertRect: toRegionFromView:] not implemented yet");
+    MKCoordinateRegion region;
+    
+    return region;
+}
+
+- (NSRect)convertRegion:(MKCoordinateRegion)region toRectToView:(NSView *)view
+{
+// TODO: Implement
+    NSLog(@"-[MKMapView convertRegion: toRectToView:] not implemented yet");
+    return NSZeroRect;
+}
+
 #pragma mark Faked Properties
 
 - (BOOL)isScrollEnabled

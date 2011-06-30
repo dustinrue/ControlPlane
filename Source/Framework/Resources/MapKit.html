@@ -711,6 +711,28 @@ window.onwebkitanimationend =  function(event) {
       anAnnotation.setCalloutText(text);
   }
   
+  // Converting Map Coordinates
+  
+  function convertCoordinate(lat, lng)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      
+      // Start hack to get access to MapCanvasProjection
+      var helper = new google.maps.OverlayView();
+      helper.setMap(map);
+      helper.draw = function () { 
+          if (!this.ready) { 
+              this.ready = true; 
+              google.maps.event.trigger(this, 'ready'); 
+          } 
+      };
+      var mapCanvasProjection = helper.getProjection();
+      // End hack to get to MapCanvasProjection
+      
+      var point = mapCanvasProjection.fromLatLngToContainerPixel(latlng);
+      return JSON.stringify({"x":point.x, "y":point.y});
+  }
+  
   // Javascript and CSS addons
   
   function addJavascriptTag(url)

@@ -80,9 +80,11 @@
 - (void)selectAnnotation:(id < MKAnnotation >)annotation animated:(BOOL)animated;
 - (void)deselectAnnotation:(id < MKAnnotation >)annotation animated:(BOOL)animated;
 
-
-
-
+// Converting Map Coordinates
+- (NSPoint)convertCoordinate:(CLLocationCoordinate2D)coordinate toPointToView:(NSView *)view;
+- (CLLocationCoordinate2D)convertPoint:(CGPoint)point toCoordinateFromView:(NSView *)view;
+- (MKCoordinateRegion)convertRect:(CGRect)rect toRegionFromView:(NSView *)view;
+- (NSRect)convertRegion:(MKCoordinateRegion)region toRectToView:(NSView *)view;
 
 @end
 
