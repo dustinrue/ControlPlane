@@ -346,9 +346,9 @@ const CGFloat kDetailsHeight = 285;
 @implementation BWQuincyUI
 
 - (id)init:(id)delegate crashFile:(NSString *)crashFile companyName:(NSString *)companyName applicationName:(NSString *)applicationName {
-	[super init];
-	self = [[BWQuincyUI alloc] initWithWindowNibName: @"BWQuincyMain"];
-
+	
+	self = [super initWithWindowNibName: @"BWQuincyMain"];
+	
 	if ( self != nil) {
 		_xml = nil;
 		_delegate = delegate;
