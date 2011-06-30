@@ -421,11 +421,10 @@ const CGFloat kDetailsHeight = 285;
 
 - (IBAction) cancelReport:(id)sender {
 	[self endCrashReporter];
-
+	[NSApp abortModal];
+	
 	if ( _delegate != nil && [_delegate respondsToSelector:@selector(cancelReport)])
 		[_delegate cancelReport];
-	
-	[NSApp abortModal];
 }
 
 
@@ -458,11 +457,10 @@ const CGFloat kDetailsHeight = 285;
 			] retain];
 	
 	[self endCrashReporter];
-
+	[NSApp abortModal];
+	
 	if ( _delegate != nil && [_delegate respondsToSelector:@selector(sendReport:)])
 		[_delegate sendReport:_xml];
-
-	[NSApp abortModal];
 }
 
 
