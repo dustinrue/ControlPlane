@@ -728,8 +728,9 @@ window.onwebkitanimationend =  function(event) {
       };
       var mapCanvasProjection = helper.getProjection();
       // End hack to get to MapCanvasProjection
-      
+            
       var point = mapCanvasProjection.fromLatLngToContainerPixel(latlng);
+      helper.setMap(null);
       return JSON.stringify({"x":point.x, "y":point.y});
   }
   
