@@ -363,7 +363,7 @@ const CGFloat kDetailsHeight = 285;
 
 
 - (void) endCrashReporter {
-	[[self window] close];
+	[self close];
 }
 
 
