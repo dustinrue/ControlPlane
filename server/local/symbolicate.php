@@ -127,8 +127,8 @@ if ($content !== false && strlen($content) > 0)
 		
 		
 			echo "  Symbolicating ...\n";
-				
-			exec('./symbolicatecrash -o '.$resultfilename.' '.$filename);
+			
+			exec('perl ./symbolicatecrash.pl -o '.$resultfilename.' '.$filename);
 	
 			unlink($filename);
 			
