@@ -346,9 +346,9 @@ const CGFloat kDetailsHeight = 285;
 @implementation BWQuincyUI
 
 - (id)init:(id)delegate crashFile:(NSString *)crashFile companyName:(NSString *)companyName applicationName:(NSString *)applicationName {
-	[super init];
-	self = [[BWQuincyUI alloc] initWithWindowNibName: @"BWQuincyMain"];
-
+	
+	self = [super initWithWindowNibName: @"BWQuincyMain"];
+	
 	if ( self != nil) {
 		_xml = nil;
 		_delegate = delegate;
@@ -363,7 +363,7 @@ const CGFloat kDetailsHeight = 285;
 
 
 - (void) endCrashReporter {
-	[[self window] close];
+	[self close];
 }
 
 
@@ -421,11 +421,10 @@ const CGFloat kDetailsHeight = 285;
 
 - (IBAction) cancelReport:(id)sender {
 	[self endCrashReporter];
-
+	[NSApp stopModal];
+	
 	if ( _delegate != nil && [_delegate respondsToSelector:@selector(cancelReport)])
 		[_delegate cancelReport];
-	
-	[NSApp abortModal];
 }
 
 
@@ -458,11 +457,10 @@ const CGFloat kDetailsHeight = 285;
 			] retain];
 	
 	[self endCrashReporter];
-
+	[NSApp stopModal];
+	
 	if ( _delegate != nil && [_delegate respondsToSelector:@selector(sendReport:)])
 		[_delegate sendReport:_xml];
-
-	[NSApp abortModal];
 }
 
 
