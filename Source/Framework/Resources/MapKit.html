@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&v=3.3"></script>
 
 <style type="text/css">
 
@@ -191,6 +191,7 @@ window.onwebkitanimationend =  function(event) {
           else if (option == "draggable")
           {
               marker.setOptions({"draggable": value});
+              marker.setClickable(true);
           }
           else if (option == "title")
           {
@@ -940,7 +941,7 @@ window.onwebkitanimationend =  function(event) {
     var marker = new AnnotationOverlay();
     var markerImage = new google.maps.MarkerImage('file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', null, null, null, null);
     //var markerOptions = {"draggable": true, "icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
-    var markerOptions = {"draggable": true, "imageUrl": 'file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Release/MapKit.framework/Resources/MKPinAnnotationColorRed.png', "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459), "title": "1"};
+    var markerOptions = {"draggable": false, "imageUrl": 'file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Release/MapKit.framework/Resources/MKPinAnnotationColorRed.png', "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459), "title": "1"};
     
     setOverlayOption(marker, "draggable", markerOptions["draggable"]);
     setOverlayOption(marker, "title", "asdf");
@@ -950,7 +951,7 @@ window.onwebkitanimationend =  function(event) {
     //marker.setOptions(markerOptions); 
     addAnnotation(marker);
     //marker.setCalloutText("My Title");
-    marker.setCalloutHidden(false); 
+    marker.setCalloutHidden(true); 
 
     //marker.setOptions(markerOptions); */
     //reverseGeocode(49.8578255,-97.16531639999999);
