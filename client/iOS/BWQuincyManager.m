@@ -445,6 +445,7 @@ NSBundle *quincyBundle(void) {
 			
             if (report == nil) {
                 NSLog(@"Could not parse crash report");
+				[fm removeItemAtPath:filename error:&error];
                 continue;
             }
 
