@@ -9,10 +9,20 @@
 #import <IOKit/IOTypes.h>
 #import "LoopingEvidenceSource.h"
 
+enum {  
+	kGetSensorReadingID = 0,
+	kGetLEDBrightnessID = 1, 
+	kSetLEDBrightnessID = 2,
+	kSetLEDFadeID = 3,  
+}; 
+
+
+
 @interface LightEvidenceSource : LoopingEvidenceSource {
 	NSLock *lock;
 	io_connect_t ioPort;
 	int leftLight, rightLight;
+	int maxLevel;
 
 	// For custom panel
 	NSString *currentLevel;		// bindable (e.g. "67%")

@@ -45,26 +45,37 @@
 
 - (void)start
 {
+	
+	BluetoothHCIPowerState powerState = kBluetoothHCIPowerStateUnintialized;
+
+
 	if (running)
 		return;
 
 	notf = [IOBluetoothDevice registerForConnectNotifications:self
 							 selector:@selector(deviceConnected:device:)];
 	// The above triggers connection notifications for already-connected devices. Sweet.
+    IOBluetoothLocalDeviceGetPowerState(&powerState);
 
-	if (IOBluetoothPreferenceGetControllerPowerState()) {
-		DSLog(@"starting inq");
+	if (powerState == kBluetoothHCIPowerStateON) {
+		NSLog(@"%@ >> bluetooth is on",[self class]);
+		NSLog(@"%@ >> starting inq", [self class]);
 		[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+		
+	
 	} else {
+		NSLog(@"%@ >> bluetooth is off",[self class]);
 		// Various things mysteriously break if we run the inquiry while bluetooth is not on, so we run a
 		// timer, waiting for it to turn back on
-		DSLog(@"starting hold timer");
+		NSLog(@"starting hold timer");
 		holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5
-							     target:self
-							   selector:@selector(holdTimerPoll:)
-							   userInfo:nil
-							    repeats:YES];
+													 target:self
+												   selector:@selector(holdTimerPoll:)
+												   userInfo:nil
+													repeats:YES];
 	}
+	
+
 
 	cleanupTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
 							target:self
@@ -73,6 +84,7 @@
 						       repeats:YES];
 
 	running = YES;
+	
 }
 
 - (void)stop

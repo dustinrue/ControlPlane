@@ -279,7 +279,8 @@
 #import "RunningApplicationEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
-#import "WiFiEvidenceSource.h"
+//#import "WiFiEvidenceSource.h"
+#import "WiFiEvidenceSource2.h"
 
 @implementation EvidenceSourceSetController
 
@@ -301,7 +302,8 @@
 		[RunningApplicationEvidenceSource class],
 		[TimeOfDayEvidenceSource class],
 		[USBEvidenceSource class],
-		[WiFiEvidenceSource class],
+//		[WiFiEvidenceSource class],
+        [WiFiEvidenceSource2 class],
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -317,7 +319,8 @@
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
-		NSLocalizedString(@"WiFi", @"Evidence source");
+//		NSLocalizedString(@"WiFi", @"Evidence source");
+        NSLocalizedString(@"WiFi2", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources

@@ -10,6 +10,8 @@
 #import "LightEvidenceSource.h"
 
 
+
+
 @interface LightEvidenceSource (Private)
 
 - (double)levelFromRawLeft:(int)left andRight:(int)right;
@@ -24,8 +26,14 @@
 - (double)levelFromRawLeft:(int)left andRight:(int)right
 {
 	// FIXME(rdamazio): This value is probably incorrect
-	static double kMaxLightValue = 4096.0;
-	return (left + right) / kMaxLightValue;
+	// COMMENTS(dustinrue) below is the observed max value on a 13" unibody MacBook (Late 2008)
+	// This value is ridiculous and results in a much smaller
+	// useful value range.  
+	static double kMaxLightValue = 67092480; 
+										
+	
+	// determine average value from the two sensors	
+	return (left/kMaxLightValue + right/kMaxLightValue) / 2;
 }
 
 - (id)init
@@ -45,7 +53,7 @@
 	}
 
 	if (!serviceObject || (kr != KERN_SUCCESS))
-		ioPort = nil;
+		ioPort = (int)nil;
 
 	// We want this to update more regularly than every 10 seconds!
 	loopInterval = (NSTimeInterval) 1.5;
@@ -63,9 +71,53 @@
 - (void)doUpdate
 {
 	[lock lock];
+	kern_return_t kr;
+	uint32_t	outputCnt = 2;
+	uint64_t    scalarI_64[2];
+	scalarI_64[0] = 0;
+	scalarI_64[1] = 0;
 
 	// Read from the sensor device - index 0, 0 inputs, 2 outputs
-	kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
+	
+	
+	// Check if Mac OS X 10.5 API is available...
+	if (IOConnectCallScalarMethod != NULL) {
+		// ...and use it if it is.
+	
+		kr = IOConnectCallScalarMethod(ioPort, kGetSensorReadingID, NULL, 0, scalarI_64, &outputCnt);
+			
+		leftLight  = scalarI_64[0];
+		rightLight = scalarI_64[1];
+		if (kr == KERN_SUCCESS) {  
+#ifdef DEBUG_MODE
+			NSLog(@"%@ >> successfully polled light sensor using 10.5+ method", [self class]);
+#endif
+		}  
+		else {
+#ifdef DEBUG_MODE
+			NSLog(@"%@ >> unsuccessfully polled light sensor using 10.5+ method", [self class]);
+#endif
+			mach_error("I/O Kit error:", kr); 
+		}
+
+    }
+    else {
+        // Otherwise fall back to older API.
+#if !defined(__LP64__)
+        kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
+#ifdef DEBUG_MODE
+		NSLog(@"%@ >> successfully polled light sensor using 10.4 less method", [self class]);
+#endif
+#else
+#ifdef DEBUG_MODE
+		NSLog(@"%@ >> how are you running 64bit Tiger or older?",[self class]);
+#endif
+		[lock unlock];
+		return;
+#endif
+    }    
+
+	//kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
 	[self setDataCollected:(kr == KERN_SUCCESS)];
 
 	// Update bindable key
@@ -77,7 +129,7 @@
 	[self setValue:perc forKey:@"currentLevel"];
 
 #ifdef DEBUG_MODE
-	//NSLog(@"%@ >> Current light level: L:%d R:%d. (%@)", [self class], leftLight, rightLight, currentLevel);
+	NSLog(@"%@ >> Current light level: L:%d R:%d. (%@)", [self class], leftLight, rightLight, currentLevel);
 #endif
 	[lock unlock];
 }
