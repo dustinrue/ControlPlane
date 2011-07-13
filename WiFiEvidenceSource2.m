@@ -94,7 +94,7 @@ static NSString *macToString(const UInt8 *mac)
     CWNetwork *currentNetwork = nil;
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:nil];
     
-    NSLog(@"Attempting to do the scan");
+    //NSLog(@"Attempting to do the scan");
     NSArray *supportedInterfaces = [CWInterface supportedInterfaces];
     self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
     
