@@ -71,7 +71,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableTimeOfDayEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableUSBEvidenceSource"];
 //	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableWiFiEvidenceSource"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableWiFi2EvidenceSource"];    
+	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableCoreWLANEvidenceSource"];    
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];

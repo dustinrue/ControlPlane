@@ -279,8 +279,7 @@
 #import "RunningApplicationEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
-//#import "WiFiEvidenceSource.h"
-#import "WiFiEvidenceSource2.h"
+#import "CoreWLANEvidenceSource.h"
 
 @implementation EvidenceSourceSetController
 
@@ -288,7 +287,7 @@
 {
 	if (!(self = [super init]))
 		return nil;
-
+    
 	NSArray *classes = [NSArray arrayWithObjects:
 		[AudioOutputEvidenceSource class],
 		[BluetoothEvidenceSource class],
@@ -302,8 +301,8 @@
 		[RunningApplicationEvidenceSource class],
 		[TimeOfDayEvidenceSource class],
 		[USBEvidenceSource class],
-//		[WiFiEvidenceSource class],
-        [WiFiEvidenceSource2 class],
+		//[WiFiEvidenceSource class],
+        [WiFiEvidenceSourceCoreWLAN class],
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -319,8 +318,8 @@
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
-//		NSLocalizedString(@"WiFi", @"Evidence source");
-        NSLocalizedString(@"WiFi2", @"Evidence source");
+		//NSLocalizedString(@"WiFi", @"Evidence source");
+        NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources
