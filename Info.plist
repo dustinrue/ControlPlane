@@ -13,7 +13,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>MarcoPolo Help</string>
 	<key>CFBundleIconFile</key>
-	<string>marcopolo</string>
+	<string>cp-icon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>au.id.symonds.MarcoPolo2</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -30,6 +30,8 @@
 	<array/>
 	<key>CFBundleVersion</key>
 	<string>2.6.0</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
 	<key>LSUIElement</key>
 	<string>1</string>
 	<key>MPWebPageURL</key>

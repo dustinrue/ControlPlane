@@ -111,8 +111,8 @@
 	// Growl registration
 	[GrowlApplicationBridge setGrowlDelegate:self];
 
-	sbImageActive = [self prepareImageForMenubar:@"mp-icon-active"];
-	sbImageInactive = [self prepareImageForMenubar:@"mp-icon-inactive"];
+	sbImageActive = [self prepareImageForMenubar:@"cp-icon-active"];
+	sbImageInactive = [self prepareImageForMenubar:@"cp-icon-inactive"];
 	sbItem = nil;
 	sbHideTimer = nil;
 
