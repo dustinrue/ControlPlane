@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:MarcoPolo.xcodeproj">
+      location = "self:ControlPlane.xcodeproj">
    </FileRef>
 </Workspace>

@@ -89,7 +89,6 @@
 		8DEF428F0BAA05D300F87273 /* MarcoPolo Help in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8DEF42780BAA05CD00F87273 /* MarcoPolo Help */; };
 		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; };
-		8DF7E9C70B7159950005375C /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DF7E9C60B7159950005375C /* usb-vendors.txt */; };
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
@@ -98,6 +97,7 @@
 		DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22013D13C8300074503 /* cp-icon-inactive.icns */; };
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DA83A22513D13E0500074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22413D13E0500074503 /* cp-icon.icns */; };
+		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 /* End PBXBuildFile section */
 
@@ -295,7 +295,6 @@
 		8DF5A4160BC2353D00CBEB4B /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Action.m; path = src/Action.m; sourceTree = "<group>"; };
 		8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultPrinterAction.h; path = src/DefaultPrinterAction.h; sourceTree = "<group>"; };
 		8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultPrinterAction.m; path = src/DefaultPrinterAction.m; sourceTree = "<group>"; };
-		8DF7E9C60B7159950005375C /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 		8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QuitApplicationAction.h; path = src/QuitApplicationAction.h; sourceTree = "<group>"; };
 		8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QuitApplicationAction.m; path = src/QuitApplicationAction.m; sourceTree = "<group>"; };
 		8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnmountAction.h; path = src/UnmountAction.h; sourceTree = "<group>"; };
@@ -310,6 +309,7 @@
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-inactive.icns"; path = "graphics/cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon.icns"; path = "graphics/cp-icon.icns"; sourceTree = "<group>"; };
 		DA83A22413D13E0500074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "cp-icon.icns"; sourceTree = "<group>"; };
+		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -415,6 +415,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DA83A22613D1430000074503 /* usb-vendors.txt */,
 				DA83A22413D13E0500074503 /* cp-icon.icns */,
 				DA83A22213D13DF300074503 /* cp-icon.icns */,
 				DA83A21E13D12A3200074503 /* cp-icon-active.icns */,
@@ -435,7 +436,6 @@
 				8DB8917B0BB89BD8005347C2 /* oui.txt */,
 				8D1A45590BA00DE2004A6BC4 /* minus-8.png */,
 				8D1A455A0BA00DE2004A6BC4 /* plus-8.png */,
-				8DF7E9C60B7159950005375C /* usb-vendors.txt */,
 				8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
@@ -652,7 +652,6 @@
 				DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */,
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D3E2DD20AA4F3C000FB21C1 /* marcopolo.icns in Resources */,
-				8DF7E9C70B7159950005375C /* usb-vendors.txt in Resources */,
 				8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */,
 				8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */,
 				8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */,
@@ -675,6 +674,7 @@
 				8DC410FB0C64665E00393759 /* AboutPanel.nib in Resources */,
 				DA83A22313D13DF300074503 /* cp-icon.icns in Resources */,
 				DA83A22513D13E0500074503 /* cp-icon.icns in Resources */,
+				DA83A22713D1430000074503 /* usb-vendors.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

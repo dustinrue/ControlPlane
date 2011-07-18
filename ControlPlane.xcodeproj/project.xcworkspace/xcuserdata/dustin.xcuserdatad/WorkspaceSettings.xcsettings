@@ -8,6 +8,8 @@
 	<integer>0</integer>
 	<key>IDEWorkspaceUserSettings_DerivedDataLocationStyle</key>
 	<integer>0</integer>
+	<key>IDEWorkspaceUserSettings_HasAskedToTakeAutomaticSnapshotBeforeSignificantChanges</key>
+	<true/>
 	<key>IDEWorkspaceUserSettings_LiveSourceIssuesEnabled</key>
 	<true/>
 	<key>IDEWorkspaceUserSettings_SnapshotAutomaticallyBeforeSignificantChanges</key>
