@@ -33,7 +33,7 @@
 "Send Report" = "Gönder!";
 
 /* Alert box button to decline sending the report */
-"Don't Send" = "Hayır, gönderme!";
+"Don't Send" = "Hayır";
 
 /* Text showing in a processing box that the crash data is being uploaded to the server */
 "Sending" = "Gönderiliyor…";
