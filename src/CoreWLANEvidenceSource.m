@@ -147,6 +147,9 @@ end_of_scan:
 	NSDictionary *dict;
 	while ((dict = [en nextObject])) {
 		NSString *x = [dict valueForKey:key];
+#ifdef DEBUG_MODE
+        NSLog(@"checking to see if %@ matches",[dict valueForKey:key]);
+#endif
 		if ([param isEqualToString:x]) {
 			match = YES;
 			break;

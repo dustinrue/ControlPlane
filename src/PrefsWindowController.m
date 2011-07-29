@@ -368,7 +368,7 @@
 	[prefsWindow setShowsResizeIndicator:resizeable];
 
 	[prefsWindow setContentView:blankPrefsView];
-	[prefsWindow setTitle:[NSString stringWithFormat:@"MarcoPolo - %@", [group objectForKey:@"display_name"]]];
+	[prefsWindow setTitle:[NSString stringWithFormat:@"ControlPlane - %@", [group objectForKey:@"display_name"]]];
 	[self resizeWindowToSize:size withMinSize:minSize limitMaxSize:!resizeable];
 
 	if ([prefsToolbar respondsToSelector:@selector(setSelectedItemIdentifier:)])

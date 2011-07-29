@@ -1,20 +1,15 @@
 USB data
 --------
 To update:
-	wget http://www.usb.org/developers/tools/comp_dump \
-		-O Resources/usb-vendors.txt
+        cd into scripts, run ./update-usb-data.sh
 
 OUI data
 --------
 To update:
-	curl http://standards.ieee.org/regauth/oui/oui.txt \
-		| grep "^..-..-.." | sed "s/(hex)//" \
-		| tr -s '\t' \
-		> Resources/oui.txt
+        cd into scripts, run ./update-oui.sh
 
 Pre-Release Checklist
 ---------------------
-	+ Update USB vendor and OUI databases (see above)
 	+ Check version numbers in Info.plist
 	+ Git tag
 	+ Run ./make_disk_image.sh

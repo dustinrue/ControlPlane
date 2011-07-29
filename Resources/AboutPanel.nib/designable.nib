@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1040</int>
-		<string key="IBDocument.SystemVersion">10K540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<dictionary class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="com.apple.InterfaceBuilder.CocoaPlugin">1306</string>
-			<string key="com.apple.WebKitIBPlugin">30</string>
+			<string key="com.apple.InterfaceBuilder.CocoaPlugin">1617</string>
+			<string key="com.apple.WebKitIBPlugin">518</string>
 		</dictionary>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTextField</string>
@@ -39,7 +39,7 @@
 			<object class="NSWindowTemplate" id="729589211">
 				<int key="NSWindowStyleMask">11</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{163, 504}, {569, 243}}</string>
+				<string key="NSWindowRect">{{163, 351}, {569, 243}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle"/>
 				<object class="NSMutableString" key="NSWindowClass">
@@ -48,9 +48,10 @@
 				<object class="NSMutableString" key="NSViewClass">
 					<characters key="NS.bytes">View</characters>
 				</object>
+				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{567, 224}</string>
 				<object class="NSView" key="NSWindowView" id="760619837">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSImageView" id="996622039">
 							<reference key="NSNextResponder" ref="760619837"/>
@@ -65,13 +66,14 @@
 							</set>
 							<string key="NSFrame">{{20, 95}, {128, 128}}</string>
 							<reference key="NSSuperview" ref="760619837"/>
+							<reference key="NSNextKeyView" ref="1058672371"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="813201744">
 								<int key="NSCellFlags">130560</int>
 								<int key="NSCellFlags2">33554432</int>
 								<object class="NSCustomResource" key="NSContents">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">marcopolo</string>
+									<string key="NSResourceName">cp-icon</string>
 								</object>
 								<int key="NSAlign">0</int>
 								<int key="NSScale">1</int>
@@ -85,6 +87,7 @@
 							<int key="NSvFlags">264</int>
 							<string key="NSFrame">{{20, 64}, {128, 23}}</string>
 							<reference key="NSSuperview" ref="760619837"/>
+							<reference key="NSNextKeyView" ref="639283509"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="766504976">
 								<int key="NSCellFlags">67239424</int>
@@ -142,7 +145,7 @@
 							<array class="NSMutableArray" key="NSSubviews">
 								<object class="NSView" id="737362111">
 									<reference key="NSNextResponder" ref="889513965"/>
-									<int key="NSvFlags">256</int>
+									<int key="NSvFlags">274</int>
 									<array class="NSMutableArray" key="NSSubviews">
 										<object class="WebView" id="10484531">
 											<reference key="NSNextResponder" ref="737362111"/>
@@ -164,7 +167,7 @@
 												<string>public.url</string>
 												<string>public.url-name</string>
 											</set>
-											<string key="NSFrame">{{16, 11}, {347, 179}}</string>
+											<string key="NSFrame">{{16, 12}, {347, 179}}</string>
 											<reference key="NSSuperview" ref="737362111"/>
 											<reference key="NSNextKeyView"/>
 											<string key="FrameName"/>
@@ -172,16 +175,9 @@
 											<object class="WebPreferences" key="Preferences">
 												<string key="Identifier"/>
 												<dictionary class="NSMutableDictionary" key="Values">
-													<boolean value="YES" key="WebKitAllowAnimatedImageLoopingPreferenceKey"/>
-													<boolean value="YES" key="WebKitAllowAnimatedImagesPreferenceKey"/>
-													<integer value="13" key="WebKitDefaultFixedFontSize"/>
-													<integer value="16" key="WebKitDefaultFontSize"/>
-													<boolean value="YES" key="WebKitDisplayImagesKey"/>
-													<boolean value="NO" key="WebKitJavaEnabled"/>
-													<boolean value="NO" key="WebKitJavaScriptCanOpenWindowsAutomatically"/>
-													<boolean value="NO" key="WebKitJavaScriptEnabled"/>
+													<integer value="12" key="WebKitDefaultFixedFontSize"/>
+													<integer value="12" key="WebKitDefaultFontSize"/>
 													<integer value="1" key="WebKitMinimumFontSize"/>
-													<boolean value="NO" key="WebKitPluginsEnabled"/>
 												</dictionary>
 											</object>
 											<bool key="UseBackForwardList">NO</bool>
@@ -190,10 +186,12 @@
 									</array>
 									<string key="NSFrame">{{3, 3}, {379, 201}}</string>
 									<reference key="NSSuperview" ref="889513965"/>
+									<reference key="NSNextKeyView" ref="10484531"/>
 								</object>
 							</array>
 							<string key="NSFrame">{{167, 16}, {385, 207}}</string>
 							<reference key="NSSuperview" ref="760619837"/>
+							<reference key="NSNextKeyView" ref="737362111"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
@@ -223,33 +221,17 @@
 							<int key="NSBoxType">1</int>
 							<int key="NSTitlePosition">0</int>
 							<bool key="NSTransparent">NO</bool>
-						</object>
-						<object class="NSTextField" id="365718074">
-							<reference key="NSNextResponder" ref="760619837"/>
-							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{17, 20}, {134, 11}}</string>
-							<reference key="NSSuperview" ref="760619837"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="617648981">
-								<int key="NSCellFlags">69336641</int>
-								<int key="NSCellFlags2">138414080</int>
-								<string key="NSContents">git: 000000000</string>
-								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">9</double>
-									<int key="NSfFlags">3614</int>
-								</object>
-								<reference key="NSControlView" ref="365718074"/>
-								<reference key="NSBackgroundColor" ref="1029549355"/>
-								<reference key="NSTextColor" ref="448117089"/>
-							</object>
+							<real value="0.0" key="NSBorderWidth2"/>
 						</object>
 					</array>
-					<string key="NSFrame">{{1, 1}, {569, 243}}</string>
+					<string key="NSFrameSize">{569, 243}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSNextKeyView" ref="996622039"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{567, 246}</string>
-				<string key="NSMaxSize">{1e+13, 1e+13}</string>
+				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -277,26 +259,6 @@
 						<reference key="destination" ref="10484531"/>
 					</object>
 					<int key="connectionID">17</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">displayPatternValue1: gitCommit</string>
-						<reference key="source" ref="365718074"/>
-						<reference key="destination" ref="652402232"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="365718074"/>
-							<reference key="NSDestination" ref="652402232"/>
-							<string key="NSLabel">displayPatternValue1: gitCommit</string>
-							<string key="NSBinding">displayPatternValue1</string>
-							<string key="NSKeyPath">gitCommit</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSDisplayPattern</string>
-								<string key="NS.object.0">git: %{value1}@</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">20</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -336,7 +298,6 @@
 							<reference ref="1058672371"/>
 							<reference ref="639283509"/>
 							<reference ref="889513965"/>
-							<reference ref="365718074"/>
 						</array>
 						<reference key="parent" ref="729589211"/>
 					</object>
@@ -373,14 +334,6 @@
 						<reference key="parent" ref="760619837"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">18</int>
-						<reference key="object" ref="365718074"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="617648981"/>
-						</array>
-						<reference key="parent" ref="760619837"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">22</int>
 						<reference key="object" ref="813201744"/>
 						<reference key="parent" ref="996622039"/>
@@ -394,11 +347,6 @@
 						<int key="objectID">24</int>
 						<reference key="object" ref="996492484"/>
 						<reference key="parent" ref="639283509"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">25</int>
-						<reference key="object" ref="617648981"/>
-						<reference key="parent" ref="365718074"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-3</int>
@@ -416,22 +364,19 @@
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="10.ImportedFromIB2"/>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="14.ImportedFromIB2"/>
 				<string key="16.IBPluginDependency">com.apple.WebKitIBPlugin</string>
-				<boolean value="YES" key="16.ImportedFromIB2"/>
-				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="18.ImportedFromIB2"/>
+				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="5.IBNSWindowAutoPositionCentersHorizontal"/>
+				<boolean value="NO" key="5.IBNSWindowAutoPositionCentersVertical"/>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="5.ImportedFromIB2"/>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="6.ImportedFromIB2"/>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="8.ImportedFromIB2"/>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="9.ImportedFromIB2"/>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
@@ -449,8 +394,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">marcopolo</string>
-			<string key="NS.object.0">{128, 128}</string>
+			<string key="NS.key.0">cp-icon</string>
+			<string key="NS.object.0">{256, 256}</string>
 		</object>
 	</data>
 </archive>

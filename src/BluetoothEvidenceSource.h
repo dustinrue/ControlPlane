@@ -8,6 +8,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
+#import <IOBluetooth/objc/IOBluetoothHostController.h>
 #import "GenericEvidenceSource.h"
 
 
@@ -17,6 +18,7 @@
 	IOBluetoothDeviceInquiry *inq;
 	IOBluetoothUserNotification *notf;
 	NSTimer *holdTimer, *cleanupTimer;
+    IOBluetoothHostController *btHostController;
 }
 
 - (id)init;

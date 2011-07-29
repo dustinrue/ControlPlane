@@ -45,8 +45,15 @@
 
 - (void)start
 {
+    
 	
+    // grab the current power state of the bluetooth module
 	BluetoothHCIPowerState powerState = kBluetoothHCIPowerStateUnintialized;
+    
+#ifdef DEBUG_MODE
+    NSLog(@"power state of the bluetooth module is:");
+#endif
+
 
 
 	if (running)

@@ -4,6 +4,7 @@
 # MarcoPolo
 #
 # Created by David Symonds on 17/02/07.
+# Modified by Dustin Rue on 7/28/2011.
 
 # Get version number
 VERSION=`cat Info.plist | grep -A 1 'CFBundleShortVersionString' | \
@@ -13,7 +14,12 @@ APPNAME=ControlPlane
 IMG=$APPNAME-$VERSION.dmg
 CONFIGURATION=Release
 APP=build/$CONFIGURATION/$APPNAME.app
-ICON=graphics/mp-volume.icns
+ICON=graphics/cp-icon.icns
+
+cd scripts
+./update-oui.sh
+./update-usb-data.sh
+cd ..
 
 xcodebuild -configuration "$CONFIGURATION" clean build
 if [ ! -d "$APP" ]; then
@@ -49,6 +55,9 @@ mv "$IMG" "$TMP"
 hdiutil convert "$TMP" -format UDBZ -o "$IMG"
 rm "$TMP"
 
-ls -l "$IMG"
-md5 "$IMG"
 
+# sign the file for Sparkle
+# run a helper script exposing location of private key for Sparkle updates
+. sparkle_env.sh
+ls -l "$IMG"
+ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 

@@ -10,7 +10,8 @@
 
 BOOL isLeopardOrLater()
 {
-	long major, minor;
+	SInt32 major, minor;
+
 
 	if (Gestalt(gestaltSystemVersionMajor, &major) || Gestalt(gestaltSystemVersionMinor, &minor))
 		return NO;	// fallback

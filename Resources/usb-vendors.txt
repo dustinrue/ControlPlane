@@ -75,7 +75,6 @@
 1302|Longwell Electronics/Longwell Company
 1305|Star Micronics Co., LTD
 1309|American Power Conversion
-1312|Taiwan Semiconductor Manufacturing Co.
 1314|ACON, Advanced-Connectek, Inc.
 1317|PLX Technology, Inc.
 1321|Aladdin Knowledge Systems
@@ -187,10 +186,8 @@
 2199|Lauterbach GmbH
 2205|Icron Technologies Corporation
 2233|RadioShack Corporation
-2235|Texas Instruments Japan
 2247|TAI TWUN ENTERPRISE CO., LTD.
 2276|Pioneer Corporation
-2278|Gemalto SA
 2303|AuthenTec, Inc.
 2310|FARADAY Technology Corp.
 2313|Audio-Technica Corp.
@@ -216,7 +213,6 @@
 2521|Jungo
 2522|A-FOUR TECH CO., LTD.
 2533|Jo-Dan International, Inc.
-2554|Mtek Vision
 2578|Cambridge Silicon Radio Ltd.
 2583|HOYA Corporation
 2593|Physio-Control, Inc.
@@ -257,12 +253,12 @@
 3141|Sonix Technology Co., Ltd.
 3158|Billion Bright Limited
 3161|Dong Guan Shinko Wire Co., Ltd.
+3170|Chant Sincere Co., Ltd
 3176|Whanam Electronics Co., Ltd.
 3190|Solid State System Co., Ltd.
 3209|Honda Tsushin Kogyo Co., Ltd
 3245|Motorola Solutions
 3255|Singatron Enterprise Co. Ltd.
-3259|Shanghai Darong Electronics Co., Ltd.
 3268|emsys Embedded Systems GmbH
 3289|Shin Din Cable Ltd.
 32902|Intel Corporation
@@ -540,8 +536,8 @@
 7758|Etron Technology, Inc.
 7789|WAN SHIH ELECTRONIC (H.K.) CO., LTD.
 7795|COMLINK ELECTRONICS CO., LTD.
+7817|Vtion Information Technology (Fujian) Co., Ltd.
 7843|Concraft Holding Co., Ltd.
-7846|novero GmbH
 7863|WIN WIN PRECISION INDUSTRIAL CO., LTD.
 7881|MOSER BAER INDIA LIMITED
 7892|Transwitch (Israel) Ltd.
@@ -574,6 +570,7 @@
 8341|CE LINK LIMITED
 8342|Microconn Electronic Co., Ltd.
 8367|Shenzhen CARVE Electronics Co., Ltd.
+8384|FENGHUA KINGSUN CO., LTD.
 8386|Sumitomo Electric Ind., Ltd., Optical Comm. R&D Lab
 8408|Changzhou Xinchao Technologies, Inc.
 8432|Insight Technology Incorporated
@@ -588,7 +585,7 @@
 8519|Chin-Ban Electronics (Hong Kong) Co.
 8520|Visteon Sistemas Automotives Ltda.
 8524|Y Soft Corporation
-8550|JVC KENWOOD Holdings, Inc.
+8550|JVC KENWOOD Corporation
 8551|Zhejiang Fousine Science & Technology Co., Ltd.
 8563|HUIZHOU HUANGJI PRECISIONS FLEX ELECTRONICAL CO., LTD.
 8564|Transcend Information, Inc.
@@ -615,11 +612,7 @@
 8957|Miltope Corp.
 8959|Avnet
 8979|Kunshan Jiahua Electronics Co., Ltd.
-8980|INQ Mobile Limited
 8981|Avery Design Systems, Inc.
-8982|DongGuan Potec Electric Industrial Co., Ltd.
-8983|Huawei Device Co., Ltd.
-8998|CHAO KUEI MOLD INDUSTRIAL CO., LTD.
 9008|Tensorcom
 9009|PUZZLE LOGIC INC.
 9028|HAMBURG INDUSTRIES CO., LTD.
@@ -683,9 +676,14 @@
 9463|Seneye Ltd.
 9481|Chain-In Electronic Co., Ltd.
 9513|SUZHOU XINYA ELECTRIC COMMUNICATION CO., LTD.
-9514|SUZHOU KELI TECHNOLOGY DEVELOPMENT CO., LTD.
 9515|TOP Exactitude Industry (ShenZhen) Co., Ltd.
 9525|Shenzhen Hong Junde Precision Technology Co., Ltd.
 9526|Ubisys Technology Co., Ltd.
 9527|Norel Systems Ltd.
 9560|INTECH ELECTRONICS CORP.
+9575|DongGuan LongTao Electronic Co., Ltd.
+9576|ALL LINK CONN. TECHNOLOGY CORP.
+9577|DongGuan City MingJi Electronics Co., Ltd.
+9588|AVer Information Inc.
+9589|Weida Hi-Tech Co., Ltd.
+9593|Dongguan Kowell Electronic Co., Ltd.

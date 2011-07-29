@@ -268,7 +268,11 @@
 @end
 
 #import "AudioOutputEvidenceSource.h"
+
+#ifdef DEBUG_MODE
 #import "BluetoothEvidenceSource.h"
+#endif
+
 #import "BonjourEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
@@ -290,7 +294,9 @@
     
 	NSArray *classes = [NSArray arrayWithObjects:
 		[AudioOutputEvidenceSource class],
+#ifdef DEBUG_MODE
 		[BluetoothEvidenceSource class],
+#endif
 		[BonjourEvidenceSource class],
 		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
@@ -307,7 +313,9 @@
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
+#ifdef DEBUG_MODE
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
+#endif
 		NSLocalizedString(@"Bonjour", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
@@ -318,7 +326,6 @@
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
-		//NSLocalizedString(@"WiFi", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
 	}
 
