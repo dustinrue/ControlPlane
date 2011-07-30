@@ -58,6 +58,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"ShowGuess"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableSwitchSmoothing"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"HideStatusBarIcon"];
+    [appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableGrowl"];
 
 	// TODO: spin these into the EvidenceSourceSetController?
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableAudioOutputEvidenceSource"];
@@ -403,6 +404,11 @@ finished_import:
 
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
 {
+    BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
+    
+    if (!useGrowl) {
+        return;
+    }
 	float pri = 0;
 
 	if ([title isEqualToString:@"Failure"])
