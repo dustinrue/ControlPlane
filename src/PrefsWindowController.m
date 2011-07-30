@@ -289,6 +289,12 @@
 	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
+- (IBAction)emailSupport:(id)sender 
+{
+    NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPSupportURL"]];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
 #pragma mark Prefs group switching
 
 - (NSMutableDictionary *)groupById:(NSString *)groupId

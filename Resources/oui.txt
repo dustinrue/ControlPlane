@@ -12095,6 +12095,7 @@
 00-C0-FE	APTEC COMPUTER SYSTEMS, INC.
 00-C0-FF	DOT HILL SYSTEMS CORPORATION
 00-CB-BD	Cambridge Broadband Networks Ltd.
+00-CD-90	MAS Elektronik AG
 00-CF-1C	COMMUNICATION MACHINERY CORP.
 00-D0-00	FERRAN SCIENTIFIC, INC.
 00-D0-01	VST TECHNOLOGIES, INC.
@@ -12853,6 +12854,7 @@
 08-86-3B	Belkin International
 08-8D-C8	Ryowa Electronics Co.,Ltd
 08-9F-97	LEROY AUTOMATION
+08-A1-2B	ShenZhen EZL Technology Co., Ltd
 08-AC-A5	Benu Video, Inc.
 08-B7-EC	Wireless Seismic
 08-BB-CC	AK-NORD EDV VERTRIEBSGES. mbH
@@ -12873,6 +12875,7 @@
 0C-46-9D	MS Sedco
 0C-4C-39	Mitrastar Technology 
 0C-51-F7	CHAUVIN ARNOUX
+0C-5A-19	Axtion Sdn Bhd
 0C-60-76	Hon Hai Precision Ind. Co.,Ltd.
 0C-6E-4F	PrimeVOLT Co., Ltd.
 0C-74-C2	Apple Inc
@@ -13456,6 +13459,7 @@
 48-8E-42	DIGALOG GmbH
 48-91-F6	Shenzhen Reach software technology CO.,LTD
 48-AA-5D	Store Electronic Systems
+48-C1-AC	PLANTRONICS, INC.
 48-C8-62	Simo Wireless,Inc.
 48-C8-B6	SysTec GmbH
 48-CB-6E	Cello Electronics (UK) Ltd
@@ -13657,6 +13661,7 @@
 60-52-D0	FACTS Engineering 
 60-54-64	Eyedro Green Solutions Inc.
 60-63-FD	Transcend Communication Beijing Co.,Ltd.
+60-6B-BD	Samsung Electronics Co., LTD
 60-76-88	Velodyne
 60-83-B2	GkWare e.K.
 60-89-3C	Thermo Fisher Scientific P.O.A.
@@ -13964,6 +13969,7 @@
 7C-61-93	HTC Corporation
 7C-6A-DB	SafeTone Technology Co.,Ltd
 7C-6B-33	Tenyu Tech Co. Ltd.
+7C-6B-52	Tigaro Wireless
 7C-6C-39	PIXSYS SRL
 7C-6C-8F	AMS NEVE LTD
 7C-6D-62	Apple, Inc
@@ -14036,6 +14042,7 @@
 84-27-CE	Corporation of the Presiding Bishop of The Church of Jesus Christ of Latter-day Saints
 84-29-14	EMPORIA TELECOM Produktions- und VertriebsgesmbH & Co KG
 84-2B-2B	Dell Inc.
+84-2B-50	Huria Co.,Ltd.
 84-3F-4E	Tri-Tech Manufacturing, Inc.
 84-48-23	WOXTER TECHNOLOGY Co. Ltd
 84-5D-D7	Shenzhen Netcom Electronics Co.,Ltd
@@ -14236,6 +14243,7 @@
 98-4B-4A	Motorola Mobility Inc.
 98-4B-E1	Hewlett-Packard Company
 98-4E-97	Starlight Marketing (H. K.) Ltd.
+98-58-8A	SYSGRATION Ltd.
 98-59-45	Texas Instruments
 98-60-22	EMW Co., Ltd.
 98-66-EA	Industrial Control Communications, Inc.
@@ -14402,6 +14410,7 @@ A8-99-5C	aizo ag
 A8-9B-10	inMotion Ltd.
 A8-B0-AE	LEONI 
 A8-B1-D4	Cisco Systems
+A8-BD-1A	Honey Bee (Hong Kong) Limited
 A8-C2-22	TM-Research Inc.
 A8-CB-95	EAST BEST CO., LTD.
 A8-CE-90	CVC
@@ -14887,6 +14896,7 @@ D8-75-33	Nokia Corporation
 D8-76-0A	Escort, Inc.
 D8-79-88	Hon Hai Precision Ind. Co., Ltd.
 D8-95-2F	Texas Instruments
+D8-96-85	GoPro
 D8-97-3B	Emerson Network Power Embedded Power
 D8-9D-B9	eMegatech International Corp.
 D8-9E-3F	Apple, Inc.
@@ -15107,6 +15117,7 @@ F0-02-2B	Chrontel
 F0-02-48	SmarteBuilding
 F0-08-F1	Samsung Electronics Co.,Ltd
 F0-13-C3	SHENZHEN FENDA TECHNOLOGY CO., LTD
+F0-1C-13	LG Electronics
 F0-24-08	Talaris (Sweden) AB
 F0-25-72	Cisco Systems
 F0-26-4C	Dr. Sigrist AG
@@ -15117,7 +15128,7 @@ F0-4B-6A	Scientific Production Association Siberian Arsenal, Ltd.
 F0-4B-F2	JTECH Communications, Inc.
 F0-4D-A2	Dell Inc.
 F0-58-49	CareView Communications
-F0-5D-89	PRIVATE
+F0-5D-89	Dycon Limited
 F0-62-81	ProCurve Networking by HP
 F0-65-DD	Primax Electronics Ltd.
 F0-68-53	Integrated Corporation

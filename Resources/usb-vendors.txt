@@ -71,7 +71,6 @@
 1281|Fujikura/DDK
 1287|Hosiden Corporation
 1293|Belkin Corporation
-1300|FCI Electronics
 1302|Longwell Electronics/Longwell Company
 1305|Star Micronics Co., LTD
 1309|American Power Conversion
@@ -352,7 +351,6 @@
 4427|Sphairon Technologies GmbH
 4429|Alpha Imaging Technology Corp.
 4443|Salix Technology Co., Ltd.
-4469|Sheng Yih Technologies Co., Ltd.
 4506|DONG GUAN JALINK ELECTRONICES CO.,LTD
 4528|ATECH FLASH TECHNOLOGY
 4582|K.I. Technology Co. Ltd.
@@ -614,7 +612,6 @@
 8979|Kunshan Jiahua Electronics Co., Ltd.
 8981|Avery Design Systems, Inc.
 9008|Tensorcom
-9009|PUZZLE LOGIC INC.
 9028|HAMBURG INDUSTRIES CO., LTD.
 9036|Zenverge Inc.
 9037|Skype Inc.
@@ -674,6 +671,7 @@
 9435|DDUSB Technology
 9453|ZEN FACTORY GROUP (ASIA) LTD.
 9463|Seneye Ltd.
+9467|GTECH Corporation
 9481|Chain-In Electronic Co., Ltd.
 9513|SUZHOU XINYA ELECTRIC COMMUNICATION CO., LTD.
 9515|TOP Exactitude Industry (ShenZhen) Co., Ltd.

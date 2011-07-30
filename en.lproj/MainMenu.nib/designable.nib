@@ -126,7 +126,16 @@
 					</object>
 					<object class="NSMenuItem" id="652581680">
 						<reference key="NSMenu" ref="645467962"/>
-						<string key="NSTitle">ControlPlane web page</string>
+						<string key="NSTitle">ControlPlane Website...</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSKeyEquivModMask">1048576</int>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="1018155906"/>
+						<reference key="NSMixedImage" ref="1022509061"/>
+					</object>
+					<object class="NSMenuItem" id="718972280">
+						<reference key="NSMenu" ref="645467962"/>
+						<string key="NSTitle">ControlPlane Support...</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
@@ -265,7 +274,7 @@
 					<object class="NSButton" id="888387316">
 						<reference key="NSNextResponder" ref="899755655"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{18, 217}, {195, 18}}</string>
+						<string key="NSFrame">{{18, 215}, {195, 18}}</string>
 						<reference key="NSSuperview" ref="899755655"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="650230487"/>
@@ -629,7 +638,7 @@
 						</object>
 					</object>
 				</object>
-				<string key="NSFrameSize">{413, 253}</string>
+				<string key="NSFrameSize">{413, 251}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="888387316"/>
@@ -4776,6 +4785,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<int key="connectionID">1912</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">emailSupport:</string>
+						<reference key="source" ref="287336736"/>
+						<reference key="destination" ref="718972280"/>
+					</object>
+					<int key="connectionID">1915</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -4838,6 +4855,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="674076353"/>
 							<reference ref="338544343"/>
 							<reference ref="734193257"/>
+							<reference ref="718972280"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">StatusbarMenu</string>
@@ -6690,6 +6708,11 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="287587760"/>
 						<reference key="parent" ref="0"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1913</int>
+						<reference key="object" ref="718972280"/>
+						<reference key="parent" ref="645467962"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -6948,6 +6971,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>1906.IBShouldRemoveOnLegacySave</string>
 					<string>1907.IBPluginDependency</string>
 					<string>1908.IBPluginDependency</string>
+					<string>1913.IBPluginDependency</string>
 					<string>231.CustomClassName</string>
 					<string>231.IBPluginDependency</string>
 					<string>288.IBPluginDependency</string>
@@ -7254,6 +7278,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>DNDArrayController</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7312,7 +7337,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1912</int>
+			<int key="maxID">1915</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7659,12 +7684,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>doAddAction:</string>
 							<string>editRule:</string>
+							<string>emailSupport:</string>
 							<string>runAbout:</string>
 							<string>runPreferences:</string>
 							<string>runWebPage:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -7678,6 +7705,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>doAddAction:</string>
 							<string>editRule:</string>
+							<string>emailSupport:</string>
 							<string>runAbout:</string>
 							<string>runPreferences:</string>
 							<string>runWebPage:</string>
@@ -7690,6 +7718,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">editRule:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">emailSupport:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

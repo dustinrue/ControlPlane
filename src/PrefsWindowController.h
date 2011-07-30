@@ -43,6 +43,7 @@
 - (IBAction)runPreferences:(id)sender;
 - (IBAction)runAbout:(id)sender;
 - (IBAction)runWebPage:(id)sender;
+- (IBAction)emailSupport:(id)sender;
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item;
 - (void)switchToView:(NSString *)identifier;
