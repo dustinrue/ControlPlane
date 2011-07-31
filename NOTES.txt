@@ -19,9 +19,9 @@ Pre-Release Checklist
 Post-Release Checklist
 ----------------------
 	+ Test automatic update
-	+ Update Trac (Versions, Milestones, etc.)
+	+ Update Chiliproject (Versions, Milestones, etc.)
 	+ Update websites:
-		- http://osx.iusethis.com/app/marcopolo
-		- http://www.macupdate.com/developer
-	+ Post announcement to MarcoPolo-discuss
+		- http://osx.iusethis.com/app/controlplane
+		- http://www.macupdate.com/developer/update
+	+ Post announcement to ControlPlane-support 
 
