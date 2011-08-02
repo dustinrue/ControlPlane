@@ -394,7 +394,7 @@ NSBundle *quincyBundle(void) {
     if (result >= 0) {
         osBuildVersion = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
     }
-    
+	free(answer);
     return osBuildVersion;   
 }
 
