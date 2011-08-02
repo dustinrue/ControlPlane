@@ -6,6 +6,8 @@
 //
 
 #import "UnmountAction.h"
+#import <Foundation/Foundation.h>
+
 
 
 @implementation UnmountAction
@@ -53,18 +55,44 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	// TODO: properly escape path?
-	NSString *script = [NSString stringWithFormat:
-		@"tell application \"Finder\"\n"
-		"  activate\n"
-		"  eject \"%@\"\n"
-		"end tell\n", path];
+    // use NSTask to run diskutil to unmount the volume
+    NSTask *diskutil;
+    diskutil = [[NSTask alloc] init];
+    [diskutil setLaunchPath:@"/usr/sbin/diskutil"];
+     
+    NSArray *diskUtilArguments;
+    diskUtilArguments = [NSArray arrayWithObjects:@"eject",path, nil];
+    [diskutil setArguments: diskUtilArguments ];
+    
+    NSPipe *retValuePipe = [NSPipe pipe];
+    [diskutil setStandardError:retValuePipe];
+     
+    
+    [diskutil launch];
+    [diskutil waitUntilExit];
+    
+    NSData *retValueData = [[retValuePipe fileHandleForReading] readDataToEndOfFile];
+    
+    [diskutil release];
+    
+    NSString *retValue = [[NSString alloc] initWithData:retValueData encoding:NSUTF8StringEncoding];
+    
 
-	if (![self executeAppleScript:script]) {
-		*errorString = NSLocalizedString(@"Couldn't unmount that volume!", @"In UnmountAction");
+    int status = [diskutil terminationStatus];
+    
+    
+#ifdef DEBUG_MODE
+    NSLog(@"task ended with status %d",status);
+#endif
+
+	if (status != 0) {
+		*errorString = [[NSString alloc] initWithFormat:@"%@ - %@", NSLocalizedString(@"Couldn't unmount that volume!", @"In UnmountAction"), retValue];
+        [retValue release];
+        
 		return NO;
 	}
 
+    [retValue release];
 	return YES;
 }
 

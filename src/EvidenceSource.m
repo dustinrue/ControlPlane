@@ -307,7 +307,6 @@
 		[RunningApplicationEvidenceSource class],
 		[TimeOfDayEvidenceSource class],
 		[USBEvidenceSource class],
-		//[WiFiEvidenceSource class],
         [WiFiEvidenceSourceCoreWLAN class],
 		nil];
 	if (NO) {
