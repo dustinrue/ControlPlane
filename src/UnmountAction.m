@@ -75,7 +75,7 @@
     
 
     
-    NSString *retValue = [[NSString alloc] initWithData:retValueData encoding:NSUTF8StringEncoding];
+    NSString *retValue = [[[NSString alloc] initWithData:retValueData encoding:NSUTF8StringEncoding] autorelease];
     
 #ifdef DEBUG_MODE
     NSLog(@"about to get terminationStatus");
@@ -89,13 +89,13 @@
 #endif
 
 	if (status != 0) {
-		*errorString = [[NSString alloc] initWithFormat:@"%@ - %@", NSLocalizedString(@"Couldn't unmount that volume!", @"In UnmountAction"), retValue];
-        [retValue release];
+		*errorString = [[[NSString alloc] initWithFormat:@"%@ - %@", NSLocalizedString(@"Couldn't unmount that volume!", @"In UnmountAction"), retValue] autorelease];
+
         
 		return NO;
 	}
 
-    [retValue release];
+
 	return YES;
 }
 
