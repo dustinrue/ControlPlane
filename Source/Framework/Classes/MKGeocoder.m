@@ -203,27 +203,20 @@
 
 - (void)createWebView
 {
-    if (webView == nil)
-    {
-        // create it
-        // TODO : make this suck less.
-        NSBundle *frameworkBundle = [NSBundle bundleForClass:[MKGeocoder class]];
-        NSString *indexPath = [frameworkBundle pathForResource:@"MapKit" ofType:@"html"];
-        webView = [[WebView alloc] initWithFrame:NSZeroRect frameName:nil groupName:nil];
-        [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:indexPath]]]; 
-        [webView autorelease];
-        [[webView windowScriptObject] setValue:self forKey:@"MKGeocoder"];
-        [webView setFrameLoadDelegate:self];
-    }
-    [webView retain];
+    // TODO : make this suck less.
+    NSBundle *frameworkBundle = [NSBundle bundleForClass:[MKGeocoder class]];
+    NSString *indexPath = [frameworkBundle pathForResource:@"MapKit" ofType:@"html"];
+    webView = [[WebView alloc] initWithFrame:NSZeroRect frameName:nil groupName:nil];
+    [[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:indexPath]]]; 
+    [webView autorelease];
+    [[webView windowScriptObject] setValue:self forKey:@"MKGeocoder"];
+    [webView setFrameLoadDelegate:self];
 }
+
 - (void)destroyWebView
 {
     [webView close];
-    NSInteger count = [webView retainCount];
     [webView release];
-    if (count <= 1)
-        webView = nil;
 }
 
 - (void)_start
