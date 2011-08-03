@@ -58,7 +58,7 @@
 }
 
 
-#pragma mark CrashReportSenderDelegate
+#pragma mark BWQuincyManagerDelegate
 
 -(void)connectionOpened {
 	_application.networkActivityIndicatorVisible = YES;
