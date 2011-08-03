@@ -3,10 +3,10 @@
 //  MarcoPolo
 //
 //  Created by Mark Wallis on 14/11/07.
+//  Updated by Dustin Rue - 08/01/2011
 //
 
 #import "UnmountAction.h"
-#import <Foundation/Foundation.h>
 
 
 
@@ -61,7 +61,7 @@
     [diskutil setLaunchPath:@"/usr/sbin/diskutil"];
      
     NSArray *diskUtilArguments;
-    diskUtilArguments = [NSArray arrayWithObjects:@"eject",path, nil];
+    diskUtilArguments = [NSArray arrayWithObjects:@"unmountDisk",path, nil];
     [diskutil setArguments: diskUtilArguments ];
     
     NSPipe *retValuePipe = [NSPipe pipe];
@@ -73,12 +73,15 @@
     
     NSData *retValueData = [[retValuePipe fileHandleForReading] readDataToEndOfFile];
     
-    [diskutil release];
+
     
     NSString *retValue = [[NSString alloc] initWithData:retValueData encoding:NSUTF8StringEncoding];
     
-
+#ifdef DEBUG_MODE
+    NSLog(@"about to get terminationStatus");
+#endif
     int status = [diskutil terminationStatus];
+    [diskutil release];
     
     
 #ifdef DEBUG_MODE
