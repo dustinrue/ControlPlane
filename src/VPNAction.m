@@ -3,6 +3,7 @@
 //  MarcoPolo
 //
 //  Created by Mark Wallis on 18/07/07.
+//  Updated by Dustin Rue on 8/3/2011.
 //
 
 #import "Common.h"
@@ -116,13 +117,17 @@
 	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:4];
 
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"-PPTP", @"option", @"Disable default PPTP VPN", @"description", nil]];
+                     @"-PPTP", @"option", @"Disable default PPTP VPN", @"description", nil]];
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"+PPTP", @"option", @"Enable default PPTP VPN", @"description", nil]];
+                     @"+PPTP", @"option", @"Enable default PPTP VPN", @"description", nil]];
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"-L2TP", @"option", @"Disable default L2TP VPN", @"description", nil]];
+                     @"-L2TP", @"option", @"Disable default L2TP VPN", @"description", nil]];
 	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"+L2TP", @"option", @"Enable default L2TP VPN", @"description", nil]];
+                     @"+L2TP", @"option", @"Enable default L2TP VPN", @"description", nil]];
+    [opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                     @"-Cisco IPSec", @"option", @"Disable default Cisco IPSec VPN", @"description", nil]];
+    [opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                     @"+Cisco IPSec", @"option", @"Enable default Cisco IPSec VPN", @"description", nil]];
 
 	return opts;
 }
