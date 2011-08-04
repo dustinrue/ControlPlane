@@ -2967,7 +2967,7 @@
 00-0B-B3	RiT technologies Ltd.
 00-0B-B4	RDC Semiconductor Inc.,
 00-0B-B5	nStor Technologies, Inc.
-00-0B-B6	Mototech Inc.
+00-0B-B6	Metalligence Technology Corp.
 00-0B-B7	Micro Systems Co.,Ltd.
 00-0B-B8	Kihoku Electronic Co.
 00-0B-B9	Imsys AB
@@ -12966,6 +12966,7 @@
 14-4C-1A	Max Communication GmbH
 14-54-12	Entis Co., Ltd.
 14-5A-05	Apple, Inc.
+14-63-08	JABIL CIRCUIT (SHANGHAI) LTD.
 14-6E-0A	PRIVATE
 14-73-73	TUBITAK UEKAE
 14-74-11	RIM
@@ -12997,6 +12998,7 @@
 18-14-56	Nokia Corporation
 18-17-14	DAEWOOIS
 18-28-61	AirTies Wireless Networks
+18-2B-05	8D Technologies
 18-2C-91	Concept Development, Inc.
 18-3B-D2	BYD Precision Manufacture Company Ltd.
 18-3D-A2	Intel Corporate
@@ -13164,6 +13166,7 @@
 28-A5-74	Miller Electric Mfg. Co.
 28-AF-0A	Sirius XM Radio Inc
 28-B0-CC	Xenya d.o.o.
+28-BE-9B	Technicolor USA Inc.
 28-C0-DA	Juniper Networks
 28-C7-18	Altierre
 28-CC-FF	Corporacion Empresarial Altra SL
@@ -13453,6 +13456,7 @@
 48-5B-39	ASUSTek COMPUTER INC.
 48-5D-60	Azurewave Technologies, Inc.
 48-60-BC	Apple Inc
+48-61-A3	Concern "Axion" JSC
 48-6B-91	Fleetwood Group Inc.
 48-6F-D2	StorSimple Inc
 48-71-19	SGB GROUP LTD.
@@ -13560,6 +13564,7 @@
 54-9A-16	Uzushio Electric Co.,Ltd.
 54-9B-12	Samsung Electronics
 54-A5-1B	Huawei Device Co., Ltd
+54-A9-D4	Minibar Systems
 54-B6-20	SUHDOL E&C Co.Ltd.
 54-CD-A7	Fujian Shenzhou Electronic Co.,Ltd
 54-D4-6F	Cisco SPVTG
@@ -13707,6 +13712,7 @@
 64-7B-D4	Texas Instruments
 64-7D-81	YOKOTA INDUSTRIAL CO,.LTD
 64-7F-DA	TEKTELIC Communications Inc.
+64-80-8B	VG Controls, Inc.
 64-80-99	Intel Corporation
 64-81-25	Alphatron Marine BV
 64-87-D7	PIRELLI BROADBAND SOLUTIONS 
@@ -14500,6 +14506,7 @@ B0-BF-99	WIZITDONGDO
 B0-C6-9A	Juniper Networks
 B0-C8-AD	People Power Company
 B0-E3-9D	CAT SYSTEM CO.,LTD.
+B0-E5-0E	NRG SYSTEMS INC
 B0-E7-54	2Wire
 B0-E9-7E	Advanced Micro Peripherals
 B0-F1-BC	Dhemax Ingenieros Ltda
@@ -14544,6 +14551,7 @@ B4-F3-23	PETATEL INC.
 B4-FC-75	SEMA Electronics(HK) CO.,LTD
 B8-0B-9D	ROPEX Industrie-Elektronik GmbH
 B8-19-99	Nesys
+B8-20-E7	Guangzhou Horizontal Information & Network Integration Co. Ltd
 B8-28-8B	Parker Hannifin
 B8-2A-DC	EFR Europ�ische Funk-Rundsteuerung GmbH
 B8-3A-7B	Worldplay (Canada) Inc.
