@@ -11,7 +11,7 @@ VERSION=`cat Info.plist | grep -A 1 'CFBundleShortVersionString' | \
 	tail -1 | sed "s/[<>]/|/g" | cut -d\| -f3`
 
 APPNAME=ControlPlane
-IMG=$APPNAME-$VERSION.dmg
+IMG=~/Desktop/$APPNAME-$VERSION.dmg
 CONFIGURATION=Release
 APP=build/$CONFIGURATION/$APPNAME.app
 ICON=graphics/cp-icon.icns
