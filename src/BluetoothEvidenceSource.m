@@ -58,6 +58,9 @@
     // need to register for bluetooth connect notifications, but we need to delay it
     // until everything is loaded
     
+#ifdef DEBUG_MODE
+    NSLog(@"setting 5 second timer to register for bluetooth connection notifications");
+#endif
     registerForNotificationsTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5 target:self selector:@selector(registerForNotifications:) userInfo:nil repeats:NO]; 
 
     // this timer will fire every 10 (seconds?) to clean up entries, this seems
@@ -130,8 +133,21 @@
 + (NSString *)vendorByMAC:(NSString *)mac
 {
 	NSDictionary *ouiDb = [DB sharedOUIDB];
-	NSString *oui = [[mac substringToIndex:8] lowercaseString];
+    
+#ifdef DEBUG_MODE 
+    DSLog(@"ouiDB looks like %@", ouiDb);
+#endif
+    
+    
+	NSString *oui = [[mac substringToIndex:8] uppercaseString];
+#ifdef DEBUG_MODE
+    DSLog(@"attempting to get vendor info for mac %@", oui);
+#endif
 	NSString *name = [ouiDb valueForKey:oui];
+    
+#ifdef DEBUG_MODE
+    DSLog(@"converted %@ to %@", mac, name);
+#endif
 
 	return name;
 }
@@ -155,12 +171,13 @@
 
 
 	DSLog(@"know of %d device(s)%s", [devices count], holdTimer ? " -- hold timer running" : "");
+    DSLog(@"I know about %@", devices);
 	//NSLog(@"%@ >> know about %d paired device(s), too", [self class], [[IOBluetoothDevice pairedDevices] count]);
 }
 
 //- (void)doUpdate
 //{
-    // this is a test
+    
 
 //	// Silly Apple made the IOBluetooth framework non-thread-safe, and require all
 //	// Bluetooth calls to be made from the main thread
@@ -203,13 +220,16 @@
 	[lock lock];
 	NSEnumerator *en = [devices objectEnumerator];
 	NSDictionary *dev;
+#ifdef DEBUG_MODE
+    DSLog(@"dev dictionary looks like %@",devices);
+#endif
 	while ((dev = [en nextObject])) {
 		NSString *name = [dev valueForKey:@"device_name"];
 		if (!name)
 			name = NSLocalizedString(@"(Unnamed device)", @"String for unnamed devices");
 		NSString *vendor = [dev valueForKey:@"vendor_name"];
 		if (!vendor)
-			vendor = @"?";
+			vendor = [dev valueForKey:@"mac"];
 
 		NSString *desc = [NSString stringWithFormat:@"%@ [%@]", name, vendor];
 		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -229,7 +249,7 @@
 {
 	
 #ifdef DEBUG_MODE
-    NSLog(@"in deviceInquiryDeviceFound");
+    DSLog(@"in deviceInquiryDeviceFound");
 #endif
     
     
@@ -276,7 +296,7 @@
 {
     
 #ifdef DEBUG_MODE
-    NSLog(@"in deviceInquiryComplete");
+    DSLog(@"in deviceInquiryComplete");
 #endif
     
 	if (error != kIOReturnSuccess) {
@@ -309,7 +329,7 @@
 {
     // we're being notified that a device has connected
 #ifdef DEBUG_MODE
-	NSLog(@"Got notified of '%@' connecting!, %@", [device name], [device getAddressString]);
+	DSLog(@"Got notified of '%@' connecting!, %@", [device name], [device getAddressString]);
 #endif
     
     // tell the bluetooth API we want to know when this device goes away
@@ -322,7 +342,7 @@
 - (void)deviceDisconnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
 {
 #ifdef DEBUG_MODE
-	NSLog(@"Got notified of '%@' disconnecting!", [device name]);
+	DSLog(@"Got notified of '%@' disconnecting!", [device name]);
 #endif
     
     

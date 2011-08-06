@@ -20,6 +20,7 @@ static NSDictionary *usbVendorDb = nil;
 		NSString *path = [[NSBundle mainBundle] pathForResource:@"oui" ofType:@"txt"];
 		NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
 		FILE *f = fopen([path cStringUsingEncoding:NSUTF8StringEncoding], "r");
+        
 		// TODO: handle failure
 		while (!feof(f)) {
 			char buf[200];
@@ -31,8 +32,8 @@ static NSDictionary *usbVendorDb = nil;
 				continue;	// bad line
 			NSScanner *scan = [NSScanner scannerWithString:line];
 			NSString *prefix, *vendor_name;
-			[scan scanUpToString:@" " intoString:&prefix];
-			prefix = [prefix lowercaseString];
+			[scan scanUpToString:@"\t" intoString:&prefix];
+			prefix = [prefix uppercaseString];
 			// (NSScanner will skip over the white space)
 			[scan scanUpToString:@"\n" intoString:&vendor_name];
 
