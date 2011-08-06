@@ -8,7 +8,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
-#import <IOBluetooth/objc/IOBluetoothHostController.h>
+//#import <IOBluetooth/objc/IOBluetoothHostController.h>
 #import "GenericEvidenceSource.h"
 
 
@@ -17,8 +17,9 @@
 	NSMutableArray *devices;
 	IOBluetoothDeviceInquiry *inq;
 	IOBluetoothUserNotification *notf;
-	NSTimer *holdTimer, *cleanupTimer;
-    IOBluetoothHostController *btHostController;
+	NSTimer *holdTimer, *cleanupTimer, *registerForNotificationsTimer;
+//    IOBluetoothHostController *btHostController;
+    Boolean *registeredForNotifications;
 }
 
 - (id)init;
@@ -26,6 +27,7 @@
 
 - (void)start;
 - (void)stop;
+- (void)registerForNotifications;
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;

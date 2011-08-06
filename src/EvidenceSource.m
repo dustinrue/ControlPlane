@@ -3,6 +3,7 @@
 //  MarcoPolo
 //
 //  Created by David Symonds on 29/03/07.
+//  Modified by Dustin Rue on 8/5/2011.
 //
 
 #import "DSLogger.h"
@@ -269,9 +270,9 @@
 
 #import "AudioOutputEvidenceSource.h"
 
-#ifdef DEBUG_MODE
+
 #import "BluetoothEvidenceSource.h"
-#endif
+
 
 #import "BonjourEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
@@ -294,9 +295,9 @@
     
 	NSArray *classes = [NSArray arrayWithObjects:
 		[AudioOutputEvidenceSource class],
-#ifdef DEBUG_MODE
+
 		[BluetoothEvidenceSource class],
-#endif
+
 		[BonjourEvidenceSource class],
 		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
@@ -368,15 +369,26 @@
 
 - (void)startOrStopAll
 {
+    // walk through all of the Evidence Sources that are enabled
+    // and issue a start on each one
 	NSEnumerator *en = [sources objectEnumerator];
 	EvidenceSource *src;
 	while ((src = [en nextObject])) {
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
+#ifdef DEBUG_MODE
+        NSLog(@"checking to see if %@ is enabled",[src name]);
+#endif
 		if (enabled && ![src isRunning]) {
+#ifdef DEBUG_MODE
+            NSLog(@"Starting %@ evidence source because it is enabled", [src name]);
+#endif
 			DSLog(@"Starting %@ evidence source", [src name]);
 			[src start];
 		} else if (!enabled && [src isRunning]) {
+#ifdef DEBUG_MODE
+      		NSLog(@"Stopping %@ evidence source because it is disabled", [src name]);
+#endif
 			DSLog(@"Stopping %@ evidence source", [src name]);
 			[src stop];
 		}
