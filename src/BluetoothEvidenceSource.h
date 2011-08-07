@@ -1,14 +1,15 @@
 //
 //  BluetoothEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 29/03/07.
+//  Modified by Dustin Rue on 8/5/2011.
 //
 
 #import <Cocoa/Cocoa.h>
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
-//#import <IOBluetooth/objc/IOBluetoothHostController.h>
+
 #import "GenericEvidenceSource.h"
 
 
@@ -19,9 +20,12 @@
 	IOBluetoothUserNotification *notf;
     BOOL kIOErrorSet;
     BOOL inquiryStatus;
+    BOOL registeredForNotifications;
+    int timerCounter;
+
 	NSTimer *holdTimer, *cleanupTimer, *registerForNotificationsTimer;
-//    IOBluetoothHostController *btHostController;
-    Boolean *registeredForNotifications;
+
+
 }
 
 - (id)init;
@@ -35,6 +39,12 @@
 - (void) stopInquiry;
 @property (readwrite) BOOL inquiryStatus;
 @property (readwrite) BOOL kIOErrorSet;
+
+
+// Device Connection Notification control
+- (void) registerForConnectionNotifications;
+- (void) unregisterForConnectionNotifications;
+@property (readwrite) BOOL registeredForNotifications;
 
 
 - (NSString *)name;

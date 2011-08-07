@@ -1,6 +1,6 @@
 //
 //  BluetoothEvidenceSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 29/03/07.
 //  Modified by Dustin Rue 8/5/2011.
@@ -34,9 +34,11 @@
 	holdTimer = nil;
 	cleanupTimer = nil;
     [self setKIOErrorSet:FALSE];
+    
+    timerCounter = 0;
 
     
-    registeredForNotifications = FALSE;
+    [self setRegisteredForNotifications:FALSE];
 
 	return self;
 }
@@ -63,7 +65,7 @@
 #endif
     
     // need to register for bluetooth connect notifications, but we need to delay it
-    // until everything is loaded
+    // until everything is loaded or we'll dead lock, not sure why
     
 #ifdef DEBUG_MODE
     DSLog(@"setting 5 second timer to register for bluetooth connection notifications");
@@ -93,8 +95,6 @@
     // we now mark the evidence source as running
 	running = YES;
     
-    // once this is running, nothing should occur until we are notified via the 
-    // our delegate that anything bluetooth related has happened
 	
 }
 
@@ -104,55 +104,43 @@
     DSLog(@"In stop");
 #endif
 
-	if (!running)
+	if (![self registeredForNotifications] && ![self inquiryStatus])
 		return;
     
     
-
-#ifdef DEBUG_MODE
-    DSLog(@"unregistering notf");
-#endif
-    if (notf) {
-        [notf unregister];
-        notf = nil;
-    }
+    [self unregisterForConnectionNotifications];
 
 #ifdef DEBUG_MODE
     DSLog(@"issuing cleanupTimer invalidate");
 #endif
-    if (cleanupTimer) 
+
+    if (cleanupTimer)
         [cleanupTimer invalidate];	// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
     
 
-    
-    if (registerForNotificationsTimer) {
-#ifdef DEBUG_MODE
-        DSLog(@"issuing registerForNotificationsTimer invalidate");
-#endif
-        [registerForNotificationsTimer invalidate];
-        //registerForNotificationsTimer = nil;
-    }
+
 
 	if (holdTimer) {
-
-        
 		DSLog(@"stopping hold timer");
 		[holdTimer invalidate];		// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
 		//holdTimer = nil;
 	}
-	DSLog(@"stopping inq");
+
 	[self stopInquiry];
 
 	[lock lock];
 	[devices removeAllObjects];
 	[self setDataCollected:NO];
 	[lock unlock];
+    
+    // mark evidence source as not running
     running = NO;
 
 	
 }
 
 #pragma mark DeviceInquiry control methods
+
 - (void) startInquiry {
     if (![self inquiryStatus]) {
 #ifdef DEBUG_MODE
@@ -160,6 +148,7 @@
 #endif
         
         [inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+        //[inq start];
     }
     [self setInquiryStatus:TRUE];
 
@@ -172,7 +161,7 @@
 #endif
         
         [inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
-
+        //[inq stop];
     }
     [self setInquiryStatus:FALSE];
     [self setKIOErrorSet:FALSE];
@@ -180,18 +169,52 @@
 
 @synthesize inquiryStatus;
 
+
+
+
+#pragma mark Device Connect Notification Control
+
+
+
+- (void) registerForConnectionNotifications {
+    
+    if (![self registeredForNotifications]) {
+#ifdef DEBUG_MODE
+        DSLog(@"registering for connection notifications");
+#endif
+        notf = [IOBluetoothDevice registerForConnectNotifications:self
+                                                         selector:@selector(deviceConnected:device:)];
+        [self setRegisteredForNotifications:TRUE];
+    }
+    
+}
+
+- (void) unregisterForConnectionNotifications {
+    
+  //  if ([self registeredForNotifications]) {
+#ifdef DEBUG_MODE
+        DSLog(@"unregistering for connection notifications");
+#endif
+        [notf unregister];
+        notf = nil;
+
+        [self setRegisteredForNotifications:FALSE];
+  //  }
+}
+
+@synthesize registeredForNotifications;
+
 #pragma mark -
 
 - (void)registerForNotifications:(NSTimer *)timer {
+    
 #ifdef DEBUG_MODE
     DSLog(@"registering for notifications");
 #endif
-    [registerForNotificationsTimer invalidate];
-    registerForNotificationsTimer = nil;
-    if (!registeredForNotifications) {
-        notf = [IOBluetoothDevice registerForConnectNotifications:self
-                                                         selector:@selector(deviceConnected:device:)];
-    }
+    
+    
+
+    [self registerForConnectionNotifications];
     
 }
 
@@ -203,7 +226,7 @@
 	DSLog(@"stopping hold timer, starting inq");
 	[holdTimer invalidate];
 	holdTimer = nil;
-	//[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+
     [self startInquiry];
     
 }
@@ -234,6 +257,14 @@
 
 - (void)cleanupTimerPoll:(NSTimer *)timer
 {
+    timerCounter++;
+    
+    if (goingToSleep) {
+#ifdef DEBUG_MODE
+        DSLog(@"invalidating cleanupTimer because we're going to sleep");
+#endif
+        [cleanupTimer invalidate];
+    }
 	// Go through list to remove all expired devices
 	[lock lock];
 	NSEnumerator *en = [devices objectEnumerator];
@@ -279,6 +310,15 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
 	BOOL match = NO;
+    
+    // TODO: fix this issue, we shouldn't be here if inquiryStatus
+    // and registeredForNotifications are both false.  This indicates
+    // we're not supposed to be running but for some reason 
+    // ControlPlane will continue to fire the inquiryDidComplete selector
+    // until bluetooth is disabled, the program is closed or the computer
+    // goes through a sleep/wake cycle
+    if (![self registeredForNotifications] && ![self inquiryStatus]) 
+        return FALSE; 
 
 	[lock lock];
 	NSEnumerator *en = [devices objectEnumerator];
@@ -340,6 +380,7 @@
 #endif
     
     
+    
     // going to add the found device to a dictionary
     // that we later attempt to match against (a rule)
     [lock lock];
@@ -377,18 +418,15 @@
 	[lock unlock];
 }
 
-- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender
-			error:(IOReturn)error
-		      aborted:(BOOL)aborted
-{
+- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender error:(IOReturn)error aborted:(BOOL)aborted  {
     
 #ifdef DEBUG_MODE
-    DSLog(@"in deviceInquiryComplete with goingToSleep == %s",goingToSleep ? "YES" : "NO");
+    DSLog(@"in deviceInquiryComplete with goingToSleep == %s and error %x",goingToSleep ? "YES" : "NO", error);
 #endif
     
 	if (error != kIOReturnSuccess) {
 #ifdef DEBUG_MODE
-        DSLog(@"error != kIOReturnSuccess");
+        DSLog(@"error != kIOReturnSuccess, %x", error);
 #endif
         //[self stop];
         //kIOErrorSet = YES;
@@ -398,6 +436,10 @@
         [devices removeAllObjects];
 		return;
 	}
+    
+    // hack to make this stop running
+    if (!running)
+        [self unregisterForConnectionNotifications];
 
 	[sender clearFoundDevices];
 
