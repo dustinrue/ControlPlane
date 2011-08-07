@@ -33,13 +33,15 @@
 
 	holdTimer = nil;
 	cleanupTimer = nil;
-    kIOErrorSet = NO;
+    [self setKIOErrorSet:FALSE];
 
     
     registeredForNotifications = FALSE;
 
 	return self;
 }
+
+@synthesize kIOErrorSet;
 
 - (void)dealloc
 {
@@ -127,7 +129,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"issuing registerForNotificationsTimer invalidate");
 #endif
-        //[registerForNotificationsTimer invalidate];
+        [registerForNotificationsTimer invalidate];
         //registerForNotificationsTimer = nil;
     }
 
@@ -139,7 +141,7 @@
 		//holdTimer = nil;
 	}
 	DSLog(@"stopping inq");
-	[inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
+	[self stopInquiry];
 
 	[lock lock];
 	[devices removeAllObjects];
@@ -149,6 +151,36 @@
 
 	
 }
+
+#pragma mark DeviceInquiry control methods
+- (void) startInquiry {
+    if (![self inquiryStatus]) {
+#ifdef DEBUG_MODE
+        DSLog(@"starting IOBluetoothDeviceInquiry");
+#endif
+        
+        [inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+    }
+    [self setInquiryStatus:TRUE];
+
+}
+
+- (void) stopInquiry {
+    if ([self inquiryStatus]) {
+#ifdef DEBUG_MODE
+        DSLog(@"stopping IOBluetoothDeviceInquiry");
+#endif
+        
+        [inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
+
+    }
+    [self setInquiryStatus:FALSE];
+    [self setKIOErrorSet:FALSE];
+}
+
+@synthesize inquiryStatus;
+
+#pragma mark -
 
 - (void)registerForNotifications:(NSTimer *)timer {
 #ifdef DEBUG_MODE
@@ -160,6 +192,7 @@
         notf = [IOBluetoothDevice registerForConnectNotifications:self
                                                          selector:@selector(deviceConnected:device:)];
     }
+    
 }
 
 
@@ -170,7 +203,8 @@
 	DSLog(@"stopping hold timer, starting inq");
 	[holdTimer invalidate];
 	holdTimer = nil;
-	[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+	//[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+    [self startInquiry];
     
 }
 
@@ -214,10 +248,13 @@
 	[devices removeObjectsAtIndexes:index];
 	[lock unlock];
     
-    if (kIOErrorSet) {
-        [inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
-        [inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+    if ([self kIOErrorSet]) {
+        //[inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
+        //[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+        [self stopInquiry];
+        [self startInquiry];
     }
+
 
 
 	DSLog(@"know of %d device(s)%s", [devices count], holdTimer ? " -- hold timer running" : "");
@@ -354,7 +391,8 @@
         DSLog(@"error != kIOReturnSuccess");
 #endif
         //[self stop];
-        kIOErrorSet = YES;
+        //kIOErrorSet = YES;
+        [self setKIOErrorSet:TRUE];
         
 		//[self start];
         [devices removeAllObjects];

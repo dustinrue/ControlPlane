@@ -18,6 +18,7 @@
 	IOBluetoothDeviceInquiry *inq;
 	IOBluetoothUserNotification *notf;
     BOOL kIOErrorSet;
+    BOOL inquiryStatus;
 	NSTimer *holdTimer, *cleanupTimer, *registerForNotificationsTimer;
 //    IOBluetoothHostController *btHostController;
     Boolean *registeredForNotifications;
@@ -28,6 +29,12 @@
 
 - (void)start;
 - (void)stop;
+
+// DeviceInquiry control
+- (void) startInquiry;
+- (void) stopInquiry;
+@property (readwrite) BOOL inquiryStatus;
+@property (readwrite) BOOL kIOErrorSet;
 
 
 - (NSString *)name;
