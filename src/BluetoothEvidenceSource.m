@@ -28,11 +28,13 @@
 
     // IOBluetoothDeviceInquiry object, used with found devices
 	inq = [[IOBluetoothDeviceInquiry inquiryWithDelegate:self] retain];
-	[inq setUpdateNewDeviceNames:FALSE];
+	[inq setUpdateNewDeviceNames:TRUE];
 	[inq setInquiryLength:6];
 
 	holdTimer = nil;
 	cleanupTimer = nil;
+    kIOErrorSet = NO;
+
     
     registeredForNotifications = FALSE;
 
@@ -41,6 +43,9 @@
 
 - (void)dealloc
 {
+#ifdef DEBUG_MODE
+    DSLog(@"in dealloc");
+#endif
 	[lock release];
 	[devices release];
 	[inq release];
@@ -52,24 +57,36 @@
 {
 
 #ifdef DEBUG_MODE
-    NSLog(@"In bluetooth start");
+    DSLog(@"In bluetooth start");
 #endif
     
     // need to register for bluetooth connect notifications, but we need to delay it
     // until everything is loaded
     
 #ifdef DEBUG_MODE
-    NSLog(@"setting 5 second timer to register for bluetooth connection notifications");
+    DSLog(@"setting 5 second timer to register for bluetooth connection notifications");
 #endif
     registerForNotificationsTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5 target:self selector:@selector(registerForNotifications:) userInfo:nil repeats:NO]; 
+    
+    
+#ifdef DEBUG_MODE
+    DSLog(@"setting 7 second timer to start bluetooth inquiry");
+#endif
+    
+    holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 7
+                                                 target:self
+                                               selector:@selector(holdTimerPoll:)
+                                               userInfo:nil
+                                                repeats:NO];
 
-    // this timer will fire every 10 (seconds?) to clean up entries, this seems
-    // unnecessary 
+    // this timer will fire every 10 (seconds?) to clean up entries
+    
 	cleanupTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
 							target:self
 						      selector:@selector(cleanupTimerPoll:)
 						      userInfo:nil
 						       repeats:YES];
+    
 
     // we now mark the evidence source as running
 	running = YES;
@@ -81,18 +98,45 @@
 
 - (void)stop
 {
+#ifdef DEBUG_MODE
+    DSLog(@"In stop");
+#endif
+
 	if (!running)
 		return;
+    
+    
 
-	[notf unregister];
-	notf = nil;
+#ifdef DEBUG_MODE
+    DSLog(@"unregistering notf");
+#endif
+    if (notf) {
+        [notf unregister];
+        notf = nil;
+    }
 
-	[cleanupTimer invalidate];	// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
+#ifdef DEBUG_MODE
+    DSLog(@"issuing cleanupTimer invalidate");
+#endif
+    if (cleanupTimer) 
+        [cleanupTimer invalidate];	// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
+    
+
+    
+    if (registerForNotificationsTimer) {
+#ifdef DEBUG_MODE
+        DSLog(@"issuing registerForNotificationsTimer invalidate");
+#endif
+        //[registerForNotificationsTimer invalidate];
+        //registerForNotificationsTimer = nil;
+    }
 
 	if (holdTimer) {
+
+        
 		DSLog(@"stopping hold timer");
 		[holdTimer invalidate];		// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
-		holdTimer = nil;
+		//holdTimer = nil;
 	}
 	DSLog(@"stopping inq");
 	[inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
@@ -101,33 +145,35 @@
 	[devices removeAllObjects];
 	[self setDataCollected:NO];
 	[lock unlock];
+    running = NO;
 
-	running = NO;
+	
 }
 
 - (void)registerForNotifications:(NSTimer *)timer {
 #ifdef DEBUG_MODE
-    NSLog(@"registering for notifications");
+    DSLog(@"registering for notifications");
 #endif
+    [registerForNotificationsTimer invalidate];
+    registerForNotificationsTimer = nil;
     if (!registeredForNotifications) {
         notf = [IOBluetoothDevice registerForConnectNotifications:self
                                                          selector:@selector(deviceConnected:device:)];
     }
 }
 
-// this method is no longer used
-/*
+
+
 - (void)holdTimerPoll:(NSTimer *)timer
 {
-	if (!IOBluetoothPreferenceGetControllerPowerState())
-		return;
 
 	DSLog(@"stopping hold timer, starting inq");
 	[holdTimer invalidate];
 	holdTimer = nil;
 	[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+    
 }
- */
+
 
 // Returns a string (set to auto-release), or nil.
 + (NSString *)vendorByMAC:(NSString *)mac
@@ -135,7 +181,7 @@
 	NSDictionary *ouiDb = [DB sharedOUIDB];
     
 #ifdef DEBUG_MODE 
-    DSLog(@"ouiDB looks like %@", ouiDb);
+    //DSLog(@"ouiDB looks like %@", ouiDb);
 #endif
     
     
@@ -168,6 +214,10 @@
 	[devices removeObjectsAtIndexes:index];
 	[lock unlock];
     
+    if (kIOErrorSet) {
+        [inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
+        [inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+    }
 
 
 	DSLog(@"know of %d device(s)%s", [devices count], holdTimer ? " -- hold timer running" : "");
@@ -296,23 +346,18 @@
 {
     
 #ifdef DEBUG_MODE
-    DSLog(@"in deviceInquiryComplete");
+    DSLog(@"in deviceInquiryComplete with goingToSleep == %s",goingToSleep ? "YES" : "NO");
 #endif
     
 	if (error != kIOReturnSuccess) {
-        // device inquiry failed, the most likely cause
-        // would be that bluetooth is disabled
-		DSLog(@"error=0x%08x", error);
-		
-        // ask that previously found items be invalidated/removed
-		[cleanupTimer invalidate];
+#ifdef DEBUG_MODE
+        DSLog(@"error != kIOReturnSuccess");
+#endif
+        //[self stop];
+        kIOErrorSet = YES;
         
-        // mark the evidence source as not running, this will cause
-        // it to run start again and init everything on the next loop
-		running = NO;
-        
-        // is it necessary to immediately call start?
-		[self start];
+		//[self start];
+        [devices removeAllObjects];
 		return;
 	}
 

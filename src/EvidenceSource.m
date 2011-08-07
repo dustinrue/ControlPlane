@@ -33,6 +33,7 @@
 	running = NO;
 	dataCollected = NO;
 	startAfterSleep = NO;
+    goingToSleep = NO;
 
 	oldDescription = nil;
 
@@ -86,6 +87,7 @@
 
 - (void)goingToSleep:(id)arg
 {
+    goingToSleep = YES;
 	if ([self isRunning]) {
 		DSLog(@"Stopping %@ for sleep.", [self class]);
 		startAfterSleep = YES;
@@ -96,6 +98,7 @@
 
 - (void)wakeFromSleep:(id)arg
 {
+    goingToSleep = NO;
 	if (startAfterSleep) {
 		DSLog(@"Starting %@ after sleep.", [self class]);
 		[self start];

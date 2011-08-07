@@ -12,6 +12,7 @@
 	BOOL running;
 	BOOL dataCollected;
 	BOOL startAfterSleep;
+    BOOL goingToSleep;
 
 	// Sheet hooks
 	NSPanel *panel;

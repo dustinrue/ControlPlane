@@ -17,6 +17,7 @@
 	NSMutableArray *devices;
 	IOBluetoothDeviceInquiry *inq;
 	IOBluetoothUserNotification *notf;
+    BOOL kIOErrorSet;
 	NSTimer *holdTimer, *cleanupTimer, *registerForNotificationsTimer;
 //    IOBluetoothHostController *btHostController;
     Boolean *registeredForNotifications;
@@ -27,7 +28,7 @@
 
 - (void)start;
 - (void)stop;
-- (void)registerForNotifications;
+
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
