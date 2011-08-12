@@ -539,5 +539,19 @@ const CGFloat kDetailsHeight = 285;
 	showDetails = value;
 }
 
+#pragma mark NSTextField Delegate
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
+{
+    BOOL commandHandled = NO;
+    
+    if (commandSelector == @selector(insertNewline:)) {
+        [textView insertNewlineIgnoringFieldEditor:self];
+        commandHandled = YES;
+    }
+    
+    return commandHandled;
+}
+
 @end
 
