@@ -11,7 +11,10 @@
 #import "EvidenceSource.h"
 
 
+
+
 @interface MPController : NSObject <GrowlApplicationBridgeDelegate> {
+
 	IBOutlet NSMenu *sbMenu;
 	NSStatusItem *sbItem;
 	NSImage *sbImageActive, *sbImageInactive;

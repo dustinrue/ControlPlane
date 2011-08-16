@@ -9,6 +9,7 @@
 
 #import <CoreWLAN/CoreWLAN.h>
 #import "CoreWLANEvidenceSource.h"
+#import "DSLogger.h"
 
 
 @implementation WiFiEvidenceSourceCoreWLAN
@@ -59,36 +60,63 @@ static NSString *macToString(const UInt8 *mac)
 
 - (void)doUpdate
 {
+    
 	NSMutableArray *all_aps = [NSMutableArray array];
-       
-
-	BOOL do_scan = YES;
-
-    
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"])
-		do_scan = YES;
-	if (wakeUpCounter > 0) {
-		do_scan = YES;
-		--wakeUpCounter;
-	}
-    
 	NSError *err = nil;
     CWNetwork *currentNetwork = nil;
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:nil];
+    NSArray *supportedInterfaces = [CWInterface supportedInterfaces];
+	BOOL do_scan = YES;
+    BOOL currentlyConnected = NO;
+
     
 #ifdef DEBUG_MODE
-    NSLog(@"Attempting to do the scan");
+    DSLog(@"Attempting to do the scan");
 #endif
     
-    NSArray *supportedInterfaces = [CWInterface supportedInterfaces];
+    // get a list of supported Wi-Fi interfaces.  It is unlikely, but still possible, for there to
+    // be more than one interface, yet this 
     self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
     
-    if ([self isWirelessAvailable]) { 
+    // first see if Wi-Fi is even turned on
+    if (! self.currentInterface.power) {
+#ifdef DEBUG_MODE
+        DSLog(@"wifi disabled, no scan done");
+#endif
+        return;
+    }
+    
+    // see if we are currently connected to an AP
+    NSString *currentSSID = [self.currentInterface ssid];
+    
+
+    // wakeUpCounter will be set to 2 after a wake event.  Since
+    // the machine can't be associated yet we can afford to scan
+    // a couple of times.  This might not be needed any longer and might
+    // even be detrimental with newer versions of OS X that promise to 
+    // scan for and connect to wifi networks more quickly.
+    if (wakeUpCounter > 0) {
+		do_scan = YES;
+		--wakeUpCounter;
+	}
+    // don't scan if currentSSID is set (Wi-Fi is associated with something)
+    // and the WiFiAlwaysScans is set to false
+    else if (currentSSID && ![[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
+        do_scan = NO;
+        currentlyConnected = YES;
+    }
+    else {
+        do_scan = YES;
+    }
+
+
+    // if do_scan is set to yes, do the Wi-Fi scan
+    if (do_scan) { 
     
         self.scanResults = [NSMutableArray arrayWithArray:[self.currentInterface scanForNetworksWithParameters:params error:&err]];
         
         if( err )
-            NSLog(@"error: %@",err);
+            DSLog(@"error: %@",err);
         else
             [self.scanResults sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"ssid" ascending:YES selector:@selector	(caseInsensitiveCompare:)] autorelease]]];
         
@@ -97,15 +125,22 @@ static NSString *macToString(const UInt8 *mac)
             [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
     #ifdef DEBUG_MODE
-            NSLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssi]);
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssi]);
     #endif
         }
 
     }
     else {
+        // if do_scan is false but we're still here, then we're associated
+        // We still need to fill in the scanResults variable so rather than
+        // doing so with a scan we ask CoreWLAN to tell us about what 
+        // we're connected to, ControlPlane can then see if the associated
+        // network matches a rule
 #ifdef DEBUG_MODE
-        NSLog(@"wifi disabled, no scan done");
+        DSLog(@"already associated with an AP, using connection info");
 #endif
+        [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:self.currentInterface.ssid, @"WiFi SSID", self.currentInterface.bssid, @"WiFi BSSID", nil]];
+
     }
     
 end_of_scan:
@@ -113,7 +148,7 @@ end_of_scan:
 	[apList setArray:all_aps];
 	[self setDataCollected:[apList count] > 0];
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> %@", [self class], apList);
+	DSLog(@"%@ >> %@", [self class], apList);
 #endif
 	[lock unlock];
 }
@@ -148,7 +183,7 @@ end_of_scan:
 	while ((dict = [en nextObject])) {
 		NSString *x = [dict valueForKey:key];
 #ifdef DEBUG_MODE
-        NSLog(@"checking to see if %@ matches",[dict valueForKey:key]);
+        DSLog(@"checking to see if %@ matches",[dict valueForKey:key]);
 #endif
 		if ([param isEqualToString:x]) {
 			match = YES;

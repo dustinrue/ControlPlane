@@ -136,6 +136,7 @@
 
 @implementation PrefsWindowController
 
+
 + (void)initialize
 {
 	// Register value transformers
@@ -236,6 +237,29 @@
 	currentPrefsGroup = nil;
 	[self switchToView:@"General"];
 
+    // display options for the menu bar
+
+
+    [startAtLoginStatus setState:[self willStartAtLogin:[self appPath]] ? 1:0];
+    [menuBarDisplayOptionsController addObject:
+        [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            @"Icon",@"option", 
+            NSLocalizedString(@"Icon",@"Show only the icon"), @"description", 
+            nil]];
+    [menuBarDisplayOptionsController addObject:
+        [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            @"Context",@"option",
+            NSLocalizedString(@"Context", @"Show only the current context"),@"description", 
+            nil]];
+    [menuBarDisplayOptionsController addObject:
+        [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            @"Both",@"option",
+            NSLocalizedString(@"Both", @"Show both the icon and the current context"),@"description", 
+            nil]];
+ 
+    
+ //   [menuBarDisplayOptionsController setValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"menuBarOption"] forKey:@"selectedObject"];
+   
 	// Contexts
 	[defaultContextButton setContextsDataSource:contextsDataSource];
 	[editActionContextButton setContextsDataSource:contextsDataSource];
@@ -294,6 +318,16 @@
     NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPSupportURL"]];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
+
+- (IBAction)donateToControlPlane:(id)sender {
+    NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPDonationURL"]];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+- (IBAction)menuBarDisplayOptionChanged:(id)sender {
+}
+
+
 
 #pragma mark Prefs group switching
 
@@ -648,6 +682,123 @@
 
 	[newActionWindow performClose:self];
 }
+
+#pragma mark Login Item Routines
+
+- (NSURL *) appPath {
+    return [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+}
+
+- (void) startAtLogin {
+    LSSharedFileListRef loginItemList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst,
+                                  NULL, NULL, (CFURLRef)[self appPath], NULL, NULL);
+    CFRelease(loginItemList);
+#ifdef DEBUG_MODE
+    DSLog(@"adding ControlPlane to startup items");
+#endif
+}
+
+- (void) disableStartAtLogin {
+    NSURL *appPath = [self appPath];
+    
+    // Creates shared file list reference to be used for changing list and reading its various properties.
+    LSSharedFileListRef loginItemList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    
+    // represents a found start up item
+
+    // check to see if ControlPlane is already listed in Start Up Items
+    if (loginItemList) {
+        UInt32 seedValue = 0;
+        
+        // take a snapshot of the list creating an array out of it
+        NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItemList, &seedValue)) autorelease];
+        
+        // walk the array looking for an entry that belongs to us
+        for (id currentLoginItem in currentLoginItems) {
+            LSSharedFileListItemRef itemToCheck = (LSSharedFileListItemRef)currentLoginItem;
+            
+            UInt32 resolveFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+            CFURLRef pathOfCurrentItem = NULL;
+            OSStatus err = LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL);
+            
+            if (err == noErr) {
+                BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
+                CFRelease(pathOfCurrentItem);
+                
+                if (startupItemFound) {
+#ifdef DEBUG_MODE
+                    DSLog(@"removing ControlPlan from startup items");
+#endif
+                    LSSharedFileListItemRemove(loginItemList, itemToCheck);
+                }
+            }
+        }
+    }
+
+    CFRelease(loginItemList);
+}
+
+
+
+- (BOOL) willStartAtLogin:(NSURL *)appPath {
+    
+    // Creates shared file list reference to be used for changing list and reading its various properties.
+    LSSharedFileListRef loginItemList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    
+
+    // check to see if ControlPlane is already listed in Start Up Items
+    if (loginItemList) {
+        UInt32 seedValue = 0;
+        
+        // take a snapshot of the list creating an array out of it
+        NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItemList, &seedValue)) autorelease];
+        
+        // walk the array looking for an entry that belongs to us
+        for (id currentLoginItem in currentLoginItems) {
+            LSSharedFileListItemRef itemToCheck = (LSSharedFileListItemRef)currentLoginItem;
+    
+            UInt32 resolveFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+            CFURLRef pathOfCurrentItem = NULL;
+            OSStatus err = LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL);
+            
+            if (err == noErr) {
+                BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
+                CFRelease(pathOfCurrentItem);
+                
+                DSLog(@"startupItemFound is %s", startupItemFound ? "true":"false");
+                if (startupItemFound) {
+
+                    CFRelease(loginItemList);
+                    return TRUE;
+                }
+            }
+        }
+        
+        
+
+    }
+
+    CFRelease(loginItemList);
+    return FALSE;
+    
+}
+- (IBAction) toggleStartAtLoginAction:(id)sender {
+  
+
+    if ([self willStartAtLogin:[self appPath]]) {
+        [self disableStartAtLogin];
+    }
+    else {
+        [self startAtLogin];
+        
+    }
+    [startAtLoginStatus setState:[self willStartAtLogin:[self appPath]] ? 1:0];
+}
+
+
+
+
 
 #pragma mark Miscellaneous
 

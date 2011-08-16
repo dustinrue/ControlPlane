@@ -15,12 +15,16 @@
 	NSArray *prefsGroups;
 	NSToolbar *prefsToolbar;
 
+    
+
 	IBOutlet MPController *mpController;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet NSArrayController *rulesController, *actionsController;
 	IBOutlet NSArrayController *whenActionController;
+    IBOutlet NSArrayController *menuBarDisplayOptionsController;
 
+    
 	// Selection controls for rules/actions
 	IBOutlet ContextSelectionButton *defaultContextButton;
 	IBOutlet ContextSelectionButton *editActionContextButton;
@@ -35,15 +39,22 @@
 	IBOutlet NSPopUpButton *newActionContext;
 	NSString *newActionWindowWhen;
 
+    IBOutlet NSButton *startAtLoginStatus;
 	IBOutlet NSTextView *logBufferView;
 	NSNumber *logBufferPaused;
 	NSTimer *logBufferTimer;
+    NSMenuItem *donateToControlPlane;
 }
 
 - (IBAction)runPreferences:(id)sender;
 - (IBAction)runAbout:(id)sender;
 - (IBAction)runWebPage:(id)sender;
 - (IBAction)emailSupport:(id)sender;
+- (IBAction)donateToControlPlane:(id)sender;
+- (IBAction)menuBarDisplayOptionChanged:(id)sender;
+
+
+
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item;
 - (void)switchToView:(NSString *)identifier;
@@ -60,5 +71,12 @@
 
 - (void)addAction:(id)sender;
 - (IBAction)doAddAction:(id)sender;
+
+// Login item stuff
+- (NSURL *)appPath;
+- (BOOL)willStartAtLogin:(NSURL *)appPath;
+- (void)startAtLogin;
+- (void)disableStartAtLogin;
+- (IBAction)toggleStartAtLoginAction:(id)sender;
 
 @end

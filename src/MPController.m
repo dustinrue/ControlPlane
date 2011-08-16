@@ -46,6 +46,9 @@
 @implementation MPController
 
 #define STATUS_BAR_LINGER	10	// seconds before disappearing from menu bar
+#define CP_DISPLAY_ICON 0
+#define CP_DISPLAY_CONTEXT 1
+#define CP_DISPLAY_BOTH 2
 
 
 
@@ -55,11 +58,20 @@
 
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"Enabled"];
 	[appDefaults setValue:[NSNumber numberWithDouble:0.75] forKey:@"MinimumConfidenceRequired"];
-	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"ShowGuess"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableSwitchSmoothing"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"HideStatusBarIcon"];
     [appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableGrowl"];
+    [appDefaults setValue:[NSNumber numberWithInt:CP_DISPLAY_ICON] forKey:@"menuBarOption"];
 
+    
+    // use CP_DISPLAY_BOTH if the option to ShowGuess is set to ensure compatiblity
+    // with older preference setting
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"]) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"ShowGuess"];
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:CP_DISPLAY_BOTH] forKey:@"menuBarOption"];
+    }
+  
+        
 	// TODO: spin these into the EvidenceSourceSetController?
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableAudioOutputEvidenceSource"];
     
@@ -324,7 +336,7 @@ finished_import:
 			[self setValue:uuid forKey:@"currentContextUUID"];
 			NSString *ctxt_path = [contextsDataSource pathFromRootTo:uuid];
 			[self setValue:ctxt_path forKey:@"currentContextName"];
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
+			if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON)
 				[self setStatusTitle:ctxt_path];
 
 			// Update force context menu
@@ -387,7 +399,16 @@ finished_import:
 	sbItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 	[sbItem retain];
 	[sbItem setHighlightMode:YES];
-	[sbItem setImage:(guessIsConfident ? sbImageActive : sbImageInactive)];
+    
+
+    // only show the icon if preferences say we should
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
+        [sbItem setImage:(guessIsConfident ? sbImageActive : sbImageInactive)];
+    }
+    else {
+        [sbItem setImage:NULL];
+    }
+	
 	[sbItem setMenu:sbMenu];
 }
 
@@ -425,6 +446,9 @@ finished_import:
 
 - (void)contextsChanged:(NSNotification *)notification
 {
+#ifdef DEBUG_MODE
+    DSLog(@"in contextChanged");
+#endif
 	// Fill in 'Force context' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
 	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
@@ -466,12 +490,16 @@ finished_import:
 		[self setValue:[ctxt name] forKey:@"currentContextName"];
 	} else {
 		// Our current context was removed
-		[self setValue:@"" forKey:@"currentContextUUID"];
+		[self setValue:@""  forKey:@"currentContextUUID"];
 		[self setValue:@"?" forKey:@"currentContextName"];
 		[self setValue:@"?" forKey:@"guessConfidence"];
 	}
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
+
+
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
 		[self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
+        [self showInStatusBar:self];
+    }
 
 	// update other stuff?
 }
@@ -504,10 +532,17 @@ finished_import:
 		[sbHideTimer invalidate];
 		sbHideTimer = nil;
 	}
-	if (!hide && !sbItem)
+	if (!hide && !sbItem) {
 		[self showInStatusBar:self];
+    }
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+        [self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
+    }
 
 	[updatingLock lock];
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_CONTEXT) {
+        [sbItem setImage:NULL];
+    }
 	//[sbItem setImage:imageActive];
 	[updatingLock unlockWithCondition:1];
 }
@@ -684,6 +719,9 @@ finished_import:
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
+#ifdef DEBUG_MODE
+    DSLog(@"in performTranisitionFrom");
+#endif
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
 	NSArray *leaving_walk = [walks objectAtIndex:0];
 	NSArray *entering_walk = [walks objectAtIndex:1];
@@ -708,8 +746,12 @@ finished_import:
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
 			ctxt_path, guessConfidence]];
 	[self setValue:ctxt_path forKey:@"currentContextName"];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
-		[self setStatusTitle:ctxt_path];
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+        [self setStatusTitle:ctxt_path];
+     
+    }
+	/*if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
+		[self setStatusTitle:ctxt_path];*/
 
 	// Update force context menu
 	NSMenu *menu = [forceContextMenuItem submenu];
@@ -848,8 +890,8 @@ finished_import:
 	NSString *guessConfidenceString = [NSString stringWithFormat:
 		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
 		perc];
-	BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
-	if (!do_title)
+	//BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
+	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
 		[self setStatusTitle:nil];
 	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
 
@@ -868,7 +910,8 @@ finished_import:
 
 	if (no_guess) {
 		guessIsConfident = NO;
-		[sbItem setImage:sbImageInactive];
+        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
+            [sbItem setImage:sbImageInactive];
 
 		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
 			return;
@@ -882,7 +925,9 @@ finished_import:
 	}
 
 	guessIsConfident = YES;
-	[sbItem setImage:sbImageActive];
+    
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
+        [sbItem setImage:sbImageActive];
 
 	BOOL do_switch = YES;
 

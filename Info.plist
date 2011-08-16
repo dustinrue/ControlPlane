@@ -25,13 +25,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.3-beta1</string>
+	<string>1.0.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>1.0.3-beta1</string>
+	<string>1.0.3</string>
+	<key>CPDonationURL</key>
+	<string>http://controlplane.dustinrue.com/support-controlplane/</string>
 	<key>CPSupportURL</key>
 	<string>http://groups.google.com/group/controlplane-support/topics</string>
 	<key>DTCompiler</key>

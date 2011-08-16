@@ -298,9 +298,7 @@
     
 	NSArray *classes = [NSArray arrayWithObjects:
 		[AudioOutputEvidenceSource class],
-
 		[BluetoothEvidenceSource class],
-
 		[BonjourEvidenceSource class],
 		[FireWireEvidenceSource class],
 		[IPEvidenceSource class],
@@ -316,9 +314,7 @@
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
-#ifdef DEBUG_MODE
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
-#endif
 		NSLocalizedString(@"Bonjour", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
@@ -380,17 +376,17 @@
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
 #ifdef DEBUG_MODE
-        NSLog(@"checking to see if %@ is enabled",[src name]);
+        DSLog(@"checking to see if %@ is enabled",[src name]);
 #endif
 		if (enabled && ![src isRunning]) {
 #ifdef DEBUG_MODE
-            NSLog(@"Starting %@ evidence source because it is enabled", [src name]);
+            DSLog(@"Starting %@ evidence source because it is enabled", [src name]);
 #endif
 			DSLog(@"Starting %@ evidence source", [src name]);
 			[src start];
 		} else if (!enabled && [src isRunning]) {
 #ifdef DEBUG_MODE
-      		NSLog(@"Stopping %@ evidence source because it is disabled", [src name]);
+      		DSLog(@"Stopping %@ evidence source because it is disabled", [src name]);
 #endif
 			DSLog(@"Stopping %@ evidence source", [src name]);
 			[src stop];
