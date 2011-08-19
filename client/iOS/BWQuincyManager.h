@@ -32,8 +32,9 @@
 #define kQuincyBundleName @"Quincy.bundle"
 
 NSBundle *quincyBundle(void);
+NSString *BWQuincyLocalize(NSString *stringToken);
 
-#define BWQuincyLocalize(StringToken) NSLocalizedStringFromTableInBundle(StringToken, @"Quincy", quincyBundle(), @"")
+//#define BWQuincyLocalize(StringToken) NSLocalizedStringFromTableInBundle(StringToken, @"Quincy", quincyBundle(), @"")
 
 // flags if the crashlog analyzer is started. since this may theoretically crash we need to track it
 #define kQuincyKitAnalyzerStarted @"QuincyKitAnalyzerStarted"
@@ -168,6 +169,7 @@ typedef enum CrashReportStatus {
 
     NSData *_crashData;
     
+    NSString *_languageStyle;
     BOOL _sendingInProgress;
 }
 
@@ -181,6 +183,10 @@ typedef enum CrashReportStatus {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // settings
+
+// nil, using the default localization files (Default)
+// set to another string which will be appended to the Quincy localization file name, "Alternate" is another provided text set
+@property (nonatomic, retain) NSString *languageStyle;
 
 // if YES, the user will get the option to choose "Always" for sending crash reports. This will cause the dialog not to show the alert description text landscape mode! (default)
 // if NO, the dialog will not show a "Always" button

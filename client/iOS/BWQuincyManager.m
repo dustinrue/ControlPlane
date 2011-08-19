@@ -45,6 +45,16 @@ NSBundle *quincyBundle(void) {
     return bundle;
 }
 
+NSString *BWQuincyLocalize(NSString *stringToken) {
+    if ([BWQuincyManager sharedQuincyManager].languageStyle == nil)
+        return NSLocalizedStringFromTableInBundle(stringToken, @"Quincy", quincyBundle(), @"");
+    else {
+        NSString *alternate = [NSString stringWithFormat:@"Quincy%@", [BWQuincyManager sharedQuincyManager].languageStyle];
+        return NSLocalizedStringFromTableInBundle(stringToken, alternate, quincyBundle(), @"");
+    }
+}
+
+
 @interface BWQuincyManager ()
 
 - (void)startManager;
@@ -76,6 +86,7 @@ NSBundle *quincyBundle(void) {
 @synthesize feedbackActivated = _feedbackActivated;
 @synthesize autoSubmitCrashReport = _autoSubmitCrashReport;
 @synthesize autoSubmitDeviceUDID = _autoSubmitDeviceUDID;
+@synthesize languageStyle = _languageStyle;
 
 @synthesize appIdentifier = _appIdentifier;
 
@@ -99,6 +110,7 @@ NSBundle *quincyBundle(void) {
         _responseData = nil;
         _appIdentifier = nil;
         _sendingInProgress = NO;
+        _languageStyle = nil;
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
@@ -163,6 +175,8 @@ NSBundle *quincyBundle(void) {
     self.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:BWQuincyNetworkBecomeReachable object:nil];
     
+    [_languageStyle release];
+    
     [_submissionURL release];
     _submissionURL = nil;
     
@@ -216,11 +230,11 @@ NSBundle *quincyBundle(void) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:BWQuincyLocalize(@"CrashDataFoundTitle"), appName]
                                                                 message:[NSString stringWithFormat:BWQuincyLocalize(@"CrashDataFoundDescription"), appName]
                                                                delegate:self
-                                                      cancelButtonTitle:BWQuincyLocalize(@"Don't Send")
-                                                      otherButtonTitles:BWQuincyLocalize(@"Send Report"), nil];
+                                                      cancelButtonTitle:BWQuincyLocalize(@"CrashDontSendReport")
+                                                      otherButtonTitles:BWQuincyLocalize(@"CrashSendReport"), nil];
             
             if ([self isShowingAlwaysButton]) {
-                [alertView addButtonWithTitle:BWQuincyLocalize(@"Always")];
+                [alertView addButtonWithTitle:BWQuincyLocalize(@"CrashSendReportAlways")];
             }
             
             [alertView setTag: QuincyKitAlertTypeSend];
@@ -285,21 +299,21 @@ NSBundle *quincyBundle(void) {
 				alertView = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseTitle"), appName ]
 													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseNextRelease"), appName]
 													  delegate: self
-											 cancelButtonTitle: BWQuincyLocalize(@"OK")
+											 cancelButtonTitle: BWQuincyLocalize(@"CrashResponseTitleOK")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusSubmitted:
 				alertView = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseTitle"), appName ]
 													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseWaitingApple"), appName]
 													  delegate: self
-											 cancelButtonTitle: BWQuincyLocalize(@"OK")
+											 cancelButtonTitle: BWQuincyLocalize(@"CrashResponseTitleOK")
 											 otherButtonTitles: nil];
 				break;
 			case CrashReportStatusAvailable:
 				alertView = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseTitle"), appName ]
 													   message: [NSString stringWithFormat:BWQuincyLocalize(@"CrashResponseAvailable"), appName]
 													  delegate: self
-											 cancelButtonTitle: BWQuincyLocalize(@"OK")
+											 cancelButtonTitle: BWQuincyLocalize(@"CrashResponseTitleOK")
 											 otherButtonTitles: nil];
 				break;
 			default:
@@ -394,7 +408,7 @@ NSBundle *quincyBundle(void) {
     if (result >= 0) {
         osBuildVersion = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
     }
-	free(answer);
+    
     return osBuildVersion;   
 }
 
@@ -445,7 +459,6 @@ NSBundle *quincyBundle(void) {
 			
             if (report == nil) {
                 NSLog(@"Could not parse crash report");
-				[fm removeItemAtPath:filename error:&error];
                 continue;
             }
 
