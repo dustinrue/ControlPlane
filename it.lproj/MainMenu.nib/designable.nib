@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1040</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.SystemVersion">11B26</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
@@ -127,6 +127,23 @@
 						<string key="NSTitle">Homepage di ControlPlane</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="274879679"/>
+						<reference key="NSMixedImage" ref="369062055"/>
+					</object>
+					<object class="NSMenuItem" id="1053540244">
+						<reference key="NSMenu" ref="511450069"/>
+						<string key="NSTitle">ControlPlane Support...</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSKeyEquivModMask">1048576</int>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="274879679"/>
+						<reference key="NSMixedImage" ref="369062055"/>
+					</object>
+					<object class="NSMenuItem" id="172200863">
+						<reference key="NSMenu" ref="511450069"/>
+						<string key="NSTitle">Support ControlPlane...</string>
+						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="274879679"/>
 						<reference key="NSMixedImage" ref="369062055"/>
@@ -469,7 +486,6 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{328, 20}, {65, 13}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="507568736">
 							<int key="NSCellFlags">67239424</int>
@@ -4734,6 +4750,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<int key="connectionID">1910</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">emailSupport:</string>
+						<reference key="source" ref="622491674"/>
+						<reference key="destination" ref="1053540244"/>
+					</object>
+					<int key="connectionID">1913</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">donateToControlPlane:</string>
+						<reference key="source" ref="622491674"/>
+						<reference key="destination" ref="172200863"/>
+					</object>
+					<int key="connectionID">1914</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -4794,6 +4826,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="557170603"/>
 							<reference ref="553813671"/>
 							<reference ref="190359663"/>
+							<reference ref="1053540244"/>
+							<reference ref="172200863"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">StatusbarMenu</string>
@@ -6599,6 +6633,16 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">MenuBarDisplayOptionsController</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1911</int>
+						<reference key="object" ref="1053540244"/>
+						<reference key="parent" ref="511450069"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1912</int>
+						<reference key="object" ref="172200863"/>
+						<reference key="parent" ref="511450069"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -6871,6 +6915,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="1897.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1898.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1899.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1911.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1912.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="231.CustomClassName">DNDArrayController</string>
 				<string key="231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="288.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -6918,7 +6964,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1910</int>
+			<int key="maxID">1914</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
