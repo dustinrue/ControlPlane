@@ -67,10 +67,12 @@
 1266|Chicony Electronics Co., Ltd.
 1271|Newnex Technology Corp.
 1273|Brother Industries, Ltd.
+1276|SUNPLUS TECHNOLOGY CO., LTD.
 1278|PFU Limited
 1281|Fujikura/DDK
 1287|Hosiden Corporation
 1293|Belkin Corporation
+1300|FCI Electronics
 1302|Longwell Electronics/Longwell Company
 1305|Star Micronics Co., LTD
 1309|American Power Conversion
@@ -139,7 +141,7 @@
 1659|Prolific Technology, Inc.
 16700|Dell Inc.
 1680|Golden Bridge Electech Inc.
-1683|Hagiwara Sys-Com Co., Ltd.
+1683|Hagiwara Solutions Co., Ltd.
 1689|Tektronix, Inc.
 1699|MadCatz Europe Ltd.
 1700|Xiamen Doowell Electron Co., Ltd.
@@ -264,7 +266,7 @@
 3294|Z-Com INC.
 3313|e-CONN ELECTRONIC CO., LTD.
 3314|ENE Technology Inc.
-3315|Atheros Communications, Inc.
+3315|Qualcomm Atheros, Inc.
 3351|NALTEC, Inc.
 3353|Shanghai Hank Connection Co., Ltd.
 3393|Ta Yun Electronic Technology Co., Ltd.
@@ -315,7 +317,6 @@
 3945|DIONEX CORPORATION
 3979|Yazaki Corporation
 3991|CviLux Corporation
-4016|Haurtian Wire & Cable Co., Ltd.
 4024|Wistron Corporation
 4026|SAN SHING ELECTRONICS CO., LTD..
 4046|Sony Ericsson Mobile Communications AB
@@ -323,6 +324,7 @@
 4096|Speed Tech Corp.
 4100|LG Electronics Inc.
 4134|Newly Corporation
+4152|SteelSeries ApS
 4168|Targus Group International
 4183|ON Semiconductor
 4184|Western Digital Technologies, Inc.
@@ -351,7 +353,10 @@
 4427|Sphairon Technologies GmbH
 4429|Alpha Imaging Technology Corp.
 4443|Salix Technology Co., Ltd.
+4469|Sheng Yih Technologies Co., Ltd.
+4505|Sierra Wireless Inc.
 4506|DONG GUAN JALINK ELECTRONICES CO.,LTD
+4522|GlobalMedia Group, LLC
 4528|ATECH FLASH TECHNOLOGY
 4582|K.I. Technology Co. Ltd.
 4622|HUDSON SOFT CO., LTD.
@@ -384,7 +389,6 @@
 5161|Vega Technologies Industrial (Austria) Co.
 5177|Wind River Systems Inc.
 5180|Altek Corporation
-5217|Staccato Communications
 5242|Formosa21 Inc.
 5246|UPEK Inc.
 5255|DSP Group, Ltd.
@@ -405,7 +409,7 @@
 5480|Sunf Pu Technology Co., Ltd
 5488|ALLTOP TECHNOLOGY CO., LTD.
 5499|Ketron SRL
-5510|Sitor Electronics (Shenzhen) Co., Ltd.
+5510|Palconn Technology Co., Ltd.
 5528|Kunshan Guoji Electronics Co., Ltd.
 5538|Freescale Semiconductor, Inc.
 5546|Hong Kong Gearway Electronics Co., Ltd.
@@ -431,6 +435,7 @@
 6024|ShenZhen Litkconn Technology Co., Ltd.
 6038|Printrex, Inc.
 6053|Advanced Connection Technology Inc.
+6078|Dongguan Yangming Precision of Plastic Metal Elec.Co.Lt
 6095|Hip Hing Cable & Plug Mfy. Ltd.
 6113|ORTHOFIX
 6121|DisplayLink (UK) Ltd.
@@ -438,6 +443,7 @@
 6133|K.K. Rocky
 6193|Gwo Jinn Industries Co., Ltd.
 6296|Summit Microelectronics
+6297|Linkiss Co., Ltd.
 6299|Trimax Electronics Co., Ltd.
 6353|Google Inc.
 6371|Fitilink Integrated Technology, Inc.
@@ -458,6 +464,7 @@
 6556|Richnex Microelectronics Corporation
 6557|Dexxon
 6632|Industrial Technology Research Institute
+6655|Best Buy
 6666|USB-IF non-workshop
 6693|Amphenol East Asia Ltd.
 6709|Astec Power, a division of Emerson Network Power
@@ -468,7 +475,6 @@
 6766|Global Unichip Corp.
 6767|Sagem Orga GmbH
 6777|Bayer Health Care LLC
-6779|Lumberg Connect GmbH
 6786|Proconn Technology Co., Ltd.
 6794|Simula Technology Inc.
 6795|SGS Taiwan Ltd.
@@ -510,7 +516,6 @@
 7490|DRAGON JOY LIMITED
 7491|Montage Technology, Inc.
 7493|Qisda Corporation
-7494|nSys Design Systems
 7497|SHENZHEN LINKCONN ELECTRONICS CO., LTD.
 7501|Pegatron Corporation
 7516|Fresco Logic Inc.
@@ -529,6 +534,7 @@
 7666|Telecommunication Metrology Center of MII
 7688|Inventure, Inc.
 7696|Point Grey Research Inc.
+7731|KOBIAN CANADA INC.
 7738|Continental Automotive Systems Inc.
 7751|HUNG TA H.T.ENTERPRISE CO., LTD.
 7758|Etron Technology, Inc.
@@ -570,7 +576,6 @@
 8367|Shenzhen CARVE Electronics Co., Ltd.
 8384|FENGHUA KINGSUN CO., LTD.
 8386|Sumitomo Electric Ind., Ltd., Optical Comm. R&D Lab
-8408|Changzhou Xinchao Technologies, Inc.
 8432|Insight Technology Incorporated
 8439|SOFTHARD Technology Ltd.
 8445|NOVO NORDISK A/S
@@ -612,7 +617,6 @@
 8979|Kunshan Jiahua Electronics Co., Ltd.
 8981|Avery Design Systems, Inc.
 9008|Tensorcom
-9028|HAMBURG INDUSTRIES CO., LTD.
 9036|Zenverge Inc.
 9037|Skype Inc.
 9048|Greenconn Corporation
@@ -685,3 +689,6 @@
 9588|AVer Information Inc.
 9589|Weida Hi-Tech Co., Ltd.
 9593|Dongguan Kowell Electronic Co., Ltd.
+9607|Ningbo Jiatang Electronic Co., Ltd.
+9608|Infinitegra, Inc.
+9617|Optimus Semiconductor Inc.
