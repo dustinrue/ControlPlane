@@ -246,6 +246,7 @@
             @"Icon",@"option", 
             NSLocalizedString(@"Icon",@"Show only the icon"), @"description", 
             nil]];
+    
     [menuBarDisplayOptionsController addObject:
         [NSMutableDictionary dictionaryWithObjectsAndKeys:
             @"Context",@"option",
