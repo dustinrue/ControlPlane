@@ -1013,7 +1013,7 @@ finished_import:
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		notifications, GROWL_NOTIFICATIONS_ALL,
-		notifications, GROWL_NOTIFICATIONS_ALL,
+		notifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 }
 
