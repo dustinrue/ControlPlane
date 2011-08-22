@@ -115,8 +115,8 @@
 - (void)notImplemented:(NSString *)methodName
 {
 	[NSException raise:@"Abstract Class Exception"
-		    format:[NSString stringWithFormat:@"Error, -[%@ %@] not implemented.",
-			    [self class], methodName]];
+		    format:@"Error, -[%@ %@] not implemented.",
+			    [self class], methodName];
 }
 
 - (NSString *)description

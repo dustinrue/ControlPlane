@@ -15,8 +15,6 @@
 		8D185DC60BF428CF00A06B03 /* AdvancedPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */; };
 		8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A45590BA00DE2004A6BC4 /* minus-8.png */; };
 		8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A455A0BA00DE2004A6BC4 /* plus-8.png */; };
-		8D1EDA170CE11C8C00202458 /* Common.h in Copy Help Files */ = {isa = PBXBuildFile; fileRef = 8D1EDA150CE11C8C00202458 /* Common.h */; };
-		8D1EDA180CE11C8C00202458 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1EDA160CE11C8C00202458 /* Common.m */; };
 		8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D20720E0B86AB0000D61A9E /* Sparkle.framework */; };
 		8D2073890B86AB8000D61A9E /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D20720E0B86AB0000D61A9E /* Sparkle.framework */; };
 		8D232F800BD9D228006A3963 /* GeneralPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232F7F0BD9D228006A3963 /* GeneralPrefs.tiff */; };
@@ -76,7 +74,6 @@
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
-		8DCC52120C42106D00515041 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
 		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
 		8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */; };
@@ -96,7 +93,6 @@
 		DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A21E13D12A3200074503 /* cp-icon-active.icns */; };
 		DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22013D13C8300074503 /* cp-icon-inactive.icns */; };
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
-		DA83A22513D13E0500074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22413D13E0500074503 /* cp-icon.icns */; };
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 /* End PBXBuildFile section */
@@ -119,7 +115,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				8D1EDA170CE11C8C00202458 /* Common.h in Copy Help Files */,
 			);
 			name = "Copy Help Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,8 +143,6 @@
 		8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdvancedPrefs.tiff; path = graphics/AdvancedPrefs.tiff; sourceTree = "<group>"; };
 		8D1A45590BA00DE2004A6BC4 /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "graphics/minus-8.png"; sourceTree = "<group>"; };
 		8D1A455A0BA00DE2004A6BC4 /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "graphics/plus-8.png"; sourceTree = "<group>"; };
-		8D1EDA150CE11C8C00202458 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Common.h; path = src/Common.h; sourceTree = "<group>"; };
-		8D1EDA160CE11C8C00202458 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Common.m; path = src/Common.m; sourceTree = "<group>"; };
 		8D20720E0B86AB0000D61A9E /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		8D232F7F0BD9D228006A3963 /* GeneralPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GeneralPrefs.tiff; path = graphics/GeneralPrefs.tiff; sourceTree = "<group>"; };
 		8D232FB30BD9D507006A3963 /* ActionsPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ActionsPrefs.tiff; path = graphics/ActionsPrefs.tiff; sourceTree = "<group>"; };
@@ -305,7 +298,6 @@
 		DA83A21E13D12A3200074503 /* cp-icon-active.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-active.icns"; path = "graphics/cp-icon-active.icns"; sourceTree = "<group>"; };
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-inactive.icns"; path = "graphics/cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon.icns"; path = "graphics/cp-icon.icns"; sourceTree = "<group>"; };
-		DA83A22413D13E0500074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "cp-icon.icns"; sourceTree = "<group>"; };
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -348,8 +340,6 @@
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
 				8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */,
 				8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */,
-				8D1EDA150CE11C8C00202458 /* Common.h */,
-				8D1EDA160CE11C8C00202458 /* Common.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -415,7 +405,6 @@
 				DA4A629213E2546800CE976F /* ControlPlane Help */,
 				DA16392513D4B14A00E3F421 /* dsa_pub.pem */,
 				DA83A22613D1430000074503 /* usb-vendors.txt */,
-				DA83A22413D13E0500074503 /* cp-icon.icns */,
 				DA83A22213D13DF300074503 /* cp-icon.icns */,
 				DA83A21E13D12A3200074503 /* cp-icon-active.icns */,
 				DA83A22013D13C8300074503 /* cp-icon-inactive.icns */,
@@ -652,7 +641,6 @@
 				8D514D3F0BE994A10013C1ED /* Localizable.strings in Resources */,
 				8D185DC60BF428CF00A06B03 /* AdvancedPrefs.tiff in Resources */,
 				8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.tiff in Resources */,
-				8DCC52120C42106D00515041 /* Info.plist in Resources */,
 				8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.tiff in Resources */,
 				8DE4C00C0C4EE58D00511590 /* GenericRule.nib in Resources */,
 				8D643D0D0C4EF84E006D8ECC /* LightRule.nib in Resources */,
@@ -661,7 +649,6 @@
 				8D66DBD90C548F100093D0D8 /* IPRule.nib in Resources */,
 				8DC410FB0C64665E00393759 /* AboutPanel.nib in Resources */,
 				DA83A22313D13DF300074503 /* cp-icon.icns in Resources */,
-				DA83A22513D13E0500074503 /* cp-icon.icns in Resources */,
 				DA83A22713D1430000074503 /* usb-vendors.txt in Resources */,
 				DA4A629313E2546800CE976F /* ControlPlane Help in Resources */,
 			);
@@ -754,7 +741,6 @@
 				8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */,
 				8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */,
 				8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */,
-				8D1EDA180CE11C8C00202458 /* Common.m in Sources */,
 				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,
 				8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */,
 				DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */,

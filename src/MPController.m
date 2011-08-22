@@ -12,10 +12,7 @@
 #import "DSLogger.h"
 #import "EvidenceSource.h"
 #import "MPController.h"
-
 #import "NetworkLocationAction.h"
-
-
 
 @interface MPController (Private)
 
@@ -38,6 +35,9 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 - (void)userDefaultsChanged:(NSNotification *)notification;
+
+- (void)importVersion1Settings;
+- (void)importVersion1SettingsFinish: (BOOL)rulesImported withActions: (BOOL)actionsImported andIPActions: (BOOL)ipActionsFound;
 
 @end
 
@@ -182,8 +182,11 @@
 	// See if there are old rules and actions to import
 	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
 	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
-	if (!oldRules || !oldActions)
-		goto finished_import;
+	if (!oldRules || !oldActions) {
+		[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
+		return;
+	}
+	
 	[oldRules autorelease];
 	[oldActions autorelease];
 
@@ -215,7 +218,7 @@
 		[newRules addObject:rule];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newRules forKey:@"Rules"];
-	NSLog(@"Quickstart: Imported %d rules from MarcoPolo 1.x", [newRules count]);
+	NSLog(@"Quickstart: Imported %lu rules from MarcoPolo 1.x", [newRules count]);
 	rulesImported = YES;
 
 	// Replicate actions
@@ -235,7 +238,7 @@
 		[newActions addObject:action];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
-	NSLog(@"Quickstart: Imported %d actions from MarcoPolo 1.x", [newActions count]);
+	NSLog(@"Quickstart: Imported %lu actions from MarcoPolo 1.x", [newActions count]);
 	actionsImported = YES;
 
 	// Create NetworkLocation actions
@@ -253,8 +256,10 @@
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
 	NSLog(@"Quickstart: Created %d new NetworkLocation actions", cnt);
 
-finished_import:
-	1;	// shut compiler up
+	[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
+}
+
+- (void)importVersion1SettingsFinish: (BOOL)rulesImported withActions: (BOOL)actionsImported andIPActions: (BOOL)ipActionsFound {
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle:NSInformationalAlertStyle];
 	if (!rulesImported && !actionsImported)

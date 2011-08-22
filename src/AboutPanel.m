@@ -67,7 +67,7 @@
 - (NSString *)gitCommit
 {
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"Build" ofType:@"plist"];
-	NSDictionary *plist = [[NSString stringWithContentsOfFile:path] propertyList];
+	NSDictionary *plist = [[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil] propertyList];
 	return [plist valueForKey:@"GitCommit"];
 }
 

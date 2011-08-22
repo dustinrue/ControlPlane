@@ -265,7 +265,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if (fromUI) {
 		if (![ctxt isRoot])
 			[outlineView expandItem:[contexts objectForKey:[ctxt parentUUID]]];
-		[outlineView selectRow:[outlineView rowForItem:ctxt] byExtendingSelection:NO];
+		[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[outlineView rowForItem:ctxt]] byExtendingSelection:NO];
 		[self outlineViewSelectionDidChange:nil];
 	} else
 		[outlineView reloadData];
@@ -502,17 +502,17 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [children objectAtIndex:index];
 }
 
-- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item
-{
-	return [self outlineView:olv numberOfChildrenOfItem:item] > 0;
-}
-
 - (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item
 {
 	// TODO: optimise!
-
+	
 	NSArray *children = [self childrenOfContext:(item ? [item uuid] : @"")];
 	return [children count];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item
+{
+	return [self outlineView:olv numberOfChildrenOfItem:item] > 0;
 }
 
 - (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item

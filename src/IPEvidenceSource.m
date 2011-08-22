@@ -95,7 +95,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 	NSArray *addrs = [[self class] enumerate];
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> found %d address(s).", [self class], [addrs count]);
+	NSLog(@"%@ >> found %lu address(s).", [self class], [addrs count]);
 #endif
 
 	[lock lock];

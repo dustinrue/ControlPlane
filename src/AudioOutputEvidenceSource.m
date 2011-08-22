@@ -11,8 +11,8 @@
 #import "AudioOutputEvidenceSource.h"
 
 
-static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean isInput,
-			     AudioDevicePropertyID inPropertyID, void *inClientData)
+static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
+			     const AudioObjectPropertyAddress *inPropertyID, void *inClientData)
 {
 	AudioOutputEvidenceSource *src = (AudioOutputEvidenceSource *) inClientData;
 
@@ -39,7 +39,13 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 {
 	UInt32 sourceID;
 	UInt32 sz = sizeof(sourceID);
-	if (AudioDeviceGetProperty(deviceID, 0, 0, kAudioDevicePropertyDataSource, &sz, &sourceID) != noErr) {
+	
+	AudioObjectPropertyAddress address = {
+		kAudioDevicePropertyDataSource,
+		kAudioDevicePropertyScopeOutput
+	};
+	
+	if (AudioObjectGetPropertyData(deviceID, &address, 0, NULL, &sz, &sourceID) != noErr) {
 		NSLog(@"%@ >> AudioDeviceGetProperty failed!", [self class]);
 		return;
 	}
@@ -95,11 +101,20 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 
 	// Register listener
 	UInt32 sz = sizeof(deviceID);
-	if (AudioHardwareGetProperty(kAudioHardwarePropertyDefaultSystemOutputDevice, &sz, &deviceID) != noErr) {
+	AudioObjectPropertyAddress address = {
+		kAudioHardwarePropertyDefaultSystemOutputDevice,
+		kAudioObjectPropertyScopeGlobal,
+		kAudioObjectPropertyElementMaster
+	};
+	
+	if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &address, 0, NULL, &sz, &deviceID) != noErr) {
 		NSLog(@"%s >> AudioHardwareGetProperty failed!", __PRETTY_FUNCTION__);
 		return;
 	}
-	if (AudioDeviceAddPropertyListener(deviceID, 0, 0, kAudioDevicePropertyDataSource, &sourceChange, self) != noErr) {
+	
+	address.mSelector = kAudioHardwarePropertyDefaultSystemOutputDevice;
+	
+	if (AudioObjectAddPropertyListener(deviceID, &address, &sourceChange, self) != noErr) {
 		NSLog(@"%s >> AudioDeviceAddPropertyListener failed!", __PRETTY_FUNCTION__);
 		return;
 	}
@@ -113,9 +128,15 @@ static OSStatus sourceChange(AudioDeviceID inDevice, UInt32 inChannel, Boolean i
 {
 	if (!running)
 		return;
-
+	
+	AudioObjectPropertyAddress address = {
+		kAudioDevicePropertyStreamFormat,
+		kAudioObjectPropertyScopeGlobal,
+		kAudioObjectPropertyElementMaster
+	};
+	
 	// Unregister listener; I don't know what we could do if this fails ...
-	AudioDeviceRemovePropertyListener(deviceID, 0, 0, kAudioDevicePropertyDataSource, &sourceChange);
+	AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &address, &sourceChange, self);
 
 	source = 0;
 	[self setDataCollected:NO];

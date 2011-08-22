@@ -9,7 +9,7 @@
 #import "GenericLoopingEvidenceSource.h"
 
 
-@interface BonjourEvidenceSource : GenericLoopingEvidenceSource {
+@interface BonjourEvidenceSource : GenericLoopingEvidenceSource<NSNetServiceBrowserDelegate> {
 	NSLock *lock;
 
 	// TODO: do we need an NSLock to protect this stuff?
