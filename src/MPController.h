@@ -42,6 +42,9 @@
 	IBOutlet NSArrayController *actionsController;
 
 	IBOutlet NSWindow *prefsWindow;
+	
+	io_connect_t root_port;
+	int32_t actionsInProgress;
 }
 
 @end

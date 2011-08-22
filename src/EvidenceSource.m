@@ -288,6 +288,7 @@
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
 #import "CoreWLANEvidenceSource.h"
+#import "SleepEvidenceSource.h"
 
 @implementation EvidenceSourceSetController
 
@@ -310,6 +311,7 @@
 		[TimeOfDayEvidenceSource class],
 		[USBEvidenceSource class],
         [WiFiEvidenceSourceCoreWLAN class],
+		[SleepEvidenceSource class],
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -326,6 +328,7 @@
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
+		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources

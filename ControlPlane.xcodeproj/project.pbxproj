@@ -95,6 +95,7 @@
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
+		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -299,6 +300,8 @@
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-inactive.icns"; path = "graphics/cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon.icns"; path = "graphics/cp-icon.icns"; sourceTree = "<group>"; };
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
+		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = src/SleepEvidenceSource.h; sourceTree = "<group>"; };
+		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = src/SleepEvidenceSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -483,6 +486,8 @@
 		8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
+				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
+				DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */,
 				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
 				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
 				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
@@ -745,6 +750,7 @@
 				8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */,
 				DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */,
 				DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */,
+				DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
