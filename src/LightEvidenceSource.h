@@ -1,6 +1,6 @@
 //
 //  LightEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Rodrigo Damazio on 09/07/07.
 //

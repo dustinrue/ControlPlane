@@ -1,6 +1,6 @@
 //
 //  NetworkLinkEvidenceSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Mark Wallis on 25/07/07.
 //  Tweaks by David Symonds on 25/07/07.
@@ -55,7 +55,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	ctxt.retain = NULL;
 	ctxt.release = NULL;
 	ctxt.copyDescription = NULL;
-	SCDynamicStoreRef newStore = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), NULL, &ctxt);
+	SCDynamicStoreRef newStore = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), NULL, &ctxt);
 
 	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
 	NSMutableArray *subset = [NSMutableArray array];
@@ -123,7 +123,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 		[monInters addObject:[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name]];
 	}
 
-	store = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), linkChange, &ctxt);
+	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), linkChange, &ctxt);
 	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
 	NSArray *keys = monInters;

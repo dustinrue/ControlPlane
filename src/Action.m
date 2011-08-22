@@ -1,6 +1,6 @@
 //
 //  Action.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 3/04/07.
 //
@@ -115,8 +115,8 @@
 - (void)notImplemented:(NSString *)methodName
 {
 	[NSException raise:@"Abstract Class Exception"
-		    format:[NSString stringWithFormat:@"Error, -[%@ %@] not implemented.",
-			    [self class], methodName]];
+		    format:@"Error, -[%@ %@] not implemented.",
+			    [self class], methodName];
 }
 
 - (NSString *)description

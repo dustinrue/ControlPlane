@@ -1,6 +1,6 @@
 //
 //  UnmountAction.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Mark Wallis on 14/11/07.
 //

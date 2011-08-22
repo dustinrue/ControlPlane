@@ -1,6 +1,6 @@
 //
 //  DSLogger.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 22/07/07.
 //

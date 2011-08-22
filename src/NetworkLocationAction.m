@@ -1,6 +1,6 @@
 //
 //  NetworkLocationAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 4/07/07.
 //
@@ -16,7 +16,7 @@
 
 + (NSDictionary *) getAllSets
 {
-	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("MarcoPolo"), NULL);
+	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
 	SCPreferencesLock(prefs, true);
 
 	CFDictionaryRef cf_dict = (CFDictionaryRef) SCPreferencesGetValue(prefs, kSCPrefSets);
@@ -31,7 +31,7 @@
 
 + (NSString *)getCurrentSet
 {
-	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("MarcoPolo"), NULL);
+	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
 	SCPreferencesLock(prefs, true);
 
 	CFStringRef cf_str = (CFStringRef) SCPreferencesGetValue(prefs, kSCPrefCurrentSet);

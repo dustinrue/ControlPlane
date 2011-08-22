@@ -1,6 +1,6 @@
 //
 //  IChatAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 8/06/07.
 //

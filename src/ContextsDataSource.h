@@ -1,6 +1,6 @@
 //
 //  ContextsDataSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 3/07/07.
 //
