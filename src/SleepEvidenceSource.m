@@ -87,7 +87,13 @@
 	systemGoingToSleep = NO;
 	systemWakingUp = YES;
 	
+	[self performSelector: @selector(wakeFinished) withObject: nil afterDelay: 30.0];
+	
 	[self doRealUpdate];
+}
+
+- (void) wakeFinished {
+	systemWakingUp = NO;
 }
 
 @end

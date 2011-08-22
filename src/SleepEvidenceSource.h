@@ -30,5 +30,6 @@
 
 - (void) goingToSleep: (NSNotification*) note;
 - (void) wakeFromSleep: (NSNotification*) note;
+- (void) wakeFinished;
 
 @end
