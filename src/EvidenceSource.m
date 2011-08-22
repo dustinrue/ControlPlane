@@ -1,6 +1,6 @@
 //
 //  EvidenceSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 29/03/07.
 //  Modified by Dustin Rue on 8/5/2011.

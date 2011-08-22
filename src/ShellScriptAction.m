@@ -1,6 +1,6 @@
 //
 //  ShellScriptAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 23/04/07.
 //

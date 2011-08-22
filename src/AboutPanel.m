@@ -1,6 +1,6 @@
 //
 //  AboutPanel.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 2/08/07.
 //

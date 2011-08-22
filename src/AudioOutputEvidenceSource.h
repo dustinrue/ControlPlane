@@ -1,6 +1,6 @@
 //
 //  AudioOutputEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 11/07/07.
 //

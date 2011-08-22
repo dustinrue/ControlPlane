@@ -1,6 +1,6 @@
 //
 //  MonitorEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 2/07/07.
 //

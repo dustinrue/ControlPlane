@@ -1,6 +1,6 @@
 //
 //  VPNAction.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Mark Wallis on 18/07/07.
 //

@@ -1,6 +1,6 @@
 //
 //  IPEvidenceSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 29/03/07.
 //
@@ -119,7 +119,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	ctxt.release = NULL;
 	ctxt.copyDescription = NULL;
 
-	store = SCDynamicStoreCreate(NULL, CFSTR("MarcoPolo"), ipChange, &ctxt);
+	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), ipChange, &ctxt);
 	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
 	NSArray *keys = [NSArray arrayWithObjects:

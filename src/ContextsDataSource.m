@@ -1,6 +1,6 @@
 //
 //  ContextsDataSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 3/07/07.
 //
@@ -423,7 +423,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (NSMutableArray *)walkToRoot:(NSString *)uuid
 {
 	// NOTE: There's no reason why this is limited, except for loop-avoidance.
-	// If you're using more than 20-deep nested contexts, perhaps MarcoPolo isn't for you?
+	// If you're using more than 20-deep nested contexts, perhaps ControlPlane isn't for you?
 	int limit = 20;
 
 	NSMutableArray *walk = [NSMutableArray array];

@@ -1,6 +1,6 @@
 //
 //  MPController.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
 //

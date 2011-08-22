@@ -1,6 +1,6 @@
 //
 //  PowerEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Mark Wallis on 30/4/07.
 //

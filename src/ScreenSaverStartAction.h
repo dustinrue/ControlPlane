@@ -1,6 +1,6 @@
 //
 //  ScreenSaverStartAction.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 4/11/07.
 //

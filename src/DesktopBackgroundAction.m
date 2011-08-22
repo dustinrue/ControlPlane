@@ -1,6 +1,6 @@
 //
 //  DesktopBackgroundAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 12/11/07.
 //

@@ -1,6 +1,6 @@
 //
 //  BonjourEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 27/08/07.
 //
