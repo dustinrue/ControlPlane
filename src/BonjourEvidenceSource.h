@@ -1,6 +1,6 @@
 //
 //  BonjourEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 27/08/07.
 //
@@ -9,7 +9,7 @@
 #import "GenericLoopingEvidenceSource.h"
 
 
-@interface BonjourEvidenceSource : GenericLoopingEvidenceSource {
+@interface BonjourEvidenceSource : GenericLoopingEvidenceSource<NSNetServiceBrowserDelegate> {
 	NSLock *lock;
 
 	// TODO: do we need an NSLock to protect this stuff?

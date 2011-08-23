@@ -1,6 +1,6 @@
 //
 //  ContextSelectionButton.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 6/07/07.
 //

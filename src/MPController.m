@@ -1,21 +1,21 @@
 //
 //  MPController.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
 //
 
 #include "Growl/GrowlApplicationBridge.h"
+#include <IOKit/pwr_mgt/IOPMLib.h>
+#include <IOKit/IOMessage.h>
+#include <libkern/OSAtomic.h>
 
 #import "Action.h"
 #import "ContextsDataSource.h"
 #import "DSLogger.h"
 #import "EvidenceSource.h"
 #import "MPController.h"
-
 #import "NetworkLocationAction.h"
-
-
 
 @interface MPController (Private)
 
@@ -28,6 +28,7 @@
 - (void)doUpdate:(NSTimer *)theTimer;
 
 - (void)updateThread:(id)arg;
+- (void)monitorSleepThread:(id)arg;
 - (void)goingToSleep:(id)arg;
 - (void)wakeFromSleep:(id)arg;
 
@@ -38,6 +39,12 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 - (void)userDefaultsChanged:(NSNotification *)notification;
+
+- (void)importVersion1Settings;
+- (void)importVersion1SettingsFinish: (BOOL)rulesImported withActions: (BOOL)actionsImported andIPActions: (BOOL)ipActionsFound;
+
+- (io_connect_t) root_port;
+- (int32_t) actionsInProgress;
 
 @end
 
@@ -50,6 +57,9 @@
 #define CP_DISPLAY_CONTEXT 1
 #define CP_DISPLAY_BOTH 2
 
+// needed for sleep callback
+void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
+MPController *mp_controller;
 
 
 + (void)initialize
@@ -88,6 +98,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableUSBEvidenceSource"];
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableCoreWLANEvidenceSource"];    
+	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"SleepEvidenceSource"];
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
@@ -136,6 +147,7 @@
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
 	smoothCounter = 0;
+	actionsInProgress = 0;
 
 	// Set placeholder values
 	[self setValue:@"" forKey:@"currentContextUUID"];
@@ -143,7 +155,10 @@
 	[self setValue:@"?" forKey:@"guessConfidence"];
 
 	forcedContextIsSticky = NO;
-
+	
+	// store for access locally
+	mp_controller = self;
+	
 	return self;
 }
 
@@ -182,8 +197,11 @@
 	// See if there are old rules and actions to import
 	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
 	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
-	if (!oldRules || !oldActions)
-		goto finished_import;
+	if (!oldRules || !oldActions) {
+		[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
+		return;
+	}
+	
 	[oldRules autorelease];
 	[oldActions autorelease];
 
@@ -215,7 +233,7 @@
 		[newRules addObject:rule];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newRules forKey:@"Rules"];
-	NSLog(@"Quickstart: Imported %d rules from MarcoPolo 1.x", [newRules count]);
+	NSLog(@"Quickstart: Imported %lu rules from MarcoPolo 1.x", [newRules count]);
 	rulesImported = YES;
 
 	// Replicate actions
@@ -235,7 +253,7 @@
 		[newActions addObject:action];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
-	NSLog(@"Quickstart: Imported %d actions from MarcoPolo 1.x", [newActions count]);
+	NSLog(@"Quickstart: Imported %lu actions from MarcoPolo 1.x", [newActions count]);
 	actionsImported = YES;
 
 	// Create NetworkLocation actions
@@ -252,9 +270,11 @@
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
 	NSLog(@"Quickstart: Created %d new NetworkLocation actions", cnt);
+	
+	[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
+}
 
-finished_import:
-	1;	// shut compiler up
+- (void)importVersion1SettingsFinish: (BOOL)rulesImported withActions: (BOOL)actionsImported andIPActions: (BOOL)ipActionsFound {
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle:NSInformationalAlertStyle];
 	if (!rulesImported && !actionsImported)
@@ -305,26 +325,25 @@ finished_import:
 	}
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
-						 selector:@selector(contextsChanged:)
-						     name:@"ContextsChangedNotification"
-						   object:contextsDataSource];
+											 selector:@selector(contextsChanged:)
+												 name:@"ContextsChangedNotification"
+											   object:contextsDataSource];
 	[self contextsChanged:nil];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
-						 selector:@selector(userDefaultsChanged:)
-						     name:NSUserDefaultsDidChangeNotification
-						   object:nil];
+											 selector:@selector(userDefaultsChanged:)
+												 name:NSUserDefaultsDidChangeNotification
+											   object:nil];
 
 	// Get notified when we go to sleep, and wake from sleep
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-							       selector:@selector(goingToSleep:)
-								   name:@"NSWorkspaceWillSleepNotification"
-								 object:nil];
+														   selector:@selector(goingToSleep:)
+															   name:@"NSWorkspaceWillSleepNotification"
+															 object:nil];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-							       selector:@selector(wakeFromSleep:)
-								   name:@"NSWorkspaceDidWakeNotification"
-								 object:nil];
-
+														   selector:@selector(wakeFromSleep:)
+															   name:@"NSWorkspaceDidWakeNotification"
+															 object:nil];
 	// Set up status bar.
 	[self showInStatusBar:self];
 
@@ -352,10 +371,16 @@ finished_import:
 			}
 		}
 	}
-
+	
+	// update thread
 	[NSThread detachNewThreadSelector:@selector(updateThread:)
-				 toTarget:self
-			       withObject:nil];
+							 toTarget:self
+						   withObject:nil];
+	
+	// sleep thread
+	[NSThread detachNewThreadSelector:@selector(monitorSleepThread:)
+							 toTarget:self
+						   withObject:nil];
 
 	// Start up evidence sources that should be started
 	[evidenceSources startOrStopAll];
@@ -363,11 +388,11 @@ finished_import:
 	// Schedule a one-off timer (in 2s) to get initial data.
 	// Future recurring timers will be set automatically from there.
 	updatingTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2
-							 target:self
-						       selector:@selector(doUpdate:)
-						       userInfo:nil
-							repeats:NO];
-
+													 target:self
+												   selector:@selector(doUpdate:)
+												   userInfo:nil
+													repeats:NO];
+	
 	[NSApp unhide];
 }
 
@@ -571,7 +596,8 @@ finished_import:
 	NSString *errorString;
 	if (![action execute:&errorString])
 		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title") withMessage:errorString];
-
+	
+	OSAtomicDecrement32(&actionsInProgress);
 	[pool release];
 }
 
@@ -599,11 +625,14 @@ finished_import:
 
 	NSEnumerator *en = [actions objectEnumerator];
 	Action *action;
-	while ((action = [en nextObject]))
+	while ((action = [en nextObject])) {
+		OSAtomicIncrement32(&actionsInProgress);
 		[NSThread detachNewThreadSelector:@selector(executeAction:)
-					 toTarget:self
-				       withObject:action];
-
+								 toTarget:self
+							   withObject:action];
+	}
+	
+	OSAtomicDecrement32(&actionsInProgress);
 	[pool release];
 }
 
@@ -632,18 +661,21 @@ finished_import:
 			continue;
 		}
 		// Completed a batch
+		OSAtomicIncrement32(&actionsInProgress);
 		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
-					 toTarget:self
-				       withObject:batch];
+								 toTarget:self
+							   withObject:batch];
 		batch = [NSMutableArray arrayWithObject:action];
 		continue;
 	}
 
 	// Final batch
-	if ([batch count] > 0)
+	if ([batch count] > 0) {
+		OSAtomicIncrement32(&actionsInProgress);
 		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
-					 toTarget:self
-				       withObject:batch];
+								 toTarget:self
+							   withObject:batch];
+	}
 }
 
 - (void)triggerDepartureActions:(NSString *)fromUUID
@@ -813,7 +845,7 @@ finished_import:
 - (void)doUpdateForReal
 {
 	NSArray *contexts = [contextsDataSource arrayOfUUIDs];
-
+	
 	// Maps a guessed context to an "unconfidence" value, which is
 	// equal to (1 - confidence). We step through all the rules that are "hits",
 	// and multiply this running unconfidence value by (1 - rule.confidence).
@@ -986,7 +1018,6 @@ finished_import:
 - (void)goingToSleep:(id)arg
 {
 	DSLog(@"Stopping update thread for sleep.");
-	// Effectively stops timer
 	[updatingTimer setFireDate:[NSDate distantFuture]];
 }
 
@@ -994,6 +1025,70 @@ finished_import:
 {
 	DSLog(@"Starting update thread after sleep.");
 	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+}
+
+// separate sleep monitoring thread otherwise we could block the main thread
+- (void)monitorSleepThread: (id)arg {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	IONotificationPortRef notifyPortRef; 
+	io_object_t notifierObject; 
+	void *refCon;
+
+	// register to receive system sleep notifications
+	root_port = IORegisterForSystemPower(refCon, &notifyPortRef, sleepCallBack, &notifierObject);
+	if (root_port == 0)
+		DSLog(@"IORegisterForSystemPower failed");
+
+	// add the notification port to the application runloop
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPortRef), kCFRunLoopCommonModes);
+	
+	// run!
+	CFRunLoopRun();
+	[pool release];
+}
+
+- (io_connect_t) root_port {
+	return root_port;
+}
+
+- (int32_t) actionsInProgress {
+	return actionsInProgress;
+}
+
+void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument) {
+	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
+	
+    switch (messageType) {
+		// entering sleep
+        case kIOMessageCanSystemSleep:
+        case kIOMessageSystemWillSleep:
+			DSLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
+			[NSThread sleepForTimeInterval:2];
+			
+			// Hack: we need to do an extra check (2 if smoothing is enabled) right before sleeping
+			//		 otherwise the sleep rule won't be triggered
+			DSLog(@"Sleep callback: calling doUpdateForReal");
+			[mp_controller doUpdateForReal];
+			if (smoothing)
+				[mp_controller doUpdateForReal];
+			
+			// wait until all actions finish
+			while ([mp_controller actionsInProgress] > 0)
+				usleep(100);
+			
+			// Allow sleep
+            IOAllowPowerChange([mp_controller root_port], (long)argument);
+            break;
+			
+        case kIOMessageSystemWillPowerOn:
+			DSLog(@"Sleep callback: waking up");
+            break;
+        case kIOMessageSystemHasPoweredOn:
+			break;
+        default:
+            break;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1013,13 +1108,13 @@ finished_import:
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		notifications, GROWL_NOTIFICATIONS_ALL,
-		notifications, GROWL_NOTIFICATIONS_ALL,
+		notifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 }
 
 - (NSString *) applicationNameForGrowl
 {
-	return @"MarcoPolo";
+	return @"ControlPlane";
 }
 
 #pragma mark NSApplication delegates

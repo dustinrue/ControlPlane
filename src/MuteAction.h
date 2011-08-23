@@ -1,6 +1,6 @@
 //
 //  MuteAction.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 7/06/07.
 //

@@ -1,6 +1,6 @@
 //
 //  NetworkLinkEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Mark Wallis on 25/7/07.
 //

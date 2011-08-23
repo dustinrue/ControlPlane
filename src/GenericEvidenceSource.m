@@ -1,6 +1,6 @@
 //
 //  GenericEvidenceSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 19/07/07.
 //

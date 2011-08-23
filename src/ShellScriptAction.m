@@ -1,10 +1,11 @@
 //
 //  ShellScriptAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 23/04/07.
 //
 
+#import "DSLogger.h"
 #import "ShellScriptAction.h"
 
 
@@ -59,8 +60,9 @@
 
 	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:args];
 	[task waitUntilExit];
-
+	
 	if ([task terminationStatus] != 0) {
+		DSLog(@"Failed to execute '%@'", path);
 		*errorString = NSLocalizedString(@"Failed executing shell script!", @"");
 		return NO;
 	}

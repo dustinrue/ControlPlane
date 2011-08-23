@@ -1,6 +1,6 @@
 //
 //  WiFiEvidenceSource.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 29/03/07.
 //

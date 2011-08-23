@@ -1,6 +1,6 @@
 //
 //  SliderWithValue.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 15/07/07.
 //

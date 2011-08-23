@@ -1,6 +1,6 @@
 //
 //  LightEvidenceSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Rodrigo Damazio on 09/07/07.
 //
@@ -53,7 +53,7 @@
 	}
 
 	if (!serviceObject || (kr != KERN_SUCCESS))
-		ioPort = (int)nil;
+		ioPort = 0;
 
 	// We want this to update more regularly than every 10 seconds!
 	loopInterval = (NSTimeInterval) 1.5;
@@ -78,44 +78,21 @@
 	scalarI_64[1] = 0;
 
 	// Read from the sensor device - index 0, 0 inputs, 2 outputs
-	
-	
-	// Check if Mac OS X 10.5 API is available...
-	if (IOConnectCallScalarMethod != NULL) {
-		// ...and use it if it is.
-	
-		kr = IOConnectCallScalarMethod(ioPort, kGetSensorReadingID, NULL, 0, scalarI_64, &outputCnt);
-			
-		leftLight  = scalarI_64[0];
-		rightLight = scalarI_64[1];
-		if (kr == KERN_SUCCESS) {  
+	kr = IOConnectCallScalarMethod(ioPort, kGetSensorReadingID, NULL, 0, scalarI_64, &outputCnt);
+		
+	leftLight  = scalarI_64[0];
+	rightLight = scalarI_64[1];
+	if (kr == KERN_SUCCESS) {  
 #ifdef DEBUG_MODE
-			NSLog(@"%@ >> successfully polled light sensor using 10.5+ method", [self class]);
+		NSLog(@"%@ >> successfully polled light sensor using 10.5+ method", [self class]);
 #endif
-		}  
-		else {
+	}
+	else {
 #ifdef DEBUG_MODE
-			NSLog(@"%@ >> unsuccessfully polled light sensor using 10.5+ method", [self class]);
+		NSLog(@"%@ >> unsuccessfully polled light sensor using 10.5+ method", [self class]);
 #endif
-			mach_error("I/O Kit error:", kr); 
-		}
-
-    }
-    else {
-        // Otherwise fall back to older API.
-#if !defined(__LP64__)
-        kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
-#ifdef DEBUG_MODE
-		NSLog(@"%@ >> successfully polled light sensor using 10.4 less method", [self class]);
-#endif
-#else
-#ifdef DEBUG_MODE
-		NSLog(@"%@ >> how are you running 64bit Tiger or older?",[self class]);
-#endif
-		[lock unlock];
-		return;
-#endif
-    }    
+		mach_error("I/O Kit error:", kr); 
+	}    
 
 	//kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
 	[self setDataCollected:(kr == KERN_SUCCESS)];

@@ -5,7 +5,7 @@
 #import "ContextSelectionButton.h"
 #import "MPController.h"
 
-@interface PrefsWindowController : NSWindowController
+@interface PrefsWindowController : NSWindowController<NSToolbarDelegate>
 {
 	IBOutlet NSWindow *prefsWindow;
 	IBOutlet NSView *generalPrefsView, *contextsPrefsView, *evidenceSourcesPrefsView,
