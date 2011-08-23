@@ -244,14 +244,14 @@
 					<object class="NSTextField" id="639065501">
 						<reference key="NSNextResponder" ref="883638574"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{17, 136}, {38, 17}}</string>
+						<string key="NSFrame">{{17, 136}, {48, 17}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
 						<reference key="NSNextKeyView" ref="544787111"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="781928485">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Show</string>
+							<string key="NSContents">Mostra</string>
 							<object class="NSFont" key="NSSupport" id="672679724">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -281,14 +281,14 @@
 					<object class="NSTextField" id="988713860">
 						<reference key="NSNextResponder" ref="883638574"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{159, 136}, {83, 17}}</string>
+						<string key="NSFrame">{{169, 136}, {135, 17}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
 						<reference key="NSNextKeyView" ref="510986372"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="205278632">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">in status bar</string>
+							<string key="NSContents">nella barra dei menù</string>
 							<reference key="NSSupport" ref="672679724"/>
 							<reference key="NSControlView" ref="988713860"/>
 							<reference key="NSBackgroundColor" ref="477702406"/>
@@ -298,7 +298,7 @@
 					<object class="NSPopUpButton" id="544787111">
 						<reference key="NSNextResponder" ref="883638574"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{57, 130}, {100, 26}}</string>
+						<string key="NSFrame">{{67, 130}, {100, 26}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
 						<reference key="NSNextKeyView" ref="988713860"/>
 						<bool key="NSEnabled">YES</bool>
@@ -343,14 +343,14 @@
 					<object class="NSButton" id="979742237">
 						<reference key="NSNextResponder" ref="883638574"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{18, 220}, {188, 18}}</string>
+						<string key="NSFrame">{{18, 220}, {300, 18}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
 						<reference key="NSNextKeyView" ref="1058812977"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="319312591">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Start ControlPlane at login</string>
+							<string key="NSContents">Inizializza ControlPlane all'avvio del sistema</string>
 							<reference key="NSSupport" ref="672679724"/>
 							<reference key="NSControlView" ref="979742237"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -371,14 +371,14 @@
 					<object class="NSButton" id="1058812977">
 						<reference key="NSNextResponder" ref="883638574"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{18, 200}, {86, 18}}</string>
+						<string key="NSFrame">{{18, 200}, {194, 18}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
 						<reference key="NSNextKeyView" ref="677196886"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="247134698">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Use Growl</string>
+							<string key="NSContents">Utilizza Notificazioni Growl</string>
 							<reference key="NSSupport" ref="672679724"/>
 							<reference key="NSControlView" ref="1058812977"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -486,6 +486,7 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{328, 20}, {65, 13}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="507568736">
 							<int key="NSCellFlags">67239424</int>
