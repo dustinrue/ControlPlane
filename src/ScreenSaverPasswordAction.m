@@ -1,12 +1,11 @@
 //
 //  ScreenSaverPasswordAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 7/06/07.
 //
 
 #import <CoreFoundation/CFPreferences.h>
-#import "Common.h"
 #import "ScreenSaverPasswordAction.h"
 
 
@@ -23,30 +22,20 @@
 - (BOOL)execute:(NSString **)errorString
 {
 	BOOL success;
+	
+	NSNumber *val = [NSNumber numberWithBool:turnOn];
+	CFPreferencesSetValue(CFSTR("askForPassword"), (CFPropertyListRef) val,
+				  CFSTR("com.apple.screensaver"),
+				  kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+	success = CFPreferencesSynchronize(CFSTR("com.apple.screensaver"),
+				 kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
 
-	if (!isLeopardOrLater()) {
-		NSNumber *val = [NSNumber numberWithBool:turnOn];
-		CFPreferencesSetValue(CFSTR("askForPassword"), (CFPropertyListRef) val,
-				      CFSTR("com.apple.screensaver"),
-				      kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
-		success = CFPreferencesSynchronize(CFSTR("com.apple.screensaver"),
-					 kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
-
-		// Notify login process
-        // not sure this does or why it must be called...anyone? (DBR)
-		if (success) {
-			CFMessagePortRef port = CFMessagePortCreateRemote(NULL, CFSTR("com.apple.loginwindow.notify"));
-			success = (CFMessagePortSendRequest(port, 500, 0, 0, 0, 0, 0) == kCFMessagePortSuccess);
-			CFRelease(port);
-		}
-	} else {
-		NSString *script = [NSString stringWithFormat:
-			@"tell application \"System Events\"\n"
-			"  tell security preferences\n"
-			"    set require password to wake to %@\n"
-			"  end tell\n"
-			"end tell\n", (turnOn ? @"true" : @"false")];
-		success = [self executeAppleScript:script];
+	// Notify login process
+	// not sure this does or why it must be called...anyone? (DBR)
+	if (success) {
+		CFMessagePortRef port = CFMessagePortCreateRemote(NULL, CFSTR("com.apple.loginwindow.notify"));
+		success = (CFMessagePortSendRequest(port, 500, 0, 0, 0, 0, 0) == kCFMessagePortSuccess);
+		CFRelease(port);
 	}
 
 	if (!success) {

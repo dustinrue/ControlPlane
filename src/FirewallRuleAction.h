@@ -1,6 +1,6 @@
 //
 //  FirewallRuleAction.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Mark Wallis on 17/07/07.
 //

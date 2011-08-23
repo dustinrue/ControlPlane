@@ -1,6 +1,6 @@
 //
 //  main.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 30/08/06.
 //

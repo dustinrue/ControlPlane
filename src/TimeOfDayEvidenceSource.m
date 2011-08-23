@@ -1,6 +1,6 @@
 //
 //  TimeOfDayEvidenceSource.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 20/07/07.
 //

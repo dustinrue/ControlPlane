@@ -1,6 +1,6 @@
 //
 //  MPController.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
 //
@@ -42,6 +42,9 @@
 	IBOutlet NSArrayController *actionsController;
 
 	IBOutlet NSWindow *prefsWindow;
+	
+	io_connect_t root_port;
+	int32_t actionsInProgress;
 }
 
 @end

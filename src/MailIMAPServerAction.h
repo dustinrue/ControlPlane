@@ -1,6 +1,6 @@
 //
 //  MailIMAPServerAction.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 10/08/07.
 //

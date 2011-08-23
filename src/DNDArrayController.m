@@ -93,7 +93,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(unsigned int)insertIndex
 {
 	NSArray *objects = [self arrangedObjects];
-	int index = [indexSet lastIndex];
+	NSUInteger index = [indexSet lastIndex];
 
 	int aboveInsertIndexCount = 0;
 	id object;
@@ -128,7 +128,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
 {
-	unsigned int currentIndex = [indexSet firstIndex];
+	NSUInteger currentIndex = [indexSet firstIndex];
 	int i = 0;
 	while (currentIndex != NSNotFound) {
 		if (currentIndex < row)

@@ -1,6 +1,6 @@
 //
 //  MountAction.h
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 9/06/07.
 //

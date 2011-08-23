@@ -1,6 +1,6 @@
 //
 //  ToggleWiFiAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by David Symonds on 2/05/07.
 //  Ported to CoreWLAN by Shyru - https://github.com/Shyru 8/3/2011

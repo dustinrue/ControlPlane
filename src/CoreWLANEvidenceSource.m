@@ -1,6 +1,6 @@
 //
 //  WiFiEvidenceSource2.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Dustin Rue on 7/10/11.
 //  Copyright 2011 Dustin Rue. All rights reserved.

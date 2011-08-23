@@ -1,12 +1,11 @@
 //
 //  FirewallRuleAction.m
-//  MarcoPolo
+//  ControlPlane
 //
 //  Created by Mark Wallis on 17/07/07.
 //  Tweaks by David Symonds on 18/07/07.
 //
 
-#import "Common.h"
 #import "FirewallRuleAction.h"
 
 
@@ -84,11 +83,10 @@ static NSLock *sharedLock = nil;
 
 - (BOOL)execute:(NSString **)errorString
 {
-	if (isLeopardOrLater()) {
-		*errorString = @"Sorry, FirewallRuleAction isn't supported in Leopard yet.";
-		return NO;
-	}
-
+	*errorString = @"Sorry, FirewallRuleAction isn't supported in Leopard yet.";
+	return NO;
+	
+/** 
 	// Strip off the first character which indicates either enabled or disabled
 	BOOL isEnable = [self isEnableRule];
 	NSString *name = [self strippedRuleName];
@@ -139,7 +137,7 @@ static NSLock *sharedLock = nil;
 		return NO;
 	}
 
-	return YES;
+	return YES;*/
 }
 
 + (NSString *)helpText
