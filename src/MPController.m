@@ -170,6 +170,18 @@ MPController *mp_controller;
 	[super dealloc];
 }
 
+- (NSString *) currentContextName {
+	return currentContextName;
+}
+
+- (ContextsDataSource *) contextsDataSource {
+	return contextsDataSource;
+}
+
+- (BOOL) stickyContext {
+	return forcedContextIsSticky;
+}
+
 - (void)importVersion1Settings
 {
 	BOOL contextsCreated = NO, rulesImported = NO, actionsImported = NO;
@@ -822,7 +834,7 @@ MPController *mp_controller;
 	// so we force it to be correct here.
 	int state = forcedContextIsSticky ? NSOnState : NSOffState;
 	[stickForcedContextMenuItem setState:state];
-
+	
 	[self performTransitionFrom:currentContextUUID to:[ctxt uuid]];
 }
 

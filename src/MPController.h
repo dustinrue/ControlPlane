@@ -47,4 +47,11 @@
 	int32_t actionsInProgress;
 }
 
+- (NSString *) currentContextName;
+- (ContextsDataSource *) contextsDataSource;
+- (BOOL) stickyContext;
+
+- (void) forceSwitch: (id) sender;
+- (void) toggleSticky: (id) sender;
+
 @end
