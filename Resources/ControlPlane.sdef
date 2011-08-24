@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary xmlns:xi="http://www.w3.org/2003/XInclude">
+	<xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
+	
+	<suite name="ControlPlane Suite" code="CtPl" description="AppleScript support for ControlPlane">
+		<class name="application" code="capp" description="ControlPlane's application class" inherits="application">
+			<cocoa class="NSApplication" />
+			
+			<property name="current context" code="Pcct" description="The currently selected context" type="text" access="rw">
+				<cocoa key="currentContext"/>
+			</property>
+			<property name="sticky" code="Psti" description="Check if forced contexts are sticky" type="boolean" access="rw">
+				<cocoa key="sticky"/>
+			</property>
+		</class>
+	</suite>
+</dictionary>

@@ -95,7 +95,9 @@
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
+		DD18669C140563DD005659DB /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DD18669B140563DD005659DB /* AppleScript.m */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
+		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -300,8 +302,11 @@
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-inactive.icns"; path = "graphics/cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon.icns"; path = "graphics/cp-icon.icns"; sourceTree = "<group>"; };
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
+		DD18669A140563DD005659DB /* AppleScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleScript.h; sourceTree = "<group>"; };
+		DD18669B140563DD005659DB /* AppleScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleScript.m; sourceTree = "<group>"; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = src/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = src/SleepEvidenceSource.m; sourceTree = "<group>"; };
+		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,6 +348,8 @@
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
 				8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */,
 				8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */,
+				DD18669A140563DD005659DB /* AppleScript.h */,
+				DD18669B140563DD005659DB /* AppleScript.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -429,6 +436,7 @@
 				8D1A455A0BA00DE2004A6BC4 /* plus-8.png */,
 				8D3E2DD10AA4F3C000FB21C1 /* marcopolo.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				DDE1B067140438DB006564A6 /* ControlPlane.sdef */,
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
 				8D66DBD70C548F100093D0D8 /* IPRule.nib */,
 				8D643D0B0C4EF84E006D8ECC /* LightRule.nib */,
@@ -656,6 +664,7 @@
 				DA83A22313D13DF300074503 /* cp-icon.icns in Resources */,
 				DA83A22713D1430000074503 /* usb-vendors.txt in Resources */,
 				DA4A629313E2546800CE976F /* ControlPlane Help in Resources */,
+				DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,14 +693,14 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/MarcoPolo help/index.html",
+				"$(SRCROOT)/ControlPlane Help/index.html",
 			);
 			outputPaths = (
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/MarcoPolo Help/MarcoPolo Help idx",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/ControlPlane Help/ControlPlane Help idx",
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "/Developer/Applications/Utilities/Help\\ Indexer.app/Contents/MacOS/Help\\ Indexer $TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/MarcoPolo\\ Help/ -TigerIndexing YES -Tokenizer 1 -UseRemoteRoot NO -IndexAnchors YES -MinTermLength 3";
+			shellScript = "/Developer/Applications/Utilities/Help\\ Indexer.app/Contents/MacOS/Help\\ Indexer $TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/ControlPlane\\ Help/ -TigerIndexing YES -Tokenizer 1 -UseRemoteRoot NO -IndexAnchors YES -MinTermLength 3";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -751,6 +760,7 @@
 				DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */,
 				DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */,
 				DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */,
+				DD18669C140563DD005659DB /* AppleScript.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
