@@ -34,7 +34,10 @@ Backup[ ]of[ ]*.pages/
 Backup[ ]of[ ]*.key/
 Backup[ ]of[ ]*.numbers/
 
+<<<<<<< HEAD
 
 ControlPlane.xcodeproj/xcuserdata/dustin.xcuserdatad/xcdebugger/Breakpoints.xcbkptlist
 
 ControlPlane.xcodeproj/xcuserdata/dustin.xcuserdatad/xcdebugger/Breakpoints.xcbkptlist
+=======
+>>>>>>> parent of 269e56b... additional ignore
