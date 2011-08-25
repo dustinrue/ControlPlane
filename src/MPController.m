@@ -825,7 +825,13 @@ MPController *mp_controller;
 
 - (void)forceSwitch:(id)sender
 {
-	Context *ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
+	Context *ctxt = nil;
+	
+	if ([sender isKindOfClass:[Context class]])
+		ctxt = (Context *) sender;
+	else
+		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
+	
 	DSLog(@"going to %@", [ctxt name]);
 	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
 		forKey:@"guessConfidence"];
