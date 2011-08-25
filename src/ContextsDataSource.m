@@ -391,6 +391,17 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [contexts objectForKey:uuid];
 }
 
+- (Context *) contextByName:(NSString *) name {
+	for (NSString *key in contexts) {
+		Context *value = [contexts objectForKey:key];
+		
+		if ([[value name] isEqualToString: name])
+			return value;
+	}
+	
+	return nil;
+}
+
 - (NSArray *)arrayOfUUIDs
 {
 	return [contexts allKeys];

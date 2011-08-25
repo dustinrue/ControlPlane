@@ -56,6 +56,7 @@
 - (IBAction)removeContext:(id)sender;
 
 - (Context *)contextByUUID:(NSString *)uuid;
+- (Context *)contextByName:(NSString *)name;
 - (NSArray *)arrayOfUUIDs;
 - (NSArray *)orderedTraversal;
 - (NSArray *)orderedTraversalRootedAt:(NSString *)uuid;
