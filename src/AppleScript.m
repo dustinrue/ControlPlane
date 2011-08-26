@@ -22,7 +22,7 @@
 	Context *context = [[c contextsDataSource] contextByName: newContext];
 	
 	if (context)
-		[c forceSwitch: [context uuid]];
+		[c forceSwitch: context];
 	else
 		NSLog(@"Context not found: '%@'", newContext);
 }
