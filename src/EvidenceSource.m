@@ -311,7 +311,9 @@
 		[TimeOfDayEvidenceSource class],
 		[USBEvidenceSource class],
         [WiFiEvidenceSourceCoreWLAN class],
+#ifdef DEBUG_MODE
 		[SleepEvidenceSource class],
+#endif
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -328,7 +330,9 @@
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
+#ifdef DEBUG_MODE
 		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
+#endif
 	}
 
 	// Instantiate all the evidence sources
