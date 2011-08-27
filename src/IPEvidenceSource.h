@@ -3,6 +3,7 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 29/03/07.
+//  Modified by Dustin Rue on 27/08/11.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -37,5 +38,8 @@
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
+
+- (NSInteger) findInterestingOctet:(NSArray *) netmaskArray;
+- (BOOL) isHostAddress:(NSString *) ipAddress;
 
 @end

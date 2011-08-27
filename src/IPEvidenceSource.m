@@ -3,10 +3,13 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 29/03/07.
+//  Modified by Dustin Rue on 27/08/11.
 //
 
 #include <SystemConfiguration/SystemConfiguration.h>
 #import "IPEvidenceSource.h"
+#import "DSLogger.h"
+#include <stdio.h>
 
 
 #pragma mark C callbacks
@@ -59,6 +62,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 + (NSArray *)enumerate
 {
 	NSArray *all = [[NSHost currentHost] addresses];
+    
 	NSMutableArray *subset = [NSMutableArray array];
 	NSEnumerator *e = [all objectEnumerator];
 	NSString *ip;
@@ -95,7 +99,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 	NSArray *addrs = [[self class] enumerate];
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> found %lu address(s).", [self class], [addrs count]);
+	DSLog(@"%@ >> found %lu address(s).", [self class], [addrs count]);
 #endif
 
 	[lock lock];
@@ -202,58 +206,139 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
+    int i;
+    int networkOctetPosition = 0;
+
+    // TODO: add proper IPV6 support
 	BOOL match = NO;
 
+    // this grabs the IP address from the rule, will look something like
+    // 192.168.0.0 and 255.255.255.0
 	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@","];
+    
 	if ([comp count] != 2)
 		return NO;	// corrupted rule
 
-	unsigned char addr[4], nmask[4];
-	if (![self parseAddress:[comp objectAtIndex:0] intoArray:addr])
-		return NO;
-	if (![self parseAddress:[comp objectAtIndex:1] intoArray:nmask])
-		return NO;
 
 	[lock lock];
+    
+    // now ControlPlane will determine if the IP address fits in the
+    // network range provided in the rule
+    
+    // split the rule netmask into an array we can walk later
+    NSArray *ruleNetmaskArray = [[comp objectAtIndex:1] componentsSeparatedByString:@"."];
+    networkOctetPosition = [self findInterestingOctet:ruleNetmaskArray];
+    
+    
+    // determine of the rule is a host address (netmask is 255.255.255.255)
+
+    bool isHostAddress = [self isHostAddress:[comp objectAtIndex:1]];
+    
 	NSEnumerator *en = [addresses objectEnumerator];
 	NSString *ip;
+
 	while ((ip = [en nextObject])) {
-		unsigned char real_addr[4];
-		if (![self parseAddress:ip intoArray:real_addr])
-			continue;
-		int i;
-		for (i = 0; i < 4; ++i) {
-			if ((addr[i] & nmask[i]) != (real_addr[i] & nmask[i]))
-				break;
-		}
-		if (i == 4) {
-			match = YES;
-			break;
-		}
+#ifdef DEBUG_MODE
+        DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
+#endif
+        // if the rule is for a host address
+        // then we can simply match the whole string wholesale and
+        // then GTFO
+
+        if (isHostAddress && [[comp objectAtIndex:0] isEqualToString:ip]) {
+#ifdef DEBUG_MODE
+            DSLog(@"matching on host address");
+#endif
+            match = YES;
+            break;
+        }
+
+#ifdef DEBUG_MODE
+        DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
+#endif
+
+        
+        // if we're here, then we have a network range we have to figure out
+        // get the current ip we're checking, break it up into an array
+        NSArray *currentIPArray   = [ip componentsSeparatedByString:@"."];
+        NSArray *ruleIPArray      = [[comp objectAtIndex:0] componentsSeparatedByString:@"."];
+        
+        
+        for (i = 0; i < 4; ++i) {
+            // if i is less than our interesting octet then we can just compare the values directly
+            if (i < networkOctetPosition) {
+#ifdef DEBUG_MODE
+                DSLog(@"checking %d and %d",[[currentIPArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue]);
+#endif
+                if ([[currentIPArray objectAtIndex:i] intValue] != [[ruleIPArray objectAtIndex:i] intValue])
+                    break;
+                continue;
+            }
+            else {
+#ifdef DEBUG_MODE
+                DSLog(@"subnet mask octet is not 255, doing host checks for %@", ip);
+#endif
+            }
+            
+
+            // if the final netmask is 0 and everything else has matched up to this
+            // point then we know that the IP the machine has matches the rule
+            if ([[ruleNetmaskArray objectAtIndex:i] intValue] == 0) {
+#ifdef DEBUG_MODE
+                DSLog(@"%@ matches current rule", ip);
+#endif
+                match = YES;
+                break;
+            }
+            else {
+                // we must calculate what network the machine is on vs the 
+                // network the rule says we're looking for
+#ifdef DEBUG_MODE
+                DSLog(@"checking %@ for match because it is on the same subnet (%d vs %d) as the rule", ip,  [[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue]);
+#endif
+                if (([[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])  == ([[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])) {
+                    // if these are equal then the machine is sitting on the same network as the rule
+#ifdef DEBUG_MODE
+                    DSLog(@"%@ matches because it is on the same subnet as the rule", ip);
+#endif
+                    match = YES;
+                    break;
+                }
+                else {
+#ifdef DEBUG_MODE
+                    DSLog(@"%@ doesn't match rule %@/%@", ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
+#endif
+                    match = NO;
+                    break;
+                }
+            }
+
+        }
+
 	}
 	[lock unlock];
+
 
 	return match;
 }
 
-// Parse a string that looks like an IP address, or the start of one.
-// If it's a prefix string, it'll be filled with zeros.
-- (BOOL)parseAddress:(NSString *)ipAddress intoArray:(unsigned char *)bytes
-{
-	NSArray *comp = [ipAddress componentsSeparatedByString:@"."];
-	if ([comp count] > 4)
-		return NO;
 
-	// TODO: check that they are all numbers?
-	int i;
-	memset(bytes, 0, 4);
-	for (i = 0; i < [comp count]; ++i) {
-		int x = [[comp objectAtIndex:i] intValue];
-		if ((x == INT_MIN) || (x == INT_MAX))
-			continue;
-		bytes[i] = x;
-	}
-	return YES;
+// walks an array and returns which octet of subnetmask is of interest (not 255)
+- (NSInteger) findInterestingOctet:(NSArray *)netmaskArray {
+    int i;
+    
+    for (i = 0; i < [netmaskArray count]; i++) {     
+        if ([[netmaskArray objectAtIndex:i] intValue] != 255) {
+            return i;
+        }
+    }
+    // if we get here then it is a 32bit mask (255.255.255.255)
+    return -1;
 }
+
+- (BOOL) isHostAddress:(NSString *) ipAddress {
+    return ([ipAddress isEqualToString:@"255.255.255.255"]);
+}
+
 
 @end
