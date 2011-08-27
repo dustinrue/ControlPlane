@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
+<html>
+    <head>
+        <title>AppleScript with ControlPlane</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="tips, tricks, examples, samples">
+            <meta name="description" content="Get the most out of ControlPlane.">
+                <link media="all" rel="stylesheet" href="../css/topicPage.css" />
+    </head>
+    <body>
+        <div id="banner">
+            <div id="machelp">
+                <a class="bread" href="help:anchor='access' bookID=ControlPlane Help">ControlPlane Help</a>
+                <!-- The above links back to the index page -->
+            </div>
+        </div>
+        <div id="mainbox">
+            <div id="caticon">
+                <img class="icon" src="../gfx/icon.png" alt="ControlPlane Icon" />
+            </div>
+            <div id="pagetitle">
+                <h1>AppleScript with ControlPlane</h1>
+            </div>
+            <p>This page gives examples how to use AppleScript with ControlPlane.</p>
+            </p>
+            
+			
+            <div summary="How to get the current context" class="taskbox">
+                <p>
+                <strong>The following script will get the current context from ControlPlane:</strong>
+                <ol>
+                    <li>Use <em>Script Editor</em> to create an AppleScript such as:
+                        <pre>
+                            tell application "ControlPlane"
+                                get current context
+                            end tell
+                        </pre>
+                    </li>
+                </ol>
+                </p>
+            </div>
+            
+            <div summary="How to set the current context" class="taskbox">
+                <p>
+                <strong>To force ControlPlane to change to a different context using the following script:</strong>
+                <ol>
+                    <li>Use <em>Script Editor</em> to create an AppleScript with the following:
+                        <pre>
+                            tell application "ControlPlane"
+                                set current context to "&lt;Context Name&gt;"
+                            end tell
+                        </pre>
+                        Where &lt;Context Name&gt; is the name of a context you have created.
+                    </li>
+                </ol>
+                </p>
+            </div>
+            
+            <div summary="How to get the whether context changes are sticky or not" class="taskbox">
+                <p>
+                <strong>The following script will report if the "Sticky" option is set in ControlPlane:</strong>
+                <ol>
+                    <li>Use <em>Script Editor</em> to create an AppleScript with the following:
+                        <pre>
+                            tell application "ControlPlane"
+                                get sticky
+                            end tell
+                        </pre>
+                    </li>
+                </ol>
+                </p>
+            </div>
+            
+            <div summary="How to set context changes to sticky" class="taskbox">
+                <p>
+                <strong>The following script will set the "Sticky" option:</strong>
+                <ol>
+                    <li>Use <em>Script Editor</em> to create an AppleScript with the following:
+                        <pre>
+                            tell application "Controls
+                                set sticky to true
+                            end tell
+                        </pre>
+                    </li>
+                </ol>
+                </p>
+            </div>
+            
+            <h2 class="seealso">See also</h2>
+            <p class="seealso">
+            <a href="actions.html">Setting up ControlPlane's actions</a><br />
+            </p>
+        </div>
+    </body>
+</html>
