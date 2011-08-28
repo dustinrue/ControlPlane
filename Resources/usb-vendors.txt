@@ -284,7 +284,6 @@
 3524|inXtron, Inc.
 3525|SDK Co, Ltd.
 3537|Contek Electronics Co., Ltd.
-3538|Power Quotient International Co., Ltd.
 3540|Custom Engineering SPA
 3562|UTECH Electronic (D.G.) Co., Ltd.
 3619|Liou Yuane International Ltd.
@@ -390,7 +389,6 @@
 5177|Wind River Systems Inc.
 5180|Altek Corporation
 5242|Formosa21 Inc.
-5246|UPEK Inc.
 5255|DSP Group, Ltd.
 5262|EVATRONIX SA
 5293|CTK Corporation
@@ -431,7 +429,6 @@
 5998|UD electronic corp.
 6001|Shenzhen Alex Connector Co., Ltd.
 6002|System Level Solutions, Inc.
-60186|Empia Technology, Inc.
 6024|ShenZhen Litkconn Technology Co., Ltd.
 6038|Printrex, Inc.
 6053|Advanced Connection Technology Inc.
@@ -512,7 +509,6 @@
 7393|Amphenol KAE
 7432|NINGBO HENTEK DRAGON ELECTRONICS CO., LTD.
 7434|Johnson Controls, Inc.
-7465|Horng Tong Enterprise Co., Ltd.
 7490|DRAGON JOY LIMITED
 7491|Montage Technology, Inc.
 7493|Qisda Corporation
@@ -576,7 +572,6 @@
 8367|Shenzhen CARVE Electronics Co., Ltd.
 8384|FENGHUA KINGSUN CO., LTD.
 8386|Sumitomo Electric Ind., Ltd., Optical Comm. R&D Lab
-8432|Insight Technology Incorporated
 8439|SOFTHARD Technology Ltd.
 8445|NOVO NORDISK A/S
 8446|Elektrobit Inc.
@@ -617,12 +612,7 @@
 8979|Kunshan Jiahua Electronics Co., Ltd.
 8981|Avery Design Systems, Inc.
 9008|Tensorcom
-9036|Zenverge Inc.
-9037|Skype Inc.
-9048|Greenconn Corporation
 9049|Shenzhen Autone-Tronic Technology Co., Ltd.
-9050|Top Yang Technology Enterprise Co., Ltd.
-9051|KangXiang Electronic Co., Ltd.
 9068|ZheJiang Chunsheng Electronics Co., Ltd.
 9069|e-supplies Co., Ltd.
 9090|Trigaudio, Inc.
@@ -692,3 +682,6 @@
 9607|Ningbo Jiatang Electronic Co., Ltd.
 9608|Infinitegra, Inc.
 9617|Optimus Semiconductor Inc.
+9627|INUVIO
+9628|Immedia Semiconductor Inc.
+9629|RCA DA AMAZONIA LTDA
