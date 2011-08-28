@@ -311,9 +311,7 @@
 		[TimeOfDayEvidenceSource class],
 		[USBEvidenceSource class],
         [WiFiEvidenceSourceCoreWLAN class],
-#ifdef DEBUG_MODE
 		[SleepEvidenceSource class],
-#endif
 		nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
