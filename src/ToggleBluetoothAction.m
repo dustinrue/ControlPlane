@@ -39,7 +39,13 @@
     // some time to settle.  This check was originally done on the main thread
     // but ControlPlane shouldn't block the main thread for that long
     // so it was moved here, hopefully it doesn't cause harm.
+    
+    // this and more is "documented" at http://dmaclach.blogspot.com/2010/10/its-dead-jim.html
+    // and https://github.com/dustinrue/ControlPlane/issues/11, thanks to David Jennes for finding
+    // this tip.  This will still cause
+
     [NSThread sleepForTimeInterval:5];
+
     setState = IOBluetoothPreferenceGetControllerPowerState();
 
 	if (state != setState) {
