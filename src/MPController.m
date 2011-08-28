@@ -98,9 +98,7 @@ MPController *mp_controller;
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableUSBEvidenceSource"];
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableCoreWLANEvidenceSource"];    
-#ifdef DEBUG_MODE
     [appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"SleepEvidenceSource"];
-#endif
 
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];

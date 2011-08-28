@@ -22,7 +22,7 @@
 - (void)setPowerState
 {
 	IOBluetoothPreferenceSetControllerPowerState(turnOn ? 1 : 0);
-	setState = IOBluetoothPreferenceGetControllerPowerState();
+
 }
 
 - (BOOL)execute:(NSString **)errorString
@@ -30,6 +30,18 @@
 	int state = (turnOn ? 1 : 0);
 
 	[self performSelectorOnMainThread:@selector(setPowerState) withObject:nil waitUntilDone:YES];
+    
+    // IOBluetoothPreferenceGetControllerPowerState but it 
+    // there definitely needs to be some amount of time between
+    // when the bluetooth controller is enabled or disabled
+    // to when you attempt to get the bluetooht conroller's power state
+    // ControlPlane attempts to sleep here for 5 seconds to give bluetooth
+    // some time to settle.  This check was originally done on the main thread
+    // but ControlPlane shouldn't block the main thread for that long
+    // so it was moved here, hopefully it doesn't cause harm.
+    [NSThread sleepForTimeInterval:5];
+    setState = IOBluetoothPreferenceGetControllerPowerState();
+
 	if (state != setState) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed turning Bluetooth on.", @"");
@@ -37,6 +49,7 @@
 			*errorString = NSLocalizedString(@"Failed turning Bluetooth off.", @"");
 		return NO;
 	}
+
 
 	return YES;
 }

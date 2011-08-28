@@ -291,6 +291,7 @@
 		8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmountAction.m; path = src/UnmountAction.m; sourceTree = "<group>"; };
 		DA1204DA13D0E5C800CDA091 /* ControlPlane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlPlane.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		DA48F2E3140AD2FC00B000D3 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		DA6D184A1154581000347E93 /* LmuTracker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LmuTracker.c; sourceTree = "<group>"; };
@@ -315,9 +316,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
+				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */,
 				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
 				8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */,
@@ -357,6 +358,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA48F2E3140AD2FC00B000D3 /* Kernel.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				8D80BB950B8B033400104A87 /* Growl.framework */,
 				8D481B070B6098DD0097CF9C /* IOKit.framework */,
