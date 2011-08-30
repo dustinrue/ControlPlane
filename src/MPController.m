@@ -182,8 +182,8 @@ MPController *mp_controller;
 	return forcedContextIsSticky;
 }
 
-- (void)importVersion1Settings
-{
+- (void)importVersion1Settings {
+	CFStringRef oldDomain = CFSTR("au.id.symonds.MarcoPolo");
 	BOOL contextsCreated = NO, rulesImported = NO, actionsImported = NO;
 	BOOL ipActionsFound = NO;
 
@@ -207,8 +207,8 @@ MPController *mp_controller;
 	[[NSUserDefaults standardUserDefaults] setValue:[ctxt uuid] forKey:@"DefaultContext"];
 
 	// See if there are old rules and actions to import
-	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), CFSTR("au.id.symonds.MarcoPolo"));
-	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), CFSTR("au.id.symonds.MarcoPolo"));
+	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), oldDomain);
+	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), oldDomain);
 	if (!oldRules || !oldActions) {
 		[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
 		return;
@@ -322,13 +322,39 @@ MPController *mp_controller;
 	}
 }
 
+/**
+ * Copy over settings from the late MarcoPolo app, they should be compatible
+ *
+ * \return YES when settings have been imported
+ */
+- (BOOL) importMarcoPoloSettings {
+	NSString *oldDomain = @"au.id.symonds.MarcoPolo2";
+	NSDictionary *oldPrefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName: oldDomain];
+	
+	if (oldPrefs) {
+		DSLog(@"Importing settings from MarcoPolo 2.x");
+		[[NSUserDefaults standardUserDefaults] setPersistentDomain: oldPrefs forName: [[NSBundle mainBundle] bundleIdentifier]];
+		[[NSUserDefaults standardUserDefaults] removePersistentDomainForName: oldDomain];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		
+		[contextsDataSource loadContexts];
+		
+	}
+	
+	return (oldPrefs ? YES : NO);
+}
+
 - (void)awakeFromNib
-{
-	// If there aren't any contexts defined, nor rules, nor actions, port from version 1.x
+{	
+	// If there aren't any contexts defined, nor rules, nor actions, import settings
 	if (([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) &&
 	    ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"] count] == 0) &&
 	    ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"] count] == 0)) {
-		[self importVersion1Settings];
+		
+		// first try importing from MarcoPolo 2.x
+		if (![self importMarcoPoloSettings])
+			// otherwise import from the old 1.x version
+			[self importVersion1Settings];
 	}
 
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug OpenPrefsAtStartup"]) {
