@@ -7,6 +7,10 @@
 
 #import "ToggleBluetoothAction.h"
 
+// requires IOBluetooth.framework
+int IOBluetoothPreferenceGetControllerPowerState(void);
+void IOBluetoothPreferenceSetControllerPowerState(int);
+
 
 @implementation ToggleBluetoothAction
 

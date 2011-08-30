@@ -81,9 +81,8 @@ static NSLock *sharedLock = nil;
 		return [NSString stringWithFormat:NSLocalizedString(@"Disabling Firewall Rule '%@'.", @""), name];
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
-	*errorString = @"Sorry, FirewallRuleAction isn't supported in Leopard yet.";
+- (BOOL)execute:(NSString **)errorString {
+	*errorString = @"Sorry, FirewallRuleAction isn't supported in Snow Leopard (or higher) yet.";
 	return NO;
 	
 /** 
