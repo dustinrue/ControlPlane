@@ -75,7 +75,7 @@
 
 + (NSString *) creationHelpText {
 	// FIXME: is there some useful text we could use?
-	return NSLocalizedString(@"Turn off (or back on) the system volume", @"");
+	return NSLocalizedString(@"Turn off/on the system volume", @"");
 }
 
 + (NSArray *) limitedOptions {
