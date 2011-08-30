@@ -54,7 +54,11 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	NSArray *args = [NSArray arrayWithObjects:@"-d", printerQueue, nil];
+	// got to escape forbidden characters
+	NSString *printer = [[printerQueue stringByReplacingOccurrencesOfString:@" " withString:@"_"]
+						 stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+	
+	NSArray *args = [NSArray arrayWithObjects:@"-d", printer, nil];
 	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/lpoptions" arguments:args];
 	[task waitUntilExit];
 
@@ -78,36 +82,13 @@
 	return NSLocalizedString(@"Change default printer to", @"");
 }
 
-+ (NSArray *)limitedOptions
-{
-	NSTask *task = [[[NSTask alloc] init] autorelease];
-
-	[task setLaunchPath:@"/usr/bin/lpstat"];
-	[task setArguments:[NSArray arrayWithObject:@"-a"]];
-	[task setStandardOutput:[NSPipe pipe]];
-
-	[task launch];
-	NSData *data = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
-	[task waitUntilExit];
-	if ([task terminationStatus] != 0)	// failure
-		return [NSArray array];
-	// XXX: what's the proper string encoding here?
-	NSString *s_data = [[[NSString alloc] initWithData:data encoding:NSMacOSRomanStringEncoding] autorelease];
-	NSArray *lines = [s_data componentsSeparatedByString:@"\n"];
-	//NSLog(@"[%@ limitedOptions] got data:\n%@", [self class], lines);
-
-	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:[lines count]];
-	NSEnumerator *en = [lines objectEnumerator];
-	NSString *line;
-	while ((line = [en nextObject])) {
-		if ([line length] < 2)
-			continue;
-		// Printer queue name is first field on the line
-		NSString *queue = [[line componentsSeparatedByString:@" "] objectAtIndex:0];
-		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-				queue, @"option", queue, @"description", nil]];
-	}
-
++ (NSArray *)limitedOptions {
+	NSArray *printers = [NSPrinter printerNames];
+	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:[printers count]];
+	
+	for (NSString *printer in printers)
+		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys: printer, @"option", printer, @"description", nil]];
+	
 	return opts;
 }
 
