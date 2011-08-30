@@ -17,7 +17,7 @@
 	<key>CFBundleIconFile</key>
 	<string>controlplane.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>au.id.symonds.MarcoPolo2</string>
+	<string>com.dustinrue.ControlPlane</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
