@@ -36,7 +36,7 @@
 	
 	// check device
 	if (deviceID == kAudioObjectUnknown) {
-		*errorString = @"Unkonw output device.";
+		*errorString = @"Unkown output device.";
 		return NO;
 	}
 	
@@ -75,7 +75,7 @@
 
 + (NSString *) creationHelpText {
 	// FIXME: is there some useful text we could use?
-	return NSLocalizedString(@"Turn off/on the system volume", @"");
+	return NSLocalizedString(@"Toggle muting of system audio", @"");
 }
 
 + (NSArray *) limitedOptions {

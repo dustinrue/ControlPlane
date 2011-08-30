@@ -15,7 +15,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>ControlPlane Help</string>
 	<key>CFBundleIconFile</key>
-	<string>cp-icon.icns</string>
+	<string>controlplane.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.dustinrue.ControlPlane</string>
 	<key>CFBundleInfoDictionaryVersion</key>
