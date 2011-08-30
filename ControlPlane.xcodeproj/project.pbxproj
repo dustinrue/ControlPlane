@@ -96,6 +96,7 @@
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
+		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 /* End PBXBuildFile section */
@@ -305,6 +306,7 @@
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-inactive.icns"; path = "graphics/cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon.icns"; path = "graphics/cp-icon.icns"; sourceTree = "<group>"; };
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
+		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = src/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = src/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
 				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
 				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
@@ -337,20 +340,20 @@
 				8DAD148E0BBCA40700F93914 /* Evidence Sources */,
 				8DF5A4130BC2350000CBEB4B /* Actions */,
 				8D0164850C02AB08004AD8DB /* UI Utilities */,
+				8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */,
+				8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */,
+				DA812E81140681D2006869F7 /* AppleScript.h */,
+				DA812E82140681D2006869F7 /* AppleScript.m */,
+				8D8155CD0C3A304E00228463 /* ContextsDataSource.h */,
+				8D8155CE0C3A304E00228463 /* ContextsDataSource.m */,
+				8D8C9E320BBB89320074D5B3 /* DB.h */,
+				8D8C9E330BBB89320074D5B3 /* DB.m */,
+				8DBB44950C530F7600064010 /* DSLogger.h */,
+				8DBB44960C530F7600064010 /* DSLogger.m */,
 				8D90E51D0B71C4C9007D39FD /* MPController.h */,
 				8D90E51E0B71C4C9007D39FD /* MPController.m */,
 				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
 				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
-				8D8155CD0C3A304E00228463 /* ContextsDataSource.h */,
-				DA812E81140681D2006869F7 /* AppleScript.h */,
-				DA812E82140681D2006869F7 /* AppleScript.m */,
-				8D8155CE0C3A304E00228463 /* ContextsDataSource.m */,
-				8DBB44950C530F7600064010 /* DSLogger.h */,
-				8DBB44960C530F7600064010 /* DSLogger.m */,
-				8D8C9E320BBB89320074D5B3 /* DB.h */,
-				8D8C9E330BBB89320074D5B3 /* DB.m */,
-				8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */,
-				8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -402,9 +405,9 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
 				DA6D184C1154581700347E93 /* LmuTrackerCommon.h */,
 				DA6D184A1154581000347E93 /* LmuTracker.c */,
-				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
 				32CA4F630368D1EE00C91783 /* MarcoPolo_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -451,11 +454,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA72BF9313CD317B002D27DD /* CoreWLAN.framework */,
-				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
-				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
 				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
+				DD06E810140C661600059764 /* AudioToolbox.framework */,
+				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
+				DA72BF9313CD317B002D27DD /* CoreWLAN.framework */,
 				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,
+				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -465,12 +469,12 @@
 		8D0164850C02AB08004AD8DB /* UI Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				8D447DF60C3E65CF00DAB17A /* ContextSelectionButton.h */,
+				8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */,
 				8D01634C0C029913004AD8DB /* DNDArrayController.h */,
 				8D01634D0C029913004AD8DB /* DNDArrayController.m */,
 				8D9AE3A30BE0DA7E00D4D4E4 /* PopButton.h */,
 				8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */,
-				8D447DF60C3E65CF00DAB17A /* ContextSelectionButton.h */,
-				8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */,
 				8D38B6690C49D50200290F47 /* SliderWithValue.h */,
 				8D38B66A0C49D50200290F47 /* SliderWithValue.m */,
 			);
@@ -481,14 +485,14 @@
 			isa = PBXGroup;
 			children = (
 				8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */,
-				8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */,
-				8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */,
-				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
-				8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */,
 				8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */,
 				8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */,
+				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
+				8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */,
 				8D643C650C4EF197006D8ECC /* GenericLoopingEvidenceSource.h */,
 				8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */,
+				8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */,
+				8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */,
 			);
 			name = "Evidence Sources";
 			sourceTree = "<group>";
@@ -496,36 +500,36 @@
 		8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
-				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
-				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
-				8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */,
-				8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */,
-				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
-				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
-				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
-				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
-				8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */,
 				8D27ECAD0C4456A300AE1929 /* AudioOutputEvidenceSource.h */,
 				8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */,
-				8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */,
-				8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */,
-				8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */,
-				8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */,
-				8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */,
-				8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */,
+				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
+				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
+				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
+				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
+				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
+				DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */,
 				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
 				8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */,
+				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
+				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
+				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
+				8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */,
+				8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */,
+				8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */,
+				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
+				8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */,
+				8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */,
+				8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */,
+				8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */,
+				8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */,
+				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
+				DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */,
+				8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */,
+				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
 				8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */,
 				8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */,
 				8D35A30A0BBB9CFD006ACBB0 /* WiFiEvidenceSource.h */,
 				8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */,
-				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
-				DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */,
-				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
-				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
-				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
-				DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */,
 			);
 			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
@@ -533,48 +537,48 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
-				8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */,
-				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
-				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
-				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
-				8D3C85120CDD8546009DBCD9 /* ScreenSaverStartAction.h */,
-				8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */,
-				8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */,
-				8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */,
-				8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */,
-				8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */,
-				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
-				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
-				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
-				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
-				8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */,
-				8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */,
-				8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */,
-				8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */,
-				8DCBE9690C1A7ECE008260EF /* MountAction.h */,
-				8DCBE96A0C1A7ECE008260EF /* MountAction.m */,
-				8D3453C10C18E5C1006011D0 /* IChatAction.h */,
-				8D3453C20C18E5C1006011D0 /* IChatAction.m */,
-				8D71CB760C17C01700E56526 /* ScreenSaverPasswordAction.h */,
-				8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */,
-				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
-				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
-				8DC4E7F80C178917007E7E41 /* MuteAction.h */,
-				8DC4E7F90C178917007E7E41 /* MuteAction.m */,
-				8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */,
-				8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */,
-				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
-				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
-				8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */,
-				8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */,
-				8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */,
-				8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */,
-				8DD790AA0BC28A9F00705346 /* OpenAction.h */,
-				8DD790AB0BC28A9F00705346 /* OpenAction.m */,
 				8DF5A4150BC2353D00CBEB4B /* Action.h */,
 				8DF5A4160BC2353D00CBEB4B /* Action.m */,
 				8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */,
 				8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */,
+				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
+				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
+				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
+				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
+				8D3453C10C18E5C1006011D0 /* IChatAction.h */,
+				8D3453C20C18E5C1006011D0 /* IChatAction.m */,
+				8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */,
+				8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */,
+				8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */,
+				8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */,
+				8DCBE9690C1A7ECE008260EF /* MountAction.h */,
+				8DCBE96A0C1A7ECE008260EF /* MountAction.m */,
+				8DC4E7F80C178917007E7E41 /* MuteAction.h */,
+				8DC4E7F90C178917007E7E41 /* MuteAction.m */,
+				8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */,
+				8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */,
+				8DD790AA0BC28A9F00705346 /* OpenAction.h */,
+				8DD790AB0BC28A9F00705346 /* OpenAction.m */,
+				8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */,
+				8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */,
+				8D71CB760C17C01700E56526 /* ScreenSaverPasswordAction.h */,
+				8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */,
+				8D3C85120CDD8546009DBCD9 /* ScreenSaverStartAction.h */,
+				8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */,
+				8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */,
+				8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */,
+				8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */,
+				8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */,
+				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
+				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
+				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
+				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
+				8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */,
+				8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */,
+				8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */,
+				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
+				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
+				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
