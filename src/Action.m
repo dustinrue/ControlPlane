@@ -146,7 +146,7 @@
 {
 	appleScriptResult_ = nil;
 
-	NSAppleScript *as = [[NSAppleScript alloc] initWithSource:script];
+	NSAppleScript *as = [[[NSAppleScript alloc] initWithSource:script] autorelease];
 	if (!as) {
 		NSLog(@"AppleScript failed to construct! Script was:\n%@", script);
 		return;
@@ -159,8 +159,6 @@
 	appleScriptResult_ = [as executeAndReturnError:&errorDict];
 	if (!appleScriptResult_)
 		NSLog(@"AppleScript failed to execute! Script was:\n%@\nError dictionary: %@", script, errorDict);
-    
-    [as release];
 }
 
 - (BOOL)executeAppleScript:(NSString *)script
