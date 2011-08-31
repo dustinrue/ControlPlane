@@ -52,7 +52,7 @@
 	return [NSString stringWithFormat:NSLocalizedString(@"Setting iChat status to '%@'.", @""), status];
 }
 
-- (BOOL)execute:(NSString **)errorString {
+- (BOOL) execute: (NSString **) errorString {
 	@try {
 		iChatApplication *iChat = [SBApplication applicationWithBundleIdentifier: @"com.apple.iChat"];
 		

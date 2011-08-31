@@ -101,6 +101,7 @@
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDAC3C5D140DAB2C00FBF29E /* iChat.app in Sources */ = {isa = PBXBuildFile; fileRef = DDAC3C5B140DAB1400FBF29E /* iChat.app */; };
+		DDAC3C60140DAFA800FBF29E /* Mail.app in Sources */ = {isa = PBXBuildFile; fileRef = DDAC3C5E140DAF7800FBF29E /* Mail.app */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 /* End PBXBuildFile section */
 
@@ -326,6 +327,7 @@
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = src/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		DDAC3C5B140DAB1400FBF29E /* iChat.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = iChat.app; path = ../../../../../../Applications/iChat.app; sourceTree = "<group>"; };
+		DDAC3C5E140DAF7800FBF29E /* Mail.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Mail.app; path = ../../../../../../Applications/Mail.app; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -605,6 +607,7 @@
 			isa = PBXGroup;
 			children = (
 				DDAC3C5B140DAB1400FBF29E /* iChat.app */,
+				DDAC3C5E140DAF7800FBF29E /* Mail.app */,
 			);
 			name = "Application Sources";
 			sourceTree = "<group>";
@@ -744,6 +747,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDAC3C5D140DAB2C00FBF29E /* iChat.app in Sources */,
+				DDAC3C60140DAFA800FBF29E /* Mail.app in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
 				8D90E51F0B71C4C9007D39FD /* MPController.m in Sources */,
