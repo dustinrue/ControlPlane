@@ -23,13 +23,13 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
+    if (!self)
+		return nil;
     
     lock = [[NSLock alloc] init];
 	apList = [[NSMutableArray alloc] init];
 	wakeUpCounter = 0;
+	
     return self;
 }
 
@@ -61,7 +61,6 @@
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:nil];
     NSArray *supportedInterfaces = [CWInterface supportedInterfaces];
 	BOOL do_scan = YES;
-    BOOL currentlyConnected = NO;
 
     
 #ifdef DEBUG_MODE
@@ -95,13 +94,10 @@
 	}
     // don't scan if currentSSID is set (Wi-Fi is associated with something)
     // and the WiFiAlwaysScans is set to false
-    else if (currentSSID && ![[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
+    else if (currentSSID && ![[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"])
         do_scan = NO;
-        currentlyConnected = YES;
-    }
-    else {
+    else
         do_scan = YES;
-    }
 
 
     // if do_scan is set to yes, do the Wi-Fi scan

@@ -253,10 +253,10 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	runLoopSource = IONotificationPortGetRunLoopSource(notificationPort);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
-
+	
 	CFDictionaryRef matchDict = IOServiceMatching(kIOUSBDeviceClassName);
-	matchDict = CFRetain(matchDict);	// we use it twice
-
+	CFRetain(matchDict);	// we use it twice
+	
 	IOServiceAddMatchingNotification(notificationPort, kIOMatchedNotification,
 					 matchDict, devAdded, (void *) self,
 					 &addedIterator);

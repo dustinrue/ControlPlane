@@ -339,6 +339,7 @@
 	while ((klass = [en nextObject])) {
 		EvidenceSource *src = [[klass alloc] init];
 		[srclist addObject:src];
+		[src release];
 	}
 	sources = srclist;
 
@@ -349,6 +350,7 @@
 	while ((src = [en nextObject]))
 		[types addObjectsFromArray:[src typesOfRulesMatched]];
 	ruleTypes = [[types allObjects] sortedArrayUsingSelector:@selector(compare:)];
+	[types release];
 
 	return self;
 }

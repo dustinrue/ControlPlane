@@ -503,7 +503,7 @@
 - (void)addRule:(id)sender
 {
 	EvidenceSource *src;
-	NSString *name, *type;
+	NSString *type;
 	// Represented object in this action is either:
 	//	(a) an EvidenceSource object, or
 	//	(b) an 2-tuple: [EvidenceSource object, rule_type]
@@ -516,9 +516,7 @@
 		src = [sender representedObject];
 		type = [[src typesOfRulesMatched] objectAtIndex:0];
 	}
-	name = [src name];
-
-
+	
 	[src setContextMenu:[contextsDataSource hierarchicalMenu]];
 
 	[NSApp activateIgnoringOtherApps:YES];

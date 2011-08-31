@@ -219,6 +219,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	while ((dict = [en nextObject])) {
 		Context *ctxt = [[Context alloc] initWithDictionary:dict];
 		[contexts setValue:ctxt forKey:[ctxt uuid]];
+		[ctxt release];
 	}
 
 	// Check consistency of parent UUIDs; drop the parent UUID if it is invalid
@@ -251,7 +252,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 #pragma mark Context creation via sheet
 
-- (Context *)newContextWithName:(NSString *)name fromUI:(BOOL)fromUI
+- (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI
 {
 	Context *ctxt = [[[Context alloc] init] autorelease];
 	[ctxt setName:name];
@@ -311,7 +312,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if (returnCode != NSOKButton)
 		return;
 
-	[self newContextWithName:[newContextSheetName stringValue] fromUI:YES];
+	[self createContextWithName:[newContextSheetName stringValue] fromUI:YES];
 }
 
 #pragma mark -

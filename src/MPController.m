@@ -186,7 +186,7 @@ MPController *mp_controller;
 
 - (void)importVersion1Settings {
 	CFStringRef oldDomain = CFSTR("au.id.symonds.MarcoPolo");
-	BOOL contextsCreated = NO, rulesImported = NO, actionsImported = NO;
+	BOOL rulesImported = NO, actionsImported = NO;
 	BOOL ipActionsFound = NO;
 	Context *ctxt = nil;
 
@@ -196,12 +196,11 @@ MPController *mp_controller;
 	NSMutableDictionary *lookup = [NSMutableDictionary dictionary];	// map location name -> (Context *)
 	int cnt = 0;
 	while ((dict = [en nextObject])) {
-		ctxt = [contextsDataSource newContextWithName:[dict valueForKey:@"option"] fromUI:NO];
+		ctxt = [contextsDataSource createContextWithName:[dict valueForKey:@"option"] fromUI:NO];
 		[lookup setObject:ctxt forKey:[ctxt name]];
 		++cnt;
 	}
 	NSLog(@"Quickstart: Created %d contexts", cnt);
-	contextsCreated = YES;
 
 	// Set "Automatic", or the first created context, as the default context
 	if (!(ctxt = [lookup objectForKey:@"Automatic"]))
@@ -212,6 +211,11 @@ MPController *mp_controller;
 	NSArray *oldRules = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Rules"), oldDomain);
 	NSArray *oldActions = (NSArray *) CFPreferencesCopyAppValue(CFSTR("Actions"), oldDomain);
 	if (!oldRules || !oldActions) {
+		if (oldRules)
+			CFRelease(oldRules);
+		else
+			CFRelease(oldActions);
+		
 		[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
 		return;
 	}
@@ -811,7 +815,6 @@ MPController *mp_controller;
 
 	// Update current context
 	[self setValue:toUUID forKey:@"currentContextUUID"];
-	ctxt = [contextsDataSource contextByUUID:toUUID];
 	NSString *ctxt_path = [contextsDataSource pathFromRootTo:toUUID];
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
@@ -971,7 +974,9 @@ MPController *mp_controller;
 	//BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
 		[self setStatusTitle:nil];
+#ifdef DEBUG_MODE
 	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
+#endif
 
 	BOOL no_guess = NO;
 	if (!guess) {
@@ -999,7 +1004,9 @@ MPController *mp_controller;
 			return;
 		guessConfidenceString = NSLocalizedString(@"as default context",
 							  @"Appended to a context-change notification");
+#ifdef DEBUG_MODE
 		guessString = [ctxt name];
+#endif
 	}
 
 	guessIsConfident = YES;

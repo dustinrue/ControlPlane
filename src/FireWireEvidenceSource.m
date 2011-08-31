@@ -167,6 +167,8 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	// Create matching dictionary for I/O Kit enumeration
 	CFMutableDictionaryRef matchDict = IOServiceMatching("IOFireWireDevice");
 	kr = IOServiceGetMatchingServices(kIOMasterPortDefault, matchDict, &iterator);
+	if (kr != KERN_SUCCESS)
+        NSLog(@"IOServiceGetMatchingServices returned 0x%08x", kr);
 
 	[lock lock];
 	[devices removeAllObjects];
@@ -211,10 +213,10 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	runLoopSource = IONotificationPortGetRunLoopSource(notificationPort);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
-
+	
 	CFDictionaryRef matchDict = IOServiceMatching("IOFireWireDevice");
-	matchDict = CFRetain(matchDict);	// we use it twice
-
+	CFRetain(matchDict);	// we use it twice
+	
 	IOServiceAddMatchingNotification(notificationPort, kIOMatchedNotification,
 					 matchDict, devAdded, (void *) self,
 					 &addedIterator);

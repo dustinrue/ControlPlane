@@ -54,7 +54,7 @@
 	bool enabledPrefix = false;
 	if ([vpnType characterAtIndex:0] == '+')
 		enabledPrefix = true;
-	NSString *strippedVPNType = [[NSString alloc] initWithString:[vpnType substringFromIndex:1]];
+	NSString *strippedVPNType = [vpnType substringFromIndex:1];
 
 	if (enabledPrefix == true)
 		return [NSString stringWithFormat:NSLocalizedString(@"Connecting to default VPN of type '%@'.", @""),

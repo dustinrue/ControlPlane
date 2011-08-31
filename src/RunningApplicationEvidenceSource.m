@@ -48,6 +48,8 @@
 	//NSLog(@"Running apps:\n%@", applications);
 #endif
 	[lock unlock];
+	
+	[apps release];
 }
 
 - (void)start
