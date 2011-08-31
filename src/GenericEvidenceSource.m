@@ -57,7 +57,7 @@
 		[ruleParameterController selectNext:self];
 	else {
 		// Pick the current parameter
-		NSEnumerator *en = [[ruleParameterController arrangedObjects] objectEnumerator];
+		en = [[ruleParameterController arrangedObjects] objectEnumerator];
 		unsigned int index = 0;
 		NSDictionary *elt;
 		NSObject *thisParam = [dict valueForKey:@"parameter"];

@@ -64,7 +64,7 @@
 // NSMenu delegates
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel;
 - (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action;
-- (int)numberOfItemsInMenu:(NSMenu *)menu;
+- (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu;
 
 
 @end

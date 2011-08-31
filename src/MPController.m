@@ -46,6 +46,8 @@
 - (io_connect_t) root_port;
 - (int32_t) actionsInProgress;
 
+- (void)forceSwitchAndToggleSticky:(id)sender;
+
 @end
 
 #pragma mark -
@@ -186,6 +188,7 @@ MPController *mp_controller;
 	CFStringRef oldDomain = CFSTR("au.id.symonds.MarcoPolo");
 	BOOL contextsCreated = NO, rulesImported = NO, actionsImported = NO;
 	BOOL ipActionsFound = NO;
+	Context *ctxt = nil;
 
 	// Create contexts, populated from network locations
 	NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
@@ -193,7 +196,7 @@ MPController *mp_controller;
 	NSMutableDictionary *lookup = [NSMutableDictionary dictionary];	// map location name -> (Context *)
 	int cnt = 0;
 	while ((dict = [en nextObject])) {
-		Context *ctxt = [contextsDataSource newContextWithName:[dict valueForKey:@"option"] fromUI:NO];
+		ctxt = [contextsDataSource newContextWithName:[dict valueForKey:@"option"] fromUI:NO];
 		[lookup setObject:ctxt forKey:[ctxt name]];
 		++cnt;
 	}
@@ -201,7 +204,6 @@ MPController *mp_controller;
 	contextsCreated = YES;
 
 	// Set "Automatic", or the first created context, as the default context
-	Context *ctxt;
 	if (!(ctxt = [lookup objectForKey:@"Automatic"]))
 		ctxt = [contextsDataSource contextByUUID:[[contextsDataSource arrayOfUUIDs] objectAtIndex:0]];
 	[[NSUserDefaults standardUserDefaults] setValue:[ctxt uuid] forKey:@"DefaultContext"];
@@ -238,14 +240,14 @@ MPController *mp_controller;
 		}
 
 		NSMutableDictionary *rule = [NSMutableDictionary dictionaryWithDictionary:dict];
-		Context *ctxt = [lookup objectForKey:[rule valueForKey:@"location"]];
+		ctxt = [lookup objectForKey:[rule valueForKey:@"location"]];
 		if (ctxt)
 			[rule setValue:[ctxt uuid] forKey:@"context"];
 		[rule removeObjectForKey:@"location"];
 		[newRules addObject:rule];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newRules forKey:@"Rules"];
-	NSLog(@"Quickstart: Imported %lu rules from MarcoPolo 1.x", [newRules count]);
+	NSLog(@"Quickstart: Imported %ld rules from MarcoPolo 1.x", (long) [newRules count]);
 	rulesImported = YES;
 
 	// Replicate actions
@@ -253,7 +255,7 @@ MPController *mp_controller;
 	en = [oldActions objectEnumerator];
 	while ((dict = [en nextObject])) {
 		NSMutableDictionary *action = [NSMutableDictionary dictionaryWithDictionary:dict];
-		Context *ctxt = [lookup objectForKey:[action valueForKey:@"location"]];
+		ctxt = [lookup objectForKey:[action valueForKey:@"location"]];
 		if (ctxt)
 			[action setValue:[ctxt uuid] forKey:@"context"];
 		[action removeObjectForKey:@"location"];
@@ -265,7 +267,7 @@ MPController *mp_controller;
 		[newActions addObject:action];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
-	NSLog(@"Quickstart: Imported %lu actions from MarcoPolo 1.x", [newActions count]);
+	NSLog(@"Quickstart: Imported %ld actions from MarcoPolo 1.x", (long) [newActions count]);
 	actionsImported = YES;
 
 	// Create NetworkLocation actions
@@ -315,7 +317,7 @@ MPController *mp_controller;
 	[alert addButtonWithTitle:NSLocalizedString(@"OK", @"Button title")];
 	[alert addButtonWithTitle:NSLocalizedString(@"Open Preferences", @"Button title")];
 	[NSApp activateIgnoringOtherApps:YES];
-	int rc = [alert runModal];
+	NSInteger rc = [alert runModal];
 	if (rc == NSAlertSecondButtonReturn) {
 		[NSApp activateIgnoringOtherApps:YES];
 		[prefsWindow makeKeyAndOrderFront:self];
@@ -905,10 +907,10 @@ MPController *mp_controller;
 		NSArray *ctxts = [contextsDataSource orderedTraversalRootedAt:[rule valueForKey:@"context"]];
 		if ([ctxts count] == 0)
 			continue;	// Oops, something got busted along the way
-		NSEnumerator *en = [ctxts objectEnumerator];
+		NSEnumerator *enc = [ctxts objectEnumerator];
 		Context *ctxt;
 		int base_depth = [[[ctxts objectAtIndex:0] valueForKey:@"depth"] intValue];
-		while ((ctxt = [en nextObject])) {
+		while ((ctxt = [enc nextObject])) {
 			NSString *uuid = [ctxt uuid];
 			int depth = [[ctxt valueForKey:@"depth"] intValue];
 			double decay = 1.0 - (0.03 * (depth - base_depth));
@@ -1050,9 +1052,7 @@ MPController *mp_controller;
 			[pool release];
 			pool = [[NSAutoreleasePool alloc] init];
 		}
-
-//end_of_update:
-		//[sbItem setImage:imageIdle];
+		
 		[updatingLock unlockWithCondition:0];
 	}
 
@@ -1077,10 +1077,9 @@ MPController *mp_controller;
 	
 	IONotificationPortRef notifyPortRef; 
 	io_object_t notifierObject; 
-	void *refCon;
 
 	// register to receive system sleep notifications
-	root_port = IORegisterForSystemPower(refCon, &notifyPortRef, sleepCallBack, &notifierObject);
+	root_port = IORegisterForSystemPower(self, &notifyPortRef, sleepCallBack, &notifierObject);
 	if (root_port == 0)
 		DSLog(@"IORegisterForSystemPower failed");
 

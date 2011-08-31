@@ -44,12 +44,26 @@ static NSString *macToString(const UInt8 *mac)
 		mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]];
 }
 
+- (void) safeSetApList: (NSMutableArray *) allAps {
+	[lock lock];
+	[apList setArray: allAps];
+	[self setDataCollected: [apList count] > 0];
+	
+#ifdef DEBUG_MODE
+	NSLog(@"%@ >> %@", [self class], apList);
+#endif
+	
+	[lock unlock];
+}
+
 - (void)doUpdate
 {
 	NSMutableArray *all_aps = [NSMutableArray array];
 
-	if (!WirelessIsAvailable())
-		goto end_of_scan;
+	if (!WirelessIsAvailable()) {
+		[self safeSetApList: all_aps];
+		return;
+	}
 
 	WirelessContextPtr wctxt = 0;
 	WirelessInfo info;
@@ -60,9 +74,10 @@ static NSString *macToString(const UInt8 *mac)
 
 	if ((err = WirelessAttach(&wctxt, 0)) != noErr) {
 #ifdef DEBUG_MODE
-		NSLog(@"%@ >> WirelessAttached failed with error code 0x%08x", [self class], err);
+		NSLog(@"%@ >> WirelessAttached failed with error code 0x%08ld", [self class], (long) err);
 #endif
-		goto end_of_scan;
+		[self safeSetApList: all_aps];
+		return;
 	}
 
 	// First, check to see if we're already associated
@@ -87,11 +102,13 @@ static NSString *macToString(const UInt8 *mac)
 	// NOTE: won't return duplicate SSIDs
 	if (do_scan && (WirelessScan(wctxt, (CFArrayRef *) &list, 1) != noErr)) {
 		WirelessDetach(wctxt);
-		goto end_of_scan;
+		[self safeSetApList: all_aps];
+		return;
 	}
 	if (do_scan && !list) {
 		WirelessDetach(wctxt);
-		goto end_of_scan;
+		[self safeSetApList: all_aps];
+		return;
 	}
 
 	NSEnumerator *en = [list objectEnumerator];
@@ -112,15 +129,8 @@ static NSString *macToString(const UInt8 *mac)
 	}
 
 	WirelessDetach(wctxt);
-
-end_of_scan:
-	[lock lock];
-	[apList setArray:all_aps];
-	[self setDataCollected:[apList count] > 0];
-#ifdef DEBUG_MODE
-	NSLog(@"%@ >> %@", [self class], apList);
-#endif
-	[lock unlock];
+	
+	[self safeSetApList: all_aps];
 }
 
 - (void)clearCollectedData

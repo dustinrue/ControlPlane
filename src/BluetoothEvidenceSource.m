@@ -16,6 +16,16 @@
 #define EXPIRY_INTERVAL		((NSTimeInterval) 60)
 
 
+@interface BluetoothEvidenceSource (Private)
+
+- (void)registerForNotifications:(NSTimer *)timer;
+- (void)holdTimerPoll:(NSTimer *)timer;
+- (void)cleanupTimerPoll:(NSTimer *)timer;
+- (void)deviceConnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device;
+- (void)deviceDisconnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device;
+
+@end
+
 @implementation BluetoothEvidenceSource
 
 - (id)init
@@ -404,7 +414,7 @@
 		NSString *mac = [[[device getAddressString] copy] autorelease];
 		NSString *vendor = [[self class] vendorByMAC:mac];
 
-		NSMutableDictionary *dev = [NSMutableDictionary dictionary];
+		dev = [NSMutableDictionary dictionary];
 		[dev setValue:mac forKey:@"mac"];
 		if ([device name])
 			[dev setValue:[[[device name] copy] autorelease] forKey:@"device_name"];

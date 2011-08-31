@@ -148,7 +148,7 @@
 		return NO;
 
 	// Check day first
-	int dow = [now dayOfWeek];	// 0=Sunday, 1=Monday, etc.
+	NSInteger dow = [now dayOfWeek];	// 0=Sunday, 1=Monday, etc.
 	if ([day isEqualToString:@"Any day"]) {
 		// Okay
 	} else if ([day isEqualToString:@"Weekday"]) {

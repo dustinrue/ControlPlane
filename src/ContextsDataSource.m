@@ -111,6 +111,12 @@
 #pragma mark -
 #pragma mark -
 
+@interface ContextsDataSource (Private)
+
+- (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
+@end
+
 @implementation ContextsDataSource
 
 + (void)initialize
@@ -357,7 +363,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (IBAction)removeContext:(id)sender
 {
-	int row = [outlineView selectedRow];
+	NSInteger row = [outlineView selectedRow];
 	if (row < 0)
 		return;
 
@@ -513,7 +519,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [children objectAtIndex:index];
 }
 
-- (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item
 {
 	// TODO: optimise!
 	
@@ -610,7 +616,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	Context *ctxt = nil;
-	int row = [outlineView selectedRow];
+	NSInteger row = [outlineView selectedRow];
 	if (row >= 0)
 		ctxt = [outlineView itemAtRow:[outlineView selectedRow]];
 

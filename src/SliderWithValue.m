@@ -169,6 +169,12 @@ static ToolTip *sharedToolTip = nil;
 
 #pragma mark -
 
+@interface SliderWithValue (Private)
+
+- (void)doUpdate:(id)sender;
+
+@end
+
 @implementation SliderWithValue
 
 - (id)initWithCoder:(NSCoder *)decoder

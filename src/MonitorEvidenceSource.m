@@ -43,9 +43,9 @@
 #ifdef DEBUG_MODE
 	NSLog(@"%@ ] %d display%s found.", [self class], numDisplays, numDisplays > 1 ? "s" : "");
 #endif
-	int i;
+	
 	NSMutableArray *display_array = [NSMutableArray arrayWithCapacity:numDisplays];
-	for (i = 0; i < numDisplays; ++i) {
+	for (CGDisplayCount i = 0; i < numDisplays; ++i) {
 		CGDirectDisplayID display_id = displays[i];
 
 		NSString *display_name = NSLocalizedString(@"(Unnamed display)", "String for unnamed monitors");
