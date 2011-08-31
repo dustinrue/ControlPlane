@@ -53,7 +53,7 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	// TODO: properly escape path?
+	// TODO: change this to use FSMountServerVolumeSync
 	NSString *script = [NSString stringWithFormat:
 		@"tell application \"Finder\"\n"
 		"  activate\n"

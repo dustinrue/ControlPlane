@@ -88,25 +88,23 @@
 	return NSLocalizedString(@"Set Mail's SMTP server hostname to", @"");
 }
 
-+ (NSArray *)limitedOptions
-{
-	NSString *script =
-		@"tell application \"Mail\"\n"
-		"  get server name of every smtp server\n"
-		"end tell\n";
-
-	NSArray *list = [[[self new] autorelease] executeAppleScriptReturningListOfStrings:script];
-	if (!list)		// failure
-		return [NSArray array];
-
-	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:[list count]];
-	NSEnumerator *en = [list objectEnumerator];
-	NSString *hostname;
-	while ((hostname = [en nextObject])) {
-		[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			hostname, @"option", hostname, @"description", nil]];
++ (NSArray *) limitedOptions {
+	NSMutableArray *opts = nil;
+	
+	@try {
+		MailApplication *Mail = [SBApplication applicationWithBundleIdentifier: @"com.apple.mail"];
+		SBElementArray *list = [Mail smtpServers];
+		opts = [NSMutableArray arrayWithCapacity:[list count]];
+		
+		// for each SMTP server
+		for (MailSmtpServer *server in list)
+			[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+							 server.serverName, @"option", server.serverName, @"description", nil]];
+		
+	} @catch (NSException *e) {
+		opts = [NSArray array];
 	}
-
+	
 	return opts;
 }
 
