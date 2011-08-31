@@ -626,7 +626,6 @@
 				8D8E50140BA7CFB2005DBC9F /* Copy Help Files */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8DEF43B20BAA072400F87273 /* ShellScript */,
-				8D076E1D0CA53F20007B7E94 /* Generate Build.plist */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				8D2073870B86AB5100D61A9E /* CopyFiles */,
 			);
@@ -711,22 +710,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8D076E1D0CA53F20007B7E94 /* Generate Build.plist */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/remake-build-plist.sh",
-			);
-			name = "Generate Build.plist";
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Build.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/remake-build-plist.sh \"$SRCROOT\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Build.plist\"";
-		};
 		8DEF43B20BAA072400F87273 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
