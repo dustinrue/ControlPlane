@@ -52,32 +52,26 @@
 		[path lastPathComponent]];
 }
 
-- (NSString *)pathAsHFSPath
-{
-	CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef) path, kCFURLPOSIXPathStyle, false);
-	NSString *ret = (NSString *) CFURLCopyFileSystemPath(url, kCFURLHFSPathStyle);
-	CFRelease(url);
-
-	return ret;
-}
-
-- (BOOL)execute:(NSString **)errorString
-{
-	if (![[NSFileManager defaultManager] fileExistsAtPath:path])
-		goto failed_to_set;
-
-	// TODO: properly escape status path
-	NSString *script = [NSString stringWithFormat:
-		@"tell application \"Finder\"\n"
-		"  set desktop picture to \"%@\"\n"
-		"end tell\n", [self pathAsHFSPath]];
-
-	if ([self executeAppleScript:script])
-		return YES;
-
-failed_to_set:
-	*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed setting '%@' as desktop background.", @""), path];
-	return NO;
+- (BOOL)execute:(NSString **)errorString {
+	// check if background exists
+	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed setting '%@' as desktop background.", @""), path];
+		return NO;
+	}
+	
+	// get current screen and options
+	NSScreen *screen = [NSScreen mainScreen];
+	NSDictionary *options = [[NSWorkspace sharedWorkspace] desktopImageOptionsForScreen: screen];
+	NSURL *image = [NSURL fileURLWithPath:path];
+	NSError *error;
+	
+	// set background
+	if (![[NSWorkspace sharedWorkspace] setDesktopImageURL:image forScreen:screen options:options error:&error]) {
+		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed setting '%@' as desktop background.", @""), path];
+		return NO;
+	}
+	
+	return YES;
 }
 
 + (NSString *)helpText

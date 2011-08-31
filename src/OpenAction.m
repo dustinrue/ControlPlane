@@ -51,12 +51,13 @@
 	return [NSString stringWithFormat:NSLocalizedString(@"Opening '%@'.", @""), path];
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
+- (BOOL)execute:(NSString **)errorString {
 	NSString *app, *fileType;
 
-	if (![[NSWorkspace sharedWorkspace] getInfoForFile:path application:&app type:&fileType])
-		goto failed_to_open;
+	if (![[NSWorkspace sharedWorkspace] getInfoForFile:path application:&app type:&fileType]) {
+		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
+		return NO;
+	}
 
 #ifdef DEBUG_MODE
 	NSLog(@"[%@]: Type: '%@'.", [self class], fileType);
@@ -73,8 +74,7 @@
 		if ([[NSWorkspace sharedWorkspace] openFile:path])
 			return YES;
 	}
-
-failed_to_open:
+	
 	*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
 	return NO;
 }
