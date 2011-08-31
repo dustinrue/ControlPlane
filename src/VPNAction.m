@@ -7,7 +7,8 @@
 //
 
 #import "VPNAction.h"
-#import "SystemConfiguration/SCNetworkConfiguration.h"
+#import <ScriptingBridge/SBApplication.h>
+#import "System Events.h"
 
 @implementation VPNAction
 
@@ -63,33 +64,30 @@
 			strippedVPNType];
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
-	// Strip off the first character which indicates either enabled or disabled
-	bool enabledPrefix = false;
-	if ([vpnType characterAtIndex:0] == '+')
-		enabledPrefix = true;
-	NSString *strippedVPNType = [[NSString alloc] initWithString:[vpnType substringFromIndex:1]];
-
-	NSString *script;
+- (BOOL) execute: (NSString **) errorString {
+	// TODO: maybe port this to use SCNetworkConnection
 	
-	script = [NSString stringWithFormat:
-			  @"tell application \"System Events\"\n"
-			  "  tell current location of network preferences\n"
-			  "    set VPNservice to service \"VPN (%@)\"\n"
-			  "    if exists VPNservice then %@ VPNservice\n"
-			  "  end tell\n"
-			  "end tell", strippedVPNType, (enabledPrefix ? @"connect" : @"disconnect")];
-
-	NSDictionary *errorDict;
-	NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:script] autorelease];
-	NSAppleEventDescriptor *returnDescriptor = [appleScript executeAndReturnError:&errorDict];
-
-	if (!returnDescriptor) {
-		*errorString = NSLocalizedString(@"Couldn't configure VPN with Internet Connect Applescript!", @"In VPNAction");
+	@try {
+		BOOL connect = ([vpnType characterAtIndex:0] == '+' ? YES : NO);
+		NSString *tVPNType = [vpnType substringFromIndex: 1];
+		SystemEventsApplication *SEvents = [SBApplication applicationWithBundleIdentifier: @"com.apple.systemevents"];
+		
+		// find service
+		SystemEventsLocation *location = SEvents.networkPreferences.currentLocation;
+		SystemEventsService *service = [location.services objectWithName: [NSString stringWithFormat:@"VPN (%@)", tVPNType]];
+		
+		// connect/disconnect
+		if (service) {
+			if (connect)
+				[SEvents connect: service];
+			else
+				[SEvents disconnect: service];
+		}
+	} @catch (NSException *e) {
+		*errorString = NSLocalizedString(@"Couldn't configure VPN!", @"In VPNAction");
 		return NO;
 	}
-
+	
 	return YES;
 }
 
