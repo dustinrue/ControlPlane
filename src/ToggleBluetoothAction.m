@@ -35,10 +35,10 @@ void IOBluetoothPreferenceSetControllerPowerState(int);
 
 	[self performSelectorOnMainThread:@selector(setPowerState) withObject:nil waitUntilDone:YES];
     
-    // IOBluetoothPreferenceGetControllerPowerState but it 
+    // IOBluetoothPreferenceGetControllerPowerState but 
     // there definitely needs to be some amount of time between
     // when the bluetooth controller is enabled or disabled
-    // to when you attempt to get the bluetooht conroller's power state
+    // to when you attempt to get the bluetooth conroller's power state
     // ControlPlane attempts to sleep here for 5 seconds to give bluetooth
     // some time to settle.  This check was originally done on the main thread
     // but ControlPlane shouldn't block the main thread for that long
@@ -46,7 +46,8 @@ void IOBluetoothPreferenceSetControllerPowerState(int);
     
     // this and more is "documented" at http://dmaclach.blogspot.com/2010/10/its-dead-jim.html
     // and https://github.com/dustinrue/ControlPlane/issues/11, thanks to David Jennes for finding
-    // this tip.  This will still cause
+    // this tip. This will still cause an error should the bluetooth controller take more than
+	// the mentioned 5 seconds to switch, generating a delayed error notification (Growl)
 
     [NSThread sleepForTimeInterval:5];
 

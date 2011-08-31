@@ -6,6 +6,8 @@
 //
 
 #import "ScreenSaverStartAction.h"
+#import <ScriptingBridge/SBApplication.h>
+#import "System Events.h"
 
 
 @implementation ScreenSaverStartAction
@@ -18,19 +20,24 @@
 		return NSLocalizedString(@"Stopping screen saver.", @"");
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
-	NSString *script = [NSString stringWithFormat:@"tell application \"ScreenSaverEngine\" to %@",
-		(turnOn ? @"activate" : @"quit")];
-
-	if (![self executeAppleScript:script]) {
+- (BOOL) execute: (NSString **) errorString {
+	@try {
+		SystemEventsApplication *SEvents = [SBApplication applicationWithBundleIdentifier: @"com.apple.systemevents"];
+		
+		// start/stop
+		if (turnOn)
+			[SEvents.currentScreenSaver start];
+		else
+			[SEvents.currentScreenSaver stop];
+		
+	} @catch (NSException *e) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed starting screen saver!", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed stopping screen saver!", @"");
 		return NO;
 	}
-
+	
 	return YES;
 }
 

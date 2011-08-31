@@ -99,8 +99,26 @@
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
+		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
+		DDAC3C5D140DAB2C00FBF29E /* iChat.app in Sources */ = {isa = PBXBuildFile; fileRef = DDAC3C5B140DAB1400FBF29E /* iChat.app */; };
+		DDAC3C60140DAFA800FBF29E /* Mail.app in Sources */ = {isa = PBXBuildFile; fileRef = DDAC3C5E140DAF7800FBF29E /* Mail.app */; };
+		DDAC3C64140DBEBB00FBF29E /* System Events.app in Sources */ = {isa = PBXBuildFile; fileRef = DDAC3C63140DBEBB00FBF29E /* System Events.app */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		DDAC3C56140D86F300FBF29E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.app";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE).h",
+			);
+			script = "sdef \"$INPUT_FILE_PATH\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$INPUT_FILE_BASE\" --bundleid `defaults read \"$INPUT_FILE_PATH/Contents/Info\" CFBundleIdentifier`";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8D2073870B86AB5100D61A9E /* CopyFiles */ = {
@@ -308,6 +326,10 @@
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = src/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = src/SleepEvidenceSource.m; sourceTree = "<group>"; };
+		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
+		DDAC3C5B140DAB1400FBF29E /* iChat.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = iChat.app; path = ../../../../../../Applications/iChat.app; sourceTree = "<group>"; };
+		DDAC3C5E140DAF7800FBF29E /* Mail.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Mail.app; path = ../../../../../../Applications/Mail.app; sourceTree = "<group>"; };
+		DDAC3C63140DBEBB00FBF29E /* System Events.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "System Events.app"; path = "../../../../../../System/Library/CoreServices/System Events.app"; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -316,16 +338,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
-				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
-				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
-				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
-				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */,
-				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
-				8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
+				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */,
+				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
+				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
+				8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */,
+				8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */,
+				DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */,
+				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
+				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,9 +414,9 @@
 		29B97314FDCFA39411CA2CEA /* MarcoPolo */ = {
 			isa = PBXGroup;
 			children = (
-				DA4A629413E25C9D00CE976F /* Credits.html */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				DDAC3C57140D880000FBF29E /* Application Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -416,6 +439,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DA4A629413E25C9D00CE976F /* Credits.html */,
 				DA273778140C8666006ADFDE /* controlplane.icns */,
 				DA4A629213E2546800CE976F /* ControlPlane Help */,
 				DA16392513D4B14A00E3F421 /* dsa_pub.pem */,
@@ -456,6 +480,7 @@
 				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
 				DA72BF9313CD317B002D27DD /* CoreWLAN.framework */,
 				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,
+				DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */,
 				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
@@ -580,6 +605,16 @@
 			name = Actions;
 			sourceTree = "<group>";
 		};
+		DDAC3C57140D880000FBF29E /* Application Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DDAC3C5B140DAB1400FBF29E /* iChat.app */,
+				DDAC3C5E140DAF7800FBF29E /* Mail.app */,
+				DDAC3C63140DBEBB00FBF29E /* System Events.app */,
+			);
+			name = "Application Sources";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -596,6 +631,7 @@
 				8D2073870B86AB5100D61A9E /* CopyFiles */,
 			);
 			buildRules = (
+				DDAC3C56140D86F300FBF29E /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -713,6 +749,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDAC3C5D140DAB2C00FBF29E /* iChat.app in Sources */,
+				DDAC3C60140DAFA800FBF29E /* Mail.app in Sources */,
+				DDAC3C64140DBEBB00FBF29E /* System Events.app in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
 				8D90E51F0B71C4C9007D39FD /* MPController.m in Sources */,
@@ -863,6 +902,8 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
+					"\"$(SRCROOT)\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
@@ -892,6 +933,8 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+					"\"$(SRCROOT)\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
@@ -963,6 +1006,8 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_3)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_4)",
+					"\"$(SRCROOT)\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";

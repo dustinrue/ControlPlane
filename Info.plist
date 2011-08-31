@@ -70,6 +70,8 @@
 	<string>http://controlplane.dustinrue.com/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.6</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
 	<key>UTExportedTypeDeclarations</key>

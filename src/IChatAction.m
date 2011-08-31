@@ -6,7 +6,8 @@
 //
 
 #import "IChatAction.h"
-
+#import <ScriptingBridge/SBApplication.h>
+#import "iChat.h"
 
 @implementation IChatAction
 
@@ -51,19 +52,18 @@
 	return [NSString stringWithFormat:NSLocalizedString(@"Setting iChat status to '%@'.", @""), status];
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
-	// TODO: properly escape status message!
-	NSString *script = [NSString stringWithFormat:
-		@"tell application \"iChat\"\n"
-		"  set status message to \"%@\"\n"
-		"end tell\n", status];
-
-	if (![self executeAppleScript:script]) {
+- (BOOL) execute: (NSString **) errorString {
+	@try {
+		iChatApplication *iChat = [SBApplication applicationWithBundleIdentifier: @"com.apple.iChat"];
+		
+		// set status message
+		iChat.statusMessage = status;
+		
+	} @catch (NSException *e) {
 		*errorString = NSLocalizedString(@"Couldn't set iChat status!", @"In IChatAction");
 		return NO;
 	}
-
+	
 	return YES;
 }
 

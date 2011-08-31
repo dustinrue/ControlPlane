@@ -6,6 +6,8 @@
 //
 
 #import "MailIMAPServerAction.h"
+#import <ScriptingBridge/SBApplication.h>
+#import "Mail.h"
 
 
 @implementation MailIMAPServerAction
@@ -52,20 +54,19 @@
 		hostname];
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
-	NSString *script = [NSString stringWithFormat:
-		@"tell application \"Mail\"\n"
-		"  repeat with acc in every imap account\n"
-		"    set the server name of acc to \"%@\"\n"
-		"  end repeat\n"
-		"end tell\n", hostname];
-
-	if (![self executeAppleScript:script]) {
+- (BOOL) execute: (NSString **) errorString {
+	@try {
+		MailApplication *Mail = [SBApplication applicationWithBundleIdentifier: @"com.apple.mail"];
+		
+		// for every IMAP account
+		for (MailImapAccount *account in [Mail imapAccounts])
+			account.serverName = hostname;
+		
+	} @catch (NSException *e) {
 		*errorString = NSLocalizedString(@"Couldn't set IMAP server!", @"In MailIMAPServerAction");
 		return NO;
 	}
-
+	
 	return YES;
 }
 

@@ -6,6 +6,7 @@
 //
 
 #import "QuitApplicationAction.h"
+#import "DSLogger.h"
 
 
 @implementation QuitApplicationAction
@@ -53,14 +54,15 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	// TODO: properly escape application name!
-	NSString *script = [NSString stringWithFormat:@"tell application \"%@\" to quit", application];
-
-	if (![self executeAppleScript:script]) {
-		*errorString = NSLocalizedString(@"Couldn't quit application!", @"In QuitApplicationAction");
-		return NO;
-	}
-
+	// get bundle identifier
+	NSString *path = [[NSWorkspace sharedWorkspace] fullPathForApplication: application];
+	NSString *identifier = [[NSBundle bundleWithPath: path] bundleIdentifier];
+	
+	// terminate
+	DSLog(@"Terminating all instances of application '%@'", identifier);
+	NSArray *apps = [NSRunningApplication runningApplicationsWithBundleIdentifier: identifier];
+	[apps makeObjectsPerformSelector: @selector(terminate)];
+	
 	return YES;
 }
 
