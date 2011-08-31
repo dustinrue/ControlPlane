@@ -6,6 +6,8 @@
 //
 
 #import "ScreenSaverStartAction.h"
+#import <ScriptingBridge/SBApplication.h>
+#import "System Events.h"
 
 
 @implementation ScreenSaverStartAction
@@ -19,28 +21,24 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	// Unfortunately, ScreenSaverEngine doesn't support Scripting Bridge
-	// Use Cocoa API's to launch and terminate the app instead
-	
-	NSString *path = @"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app";
-	NSString *identifier = [[NSBundle bundleWithPath: path] bundleIdentifier];
-	
-	if (turnOn) {
-		// launch screensaver
-		if ([[NSWorkspace sharedWorkspace] openFile: path])
-			return YES;
-	} else {
-		// terminate
-		NSArray *apps = [NSRunningApplication runningApplicationsWithBundleIdentifier: identifier];
-		[apps makeObjectsPerformSelector: @selector(terminate)];
-		return YES;
+	@try {
+		SystemEventsApplication *SEvents = [SBApplication applicationWithBundleIdentifier: @"com.apple.systemevents"];
+		
+		// start/stop
+		if (turnOn)
+			[SEvents.currentScreenSaver start];
+		else
+			[SEvents.currentScreenSaver stop];
+		
+	} @catch (NSException *e) {
+		if (turnOn)
+			*errorString = NSLocalizedString(@"Failed starting screen saver!", @"");
+		else
+			*errorString = NSLocalizedString(@"Failed stopping screen saver!", @"");
+		return NO;
 	}
 	
-	if (turnOn)
-		*errorString = NSLocalizedString(@"Failed starting screen saver!", @"");
-	else
-		*errorString = NSLocalizedString(@"Failed stopping screen saver!", @"");
-	return NO;
+	return YES;
 }
 
 + (NSString *)helpText
