@@ -42,7 +42,8 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	
 	AudioObjectPropertyAddress address = {
 		kAudioDevicePropertyDataSource,
-		kAudioDevicePropertyScopeOutput
+		kAudioDevicePropertyScopeOutput,
+		0
 	};
 	
 	if (AudioObjectGetPropertyData(deviceID, &address, 0, NULL, &sz, &sourceID) != noErr) {
@@ -53,7 +54,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	[self setDataCollected:YES];
 
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> Got 0x%08x", [self class], sourceID);
+	NSLog(@"%@ >> Got 0x%08lu", [self class], (unsigned long) sourceID);
 #endif
 
 	// 0x6973706b ('ispk') => Internal speakers
@@ -68,7 +69,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	return ([[rule objectForKey:@"parameter"] intValue] == source);
+	return (((UInt32) [[rule objectForKey:@"parameter"] intValue]) == source);
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type

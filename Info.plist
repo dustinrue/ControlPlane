@@ -6,8 +6,6 @@
 	<string>11A511</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleDocumentTypes</key>
-	<array/>
 	<key>CFBundleExecutable</key>
 	<string>ControlPlane</string>
 	<key>CFBundleHelpBookFolder</key>
@@ -28,14 +26,14 @@
 	<string>1.0.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array/>
 	<key>CFBundleVersion</key>
 	<string>1.0.4</string>
 	<key>CPDonationURL</key>
 	<string>http://controlplane.dustinrue.com/support-controlplane/</string>
 	<key>CPSupportURL</key>
 	<string>http://groups.google.com/group/controlplane-support/topics</string>
+	<key>CPWebPageURL</key>
+	<string>http://controlplane.dustinrue.com/</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
@@ -52,28 +50,30 @@
 	<string>4B110</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.6</string>
 	<key>LSUIElement</key>
 	<string>1</string>
-	<key>MPWebPageURL</key>
-	<string>http://controlplane.dustinrue.com/</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSServices</key>
-	<array/>
 	<key>OSAScriptingDefinition</key>
 	<string>ControlPlane.sdef</string>
 	<key>SUFeedURL</key>
 	<string>http://controlplane.dustinrue.com/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.6</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
+	<key>CFBundleDocumentTypes</key>
+	<array/>
+	<key>NSServices</key>
+	<array/>
+	<key>CFBundleURLTypes</key>
+	<array/>
 	<key>UTExportedTypeDeclarations</key>
 	<array/>
 	<key>UTImportedTypeDeclarations</key>

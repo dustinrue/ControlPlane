@@ -14,8 +14,8 @@
 
 
 // utility methods
-- (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(unsigned)index;
+- (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(NSUInteger)index;
 - (NSIndexSet *)indexSetFromRows:(NSArray *)rows;
-- (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet;
+- (NSUInteger)rowsAboveRow:(NSUInteger)row inIndexSet:(NSIndexSet *)indexSet;
 
 @end

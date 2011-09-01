@@ -128,6 +128,8 @@
 
 @interface PrefsWindowController (Private)
 
+- (void)doAddRule:(NSDictionary *)dict;
+- (void)doEditRule:(NSDictionary *)dict;
 - (void)updateLogBuffer:(NSTimer *)timer;
 
 @end
@@ -310,7 +312,7 @@
 
 - (IBAction)runWebPage:(id)sender
 {
-	NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"MPWebPageURL"]];
+	NSURL *url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPWebPageURL"]];
 	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
@@ -565,7 +567,7 @@
 // Private: called by -[EvidenceSource runPanelAsSheetOfWindow:...]
 - (void)doEditRule:(NSDictionary *)dict
 {
-	unsigned int index = [rulesController selectionIndex];
+	NSUInteger index = [rulesController selectionIndex];
 	[rulesController removeObjectAtArrangedObjectIndex:index];
 	[rulesController insertObject:dict atArrangedObjectIndex:index];
 	[rulesController setSelectionIndex:index];
@@ -733,9 +735,9 @@
                 }
             }
         }
+		
+		CFRelease(loginItemList);
     }
-
-    CFRelease(loginItemList);
 }
 
 
@@ -767,21 +769,18 @@
                 
                 DSLog(@"startupItemFound is %s", startupItemFound ? "true":"false");
                 if (startupItemFound) {
-
                     CFRelease(loginItemList);
                     return TRUE;
                 }
             }
         }
         
-        
-
+        CFRelease(loginItemList);
     }
-
-    CFRelease(loginItemList);
+	
     return FALSE;
-    
 }
+
 - (IBAction) toggleStartAtLoginAction:(id)sender {
   
 
