@@ -8,12 +8,6 @@
 #import "ContextSelectionButton.h"
 
 
-@interface ContextSelectionButton (Private) 
-
-- (void)selectionChanged:(NSNotification *)notification;
-
-@end
-
 @implementation ContextSelectionButton
 
 - (id)init

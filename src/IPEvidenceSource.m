@@ -207,7 +207,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
     int i;
-    NSInteger networkOctetPosition = 0;
+    int networkOctetPosition = 0;
 
     // TODO: add proper IPV6 support
 	BOOL match = NO;
@@ -218,7 +218,8 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     
 	if ([comp count] != 2)
 		return NO;	// corrupted rule
-	
+
+
 	[lock lock];
     
     // now ControlPlane will determine if the IP address fits in the
@@ -228,7 +229,9 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     NSArray *ruleNetmaskArray = [[comp objectAtIndex:1] componentsSeparatedByString:@"."];
     networkOctetPosition = [self findInterestingOctet:ruleNetmaskArray];
     
+    
     // determine of the rule is a host address (netmask is 255.255.255.255)
+
     bool isHostAddress = [self isHostAddress:[comp objectAtIndex:1]];
     
 	NSEnumerator *en = [addresses objectEnumerator];
@@ -322,7 +325,9 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 // walks an array and returns which octet of subnetmask is of interest (not 255)
 - (NSInteger) findInterestingOctet:(NSArray *)netmaskArray {
-    for (NSUInteger i = 0; i < [netmaskArray count]; i++) {     
+    int i;
+    
+    for (i = 0; i < [netmaskArray count]; i++) {     
         if ([[netmaskArray objectAtIndex:i] intValue] != 255) {
             return i;
         }

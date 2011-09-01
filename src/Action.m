@@ -7,7 +7,6 @@
 
 #import "Action.h"
 #import "DSLogger.h"
-#import "PrefsWindowController.h"
 
 
 @implementation Action
@@ -177,18 +176,18 @@
 		return nil;
 	if ([appleScriptResult_ descriptorType] != typeAEList)
 		return nil;
-	
-	NSInteger count = [appleScriptResult_ numberOfItems], i;
+
+	int count = [appleScriptResult_ numberOfItems], i;
 	NSMutableArray *list = [NSMutableArray arrayWithCapacity:count];
 	for (i = 1; i <= count; ++i) {		// Careful -- AppleScript lists are 1-based
 		NSAppleEventDescriptor *elt = [appleScriptResult_ descriptorAtIndex:i];
 		if (!elt) {
-			NSLog(@"Oops -- couldn't get descriptor at index %ld", (long) i);
+			NSLog(@"Oops -- couldn't get descriptor at index %d", i);
 			continue;
 		}
 		NSString *val = [elt stringValue];
 		if (!val) {
-			NSLog(@"Oops -- couldn't turn descriptor at index %ld into string", (long) i);
+			NSLog(@"Oops -- couldn't turn descriptor at index %d into string", i);
 			continue;
 		}
 		[list addObject:val];
@@ -318,7 +317,7 @@
 	return NO;
 }
 
-- (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu
+- (int)numberOfItemsInMenu:(NSMenu *)menu
 {
 	return [classes count];
 }

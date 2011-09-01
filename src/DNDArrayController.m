@@ -61,7 +61,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	// set selected rows to those that were just moved
 	// Need to work out what moved where to determine proper selection...
-	NSUInteger rowsAbove = [self rowsAboveRow:row inIndexSet:indexSet];
+	int rowsAbove = [self rowsAboveRow:row inIndexSet:indexSet];
 
 	NSRange range = NSMakeRange(row - rowsAbove, [indexSet count]);
 	indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
@@ -90,13 +90,14 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 #pragma mark -
 
-- (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(NSUInteger)insertIndex
+- (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet toIndex:(unsigned int)insertIndex
 {
 	NSArray *objects = [self arrangedObjects];
 	NSUInteger index = [indexSet lastIndex];
 
-	NSUInteger aboveInsertIndexCount = 0, removeIndex;
+	int aboveInsertIndexCount = 0;
 	id object;
+	int removeIndex;
 
 	while (index != NSNotFound) {
 		if (index >= insertIndex) {
@@ -125,16 +126,15 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 
-- (NSUInteger)rowsAboveRow:(NSUInteger)row inIndexSet:(NSIndexSet *)indexSet
+- (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
 {
-	NSUInteger currentIndex = [indexSet firstIndex], i = 0;
-	
+	NSUInteger currentIndex = [indexSet firstIndex];
+	int i = 0;
 	while (currentIndex != NSNotFound) {
 		if (currentIndex < row)
 			i++;
 		currentIndex = [indexSet indexGreaterThanIndex:currentIndex];
 	}
-	
 	return i;
 }
 

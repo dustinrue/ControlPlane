@@ -137,28 +137,21 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 		if (paranoid && !device)
 			NSLog(@"USB devAdded >> hit null io_service_t!");
 		if (![[self class] usbDetailsForDevice:&device outVendor:&vendor_id outProduct:&product_id]) {
-			NSLog(@"USB >> failed getting details.");
-			IOObjectRelease(device);
-			continue;
+			NSLog(@"USB >> failed getting details.", cnt);
+			goto end_of_device_handling;
 		}
 
 		// Skip if it's a known internal device
 		unsigned int i = sizeof(internal_devices)/sizeof(internal_devices[0]);
-		bool found = false;
-		while (i-- > 0 && !found) {
+		while (i-- > 0) {
 			if (internal_devices[i].vendor_id != vendor_id)
 				continue;
 			if (internal_devices[i].product_id != product_id)
 				continue;
 			// Found a match.
-			found = true;
+			goto end_of_device_handling;
 		}
-		
-		if (found) {
-			IOObjectRelease(device);
-			continue;
-		}
-		
+
 		// Lookup vendor name
 		NSString *vendor_name = [[self class] usbVendorById:vendor_id];
 
@@ -172,22 +165,20 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 		[lock lock];
 		NSEnumerator *en = [devices objectEnumerator];
 		NSDictionary *elt;
-		bool isNew = true;
-		while ((elt = [en nextObject]) && isNew) {
+		while (elt = [en nextObject]) {
 			if (([[elt objectForKey:@"vendor_id"] intValue] == vendor_id) &&
 			    ([[elt objectForKey:@"product_id"] intValue] == product_id)) {
 				// Already know about this device
-				isNew = false;
+				goto end_of_search;
 			}
 		}
-		
-		if (isNew) {
-			//NSLog(@"USB >> [%d] Adding %@", cnt, dev_dict);
-			[devices addObject:dev_dict];
-			[self setDataCollected:YES];
-		}
-		
+		//NSLog(@"USB >> [%d] Adding %@", cnt, dev_dict);
+		[devices addObject:dev_dict];
+		[self setDataCollected:YES];
+end_of_search:
 		[lock unlock];
+
+end_of_device_handling:
 		IOObjectRelease(device);
 	}
 }
@@ -229,7 +220,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 {
 	[self enumerateAll];		// be on the safe side
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> found %ld devices", [self class], (long) [devices count]);
+	NSLog(@"%@ >> found %d devices", [self class], [devices count]);
 #endif
 }
 

@@ -115,9 +115,8 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 		// Get device details
 		NSNumber *guid = [[self class] guidForDevice:&device];
 		if (!guid) {
-			NSLog(@"FireWire >> failed getting GUID.");
-			IOObjectRelease(device);
-			continue;
+			NSLog(@"FireWire >> failed getting GUID.", cnt);
+			goto end_of_device_handling;
 		}
 
 		// Try to get device name
@@ -138,23 +137,21 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 		[lock lock];
 		NSEnumerator *en = [devices objectEnumerator];
 		NSDictionary *elt;
-		bool isNew = true;
-		while ((elt = [en nextObject]) && isNew) {
+		while (elt = [en nextObject]) {
 			if ([[elt objectForKey:@"guid"] isEqualToNumber:guid]) {
 				// Already know about this device
-				isNew = false;
+				goto end_of_search;
 			}
 		}
-		
-		if (isNew) {
 #ifdef DEBUG_MODE
-			//NSLog(@"FireWire >> [%d] Adding %@", cnt, dev_dict);
+		//NSLog(@"FireWire >> [%d] Adding %@", cnt, dev_dict);
 #endif
-			[devices addObject:dev_dict];
-			[self setDataCollected:YES];
-		}
-		
+		[devices addObject:dev_dict];
+		[self setDataCollected:YES];
+end_of_search:
 		[lock unlock];
+
+end_of_device_handling:
 		IOObjectRelease(device);
 	}
 }
@@ -193,7 +190,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 {
 	[self enumerateAll];		// be on the safe side
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> found %ld devices", [self class], (long) [devices count]);
+	NSLog(@"%@ >> found %d devices", [self class], [devices count]);
 #endif
 }
 

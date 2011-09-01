@@ -41,11 +41,7 @@
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self setThreadNameFromClassName];
-	
-	SEL selector = NSSelectorFromString(@"doUpdate");
-	if ([self respondsToSelector: selector])
-		[self performSelector: selector];
-	
+	[self performSelector:@selector(doUpdate)];
 	[pool release];
 }
 
@@ -71,12 +67,10 @@
 
 	[loopTimer invalidate];
 	loopTimer = nil;
-	
-	SEL selector = NSSelectorFromString(@"clearCollectedData");
-	if ([self respondsToSelector: selector])
-		[self performSelector: selector];
-	
+
+	[self performSelector:@selector(clearCollectedData)];
 	[self setDataCollected:NO];
+
 	running = NO;
 }
 

@@ -8,7 +8,6 @@
 
 #import "DSLogger.h"
 #import "EvidenceSource.h"
-#import "PrefsWindowController.h"
 
 
 @interface EvidenceSource (Private)
@@ -206,7 +205,7 @@
 {
 	if ([dict objectForKey:@"context"]) {
 		// Set up context selector
-		NSInteger index = [ruleContext indexOfItemWithRepresentedObject:[dict valueForKey:@"context"]];
+		int index = [ruleContext indexOfItemWithRepresentedObject:[dict valueForKey:@"context"]];
 		[ruleContext selectItemAtIndex:index];
 	}
 
@@ -263,10 +262,10 @@
 // NSMenu delegates (for adding rules)
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel;
 - (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action;
-- (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu;
+- (int)numberOfItemsInMenu:(NSMenu *)menu;
 
 // NSTableViewDataSource protocol methods
-- (NSUInteger)numberOfRowsInTableView:(NSTableView *)aTableView;
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 
@@ -460,14 +459,14 @@
 	return NO;
 }
 
-- (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu
+- (int)numberOfItemsInMenu:(NSMenu *)menu
 {
 	return [sources count];
 }
 
 #pragma mark NSTableViewDataSource protocol methods
 
-- (NSUInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [sources count];
 }

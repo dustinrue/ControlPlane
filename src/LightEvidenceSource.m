@@ -14,7 +14,7 @@
 
 @interface LightEvidenceSource (Private)
 
-- (double)levelFromRawLeft:(uint64_t)left andRight:(uint64_t)right;
+- (double)levelFromRawLeft:(int)left andRight:(int)right;
 
 @end
 
@@ -23,7 +23,7 @@
 @implementation LightEvidenceSource
 
 // Returns value in [0.0, 1.0]
-- (double)levelFromRawLeft:(uint64_t)left andRight:(uint64_t)right
+- (double)levelFromRawLeft:(int)left andRight:(int)right
 {
 	// FIXME(rdamazio): This value is probably incorrect
 	// COMMENTS(dustinrue) below is the observed max value on a 13" unibody MacBook (Late 2008)
@@ -106,7 +106,7 @@
 	[self setValue:perc forKey:@"currentLevel"];
 
 #ifdef DEBUG_MODE
-	NSLog(@"%@ >> Current light level: L:%llu R:%llu. (%@)", [self class], leftLight, rightLight, currentLevel);
+	NSLog(@"%@ >> Current light level: L:%d R:%d. (%@)", [self class], leftLight, rightLight, currentLevel);
 #endif
 	[lock unlock];
 }
@@ -151,7 +151,7 @@
 	BOOL above = YES;
 	double level = 0.5;
 	if ([dict objectForKey:@"parameter"]) {
-		level = [[dict valueForKey:@"parameter"] doubleValue];
+		double level = [[dict valueForKey:@"parameter"] doubleValue];
 		above = (level >= 0);
 		level = fabs(level);
 	}

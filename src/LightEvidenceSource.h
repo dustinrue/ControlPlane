@@ -21,7 +21,7 @@ enum {
 @interface LightEvidenceSource : LoopingEvidenceSource {
 	NSLock *lock;
 	io_connect_t ioPort;
-	uint64_t leftLight, rightLight;
+	int leftLight, rightLight;
 	int maxLevel;
 
 	// For custom panel
