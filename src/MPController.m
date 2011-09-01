@@ -193,11 +193,8 @@ MPController *mp_controller;
 	NSMutableDictionary *lookup = [NSMutableDictionary dictionary];	// map location name -> (Context *)
 	int cnt = 0;
 	while ((dict = [en nextObject])) {
-<<<<<<< HEAD
-		ctxt = [contextsDataSource createContextWithName:[dict valueForKey:@"option"] fromUI:NO];
-=======
 		Context *ctxt = [contextsDataSource newContextWithName:[dict valueForKey:@"option"] fromUI:NO];
->>>>>>> parent of 65bc8ab... bunch of maintenance stuff:
+
 		[lookup setObject:ctxt forKey:[ctxt name]];
 		++cnt;
 	}
