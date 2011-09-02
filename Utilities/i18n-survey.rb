@@ -16,8 +16,8 @@ require 'iconv'
 $stdout.sync = true
 
 print "Looking for translations... "
-$languages = Dir["*.lproj/Localizable\.strings"]\
-		.map { |x| x.sub(/\.lproj\/.*$/, "") }
+$languages = Dir["Resources/*.lproj/Localizable\.strings"]\
+		.map { |x| x.sub(/Resources\//, "").sub(/\.lproj\/.*$/, "") }
 puts "Found #{$languages.size.nice("language")} (#{$languages.join(", ")})"
 if $languages.empty?
 	puts "--> Nothing to do."
@@ -34,7 +34,7 @@ if $base_language.nil?
 end
 
 print "Finding nibs... "
-$nibs = Dir["#{$base_language}.lproj/*.nib"]\
+$nibs = Dir["Resources/#{$base_language}.lproj/*.nib"]\
 		.map { |x| x.sub(/^.*\.lproj\/(.*)\.nib$/, '\1') }.sort
 puts $nibs.join(", ")
 
@@ -42,7 +42,7 @@ print "Loading strings files... "
 $strings = {}
 $languages.each do |lang|
 	print "[#{lang}:"
-	raw = File.read("#{lang}.lproj/Localizable.strings")
+	raw = File.read("Resources/#{lang}.lproj/Localizable.strings")
 	lines = Iconv.conv('UTF-8', 'UTF-16', raw).split(/\n/)
 
 	# Remove comment lines and blank lines
