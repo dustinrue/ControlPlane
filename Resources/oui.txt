@@ -13358,6 +13358,7 @@
 3C-6F-45	Fiberpro Inc.
 3C-74-37	RIM
 3C-75-4A	Motorola Mobility, Inc.
+3C-7D-B1	Texas Instruments
 3C-8B-FE	Samsung Electronics
 3C-91-57	Hangzhou Yulong Conmunication Co.,Ltd
 3C-99-F7	Lansentechnology AB
@@ -13404,6 +13405,7 @@
 40-66-7A	mediola - connected living AG
 40-6A-AB	RIM
 40-6C-8F	Apple, Inc.
+40-7B-1B	Mettle Networks Pvt Ltd
 40-83-DE	Motorola
 40-84-93	Clavister AB
 40-8A-9A	TITENG CO., Ltd.
@@ -13483,6 +13485,7 @@
 44-E4-D9	Cisco Systems
 44-ED-57	Longicorn, inc.
 44-F4-59	Samsung Electronics
+48-02-2A	B-Link Electronic Limited
 48-12-49	Luxcom Technologies Inc.
 48-13-F3	BBK Electronics Corp., Ltd.
 48-17-4C	MicroPower technologies
@@ -13553,6 +13556,7 @@
 4C-E6-76	BUFFALO INC.
 4C-ED-DE	Askey Computer Corp
 4C-F7-37	SamJi Electronics Co., Ltd
+50-0B-32	Foxda Technology Industrial(ShenZhen)Co.,LTD
 50-0E-6D	TrafficCast International
 50-25-2B	Nethra Imaging Incorporated
 50-2A-7E	Smart electronic GmbH
@@ -13661,6 +13665,7 @@
 5C-14-37	Thyssenkrupp Aufzugswerke GmbH
 5C-16-C7	Big Switch Networks
 5C-17-D3	LGE 
+5C-18-B5	Talon Communications
 5C-26-0A	Dell Inc.
 5C-33-8E	Alpha Networkc Inc.
 5C-35-3B	Compal Broadband Networks Inc.
@@ -13780,6 +13785,7 @@
 64-DB-18	OpenPattern
 64-DC-01	Static Systems Group PLC
 64-DE-1C	Kingnetic Pte Ltd
+64-E1-61	DEP Corp.
 64-E8-4F	Serialway Communication Technology Co. Ltd
 64-E8-E6	global moisture management system
 64-ED-57	Motorola Mobility, Inc.
@@ -14323,6 +14329,7 @@
 98-8B-AD	Corintech Ltd.
 98-8E-34	ZHEJIANG BOXSAM ELECTRONIC CO.,LTD
 98-8E-DD	Raychem International
+98-90-80	Linkpower Network System Inc Ltd.
 98-94-49	Skyworth Wireless Technology Ltd.
 98-BC-99	Edeltech Co.,Ltd.
 98-C8-45	PacketAccess
@@ -14603,6 +14610,7 @@ B4-58-61	CRemote, LLC
 B4-5C-A4	Thing-talk Wireless Communication Technologies Corporation Limited
 B4-74-9F	askey computer corp
 B4-82-FE	Askey Computer Corp
+B4-94-4E	WeTelecom Co., Ltd.
 B4-99-BA	Hewlett-Packard Company
 B4-A4-E3	Cisco Systems
 B4-A5-A9	MODI GmbH
@@ -14806,6 +14814,7 @@ C8-9C-1D	Cisco Systems
 C8-9C-DC	ELITEGROUP COMPUTER SYSTEM CO., LTD.
 C8-A1-B6	Shenzhen Longway Technologies Co., Ltd
 C8-A1-BA	Neul Ltd
+C8-A6-20	Nebula, Inc
 C8-A7-0A	Verizon Business
 C8-A7-29	SYStronics Co., Ltd.
 C8-AA-21	Motorola Mobility, Inc.
@@ -14876,6 +14885,7 @@ CC-F9-54	Avaya, Inc
 CC-F9-E8	Samsung Electronics Co.,Ltd
 CC-FC-6D	RIZ TRANSMITTERS
 CC-FC-B1	Wireless Technology, Inc.
+D0-07-90	Texas Instruments
 D0-13-1E	Sunrex Technology Corp
 D0-15-4A	zte corporation
 D0-17-6A	Samsung Electronics Co.,Ltd
@@ -15045,6 +15055,7 @@ DC-E7-1C	AUG Elektronik GmbH
 DC-F0-5D	Letta Teknoloji
 DC-FA-D5	STRONG Ges.m.b.H.
 E0-05-C5	TP-LINK Technologies Co.,Ltd.
+E0-0B-28	Inovonics
 E0-0C-7F	Nintendo Co., Ltd.
 E0-14-3E	Modoosis Inc.
 E0-1C-EE	Bravo Tech, Inc.
@@ -15125,6 +15136,7 @@ E4-DD-79	En-Vision America, Inc.
 E4-E0-C5	Samsung Electronics Co., LTD
 E4-EC-10	Nokia Corporation
 E4-FF-DD	ELECTRON INDIA
+E8-03-9A	Samsung Electronics Co.,LTD
 E8-04-0B	Apple Inc
 E8-04-62	Cisco Systems
 E8-05-6D	Nortel Networks
@@ -15361,6 +15373,7 @@ FC-75-E6	Handreamnet
 FC-7C-E7	FCI USA LLC
 FC-83-29	Trei technics
 FC-8E-7E	Pace plc
+FC-94-6C	UBIVELOX
 FC-A1-3E	Samsung Electronics
 FC-A8-41	Avaya, Inc
 FC-AF-6A	Conemtech AB

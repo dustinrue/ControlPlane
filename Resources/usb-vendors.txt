@@ -33,7 +33,6 @@
 1131|American Megatrends
 1133|Logitech Inc.
 1140|Sanyo Electric Co. Ltd.
-1146|Semtech Corporation
 1150|LSI Corporation
 1151|Plantronics, Inc.
 1152|Toshiba America Info. Systems, Inc.
@@ -76,6 +75,7 @@
 1302|Longwell Electronics/Longwell Company
 1305|Star Micronics Co., LTD
 1309|American Power Conversion
+1312|Taiwan Semiconductor Manufacturing Co.
 1314|ACON, Advanced-Connectek, Inc.
 1317|PLX Technology, Inc.
 1321|Aladdin Knowledge Systems
@@ -153,6 +153,7 @@
 1732|Bizlink Technology, Inc.
 1736|SIIG, Inc.
 1747|Mitsubishi Electric Corporation
+1758|Heisei Electronics Co. Ltd.
 1802|Oki Electric Industry Co., Ltd.
 1806|Excel Cell Electronic Co., Ltd.
 1809|Magic Control Technology Corp.
@@ -284,6 +285,7 @@
 3524|inXtron, Inc.
 3525|SDK Co, Ltd.
 3537|Contek Electronics Co., Ltd.
+3538|Power Quotient International Co., Ltd.
 3540|Custom Engineering SPA
 3562|UTECH Electronic (D.G.) Co., Ltd.
 3619|Liou Yuane International Ltd.
@@ -339,7 +341,6 @@
 4270|Princeton Technology Corp.
 4280|DIBCOM
 4283|TM Technology Inc.
-4292|Silicon Laboratories, Inc.
 4301|Kycon Inc.
 4310|Actions Semiconductor Co., Ltd.
 4370|Golden Bright (Sichuan) Electronic Technology Co Ltd
@@ -349,7 +350,6 @@
 4398|Master Hill Electric Wire and Cable Co., Ltd.
 4400|Tenx Technology, Inc.
 4422|Shimane SANYO Electric Co., Ltd.
-4427|Sphairon Technologies GmbH
 4429|Alpha Imaging Technology Corp.
 4443|Salix Technology Co., Ltd.
 4469|Sheng Yih Technologies Co., Ltd.
@@ -476,7 +476,6 @@
 6794|Simula Technology Inc.
 6795|SGS Taiwan Ltd.
 6808|Leica Camera AG
-6822|eFortune Technology Corp.
 6830|Johnson Component & Equipments Co., Ltd.
 6859|Salcomp Plc
 6865|Desan Wire Co., Ltd.
@@ -509,6 +508,7 @@
 7393|Amphenol KAE
 7432|NINGBO HENTEK DRAGON ELECTRONICS CO., LTD.
 7434|Johnson Controls, Inc.
+7465|Horng Tong Enterprise Co., Ltd.
 7490|DRAGON JOY LIMITED
 7491|Montage Technology, Inc.
 7493|Qisda Corporation
@@ -541,7 +541,6 @@
 7863|WIN WIN PRECISION INDUSTRIAL CO., LTD.
 7881|MOSER BAER INDIA LIMITED
 7892|Transwitch (Israel) Ltd.
-7899|BLACKMAGIC DESIGN PTY.
 7965|How Weih Precision Technology (Shenzhen)Co., Ltd.
 7968|Shenzhen Tenwei Electronics Co., Ltd.
 7976|Cal-Comp Electronics & Communications
@@ -574,7 +573,6 @@
 8386|Sumitomo Electric Ind., Ltd., Optical Comm. R&D Lab
 8439|SOFTHARD Technology Ltd.
 8445|NOVO NORDISK A/S
-8446|Elektrobit Inc.
 8457|VIA Labs, Inc.
 8470|KT Tech Inc.
 8492|Shenzhen Linoya Electronic Co., Ltd.
@@ -612,6 +610,7 @@
 8979|Kunshan Jiahua Electronics Co., Ltd.
 8981|Avery Design Systems, Inc.
 9008|Tensorcom
+9048|Greenconn Corporation
 9049|Shenzhen Autone-Tronic Technology Co., Ltd.
 9068|ZheJiang Chunsheng Electronics Co., Ltd.
 9069|e-supplies Co., Ltd.
@@ -685,3 +684,6 @@
 9627|INUVIO
 9628|Immedia Semiconductor Inc.
 9629|RCA DA AMAZONIA LTDA
+9636|ALGOLTEK, INC.
+9643|Carmanah Signs
+9650|DRS-RSTA, Inc.
