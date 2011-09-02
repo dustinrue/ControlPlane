@@ -151,6 +151,7 @@
 #import "DesktopBackgroundAction.h"
 #import "FirewallRuleAction.h"
 #import "IChatAction.h"
+#import "LockKeychainAction.h"
 #import "MailIMAPServerAction.h"
 #import "MailSMTPServerAction.h"
 #import "MailIntervalAction.h"
@@ -182,6 +183,7 @@
 			   [DesktopBackgroundAction class],
 			   [FirewallRuleAction class],
 			   [IChatAction class],
+			   [LockKeychainAction class],
 			   [MailIMAPServerAction class],
 			   [MailSMTPServerAction class],
 			   [MailIntervalAction class],
@@ -208,6 +210,7 @@
 		NSLocalizedString(@"DesktopBackground", @"Action type");
 		NSLocalizedString(@"FirewallRule", @"Action type");
 		NSLocalizedString(@"IChat", @"Action type");
+		NSLocalizedString(@"LockKeychain", @"Action type");
 		NSLocalizedString(@"MailIMAPServer", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
 		NSLocalizedString(@"MailInterval", @"Action type");

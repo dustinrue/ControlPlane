@@ -101,6 +101,8 @@
 		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
 		DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */; };
 		DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F514116CC80098FA6E /* OpenURLAction.m */; };
+		DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F81411748B0098FA6E /* LockKeychainAction.m */; };
+		DD8274FB141177750098FA6E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -307,6 +309,9 @@
 		DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartTimeMachineAction.m; path = Source/StartTimeMachineAction.m; sourceTree = "<group>"; };
 		DD8274F414116CC80098FA6E /* OpenURLAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenURLAction.h; path = Source/OpenURLAction.h; sourceTree = "<group>"; };
 		DD8274F514116CC80098FA6E /* OpenURLAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenURLAction.m; path = Source/OpenURLAction.m; sourceTree = "<group>"; };
+		DD8274F71411748B0098FA6E /* LockKeychainAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockKeychainAction.h; sourceTree = "<group>"; };
+		DD8274F81411748B0098FA6E /* LockKeychainAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockKeychainAction.m; sourceTree = "<group>"; };
+		DD8274FA141177750098FA6E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = Source/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = Source/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
@@ -318,6 +323,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD8274FB141177750098FA6E /* Security.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
 				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
@@ -384,6 +390,7 @@
 				8D481B070B6098DD0097CF9C /* IOKit.framework */,
 				DA48F2E3140AD2FC00B000D3 /* Kernel.framework */,
 				DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */,
+				DD8274FA141177750098FA6E /* Security.framework */,
 				8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */,
 				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
 			);
@@ -580,6 +587,8 @@
 				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
 				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
 				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
+				DD8274F71411748B0098FA6E /* LockKeychainAction.h */,
+				DD8274F81411748B0098FA6E /* LockKeychainAction.m */,
 				8DCBE9690C1A7ECE008260EF /* MountAction.h */,
 				8DCBE96A0C1A7ECE008260EF /* MountAction.m */,
 				8DC4E7F80C178917007E7E41 /* MuteAction.h */,
@@ -816,6 +825,7 @@
 				DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */,
 				DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */,
 				DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */,
+				DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
