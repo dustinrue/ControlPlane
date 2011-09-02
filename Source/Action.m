@@ -163,6 +163,7 @@
 #import "ScreenSaverStartAction.h"
 #import "ScreenSaverTimeAction.h"
 #import "ShellScriptAction.h"
+#import "StartTimeMachineAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
@@ -176,27 +177,29 @@
 		return nil;
 
 	classes = [[NSArray alloc] initWithObjects:
-		[DefaultPrinterAction class],
-		[DesktopBackgroundAction class],
-		[FirewallRuleAction class],
-		[IChatAction class],
-		[MailIMAPServerAction class],
-		[MailSMTPServerAction class],
-		[MailIntervalAction class],
-		[MountAction class],
-		[MuteAction class],
-		[NetworkLocationAction class],
-		[OpenAction class],
-		[QuitApplicationAction class],
-		[ScreenSaverPasswordAction class],
-		[ScreenSaverStartAction class],
-		[ScreenSaverTimeAction class],
-		[ShellScriptAction class],
-		[ToggleBluetoothAction class],
-		[ToggleWiFiAction class],
-		[UnmountAction class],
-		[VPNAction class],
+			   [DefaultPrinterAction class],
+			   [DesktopBackgroundAction class],
+			   [FirewallRuleAction class],
+			   [IChatAction class],
+			   [MailIMAPServerAction class],
+			   [MailSMTPServerAction class],
+			   [MailIntervalAction class],
+			   [MountAction class],
+			   [MuteAction class],
+			   [NetworkLocationAction class],
+			   [OpenAction class],
+			   [QuitApplicationAction class],
+			   [ScreenSaverPasswordAction class],
+			   [ScreenSaverStartAction class],
+			   [ScreenSaverTimeAction class],
+			   [ShellScriptAction class],
+			   [StartTimeMachineAction class],
+			   [ToggleBluetoothAction class],
+			   [ToggleWiFiAction class],
+			   [UnmountAction class],
+			   [VPNAction class],
 			nil];
+	
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
@@ -215,6 +218,7 @@
 		NSLocalizedString(@"ScreenSaverStart", @"Action type");
 		NSLocalizedString(@"ScreenSaverTime", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
+		NSLocalizedString(@"StartTimeMachine", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
 		NSLocalizedString(@"Unmount", @"Action type");

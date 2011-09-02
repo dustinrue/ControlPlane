@@ -99,6 +99,7 @@
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
 		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
+		DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -301,6 +302,8 @@
 		DD8274E5141147BB0098FA6E /* controlplane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = controlplane.icns; path = Resources/controlplane.icns; sourceTree = "<group>"; };
 		DD8274EE141154780098FA6E /* MailIntervalAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailIntervalAction.h; path = Source/MailIntervalAction.h; sourceTree = "<group>"; };
 		DD8274EF141154780098FA6E /* MailIntervalAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MailIntervalAction.m; path = Source/MailIntervalAction.m; sourceTree = "<group>"; };
+		DD8274F114115EE40098FA6E /* StartTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartTimeMachineAction.h; path = Source/StartTimeMachineAction.h; sourceTree = "<group>"; };
+		DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartTimeMachineAction.m; path = Source/StartTimeMachineAction.m; sourceTree = "<group>"; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = Source/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = Source/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
@@ -584,6 +587,8 @@
 				8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */,
 				8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */,
 				8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */,
+				DD8274F114115EE40098FA6E /* StartTimeMachineAction.h */,
+				DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
 				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
 				8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */,
@@ -804,6 +809,7 @@
 				DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */,
 				DA812E83140681D2006869F7 /* AppleScript.m in Sources */,
 				DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */,
+				DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
