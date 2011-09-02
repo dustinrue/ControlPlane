@@ -682,7 +682,6 @@
 9608|Infinitegra, Inc.
 9617|Optimus Semiconductor Inc.
 9627|INUVIO
-9628|Immedia Semiconductor Inc.
 9629|RCA DA AMAZONIA LTDA
 9636|ALGOLTEK, INC.
 9643|Carmanah Signs

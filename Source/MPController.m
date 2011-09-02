@@ -213,7 +213,7 @@ MPController *mp_controller;
 	if (!oldRules || !oldActions) {
 		if (oldRules)
 			CFRelease(oldRules);
-		else
+		else if (oldActions)
 			CFRelease(oldActions);
 		
 		[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
