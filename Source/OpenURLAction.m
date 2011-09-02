@@ -53,7 +53,7 @@
 	if ([[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: url]])
 		return YES;
 	
-	*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening URL '%@'.", @""), url];
+	*errorString = [NSString stringWithFormat: NSLocalizedString(@"Failed opening URL '%@'.", @""), url];
 	return NO;
 }
 

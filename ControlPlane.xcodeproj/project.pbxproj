@@ -103,6 +103,7 @@
 		DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F514116CC80098FA6E /* OpenURLAction.m */; };
 		DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F81411748B0098FA6E /* LockKeychainAction.m */; };
 		DD8274FB141177750098FA6E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
+		DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274FD14117C580098FA6E /* SpeakAction.m */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -312,6 +313,8 @@
 		DD8274F71411748B0098FA6E /* LockKeychainAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockKeychainAction.h; sourceTree = "<group>"; };
 		DD8274F81411748B0098FA6E /* LockKeychainAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockKeychainAction.m; sourceTree = "<group>"; };
 		DD8274FA141177750098FA6E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		DD8274FC14117C570098FA6E /* SpeakAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpeakAction.h; path = Source/SpeakAction.h; sourceTree = "<group>"; };
+		DD8274FD14117C580098FA6E /* SpeakAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpeakAction.m; path = Source/SpeakAction.m; sourceTree = "<group>"; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = Source/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = Source/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
@@ -574,6 +577,8 @@
 				8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */,
 				8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */,
 				8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */,
+				DD8274FC14117C570098FA6E /* SpeakAction.h */,
+				DD8274FD14117C580098FA6E /* SpeakAction.m */,
 			);
 			name = "Application Actions";
 			sourceTree = "<group>";
@@ -826,6 +831,7 @@
 				DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */,
 				DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */,
 				DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */,
+				DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

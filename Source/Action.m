@@ -165,6 +165,7 @@
 #import "ScreenSaverStartAction.h"
 #import "ScreenSaverTimeAction.h"
 #import "ShellScriptAction.h"
+#import "SpeakAction.h"
 #import "StartTimeMachineAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleWiFiAction.h"
@@ -197,6 +198,7 @@
 			   [ScreenSaverStartAction class],
 			   [ScreenSaverTimeAction class],
 			   [ShellScriptAction class],
+			   [SpeakAction class],
 			   [StartTimeMachineAction class],
 			   [ToggleBluetoothAction class],
 			   [ToggleWiFiAction class],
@@ -224,6 +226,7 @@
 		NSLocalizedString(@"ScreenSaverStart", @"Action type");
 		NSLocalizedString(@"ScreenSaverTime", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
+		NSLocalizedString(@"Speak", @"Action type");
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
