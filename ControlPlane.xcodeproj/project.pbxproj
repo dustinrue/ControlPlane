@@ -311,13 +311,13 @@
 		DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartTimeMachineAction.m; path = Source/StartTimeMachineAction.m; sourceTree = "<group>"; };
 		DD8274F414116CC80098FA6E /* OpenURLAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenURLAction.h; path = Source/OpenURLAction.h; sourceTree = "<group>"; };
 		DD8274F514116CC80098FA6E /* OpenURLAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenURLAction.m; path = Source/OpenURLAction.m; sourceTree = "<group>"; };
-		DD8274F71411748B0098FA6E /* LockKeychainAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockKeychainAction.h; sourceTree = "<group>"; };
-		DD8274F81411748B0098FA6E /* LockKeychainAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockKeychainAction.m; sourceTree = "<group>"; };
+		DD8274F71411748B0098FA6E /* LockKeychainAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LockKeychainAction.h; path = Source/LockKeychainAction.h; sourceTree = "<group>"; };
+		DD8274F81411748B0098FA6E /* LockKeychainAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LockKeychainAction.m; path = Source/LockKeychainAction.m; sourceTree = "<group>"; };
 		DD8274FA141177750098FA6E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DD8274FC14117C570098FA6E /* SpeakAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpeakAction.h; path = Source/SpeakAction.h; sourceTree = "<group>"; };
 		DD8274FD14117C580098FA6E /* SpeakAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpeakAction.m; path = Source/SpeakAction.m; sourceTree = "<group>"; };
-		DD827505141188880098FA6E /* DisplayBrightnessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayBrightnessAction.h; sourceTree = "<group>"; };
-		DD827506141188880098FA6E /* DisplayBrightnessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayBrightnessAction.m; sourceTree = "<group>"; };
+		DD827505141188880098FA6E /* DisplayBrightnessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayBrightnessAction.h; path = Source/DisplayBrightnessAction.h; sourceTree = "<group>"; };
+		DD827506141188880098FA6E /* DisplayBrightnessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayBrightnessAction.m; path = Source/DisplayBrightnessAction.m; sourceTree = "<group>"; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = Source/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = Source/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
@@ -593,6 +593,8 @@
 				8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */,
 				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
 				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
+				DD827505141188880098FA6E /* DisplayBrightnessAction.h */,
+				DD827506141188880098FA6E /* DisplayBrightnessAction.m */,
 				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
 				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
 				DD8274F71411748B0098FA6E /* LockKeychainAction.h */,
@@ -619,8 +621,6 @@
 				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
-				DD827505141188880098FA6E /* DisplayBrightnessAction.h */,
-				DD827506141188880098FA6E /* DisplayBrightnessAction.m */,
 			);
 			name = "System Actions";
 			sourceTree = "<group>";
