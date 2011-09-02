@@ -16,7 +16,7 @@
 		8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A45590BA00DE2004A6BC4 /* minus-8.png */; };
 		8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A455A0BA00DE2004A6BC4 /* plus-8.png */; };
 		8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D20720E0B86AB0000D61A9E /* Sparkle.framework */; };
-		8D2073890B86AB8000D61A9E /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D20720E0B86AB0000D61A9E /* Sparkle.framework */; };
+		8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D20720E0B86AB0000D61A9E /* Sparkle.framework */; };
 		8D232F800BD9D228006A3963 /* GeneralPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232F7F0BD9D228006A3963 /* GeneralPrefs.tiff */; };
 		8D232FB50BD9D507006A3963 /* ActionsPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB30BD9D507006A3963 /* ActionsPrefs.tiff */; };
 		8D232FB60BD9D507006A3963 /* RulesPrefs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB40BD9D507006A3963 /* RulesPrefs.tiff */; };
@@ -50,7 +50,7 @@
 		8D73CC700C47125300DF839E /* WiFiEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */; };
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
 		8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
-		8D80BBA30B8B036C00104A87 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
+		8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
 		8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8155CE0C3A304E00228463 /* ContextsDataSource.m */; };
 		8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */; };
 		8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */; };
@@ -104,25 +104,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8D2073870B86AB5100D61A9E /* CopyFiles */ = {
+		8D2073870B86AB5100D61A9E /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8D80BBA30B8B036C00104A87 /* Growl.framework in CopyFiles */,
-				8D2073890B86AB8000D61A9E /* Sparkle.framework in CopyFiles */,
+				8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */,
+				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D8E50140BA7CFB2005DBC9F /* Copy Help Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy Help Files";
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -426,19 +417,17 @@
 			isa = PBXGroup;
 			children = (
 				DA4A629413E25C9D00CE976F /* Credits.html */,
-				DA273778140C8666006ADFDE /* controlplane.icns */,
 				DA4A629213E2546800CE976F /* ControlPlane Help */,
+				DA273778140C8666006ADFDE /* controlplane.icns */,
 				DA16392513D4B14A00E3F421 /* dsa_pub.pem */,
 				DA83A22613D1430000074503 /* usb-vendors.txt */,
 				DA83A22213D13DF300074503 /* cp-icon.icns */,
 				DA83A21E13D12A3200074503 /* cp-icon-active.icns */,
 				DA83A22013D13C8300074503 /* cp-icon-inactive.icns */,
-				8DC410FA0C64665E00393759 /* AboutPanel.nib */,
 				8D88FE290C534737007A14D6 /* pause.png */,
 				8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.tiff */,
 				8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.tiff */,
 				8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */,
-				8D514D3E0BE994A10013C1ED /* Localizable.strings */,
 				8D4DBDC20BE1E3C00024DEA0 /* gear.png */,
 				8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */,
 				8D232FB30BD9D507006A3963 /* ActionsPrefs.tiff */,
@@ -449,6 +438,8 @@
 				8D1A455A0BA00DE2004A6BC4 /* plus-8.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				DDE1B067140438DB006564A6 /* ControlPlane.sdef */,
+				8D514D3E0BE994A10013C1ED /* Localizable.strings */,
+				8DC410FA0C64665E00393759 /* AboutPanel.nib */,
 				8DE4C00A0C4EE58D00511590 /* GenericRule.nib */,
 				8D66DBD70C548F100093D0D8 /* IPRule.nib */,
 				8D643D0B0C4EF84E006D8ECC /* LightRule.nib */,
@@ -592,12 +583,11 @@
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "ControlPlane" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
-				8D8E50140BA7CFB2005DBC9F /* Copy Help Files */,
 				DD7CD9B0140EDBA90037463E /* Generate Script Bridge Headers */,
 				8D11072C0486CEB800E47090 /* Sources */,
-				8DEF43B20BAA072400F87273 /* ShellScript */,
+				8DEF43B20BAA072400F87273 /* Index Help */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				8D2073870B86AB5100D61A9E /* CopyFiles */,
+				8D2073870B86AB5100D61A9E /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -697,7 +687,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8DEF43B20BAA072400F87273 /* ShellScript */ = {
+		8DEF43B20BAA072400F87273 /* Index Help */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
 			files = (
@@ -705,6 +695,7 @@
 			inputPaths = (
 				"$(SRCROOT)/ControlPlane Help/index.html",
 			);
+			name = "Index Help";
 			outputPaths = (
 				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/ControlPlane Help/ControlPlane Help idx",
 			);
@@ -808,6 +799,7 @@
 				8D9ED1700C69D62C000FE939 /* fr */,
 			);
 			name = MainMenu.nib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		8D514D3E0BE994A10013C1ED /* Localizable.strings */ = {
@@ -821,6 +813,7 @@
 				8D9ED16C0C69D5DC000FE939 /* fr */,
 			);
 			name = Localizable.strings;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		8D643D0B0C4EF84E006D8ECC /* LightRule.nib */ = {
@@ -834,6 +827,7 @@
 				8D9ED16F0C69D61F000FE939 /* fr */,
 			);
 			name = LightRule.nib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		8D66DBD70C548F100093D0D8 /* IPRule.nib */ = {
@@ -847,6 +841,7 @@
 				8D9ED16E0C69D613000FE939 /* fr */,
 			);
 			name = IPRule.nib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		8DE429460C5091F90073499A /* TimeOfDayRule.nib */ = {
@@ -860,6 +855,7 @@
 				8D9ED1710C69D636000FE939 /* fr */,
 			);
 			name = TimeOfDayRule.nib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		8DE4C00A0C4EE58D00511590 /* GenericRule.nib */ = {
@@ -873,6 +869,7 @@
 				8D9ED16D0C69D600000FE939 /* fr */,
 			);
 			name = GenericRule.nib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
