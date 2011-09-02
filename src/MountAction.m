@@ -51,21 +51,22 @@
 	return [NSString stringWithFormat:NSLocalizedString(@"Mounting '%@'.", @""), path];
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
-	// TODO: change this to use FSMountServerVolumeSync
-	NSString *script = [NSString stringWithFormat:
-		@"tell application \"Finder\"\n"
-		"  activate\n"
-		"  mount volume \"%@\"\n"
-		"end tell\n", path];
-
-	if (![self executeAppleScript:script]) {
+- (BOOL) execute: (NSString **) errorString {
+	FSVolumeRefNum refNum;
+	
+	// make sure any space characters in the url string are percent-escaped
+	NSString *escapedPath = [path stringByAddingPercentEscapesUsingEncoding: NSMacOSRomanStringEncoding];
+	NSURL *url = [NSURL URLWithString: escapedPath];
+	
+	// try to mount
+	OSStatus error = FSMountServerVolumeSync((CFURLRef) url, NULL, NULL, NULL, &refNum, 0L);
+	
+	if (error) {
+		NSLog(@"Server %@ reported error %ld", path, (long) error);
 		*errorString = NSLocalizedString(@"Couldn't mount that volume!", @"In MountAction");
-		return NO;
 	}
-
-	return YES;
+	
+	return (error ? NO : YES);
 }
 
 + (NSString *)helpText
