@@ -3,7 +3,7 @@
 //  ControlPlane
 //
 //  Created by David Jennes on 02/09/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011. All rights reserved.
 //
 
 #import "ToggleableAction.h"
