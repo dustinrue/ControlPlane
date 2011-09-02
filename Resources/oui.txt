@@ -13256,6 +13256,7 @@
 30-68-8C	Reach Technology Inc.
 30-69-4B	RIM
 30-6C-BE	Skymotion Technology (HK) Limited
+30-6E-5C	Validus Technologies
 30-71-B2	Hangzhou Prevail Optoelectronic Equipment Co.,LTD.
 30-7C-30	RIM
 30-7E-CB	SFR
@@ -13686,7 +13687,9 @@
 5C-87-78	Cybertelbridge co.,ltd
 5C-9A-D8	Fujitsu Limited
 5C-AC-4C	Hon Hai Precision Ind. Co.,Ltd.
+5C-B5-24	Sony Ericsson Mobile Communications AB
 5C-BD-9E	HONGKONG MIRACLE EAGLE TECHNOLOGY(GROUP) LIMITED
+5C-C9-D3	PALLADIUM ENERGY ELETRONICA DA AMAZONIA LTDA
 5C-CA-32	Theben AG
 5C-CE-AD	CDYNE Corporation
 5C-D1-35	Xtreme Power Systems
@@ -14394,6 +14397,7 @@ A0-36-FA	Ettus Research LLC
 A0-3A-75	PSS Belgium N.V.
 A0-40-25	Actioncable, Inc.
 A0-40-41	SAMWONFA Co.,Ltd.
+A0-42-3F	Tyan Computer Corp
 A0-4E-04	Nokia Corporation
 A0-55-DE	Pace plc
 A0-59-3A	V.D.S. Video Display Systems srl
@@ -14652,6 +14656,7 @@ B8-8E-3A	Infinite Technologies JLT
 B8-92-1D	BG T&amp;A
 B8-94-D2	Retail Innovation HTT AB
 B8-9A-ED	OceanServer Technology, Inc
+B8-9B-C9	SMC Networks Inc
 B8-A3-E0	BenRui Technology Co.,Ltd
 B8-A8-AF	Logic S.p.A.
 B8-AC-6F	Dell Inc
@@ -14809,6 +14814,7 @@ C8-87-3B	Net Optics
 C8-8B-47	Opticos s.r.l.
 C8-90-3E	Pakton Technologies
 C8-93-83	Embedded Automation, Inc.
+C8-94-D2	Jiangsu Datang
 C8-97-9F	Nokia Corporation
 C8-9C-1D	Cisco Systems
 C8-9C-DC	ELITEGROUP COMPUTER SYSTEM CO., LTD.
@@ -15066,6 +15072,7 @@ E0-26-30	Intrigue Technologies, Inc.
 E0-26-36	Nortel Networks
 E0-27-1A	TTC Next-generation Home Network System WG
 E0-2A-82	Universal Global Scientific Industrial Co., Ltd.
+E0-39-D7	Plexxi, Inc.
 E0-3E-7D	data-complex GmbH
 E0-46-9A	NETGEAR
 E0-58-9E	Laerdal Medical
@@ -15096,6 +15103,7 @@ E0-CB-4E	ASUSTek COMPUTER INC.
 E0-CF-2D	Gemintek Corporation
 E0-D1-0A	Katoudenkikougyousyo co ltd
 E0-D7-BA	Texas Instruments
+E0-DA-DC	JVC KENWOOD Corporation
 E0-E7-51	Nintendo Co., Ltd.
 E0-E8-E8	Olive Telecommunication Pvt. Ltd
 E0-ED-1A	vastriver Technology Co., Ltd
@@ -15150,6 +15158,7 @@ E8-39-DF	Askey Computer
 E8-3A-97	OCZ Technology Group
 E8-3E-B6	RIM
 E8-40-40	Cisco Systems
+E8-43-B6	QNAP Systems, Inc.
 E8-4E-06	EDUP INTERNATIONAL (HK) CO., LTD
 E8-4E-CE	Nintendo Co., Ltd.
 E8-5B-5B	LG ELECTRONICS INC

@@ -1,6 +1,7 @@
 #! /bin/sh
 
 # make_disk_image.sh
+# run this from the root project dir!
 # MarcoPolo
 #
 # Created by David Symonds on 17/02/07.
@@ -14,9 +15,9 @@ APPNAME=ControlPlane
 IMG=$APPNAME-$VERSION.dmg
 CONFIGURATION=Release
 APP=build/$CONFIGURATION/$APPNAME.app
-ICON=graphics/cp-icon.icns
+ICON=Resources/controlplane.icns
 
-cd scripts
+cd Utilities
 ./update-oui.sh
 ./update-usb-data.sh
 cd ..
@@ -58,6 +59,6 @@ rm "$TMP"
 
 # sign the file for Sparkle
 # run a helper script exposing location of private key for Sparkle updates
-. sparkle_env.sh
-ls -l "$IMG"
-ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 
+#. sparkle_env.sh
+#ls -l "$IMG"
+#ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 
