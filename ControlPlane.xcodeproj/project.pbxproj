@@ -149,7 +149,7 @@
 		8D185DC50BF428CF00A06B03 /* AdvancedPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdvancedPrefs.tiff; path = graphics/AdvancedPrefs.tiff; sourceTree = "<group>"; };
 		8D1A45590BA00DE2004A6BC4 /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "graphics/minus-8.png"; sourceTree = "<group>"; };
 		8D1A455A0BA00DE2004A6BC4 /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "graphics/plus-8.png"; sourceTree = "<group>"; };
-		8D20720E0B86AB0000D61A9E /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		8D20720E0B86AB0000D61A9E /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		8D232F7F0BD9D228006A3963 /* GeneralPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GeneralPrefs.tiff; path = graphics/GeneralPrefs.tiff; sourceTree = "<group>"; };
 		8D232FB30BD9D507006A3963 /* ActionsPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ActionsPrefs.tiff; path = graphics/ActionsPrefs.tiff; sourceTree = "<group>"; };
 		8D232FB40BD9D507006A3963 /* RulesPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = RulesPrefs.tiff; path = graphics/RulesPrefs.tiff; sourceTree = "<group>"; };
@@ -212,7 +212,7 @@
 		8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ScreenSaverPasswordAction.m; path = src/ScreenSaverPasswordAction.m; sourceTree = "<group>"; };
 		8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleBluetoothAction.h; path = src/ToggleBluetoothAction.h; sourceTree = "<group>"; };
 		8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleBluetoothAction.m; path = src/ToggleBluetoothAction.m; sourceTree = "<group>"; };
-		8D80BB950B8B033400104A87 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		8D80BB950B8B033400104A87 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		8D8155CD0C3A304E00228463 /* ContextsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextsDataSource.h; path = src/ContextsDataSource.h; sourceTree = "<group>"; };
 		8D8155CE0C3A304E00228463 /* ContextsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextsDataSource.m; path = src/ContextsDataSource.m; sourceTree = "<group>"; };
 		8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
@@ -363,24 +363,31 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA48F2E3140AD2FC00B000D3 /* Kernel.framework */,
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				8D80BB950B8B033400104A87 /* Growl.framework */,
-				8D481B070B6098DD0097CF9C /* IOKit.framework */,
 				8D20720E0B86AB0000D61A9E /* Sparkle.framework */,
-				8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
 		};
-		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+		1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
+				DD06E810140C661600059764 /* AudioToolbox.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				DA72BF9313CD317B002D27DD /* CoreWLAN.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,
+				8D481B070B6098DD0097CF9C /* IOKit.framework */,
+				DA48F2E3140AD2FC00B000D3 /* Kernel.framework */,
+				DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */,
+				8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */,
+				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
 			);
-			name = "Other Frameworks";
+			name = "Apple Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -454,15 +461,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
-				DD06E810140C661600059764 /* AudioToolbox.framework */,
-				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
-				DA72BF9313CD317B002D27DD /* CoreWLAN.framework */,
-				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,
-				DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */,
-				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
-				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -900,7 +900,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Versions/A/Frameworks\"",
 				);
@@ -946,7 +946,7 @@
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Versions/A/Frameworks\"",
 				);
