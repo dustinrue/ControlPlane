@@ -59,6 +59,6 @@ rm "$TMP"
 
 # sign the file for Sparkle
 # run a helper script exposing location of private key for Sparkle updates
-#. sparkle_env.sh
-#ls -l "$IMG"
-#ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 
+. sparkle_env.sh
+ls -l "$IMG"
+ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 
