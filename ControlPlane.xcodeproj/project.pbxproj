@@ -98,6 +98,7 @@
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
+		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -298,6 +299,8 @@
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DD8274E5141147BB0098FA6E /* controlplane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = controlplane.icns; path = Resources/controlplane.icns; sourceTree = "<group>"; };
+		DD8274EE141154780098FA6E /* MailIntervalAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailIntervalAction.h; path = Source/MailIntervalAction.h; sourceTree = "<group>"; };
+		DD8274EF141154780098FA6E /* MailIntervalAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MailIntervalAction.m; path = Source/MailIntervalAction.m; sourceTree = "<group>"; };
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = Source/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = Source/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
@@ -548,6 +551,8 @@
 				8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */,
 				8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */,
 				8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */,
+				DD8274EE141154780098FA6E /* MailIntervalAction.h */,
+				DD8274EF141154780098FA6E /* MailIntervalAction.m */,
 				8DD790AA0BC28A9F00705346 /* OpenAction.h */,
 				8DD790AB0BC28A9F00705346 /* OpenAction.m */,
 				8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */,
@@ -798,6 +803,7 @@
 				DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */,
 				DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */,
 				DA812E83140681D2006869F7 /* AppleScript.m in Sources */,
+				DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

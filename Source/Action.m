@@ -153,6 +153,7 @@
 #import "IChatAction.h"
 #import "MailIMAPServerAction.h"
 #import "MailSMTPServerAction.h"
+#import "MailIntervalAction.h"
 #import "MountAction.h"
 #import "MuteAction.h"
 #import "NetworkLocationAction.h"
@@ -181,6 +182,7 @@
 		[IChatAction class],
 		[MailIMAPServerAction class],
 		[MailSMTPServerAction class],
+		[MailIntervalAction class],
 		[MountAction class],
 		[MuteAction class],
 		[NetworkLocationAction class],
@@ -203,6 +205,7 @@
 		NSLocalizedString(@"IChat", @"Action type");
 		NSLocalizedString(@"MailIMAPServer", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
+		NSLocalizedString(@"MailInterval", @"Action type");
 		NSLocalizedString(@"Mount", @"Action type");
 		NSLocalizedString(@"Mute", @"Action type");
 		NSLocalizedString(@"NetworkLocation", @"Action type");
