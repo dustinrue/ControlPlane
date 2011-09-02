@@ -41,7 +41,7 @@ static ToolTip *sharedToolTip = nil;
 	[sharedToolTip setString:string atPoint:point];
 }
 
-+ (void)release
++ (void)releaseToolTip
 {
 	if (sharedToolTip) {
 		[sharedToolTip release];
@@ -162,7 +162,7 @@ static ToolTip *sharedToolTip = nil;
 		p1.y += bump;
 		[ToolTip setString:[[self class] toolTipTextForValue:[self doubleValue]] atPoint:p1];
 	} else if (!draw && sharedToolTip)
-		[sharedToolTip release];
+		[ToolTip releaseToolTip];
 }
 
 @end
@@ -196,7 +196,7 @@ static ToolTip *sharedToolTip = nil;
 	NSPoint point = [[theEvent window] convertBaseToScreen:[theEvent locationInWindow]];
 
 	if ([theEvent type] == NSLeftMouseUp)
-		[sharedToolTip release];
+		[ToolTip releaseToolTip];
 	else
 		[ToolTip setString:[SliderCellWithValue toolTipTextForValue:[self doubleValue]] atPoint:point];
 }
