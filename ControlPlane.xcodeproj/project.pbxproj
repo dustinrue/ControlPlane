@@ -529,40 +529,56 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				DD8274EB14114CFF0098FA6E /* Application Actions */,
+				DD8274ED14114D620098FA6E /* System Actions */,
 				8DF5A4150BC2353D00CBEB4B /* Action.h */,
 				8DF5A4160BC2353D00CBEB4B /* Action.m */,
-				8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */,
-				8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */,
-				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
-				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
-				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
-				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
+				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
+				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
+			);
+			name = Actions;
+			sourceTree = "<group>";
+		};
+		DD8274EB14114CFF0098FA6E /* Application Actions */ = {
+			isa = PBXGroup;
+			children = (
 				8D3453C10C18E5C1006011D0 /* IChatAction.h */,
 				8D3453C20C18E5C1006011D0 /* IChatAction.m */,
 				8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */,
 				8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */,
 				8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */,
 				8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */,
+				8DD790AA0BC28A9F00705346 /* OpenAction.h */,
+				8DD790AB0BC28A9F00705346 /* OpenAction.m */,
+				8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */,
+				8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */,
+				8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */,
+				8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */,
+			);
+			name = "Application Actions";
+			sourceTree = "<group>";
+		};
+		DD8274ED14114D620098FA6E /* System Actions */ = {
+			isa = PBXGroup;
+			children = (
+				8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */,
+				8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */,
+				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
+				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
+				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
+				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
 				8DCBE9690C1A7ECE008260EF /* MountAction.h */,
 				8DCBE96A0C1A7ECE008260EF /* MountAction.m */,
 				8DC4E7F80C178917007E7E41 /* MuteAction.h */,
 				8DC4E7F90C178917007E7E41 /* MuteAction.m */,
 				8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */,
 				8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */,
-				8DD790AA0BC28A9F00705346 /* OpenAction.h */,
-				8DD790AB0BC28A9F00705346 /* OpenAction.m */,
-				8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */,
-				8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */,
 				8D71CB760C17C01700E56526 /* ScreenSaverPasswordAction.h */,
 				8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */,
 				8D3C85120CDD8546009DBCD9 /* ScreenSaverStartAction.h */,
 				8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */,
 				8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */,
 				8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */,
-				8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */,
-				8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */,
-				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
-				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
 				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
 				8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */,
@@ -572,7 +588,7 @@
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 			);
-			name = Actions;
+			name = "System Actions";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
