@@ -149,6 +149,7 @@
 
 #import "DefaultPrinterAction.h"
 #import "DesktopBackgroundAction.h"
+#import "DisplayBrightnessAction.h"
 #import "FirewallRuleAction.h"
 #import "IChatAction.h"
 #import "LockKeychainAction.h"
@@ -182,6 +183,7 @@
 	classes = [[NSArray alloc] initWithObjects:
 			   [DefaultPrinterAction class],
 			   [DesktopBackgroundAction class],
+			   [DisplayBrightnessAction class],
 			   [FirewallRuleAction class],
 			   [IChatAction class],
 			   [LockKeychainAction class],
@@ -210,6 +212,7 @@
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
+		NSLocalizedString(@"DisplayBrightness", @"Action type");
 		NSLocalizedString(@"FirewallRule", @"Action type");
 		NSLocalizedString(@"IChat", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");
