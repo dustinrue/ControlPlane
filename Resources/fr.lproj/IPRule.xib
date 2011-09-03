@@ -2,31 +2,15 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">10K549</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
+		<string key="IBDocument.AppKitVersion">1038.36</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">740</string>
 		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSComboBoxCell</string>
-			<string>NSPopUpButton</string>
-			<string>NSButton</string>
-			<string>NSMenu</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
-			<string>NSMenuItem</string>
-			<string>NSComboBox</string>
-			<string>NSSlider</string>
-			<string>NSSliderCell</string>
-			<string>NSCustomObject</string>
-			<string>NSView</string>
-			<string>NSWindowTemplate</string>
-			<string>NSTextField</string>
-			<string>NSPopUpButtonCell</string>
-		</array>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -55,7 +39,7 @@
 				<object class="NSMutableString" key="NSViewClass">
 					<characters key="NS.bytes">View</characters>
 				</object>
-				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="746124713">
 					<nil key="NSNextResponder"/>
@@ -106,7 +90,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="944929689">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">71303168</int>
-								<string key="NSContents">Netmask :</string>
+								<string key="NSContents">Masque :</string>
 								<reference key="NSSupport" ref="240569564"/>
 								<reference key="NSControlView" ref="911207779"/>
 								<reference key="NSBackgroundColor" ref="586672232"/>
@@ -146,7 +130,7 @@
 						<object class="NSTextField" id="536534209">
 							<reference key="NSNextResponder" ref="746124713"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{10, 87}, {84, 17}}</string>
+							<string key="NSFrame">{{13, 87}, {84, 17}}</string>
 							<reference key="NSSuperview" ref="746124713"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="362552859">
@@ -162,7 +146,7 @@
 						<object class="NSTextField" id="951721413">
 							<reference key="NSNextResponder" ref="746124713"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{10, 60}, {84, 17}}</string>
+							<string key="NSFrame">{{13, 60}, {84, 17}}</string>
 							<reference key="NSSuperview" ref="746124713"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="457860096">
@@ -321,13 +305,13 @@
 								<object class="NSComboTableView" key="NSTableView" id="325517708">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrameSize">{13, 0}</string>
+									<string key="NSFrameSize">{15, 0}</string>
 									<reference key="NSSuperview"/>
 									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<array class="NSMutableArray" key="NSTableColumns">
 										<object class="NSTableColumn">
-											<double key="NSWidth">10</double>
+											<double key="NSWidth">12</double>
 											<double key="NSMinWidth">10</double>
 											<double key="NSMaxWidth">1000</double>
 											<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -378,7 +362,7 @@
 									</object>
 									<double key="NSRowHeight">19</double>
 									<string key="NSAction">tableViewAction:</string>
-									<int key="NSTvFlags">-765427712</int>
+									<int key="NSTvFlags">-767524864</int>
 									<reference key="NSDelegate" ref="559940127"/>
 									<reference key="NSDataSource" ref="559940127"/>
 									<reference key="NSTarget" ref="559940127"/>
@@ -387,7 +371,6 @@
 									<int key="NSDraggingSourceMaskForNonLocal">0</int>
 									<bool key="NSAllowsTypeSelect">YES</bool>
 									<int key="NSTableViewDraggingDestinationStyle">0</int>
-									<int key="NSTableViewGroupRowStyle">1</int>
 								</object>
 							</object>
 						</object>
@@ -396,8 +379,7 @@
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
-				<bool key="NSWindowIsRestorable">YES</bool>
+				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -516,16 +498,16 @@
 						<int key="objectID">6</int>
 						<reference key="object" ref="746124713"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="942909020"/>
-							<reference ref="911207779"/>
 							<reference ref="619799708"/>
-							<reference ref="536534209"/>
-							<reference ref="951721413"/>
 							<reference ref="712191611"/>
 							<reference ref="899967653"/>
 							<reference ref="942693724"/>
 							<reference ref="22427450"/>
 							<reference ref="519999958"/>
+							<reference ref="942909020"/>
+							<reference ref="911207779"/>
+							<reference ref="536534209"/>
+							<reference ref="951721413"/>
 						</array>
 						<reference key="parent" ref="951088273"/>
 					</object>
@@ -697,7 +679,11 @@
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="44.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="5.IBEditorWindowLastContentRect">{{21, 624}, {250, 187}}</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="5.IBWindowTemplateEditedContentRect">{{21, 624}, {250, 187}}</string>
+				<boolean value="YES" key="5.windowTemplate.hasMinSize"/>
+				<string key="5.windowTemplate.minSize">{213, 107}</string>
 				<string key="59.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="60.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -727,29 +713,9 @@
 						<string key="closeSheetWithCancel:">id</string>
 						<string key="closeSheetWithOK:">id</string>
 					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="closeSheetWithCancel:">
-							<string key="name">closeSheetWithCancel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeSheetWithOK:">
-							<string key="name">closeSheetWithOK:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="ruleConfidenceSlider">NSSlider</string>
 						<string key="ruleContext">NSPopUpButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="ruleConfidenceSlider">
-							<string key="name">ruleConfidenceSlider</string>
-							<string key="candidateClassName">NSSlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ruleContext">
-							<string key="name">ruleContext</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -763,13 +729,6 @@
 						<string key="NS.key.0">ruleComboBox</string>
 						<string key="NS.object.0">NSComboBox</string>
 					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">ruleComboBox</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">ruleComboBox</string>
-							<string key="candidateClassName">NSComboBox</string>
-						</object>
-					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/IPEvidenceSource.h</string>
@@ -778,16 +737,12 @@
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{9, 8}</string>
-			<string key="NSMenuMixedState">{7, 2}</string>
-		</dictionary>
 	</data>
 </archive>
