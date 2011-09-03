@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1040</int>
+		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11B26</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
@@ -59,7 +59,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="444228670">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSPopUpButton" id="386099648">
@@ -67,7 +67,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{128, 184}, {164, 26}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="1023283998">
 								<int key="NSCellFlags">-2076049856</int>
@@ -129,7 +128,6 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{84, 158}, {86, 27}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSDatePickerCell" key="NSCell" id="71134916">
 								<int key="NSCellFlags">71433728</int>
@@ -186,7 +184,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{206, 158}, {86, 27}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSDatePickerCell" key="NSCell" id="270181377">
 								<int key="NSCellFlags">71433728</int>
@@ -209,7 +206,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{172, 161}, {29, 17}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="537172820">
 								<int key="NSCellFlags">67239424</int>
@@ -231,7 +227,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 88}, {275, 17}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="536181974">
 								<int key="NSCellFlags">67239424</int>
@@ -248,7 +243,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 56}, {275, 26}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="427930513">
 								<int key="NSCellFlags">-2076049856</int>
@@ -296,7 +290,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 136}, {275, 17}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="492357303">
 								<int key="NSCellFlags">67239424</int>
@@ -313,7 +306,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{18, 109}, {273, 21}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="138669730">
 								<int key="NSCellFlags">67239424</int>
@@ -342,7 +334,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{213, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="317585057">
 								<int key="NSCellFlags">67239424</int>
@@ -364,7 +355,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{105, 12}, {108, 32}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="181108153">
 								<int key="NSCellFlags">67239424</int>
@@ -386,7 +376,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 190}, {109, 17}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="61572364">
 								<int key="NSCellFlags">67239424</int>
@@ -403,7 +392,6 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 161}, {62, 17}}</string>
 							<reference key="NSSuperview" ref="444228670"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="540843186">
 								<int key="NSCellFlags">67239424</int>
@@ -417,8 +405,6 @@ AQAAAAA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{309, 227}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1024, 746}}</string>
 				<string key="NSMinSize">{213, 129}</string>
@@ -935,7 +921,7 @@ AQAAAAA</bytes>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1040" key="NS.object.0"/>
+			<real value="1060" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
