@@ -495,11 +495,7 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{328, 20}, {65, 13}}</string>
 						<reference key="NSSuperview" ref="883638574"/>
-<<<<<<< HEAD
-						<reference key="NSNextKeyView"/>
-=======
 						<reference key="NSWindow"/>
->>>>>>> 7ede63ca9add6774e138678c567e50fc53f5b942
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="507568736">
 							<int key="NSCellFlags">67239424</int>
