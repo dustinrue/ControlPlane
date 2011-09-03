@@ -37,7 +37,6 @@
 	if (!self)
 		return nil;
 	
-	[time autorelease];
 	time = [[NSNumber alloc] initWithInt: [option intValue]];
 	
 	return self;
