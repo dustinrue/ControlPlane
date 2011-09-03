@@ -29,9 +29,6 @@
 - (void)goingToSleep:(id)arg;
 - (void)wakeFromSleep:(id)arg;
 
-- (NSDictionary *)registrationDictionaryForGrowl;
-- (NSString *)applicationNameForGrowl;
-
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 
@@ -133,9 +130,6 @@ MPController *mp_controller;
 {
 	if (!(self = [super init]))
 		return nil;
-
-	// Growl registration
-	[GrowlApplicationBridge setGrowlDelegate:self];
 
 	sbImageActive = [self prepareImageForMenubar:@"cp-icon-active"];
 	sbImageInactive = [self prepareImageForMenubar:@"cp-icon-inactive"];
@@ -347,8 +341,10 @@ MPController *mp_controller;
 	return (oldPrefs ? YES : NO);
 }
 
-- (void)awakeFromNib
-{	
+- (void)awakeFromNib {
+	// Init Growl
+	[GrowlApplicationBridge setGrowlDelegate: self];
+	
 	// If there aren't any contexts defined, nor rules, nor actions, import settings
 	if (([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) &&
 	    ([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"] count] == 0) &&
@@ -492,22 +488,21 @@ MPController *mp_controller;
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
 {
     BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
-    
-    if (!useGrowl) {
+    if (!useGrowl)
         return;
-    }
+	
 	float pri = 0;
 
 	if ([title isEqualToString:@"Failure"])
 		pri = 1;
 
 	[GrowlApplicationBridge notifyWithTitle:title
-				    description:message
-			       notificationName:title
-				       iconData:nil
-				       priority:pri
-				       isSticky:NO
-				   clickContext:nil];
+								description:message
+						   notificationName:title
+								   iconData:nil
+								   priority:pri
+								   isSticky:NO
+							   clickContext:nil];
 }
 
 - (void)contextsChanged:(NSNotification *)notification
@@ -1141,29 +1136,6 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma mark -
-#pragma mark Growl delegates
-
-- (NSDictionary *) registrationDictionaryForGrowl
-{
-	NSArray *notifications = [NSArray arrayWithObjects:
-					NSLocalizedString(@"Changing Context", @"Growl message title"),
-					NSLocalizedString(@"Performing Action", @"Growl message title"),
-					NSLocalizedString(@"Performing Actions", @"Growl message title"),
-					NSLocalizedString(@"Failure", @"Growl message title"),
-					//NSLocalizedString(@"Evidence Change", @"Growl message title"),
-					nil];
-
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		notifications, GROWL_NOTIFICATIONS_ALL,
-		notifications, GROWL_NOTIFICATIONS_DEFAULT,
-		nil];
-}
-
-- (NSString *) applicationNameForGrowl
-{
-	return @"ControlPlane";
-}
-
 #pragma mark NSApplication delegates
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag

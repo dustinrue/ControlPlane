@@ -5,7 +5,7 @@
 //  Created by David Symonds on 1/02/07.
 //
 
-#import <Growl/GrowlApplicationBridge.h>
+#import <Growl/Growl.h>
 #import "ContextsDataSource.h"
 #import "EvidenceSource.h"
 
