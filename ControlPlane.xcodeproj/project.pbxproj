@@ -98,6 +98,7 @@
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
+		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
 		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
@@ -166,6 +167,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
+				DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */,
 				DA5B01E61412B86400E19C50 /* CPHelperInstallTool in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
