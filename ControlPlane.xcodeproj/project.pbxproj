@@ -108,6 +108,7 @@
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
+		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 /* End PBXBuildFile section */
 
@@ -324,6 +325,8 @@
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
+		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
+		DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITunesPlaylistAction.m; path = Source/ITunesPlaylistAction.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -571,6 +574,8 @@
 				DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */,
 				8D3453C10C18E5C1006011D0 /* IChatAction.h */,
 				8D3453C20C18E5C1006011D0 /* IChatAction.m */,
+				DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */,
+				DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */,
 				8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */,
 				8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */,
 				8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */,
@@ -769,12 +774,14 @@
 				/Applications/iChat.app,
 				/Applications/Mail.app,
 				"/System/Library/CoreServices/System Events.app",
+				/Applications/iTunes.app,
 			);
 			name = "Generate Script Bridge Headers";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/iChat.h",
 				"$(DERIVED_FILE_DIR)/Mail.h",
 				"$(DERIVED_FILE_DIR)/System Events.h",
+				"$(DERIVED_FILE_DIR)/iTunes.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -846,6 +853,7 @@
 				DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */,
 				DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */,
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
+				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

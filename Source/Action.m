@@ -153,6 +153,7 @@
 #import "DisplayBrightnessAction.h"
 #import "FirewallRuleAction.h"
 #import "IChatAction.h"
+#import "ITunesPlaylistAction.h"
 #import "LockKeychainAction.h"
 #import "MailIMAPServerAction.h"
 #import "MailSMTPServerAction.h"
@@ -188,6 +189,7 @@
 			   [DisplayBrightnessAction class],
 			   [FirewallRuleAction class],
 			   [IChatAction class],
+			   [ITunesPlaylistAction class],
 			   [LockKeychainAction class],
 			   [MailIMAPServerAction class],
 			   [MailSMTPServerAction class],
@@ -218,6 +220,7 @@
 		NSLocalizedString(@"DisplayBrightness", @"Action type");
 		NSLocalizedString(@"FirewallRule", @"Action type");
 		NSLocalizedString(@"IChat", @"Action type");
+		NSLocalizedString(@"ITunesPlaylist", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");
 		NSLocalizedString(@"MailIMAPServer", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
