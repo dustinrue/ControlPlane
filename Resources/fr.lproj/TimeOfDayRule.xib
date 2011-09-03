@@ -2,32 +2,15 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">10K549</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
+		<string key="IBDocument.AppKitVersion">1038.36</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">740</string>
 		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSDatePicker</string>
-			<string>NSPopUpButtonCell</string>
-			<string>NSPopUpButton</string>
-			<string>NSArrayController</string>
-			<string>NSButton</string>
-			<string>NSMenu</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
-			<string>NSMenuItem</string>
-			<string>NSSlider</string>
-			<string>NSSliderCell</string>
-			<string>NSCustomObject</string>
-			<string>NSView</string>
-			<string>NSWindowTemplate</string>
-			<string>NSTextField</string>
-			<string>NSDatePickerCell</string>
-		</array>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -56,10 +39,10 @@
 				<object class="NSMutableString" key="NSViewClass">
 					<characters key="NS.bytes">View</characters>
 				</object>
-				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="455911509">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSPopUpButton" id="282024199">
@@ -67,6 +50,7 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 151}, {211, 26}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="1014335787">
 								<int key="NSCellFlags">-2076049856</int>
@@ -126,8 +110,9 @@
 						<object class="NSDatePicker" id="542295214">
 							<reference key="NSNextResponder" ref="455911509"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{20, 113}, {86, 27}}</string>
+							<string key="NSFrame">{{39, 113}, {86, 27}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSDatePickerCell" key="NSCell" id="593987860">
 								<int key="NSCellFlags">71433728</int>
@@ -182,8 +167,9 @@ AQAAAAA</bytes>
 						<object class="NSDatePicker" id="786711447">
 							<reference key="NSNextResponder" ref="455911509"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{125, 113}, {86, 27}}</string>
+							<string key="NSFrame">{{142, 113}, {86, 27}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSDatePickerCell" key="NSCell" id="792449685">
 								<int key="NSCellFlags">71433728</int>
@@ -204,13 +190,14 @@ AQAAAAA</bytes>
 						<object class="NSTextField" id="278302839">
 							<reference key="NSNextResponder" ref="455911509"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{108, 116}, {12, 17}}</string>
+							<string key="NSFrame">{{127, 116}, {10, 17}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="120996616">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">-</string>
+								<string key="NSContents">à</string>
 								<reference key="NSSupport" ref="235450861"/>
 								<reference key="NSControlView" ref="278302839"/>
 								<object class="NSColor" key="NSBackgroundColor" id="468228531">
@@ -227,6 +214,7 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 87}, {79, 17}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="62539252">
 								<int key="NSCellFlags">67239424</int>
@@ -243,6 +231,7 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{98, 81}, {130, 26}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="791225292">
 								<int key="NSCellFlags">-2076049856</int>
@@ -290,6 +279,7 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{17, 60}, {79, 17}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="709355791">
 								<int key="NSCellFlags">67239424</int>
@@ -306,6 +296,7 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{99, 56}, {128, 21}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="907705065">
 								<int key="NSCellFlags">67239424</int>
@@ -334,6 +325,7 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{149, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="669446565">
 								<int key="NSCellFlags">67239424</int>
@@ -355,6 +347,7 @@ AQAAAAA</bytes>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{59, 12}, {90, 32}}</string>
 							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="433838279">
 								<int key="NSCellFlags">67239424</int>
@@ -371,13 +364,31 @@ AQAAAAA</bytes>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
 						</object>
+						<object class="NSTextField" id="275229736">
+							<reference key="NSNextResponder" ref="455911509"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrame">{{17, 116}, {23, 17}}</string>
+							<reference key="NSSuperview" ref="455911509"/>
+							<reference key="NSWindow"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="941517136">
+								<int key="NSCellFlags">67239424</int>
+								<int key="NSCellFlags2">272629760</int>
+								<string key="NSContents">de</string>
+								<reference key="NSSupport" ref="235450861"/>
+								<reference key="NSControlView" ref="275229736"/>
+								<reference key="NSBackgroundColor" ref="468228531"/>
+								<reference key="NSTextColor" ref="798226311"/>
+							</object>
+						</object>
 					</array>
 					<string key="NSFrameSize">{245, 195}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 1002}}</string>
 				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
-				<bool key="NSWindowIsRestorable">YES</bool>
+				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 			</object>
 			<object class="NSArrayController" id="553241685">
 				<array class="NSMutableArray" key="NSDeclaredKeys">
@@ -568,8 +579,6 @@ AQAAAAA</bytes>
 						<reference key="object" ref="455911509"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="282024199"/>
-							<reference ref="542295214"/>
-							<reference ref="786711447"/>
 							<reference ref="278302839"/>
 							<reference ref="968523461"/>
 							<reference ref="535024008"/>
@@ -577,6 +586,9 @@ AQAAAAA</bytes>
 							<reference ref="427708904"/>
 							<reference ref="965057920"/>
 							<reference ref="233330462"/>
+							<reference ref="786711447"/>
+							<reference ref="542295214"/>
+							<reference ref="275229736"/>
 						</array>
 						<reference key="parent" ref="959289578"/>
 					</object>
@@ -754,6 +766,19 @@ AQAAAAA</bytes>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Application</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">62</int>
+						<reference key="object" ref="275229736"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="941517136"/>
+						</array>
+						<reference key="parent" ref="455911509"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">63</int>
+						<reference key="object" ref="941517136"/>
+						<reference key="parent" ref="275229736"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -772,7 +797,11 @@ AQAAAAA</bytes>
 				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="5.IBEditorWindowLastContentRect">{{63, 571}, {245, 195}}</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="5.IBWindowTemplateEditedContentRect">{{63, 571}, {245, 195}}</string>
+				<boolean value="YES" key="5.windowTemplate.hasMinSize"/>
+				<string key="5.windowTemplate.minSize">{213, 107}</string>
 				<string key="52.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="53.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -784,6 +813,8 @@ AQAAAAA</bytes>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="60.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="62.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -792,7 +823,7 @@ AQAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">61</int>
+			<int key="maxID">63</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -803,29 +834,9 @@ AQAAAAA</bytes>
 						<string key="closeSheetWithCancel:">id</string>
 						<string key="closeSheetWithOK:">id</string>
 					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="closeSheetWithCancel:">
-							<string key="name">closeSheetWithCancel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeSheetWithOK:">
-							<string key="name">closeSheetWithOK:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="ruleConfidenceSlider">NSSlider</string>
 						<string key="ruleContext">NSPopUpButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="ruleConfidenceSlider">
-							<string key="name">ruleConfidenceSlider</string>
-							<string key="candidateClassName">NSSlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ruleContext">
-							<string key="name">ruleContext</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -839,13 +850,6 @@ AQAAAAA</bytes>
 						<string key="NS.key.0">dayController</string>
 						<string key="NS.object.0">NSArrayController</string>
 					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">dayController</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">dayController</string>
-							<string key="candidateClassName">NSArrayController</string>
-						</object>
-					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/TimeOfDayEvidenceSource.h</string>
@@ -854,16 +858,12 @@ AQAAAAA</bytes>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{9, 8}</string>
-			<string key="NSMenuMixedState">{7, 2}</string>
-		</dictionary>
 	</data>
 </archive>
