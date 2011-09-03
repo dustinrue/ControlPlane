@@ -1,8 +1,8 @@
-﻿/* In NetworkLinkEvidenceSource */
-"%@ (%@) link active" = "%1$@ (%2$@) connexion active";
+/* In NetworkLinkEvidenceSource */
+"%@ (%@) link active" = "%1$@ (%2$@) est active";
 
 /* In NetworkLinkEvidenceSource */
-"%@ (%@) link inactive" = "%1$@ (%2$@) connexion inactive";
+"%@ (%@) link inactive" = "%1$@ (%2$@) est inactive";
 
 /* Screen saver idle time */
 "%d minutes" = "%d minutes";
@@ -26,16 +26,16 @@
 "1 second" = "1 seconde";
 
 /* In rule-adding dialog */
-"A WiFi access point with a BSSID of" = "A WiFi access point with a BSSID of"; /* NEW */
+"A WiFi access point with a BSSID of" = "En présence d'un accès WiFi de BSSID"; /* NEW */
 
 /* In rule-adding dialog */
-"A WiFi access point with a MAC of" = "Un point d'accès WiFi avec le MAC suivant";
+"A WiFi access point with a MAC of" = "En présence d'un accès WiFi de MAC";
 
 /* In rule-adding dialog */
-"A WiFi access point with an SSID of" = "Un point d'accès WiFi avec le SSID suivant";
+"A WiFi access point with an SSID of" = "En présence d'un accès WiFi de SSID";
 
 /* Parameter is a percentage threshold */
-"Above %@" = "Au dessus de %@";
+"Above %@" = "Au-dessus de %@";
 
 /* Preferences section */
 "Actions" = "Actions";
@@ -53,13 +53,13 @@
 "All your actions have been imported." = "Toutes vos actions ont été importées.";
 
 /* No comment provided by engineer. */
-"All your rules (except IP rules) have been imported." = "Toutes vos règles (excepté les règles IP) ont été importées.";
+"All your rules (except IP rules) have been imported." = "Toutes vos règles (sauf les règles IP) ont été importées.";
 
 /* No comment provided by engineer. */
 "All your rules have been imported." = "Toutes vos règles ont été importées.";
 
 /* In rule-adding dialog */
-"An attached monitor named" = "Un moniteur connecté avec le nom";
+"An attached monitor named" = "Avec un moniteur de nom";
 
 /* In TimeOfDay rules */
 "Any day" = "N'importe quel jour";
@@ -68,7 +68,7 @@
 "as default context" = "comme contexte par défaut";
 
 /* In rule-adding dialog */
-"Audio output going to" = "Sortie audio vers";
+"Audio output going to" = "Quand la sortie audio est";
 
 /* Evidence source */
 "AudioOutput" = "SortieAudio";
@@ -77,10 +77,10 @@
 "Battery" = "Batterie";
 
 /* In rule-adding dialog */
-"Being powered by" = "Alimenté par";
+"Being powered by" = "Sur alimentation par";
 
 /* Parameter is a percentage threshold */
-"Below %@" = "En dessous de %@";
+"Below %@" = "Au-dessous de %@";
 
 /* Evidence source */
 "Bluetooth" = "Bluetooth";
@@ -90,22 +90,22 @@
 
 /* Show both the icon and the current context
    When an action is triggered */
-"Both" = "dans les deux cas";
+"Both" = "les deux";
 
 /* No comment provided by engineer. */
 "Cancel" = "Annuler";
 
 /* No comment provided by engineer. */
-"Change default printer to" = "Changer l'imprimante par défaut vers";
+"Change default printer to" = "Changer l'imprimante par défaut pour";
 
 /* Growl message title */
 "Changing Context" = "Changement de contexte";
 
 /* No comment provided by engineer. */
-"Changing network location to" = "Changement de la configuration réseau vers";
+"Changing network location to" = "Changer la configuration réseau pour";
 
 /* No comment provided by engineer. */
-"Changing network location to '%@'." = "Changement de la configuration réseau vers '%@'.";
+"Changing network location to '%@'." = "Changement de la configuration réseau pour '%@'.";
 
 /* First parameter is the context name, second parameter is the confidence value, or 'as default context' */
 "Changing to context '%@' %@." = "Changement pour le contexte '%1$@' %2$@.";
@@ -114,55 +114,55 @@
 "Connecting to default VPN of type '%@'." = "Connection au VPN par défaut de type '%@'.";
 
 /* Show only the current context */
-"Context" = "Context"; /* NEW */
+"Context" = "le contexte"; /* NEW */
 
 /* Preferences section */
 "Contexts" = "Contextes";
 
 /* No comment provided by engineer. */
-"Contexts have been made for you, named after your network locations." = "Les contextes ont été créés automatiquement pour vous à partir de vos configurations réseau.";
+"Contexts have been made for you, named after your network locations." = "Des contextes ont été créés à partir de vos configurations réseau.";
 
 /* In VPNAction */
-"Couldn't configure VPN!" = "Impossible de configurer le VPN";
+"Couldn't configure VPN!" = "Impossible de configurer le VPN!";
 
 /* In FirewallRuleAction */
-"Couldn't find requested firewall rule!" = "Impossible de trouver le règles coupe-feu!";
+"Couldn't find requested firewall rule!" = "Impossible de trouver la règle coupe-feu demandée!";
 
 /* In MountAction */
-"Couldn't mount that volume!" = "Impossible de monter ce volume!";
+"Couldn't mount that volume!" = "Impossible de connecter ce volume!";
 
 /* In FirewallRuleAction */
 "Couldn't restart firewall with new configuration!" = "Impossible de relancer le coupe-feu avec la nouvelle configuration!";
 
 /* No comment provided by engineer. */
-"Couldn't set default printer!" = "Impossible de changer l'imprimante par défaut!";
+"Couldn't set default printer!" = "Impossible de définir l'imprimante par défaut!";
 
 /* In IChatAction */
-"Couldn't set iChat status!" = "Impossible de changer l'état d'iChat!";
+"Couldn't set iChat status!" = "Impossible de définir l'état iChat!";
 
 /* In MailIMAPServerAction */
-"Couldn't set IMAP server!" = "Impossible de changer le serveur IMAP!";
+"Couldn't set IMAP server!" = "Impossible de définir le serveur IMAP!";
 
 /* In UnmountAction */
-"Couldn't unmount that volume!" = "Couldn't unmount that volume!"; /* NEW */
+"Couldn't unmount that volume!" = "Impossible d'éjecter ce volume!"; /* NEW */
 
 /* Action type */
-"DefaultPrinter" = "Imprimante-Par-Défaut";
+"DefaultPrinter" = "ImprimanteParDéfaut";
 
 /* Action type */
-"DesktopBackground" = "FondEcran";
+"DesktopBackground" = "FondÉcran";
 
 /* In FirewallRuleAction */
 "Disable %@" = "Désactiver %@";
 
 /* No comment provided by engineer. */
-"Disable screen saver password" = "Désactiver le mot de passe de l'économiseur d'écran";
+"Disable screen saver password" = "Désactiver le mot de passe d'économiseur d'écran";
 
 /* No comment provided by engineer. */
 "Disabling Firewall Rule '%@'." = "Désactivation de la règle '%@' du coupe-feu.";
 
 /* No comment provided by engineer. */
-"Disabling screen saver password." = "Désactivation du mot de passe de l'économiseur d'écran.";
+"Disabling screen saver password." = "Désactivation du mot de passe d'économiseur d'écran.";
 
 /* No comment provided by engineer. */
 "Disabling screen saver." = "Désactivation de l'économiseur d'écran.";
@@ -171,19 +171,19 @@
 "Disconnecting from default VPN of type '%@'." = "Déconnexion du VPN par défaut de type '%@'.";
 
 /* In FirewallRuleAction */
-"Enable %@" = "Activation %@";
+"Enable %@" = "Activer %@";
 
 /* No comment provided by engineer. */
-"Enable screen saver password" = "Activativer le mot de passe de l'économiseur d'écran";
+"Enable screen saver password" = "Activer le mot de passe d'économiseur d'écran";
 
 /* No comment provided by engineer. */
 "Enabling Firewall Rule '%@'." = "Activation de la règle '%@' du coupe-feu.";
 
 /* No comment provided by engineer. */
-"Enabling screen saver password." = "Activation du mot de passe de l'économiseur d'écran.";
+"Enabling screen saver password." = "Activation du mot de passe d'économiseur d'écran.";
 
 /* No comment provided by engineer. */
-"Establish/Disconnect the following VPN:" = "Etablir/Déconnecter le VPN suivant:";
+"Establish/Disconnect the following VPN:" = "Établir/Déconnecter le VPN suivant:";
 
 /* Growl message title */
 "Evidence Change" = "Changement d'évidence";
@@ -192,13 +192,13 @@
 "Evidence Sources" = "Sources d'évidences";
 
 /* No comment provided by engineer. */
-"External speakers" = "Haut-Parleurs externes";
+"External speakers" = "Haut-parleurs externes";
 
-/* Action error message */
-"Failed changing network location" = "Le changement de configuration réseau a échoué!";
+/* Action error message YR */
+"Failed changing network location" = "Le changement de configuration réseau a échoué";
 
 /* No comment provided by engineer. */
-"Failed executing shell script!" = "Impossible d'exécuter le shell script!";
+"Failed executing shell script!" = "Impossible d'exécuter le script shell!";
 
 /* No comment provided by engineer. */
 "Failed opening '%@'." = "Impossible d'ouvrir '%@'.";
@@ -207,7 +207,7 @@
 "Failed setting '%@' as desktop background." = "Impossible de changer pour le fond d'écran '%@'.";
 
 /* No comment provided by engineer. */
-"Failed setting screen saver idle time!" = "Impossible de changer le temps d'innactivité de l'économiseur d'écran!";
+"Failed setting screen saver idle time!" = "Impossible de changer le délai d'économiseur d'écran!";
 
 /* No comment provided by engineer. */
 "Failed starting screen saver!" = "Impossible de lancer l'économiseur d'écran!";
@@ -216,13 +216,13 @@
 "Failed stopping screen saver!" = "Impossible d'arrêter l'économiseur d'écran!";
 
 /* No comment provided by engineer. */
-"Failed toggling screen saver password!" = "Impossible d'activer le mot de passe de l'économiseur d'écran!";
+"Failed toggling screen saver password!" = "Impossible de modifier le mot de passe d'économiseur d'écran!";
 
 /* No comment provided by engineer. */
-"Failed turning Bluetooth off." = "Impossible de désactiver Bluetooth.";
+"Failed turning Bluetooth off." = "Impossible de désactiver le Bluetooth.";
 
 /* No comment provided by engineer. */
-"Failed turning Bluetooth on." = "Impossible d'activer Bluetooth.";
+"Failed turning Bluetooth on." = "Impossible d'activer le Bluetooth.";
 
 /* No comment provided by engineer. */
 "Failed turning WiFi off." = "Impossible de désactiver le WiFi.";
@@ -249,10 +249,10 @@
 "Headphones" = "Écouteurs";
 
 /* Action type */
-"IChat" = "iChat";
+"IChat" = "IChat";
 
 /* Show only the icon */
-"Icon" = "Icon"; /* NEW */
+"Icon" = "l'icône"; /* NEW */
 
 /* No comment provided by engineer. */
 "Internal speakers" = "Haut-parleurs internes";
@@ -264,10 +264,10 @@
 "Light" = "Lumière";
 
 /* Action type */
-"MailIMAPServer" = "ServeurMailIMAP";
+"MailIMAPServer" = "ServeurCourrierIMAP";
 
 /* Action type */
-"MailSMTPServer" = "ServeurMailSMTP";
+"MailSMTPServer" = "ServeurCourrierSMTP";
 
 /* In TimeOfDay rules */
 "Monday" = "Lundi";
@@ -279,13 +279,13 @@
 "Mount" = "Monter";
 
 /* No comment provided by engineer. */
-"Mount a volume with address" = "Monter un volume avec une adresse";
+"Mount a volume with address" = "Connecter un volume d'adresse";
 
 /* No comment provided by engineer. */
-"Mounting '%@'." = "Montage de '%@'.";
+"Mounting '%@'." = "Connexion de '%@'.";
 
 /* Action type */
-"Mute" = "Désactiver le son";
+"Mute" = "Son";
 
 /* No comment provided by engineer. */
 "Mute system audio" = "Désactiver le système audio";
@@ -294,10 +294,10 @@
 "Muting system audio." = "Désactivation du système audio.";
 
 /* In rule-adding dialog */
-"Network link on interface" = "Connexion réseau par l'interface";
+"Network link on interface" = "Quand la connexion réseau de l'interface";
 
 /* Evidence source */
-"NetworkLink" = "ConnexionRéseau";
+"NetworkLink" = "LiaisonRéseau";
 
 /* Action type */
 "NetworkLocation" = "ConfigurationRéseau";
@@ -306,7 +306,7 @@
 "never" = "jamais";
 
 /* Window title */
-"New %@ Action" = "Nouvelle règle %@";
+"New %@ Action" = "Nouvelle action %@";
 
 /* Default value for new context names */
 "New context" = "Nouveau contexte";
@@ -327,10 +327,10 @@
 "on" = "activé";
 
 /* When an action is triggered */
-"On arrival" = "en arrivant";
+"On arrival" = "En arrivant";
 
 /* When an action is triggered */
-"On departure" = "en partant";
+"On departure" = "En partant";
 
 /* Action type */
 "Open" = "Ouvrir";
@@ -354,91 +354,91 @@
 "Power Adapter" = "Adaptateur secteur";
 
 /* No comment provided by engineer. */
-"Quick Start" = "Démarage Rapide";
+"Quick Start" = "Démarrage rapide";
 
 /* No comment provided by engineer. */
-"Quick Start and MarcoPolo 1.x Import" = "Démarage Rapide et Import depuis MarcoPolo 1.x";
+"Quick Start and MarcoPolo 1.x Import" = "Démarrage rapide et Import de MarcoPolo 1.x";
 
 /* No comment provided by engineer. */
-"Quit application with this name:" = "Quitter l'application avec le nom:";
+"Quit application with this name:" = "Quitter l'application nommée:";
 
 /* Action type */
 "QuitApplication" = "QuitterApplication";
 
 /* No comment provided by engineer. */
-"Quitting application '%@'." = "Fermeture de l'application '%@'.";
+"Quitting application '%@'." = "Quitte l'application '%@'.";
 
 /* No comment provided by engineer. */
-"Removing this context will also remove its child contexts!" = "Enlever ce contexte supprimera aussi ses contextes fils!";
+"Removing this context will also remove its child contexts!" = "Supprimer ce contexte supprimera aussi ceux qui en découlent!";
 
 /* Preferences section */
 "Rules" = "Règles";
 
 /* No comment provided by engineer. */
-"Running shell script '%@'." = "Exécution du shell script '%@'.";
+"Running shell script '%@'." = "Exécution du script shell '%@'.";
 
 /* Evidence source */
-"RunningApplication" = "Application lancée";
+"RunningApplication" = "ApplicationLancée";
 
 /* In TimeOfDay rules */
 "Saturday" = "Samedi";
 
 /* Action type */
-"ScreenSaverPassword" = "MotDePasseEconomiseur";
+"ScreenSaverPassword" = "MotDePasseÉcoÉcran";
 
 /* Action type */
-"ScreenSaverStart" = "LancerEconomiseurEcran";
+"ScreenSaverStart" = "LancerÉcoÉcran";
 
 /* Action type */
-"ScreenSaverTime" = "TempsEconomiseurEcran";
+"ScreenSaverTime" = "DélaiÉcoÉcran";
 
 /* No comment provided by engineer. */
-"Set iChat status message to" = "Changer le message de status iChat pour";
+"Set iChat status message to" = "Définir le message d'état iChat pour";
 
 /* No comment provided by engineer. */
-"Set Mail's IMAP server hostname to" = "Changer le serveur IMAP pour";
+"Set Mail's IMAP server hostname to" = "Définir le serveur IMAP dans Mail à";
 
 /* No comment provided by engineer. */
-"Set Mail's SMTP server hostname to" = "Changer le serveur SMTP pour";
+"Set Mail's SMTP server hostname to" = "Définir le serveur SMTP dans Mail à";
 
 /* No comment provided by engineer. */
-"Set Network Location" = "Changer la configuration réseau";
+"Set Network Location" = "Définir la configuration réseau";
 
 /* No comment provided by engineer. */
-"Set screen saver idle time to" = "Changer le temps d'innactivité de l'économiseur d'écran!";
+"Set screen saver idle time to" = "Définir le délai d'économiseur d'écran à";
 
 /* No comment provided by engineer. */
-"Set the following firewall rule:" = "Changer la règle coupe-feu suivante :";
+"Set the following firewall rule:" = "Définir la règle coupe-feu suivante:";
 
 /* No comment provided by engineer. */
-"Setting default printer to '%@'." = "Changement de l'imprimante par défaut pour '%@'.";
+"Setting default printer to '%@'." = "Définition de l'imprimante par défaut pour '%@'.";
 
 /* No comment provided by engineer. */
-"Setting desktop background to '%@'." = "Changement du fond d'écran pour '%@'.";
+"Setting desktop background to '%@'." = "Définition du fond d'écran pour '%@'.";
 
 /* No comment provided by engineer. */
-"Setting iChat status to '%@'." = "Changement du message de l'état iChat pour '%@'.";
+"Setting iChat status to '%@'." = "Définition du message d'état iChat pour '%@'.";
 
 /* No comment provided by engineer. */
-"Setting Mail's IMAP server to '%@'." = "Changement du serveur Mail IMAP pour '%@'.";
+"Setting Mail's IMAP server to '%@'." = "Définition du serveur Mail IMAP pour '%@'.";
 
 /* No comment provided by engineer. */
-"Setting Mail's SMTP server to '%@'." = "Changement du serveur Mail SMTP pour '%@'.";
+"Setting Mail's SMTP server to '%@'." = "Définition du serveur Mail SMTP pour '%@'.";
 
 /* No comment provided by engineer. */
-"Setting screen saver idle time to %d minutes." = "Changement du temps d'inactivité de l'économiseur d'écran à %d minutes.";
+"Setting screen saver idle time to %d minutes." = "Définition du délai d'économiseur d'écran à %d minutes.";
 
 /* No comment provided by engineer. */
-"Setting screen saver idle time to 1 minute." = "Changement du temps d'inactivité de l'économiseur d'écran à 1 minute.";
+"Setting screen saver idle time to 1 minute." = "Définition du délai d'économiseur d'écran à 1 minute.";
 
 /* Action type */
-"ShellScript" = "ShellScript";
+"ShellScript" = "ScriptShell";
 
 /* No comment provided by engineer. */
-"Sleep" = "Sleep"; /* NEW */
+"Sleep" = "passe en veille"; /* NEW */
 
 /* Evidence source */
-"Sleep/Wake" = "Sleep/Wake"; /* NEW */
+"Sleep/Wake" = "Veille"; /* NEW */
 
 /* No comment provided by engineer. */
 "Start screen saver" = "Lancer l'économiseur d'écran";
@@ -447,7 +447,7 @@
 "Starting screen saver." = "Lancement de l'économiseur d'écran.";
 
 /* No comment provided by engineer. */
-"Stick forced contexts" = "Fixer le contexte forcé";
+"Stick forced contexts" = "Forcer et maintenir";
 
 /* No comment provided by engineer. */
 "Stop screen saver" = "Arrêter l'économiseur d'écran";
@@ -459,118 +459,118 @@
 "Sunday" = "Dimanche";
 
 /* In rule-adding dialog */
-"System going to" = "System going to"; /* NEW */
+"System going to" = "Quand le système"; /* NEW */
 
 /* In rule-adding dialog */
-"The following application running" = "L'application suivante est lancée";
+"The following application running" = "Quand l'application suivante est lancée";
 
 /* No comment provided by engineer. */
-"The parameter for DefaultPrinter actions is the name of the printer queue. This is usually the name of the printer, with spaces replaced by underscores." = "Le paramètre pour l'action 'Imprimante-Par-Défaut' est le nom de la queue d'impression. En général, c'est le nom de l'imprimante, avec les espaces remplacés par des underscores";
+"The parameter for DefaultPrinter actions is the name of the printer queue. This is usually the name of the printer, with spaces replaced by underscores." = "Le paramètre de l'action ImprimanteParDéfaut est le nom de la file d'impression. En général c'est le nom de l'imprimante, avec les espaces remplacés par des soulignés";
 
 /* No comment provided by engineer. */
-"The parameter for DesktopBackground actions is the full path of the image to be set as the background picture." = "Le paramètre pour l'action FondEcran est le chemin complet de l'image à utiliser comme fond d'écran.";
+"The parameter for DesktopBackground actions is the full path of the image to be set as the background picture." = "Le paramètre de l'action FondÉcran est le chemin complet de l'image à utiliser comme fond d'écran.";
 
 /* No comment provided by engineer. */
-"The parameter for FirewallRule action is the name of the firewall rule you wish to modify, prefixed with '+' or '-' to enable or disable it, respectively." = "Le paramètre pour l'action RègleCoupeFeu est le nom de la règle du coupe-feu à modifier, commençant par '+' ou '-' pour respectivement l'activer, la désactiver.";
+"The parameter for FirewallRule action is the name of the firewall rule you wish to modify, prefixed with '+' or '-' to enable or disable it, respectively." = "Le paramètre de l'action RègleCoupeFeu est le nom de la règle du coupe-feu concernée, préfixée par '+' ou '-' pour respectivement l'activer, ou la désactiver.";
 
 /* No comment provided by engineer. */
-"The parameter for iChat actions is the status message to set." = "Le paramètre de l'action iChat est le message à afficher.";
+"The parameter for iChat actions is the status message to set." = "Le paramètre de l'action IChat est le message d'état à définir.";
 
 /* No comment provided by engineer. */
-"The parameter for MailIMAPServer actions is the hostname of the IMAP server to make the default for all Mail accounts." = "Le paramètre pour l'action 'ServeurMailIMAP' est le hostname du server IMAP à configurer pour tous les comptes Mail.";
+"The parameter for MailIMAPServer actions is the hostname of the IMAP server to make the default for all Mail accounts." = "Le paramètre d'action ServeurCourrierIMAP est le nom du serveur IMAP par défaut pour tous les comptes de messagerie.";
 
 /* No comment provided by engineer. */
-"The parameter for MailSMTPServer actions is the hostname of the SMTP server to make the default for all Mail accounts." = "Le paramètre pour l'action 'ServeurMailSMTP' est le hostname du server SMTP à configurer pour tous les comptes Mail.";
+"The parameter for MailSMTPServer actions is the hostname of the SMTP server to make the default for all Mail accounts." = "Le paramètre d'action ServeurCourrierSMTP est le nom du server SMTP par défaut pour tous les comptes de messagerie.";
 
 /* No comment provided by engineer. */
-"The parameter for Mount actions is the volume to mount, such as \"smb://server/share\" or \"afp://server/share\"." = "Le paramètre de l'action Monter est l'adresse du volume à monter, par exemple \"smb://server/share\" ou \"afp://server/share\".";
+"The parameter for Mount actions is the volume to mount, such as \"smb://server/share\" or \"afp://server/share\"." = "Le paramètre d'action Monter est l'adresse du volume à monter, par exemple \"smb://server/share\" ou \"afp://server/share\".";
 
 /* No comment provided by engineer. */
-"The parameter for Mute actions is either \"1\" or \"0\", depending on whether you want your system audio unmuted or muted." = "Le paramètre de désactivation du son est \"1\" ou \"0\", en fonction de s'il faut activer ou désactiver le son.";
+"The parameter for Mute actions is either \"1\" or \"0\", depending on whether you want your system audio unmuted or muted." = "Le paramètre de l'action Son est \"1\" ou \"0\", pour respectivement activer ou désactiver le système audio.";
 
 /* No comment provided by engineer. */
-"The parameter for NetworkLocation actions is the name of the network location to select." = "Le paramètre de l'action ConfigurationRéseau est le nom de la configuration réseau à sélectionner";
+"The parameter for NetworkLocation actions is the name of the network location to select." = "Le paramètre de l'action ConfigurationRéseau est le nom de la configuration réseau à sélectionner.";
 
 /* No comment provided by engineer. */
-"The parameter for Open actions is the full path of the object to be opened, such as an application or a document." = "Le paramètre de l'action 'Ouvrir' est le chemin complet de l'objet à ouvrir, par exemple une application ou un document.";
+"The parameter for Open actions is the full path of the object to be opened, such as an application or a document." = "Le paramètre de l'action Ouvrir est le chemin complet de l'élément à ouvrir, par exemple une application ou un document.";
 
 /* No comment provided by engineer. */
-"The parameter for QuitApplication actions is the name of the application to quit." = "Le paramètre pour QuitterApplication est le nom de l'application à quitter.";
+"The parameter for QuitApplication actions is the name of the application to quit." = "Le paramètre de l'action QuitterApplication est le nom de l'application à quitter.";
 
 /* No comment provided by engineer. */
-"The parameter for ScreenSaverPasswordAction actions is either \"1\" or \"0\", depending on whether you want your screen saver password enabled or disabled." = "Le paramètre pour l'action MotDePasseEconomiseur est soit \"1\", soit \"0\", en fonction de s'il faut activer ou désactiver le mot de passe de l'économiseur d'écran.";
+"The parameter for ScreenSaverPasswordAction actions is either \"1\" or \"0\", depending on whether you want your screen saver password enabled or disabled." = "Le paramètre de l'action MotDePasseÉcoÉcran est \"1\" ou \"0\", pour respectivement activer ou désactiver le mot de passe de l'économiseur d'écran.";
 
 /* No comment provided by engineer. */
-"The parameter for ScreenSaverStartAction actions is either \"1\" or \"0\", depending on whether you want your screen saver to start or stop." = "Le paramètre de l'action LancerEconomiseurEcran est soit \"1\", soit \"0\", en fonction de s'il faut lancer ou arrêter l'économiseur d'écran.";
+"The parameter for ScreenSaverStartAction actions is either \"1\" or \"0\", depending on whether you want your screen saver to start or stop." = "Le paramètre de l'action LancerÉcoÉcran est \"1\" ou \"0\", pour respectivement lancer ou arrêter l'économiseur d'écran.";
 
 /* No comment provided by engineer. */
-"The parameter for ScreenSaverTimeAction actions is the idle time (in minutes) before you want your screen saver to activate." = "Le paramètre pour l'action TempsEconomiseurEcran est le temps d'innactivité (en minutes) à attendre avant que l'économiseur d'écrant ne s'active";
+"The parameter for ScreenSaverTimeAction actions is the idle time (in minutes) before you want your screen saver to activate." = "Le paramètre de l'action DélaiÉcoÉcran est le temps d'inactivité (en minutes) pour lancer l'économiseur d'écran.";
 
 /* No comment provided by engineer. */
-"The parameter for ShellScript actions is the full path of the shell script, which will be executed with /bin/sh." = "\nLe paramètre de l'action 'ShellScript' est le chemin complet du shell script qui sera exécuté par /bin/sh.";
+"The parameter for ShellScript actions is the full path of the shell script, which will be executed with /bin/sh." = "Le paramètre de l'action ScriptShell est le chemin complet du script shell, qui sera exécuté par /bin/sh.";
 
 /* No comment provided by engineer. */
-"The parameter for ToggleBluetooth actions is either \"1\" or \"0\", depending on whether you want your Bluetooth controller's power turned on or off." = "Le paramètre de l'action 'ActiverBluetooth' est soit '1' soit '0', pour respectivement activer ou désactiver le contrôleur Bluetooth.";
+"The parameter for ToggleBluetooth actions is either \"1\" or \"0\", depending on whether you want your Bluetooth controller's power turned on or off." = "Le paramètre de l'action CommuterBluetooth est \"1\" ou \"0\", pour respectivement activer ou désactiver le contrôleur Bluetooth.";
 
 /* No comment provided by engineer. */
-"The parameter for ToggleWiFi actions is either \"1\" or \"0\", depending on whether you want your WiFi turned on or off." = "Le paramètre pour l'action 'ActiverWiFi' est soit '1' soit '0', pour respectivement activer ou désactiver le WiFi.";
+"The parameter for ToggleWiFi actions is either \"1\" or \"0\", depending on whether you want your WiFi turned on or off." = "Le paramètre de l'action CommuterWiFi est \"1\" ou \"0\", pour respectivement activer ou désactiver le WiFi.";
 
 /* No comment provided by engineer. */
-"The parameter for Unmount actions is the volume name to unmount. You can find the volume name in the /Volumes/ folder after a successful mount." = "The parameter for Unmount actions is the volume name to unmount. You can find the volume name in the /Volumes/ folder after a successful mount."; /* NEW */
+"The parameter for Unmount actions is the volume name to unmount. You can find the volume name in the /Volumes/ folder after a successful mount." = "Le paramètre de l'action Éjecter est le nom du volume à éjecter. Les noms des volumes se voient dans le dossier /Volumes/ une fois connectés.";
 
 /* No comment provided by engineer. */
-"The parameter for VPN action is the type of the VPN connection you wish to establish or disconnect." = "Le paramètre pour l'action VPN est le type de connection VPN à établir ou déconnecter.";
+"The parameter for VPN action is the type of the VPN connection you wish to establish or disconnect." = "Le paramètre de l'action VPN est le type de connexion VPN à établir ou à déconnecter.";
 
 /* In rule-adding dialog */
-"The presence of" = "La présence de";
+"The presence of" = "En présence de";
 
 /* No comment provided by engineer. */
-"This action is not undoable!" = "Impossible d'annuler cette action !";
+"This action is not undoable!" = "Impossible d'annuler cette action!";
 
 /* In TimeOfDay rules */
 "Thursday" = "Jeudi";
 
 /* Evidence source */
-"TimeOfDay" = "HeurePrecise";
+"TimeOfDay" = "Heure";
+
+/* Action type */
+"ToggleBluetooth" = "CommuterBluetooth";
 
 /* No comment provided by engineer. */
-"Toggle muting of system audio" = "Toggle muting of system audio"; /* NEW */
+"Toggle muting of system audio" = "Commuter l'état du volume audio système"; /* NEW */
 
 /* Action type */
-"ToggleBluetooth" = "ActiverBluetooth";
-
-/* Action type */
-"ToggleWiFi" = "ActiverWiFi";
+"ToggleWiFi" = "CommuterWiFi";
 
 /* In TimeOfDay rules */
 "Tuesday" = "Mardi";
 
 /* Will be followed by 'on' or 'off' */
-"Turn Bluetooth" = "Activer Bluetooth";
+"Turn Bluetooth" = "Basculer le Bluetooth sur";
 
 /* Will be followed by 'on' or 'off' */
-"Turn WiFi" = "Activer WiFi";
+"Turn WiFi" = "Basculer le WiFi sur";
 
 /* No comment provided by engineer. */
-"Turning Bluetooth off." = "Désactiver Bluetooth.";
+"Turning Bluetooth off." = "Désactivation du Bluetooth.";
 
 /* No comment provided by engineer. */
-"Turning Bluetooth on." = "Activer Bluetooth.";
+"Turning Bluetooth on." = "Activation du Bluetooth.";
 
 /* No comment provided by engineer. */
-"Turning WiFi off." = "Désactiver WiFi.";
+"Turning WiFi off." = "Désactivation du WiFi.";
 
 /* No comment provided by engineer. */
-"Turning WiFi on." = "Activer WiFi.";
+"Turning WiFi on." = "Activation du WiFi.";
 
 /* Action type */
-"Unmount" = "Unmount"; /* NEW */
+"Unmount" = "Éjecter"; /* NEW */
 
 /* No comment provided by engineer. */
-"Unmount a volume with mount location" = "Unmount a volume with mount location"; /* NEW */
+"Unmount a volume with mount location" = "Éjecter un volume d'emplacement donné";
 
 /* No comment provided by engineer. */
-"Unmounting '%@'." = "Unmounting '%@'."; /* NEW */
+"Unmounting '%@'." = "Éjection de '%@'."; /* NEW */
 
 /* No comment provided by engineer. */
 "Unmute system audio" = "Activer le système audio";
@@ -585,7 +585,7 @@
 "VPN" = "VPN";
 
 /* No comment provided by engineer. */
-"Wake" = "Wake"; /* NEW */
+"Wake" = "sort de veille"; /* NEW */
 
 /* No comment provided by engineer. */
 "We strongly recommended that you review your preferences." = "Il est fortement conseillé de revoir vos préférences.";
@@ -594,14 +594,13 @@
 "Wednesday" = "Mercredi";
 
 /* In TimeOfDay rules */
-"Weekday" = "Jour de la semaine";
+"Weekday" = "En semaine";
 
 /* In TimeOfDay rules */
-"Weekend" = "Weekend";
+"Weekend" = "Le week-end";
 
 /* Evidence source */
-"WiFi using CoreWLAN" = "WiFi using CoreWLAN"; /* NEW */
+"WiFi" = "WiFi";
 
 /* Appended to a context-change notification */
 "with confidence %@" = "avec une confiance de %@";
-
