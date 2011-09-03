@@ -2,7 +2,7 @@
 
 # make_disk_image.sh
 # run this from the root project dir!
-# MarcoPolo
+# ControlPlane
 #
 # Created by David Symonds on 17/02/07.
 # Modified by Dustin Rue on 7/28/2011.

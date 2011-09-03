@@ -6,7 +6,6 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "DSLogger.h"
 #import "SleepEvidenceSource.h"
 

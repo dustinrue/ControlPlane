@@ -5,8 +5,6 @@
 //  Created by David Symonds on 22/07/07.
 //
 
-#import <Cocoa/Cocoa.h>
-
 
 @interface DSLogger : NSObject {
 	NSLock *lock;

@@ -1,7 +1,5 @@
 /* PrefsWindowController */
 
-#import <Cocoa/Cocoa.h>
-#import "ContextsDataSource.h"
 #import "ContextSelectionButton.h"
 #import "MPController.h"
 

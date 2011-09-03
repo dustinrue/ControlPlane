@@ -5,7 +5,6 @@
 //  Created by David Symonds on 7/16/07.
 //
 
-#import <CoreFoundation/CFPreferences.h>
 #import "ScreenSaverTimeAction.h"
 
 

@@ -5,7 +5,6 @@
 //  Created by David Symonds on 4/11/07.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "ToggleableAction.h"
 
 

@@ -5,10 +5,9 @@
 //  Created by David Symonds on 11/07/07.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "AudioOutputEvidenceSource.h"
 #import <CoreAudio/CoreAudio.h>
 #import <IOKit/audio/IOAudioTypes.h>
-#import "AudioOutputEvidenceSource.h"
 
 
 static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,

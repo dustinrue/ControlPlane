@@ -1,5 +1,9 @@
-
-#import <Cocoa/Cocoa.h>
+//
+//  DNDArrayController.h
+//  ControlPlane
+//
+//  Created by David Symonds on 29/03/07.
+//
 
 
 @interface DNDArrayController : NSArrayController

@@ -5,8 +5,6 @@
 //  Created by Rodrigo Damazio on 09/07/07.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <IOKit/IOTypes.h>
 #import "LoopingEvidenceSource.h"
 
 enum {  

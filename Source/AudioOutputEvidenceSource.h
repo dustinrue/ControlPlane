@@ -5,9 +5,8 @@
 //  Created by David Symonds on 11/07/07.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <CoreAudio/CoreAudio.h>
 #import "GenericEvidenceSource.h"
+#import <CoreAudio/CoreAudio.h>
 
 
 @interface AudioOutputEvidenceSource : GenericEvidenceSource {

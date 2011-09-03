@@ -5,7 +5,6 @@
 //  Created by Mark Wallis on 18/07/07.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "Action.h"
 
 

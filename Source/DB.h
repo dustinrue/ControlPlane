@@ -5,8 +5,6 @@
 //  Created by David Symonds on 29/03/07.
 //
 
-#import <Cocoa/Cocoa.h>
-
 
 @interface DB : NSObject {}
 

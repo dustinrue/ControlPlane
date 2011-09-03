@@ -5,12 +5,9 @@
 //  Created by David Symonds on 1/02/07.
 //
 
-#include "Growl/GrowlApplicationBridge.h"
-#import <Cocoa/Cocoa.h>
+#import <Growl/GrowlApplicationBridge.h>
 #import "ContextsDataSource.h"
 #import "EvidenceSource.h"
-
-
 
 
 @interface MPController : NSObject <GrowlApplicationBridgeDelegate> {

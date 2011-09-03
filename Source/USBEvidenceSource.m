@@ -5,11 +5,7 @@
 //  Created by David Symonds on 29/03/07.
 //
 
-#import <IOKit/IOCFPlugIn.h>
-#import <IOKit/IOKitLib.h>
 #import <IOKit/usb/IOUSBLib.h>
-#import <IOKit/usb/USB.h>
-
 #import "DB.h"
 #import "USBEvidenceSource.h"
 

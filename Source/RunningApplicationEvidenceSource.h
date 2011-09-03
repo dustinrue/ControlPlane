@@ -5,7 +5,6 @@
 //  Created by David Symonds on 23/5/07.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "GenericEvidenceSource.h"
 
 

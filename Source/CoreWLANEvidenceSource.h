@@ -6,8 +6,9 @@
 //  Copyright 2011 Dustin Rue. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GenericLoopingEvidenceSource.h"
+#import <Foundation/Foundation.h>
+
 
 @class CWInterface, CWNetwork;
 @interface WiFiEvidenceSourceCoreWLAN : GenericLoopingEvidenceSource  {

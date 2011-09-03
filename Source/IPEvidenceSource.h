@@ -6,9 +6,8 @@
 //  Modified by Dustin Rue on 27/08/11.
 //
 
-#import <Cocoa/Cocoa.h>
-#include <SystemConfiguration/SystemConfiguration.h>
 #import "EvidenceSource.h"
+#include <SystemConfiguration/SystemConfiguration.h>
 
 
 @interface IPEvidenceSource : EvidenceSource {

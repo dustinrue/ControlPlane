@@ -5,15 +5,12 @@
 //  Created by David Symonds on 1/02/07.
 //
 
-#include "Growl/GrowlApplicationBridge.h"
-#include <IOKit/pwr_mgt/IOPMLib.h>
-#include <IOKit/IOMessage.h>
-#include <libkern/OSAtomic.h>
+#import <IOKit/pwr_mgt/IOPMLib.h>
+#import <IOKit/IOMessage.h>
+#import <libkern/OSAtomic.h>
 
 #import "Action.h"
-#import "ContextsDataSource.h"
 #import "DSLogger.h"
-#import "EvidenceSource.h"
 #import "MPController.h"
 #import "NetworkLocationAction.h"
 

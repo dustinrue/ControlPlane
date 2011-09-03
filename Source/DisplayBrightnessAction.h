@@ -6,8 +6,8 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "Action.h"
+
 
 @interface DisplayBrightnessAction : Action <ActionWithString> {
 	NSString *brightnessText;

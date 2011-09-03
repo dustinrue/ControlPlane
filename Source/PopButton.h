@@ -5,8 +5,6 @@
 //  Created by David Symonds on 26/04/07.
 //
 
-#import <Cocoa/Cocoa.h>
-
 
 @interface PopButton : NSButton {
 	NSMenu *menu;

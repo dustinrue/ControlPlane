@@ -5,7 +5,6 @@
 //  Created by David Symonds on 3/04/07.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "Action.h"
 
 

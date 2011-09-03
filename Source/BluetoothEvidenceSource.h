@@ -6,11 +6,9 @@
 //  Modified by Dustin Rue on 8/5/2011.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "GenericEvidenceSource.h"
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
-
-#import "GenericEvidenceSource.h"
 
 
 @interface BluetoothEvidenceSource : GenericEvidenceSource {

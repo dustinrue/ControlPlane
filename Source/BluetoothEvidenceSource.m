@@ -6,9 +6,6 @@
 //  Modified by Dustin Rue 8/5/2011.
 //
 
-#import <IOBluetooth/objc/IOBluetoothDevice.h>
-#import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
-
 #import "BluetoothEvidenceSource.h"
 #import "DB.h"
 #import "DSLogger.h"

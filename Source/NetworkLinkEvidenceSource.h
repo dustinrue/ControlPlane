@@ -5,8 +5,6 @@
 //  Created by Mark Wallis on 25/7/07.
 //
 
-#import <Cocoa/Cocoa.h>
-#include <SystemConfiguration/SystemConfiguration.h>
 #import "GenericEvidenceSource.h"
 
 

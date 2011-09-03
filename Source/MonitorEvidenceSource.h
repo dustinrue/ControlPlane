@@ -5,7 +5,6 @@
 //  Created by David Symonds on 2/07/07.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "GenericLoopingEvidenceSource.h"
 
 
