@@ -1,5 +1,5 @@
 //
-//  MPController.h
+//  CPController.h
 //  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
@@ -10,7 +10,7 @@
 #import "EvidenceSource.h"
 
 
-@interface MPController : NSObject <GrowlApplicationBridgeDelegate> {
+@interface CPController : NSObject <GrowlApplicationBridgeDelegate> {
 
 	IBOutlet NSMenu *sbMenu;
 	NSStatusItem *sbItem;

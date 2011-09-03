@@ -3,39 +3,14 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.InterfaceBuilderVersion">907</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">907</string>
 		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSScroller</string>
-			<string>NSTableHeaderView</string>
-			<string>NSMenu</string>
-			<string>NSSliderCell</string>
-			<string>NSButton</string>
-			<string>NSCustomObject</string>
-			<string>NSArrayController</string>
-			<string>NSSlider</string>
-			<string>NSTableView</string>
-			<string>NSCustomView</string>
-			<string>NSTextField</string>
-			<string>NSWindowTemplate</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
-			<string>NSTableColumn</string>
-			<string>NSBox</string>
-			<string>NSView</string>
-			<string>NSOutlineView</string>
-			<string>NSPopUpButtonCell</string>
-			<string>NSScrollView</string>
-			<string>NSUserDefaultsController</string>
-			<string>NSTextView</string>
-			<string>NSPopUpButton</string>
-			<string>NSMenuItem</string>
-		</array>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -84,7 +59,7 @@
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="137351663">
-				<string key="NSClassName">MPController</string>
+				<string key="NSClassName">CPController</string>
 			</object>
 			<object class="NSMenu" id="305171650">
 				<string key="NSTitle">Menu</string>
@@ -255,7 +230,7 @@
 							<object class="NSFont" key="NSSupport" id="736811615">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
-								<int key="NSfFlags">1044</int>
+								<int key="NSfFlags">1040</int>
 							</object>
 							<reference key="NSControlView" ref="455145463"/>
 							<object class="NSColor" key="NSBackgroundColor" id="914014326">
@@ -474,7 +449,7 @@
 							<object class="NSFont" key="NSSupport" id="761752975">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">10</double>
-								<int key="NSfFlags">2843</int>
+								<int key="NSfFlags">2832</int>
 							</object>
 							<reference key="NSControlView" ref="498655212"/>
 							<reference key="NSBackgroundColor" ref="914014326"/>
@@ -605,7 +580,7 @@
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">9</double>
-								<int key="NSfFlags">3614</int>
+								<int key="NSfFlags">3600</int>
 							</object>
 							<reference key="NSControlView" ref="634635932"/>
 							<int key="NSButtonFlags">-2038284033</int>
@@ -708,7 +683,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="764886370">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSScrollView" id="265930281">
 						<reference key="NSNextResponder" ref="764886370"/>
@@ -723,7 +698,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrameSize">{435, 198}</string>
 										<reference key="NSSuperview" ref="982186366"/>
-										<reference key="NSNextKeyView" ref="781215745"/>
+										<reference key="NSNextKeyView" ref="1007950745"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="312609748">
 											<reference key="NSNextResponder" ref="651013189"/>
@@ -751,7 +726,7 @@
 													<object class="NSFont" key="NSSupport" id="26">
 														<string key="NSName">LucidaGrande</string>
 														<double key="NSSize">11</double>
-														<int key="NSfFlags">3100</int>
+														<int key="NSfFlags">3088</int>
 													</object>
 													<object class="NSColor" key="NSBackgroundColor" id="577799439">
 														<int key="NSColorSpace">3</int>
@@ -937,7 +912,7 @@
 						</array>
 						<string key="NSFrame">{{20, 48}, {437, 216}}</string>
 						<reference key="NSSuperview" ref="764886370"/>
-						<reference key="NSNextKeyView" ref="1007950745"/>
+						<reference key="NSNextKeyView" ref="982186366"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="496414959"/>
 						<reference key="NSHScroller" ref="1007950745"/>
@@ -1004,7 +979,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{67, 19}, {20, 22}}</string>
 						<reference key="NSSuperview" ref="764886370"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="700875448">
 							<int key="NSCellFlags">67239424</int>
@@ -1028,7 +1002,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{477, 284}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="265930281"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
@@ -1036,7 +1009,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="530151587">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSScrollView" id="107141691">
 						<reference key="NSNextResponder" ref="530151587"/>
@@ -1051,7 +1024,7 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrameSize">{456, 126}</string>
 										<reference key="NSSuperview" ref="299683904"/>
-										<reference key="NSNextKeyView" ref="434393765"/>
+										<reference key="NSNextKeyView" ref="395632623"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="38509382">
 											<reference key="NSNextResponder" ref="56341192"/>
@@ -1252,7 +1225,7 @@
 						</array>
 						<string key="NSFrame">{{20, 245}, {458, 144}}</string>
 						<reference key="NSSuperview" ref="530151587"/>
-						<reference key="NSNextKeyView" ref="395632623"/>
+						<reference key="NSNextKeyView" ref="299683904"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="515617772"/>
 						<reference key="NSHScroller" ref="395632623"/>
@@ -1402,7 +1375,6 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 20}, {464, 42}}</string>
 						<reference key="NSSuperview" ref="530151587"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="528428301">
 							<int key="NSCellFlags">67239424</int>
@@ -1412,7 +1384,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande-Bold</string>
 								<double key="NSSize">11</double>
-								<int key="NSfFlags">3357</int>
+								<int key="NSfFlags">3344</int>
 							</object>
 							<reference key="NSControlView" ref="236418659"/>
 							<reference key="NSBackgroundColor" ref="914014326"/>
@@ -1688,7 +1660,6 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 					</object>
 				</array>
 				<string key="NSFrameSize">{498, 409}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="107141691"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
@@ -1706,6 +1677,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<string key="NSWindowContentMinSize">{243, 167}</string>
 				<object class="NSView" key="NSWindowView" id="736083383">
 					<nil key="NSNextResponder"/>
@@ -1713,7 +1685,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{243, 189}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSMenu" id="1008371756">
@@ -1913,7 +1885,7 @@ ZWV2bmUuClNlIHZlbmxpZ3N0IHZlamxlZG5pbmdlbiBmb3IgZGV0YWxqZXIuA</string>
 											<int key="NSTCFlags">1</int>
 										</object>
 										<object class="NSTextViewSharedData" key="NSSharedData">
-											<int key="NSFlags">67111777</int>
+											<int key="NSFlags">100666209</int>
 											<int key="NSTextCheckingTypes">0</int>
 											<nil key="NSMarkedAttributes"/>
 											<reference key="NSBackgroundColor" ref="613744654"/>
@@ -2352,6 +2324,7 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="950430389">
 					<nil key="NSNextResponder"/>
@@ -2538,7 +2511,7 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomView" id="328548046">
@@ -2744,6 +2717,7 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="744601441">
 					<nil key="NSNextResponder"/>
@@ -2828,7 +2802,7 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSMenu" id="622462637">
@@ -6814,6 +6788,8 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 				<string key="1548.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1560.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1588.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="1588.windowTemplate.hasMinSize"/>
+				<string key="1588.windowTemplate.minSize">{213, 107}</string>
 				<string key="1589.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1590.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1591.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -6838,6 +6814,8 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 				<string key="1666.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1668.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1679.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="1679.windowTemplate.hasMinSize"/>
+				<string key="1679.windowTemplate.minSize">{213, 107}</string>
 				<string key="1680.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1682.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1683.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7039,6 +7017,8 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 				<string key="902.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="903.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="910.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="910.windowTemplate.hasMinSize"/>
+				<string key="910.windowTemplate.minSize">{243, 167}</string>
 				<string key="911.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="928.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="929.CustomClassName">SliderWithValue</string>
@@ -7073,6 +7053,7 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 			<real value="1060" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>

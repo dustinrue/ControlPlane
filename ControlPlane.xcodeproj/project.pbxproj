@@ -55,7 +55,7 @@
 		8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */; };
 		8D8C9CE70BBB7BE00074D5B3 /* BluetoothEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */; };
 		8D8C9E350BBB89320074D5B3 /* DB.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9E330BBB89320074D5B3 /* DB.m */; };
-		8D90E51F0B71C4C9007D39FD /* MPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D90E51E0B71C4C9007D39FD /* MPController.m */; };
+		8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D90E51E0B71C4C9007D39FD /* CPController.m */; };
 		8D91F17D0C47148200D9FC0F /* USBEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */; };
 		8D9AE3790BE0D11800D4D4E4 /* plus-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */; };
 		8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */; };
@@ -208,8 +208,8 @@
 		8D8C9E330BBB89320074D5B3 /* DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB.m; path = Source/DB.m; sourceTree = "<group>"; };
 		8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IPEvidenceSource.h; path = Source/IPEvidenceSource.h; sourceTree = "<group>"; };
 		8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IPEvidenceSource.m; path = Source/IPEvidenceSource.m; sourceTree = "<group>"; };
-		8D90E51D0B71C4C9007D39FD /* MPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPController.h; path = Source/MPController.h; sourceTree = "<group>"; };
-		8D90E51E0B71C4C9007D39FD /* MPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPController.m; path = Source/MPController.m; sourceTree = "<group>"; };
+		8D90E51D0B71C4C9007D39FD /* CPController.h */ = {isa = PBXFileReference; fileEncoding = 4; name = CPController.h; path = Source/CPController.h; sourceTree = "<group>"; };
+		8D90E51E0B71C4C9007D39FD /* CPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPController.m; path = Source/CPController.m; sourceTree = "<group>"; };
 		8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LightEvidenceSource.h; path = Source/LightEvidenceSource.h; sourceTree = "<group>"; };
 		8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LightEvidenceSource.m; path = Source/LightEvidenceSource.m; sourceTree = "<group>"; };
 		8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-arrow.png"; path = "Resources/plus-arrow.png"; sourceTree = "<group>"; };
@@ -372,8 +372,8 @@
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
 				8DBB44950C530F7600064010 /* DSLogger.h */,
 				8DBB44960C530F7600064010 /* DSLogger.m */,
-				8D90E51D0B71C4C9007D39FD /* MPController.h */,
-				8D90E51E0B71C4C9007D39FD /* MPController.m */,
+				8D90E51D0B71C4C9007D39FD /* CPController.h */,
+				8D90E51E0B71C4C9007D39FD /* CPController.m */,
 				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
 				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
 			);
@@ -800,7 +800,7 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
-				8D90E51F0B71C4C9007D39FD /* MPController.m in Sources */,
+				8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */,
 				8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */,
 				8D8C9CE70BBB7BE00074D5B3 /* BluetoothEvidenceSource.m in Sources */,
 				8D8C9E350BBB89320074D5B3 /* DB.m in Sources */,

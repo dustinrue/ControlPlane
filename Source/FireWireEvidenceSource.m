@@ -9,9 +9,7 @@
 #import <IOKit/IOKitLib.h>
 #import <IOKit/firewire/IOFireWireLib.h>
 
-#import "DB.h"
 #import "FireWireEvidenceSource.h"
-#import "MPController.h"
 
 
 @interface FireWireEvidenceSource (Private)

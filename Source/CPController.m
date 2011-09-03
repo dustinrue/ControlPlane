@@ -1,5 +1,5 @@
 //
-//  MPController.m
+//  CPController.m
 //  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
@@ -11,10 +11,10 @@
 
 #import "Action.h"
 #import "DSLogger.h"
-#import "MPController.h"
+#import "CPController.h"
 #import "NetworkLocationAction.h"
 
-@interface MPController (Private)
+@interface CPController (Private)
 
 - (void)setStatusTitle:(NSString *)title;
 - (void)showInStatusBar:(id)sender;
@@ -46,7 +46,7 @@
 
 #pragma mark -
 
-@implementation MPController
+@implementation CPController
 
 #define STATUS_BAR_LINGER	10	// seconds before disappearing from menu bar
 #define CP_DISPLAY_ICON 0
@@ -55,7 +55,7 @@
 
 // needed for sleep callback
 void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
-MPController *mp_controller;
+CPController *mp_controller;
 
 
 + (void)initialize

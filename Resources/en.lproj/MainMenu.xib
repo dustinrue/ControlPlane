@@ -3,39 +3,14 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.InterfaceBuilderVersion">907</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">907</string>
 		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSScroller</string>
-			<string>NSTableHeaderView</string>
-			<string>NSMenu</string>
-			<string>NSSliderCell</string>
-			<string>NSButton</string>
-			<string>NSCustomObject</string>
-			<string>NSArrayController</string>
-			<string>NSSlider</string>
-			<string>NSTableView</string>
-			<string>NSCustomView</string>
-			<string>NSTextField</string>
-			<string>NSWindowTemplate</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
-			<string>NSTableColumn</string>
-			<string>NSBox</string>
-			<string>NSView</string>
-			<string>NSOutlineView</string>
-			<string>NSPopUpButtonCell</string>
-			<string>NSScrollView</string>
-			<string>NSUserDefaultsController</string>
-			<string>NSTextView</string>
-			<string>NSPopUpButton</string>
-			<string>NSMenuItem</string>
-		</array>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -74,7 +49,7 @@
 				<string key="NSClassName">PrefsWindowController</string>
 			</object>
 			<object class="NSCustomObject" id="861962292">
-				<string key="NSClassName">MPController</string>
+				<string key="NSClassName">CPController</string>
 			</object>
 			<object class="NSMenu" id="645467962">
 				<string key="NSTitle">Menu</string>
@@ -247,7 +222,7 @@
 							<object class="NSFont" key="NSSupport" id="972341995">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
-								<int key="NSfFlags">1044</int>
+								<int key="NSfFlags">1040</int>
 							</object>
 							<reference key="NSControlView" ref="1029785045"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -492,7 +467,7 @@
 							<object class="NSFont" key="NSSupport" id="582261174">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">10</double>
-								<int key="NSfFlags">2843</int>
+								<int key="NSfFlags">2832</int>
 							</object>
 							<reference key="NSControlView" ref="591312355"/>
 							<reference key="NSBackgroundColor" ref="293801161"/>
@@ -623,7 +598,7 @@
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">9</double>
-								<int key="NSfFlags">3614</int>
+								<int key="NSfFlags">3600</int>
 							</object>
 							<reference key="NSControlView" ref="558065120"/>
 							<int key="NSButtonFlags">-2038284033</int>
@@ -748,7 +723,7 @@
 													<object class="NSFont" key="NSSupport" id="26">
 														<string key="NSName">LucidaGrande</string>
 														<double key="NSSize">11</double>
-														<int key="NSfFlags">3100</int>
+														<int key="NSfFlags">3088</int>
 													</object>
 													<object class="NSColor" key="NSBackgroundColor" id="808439282">
 														<int key="NSColorSpace">3</int>
@@ -1407,7 +1382,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande-Bold</string>
 								<double key="NSSize">11</double>
-								<int key="NSfFlags">3357</int>
+								<int key="NSfFlags">3344</int>
 							</object>
 							<reference key="NSControlView" ref="1044394764"/>
 							<reference key="NSBackgroundColor" ref="293801161"/>
@@ -1699,6 +1674,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<string key="NSWindowContentMinSize">{243, 167}</string>
 				<object class="NSView" key="NSWindowView" id="286985523">
 					<nil key="NSNextResponder"/>
@@ -1707,7 +1683,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{243, 189}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSMenu" id="383987829">
@@ -1925,7 +1901,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 											<int key="NSTCFlags">1</int>
 										</object>
 										<object class="NSTextViewSharedData" key="NSSharedData">
-											<int key="NSFlags">67111777</int>
+											<int key="NSFlags">100666209</int>
 											<int key="NSTextCheckingTypes">0</int>
 											<nil key="NSMarkedAttributes"/>
 											<reference key="NSBackgroundColor" ref="326007814"/>
@@ -2268,6 +2244,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="887450734">
 					<nil key="NSNextResponder"/>
@@ -2456,7 +2433,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomView" id="438687363">
@@ -2667,6 +2644,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
+				<string key="NSWindowContentMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="1002322754">
 					<nil key="NSNextResponder"/>
@@ -2756,7 +2734,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<string key="NSMaxSize">{1.7976931348623157e+308, 1.7976931348623157e+308}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSMenu" id="1051376156">
@@ -6767,6 +6745,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="1549.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1560.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1588.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="1588.windowTemplate.hasMinSize"/>
+				<string key="1588.windowTemplate.minSize">{213, 107}</string>
 				<string key="1589.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1590.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1591.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -6791,6 +6771,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="1666.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1668.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1679.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="1679.windowTemplate.hasMinSize"/>
+				<string key="1679.windowTemplate.minSize">{213, 107}</string>
 				<string key="1680.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1682.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1683.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -6990,6 +6972,8 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="903.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="910.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="910.IBWindowTemplateEditedContentRect">{{451, 357}, {477, 323}}</string>
+				<boolean value="YES" key="910.windowTemplate.hasMinSize"/>
+				<string key="910.windowTemplate.minSize">{243, 167}</string>
 				<string key="911.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="928.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="929.CustomClassName">SliderWithValue</string>
@@ -7037,6 +7021,53 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/ActionSetController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CPController</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="actionsController">NSArrayController</string>
+						<string key="contextsDataSource">ContextsDataSource</string>
+						<string key="evidenceSources">EvidenceSourceSetController</string>
+						<string key="forceContextMenuItem">NSMenuItem</string>
+						<string key="prefsWindow">NSWindow</string>
+						<string key="rulesController">NSArrayController</string>
+						<string key="sbMenu">NSMenu</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="actionsController">
+							<string key="name">actionsController</string>
+							<string key="candidateClassName">NSArrayController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="contextsDataSource">
+							<string key="name">contextsDataSource</string>
+							<string key="candidateClassName">ContextsDataSource</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="evidenceSources">
+							<string key="name">evidenceSources</string>
+							<string key="candidateClassName">EvidenceSourceSetController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="forceContextMenuItem">
+							<string key="name">forceContextMenuItem</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="prefsWindow">
+							<string key="name">prefsWindow</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rulesController">
+							<string key="name">rulesController</string>
+							<string key="candidateClassName">NSArrayController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="sbMenu">
+							<string key="name">sbMenu</string>
+							<string key="candidateClassName">NSMenu</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -7143,6 +7174,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">FirstResponder</string>
+					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">:</string>
 						<string key="NS.object.0">id</string>
@@ -7157,53 +7189,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MPController</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="actionsController">NSArrayController</string>
-						<string key="contextsDataSource">ContextsDataSource</string>
-						<string key="evidenceSources">EvidenceSourceSetController</string>
-						<string key="forceContextMenuItem">NSMenuItem</string>
-						<string key="prefsWindow">NSWindow</string>
-						<string key="rulesController">NSArrayController</string>
-						<string key="sbMenu">NSMenu</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="actionsController">
-							<string key="name">actionsController</string>
-							<string key="candidateClassName">NSArrayController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="contextsDataSource">
-							<string key="name">contextsDataSource</string>
-							<string key="candidateClassName">ContextsDataSource</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="evidenceSources">
-							<string key="name">evidenceSources</string>
-							<string key="candidateClassName">EvidenceSourceSetController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="forceContextMenuItem">
-							<string key="name">forceContextMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="prefsWindow">
-							<string key="name">prefsWindow</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rulesController">
-							<string key="name">rulesController</string>
-							<string key="candidateClassName">NSArrayController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sbMenu">
-							<string key="name">sbMenu</string>
-							<string key="candidateClassName">NSMenu</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MPController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -7320,7 +7305,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="generalPrefsView">NSView</string>
 						<string key="logBufferView">NSTextView</string>
 						<string key="menuBarDisplayOptionsController">NSArrayController</string>
-						<string key="mpController">MPController</string>
+						<string key="mpController">CPController</string>
 						<string key="newActionContext">NSPopUpButton</string>
 						<string key="newActionLimitedOptionsController">NSArrayController</string>
 						<string key="newActionWindow">NSWindow</string>
@@ -7382,7 +7367,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBToOneOutletInfo" key="mpController">
 							<string key="name">mpController</string>
-							<string key="candidateClassName">MPController</string>
+							<string key="candidateClassName">CPController</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="newActionContext">
 							<string key="name">newActionContext</string>
@@ -7499,6 +7484,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<real value="1060" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>

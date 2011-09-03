@@ -1,7 +1,7 @@
 /* PrefsWindowController */
 
 #import "ContextSelectionButton.h"
-#import "MPController.h"
+#import "CPController.h"
 
 @interface PrefsWindowController : NSWindowController<NSToolbarDelegate>
 {
@@ -15,7 +15,7 @@
 
     
 
-	IBOutlet MPController *mpController;
+	IBOutlet CPController *cpController;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet NSArrayController *rulesController, *actionsController;

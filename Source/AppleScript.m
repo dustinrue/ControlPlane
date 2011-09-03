@@ -7,7 +7,7 @@
 //
 
 #import "AppleScript.h"
-#import "MPController.h"
+#import "CPController.h"
 
 @implementation NSApplication (AppleScript)
 
@@ -18,7 +18,7 @@
 }
 
 - (void) setCurrentContext: (NSString*) newContext {
-	MPController *c = (MPController *) [NSApp delegate];
+	CPController *c = (CPController *) [NSApp delegate];
 	Context *context = [[c contextsDataSource] contextByName: newContext];
 	
 	if (context)
@@ -34,7 +34,7 @@
 }
 
 - (void) setSticky: (NSNumber *) sticky {
-	MPController *c = (MPController *) [NSApp delegate];
+	CPController *c = (CPController *) [NSApp delegate];
 	
 	if ([c stickyContext] != [sticky boolValue])
 		[c toggleSticky:nil];
