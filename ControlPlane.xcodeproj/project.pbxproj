@@ -82,6 +82,14 @@
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
 		DA4A629513E25C9D00CE976F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629413E25C9D00CE976F /* Credits.html */; };
+		DA5B01E61412B86400E19C50 /* CPHelperInstallTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */; };
+		DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
+		DA5B01F61412BB0D00E19C50 /* BetterAuthorizationSampleLibInstallTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */; };
+		DA5B020A1412BBF200E19C50 /* CPHelperTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B02091412BBF200E19C50 /* CPHelperTool.c */; };
+		DA5B020C1412BDEF00E19C50 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
+		DA5B020D1412BDFC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
+		DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
+		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; };
 		DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */; };
@@ -113,6 +121,23 @@
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DA5B01E21412B78900E19C50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA5B01D61412B6A700E19C50;
+			remoteInfo = CPHelperInstallTool;
+		};
+		DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA5B01FA1412BB1700E19C50;
+			remoteInfo = CPHelperTool;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		8D2073870B86AB5100D61A9E /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -125,6 +150,34 @@
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA5B01D51412B6A700E19C50 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		DA5B01E51412B85600E19C50 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				DA5B01E61412B86400E19C50 /* CPHelperInstallTool in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA5B01F91412BB1700E19C50 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -208,7 +261,7 @@
 		8D8C9E330BBB89320074D5B3 /* DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB.m; path = Source/DB.m; sourceTree = "<group>"; };
 		8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IPEvidenceSource.h; path = Source/IPEvidenceSource.h; sourceTree = "<group>"; };
 		8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IPEvidenceSource.m; path = Source/IPEvidenceSource.m; sourceTree = "<group>"; };
-		8D90E51D0B71C4C9007D39FD /* CPController.h */ = {isa = PBXFileReference; fileEncoding = 4; name = CPController.h; path = Source/CPController.h; sourceTree = "<group>"; };
+		8D90E51D0B71C4C9007D39FD /* CPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPController.h; path = Source/CPController.h; sourceTree = "<group>"; };
 		8D90E51E0B71C4C9007D39FD /* CPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPController.m; path = Source/CPController.m; sourceTree = "<group>"; };
 		8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LightEvidenceSource.h; path = Source/LightEvidenceSource.h; sourceTree = "<group>"; };
 		8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LightEvidenceSource.m; path = Source/LightEvidenceSource.m; sourceTree = "<group>"; };
@@ -259,6 +312,15 @@
 		DA48F2E3140AD2FC00B000D3 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ControlPlane Help"; path = "Resources/ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
+		DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperInstallTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterAuthorizationSampleLib.h; sourceTree = "<group>"; };
+		DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLib.c; sourceTree = "<group>"; };
+		DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLibInstallTool.c; sourceTree = "<group>"; };
+		DA5B01FB1412BB1700E19C50 /* CPHelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA5B02091412BBF200E19C50 /* CPHelperTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperTool.c; sourceTree = "<group>"; };
+		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
+		DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHelperToolCommon.h; sourceTree = "<group>"; };
+		DA648AEF1412C17A00532B2C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		DA6D184A1154581000347E93 /* LmuTracker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LmuTracker.c; path = Source/LmuTracker/LmuTracker.c; sourceTree = "<group>"; };
 		DA6D184C1154581700347E93 /* LmuTrackerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LmuTrackerCommon.h; path = Source/LmuTracker/LmuTrackerCommon.h; sourceTree = "<group>"; };
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
@@ -353,6 +415,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA5B01D41412B6A700E19C50 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA5B01F81412BB1700E19C50 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */,
+				DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -392,6 +470,7 @@
 		1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA648AEF1412C17A00532B2C /* CoreFoundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
 				DD06E810140C661600059764 /* AudioToolbox.framework */,
@@ -415,6 +494,8 @@
 			isa = PBXGroup;
 			children = (
 				DA1204DA13D0E5C800CDA091 /* ControlPlane.app */,
+				DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */,
+				DA5B01FB1412BB1700E19C50 /* CPHelperTool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -422,6 +503,7 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
+				DA5B01E91412BA6700E19C50 /* CPHelperTool */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -570,6 +652,28 @@
 			name = Actions;
 			sourceTree = "<group>";
 		};
+		DA5B01E91412BA6700E19C50 /* CPHelperTool */ = {
+			isa = PBXGroup;
+			children = (
+				DA5B01EA1412BA6700E19C50 /* AuthorizationLib */,
+				DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */,
+				DA5B02091412BBF200E19C50 /* CPHelperTool.c */,
+				DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */,
+				DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */,
+			);
+			name = CPHelperTool;
+			path = Source/CPHelperTool;
+			sourceTree = "<group>";
+		};
+		DA5B01EA1412BA6700E19C50 /* AuthorizationLib */ = {
+			isa = PBXGroup;
+			children = (
+				DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */,
+				DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */,
+			);
+			path = AuthorizationLib;
+			sourceTree = "<group>";
+		};
 		DD8274EB14114CFF0098FA6E /* Application Actions */ = {
 			isa = PBXGroup;
 			children = (
@@ -651,16 +755,53 @@
 				8DEF43B20BAA072400F87273 /* Index Help */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				8D2073870B86AB5100D61A9E /* Copy Frameworks */,
+				DA5B01E51412B85600E19C50 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
+				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
 			);
 			name = ControlPlane;
 			productInstallPath = "$(HOME)/Applications";
 			productName = ControlPlane;
 			productReference = DA1204DA13D0E5C800CDA091 /* ControlPlane.app */;
 			productType = "com.apple.product-type.application";
+		};
+		DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA5B01DE1412B6A700E19C50 /* Build configuration list for PBXNativeTarget "CPHelperInstallTool" */;
+			buildPhases = (
+				DA5B01D31412B6A700E19C50 /* Sources */,
+				DA5B01D41412B6A700E19C50 /* Frameworks */,
+				DA5B01D51412B6A700E19C50 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CPHelperInstallTool;
+			productName = CPHelperInstallTool;
+			productReference = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */;
+			productType = "com.apple.product-type.tool";
+		};
+		DA5B01FA1412BB1700E19C50 /* CPHelperTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "CPHelperTool" */;
+			buildPhases = (
+				DA5B01F71412BB1700E19C50 /* Sources */,
+				DA5B01F81412BB1700E19C50 /* Frameworks */,
+				DA5B01F91412BB1700E19C50 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CPHelperTool;
+			productName = CPHelperTool;
+			productReference = DA5B01FB1412BB1700E19C50 /* CPHelperTool */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -709,6 +850,8 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* ControlPlane */,
+				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
+				DA5B01FA1412BB1700E19C50 /* CPHelperTool */,
 			);
 		};
 /* End PBXProject section */
@@ -858,10 +1001,42 @@
 				DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */,
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
 				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
+				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA5B01D31412B6A700E19C50 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5B01F61412BB0D00E19C50 /* BetterAuthorizationSampleLibInstallTool.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA5B01F71412BB1700E19C50 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA5B020D1412BDFC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
+				DA5B020A1412BBF200E19C50 /* CPHelperTool.c in Sources */,
+				DA5B020C1412BDEF00E19C50 /* CPHelperToolCommon.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA5B01E31412B78900E19C50 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */;
+			targetProxy = DA5B01E21412B78900E19C50 /* PBXContainerItemProxy */;
+		};
+		DA5B02071412BB3A00E19C50 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA5B01FA1412BB1700E19C50 /* CPHelperTool */;
+			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DDA2013C1411C0FB00DE570E /* Localizable.strings */ = {
@@ -1065,6 +1240,78 @@
 			};
 			name = Release;
 		};
+		DA5B01DF1412B6A700E19C50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_64)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DA5B01E01412B6A700E19C50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DA5B02031412BB1800E19C50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_64)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DA5B02041412BB1800E19C50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1082,6 +1329,24 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA5B01DE1412B6A700E19C50 /* Build configuration list for PBXNativeTarget "CPHelperInstallTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA5B01DF1412B6A700E19C50 /* Debug */,
+				DA5B01E01412B6A700E19C50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "CPHelperTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA5B02031412BB1800E19C50 /* Debug */,
+				DA5B02041412BB1800E19C50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
