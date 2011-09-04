@@ -286,6 +286,7 @@
 #import "USBEvidenceSource.h"
 #import "CoreWLANEvidenceSource.h"
 #import "SleepEvidenceSource.h"
+#import "CoreLocationSource.h"
 
 @implementation EvidenceSourceSetController
 
@@ -298,6 +299,7 @@
 						[AudioOutputEvidenceSource class],
 						[BluetoothEvidenceSource class],
 						[BonjourEvidenceSource class],
+						[CoreLocationSource class],
 						[FireWireEvidenceSource class],
 						[IPEvidenceSource class],
 						[LightEvidenceSource class],
@@ -315,6 +317,7 @@
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
 		NSLocalizedString(@"Bonjour", @"Evidence source");
+		NSLocalizedString(@"CoreLocation", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
 		NSLocalizedString(@"Light", @"Evidence source");
