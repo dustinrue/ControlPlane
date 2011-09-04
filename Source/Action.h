@@ -13,6 +13,7 @@
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
 	
+	OSStatus helperError;
 	AuthorizationRef gAuth;
 }
 
@@ -29,7 +30,7 @@
 - (NSComparisonResult)compareDelay:(Action *)other;
 
 // access helper tool method
-- (OSStatus) helperPerformAction: (NSString *) action;
+- (void) helperPerformAction: (id) action;
 
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)

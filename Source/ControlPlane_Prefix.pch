@@ -4,6 +4,4 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
-	
-	#define NSAppKitVersionNumber10_6 1038
 #endif

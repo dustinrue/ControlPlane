@@ -18,25 +18,20 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	NSString *command = nil;
+	NSString *command = turnOn ? @kCPHelperToolEnableTMCommand : @kCPHelperToolDisableTMCommand;
 	
-	// check OS version
-	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6)
-		command = (turnOn ? @kCPHelperToolEnableTMLionCommand : @kCPHelperToolDisableTMLionCommand);
-	else
-		command = (turnOn ? @kCPHelperToolEnableTMLionCommand : @kCPHelperToolDisableTMLionCommand);
-	
-	// perform command
-	OSStatus error = [self helperPerformAction: command];
+	// perform command on the mainthread because of the dangers of presenting NSAlert on a 
+    // separate thread
+    [self performSelectorOnMainThread: @selector(helperPerformAction:) withObject: command waitUntilDone: YES];
     
-	if (error) {
+	if (helperError) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed enabling Time Machine.", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed disabling Time Machine.", @"");
 	}
 	
-	return (error ? NO : YES);
+	return (helperError ? NO : YES);
 }
 
 + (NSString *) helpText {

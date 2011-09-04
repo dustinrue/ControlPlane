@@ -19,19 +19,20 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	OSStatus error = 0;
+	NSString *command = turnOn ? @kCPHelperToolStartBackupTMCommand : @kCPHelperToolStopBackupTMCommand;
 	
-	if (turnOn)
-		[NSTask launchedTaskWithLaunchPath: @"/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd-helper"
-								 arguments: [NSArray array]];
-	else {
-		error = [self helperPerformAction: @kCPHelperToolStopBackupTM];
-		
-		if (error)
+	// perform command on the mainthread because of the dangers of presenting NSAlert on a 
+    // separate thread
+    [self performSelectorOnMainThread: @selector(helperPerformAction:) withObject: command waitUntilDone: YES];
+    
+	if (helperError) {
+		if (turnOn)
+			*errorString = NSLocalizedString(@"Failed starting Time Machine backup.", @"");
+		else
 			*errorString = NSLocalizedString(@"Failed stopping Time Machine backup.", @"");
 	}
 	
-	return (error ? NO : YES);
+	return (helperError ? NO : YES);
 }
 
 + (NSString *) helpText {
