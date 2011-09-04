@@ -77,7 +77,7 @@ static OSStatus DoEnableTMLion (AuthorizationRef		auth,
 		return system(command);
 	}
 
-	return 0;
+	return commandFailed;
 }
 
 
@@ -105,7 +105,7 @@ static OSStatus DoDisableTMLion (AuthorizationRef		auth,
 		return system(command);
 	}
 
-	return 0;
+	return commandFailed;
 }
 
 // Stop a Time Machine backup
@@ -133,7 +133,7 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
 	DoDisableTMSL,
 	DoEnableTMLion,
 	DoDisableTMLion,
-	DoStopBackupTM,
+	DoStopBackupTMSL,
 	NULL
 };
 

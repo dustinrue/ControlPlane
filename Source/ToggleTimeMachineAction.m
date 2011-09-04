@@ -19,7 +19,7 @@
 
 - (BOOL) execute: (NSString **) errorString {
 	NSString *command = nil;
-	
+
 	// check OS version
 	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6)
 		command = (turnOn ? @kCPHelperToolEnableTMLionCommand : @kCPHelperToolDisableTMLionCommand);

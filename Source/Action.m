@@ -154,7 +154,7 @@
 
 - (OSStatus) helperPerformAction: (NSString *) action {
     CFDictionaryRef response = NULL;
-    OSStatus err;
+
     NSString *bundleID;
     NSDictionary *request;
 	
@@ -168,19 +168,19 @@
     assert(request != NULL);
     
     // Execute it.
-	err = BASExecuteRequestInHelperTool(gAuth,
+	error = BASExecuteRequestInHelperTool(gAuth,
 										kCPHelperToolCommandSet, 
                                         (CFStringRef) bundleID, 
                                         (CFDictionaryRef) request, 
                                         &response);
     
     // If it failed, try to recover.
-    if (err != noErr && err != userCanceledErr) {
-        err = [self fixHelperTool];
+    if (error != noErr && error != userCanceledErr) {
+        error = [self fixHelperTool];
         
         // If the fix went OK, retry the request.
-		if (err == noErr)
-			err = BASExecuteRequestInHelperTool(gAuth,
+		if (error == noErr)
+			error = BASExecuteRequestInHelperTool(gAuth,
 												kCPHelperToolCommandSet,
 												(CFStringRef) bundleID,
 												(CFDictionaryRef) request,
@@ -191,12 +191,12 @@
     // now have to check the response dictionary to see if the command's execution within 
     // the helper tool was successful.
     
-    if (err == noErr)
-        err = BASGetErrorFromResponse(response);
+    if (error == noErr)
+        error = BASGetErrorFromResponse(response);
     if (response)
         CFRelease(response);
 	
-    return err;
+    return error;
 }
 
 - (void) initHelperTool {
