@@ -7,11 +7,15 @@
 //
 
 #import "ToggleableAction.h"
-#import "BetterAuthorizationSampleLib.h"
-#import "CPHelperToolCommon.h"
 
-static AuthorizationRef gAuth;
 
-@interface ToggleTimeMachineAction : ToggleableAction
+
+
+@interface ToggleTimeMachineAction : ToggleableAction {
+   
+}
+
+- (OSStatus)doEnableTM;
+- (OSStatus)doDisableTM;
 
 @end

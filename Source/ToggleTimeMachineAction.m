@@ -18,15 +18,9 @@
 		return NSLocalizedString(@"Disabling Time Machine.", @"Act of turning off or disabling Time Machine backup system is being performed");
 }
 
-- (OSStatus)doEnableTM
-// Called when the user clicks the "GetUIDs" button.  This is a typical BetterAuthorizationSample 
-// privileged operation implemented in Objective-C.
-{
-    OSStatus        err;
-    BASFailCode     failCode;
-    NSString *      bundleID;
-    NSDictionary *  request;
-    CFDictionaryRef response;
+- (OSStatus)doEnableTM {
+
+
     
     response = NULL;
     
@@ -41,7 +35,7 @@
     
     // Execute it.
     
-	err = BASExecuteRequestInHelperTool(
+	error = BASExecuteRequestInHelperTool(
                                         gAuth, 
                                         kCPHelperToolCommandSet, 
                                         (CFStringRef) bundleID, 
@@ -51,7 +45,7 @@
     
     // If it failed, try to recover.
     
-    if ( (err != noErr) && (err != userCanceledErr) ) {
+    if ( (error != noErr) && (error != userCanceledErr) ) {
         int alertResult;
         
         failCode = BASDiagnoseFailure(gAuth, (CFStringRef) bundleID);
@@ -65,12 +59,12 @@
         if ( alertResult == NSAlertDefaultReturn ) {
             // Try to fix things.
             
-            err = BASFixFailure(gAuth, (CFStringRef) bundleID, CFSTR("CPHelperInstallTool"), CFSTR("CPHelperTool"), failCode);
+            error = BASFixFailure(gAuth, (CFStringRef) bundleID, CFSTR("CPHelperInstallTool"), CFSTR("CPHelperTool"), failCode);
             
             // If the fix went OK, retry the request.
             
-            if (err == noErr) {
-                err = BASExecuteRequestInHelperTool(
+            if (error == noErr) {
+                error = BASExecuteRequestInHelperTool(
                                                     gAuth, 
                                                     kCPHelperToolCommandSet, 
                                                     (CFStringRef) bundleID, 
@@ -79,7 +73,7 @@
                                                     );
             }
         } else {
-            err = userCanceledErr;
+            error = userCanceledErr;
         }
     }
     
@@ -87,16 +81,16 @@
     // now have to check the response dictionary to see if the command's execution within 
     // the helper tool was successful.
     
-    if (err == noErr) {
-        err = BASGetErrorFromResponse(response);
+    if (error == noErr) {
+        error = BASGetErrorFromResponse(response);
     }
     
     // Log our results.
     
-    if (err == noErr) {
+    if (error == noErr) {
         NSLog(@"successfully enabled time machine");
     } else {
-         NSLog(@"Failed with error %ld.\n", (long) err);
+         NSLog(@"Failed with error %ld.\n", (long) error);
     }
     
     if (response != NULL) {
@@ -104,15 +98,8 @@
     }
 }
 
-- (OSStatus)doDisableTM
-// Called when the user clicks the "GetUIDs" button.  This is a typical BetterAuthorizationSample 
-// privileged operation implemented in Objective-C.
-{
-    OSStatus        err;
-    BASFailCode     failCode;
-    NSString *      bundleID;
-    NSDictionary *  request;
-    CFDictionaryRef response;
+- (OSStatus)doDisableTM {
+
     
     response = NULL;
     
@@ -127,7 +114,7 @@
     
     // Execute it.
     
-	err = BASExecuteRequestInHelperTool(
+	error = BASExecuteRequestInHelperTool(
                                         gAuth, 
                                         kCPHelperToolCommandSet, 
                                         (CFStringRef) bundleID, 
@@ -137,7 +124,7 @@
     
     // If it failed, try to recover.
     
-    if ( (err != noErr) && (err != userCanceledErr) ) {
+    if ( (error != noErr) && (error != userCanceledErr) ) {
         int alertResult;
         
         failCode = BASDiagnoseFailure(gAuth, (CFStringRef) bundleID);
@@ -151,12 +138,12 @@
         if ( alertResult == NSAlertDefaultReturn ) {
             // Try to fix things.
             
-            err = BASFixFailure(gAuth, (CFStringRef) bundleID, CFSTR("CPHelperInstallTool"), CFSTR("CPHelperTool"), failCode);
+            error = BASFixFailure(gAuth, (CFStringRef) bundleID, CFSTR("CPHelperInstallTool"), CFSTR("CPHelperTool"), failCode);
             
             // If the fix went OK, retry the request.
             
-            if (err == noErr) {
-                err = BASExecuteRequestInHelperTool(
+            if (error == noErr) {
+                error = BASExecuteRequestInHelperTool(
                                                     gAuth, 
                                                     kCPHelperToolCommandSet, 
                                                     (CFStringRef) bundleID, 
@@ -165,7 +152,7 @@
                                                     );
             }
         } else {
-            err = userCanceledErr;
+            error = userCanceledErr;
         }
     }
     
@@ -173,16 +160,16 @@
     // now have to check the response dictionary to see if the command's execution within 
     // the helper tool was successful.
     
-    if (err == noErr) {
-        err = BASGetErrorFromResponse(response);
+    if (error == noErr) {
+        error = BASGetErrorFromResponse(response);
     }
     
     // Log our results.
     
-    if (err == noErr) {
+    if (error == noErr) {
         NSLog(@"successfully disabled time machine");
     } else {
-        NSLog(@"Failed with error %ld.\n", (long) err);
+        NSLog(@"Failed with error %ld.\n", (long) error);
     }
     
     if (response != NULL) {
@@ -193,17 +180,20 @@
 - (BOOL)execute:(NSString **)errorString
 {
     
-    OSStatus    junk;
     
+
+    [self initAuthorizationSystem];
     // Create the AuthorizationRef that we'll use through this application.  We ignore 
     // any error from this.  A failure from AuthorizationCreate is very unusual, and if it 
     // happens there's no way to recover; Authorization Services just won't work.
     
+    OSStatus junk;
+    
     junk = AuthorizationCreate(NULL, NULL, kAuthorizationFlagDefaults, &gAuth);
+    
     assert(junk == noErr);
     assert( (junk == noErr) == (gAuth != NULL) );
-    
-	// For each of our commands, check to see if a right specification exists and, if not,
+    // For each of our commands, check to see if a right specification exists and, if not,
     // create it.
     //
     // The last parameter is the name of a ".strings" file that contains the localised prompts 
@@ -215,10 +205,9 @@
                        CFBundleGetIdentifier(CFBundleGetMainBundle()), 
                        CFSTR("CPHelperToolAuthorizationPrompts")
                        );
-
-	int state = (turnOn ? 1 : 0);
-    OSStatus error;
     
+	int state = (turnOn ? 1 : 0);
+
     
     // If the helper tool isn't installed the user will be asked to install it. 
     // This is done using an NSAlert which must run on the main thread

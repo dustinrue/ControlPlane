@@ -6,9 +6,20 @@
 //
 
 
+#import "BetterAuthorizationSampleLib.h"
+#import "CPHelperToolCommon.h"
+
+static AuthorizationRef gAuth;
+
 @interface Action : NSObject {
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
+    OSStatus        error; 
+    BASFailCode     failCode;
+    NSString *      bundleID;
+    NSDictionary *  request;
+    CFDictionaryRef response;
+
 }
 
 + (NSString *)typeForClass:(Class)klass;

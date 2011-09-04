@@ -243,7 +243,7 @@
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
 		NSLocalizedString(@"Unmount", @"Action type");
 		NSLocalizedString(@"VPN", @"Action type");
-        NSLocalizedString(@"TimeMachine",@"Action type");
+        NSLocalizedString(@"TimeMachineAction",@"Action type");
 	}
 
 	return self;
