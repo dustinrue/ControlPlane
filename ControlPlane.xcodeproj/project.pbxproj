@@ -481,13 +481,14 @@
 		1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA648AEF1412C17A00532B2C /* CoreFoundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
 				DD06E810140C661600059764 /* AudioToolbox.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				DA648AEF1412C17A00532B2C /* CoreFoundation.framework */,
+				DD6FCC681413EF6B0095E64F /* CoreLocation.framework */,
 				DA72BF9313CD317B002D27DD /* CoreWLAN.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,
@@ -514,7 +515,6 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
-				DD6FCC681413EF6B0095E64F /* CoreLocation.framework */,
 				DA5B01E91412BA6700E19C50 /* CPHelperTool */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
