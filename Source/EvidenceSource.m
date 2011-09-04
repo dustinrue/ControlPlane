@@ -273,11 +273,7 @@
 @end
 
 #import "AudioOutputEvidenceSource.h"
-
-
 #import "BluetoothEvidenceSource.h"
-
-
 #import "BonjourEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
@@ -299,21 +295,21 @@
 		return nil;
     
 	NSArray *classes = [NSArray arrayWithObjects:
-		[AudioOutputEvidenceSource class],
-		[BluetoothEvidenceSource class],
-		[BonjourEvidenceSource class],
-		[FireWireEvidenceSource class],
-		[IPEvidenceSource class],
-		[LightEvidenceSource class],
-		[MonitorEvidenceSource class],
-		[NetworkLinkEvidenceSource class],
-		[PowerEvidenceSource class],
-		[RunningApplicationEvidenceSource class],
-		[TimeOfDayEvidenceSource class],
-		[USBEvidenceSource class],
-        [WiFiEvidenceSourceCoreWLAN class],
-		[SleepEvidenceSource class],
-		nil];
+						[AudioOutputEvidenceSource class],
+						[BluetoothEvidenceSource class],
+						[BonjourEvidenceSource class],
+						[FireWireEvidenceSource class],
+						[IPEvidenceSource class],
+						[LightEvidenceSource class],
+						[MonitorEvidenceSource class],
+						[NetworkLinkEvidenceSource class],
+						[PowerEvidenceSource class],
+						[RunningApplicationEvidenceSource class],
+						[SleepEvidenceSource class],
+						[TimeOfDayEvidenceSource class],
+						[USBEvidenceSource class],
+						[WiFiEvidenceSourceCoreWLAN class],
+						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
@@ -326,10 +322,10 @@
 		NSLocalizedString(@"NetworkLink", @"Evidence source");
 		NSLocalizedString(@"Power", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
+		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
-		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources

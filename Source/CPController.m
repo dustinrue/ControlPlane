@@ -55,7 +55,7 @@
 
 // needed for sleep callback
 void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
-CPController *mp_controller;
+CPController *cp_controller;
 
 
 + (void)initialize
@@ -76,14 +76,10 @@ CPController *mp_controller;
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"ShowGuess"];
         [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:CP_DISPLAY_BOTH] forKey:@"menuBarOption"];
     }
-  
-        
+	
 	// TODO: spin these into the EvidenceSourceSetController?
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableAudioOutputEvidenceSource"];
-    
-
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableBluetoothEvidenceSource"];
-
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableFireWireEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableIPEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableLightEvidenceSource"];
@@ -92,10 +88,9 @@ CPController *mp_controller;
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableRunningApplicationEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableTimeOfDayEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableUSBEvidenceSource"];
-
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableCoreWLANEvidenceSource"];    
     [appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"SleepEvidenceSource"];
-
+	
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePersistentContext"];
@@ -150,7 +145,7 @@ CPController *mp_controller;
 	forcedContextIsSticky = NO;
 	
 	// store for access locally
-	mp_controller = self;
+	cp_controller = self;
 	
 	return self;
 }
@@ -1111,16 +1106,16 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 			// Hack: we need to do an extra check (2 if smoothing is enabled) right before sleeping
 			//		 otherwise the sleep rule won't be triggered
 			DSLog(@"Sleep callback: calling doUpdateForReal");
-			[mp_controller doUpdateForReal];
+			[cp_controller doUpdateForReal];
 			if (smoothing)
-				[mp_controller doUpdateForReal];
+				[cp_controller doUpdateForReal];
 			
 			// wait until all actions finish
-			while ([mp_controller actionsInProgress] > 0)
+			while ([cp_controller actionsInProgress] > 0)
 				usleep(100);
 			
 			// Allow sleep
-            IOAllowPowerChange([mp_controller root_port], (long)argument);
+            IOAllowPowerChange([cp_controller root_port], (long)argument);
             break;
 			
         case kIOMessageSystemWillPowerOn:

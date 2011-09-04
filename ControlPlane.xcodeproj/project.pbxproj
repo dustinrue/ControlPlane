@@ -103,6 +103,7 @@
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DAAF16B9141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAAF16B8141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
+		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
 		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
 		DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */; };
@@ -341,6 +342,7 @@
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
 		DAAF16B8141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = CPHelperToolAuthorizationPrompts.strings; path = Resources/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DD6FCC681413EF6B0095E64F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DD8274E5141147BB0098FA6E /* controlplane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = controlplane.icns; path = Resources/controlplane.icns; sourceTree = "<group>"; };
 		DD8274EE141154780098FA6E /* MailIntervalAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailIntervalAction.h; path = Source/MailIntervalAction.h; sourceTree = "<group>"; };
 		DD8274EF141154780098FA6E /* MailIntervalAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MailIntervalAction.m; path = Source/MailIntervalAction.m; sourceTree = "<group>"; };
@@ -407,16 +409,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD8274FB141177750098FA6E /* Security.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
 				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */,
+				DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */,
 				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
 				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
 				8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */,
 				8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */,
 				DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */,
+				DD8274FB141177750098FA6E /* Security.framework in Frameworks */,
 				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
 				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */,
@@ -511,6 +514,7 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
+				DD6FCC681413EF6B0095E64F /* CoreLocation.framework */,
 				DA5B01E91412BA6700E19C50 /* CPHelperTool */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -1144,14 +1148,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
@@ -1159,6 +1161,7 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = NO;
@@ -1168,6 +1171,7 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Versions/A/Frameworks\"",
 				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SSE41_EXTENSIONS = YES;
 				GCC_ENABLE_SSE42_EXTENSIONS = YES;
@@ -1175,8 +1179,12 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/ControlPlane_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG_MODE;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					DEBUG_MODE,
+				);
 				GCC_STRICT_ALIASING = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
@@ -1208,14 +1216,18 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Versions/A/Frameworks\"",
 				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SSE41_EXTENSIONS = YES;
@@ -1225,6 +1237,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/ControlPlane_Prefix.pch;
 				GCC_STRICT_ALIASING = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
@@ -1257,68 +1270,28 @@
 		DA5B01DF1412B6A700E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Debug;
 		};
 		DA5B01E01412B6A700E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Release;
 		};
 		DA5B02031412BB1800E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Debug;
 		};
 		DA5B02041412BB1800E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Release;
 		};
