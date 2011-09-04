@@ -29,7 +29,7 @@ static OSStatus DoEnableTMSL (AuthorizationRef			auth,
 
 	char command[256];
 
-	sprintf(command,"defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "TRUE");
+	sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "TRUE");
 
 	return system(command);
 }
@@ -47,7 +47,7 @@ static OSStatus DoDisableTMSL (AuthorizationRef			auth,
 
 	char command[256];
 
-	sprintf(command,"defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "FALSE");
+	sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "FALSE");
 
 	return system(command);
 }
@@ -109,7 +109,7 @@ static OSStatus DoDisableTMLion (AuthorizationRef		auth,
 }
 
 // Stop a Time Machine backup
-static OSStatus DoStopBackupTM (AuthorizationRef		auth,
+static OSStatus DoStopBackupTMSL (AuthorizationRef		auth,
 								const void *			userData,
 								CFDictionaryRef			request,
 								CFMutableDictionaryRef	response,

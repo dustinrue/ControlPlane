@@ -15,7 +15,7 @@
 #define kCPHelperToolEnableTMLionCommand	"EnableTMLion"
 #define kCPHelperToolDisableTMSLCommand		"DisableTMSL"
 #define kCPHelperToolDisableTMLionCommand	"DisableTMLion"
-#define kCPHelperToolStopBackupTM			"StopBackupTM"
+#define kCPHelperToolStopBackupTM			"StopBackupTMSL"
 
 #define kCPHelperTOOLToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"
 #define kCPHelperTOOLStopBackupTMRightName	"com.dustinrue.ControlPlane.StopBackupTM"

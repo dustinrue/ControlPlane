@@ -36,7 +36,7 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
     {   kCPHelperToolStopBackupTM,
         kCPHelperTOOLStopBackupTMRightName,
         "allow",
-        "StopBackupTM",
+        "StopBackupTMSL",
         NULL
     },
     {   NULL,
