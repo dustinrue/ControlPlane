@@ -26,8 +26,9 @@
 	else
 		command = (turnOn ? @kCPHelperToolEnableTMLionCommand : @kCPHelperToolDisableTMLionCommand);
 	
-	// perform command
-	OSStatus error = [self helperPerformAction: command];
+	// perform command on the mainthread because of the dangers of presenting NSAlert on a 
+    // separate thread
+    [self performSelectorOnMainThread:@selector(helperPerformAction:) withObject:command waitUntilDone:YES];
     
 	if (error) {
 		if (turnOn)

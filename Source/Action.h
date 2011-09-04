@@ -12,7 +12,8 @@
 @interface Action : NSObject {
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
-	
+	OSStatus error;
+    
 	AuthorizationRef gAuth;
 }
 
