@@ -12917,6 +12917,7 @@
 10-00-00	PRIVATE
 10-00-5A	IBM Corp
 10-00-E8	NATIONAL SEMICONDUCTOR
+10-00-FD	LaonPeople
 10-09-0C	Janome Sewing Machine Co., Ltd.
 10-0B-A9	Intel Corporate
 10-0C-24	pomdevices, LLC
@@ -13143,6 +13144,7 @@
 24-B8-D2	Opzoon Technology Co.,Ltd.
 24-BA-30	Technical Consumer Products, Inc.
 24-BF-74	PRIVATE
+24-C0-B3	RSF
 24-C8-6E	Chaney Instrument Co.
 24-C9-DE	Genoray
 24-CB-E7	MYK, Inc.
@@ -13709,6 +13711,7 @@
 60-2A-54	CardioTek B.V.
 60-2A-D0	Cisco SPVTG
 60-33-4B	Apple
+60-35-53	Buwon Technology
 60-38-0E	Alps Electric Co.,
 60-39-1F	ABB Ltd
 60-3F-C5	COX CO., LTD
@@ -14262,6 +14265,7 @@
 90-F2-78	Radius Gateway
 90-FB-5B	Avaya, Inc
 90-FB-A6	Hon Hai Precision Ind.Co.Ltd
+94-0B-2D	NetView Technologies(Shenzhen) Co., Ltd
 94-0C-6D	TP-LINK Technologies Co.,Ltd.
 94-11-DA	ITF Froschl GmbH
 94-16-73	Point Core SARL
@@ -14789,6 +14793,7 @@ C8-02-A6	Beijing Newmine Technology
 C8-0A-A9	Quanta Computer Inc.
 C8-1E-8E	ADV Security (S) Pte Ltd
 C8-20-8E	Storagedata
+C8-29-2A	Barun Electronics
 C8-2A-14	Apple Inc
 C8-2E-94	Halfa Enterprise Co., Ltd.
 C8-32-32	Hunting Innova
