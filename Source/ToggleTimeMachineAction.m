@@ -18,17 +18,11 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	NSString *command = nil;
-
-	// check OS version
-	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6)
-		command = (turnOn ? @kCPHelperToolEnableTMLionCommand : @kCPHelperToolDisableTMLionCommand);
-	else
-		command = (turnOn ? @kCPHelperToolEnableTMLionCommand : @kCPHelperToolDisableTMLionCommand);
+	NSString *command = turnOn ? @kCPHelperToolEnableTMCommand : @kCPHelperToolDisableTMCommand;
 	
 	// perform command on the mainthread because of the dangers of presenting NSAlert on a 
     // separate thread
-    [self performSelectorOnMainThread:@selector(helperPerformAction:) withObject:command waitUntilDone:YES];
+    [self performSelectorOnMainThread: @selector(helperPerformAction:) withObject: command waitUntilDone: YES];
     
 	if (error) {
 		if (turnOn)
