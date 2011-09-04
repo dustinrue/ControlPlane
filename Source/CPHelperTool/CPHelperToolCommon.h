@@ -20,8 +20,8 @@
 
 #define kCPHelperToolEnableTMCommand		"EnableTM"
 #define kCPHelperToolDisableTMCommand		"DisableTM"
-#define kCPHelperToolStartBackupTM			"StartBackupTM"
-#define kCPHelperToolStopBackupTM			"StopBackupTM"
+#define kCPHelperToolStartBackupTMCommand	"StartBackupTM"
+#define kCPHelperToolStopBackupTMCommand	"StopBackupTM"
 
 // Rights
 #define kCPHelperToolToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"

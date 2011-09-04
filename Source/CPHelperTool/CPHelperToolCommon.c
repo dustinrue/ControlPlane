@@ -27,13 +27,13 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
 		"DisableTM",
 		NULL
 	},
-	{	kCPHelperToolStartBackupTM,
+	{	kCPHelperToolStartBackupTMCommand,
 		kCPHelperToolRunBackupTMRightName,
 		"allow",
 		"StartBackupTM",
 		NULL
 	},
-	{	kCPHelperToolStopBackupTM,
+	{	kCPHelperToolStopBackupTMCommand,
 		kCPHelperToolRunBackupTMRightName,
 		"allow",
 		"StopBackupTM",

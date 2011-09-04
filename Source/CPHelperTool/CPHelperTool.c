@@ -153,7 +153,7 @@ static OSStatus DoStartBackupTM (AuthorizationRef		auth,
 // Stop a Time Machine backup
 static OSStatus DoStopBackupTM (AuthorizationRef		auth,
 								 const void *			userData,
-								 CFDictionaryRef			request,
+								 CFDictionaryRef		request,
 								 CFMutableDictionaryRef	response,
 								 aslclient				asl,
 								 aslmsg					aslMsg) {
@@ -172,7 +172,7 @@ static OSStatus DoStopBackupTM (AuthorizationRef		auth,
 	
 	// if Lion or greater
 	if ((major == 10 && minor >= 7) || major >= 11) {
-		sprintf(command,"/usr/bin/tmutil startbackup");
+		sprintf(command,"/usr/bin/tmutil stopbackup");
 		retValue = system(command);
 	} else {	// Snow leopard
 		sprintf(command, "/usr/bin/killall backupd-helper");
