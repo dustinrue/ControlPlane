@@ -3,7 +3,7 @@
 //  ControlPlane
 //
 //  Created by Dustin Rue on 9/3/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011. All rights reserved.
 //
 
 #import "ToggleTimeMachineAction.h"
@@ -23,9 +23,6 @@
 
     
     response = NULL;
-    
-    // Create our request.  Note that NSDictionary is toll-free bridged to CFDictionary, so 
-    // we can use an NSDictionary as our request.
     
     request = [NSDictionary dictionaryWithObjectsAndKeys:@kCPHelperToolEnableTMLionCommand, @kBASCommandKey, nil];
     assert(request != NULL);
@@ -102,9 +99,6 @@
 
     
     response = NULL;
-    
-    // Create our request.  Note that NSDictionary is toll-free bridged to CFDictionary, so 
-    // we can use an NSDictionary as our request.
     
     request = [NSDictionary dictionaryWithObjectsAndKeys:@kCPHelperToolDisableTMLionCommand, @kBASCommandKey, nil];
     assert(request != NULL);
