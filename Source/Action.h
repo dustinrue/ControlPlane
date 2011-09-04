@@ -9,17 +9,11 @@
 #import "BetterAuthorizationSampleLib.h"
 #import "CPHelperToolCommon.h"
 
-static AuthorizationRef gAuth;
-
 @interface Action : NSObject {
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
-    OSStatus        error; 
-    BASFailCode     failCode;
-    NSString *      bundleID;
-    NSDictionary *  request;
-    CFDictionaryRef response;
-
+	
+	AuthorizationRef gAuth;
 }
 
 + (NSString *)typeForClass:(Class)klass;
@@ -33,6 +27,9 @@ static AuthorizationRef gAuth;
 + (NSString *)helpTextForActionOfType:(NSString *)type;
 
 - (NSComparisonResult)compareDelay:(Action *)other;
+
+// access helper tool method
+- (OSStatus) helperPerformAction: (NSString *) action;
 
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)

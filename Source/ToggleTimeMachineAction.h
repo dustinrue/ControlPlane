@@ -8,14 +8,11 @@
 
 #import "ToggleableAction.h"
 
+@interface ToggleTimeMachineAction : ToggleableAction
 
-
-
-@interface ToggleTimeMachineAction : ToggleableAction {
-   
-}
-
-- (OSStatus)doEnableTM;
-- (OSStatus)doDisableTM;
+- (NSString *) description;
+- (BOOL) execute: (NSString **) errorString;
++ (NSString *) helpText;
++ (NSString *) creationHelpText;
 
 @end

@@ -9,6 +9,13 @@
 #import "DSLogger.h"
 #import "PrefsWindowController.h"
 
+@interface Action (Private)
+
+- (void) initHelperTool;
+- (OSStatus) fixHelperTool;
+
+@end
+
 
 @implementation Action
 
@@ -58,7 +65,9 @@
 	when = [@"Arrival" retain];
 	delay = [[NSNumber alloc] initWithDouble:0];
 	enabled = [[NSNumber alloc] initWithBool:YES];
-
+	
+	gAuth = NULL;
+	
 	return self;
 }
 
@@ -143,6 +152,102 @@
 	return @"<Sorry, help text coming soon!>";
 }
 
+- (OSStatus) helperPerformAction: (NSString *) action {
+    CFDictionaryRef response = NULL;
+    OSStatus err;
+    NSString *bundleID;
+    NSDictionary *request;
+	
+	// initialize
+	[self initHelperTool];
+	
+	// create request
+    bundleID = [[NSBundle mainBundle] bundleIdentifier];
+	assert(bundleID != NULL);
+	request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, nil];
+    assert(request != NULL);
+    
+    // Execute it.
+	err = BASExecuteRequestInHelperTool(gAuth,
+										kCPHelperToolCommandSet, 
+                                        (CFStringRef) bundleID, 
+                                        (CFDictionaryRef) request, 
+                                        &response);
+    
+    // If it failed, try to recover.
+    if (err != noErr && err != userCanceledErr) {
+        err = [self fixHelperTool];
+        
+        // If the fix went OK, retry the request.
+		if (err == noErr)
+			err = BASExecuteRequestInHelperTool(gAuth,
+												kCPHelperToolCommandSet,
+												(CFStringRef) bundleID,
+												(CFDictionaryRef) request,
+												&response);
+    }
+    
+    // If all of the above went OK, it means that the IPC to the helper tool worked.  We 
+    // now have to check the response dictionary to see if the command's execution within 
+    // the helper tool was successful.
+    
+    if (err == noErr)
+        err = BASGetErrorFromResponse(response);
+    if (response)
+        CFRelease(response);
+	
+    return err;
+}
+
+- (void) initHelperTool {
+	OSStatus err = 0;
+	
+	// Create the AuthorizationRef that we'll use through this application.  We ignore 
+    // any error from this.  A failure from AuthorizationCreate is very unusual, and if it 
+    // happens there's no way to recover; Authorization Services just won't work.
+	
+    err = AuthorizationCreate(NULL, NULL, kAuthorizationFlagDefaults, &gAuth);
+    assert(err == noErr);
+    assert((err == noErr) == (gAuth != NULL));
+	
+    // For each of our commands, check to see if a right specification exists and, if not,
+    // create it.
+    //
+    // The last parameter is the name of a ".strings" file that contains the localised prompts 
+    // for any custom rights that we use.
+    
+	BASSetDefaultRules(gAuth, 
+                       kCPHelperToolCommandSet, 
+                       CFBundleGetIdentifier(CFBundleGetMainBundle()), 
+                       CFSTR("CPHelperToolAuthorizationPrompts"));
+}
+
+- (OSStatus) fixHelperTool {
+	OSStatus err = noErr;
+	NSInteger alertResult = 0;
+	
+	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
+	BASFailCode failCode = BASDiagnoseFailure(gAuth, (CFStringRef) bundleID);
+	
+	// At this point we tell the user that something has gone wrong and that we need 
+	// to authorize in order to fix it.  Ideally we'd use failCode to describe the type of 
+	// error to the user.
+	
+	alertResult = NSRunAlertPanel(NSLocalizedString(@"ControlPlane Helper Needed", @"Fix helper tool"),
+								  NSLocalizedString(@"ControlPlane needs to install a helper app to enable and disable Time Machine", @"Fix helper tool"),
+								  NSLocalizedString(@"Install", @"Fix helper tool"),
+								  NSLocalizedString(@"Cancel", @"Fix helper tool"),
+								  NULL);
+	
+	// Try to fix things.
+	if (alertResult == NSAlertDefaultReturn) {
+		err = BASFixFailure(gAuth, (CFStringRef) bundleID, CFSTR("CPHelperInstallTool"), CFSTR("CPHelperTool"), failCode);
+	} else
+		err = userCanceledErr;
+	
+	return err;
+}
+
 @end
 
 #pragma mark -
@@ -208,10 +313,10 @@
 			   [SpeakAction class],
 			   [StartTimeMachineAction class],
 			   [ToggleBluetoothAction class],
+               [ToggleTimeMachineAction class],
 			   [ToggleWiFiAction class],
 			   [UnmountAction class],
 			   [VPNAction class],
-               [ToggleTimeMachineAction class],
 			nil];
 	
 	if (NO) {
@@ -240,10 +345,10 @@
 		NSLocalizedString(@"Speak", @"Action type");
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
+        NSLocalizedString(@"TimeMachineAction",@"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
 		NSLocalizedString(@"Unmount", @"Action type");
 		NSLocalizedString(@"VPN", @"Action type");
-        NSLocalizedString(@"TimeMachineAction",@"Action type");
 	}
 
 	return self;
