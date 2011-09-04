@@ -11,15 +11,14 @@
 
 #include "BetterAuthorizationSampleLib.h"
 
+#define kCPHelperToolEnableTMSLCommand		"EnableTMSL"
+#define kCPHelperToolEnableTMLionCommand	"EnableTMLion"
+#define kCPHelperToolDisableTMSLCommand		"DisableTMSL"
+#define kCPHelperToolDisableTMLionCommand	"DisableTMLion"
+#define kCPHelperToolStopBackupTM			"StopBackupTM"
 
-#define kCPHelperToolEnableTMSLCommand      "EnableTMSL"
-#define kCPHelperToolEnableTMLionCommand    "EnableTMLion"
-
-#define kCPHelperToolDisableTMSLCommand     "DisableTMSL"
-#define kCPHelperToolDisableTMLionCommand   "DisableTMLion"
-
-
-#define kCPHelperTOOLToggleTMRightName      "com.dustinrue.ControlPlane.ToggleTM"
+#define kCPHelperTOOLToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"
+#define kCPHelperTOOLStopBackupTMRightName	"com.dustinrue.ControlPlane.StopBackupTM"
 
 extern const BASCommandSpec kCPHelperToolCommandSet[];
 

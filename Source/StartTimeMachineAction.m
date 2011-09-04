@@ -19,16 +19,19 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
+	OSStatus error = 0;
+	
 	if (turnOn)
 		[NSTask launchedTaskWithLaunchPath: @"/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd-helper"
 								 arguments: [NSArray array]];
-	else
-		// TODO: this should actually be done with root privileges
-		//		 now we can only kill backups we have started ourselves
-		[NSTask launchedTaskWithLaunchPath: @"/usr/bin/killall"
-								 arguments: [NSArray arrayWithObjects: @"backupd-helper", nil]];
+	else {
+		error = [self helperPerformAction: @kCPHelperToolStopBackupTM];
+		
+		if (error)
+			*errorString = NSLocalizedString(@"Failed stopping Time Machine backup.", @"");
+	}
 	
-	return YES;
+	return (error ? NO : YES);
 }
 
 + (NSString *) helpText {
