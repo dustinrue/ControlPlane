@@ -103,11 +103,11 @@ static OSStatus DoDisableTM (AuthorizationRef		auth,
 	
 	// if Lion or greater
 	if ((major == 10 && minor >= 7) || major >= 11) {
-		sprintf(command,"/usr/bin/tmutil enable");
+		sprintf(command,"/usr/bin/tmutil disable");
 		retValue = system(command);
 		
 		if (!retValue) {
-			sprintf(command,"/usr/bin/tmutil enablelocal");
+			sprintf(command,"/usr/bin/tmutil disablelocal");
 			retValue = system(command);
 		}
 	} else {	// Snow leopard
