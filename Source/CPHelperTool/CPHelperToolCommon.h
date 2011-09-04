@@ -11,14 +11,21 @@
 
 #include "BetterAuthorizationSampleLib.h"
 
-#define kCPHelperToolEnableTMSLCommand		"EnableTMSL"
-#define kCPHelperToolEnableTMLionCommand	"EnableTMLion"
-#define kCPHelperToolDisableTMSLCommand		"DisableTMSL"
-#define kCPHelperToolDisableTMLionCommand	"DisableTMLion"
-#define kCPHelperToolStopBackupTM			"StopBackupTMSL"
+// Helper tool version
+#define kCPHelperToolVersionNumber			11
 
-#define kCPHelperTOOLToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"
-#define kCPHelperTOOLStopBackupTMRightName	"com.dustinrue.ControlPlane.StopBackupTM"
+// Commands
+#define kCPHelperToolGetVersionCommand		"GetVersion"
+#define kCPHelperToolGetVersionResponse		"Version"
+
+#define kCPHelperToolEnableTMCommand		"EnableTM"
+#define kCPHelperToolDisableTMCommand		"DisableTM"
+#define kCPHelperToolStartBackupTM			"StartBackupTM"
+#define kCPHelperToolStopBackupTM			"StopBackupTM"
+
+// Rights
+#define kCPHelperToolToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"
+#define kCPHelperToolRunBackupTMRightName	"com.dustinrue.ControlPlane.RunBackupTM"
 
 extern const BASCommandSpec kCPHelperToolCommandSet[];
 

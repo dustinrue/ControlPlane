@@ -16,133 +16,191 @@
 #include "CPHelperToolCommon.h"
 
 
-static OSStatus DoEnableTMSL (AuthorizationRef			auth,
-							  const void *				userData,
-							  CFDictionaryRef			request,
-							  CFMutableDictionaryRef	response,
-							  aslclient					asl,
-							  aslmsg					aslMsg) {
+// Implements the GetVersionCommand. Returns the version number of the helper tool.
+static OSStatus DoGetVersion(AuthorizationRef			auth,
+							 const void *				userData,
+							 CFDictionaryRef			request,
+							 CFMutableDictionaryRef		response,
+							 aslclient					asl,
+							 aslmsg						aslMsg) {
+	
+	OSStatus retval = noErr;
+	CFNumberRef value;
+	static const unsigned int kCurrentVersion = kCPHelperToolVersionNumber;
 	
 	assert(auth != NULL);
 	assert(request != NULL);
 	assert(response != NULL);
-
-	char command[256];
-
-	sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "TRUE");
-
-	return system(command);
-}
-
-static OSStatus DoDisableTMSL (AuthorizationRef			auth,
-							   const void *				userData,
-							   CFDictionaryRef			request,
-							   CFMutableDictionaryRef	response,
-							   aslclient				asl,
-							   aslmsg					aslMsg) {
 	
-	assert(auth != NULL);
-	assert(request != NULL);
-	assert(response != NULL);
-
-	char command[256];
-
-	sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "FALSE");
-
-	return system(command);
-}
-
-
-// enables time machine on Lion, including MobileBackups
-static OSStatus DoEnableTMLion (AuthorizationRef		auth,
-								const void *			userData,
-								CFDictionaryRef			request,
-								CFMutableDictionaryRef	response,
-								aslclient				asl,
-								aslmsg					aslMsg) {
-	
-	int commandFailed = 0;
-
-	assert(auth != NULL);
-	assert(request != NULL);
-	assert(response != NULL);
-
-	char command[256];
-
-	sprintf(command,"/usr/bin/tmutil enable");
-	commandFailed = system(command);
-
-	if (!commandFailed) {
-		sprintf(command,"/usr/bin/tmutil enablelocal");
-		return system(command);
+	// Add to the response.
+	value = CFNumberCreate(NULL, kCFNumberIntType, &kCurrentVersion);
+	if (!value)
+		retval = coreFoundationUnknownErr;
+	else {
+		CFDictionaryAddValue(response, CFSTR(kCPHelperToolGetVersionResponse), value);
+		CFRelease(value);
 	}
-
-	return commandFailed;
+	
+	return retval;
 }
 
+// enables time machine
+static OSStatus DoEnableTM (AuthorizationRef		auth,
+							const void *			userData,
+							CFDictionaryRef			request,
+							CFMutableDictionaryRef	response,
+							aslclient				asl,
+							aslmsg					aslMsg) {
+	
+	assert(auth != NULL);
+	assert(request != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+	
+	// get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+	
+	// if Lion or greater
+	if ((major == 10 && minor >= 7) || major >= 11) {
+		sprintf(command,"/usr/bin/tmutil enable");
+		retValue = system(command);
+		
+		if (!retValue) {
+			sprintf(command,"/usr/bin/tmutil enablelocal");
+			retValue = system(command);
+		}
+	} else {	// Snow leopard
+		sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "TRUE");
+		retValue = system(command);
+	}
+	
+	return retValue;
+}
 
-// disables time machine on Lion, including MobileBackups
-static OSStatus DoDisableTMLion (AuthorizationRef		auth,
+// disables time machine
+static OSStatus DoDisableTM (AuthorizationRef		auth,
+							 const void *			userData,
+							 CFDictionaryRef		request,
+							 CFMutableDictionaryRef	response,
+							 aslclient				asl,
+							 aslmsg					aslMsg) {
+	
+	assert(auth != NULL);
+	assert(request != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+	
+	// get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+	
+	// if Lion or greater
+	if ((major == 10 && minor >= 7) || major >= 11) {
+		sprintf(command,"/usr/bin/tmutil enable");
+		retValue = system(command);
+		
+		if (!retValue) {
+			sprintf(command,"/usr/bin/tmutil enablelocal");
+			retValue = system(command);
+		}
+	} else {	// Snow leopard
+		sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "FALSE");
+		retValue = system(command);
+	}
+	
+	return retValue;
+}
+
+// Start a Time Machine backup
+static OSStatus DoStartBackupTM (AuthorizationRef		auth,
 								 const void *			userData,
 								 CFDictionaryRef		request,
 								 CFMutableDictionaryRef	response,
 								 aslclient				asl,
 								 aslmsg					aslMsg) {
 	
-	int commandFailed = 0;
-
 	assert(auth != NULL);
 	assert(request != NULL);
 	assert(response != NULL);
-
+	
 	char command[256];
-
-	sprintf(command,"/usr/bin/tmutil disable");
-	commandFailed = system(command);
-
-	if (!commandFailed) {
-		sprintf(command,"/usr/bin/tmutil disablelocal");
-		return system(command);
+	int retValue = 0;
+	
+	// get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+	
+	// if Lion or greater
+	if ((major == 10 && minor >= 7) || major >= 11) {
+		sprintf(command,"/usr/bin/tmutil startbackup");
+		retValue = system(command);
+	} else {	// Snow leopard
+		sprintf(command, "/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd-helper &");
+		retValue = system(command);
 	}
-
-	return commandFailed;
+	
+	return retValue;
 }
 
 // Stop a Time Machine backup
-static OSStatus DoStopBackupTMSL (AuthorizationRef		auth,
-								const void *			userData,
-								CFDictionaryRef			request,
-								CFMutableDictionaryRef	response,
-								aslclient				asl,
-								aslmsg					aslMsg) {
+static OSStatus DoStopBackupTM (AuthorizationRef		auth,
+								 const void *			userData,
+								 CFDictionaryRef			request,
+								 CFMutableDictionaryRef	response,
+								 aslclient				asl,
+								 aslmsg					aslMsg) {
 	
 	assert(auth != NULL);
 	assert(request != NULL);
 	assert(response != NULL);
 	
 	char command[256];
+	int retValue = 0;
 	
-	sprintf(command, "/usr/bin/killall backupd-helper");
+	// get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
 	
-	return system(command);
+	// if Lion or greater
+	if ((major == 10 && minor >= 7) || major >= 11) {
+		sprintf(command,"/usr/bin/tmutil startbackup");
+		retValue = system(command);
+	} else {	// Snow leopard
+		sprintf(command, "/usr/bin/killall backupd-helper");
+		retValue = system(command);
+	}
+	
+	return retValue;
 }
+
+#pragma mark -
+#pragma mark Tool Infrastructure
 
 // the list defined here must match (same order) the list in CPHelperToolCommon.c
 static const BASCommandProc kCPHelperToolCommandProcs[] = {
-	DoEnableTMSL,
-	DoDisableTMSL,
-	DoEnableTMLion,
-	DoDisableTMLion,
-	DoStopBackupTMSL,
+	DoGetVersion,
+	DoEnableTM,
+	DoDisableTM,
+	DoStartBackupTM,
+	DoStopBackupTM,
 	NULL
 };
 
 int main(int argc, char **argv) {
 	// Go directly into BetterAuthorizationSampleLib code.
-
+	
 	// IMPORTANT
 	// BASHelperToolMain doesn't clean up after itself, so once it returns 
 	// we must quit.
-
+	
 	return BASHelperToolMain(kCPHelperToolCommandSet, kCPHelperToolCommandProcs);
 }
