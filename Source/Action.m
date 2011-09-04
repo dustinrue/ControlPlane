@@ -174,6 +174,7 @@
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
 #import "VPNAction.h"
+#import "ToggleTimeMachineAction.h"
 
 @implementation ActionSetController
 
@@ -210,6 +211,7 @@
 			   [ToggleWiFiAction class],
 			   [UnmountAction class],
 			   [VPNAction class],
+               [ToggleTimeMachineAction class],
 			nil];
 	
 	if (NO) {
@@ -241,6 +243,7 @@
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
 		NSLocalizedString(@"Unmount", @"Action type");
 		NSLocalizedString(@"VPN", @"Action type");
+        NSLocalizedString(@"TimeMachine",@"Action type");
 	}
 
 	return self;

@@ -3,7 +3,7 @@
 //  ControlPlane
 //
 //  Created by Dustin Rue on 9/3/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011. All rights reserved.
 //
 
 #ifndef ControlPlane_CPHelperToolCommon_h

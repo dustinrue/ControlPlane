@@ -99,6 +99,9 @@
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
+		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
+		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
+		DAAF16B9141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAAF16B8141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
 		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
@@ -334,6 +337,9 @@
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-inactive.icns"; path = "Resources/cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon.icns"; path = "Resources/cp-icon.icns"; sourceTree = "<group>"; };
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "Resources/usb-vendors.txt"; sourceTree = "<group>"; };
+		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
+		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
+		DAAF16B8141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = CPHelperToolAuthorizationPrompts.strings; path = Resources/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DD8274E5141147BB0098FA6E /* controlplane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = controlplane.icns; path = Resources/controlplane.icns; sourceTree = "<group>"; };
 		DD8274EE141154780098FA6E /* MailIntervalAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailIntervalAction.h; path = Source/MailIntervalAction.h; sourceTree = "<group>"; };
@@ -560,6 +566,7 @@
 				DDA201641411C37300DE570E /* MainMenu.xib */,
 				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
 				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
+				DAAF16B8141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings */,
 			);
 			name = Resources;
 			sourceTree = SOURCE_ROOT;
@@ -740,6 +747,8 @@
 				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
+				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
+				DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */,
 			);
 			name = "System Actions";
 			sourceTree = "<group>";
@@ -892,6 +901,7 @@
 				DDA201621411C37300DE570E /* MainMenu.xib in Resources */,
 				DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */,
 				DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */,
+				DAAF16B9141322FA00F5D915 /* CPHelperToolAuthorizationPrompts.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,6 +953,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
 				8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */,
@@ -1004,6 +1015,7 @@
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
 				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
 				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
+				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
