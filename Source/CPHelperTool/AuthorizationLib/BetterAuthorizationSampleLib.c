@@ -49,6 +49,9 @@
 
 #define BAS_PRIVATE 1
 
+// Helper for easier error logging:
+#define AslLogError(errStr) err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, errStr); assert(err == 0);
+
 #include "BetterAuthorizationSampleLib.h"
 
 #include <launch.h>
@@ -941,7 +944,7 @@ static OSStatus FindCommand(
 	OSStatus					retval = noErr;
     CFStringRef                 commandStr;
     char *                      command;
-	UInt32						commandSize = 0;
+	CFIndex						commandSize = 0;
 	size_t						index = 0;
 	
 	// Pre-conditions
@@ -1442,7 +1445,7 @@ extern int BASHelperToolMain(
 	
     pipeSet = signal(SIGPIPE, SIG_IGN);
     if (pipeSet == SIG_ERR) {
-        errStr = "Could not ignore SIGPIPE: %m";
+        AslLogError("Could not ignore SIGPIPE: %m");
         goto done;
     }
 	
@@ -1458,14 +1461,14 @@ extern int BASHelperToolMain(
 
     kq = kqueue();
 	if (kq < 0) {
-        errStr = "Could not create kqueue: %m";
+        AslLogError("Could not create kqueue: %m");
 		goto done;
 	}
 
     EV_SET(&initEvent, listener, EVFILT_READ, EV_ADD, 0, 0, NULL);
     err = kevent(kq, &initEvent, 1, NULL, 0, NULL);
     if (err < 0) {
-        errStr = "Could not add listening socket to kqueue: %m";
+        AslLogError("Could not add listening socket to kqueue: %m");
         goto done;
     }
 	
@@ -1477,7 +1480,7 @@ extern int BASHelperToolMain(
     err = SetNonBlocking(listener, true);
     if (err != 0) {
         errno = err;            // for %m
-        errStr = "Could not check/set socket flags: %m";
+        AslLogError("Could not check/set socket flags: %m");
         goto done;
     }
     
@@ -1500,7 +1503,7 @@ extern int BASHelperToolMain(
             break;
         } else if (eventCount == -1) {
             // We got some sort of error from kevent; quit with an error.
-            errStr = "Unexpected error while listening for connections: %m";
+            AslLogError("Unexpected error while listening for connections: %m");
             goto done;
         }
 
@@ -1512,7 +1515,7 @@ extern int BASHelperToolMain(
         // The accept should never get stuck because this is a non-blocking 
         // socket.
         
-        thisConnection = accept(thisEvent.ident, (struct sockaddr *) &clientAddr, &clientAddrLen);
+        thisConnection = accept((int) thisEvent.ident, (struct sockaddr *) &clientAddr, &clientAddrLen);
         if (thisConnection == -1) {
             if (errno == EWOULDBLOCK) {
                 // If the incoming connection just disappeared (perhaps the client 
@@ -1523,7 +1526,7 @@ extern int BASHelperToolMain(
             } else {
                 // Other errors mean that we're in a very weird state; we respond by 
                 // failing out with an error.
-                errStr = "Unexpected error while accepting a connection: %m";
+                AslLogError("Unexpected error while accepting a connection: %m");
                 goto done;
             }
         }
@@ -1572,10 +1575,6 @@ done:
     // don't bother cleaning up any resources we have allocated here, including 
     // asl, aslMsg, and kq.
     
-    if (errStr != NULL) {
-        err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, errStr);
-        assert(err == 0);
-    }
     err = asl_log(asl, aslMsg, ASL_LEVEL_INFO, "Shutting down");
     assert(err == 0);
     return (errStr == NULL) ? EXIT_SUCCESS : EXIT_FAILURE;
@@ -1763,7 +1762,7 @@ extern OSStatus BASExecuteRequestInHelperTool(
 	
 		addr.sun_family = AF_UNIX;
         pathLen = snprintf(addr.sun_path, sizeof(addr.sun_path), kBASSocketPathFormat, bundleIDC);
-        if (pathLen >= sizeof(addr.sun_path)) {
+        if (pathLen >= (int) sizeof(addr.sun_path)) {
             retval = paramErr;                  // length of bundle pushed us over the UNIX domain socket path length limit
         } else {
 			addr.sun_len = SUN_LEN(&addr);
@@ -2298,7 +2297,7 @@ static OSStatus BASInstall(
     if (retval == noErr) {
         strlcpy(plistPath, "/tmp/BASTemp-XXXXXXXX.plist", sizeof(plistPath));
         
-        fd = mkstemps(plistPath, strlen( strrchr(plistPath, '.') ) );
+        fd = mkstemps(plistPath, (int) strlen( strrchr(plistPath, '.') ) );
         if (fd < 0) {
             retval = BASErrnoToOSStatus( errno );
         }

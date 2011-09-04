@@ -147,6 +147,7 @@ static int RunLaunchCtl(
 			if (err < 0) {
 				err = errno;
 			}
+			(void) err;
 			_exit(EXIT_FAILURE);
 			break;
 		case -1:

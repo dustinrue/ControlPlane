@@ -525,9 +525,9 @@
 			isa = PBXGroup;
 			children = (
 				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
+				32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */,
 				DA6D184C1154581700347E93 /* LmuTrackerCommon.h */,
 				DA6D184A1154581000347E93 /* LmuTracker.c */,
-				32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -741,14 +741,14 @@
 				DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
 				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
+				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
+				DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */,
 				8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */,
 				8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */,
 				8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */,
 				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
-				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
-				DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */,
 			);
 			name = "System Actions";
 			sourceTree = "<group>";
@@ -1267,7 +1267,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
@@ -1284,7 +1283,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
@@ -1303,7 +1301,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
@@ -1320,7 +1317,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
