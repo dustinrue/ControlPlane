@@ -59,7 +59,7 @@
 // from BetterAuthorizationSampleLib.h
 #define BAS_PRIVATE 1		
 
-#include "BetterAuthorizationSampleLib.h"
+#include "AuthorizationLib/BetterAuthorizationSampleLib.h"
 
 extern char **environ;
 

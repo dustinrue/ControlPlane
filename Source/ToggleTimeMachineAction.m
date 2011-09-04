@@ -175,8 +175,6 @@
 {
     
     
-
-    [self initAuthorizationSystem];
     // Create the AuthorizationRef that we'll use through this application.  We ignore 
     // any error from this.  A failure from AuthorizationCreate is very unusual, and if it 
     // happens there's no way to recover; Authorization Services just won't work.
