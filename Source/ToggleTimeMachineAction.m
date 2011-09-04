@@ -24,14 +24,14 @@
     // separate thread
     [self performSelectorOnMainThread: @selector(helperPerformAction:) withObject: command waitUntilDone: YES];
     
-	if (error) {
+	if (helperError) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed enabling Time Machine.", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed disabling Time Machine.", @"");
 	}
 	
-	return (error ? NO : YES);
+	return (helperError ? NO : YES);
 }
 
 + (NSString *) helpText {

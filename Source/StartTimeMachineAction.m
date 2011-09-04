@@ -25,14 +25,14 @@
     // separate thread
     [self performSelectorOnMainThread: @selector(helperPerformAction:) withObject: command waitUntilDone: YES];
     
-	if (error) {
+	if (helperError) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed starting Time Machine backup.", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed stopping Time Machine backup.", @"");
 	}
 	
-	return (error ? NO : YES);
+	return (helperError ? NO : YES);
 }
 
 + (NSString *) helpText {
