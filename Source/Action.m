@@ -157,12 +157,12 @@
 
 - (void) helperPerformAction: (id) action {
 	static BOOL VersionHasBeenChecked = NO;
-	CFDictionaryRef *response = NULL;
+	CFDictionaryRef response = NULL;
 	
 	// only check version once
 	if (!VersionHasBeenChecked) {
 		// get version of helper tool
-		helperError = [self helperActualPerform: @kCPHelperToolGetVersionCommand withResponse: response];
+		helperError = [self helperActualPerform: @kCPHelperToolGetVersionCommand withResponse: &response];
 		if (helperError)
 			return;
 		
@@ -175,7 +175,7 @@
 	}
 	
 	// perform actual action
-	helperError = [self helperActualPerform: (NSString *) action withResponse: response];
+	helperError = [self helperActualPerform: (NSString *) action withResponse: &response];
 }
 
 - (OSStatus) helperActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response {
