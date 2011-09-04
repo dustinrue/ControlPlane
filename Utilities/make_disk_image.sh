@@ -6,6 +6,8 @@
 #
 # Created by David Symonds on 17/02/07.
 # Modified by Dustin Rue on 7/28/2011.
+# Modified by Dustin Rue on 9/03/2011.
+# 
 
 # Get version number
 VERSION=`cat Info.plist | grep -A 1 'CFBundleShortVersionString' | \
@@ -17,10 +19,12 @@ CONFIGURATION=Release
 APP=build/$CONFIGURATION/$APPNAME.app
 ICON=Resources/controlplane.icns
 
-cd Utilities
-./update-oui.sh
-./update-usb-data.sh
-cd ..
+if [ "$1" == "release" ]; then
+        cd Utilities
+        ./update-oui.sh
+        ./update-usb-data.sh
+        cd ..
+fi
 
 xcodebuild -configuration "$CONFIGURATION" clean build
 if [ ! -d "$APP" ]; then
@@ -59,6 +63,13 @@ rm "$TMP"
 
 # sign the file for Sparkle
 # run a helper script exposing location of private key for Sparkle updates
-. sparkle_env.sh
-ls -l "$IMG"
-ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 
+if [ "$1" == "release" ]; then
+        . cp_pm_env.sh
+        ls -l "$IMG"
+        ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 
+        mv "$IMG" "$IMGDEST"
+fi
+
+if [ "$1" == "open" ]; then
+        open "$IMG"
+fi
