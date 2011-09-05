@@ -5,8 +5,6 @@
 //  Created by David Symonds on 3/04/07.
 //
 
-#import "CPHelperToolCommon.h"
-
 @interface Action : NSObject {
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
@@ -23,9 +21,6 @@
 + (NSString *)helpTextForActionOfType:(NSString *)type;
 
 - (NSComparisonResult)compareDelay:(Action *)other;
-
-// access helper tool method
-- (BOOL) helperToolPerformAction: (NSString *) action;
 
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)

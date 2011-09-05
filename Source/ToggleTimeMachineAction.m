@@ -7,6 +7,7 @@
 //
 
 #import "ToggleTimeMachineAction.h"
+#import "Action+HelperTool.h"
 
 @implementation ToggleTimeMachineAction
 
