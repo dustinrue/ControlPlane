@@ -31,12 +31,15 @@
 
 // access helper tool method
 - (void) helperPerformAction: (id) action;
+- (OSStatus) helperActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response;
 
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)
 - (BOOL)execute:(NSString **)errorString;
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
+
+
 
 @end
 
