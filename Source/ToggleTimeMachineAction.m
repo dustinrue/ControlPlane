@@ -20,18 +20,16 @@
 - (BOOL) execute: (NSString **) errorString {
 	NSString *command = turnOn ? @kCPHelperToolEnableTMCommand : @kCPHelperToolDisableTMCommand;
 	
-	// perform command on the mainthread because of the dangers of presenting NSAlert on a 
-    // separate thread
-    [self performSelectorOnMainThread: @selector(helperPerformAction:) withObject: command waitUntilDone: YES];
-    
-	if (helperError) {
+	BOOL result = [self helperToolPerformAction: command];
+	
+	if (!result) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed enabling Time Machine.", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed disabling Time Machine.", @"");
 	}
 	
-	return (helperError ? NO : YES);
+	return result;
 }
 
 + (NSString *) helpText {

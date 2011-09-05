@@ -10,9 +10,6 @@
 @interface Action : NSObject {
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
-	
-	OSStatus helperError;
-	AuthorizationRef gAuth;
 }
 
 + (NSString *)typeForClass:(Class)klass;
@@ -28,7 +25,7 @@
 - (NSComparisonResult)compareDelay:(Action *)other;
 
 // access helper tool method
-- (void) helperPerformAction: (id) action;
+- (BOOL) helperToolPerformAction: (NSString *) action;
 
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)
