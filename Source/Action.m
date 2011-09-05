@@ -6,19 +6,8 @@
 //
 
 #import "Action.h"
-#import "BetterAuthorizationSampleLib.h"
 #import "DSLogger.h"
 #import "PrefsWindowController.h"
-
-extern const BASCommandSpec kCPHelperToolCommandSet[];
-
-@interface Action (Private)
-
-- (OSStatus) helperActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response;
-- (void) initHelperTool;
-- (OSStatus) fixHelperTool: (BASFailCode) failCode;
-
-@end
 
 @implementation Action
 
@@ -61,15 +50,13 @@ extern const BASCommandSpec kCPHelperToolCommandSet[];
 
 	if (!(self = [super init]))
 		return nil;
-
+	
 	// Some sensible defaults
 	type = [[Action typeForClass:[self class]] retain];
 	context = [@"" retain];
 	when = [@"Arrival" retain];
 	delay = [[NSNumber alloc] initWithDouble:0];
 	enabled = [[NSNumber alloc] initWithBool:YES];
-	
-	gAuth = NULL;
 	
 	return self;
 }
@@ -153,127 +140,6 @@ extern const BASCommandSpec kCPHelperToolCommandSet[];
 + (NSString *)creationHelpText
 {
 	return @"<Sorry, help text coming soon!>";
-}
-
-#pragma mark HelperTool methods
-
-- (void) helperPerformAction: (id) action {
-	static BOOL VersionHasBeenChecked = NO;
-	CFDictionaryRef response = NULL;
-	
-	// only check version once
-	if (!VersionHasBeenChecked) {
-		// get version of helper tool
-		helperError = [self helperActualPerform: @kCPHelperToolGetVersionCommand withResponse: &response];
-		if (helperError)
-			return;
-		
-		// check version and update if needed
-		NSNumber *version = [(NSDictionary *) response objectForKey: @kCPHelperToolGetVersionResponse];
-		if ([version intValue] < kCPHelperToolVersionNumber)
-			[self fixHelperTool: kBASFailNeedsUpdate];
-		
-		VersionHasBeenChecked = YES;
-	}
-	
-	// perform actual action
-	helperError = [self helperActualPerform: (NSString *) action withResponse: &response];
-}
-
-- (OSStatus) helperActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response {
-	NSString *bundleID;
-	NSDictionary *request;
-	OSStatus error = 0;
-	*response = NULL;
-	
-	// initialize
-	[self initHelperTool];
-
-	// create request
-	bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	assert(bundleID != NULL);
-	request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, nil];
-	assert(request != NULL);
-
-	// Execute it.
-	error = BASExecuteRequestInHelperTool(gAuth,
-										  kCPHelperToolCommandSet, 
-										  (CFStringRef) bundleID, 
-										  (CFDictionaryRef) request,
-										  response);
-
-	// If it failed, try to recover.
-	if (error != noErr && error != userCanceledErr) {
-		BASFailCode failCode = BASDiagnoseFailure(gAuth, (CFStringRef) bundleID);
-		
-		// try to fix
-		error = [self fixHelperTool: failCode];
-		
-		// If the fix went OK, retry the request.
-		if (error == noErr)
-			error = BASExecuteRequestInHelperTool(gAuth,
-												  kCPHelperToolCommandSet,
-												  (CFStringRef) bundleID,
-												  (CFDictionaryRef) request,
-												  response);
-	}
-
-	// If all of the above went OK, it means that the IPC to the helper tool worked.  We 
-	// now have to check the response dictionary to see if the command's execution within 
-	// the helper tool was successful.
-
-	if (error == noErr)
-		error = BASGetErrorFromResponse(*response);
-	
-	return error;
-}
-
-- (void) initHelperTool {
-	OSStatus err = 0;
-
-	// Create the AuthorizationRef that we'll use through this application.  We ignore 
-	// any error from this.  A failure from AuthorizationCreate is very unusual, and if it 
-	// happens there's no way to recover; Authorization Services just won't work.
-
-	err = AuthorizationCreate(NULL, NULL, kAuthorizationFlagDefaults, &gAuth);
-	assert(err == noErr);
-	assert((err == noErr) == (gAuth != NULL));
-
-	// For each of our commands, check to see if a right specification exists and, if not,
-	// create it.
-	//
-	// The last parameter is the name of a ".strings" file that contains the localised prompts 
-	// for any custom rights that we use.
-
-	BASSetDefaultRules(gAuth, 
-					   kCPHelperToolCommandSet, 
-					   CFBundleGetIdentifier(CFBundleGetMainBundle()), 
-					   CFSTR("CPHelperToolAuthorizationPrompts"));
-}
-
-- (OSStatus) fixHelperTool: (BASFailCode) failCode {
-	OSStatus err = noErr;
-	NSInteger alertResult = 0;
-
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	
-	// At this point we tell the user that something has gone wrong and that we need 
-	// to authorize in order to fix it.  Ideally we'd use failCode to describe the type of 
-	// error to the user.
-
-	alertResult = NSRunAlertPanel(NSLocalizedString(@"ControlPlane Helper Needed", @"Fix helper tool"),
-								  NSLocalizedString(@"ControlPlane needs to install a helper app to enable and disable Time Machine", @"Fix helper tool"),
-								  NSLocalizedString(@"Install", @"Fix helper tool"),
-								  NSLocalizedString(@"Cancel", @"Fix helper tool"),
-								  NULL);
-
-	// Try to fix things.
-	if (alertResult == NSAlertDefaultReturn) {
-		err = BASFixFailure(gAuth, (CFStringRef) bundleID, CFSTR("CPHelperInstallTool"), CFSTR("CPHelperTool"), failCode);
-	} else
-		err = userCanceledErr;
-
-	return err;
 }
 
 @end

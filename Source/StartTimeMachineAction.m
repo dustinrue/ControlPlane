@@ -7,6 +7,7 @@
 //
 
 #import "StartTimeMachineAction.h"
+#import "Action+HelperTool.h"
 
 @implementation StartTimeMachineAction
 
@@ -21,18 +22,16 @@
 - (BOOL) execute: (NSString **) errorString {
 	NSString *command = turnOn ? @kCPHelperToolStartBackupTMCommand : @kCPHelperToolStopBackupTMCommand;
 	
-	// perform command on the mainthread because of the dangers of presenting NSAlert on a 
-    // separate thread
-    [self performSelectorOnMainThread: @selector(helperPerformAction:) withObject: command waitUntilDone: YES];
-    
-	if (helperError) {
+	BOOL result = [self helperToolPerformAction: command];
+	
+	if (!result) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed starting Time Machine backup.", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed stopping Time Machine backup.", @"");
 	}
 	
-	return (helperError ? NO : YES);
+	return result;
 }
 
 + (NSString *) helpText {
