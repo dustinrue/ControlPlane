@@ -2,7 +2,7 @@
 //  ToggleTimeMachine.m
 //  ControlPlane
 //
-//  Created by Dustin Rue on 9/3/11.
+//  Created by Dustin Rue on 3/9/11.
 //  Copyright 2011. All rights reserved.
 //
 
@@ -25,9 +25,9 @@
 	
 	if (!result) {
 		if (turnOn)
-			*errorString = NSLocalizedString(@"Failed enabling Time Machine.", @"");
+			*errorString = NSLocalizedString(@"Failed enabling Time Machine.", @"Act of turning on or enabling Time Machine backup system failed");
 		else
-			*errorString = NSLocalizedString(@"Failed disabling Time Machine.", @"");
+			*errorString = NSLocalizedString(@"Failed disabling Time Machine.", @"Act of turning off or disabling Time Machine backup system failed");
 	}
 	
 	return result;
