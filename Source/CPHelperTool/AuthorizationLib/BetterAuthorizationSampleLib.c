@@ -52,15 +52,15 @@
 // Helper for easier error logging:
 #define AslLogError(errStr) err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, errStr); assert(err == 0);
 
-#include "BetterAuthorizationSampleLib.h"
+#import "BetterAuthorizationSampleLib.h"
 
-#include <launch.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/event.h>
-#include <sys/stat.h>
-#include <sys/un.h>
-#include <sys/socket.h>
+#import <launch.h>
+#import <unistd.h>
+#import <fcntl.h>
+#import <sys/event.h>
+#import <sys/stat.h>
+#import <sys/un.h>
+#import <sys/socket.h>
 
 // At runtime BAS only requires CoreFoundation.  However, at build time we need 
 // CoreServices for the various OSStatus error codes in "MacErrors.h".  Thus, by default, 
@@ -68,11 +68,11 @@
 // that you're not accidentally using any other CoreServices things.
 
 #if 1
-    #include <CoreServices/CoreServices.h>
+    #import <CoreServices/CoreServices.h>
 #else
     #warning Do not ship this way!
-    #include <CoreFoundation/CoreFoundation.h>
-    #include "/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/MacErrors.h"
+    #import <CoreFoundation/CoreFoundation.h>
+    #import "/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/MacErrors.h"
 #endif
 
 //////////////////////////////////////////////////////////////////////////////////

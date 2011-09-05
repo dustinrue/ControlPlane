@@ -37,7 +37,7 @@
 #ifndef __APPLE_80211__
 #define __APPLE_80211__
 
-#include <CoreFoundation/CoreFoundation.h>
+#import <CoreFoundation/CoreFoundation.h>
 
 /*
 	A WirelessContext should be created using WirelessAttach

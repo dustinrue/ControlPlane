@@ -9,8 +9,6 @@
 #ifndef ControlPlane_CPHelperToolCommon_h
 #define ControlPlane_CPHelperToolCommon_h
 
-#include "BetterAuthorizationSampleLib.h"
-
 // Helper tool version
 #define kCPHelperToolVersionNumber			12
 
@@ -26,7 +24,5 @@
 // Rights
 #define kCPHelperToolToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"
 #define kCPHelperToolRunBackupTMRightName	"com.dustinrue.ControlPlane.RunBackupTM"
-
-extern const BASCommandSpec kCPHelperToolCommandSet[];
 
 #endif

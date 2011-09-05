@@ -7,7 +7,7 @@
 //
 
 #import "EvidenceSource.h"
-#include <SystemConfiguration/SystemConfiguration.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 
 @interface IPEvidenceSource : EvidenceSource {

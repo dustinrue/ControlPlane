@@ -47,9 +47,9 @@
 #ifndef _BetterAuthorizationSampleLIB_H
 #define _BetterAuthorizationSampleLIB_H
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <Security/Security.h>
-#include <asl.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <Security/Security.h>
+#import <asl.h>
 
 #ifdef __cplusplus
 extern "C" {

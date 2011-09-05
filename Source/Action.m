@@ -6,8 +6,11 @@
 //
 
 #import "Action.h"
+#import "BetterAuthorizationSampleLib.h"
 #import "DSLogger.h"
 #import "PrefsWindowController.h"
+
+extern const BASCommandSpec kCPHelperToolCommandSet[];
 
 @interface Action (Private)
 
@@ -16,7 +19,6 @@
 - (OSStatus) fixHelperTool: (BASFailCode) failCode;
 
 @end
-
 
 @implementation Action
 
@@ -195,10 +197,10 @@
 
 	// Execute it.
 	error = BASExecuteRequestInHelperTool(gAuth,
-										kCPHelperToolCommandSet, 
-										(CFStringRef) bundleID, 
-										(CFDictionaryRef) request, 
-										response);
+										  kCPHelperToolCommandSet, 
+										  (CFStringRef) bundleID, 
+										  (CFDictionaryRef) request,
+										  response);
 
 	// If it failed, try to recover.
 	if (error != noErr && error != userCanceledErr) {
@@ -210,10 +212,10 @@
 		// If the fix went OK, retry the request.
 		if (error == noErr)
 			error = BASExecuteRequestInHelperTool(gAuth,
-												kCPHelperToolCommandSet,
-												(CFStringRef) bundleID,
-												(CFDictionaryRef) request,
-												response);
+												  kCPHelperToolCommandSet,
+												  (CFStringRef) bundleID,
+												  (CFDictionaryRef) request,
+												  response);
 	}
 
 	// If all of the above went OK, it means that the IPC to the helper tool worked.  We 

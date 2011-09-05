@@ -6,7 +6,7 @@
 //  Tweaks by David Symonds on 25/07/07.
 //
 
-#include <SystemConfiguration/SystemConfiguration.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import "NetworkLinkEvidenceSource.h"
 
 
