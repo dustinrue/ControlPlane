@@ -5,13 +5,10 @@
 //  Created by David Symonds on 1/02/07.
 //
 
-#import <IOKit/pwr_mgt/IOPMLib.h>
-#import <IOKit/IOMessage.h>
-#import <libkern/OSAtomic.h>
-
 #import "Action.h"
 #import "DSLogger.h"
 #import "CPController.h"
+#import "CPController+SleepThread.h"
 #import "NetworkLocationAction.h"
 
 @interface CPController (Private)
@@ -25,7 +22,6 @@
 - (void)doUpdate:(NSTimer *)theTimer;
 
 - (void)updateThread:(id)arg;
-- (void)monitorSleepThread:(id)arg;
 - (void)goingToSleep:(id)arg;
 - (void)wakeFromSleep:(id)arg;
 
@@ -36,9 +32,6 @@
 
 - (void)importVersion1Settings;
 - (void)importVersion1SettingsFinish: (BOOL)rulesImported withActions: (BOOL)actionsImported andIPActions: (BOOL)ipActionsFound;
-
-- (io_connect_t) root_port;
-- (int32_t) actionsInProgress;
 
 - (void)forceSwitchAndToggleSticky:(id)sender;
 
@@ -52,10 +45,6 @@
 #define CP_DISPLAY_ICON 0
 #define CP_DISPLAY_CONTEXT 1
 #define CP_DISPLAY_BOTH 2
-
-// needed for sleep callback
-void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
-CPController *cp_controller;
 
 
 + (void)initialize
@@ -135,7 +124,6 @@ CPController *cp_controller;
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
 	smoothCounter = 0;
-	actionsInProgress = 0;
 
 	// Set placeholder values
 	[self setValue:@"" forKey:@"currentContextUUID"];
@@ -143,9 +131,6 @@ CPController *cp_controller;
 	[self setValue:@"?" forKey:@"guessConfidence"];
 
 	forcedContextIsSticky = NO;
-	
-	// store for access locally
-	cp_controller = self;
 	
 	return self;
 }
@@ -628,7 +613,7 @@ CPController *cp_controller;
 	if (![action execute:&errorString])
 		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title") withMessage:errorString];
 	
-	OSAtomicDecrement32(&actionsInProgress);
+	[self decreaseActionsInProgress];
 	[pool release];
 }
 
@@ -657,13 +642,13 @@ CPController *cp_controller;
 	NSEnumerator *en = [actions objectEnumerator];
 	Action *action;
 	while ((action = [en nextObject])) {
-		OSAtomicIncrement32(&actionsInProgress);
+		[self increaseActionsInProgress];
 		[NSThread detachNewThreadSelector:@selector(executeAction:)
 								 toTarget:self
 							   withObject:action];
 	}
 	
-	OSAtomicDecrement32(&actionsInProgress);
+	[self decreaseActionsInProgress];
 	[pool release];
 }
 
@@ -692,7 +677,7 @@ CPController *cp_controller;
 			continue;
 		}
 		// Completed a batch
-		OSAtomicIncrement32(&actionsInProgress);
+		[self increaseActionsInProgress];
 		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
 								 toTarget:self
 							   withObject:batch];
@@ -702,7 +687,7 @@ CPController *cp_controller;
 
 	// Final batch
 	if ([batch count] > 0) {
-		OSAtomicIncrement32(&actionsInProgress);
+		[self increaseActionsInProgress];
 		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
 								 toTarget:self
 							   withObject:batch];
@@ -1063,69 +1048,6 @@ CPController *cp_controller;
 {
 	DSLog(@"Starting update thread after sleep.");
 	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
-}
-
-// separate sleep monitoring thread otherwise we could block the main thread
-- (void)monitorSleepThread: (id)arg {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	IONotificationPortRef notifyPortRef; 
-	io_object_t notifierObject; 
-
-	// register to receive system sleep notifications
-	root_port = IORegisterForSystemPower(self, &notifyPortRef, sleepCallBack, &notifierObject);
-	if (root_port == 0)
-		DSLog(@"IORegisterForSystemPower failed");
-
-	// add the notification port to the application runloop
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPortRef), kCFRunLoopCommonModes);
-	
-	// run!
-	CFRunLoopRun();
-	[pool release];
-}
-
-- (io_connect_t) root_port {
-	return root_port;
-}
-
-- (int32_t) actionsInProgress {
-	return actionsInProgress;
-}
-
-void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument) {
-	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
-	
-    switch (messageType) {
-		// entering sleep
-        case kIOMessageCanSystemSleep:
-        case kIOMessageSystemWillSleep:
-			DSLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
-			[NSThread sleepForTimeInterval:2];
-			
-			// Hack: we need to do an extra check (2 if smoothing is enabled) right before sleeping
-			//		 otherwise the sleep rule won't be triggered
-			DSLog(@"Sleep callback: calling doUpdateForReal");
-			[cp_controller doUpdateForReal];
-			if (smoothing)
-				[cp_controller doUpdateForReal];
-			
-			// wait until all actions finish
-			while ([cp_controller actionsInProgress] > 0)
-				usleep(100);
-			
-			// Allow sleep
-            IOAllowPowerChange([cp_controller root_port], (long)argument);
-            break;
-			
-        case kIOMessageSystemWillPowerOn:
-			DSLog(@"Sleep callback: waking up");
-            break;
-        case kIOMessageSystemHasPoweredOn:
-			break;
-        default:
-            break;
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
