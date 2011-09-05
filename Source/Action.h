@@ -29,17 +29,12 @@
 
 // access helper tool method
 - (void) helperPerformAction: (id) action;
-- (OSStatus) helperActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response;
-- (void) initHelperTool;
-- (OSStatus) fixHelperTool: (BASFailCode) failCode;
 
 // To be implemented by descendant classes:
 - (NSString *)description;	// (use present-tense imperative)
 - (BOOL)execute:(NSString **)errorString;
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
-
-
 
 @end
 
