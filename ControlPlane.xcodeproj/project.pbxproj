@@ -122,6 +122,7 @@
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
+		DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
@@ -407,6 +408,8 @@
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CPController+SleepThread.h"; path = "Source/CPController+SleepThread.h"; sourceTree = "<group>"; };
 		DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CPController+SleepThread.m"; path = "Source/CPController+SleepThread.m"; sourceTree = "<group>"; };
+		DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreLocationSource.h; path = Source/CoreLocationSource.h; sourceTree = "<group>"; };
+		DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreLocationSource.m; path = Source/CoreLocationSource.m; sourceTree = "<group>"; };
 		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
 		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Growl Registration Ticket.growlRegDict"; path = "Resources/Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
@@ -641,6 +644,8 @@
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
 				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
 				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
+				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
+				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
 				DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */,
 				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
@@ -1041,6 +1046,7 @@
 				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
+				DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

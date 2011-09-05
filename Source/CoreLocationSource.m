@@ -9,6 +9,12 @@
 #import "CoreLocationSource.h"
 #import "DSLogger.h"
 
+@interface CoreLocationSource (Private)
+
+- (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude;
+
+@end
+
 @implementation CoreLocationSource
 
 - (id) init {
@@ -116,6 +122,7 @@
 	CLLocationAccuracy acc = newLocation.horizontalAccuracy;
 	
 	DSLog(@"New location: (%lf, %lf) with accuracy %lf", lat, lon, acc);
+	DSLog(@"Location address: '%@'", [self reverseGeocodeWithLatitude: lat andLongitude: lon]);
 	[self setDataCollected: YES];
 }
 
@@ -146,6 +153,35 @@
 	double latitudeRange = [CoreLocationSource latitudeRangeForLocation: location];
 	
 	return latitudeRange * cos(location.coordinate.latitude * M_PI / 180.0);
+}
+
+#pragma mark Location reverse geocoding
+
+- (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude {
+	NSXMLDocument *xmlDoc = nil;
+	NSError *error = nil;
+	NSArray *elements = nil;
+	
+	// Google geocoding API
+	NSURL *url = [NSURL URLWithString: [NSString stringWithFormat: @"http://maps.googleapis.com/maps/api/geocode/xml?latlng=%lf,%lf&&sensor=false", latitude, longitude]];
+	
+	// fetch response
+	xmlDoc = [[[NSXMLDocument alloc] initWithContentsOfURL: url options: NSXMLDocumentTidyXML error: &error] autorelease];
+	if (!xmlDoc)
+		return NSLocalizedString(@"Couldn't fetch location address", @"CoreLocation");
+	
+	// check response status
+	elements = [[xmlDoc rootElement] nodesForXPath: @"//GeocodeResponse/status" error: nil];
+	if (![[[elements objectAtIndex: 0] stringValue] isEqualToString: @"OK"])
+		return NSLocalizedString(@"Couldn't fetch location address", @"CoreLocation");
+	
+	// extract addresses
+	elements = [[xmlDoc rootElement] nodesForXPath: @"//GeocodeResponse/result/formatted_address" error: nil];
+	if ([elements count] == 0)
+		return NSLocalizedString(@"Unknown location", @"CoreLocation");
+	
+	// get first address
+	return [[elements objectAtIndex: 0] stringValue];
 }
 
 @end
