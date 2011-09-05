@@ -170,10 +170,11 @@
 #import "SpeakAction.h"
 #import "StartTimeMachineAction.h"
 #import "ToggleBluetoothAction.h"
+#import "ToggleTimeMachineAction.h"
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
 #import "VPNAction.h"
-#import "ToggleTimeMachineAction.h"
+
 
 @implementation ActionSetController
 

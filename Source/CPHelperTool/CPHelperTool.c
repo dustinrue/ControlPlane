@@ -71,10 +71,15 @@ static OSStatus DoEnableTM (AuthorizationRef		auth,
 		sprintf(command,"/usr/bin/tmutil enable");
 		retValue = system(command);
 		
+        // disabling local backups causes any stored local backups
+        // to be deleted, this option is left here in case someone
+        // actually wants to do that
+        /*
 		if (!retValue) {
 			sprintf(command,"/usr/bin/tmutil enablelocal");
 			retValue = system(command);
 		}
+        */
 	} else {	// Snow leopard
 		sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "TRUE");
 		retValue = system(command);
@@ -108,10 +113,15 @@ static OSStatus DoDisableTM (AuthorizationRef		auth,
 		sprintf(command,"/usr/bin/tmutil disable");
 		retValue = system(command);
 		
+        // disabling local backups causes any stored local backups
+        // to be deleted, this option is left here in case someone
+        // actually wants to do that
+        /*
 		if (!retValue) {
 			sprintf(command,"/usr/bin/tmutil disablelocal");
 			retValue = system(command);
 		}
+        */
 	} else {	// Snow leopard
 		sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "FALSE");
 		retValue = system(command);

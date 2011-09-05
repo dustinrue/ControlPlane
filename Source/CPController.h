@@ -34,14 +34,9 @@
 
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
-
 	IBOutlet NSArrayController *rulesController;
 	IBOutlet NSArrayController *actionsController;
-
 	IBOutlet NSWindow *prefsWindow;
-	
-	io_connect_t root_port;
-	int32_t actionsInProgress;
 }
 
 - (NSString *) currentContextName;
@@ -50,5 +45,7 @@
 
 - (void) forceSwitch: (id) sender;
 - (void) toggleSticky: (id) sender;
+
+- (void) doUpdateForReal;
 
 @end

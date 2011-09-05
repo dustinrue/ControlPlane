@@ -121,6 +121,7 @@
 		DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
+		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
@@ -404,8 +405,10 @@
 		DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepEvidenceSource.h; path = Source/SleepEvidenceSource.h; sourceTree = "<group>"; };
 		DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepEvidenceSource.m; path = Source/SleepEvidenceSource.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
-		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Action+HelperTool.h"; sourceTree = "<group>"; };
-		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Action+HelperTool.m"; sourceTree = "<group>"; };
+		DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CPController+SleepThread.h"; path = "Source/CPController+SleepThread.h"; sourceTree = "<group>"; };
+		DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CPController+SleepThread.m"; path = "Source/CPController+SleepThread.m"; sourceTree = "<group>"; };
+		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
+		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Growl Registration Ticket.growlRegDict"; path = "Resources/Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
@@ -474,6 +477,8 @@
 				8DBB44960C530F7600064010 /* DSLogger.m */,
 				8D90E51D0B71C4C9007D39FD /* CPController.h */,
 				8D90E51E0B71C4C9007D39FD /* CPController.m */,
+				DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */,
+				DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */,
 				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
 				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
 			);
@@ -1035,6 +1040,7 @@
 				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
 				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
+				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
