@@ -5,7 +5,7 @@
 //  Created by David Symonds on 2/07/07.
 //
 
-#include <IOKit/graphics/IOGraphicsLib.h>
+#import <IOKit/graphics/IOGraphicsLib.h>
 #import "MonitorEvidenceSource.h"
 
 

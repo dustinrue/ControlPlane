@@ -5,8 +5,6 @@
 //  Created by David Symonds on 3/04/07.
 //
 
-
-#import "BetterAuthorizationSampleLib.h"
 #import "CPHelperToolCommon.h"
 
 @interface Action : NSObject {

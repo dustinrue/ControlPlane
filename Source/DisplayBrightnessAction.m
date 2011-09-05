@@ -8,7 +8,7 @@
 
 #import "DisplayBrightnessAction.h"
 #import "DSLogger.h"
-#include <IOKit/graphics/IOGraphicsLib.h>
+#import <IOKit/graphics/IOGraphicsLib.h>
 
 @interface DisplayBrightnessAction (Private)
 
