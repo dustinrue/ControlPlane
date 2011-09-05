@@ -44,22 +44,22 @@
 
  */
 
-#include <errno.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdbool.h>
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
-#include <limits.h>
-#include <sys/stat.h>
+#import <errno.h>
+#import <stdlib.h>
+#import <unistd.h>
+#import <fcntl.h>
+#import <stdbool.h>
+#import <assert.h>
+#import <stdio.h>
+#import <string.h>
+#import <limits.h>
+#import <sys/stat.h>
 
 // Allows access to path information associated with tool and plist installation
 // from BetterAuthorizationSampleLib.h
 #define BAS_PRIVATE 1		
 
-#include "AuthorizationLib/BetterAuthorizationSampleLib.h"
+#import "AuthorizationLib/BetterAuthorizationSampleLib.h"
 
 extern char **environ;
 

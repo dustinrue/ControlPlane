@@ -6,10 +6,10 @@
 //  Modified by Dustin Rue on 27/08/11.
 //
 
-#include <SystemConfiguration/SystemConfiguration.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import "IPEvidenceSource.h"
 #import "DSLogger.h"
-#include <stdio.h>
+#import <stdio.h>
 
 
 #pragma mark C callbacks

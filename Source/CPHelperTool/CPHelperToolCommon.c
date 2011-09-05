@@ -6,7 +6,8 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#include "CPHelperToolCommon.h"
+#import "CPHelperToolCommon.h"
+#import "BetterAuthorizationSampleLib.h"
 
 const BASCommandSpec kCPHelperToolCommandSet[] = {
 	{	kCPHelperToolGetVersionCommand,		// commandName

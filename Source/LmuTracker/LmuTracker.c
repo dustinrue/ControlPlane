@@ -21,14 +21,13 @@
  */
  
  
-#include "lmu_LmuTracker.h"
-#include "LmuTrackerCommon.h"
-
-#include <jni.h>
-#include <IOKit/IOKitLib.h> 
-#include <CoreFoundation/CoreFoundation.h> 
-#include <string.h>
-#include <stdint.h>
+#import "lmu_LmuTracker.h"
+#import "LmuTrackerCommon.h"
+#import <jni.h>
+#import <IOKit/IOKitLib.h> 
+#import <CoreFoundation/CoreFoundation.h> 
+#import <string.h>
+#import <stdint.h>
 
 static io_connect_t dataPort = 0;
 static int last_left = 0;

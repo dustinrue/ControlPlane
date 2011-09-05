@@ -6,14 +6,16 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <CoreServices/CoreServices.h>
+#import <netinet/in.h>
+#import <sys/socket.h>
+#import <stdio.h>
+#import <unistd.h>
+#import <CoreServices/CoreServices.h>
 
-#include "AuthorizationLib/BetterAuthorizationSampleLib.h"
-#include "CPHelperToolCommon.h"
+#import "AuthorizationLib/BetterAuthorizationSampleLib.h"
+#import "CPHelperToolCommon.h"
+
+extern const BASCommandSpec kCPHelperToolCommandSet[];
 
 
 // Implements the GetVersionCommand. Returns the version number of the helper tool.
