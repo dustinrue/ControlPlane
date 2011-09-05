@@ -25,9 +25,9 @@
 	
 	if (!result) {
 		if (turnOn)
-			*errorString = NSLocalizedString(@"Failed enabling Time Machine.", @"");
+			*errorString = NSLocalizedString(@"Failed enabling Time Machine.", @"Act of turning on or enabling Time Machine backup system failed");
 		else
-			*errorString = NSLocalizedString(@"Failed disabling Time Machine.", @"");
+			*errorString = NSLocalizedString(@"Failed disabling Time Machine.", @"Act of turning off or disabling Time Machine backup system failed");
 	}
 	
 	return result;
