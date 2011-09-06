@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%%">
+	<head>
+		<title>Google Maps</title>
+		<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	</head>
+	<body style="width: 100%%; height: 100%%">
+		<div id="map" style="width: 100%%; height: 100%%"></div>
+		
+		<script type="text/javascript">
+			var point = new google.maps.LatLng(%f, %f);
+			
+			// options
+			var options = {
+				zoom: 16,
+				center: point,
+				mapTypeId: google.maps.MapTypeId.HYBRID
+			};
+			
+			// Display the map, with some controls and set the initial location 
+			var map = new google.maps.Map(document.getElementById("map"), options);
+			
+			// Set up marker 
+			var marker = new google.maps.Marker({
+				position: point,
+				map: map
+			});
+			</script>
+	</body>
+</html>

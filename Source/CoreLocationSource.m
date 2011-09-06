@@ -11,19 +11,26 @@
 
 @interface CoreLocationSource (Private)
 
-- (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude;
+- (void) updateMap;
++ (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude;
++ (BOOL) stringToCoordinates: (in NSString *) text toLatitude: (out double*) latitude andLongitude: (out double*) longitude;
 
 @end
 
 @implementation CoreLocationSource
 
 - (id) init {
-    self = [super init];//initWithNibNamed:@"IPRule"];
+    self = [super initWithNibNamed:@"CoreLocationRule"];
     if (!self)
         return nil;
     
 	locationManager = [[CLLocationManager alloc] init];
 	locationManager.delegate = self;
+	current = locationManager.location;
+	
+	address = @"";
+	coordinates = @"0.0, 0.0";
+	accuracy = @"0 m";
 	
     return self;
 }
@@ -40,7 +47,6 @@
 		return;
 	
 	[locationManager startUpdatingLocation];
-	DSLog(@"Start CoreLocation");
 	
 	running = YES;
 }
@@ -51,7 +57,6 @@
 	
 	[locationManager stopUpdatingLocation];
 	[self setDataCollected: NO];
-	DSLog(@"Stop CoreLocation");
 	
 	running = NO;
 }
@@ -59,38 +64,29 @@
 - (NSMutableDictionary *) readFromPanel {
 	NSMutableDictionary *dict = [super readFromPanel];
 	
-	//NSString *param = [NSString stringWithFormat:@"%@,%@", ruleIP, ruleNetmask];
-	//[dict setValue:param forKey:@"parameter"];
-	//	if (![dict objectForKey:@"description"])
-	//		[dict setValue:param forKey:@"description"];
+	// store values
+	[dict setValue: coordinates forKey: @"parameter"];
+	if (![dict objectForKey: @"description"])
+		[dict setValue: address forKey: @"description"];
 	
 	return dict;
 }
 
 - (void) writeToPanel: (NSDictionary *) dict usingType: (NSString *) type {
-	[super writeToPanel:dict usingType: type];
+	[super writeToPanel: dict usingType: type];
 	
-/*	NSArray *arr = [NSArray arrayWithArray: addresses];
+	// get location data
+	double lat = current.coordinate.latitude;
+	double lon = current.coordinate.longitude;
 	
-	[ruleComboBox removeAllItems];
-	[ruleComboBox addItemsWithObjectValues:arr];
+	// do we already have settings?
+	if ([dict objectForKey:@"parameter"])
+		[CoreLocationSource stringToCoordinates: [dict objectForKey:@"parameter"] toLatitude: &lat andLongitude: &lon];
 	
-	NSString *addr = @"", *nmask = @"255.255.255.255";
-	if ([arr count] > 0)
-		addr = [arr objectAtIndex:0];
-	if ([dict objectForKey:@"parameter"]) {
-		NSArray *comp = [[dict valueForKey:@"parameter"] componentsSeparatedByString:@","];
-		if ([comp count] == 2) {
-			addr = [comp objectAtIndex:0];
-			nmask = [comp objectAtIndex:1];
-			
-			if (![[ruleComboBox objectValues] containsObject:addr])
-				[ruleComboBox addItemWithObjectValue:addr];
-			[ruleComboBox selectItemWithObjectValue:addr];
-		}
-	}
-	[self setValue:addr forKey:@"ruleIP"];
-	[self setValue:nmask forKey:@"ruleNetmask"];*/
+	// show values
+	[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
+	[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
+	[self updateMap];
 }
 
 - (NSString *) name {
@@ -98,7 +94,39 @@
 }
 
 - (BOOL) doesRuleMatch: (NSDictionary *) rule {
+	// TODO: implement this
 	return NO;
+}
+
+- (IBAction) showCoreLocation: (id) sender {
+	double lat = current.coordinate.latitude;
+	double lon = current.coordinate.longitude;
+	
+	// show values
+	[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
+	[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
+	[self updateMap];
+}
+
+- (BOOL) validateCoordinates: (inout NSString **) newValue error: (out NSError **) outError {
+	BOOL valid;
+	double lat, lon;
+	
+	valid = [CoreLocationSource stringToCoordinates: *newValue toLatitude: &lat andLongitude: &lon];
+	
+	// error if not valid
+	if (!valid) {
+		if (outError)
+			*outError = [NSError errorWithDomain: NSCocoaErrorDomain code: NSKeyValueValidationError userInfo: nil];
+		return NO;
+	}
+	
+	// update data
+	coordinates = [*newValue copy];
+	[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
+	[self updateMap];
+	
+	return YES;
 }
 
 #pragma mark -
@@ -117,12 +145,14 @@
 		return;
 	
 	// location
-	CLLocationDegrees lat = newLocation.coordinate.latitude;
-	CLLocationDegrees lon = newLocation.coordinate.longitude;
-	CLLocationAccuracy acc = newLocation.horizontalAccuracy;
-	
+	current = [newLocation copy];
+	CLLocationDegrees lat = current.coordinate.latitude;
+	CLLocationDegrees lon = current.coordinate.longitude;
+	CLLocationAccuracy acc = current.horizontalAccuracy;
 	DSLog(@"New location: (%lf, %lf) with accuracy %lf", lat, lon, acc);
-	DSLog(@"Location address: '%@'", [self reverseGeocodeWithLatitude: lat andLongitude: lon]);
+	
+	// store
+	[self setValue: [NSString stringWithFormat: @"%d m", (int) acc] forKey: @"accuracy"];
 	[self setDataCollected: YES];
 }
 
@@ -139,25 +169,25 @@
 	}
 }
 
-#pragma mark Location calculation helpers
+#pragma mark -
+#pragma mark Helper functions
 
-+ (double) latitudeRangeForLocation: (CLLocation *) location {
-	const double M = 6367000.0;	// approximate average meridional radius of curvature of earth
-	const double metersToLatitude = 1.0 / ((M_PI / 180.0) * M);
-	const double accuracyToWindowScale = 2.0;
+- (void) updateMap {
+	double lat, lon;
+	NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"CoreLocationMap" ofType:@"html"];
 	
-	return location.horizontalAccuracy * metersToLatitude * accuracyToWindowScale;
+	// Load the HTML file
+	NSString *htmlString = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
+	
+	// Get coordinates and replace placeholders with these
+	[CoreLocationSource stringToCoordinates: coordinates toLatitude: &lat andLongitude: &lon];
+	htmlString = [NSString stringWithFormat: htmlString, lat, lon];
+	
+	// Load the HTML in the WebView
+	[[webView mainFrame] loadHTMLString: htmlString baseURL: nil];
 }
 
-+ (double) longitudeRangeForLocation: (CLLocation *) location {
-	double latitudeRange = [CoreLocationSource latitudeRangeForLocation: location];
-	
-	return latitudeRange * cos(location.coordinate.latitude * M_PI / 180.0);
-}
-
-#pragma mark Location reverse geocoding
-
-- (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude {
++ (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude {
 	NSXMLDocument *xmlDoc = nil;
 	NSError *error = nil;
 	NSArray *elements = nil;
@@ -182,6 +212,22 @@
 	
 	// get first address
 	return [[elements objectAtIndex: 0] stringValue];
+}
+
++ (BOOL) stringToCoordinates: (in NSString *) text
+				  toLatitude: (out double*) latitude
+				andLongitude: (out double*) longitude {
+	
+	// split
+	NSArray *comp = [text componentsSeparatedByString: @","];
+	if ([comp count] != 2)
+		return NO;
+	
+	// get values
+	*latitude = [[comp objectAtIndex: 0] doubleValue];
+	*longitude = [[comp objectAtIndex: 1] doubleValue];
+	
+	return YES;
 }
 
 @end

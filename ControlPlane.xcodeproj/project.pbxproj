@@ -128,6 +128,9 @@
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
+		DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */ = {isa = PBXBuildFile; fileRef = DDF4E594141588E80028DF4A /* CoreLocationMap.html */; };
+		DDFF422D14153A910047D311 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDFF422C14153A910047D311 /* CoreLocationRule.xib */; };
+		DDFF423114156B0A0047D311 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = DDFF423014156B0A0047D311 /* location.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -418,6 +421,9 @@
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
 		DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITunesPlaylistAction.m; path = Source/ITunesPlaylistAction.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
+		DDF4E594141588E80028DF4A /* CoreLocationMap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = CoreLocationMap.html; path = Resources/CoreLocationMap.html; sourceTree = "<group>"; };
+		DDFF422C14153A910047D311 /* CoreLocationRule.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CoreLocationRule.xib; path = Resources/CoreLocationRule.xib; sourceTree = "<group>"; };
+		DDFF423014156B0A0047D311 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = Resources/location.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -535,10 +541,11 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
-				DA5B01E91412BA6700E19C50 /* CPHelperTool */,
+				DA5B01E91412BA6700E19C50 /* HelperTool */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				DDFF422F14153F650047D311 /* UI */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -566,6 +573,7 @@
 				DA4A629213E2546800CE976F /* ControlPlane Help */,
 				DD8274E5141147BB0098FA6E /* controlplane.icns */,
 				DDE1B067140438DB006564A6 /* ControlPlane.sdef */,
+				DDF4E594141588E80028DF4A /* CoreLocationMap.html */,
 				DA83A21E13D12A3200074503 /* cp-icon-active.icns */,
 				DA83A22013D13C8300074503 /* cp-icon-inactive.icns */,
 				DA83A22213D13DF300074503 /* cp-icon.icns */,
@@ -576,6 +584,7 @@
 				8D232F7F0BD9D228006A3963 /* GeneralPrefs.png */,
 				DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				DDFF423014156B0A0047D311 /* location.png */,
 				8D1A45590BA00DE2004A6BC4 /* minus-8.png */,
 				8DB8917B0BB89BD8005347C2 /* oui.txt */,
 				8D88FE290C534737007A14D6 /* pause.png */,
@@ -583,14 +592,6 @@
 				8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */,
 				8D232FB40BD9D507006A3963 /* RulesPrefs.png */,
 				DA83A22613D1430000074503 /* usb-vendors.txt */,
-				8DC410FA0C64665E00393759 /* AboutPanel.xib */,
-				DDA201461411C25A00DE570E /* GenericRule.xib */,
-				DDA201501411C32F00DE570E /* IPRule.xib */,
-				DDA2015A1411C35700DE570E /* LightRule.xib */,
-				DDA201641411C37300DE570E /* MainMenu.xib */,
-				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
-				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
-				DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */,
 			);
 			name = Resources;
 			sourceTree = SOURCE_ROOT;
@@ -689,7 +690,7 @@
 			name = Actions;
 			sourceTree = "<group>";
 		};
-		DA5B01E91412BA6700E19C50 /* CPHelperTool */ = {
+		DA5B01E91412BA6700E19C50 /* HelperTool */ = {
 			isa = PBXGroup;
 			children = (
 				DA5B01EA1412BA6700E19C50 /* AuthorizationLib */,
@@ -698,7 +699,7 @@
 				DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */,
 				DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */,
 			);
-			name = CPHelperTool;
+			name = HelperTool;
 			path = Source/CPHelperTool;
 			sourceTree = "<group>";
 		};
@@ -779,6 +780,22 @@
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 			);
 			name = "System Actions";
+			sourceTree = "<group>";
+		};
+		DDFF422F14153F650047D311 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8DC410FA0C64665E00393759 /* AboutPanel.xib */,
+				DDFF422C14153A910047D311 /* CoreLocationRule.xib */,
+				DDA201461411C25A00DE570E /* GenericRule.xib */,
+				DDA201501411C32F00DE570E /* IPRule.xib */,
+				DDA2015A1411C35700DE570E /* LightRule.xib */,
+				DDA201641411C37300DE570E /* MainMenu.xib */,
+				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
+				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
+				DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -930,6 +947,9 @@
 				DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */,
 				DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */,
 				DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */,
+				DDFF422D14153A910047D311 /* CoreLocationRule.xib in Resources */,
+				DDFF423114156B0A0047D311 /* location.png in Resources */,
+				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
