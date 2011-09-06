@@ -32,6 +32,7 @@
 - (BOOL) doesRuleMatch: (NSDictionary *) rule;
 
 - (IBAction) showCoreLocation: (id) sender;
+- (BOOL) validateAddress: (inout NSString **) newValue error: (out NSError **) outError;
 - (BOOL) validateCoordinates: (inout NSString **) newValue error: (out NSError **) outError;
 
 @end
