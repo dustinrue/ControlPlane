@@ -213,7 +213,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
         _appIdentifier = [anAppIdentifier copy];
     }
     
-    [self setSubmissionURL:@"https://beta.hockeyapp.net/"];
+    [self setSubmissionURL:@"https://rink.hockeyapp.net/"];
 }
 
 
