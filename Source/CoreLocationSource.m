@@ -88,7 +88,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		[CoreLocationSource stringToCoordinates: [dict objectForKey:@"parameter"] toLatitude: &lat andLongitude: &lon];
 	
 	// show values
-	[self setValue: [NSString stringWithFormat: @"%lf, %lf", lat, lon] forKey: @"coordinates"];
+	[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
 	[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
 	[self updateMap];
 }
@@ -98,8 +98,14 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (BOOL) doesRuleMatch: (NSDictionary *) rule {
-	// TODO: implement this
-	return NO;
+	double lat = 0.0, lon = 0.0;
+	
+	// get coordinates of rule
+	[CoreLocationSource stringToCoordinates: [rule objectForKey:@"parameter"] toLatitude: &lat andLongitude: &lon];
+	CLLocation *ruleLoc = [[[CLLocation alloc] initWithLatitude: lat longitude: lon] autorelease];
+	
+	// match if distance is smaller than accuracy
+	return [locationManager.location distanceFromLocation: ruleLoc] <= locationManager.location.horizontalAccuracy;
 }
 
 - (IBAction) showCoreLocation: (id) sender {
@@ -107,7 +113,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	double lon = current.coordinate.longitude;
 	
 	// show values
-	[self setValue: [NSString stringWithFormat: @"%lf, %lf", lat, lon] forKey: @"coordinates"];
+	[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
 	[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
 	[self updateMap];
 }
@@ -121,7 +127,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// if correct, set coordinates
 	if (result) {
 		address = [*newValue copy];
-		[self setValue: [NSString stringWithFormat: @"%lf, %lf", lat, lon] forKey: @"coordinates"];
+		[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
 		[self updateMap];
 	}
 	
@@ -165,7 +171,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	CLLocationDegrees lat = current.coordinate.latitude;
 	CLLocationDegrees lon = current.coordinate.longitude;
 	CLLocationAccuracy acc = current.horizontalAccuracy;
-	DSLog(@"New location: (%lf, %lf) with accuracy %lf", lat, lon, acc);
+	DSLog(@"New location: (%f, %f) with accuracy %f", lat, lon, acc);
 	
 	// store
 	[self setValue: [NSString stringWithFormat: @"%d m", (int) acc] forKey: @"accuracy"];
@@ -231,7 +237,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 + (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude {
-	NSString *url = [NSString stringWithFormat: @"%@latlng=%lf,%lf&sensor=false", kGoogleAPIPrefix, latitude, longitude];
+	NSString *url = [NSString stringWithFormat: @"%@latlng=%f,%f&sensor=false", kGoogleAPIPrefix, latitude, longitude];
 	
 	// fetch and parse response
 	NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString: url]];
