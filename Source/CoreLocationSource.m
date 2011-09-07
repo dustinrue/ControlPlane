@@ -203,7 +203,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// Get coordinates and replace placeholders with these
 	[CoreLocationSource stringToCoordinates: coordinates toLatitude: &lat andLongitude: &lon];
-	htmlString = [NSString stringWithFormat: htmlString, lat, lon];
+	htmlString = [NSString stringWithFormat: htmlString, lat, lon, locationManager.location.horizontalAccuracy];
 	
 	// Load the HTML in the WebView
 	[[webView mainFrame] loadHTMLString: htmlString baseURL: nil];
