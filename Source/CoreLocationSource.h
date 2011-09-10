@@ -12,10 +12,11 @@
 
 @interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
-	CLLocation *current;
+	CLLocation *current, *selected;
 	
 	// for custom panel
 	IBOutlet WebView *webView;
+	WebScriptObject *scriptObject;
 	NSString *address;
 	NSString *coordinates;
 	NSString *accuracy;

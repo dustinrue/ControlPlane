@@ -13,9 +13,10 @@
 @interface CoreLocationSource (Private)
 
 - (void) updateMap;
-+ (BOOL) geocodeAddress: (NSString **) address toLatitude: (double*) latitude andLongitude: (double*) longitude;
-+ (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude;
-+ (BOOL) stringToCoordinates: (in NSString *) text toLatitude: (out double*) latitude andLongitude: (out double*) longitude;
++ (BOOL) geocodeAddress: (inout NSString **) address toLocation: (out CLLocation **) location;
++ (BOOL) geocodeLocation: (in CLLocation *) location toAddress: (out NSString **) address;
++ (BOOL) convertText: (in NSString *) text toLocation: (out CLLocation **) location;
++ (NSString *) convertLocationToText: (in CLLocation *) location;
 
 @end
 
@@ -30,8 +31,12 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     
 	locationManager = [[CLLocationManager alloc] init];
 	locationManager.delegate = self;
-	current = locationManager.location;
+	current = nil;
+	selected = nil;
 	
+	// for custom panel
+//	webView = [[WebView alloc] init];
+	scriptObject = nil;
 	address = @"";
 	coordinates = @"0.0, 0.0";
 	accuracy = @"0 m";
@@ -39,9 +44,19 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     return self;
 }
 
+- (void)awakeFromNib {
+	[[webView mainFrame] loadHTMLString:@"" baseURL:NULL];
+	
+//	scriptObject = [webView windowScriptObject];
+//	[scriptObject setValue: self forKey:@"cocoa"];
+}
+
 - (void) dealloc {
 	[locationManager stopUpdatingLocation];
 	[locationManager release];
+	
+	[current release];
+	[selected release];
 	
 	[super dealloc];
 }
@@ -51,6 +66,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		return;
 	
 	[locationManager startUpdatingLocation];
+	[self setDataCollected: YES];
 	
 	running = YES;
 }
@@ -78,18 +94,21 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 
 - (void) writeToPanel: (NSDictionary *) dict usingType: (NSString *) type {
 	[super writeToPanel: dict usingType: type];
-	
-	// get location data
-	double lat = current.coordinate.latitude;
-	double lon = current.coordinate.longitude;
+	NSString *add = @"";
 	
 	// do we already have settings?
 	if ([dict objectForKey:@"parameter"])
-		[CoreLocationSource stringToCoordinates: [dict objectForKey:@"parameter"] toLatitude: &lat andLongitude: &lon];
+		[CoreLocationSource convertText: [dict objectForKey:@"parameter"] toLocation: &selected];
+	else
+		selected = [current copy];
+	
+	// get corresponding address
+	if (![CoreLocationSource geocodeLocation: selected toAddress: &add])
+		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
 	
 	// show values
-	[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
-	[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
+	[self setValue: [CoreLocationSource convertLocationToText: selected] forKey: @"coordinates"];
+	[self setValue: add forKey: @"address"];
 	[self updateMap];
 }
 
@@ -98,36 +117,39 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (BOOL) doesRuleMatch: (NSDictionary *) rule {
-	double lat = 0.0, lon = 0.0;
-	
 	// get coordinates of rule
-	[CoreLocationSource stringToCoordinates: [rule objectForKey:@"parameter"] toLatitude: &lat andLongitude: &lon];
-	CLLocation *ruleLoc = [[[CLLocation alloc] initWithLatitude: lat longitude: lon] autorelease];
+	CLLocation *ruleLocation = nil;
+	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
 	
 	// match if distance is smaller than accuracy
-	return [locationManager.location distanceFromLocation: ruleLoc] <= locationManager.location.horizontalAccuracy;
+	return [selected distanceFromLocation: ruleLocation] <= locationManager.location.horizontalAccuracy;
 }
 
 - (IBAction) showCoreLocation: (id) sender {
-	double lat = current.coordinate.latitude;
-	double lon = current.coordinate.longitude;
+	NSString *add = nil;
+	
+	selected = [current copy];
+	if (![CoreLocationSource geocodeLocation: selected toAddress: &add])
+		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
 	
 	// show values
-	[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
-	[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
+	[self setValue: [CoreLocationSource convertLocationToText: selected] forKey: @"coordinates"];
+	[self setValue: add forKey: @"address"];
 	[self updateMap];
 }
 
 - (BOOL) validateAddress: (inout NSString **) newValue error: (out NSError **) outError {
-	double lat, lon;
+	CLLocation *loc = nil;
 	
 	// check address
-	BOOL result = [CoreLocationSource geocodeAddress: newValue toLatitude: &lat andLongitude: &lon];
+	BOOL result = [CoreLocationSource geocodeAddress: newValue toLocation: &loc];
 	
 	// if correct, set coordinates
 	if (result) {
-		address = [*newValue copy];
-		[self setValue: [NSString stringWithFormat: @"%f, %f", lat, lon] forKey: @"coordinates"];
+		selected = loc;
+		
+		[self setValue: [CoreLocationSource convertLocationToText: loc] forKey: @"coordinates"];
+		[self setValue: *newValue forKey: @"address"];
 		[self updateMap];
 	}
 	
@@ -135,20 +157,23 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (BOOL) validateCoordinates: (inout NSString **) newValue error: (out NSError **) outError {
-	BOOL valid;
-	double lat, lon;
+	CLLocation *loc = nil;
+	NSString *add = nil;
 	
 	// check coordinates
-	valid = [CoreLocationSource stringToCoordinates: *newValue toLatitude: &lat andLongitude: &lon];
+	BOOL result = [CoreLocationSource convertText: *newValue toLocation: &loc];
 	
 	// if correct, set address
-	if (valid) {
-		coordinates = [*newValue copy];
-		[self setValue: [CoreLocationSource reverseGeocodeWithLatitude: lat andLongitude: lon] forKey: @"address"];
+	if (result) {
+		selected = loc;
+		[CoreLocationSource geocodeLocation: loc toAddress: &add];
+		
+		[self setValue: *newValue forKey: @"coordinates"];
+		[self setValue: add forKey: @"address"];
 		[self updateMap];
 	}
 	
-	return valid;
+	return result;
 }
 
 #pragma mark -
@@ -157,8 +182,6 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 - (void) locationManager: (CLLocationManager *) manager
 	 didUpdateToLocation: (CLLocation *) newLocation
 			fromLocation: (CLLocation *) oldLocation {
-	
-	DSLog(@"collected: %@", dataCollected ? @"yes" : @"no");
 	
 	// Ignore updates where nothing we care about changed
 	if (newLocation.coordinate.longitude == oldLocation.coordinate.longitude &&
@@ -175,7 +198,6 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// store
 	[self setValue: [NSString stringWithFormat: @"%d m", (int) acc] forKey: @"accuracy"];
-	[self setDataCollected: YES];
 }
 
 - (void) locationManager: (CLLocationManager *) manager didFailWithError: (NSError *) error {
@@ -195,21 +217,22 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 #pragma mark Helper functions
 
 - (void) updateMap {
-	double lat, lon;
 	NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"CoreLocationMap" ofType:@"html"];
 	
 	// Load the HTML file
 	NSString *htmlString = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
 	
 	// Get coordinates and replace placeholders with these
-	[CoreLocationSource stringToCoordinates: coordinates toLatitude: &lat andLongitude: &lon];
-	htmlString = [NSString stringWithFormat: htmlString, lat, lon, locationManager.location.horizontalAccuracy];
+	htmlString = [NSString stringWithFormat: htmlString,
+				  (selected ? selected.coordinate.latitude : 0.0),
+				  (selected ? selected.coordinate.longitude : 0.0),
+				  (current ? current.horizontalAccuracy : 0.0)];
 	
 	// Load the HTML in the WebView
 	[[webView mainFrame] loadHTMLString: htmlString baseURL: nil];
 }
 
-+ (BOOL) geocodeAddress: (NSString **) address toLatitude: (double*) latitude andLongitude: (double*) longitude {
++ (BOOL) geocodeAddress: (NSString **) address toLocation: (CLLocation **) location {
 	NSString *param = [*address stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat: @"%@address=%@&sensor=false", kGoogleAPIPrefix, param];
 	DSLog(@"%@", url);
@@ -230,36 +253,38 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	NSDictionary *result = [[data objectForKey: @"results"] objectAtIndex: 0];
 	
 	*address = [[result objectForKey: @"formatted_address"] copy];
-	*latitude = [[[[result objectForKey: @"geometry"] objectForKey: @"location"] objectForKey: @"lat"] doubleValue];
-	*longitude = [[[[result objectForKey: @"geometry"] objectForKey: @"location"] objectForKey: @"lng"] doubleValue];
+	double lat = [[[[result objectForKey: @"geometry"] objectForKey: @"location"] objectForKey: @"lat"] doubleValue];
+	double lon = [[[[result objectForKey: @"geometry"] objectForKey: @"location"] objectForKey: @"lng"] doubleValue];
+	*location = [[CLLocation alloc] initWithLatitude: lat longitude: lon];
 	
 	return YES;
 }
 
-+ (NSString *) reverseGeocodeWithLatitude: (double) latitude andLongitude: (double) longitude {
-	NSString *url = [NSString stringWithFormat: @"%@latlng=%f,%f&sensor=false", kGoogleAPIPrefix, latitude, longitude];
++ (BOOL) geocodeLocation: (CLLocation *) location toAddress: (NSString **) address {
+	NSString *url = [NSString stringWithFormat: @"%@latlng=%f,%f&sensor=false",
+					 kGoogleAPIPrefix, location.coordinate.latitude, location.coordinate.longitude];
 	
 	// fetch and parse response
 	NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString: url]];
 	if (!jsonData)
-		return NSLocalizedString(@"Couldn't fetch location address", @"CoreLocation");
+		return NO;
 	NSDictionary *data = [[JSONDecoder decoder] objectWithData: jsonData];
 	
 	// check response status
 	if (![[data objectForKey: @"status"] isEqualToString: @"OK"])
-		return NSLocalizedString(@"Couldn't fetch location address", @"CoreLocation");
+		return NO;
 	
 	// check number of results
 	NSArray *results = [data objectForKey: @"results"];
 	if ([results count] == 0)
-		return NSLocalizedString(@"Unknown location", @"CoreLocation");
+		return NO;
 	
-	return [[results objectAtIndex: 0] objectForKey: @"formatted_address"];
+	*address = [[results objectAtIndex: 0] objectForKey: @"formatted_address"];
+	return YES;
 }
 
-+ (BOOL) stringToCoordinates: (in NSString *) text
-				  toLatitude: (out double*) latitude
-				andLongitude: (out double*) longitude {
++ (BOOL) convertText: (in NSString *) text toLocation: (out CLLocation **) location {
+	double lat = 0.0, lon = 0.0;
 	
 	// split
 	NSArray *comp = [text componentsSeparatedByString: @","];
@@ -267,10 +292,15 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		return NO;
 	
 	// get values
-	*latitude = [[comp objectAtIndex: 0] doubleValue];
-	*longitude = [[comp objectAtIndex: 1] doubleValue];
+	lat = [[comp objectAtIndex: 0] doubleValue];
+	lon = [[comp objectAtIndex: 1] doubleValue];
+	*location = [[CLLocation alloc] initWithLatitude: lat longitude: lon];
 	
 	return YES;
+}
+
++ (NSString *) convertLocationToText: (in CLLocation *) location {
+	return [NSString stringWithFormat: @"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
 }
 
 @end
