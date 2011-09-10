@@ -12,42 +12,68 @@
 				height: 100%%;
 			}
 		</style>
+		
+		<script type="text/javascript">
+			var currentPoint = new google.maps.LatLng(%f, %f);
+			var selectedPoint = new google.maps.LatLng(%f, %f);
+			var accuracy = %f;
+			
+			var map, currentMarker, selectedMarker;
+			
+			// init map
+			window.onload = function() {
+				map = new google.maps.Map(document.getElementById("map"), {
+										  zoom: 16,
+										  center: currentPoint,
+										  mapTypeId: google.maps.MapTypeId.HYBRID
+										  });
+				
+				// Set up markers
+				currentMarker = new google.maps.Marker({
+													   position: currentPoint,
+													   animation: google.maps.Animation.DROP,
+													   map: map,
+													   title: "Current location"
+													   });
+				selectedMarker = new google.maps.Marker({
+														position: selectedPoint,
+														animation: google.maps.Animation.DROP,
+														map: map,
+														title: "Selected location",
+														draggable: true
+														});
+				google.maps.event.addListener(selectedMarker, "mouseup", markerMoved);
+				google.maps.event.addListener(selectedMarker, "click", markerClicked);
+				
+				// show accuracy circle
+				var accuracyOptions = {
+					strokeColor: "#0000FF",
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					fillColor: "#0000FF",
+					fillOpacity: 0.35,
+					map: map,
+					center: currentPoint,
+					radius: accuracy
+				};
+				accuracyCircle = new google.maps.Circle(accuracyOptions);
+			}
+			
+			// update selected location
+			function markerMoved() {
+				window.cocoa.updateSelected(selectedMarker.position.lat(), selectedMarker.position.lng());
+			}
+			
+			// animation
+			function markerClicked() {
+				if (selectedMarker.getAnimation() != null)
+					selectedMarker.setAnimation(null);
+				else
+					selectedMarker.setAnimation(google.maps.Animation.BOUNCE);
+			}
+		</script>
 	</head>
 	<body>
 		<div id="map"></div>
-		
-		<script type="text/javascript">
-			var point = new google.maps.LatLng(%f, %f);
-			
-			// options
-			var options = {
-				zoom: 16,
-				center: point,
-				mapTypeId: google.maps.MapTypeId.HYBRID
-			};
-			
-			// Display the map, with some controls and set the initial location 
-			var map = new google.maps.Map(document.getElementById("map"), options);
-			
-			// Set up marker 
-			var marker = new google.maps.Marker({
-				position: point,
-				animation: google.maps.Animation.DROP,
-				map: map
-			});
-			
-			// show accuracy circle
-			var accuracyOptions = {
-				strokeColor: "#0000FF",
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-				fillColor: "#0000FF",
-				fillOpacity: 0.35,
-				map: map,
-				center: point,
-				radius: %f
-			};
-			accuracyCircle = new google.maps.Circle(accuracyOptions);
-			</script>
 	</body>
 </html>

@@ -35,7 +35,6 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	selected = nil;
 	
 	// for custom panel
-//	webView = [[WebView alloc] init];
 	scriptObject = nil;
 	address = @"";
 	coordinates = @"0.0, 0.0";
@@ -45,10 +44,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (void)awakeFromNib {
+	[webView setFrameLoadDelegate: self];
 	[[webView mainFrame] loadHTMLString:@"" baseURL:NULL];
-	
-//	scriptObject = [webView windowScriptObject];
-//	[scriptObject setValue: self forKey:@"cocoa"];
 }
 
 - (void) dealloc {
@@ -122,7 +119,10 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
 	
 	// match if distance is smaller than accuracy
-	return [selected distanceFromLocation: ruleLocation] <= locationManager.location.horizontalAccuracy;
+	if (selected && current)
+		return [selected distanceFromLocation: ruleLocation] <= current.horizontalAccuracy;
+	else
+		return 0;
 }
 
 - (IBAction) showCoreLocation: (id) sender {
@@ -137,6 +137,9 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	[self setValue: add forKey: @"address"];
 	[self updateMap];
 }
+
+#pragma mark -
+#pragma mark UI Validation
 
 - (BOOL) validateAddress: (inout NSString **) newValue error: (out NSError **) outError {
 	CLLocation *loc = nil;
@@ -174,6 +177,43 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	}
 	
 	return result;
+}
+
+#pragma mark -
+#pragma mark JavaScript stuff
+
+- (void) updateSelectedWithLatitude: (NSNumber *) latitude andLongitude: (NSNumber *) longitude {
+	NSString *add = nil;
+	
+	selected = [[CLLocation alloc] initWithLatitude: [latitude doubleValue] longitude: [longitude doubleValue]];
+	if (![CoreLocationSource geocodeLocation: selected toAddress: &add])
+		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
+	
+	// show values
+	[self setValue: [CoreLocationSource convertLocationToText: selected] forKey: @"coordinates"];
+	[self setValue: add forKey: @"address"];
+}
+
+- (void) webView: (WebView *) sender didFinishLoadForFrame: (WebFrame *) frame {
+	if (frame == [frame findFrameNamed:@"_top"]) {
+		scriptObject = [sender windowScriptObject];
+		[scriptObject setValue: self forKey:@"cocoa"];
+	}
+}
+
++ (BOOL) isSelectorExcludedFromWebScript: (SEL) selector {
+	if (selector == @selector(updateSelectedWithLatitude:andLongitude:)) {
+		return NO;
+	}
+	
+	return YES;
+}
+
++ (NSString *) webScriptNameForSelector: (SEL) sel {
+	if (sel == @selector(updateSelectedWithLatitude:andLongitude:))
+		return @"updateSelected";
+	
+	return nil;
 }
 
 #pragma mark -
@@ -224,6 +264,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// Get coordinates and replace placeholders with these
 	htmlString = [NSString stringWithFormat: htmlString,
+				  (current ? current.coordinate.latitude : 0.0),
+				  (current ? current.coordinate.longitude : 0.0),
 				  (selected ? selected.coordinate.latitude : 0.0),
 				  (selected ? selected.coordinate.longitude : 0.0),
 				  (current ? current.horizontalAccuracy : 0.0)];
