@@ -77,14 +77,14 @@
     
     NSString *retValue = [[[NSString alloc] initWithData:retValueData encoding:NSUTF8StringEncoding] autorelease];
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     NSLog(@"about to get terminationStatus");
 #endif
     int status = [diskutil terminationStatus];
     [diskutil release];
     
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     NSLog(@"task ended with status %d",status);
 #endif
 

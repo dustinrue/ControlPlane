@@ -14,7 +14,7 @@
 
 static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *info)
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"linkChange called with changedKeys:\n%@", changedKeys);
 #endif
 	NetworkLinkEvidenceSource *src = (NetworkLinkEvidenceSource *) info;

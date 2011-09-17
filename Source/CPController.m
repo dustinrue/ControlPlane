@@ -488,7 +488,7 @@
 
 - (void)contextsChanged:(NSNotification *)notification
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"in contextChanged");
 #endif
 	// Fill in 'Force context' submenu
@@ -768,7 +768,7 @@
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"in performTranisitionFrom");
 #endif
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
@@ -896,7 +896,7 @@
 				uncon = [NSNumber numberWithDouble:1.0];
 			double mult = [[rule valueForKey:@"confidence"] doubleValue] * decay;
 			uncon = [NSNumber numberWithDouble:[uncon doubleValue] * (1.0 - mult)];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 			//NSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [ctxt name], depth, base_depth, mult, uncon);
 #endif
 			[guesses setObject:uncon forKey:uuid];
@@ -947,18 +947,18 @@
 	//BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
 		[self setStatusTitle:nil];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
 #endif
 
 	BOOL no_guess = NO;
 	if (!guess) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		DSLog(@"No guess made.");
 #endif
 		no_guess = YES;
 	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 #endif
 		no_guess = YES;
@@ -977,7 +977,7 @@
 			return;
 		guessConfidenceString = NSLocalizedString(@"as default context",
 							  @"Appended to a context-change notification");
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		guessString = [ctxt name];
 #endif
 	}
@@ -996,7 +996,7 @@
 			do_switch = NO;
 		} else if (--smoothCounter > 0)
 			do_switch = NO;
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		if (!do_switch)
 			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 #endif
@@ -1008,7 +1008,7 @@
 		return;
 
 	if ([guess isEqualToString:currentContextUUID]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		DSLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
 #endif
 		return;
@@ -1082,7 +1082,7 @@
 
 - (void)userDefaultsChanged:(NSNotification *)notification
 {
-#ifndef DEBUG_MODE
+#ifndef DEBUG
 	// Force write of preferences
 	[[NSUserDefaults standardUserDefaults] synchronize];
 #endif

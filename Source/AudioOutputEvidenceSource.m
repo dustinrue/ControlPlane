@@ -52,7 +52,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	source = sourceID;
 	[self setDataCollected:YES];
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"%@ >> Got 0x%08lu", [self class], (unsigned long) sourceID);
 #endif
 

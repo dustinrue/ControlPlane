@@ -40,7 +40,7 @@
 		return;
 	}
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"%@ ] %d display%s found.", [self class], numDisplays, numDisplays > 1 ? "s" : "");
 #endif
 	
@@ -64,7 +64,7 @@
 		// Our unique identifier: product ID (built-in LCDs don't have serial numbers)
 		NSNumber *display_serial = [dict objectForKey:(NSString *) CFSTR(kDisplayProductID)];
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		NSLog(@"%@ ] Display ID = 0x%08x: (%@) id = %@", [self class], display_id,
 		      display_name, display_serial);
 #endif

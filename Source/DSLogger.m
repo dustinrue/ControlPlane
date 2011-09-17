@@ -73,7 +73,7 @@ static DSLogger *shared_Logger = nil;
 	}
 	[lastFunction setString:function];
 	va_end(ap);
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"%@ %@", function, proc);
 #endif
 

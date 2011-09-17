@@ -188,7 +188,7 @@
 			   [DefaultBrowserAction class],
 			   [DesktopBackgroundAction class],
 			   [DisplayBrightnessAction class],
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 			   [FirewallRuleAction class],
 #endif
 			   [IChatAction class],
@@ -222,7 +222,7 @@
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
 		NSLocalizedString(@"DisplayBrightness", @"Action type");
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		NSLocalizedString(@"FirewallRule", @"Action type");
 #endif
 		NSLocalizedString(@"IChat", @"Action type");

@@ -83,7 +83,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	*product_id = [[props valueForKey:@"idProduct"] intValue];
 	[props release];
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	//NSLog(@"Found info: vendor=%04X, product=%04X", *vendor_id, *product_id);
 #endif
 	return YES;
@@ -224,7 +224,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 - (void)doUpdate
 {
 	[self enumerateAll];		// be on the safe side
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"%@ >> found %ld devices", [self class], (long) [devices count]);
 #endif
 }

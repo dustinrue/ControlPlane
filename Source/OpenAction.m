@@ -59,7 +59,7 @@
 		return NO;
 	}
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"[%@]: Type: '%@'.", [self class], fileType);
 #endif
 

@@ -695,7 +695,7 @@
     LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst,
                                   NULL, NULL, (CFURLRef)[self appPath], NULL, NULL);
     CFRelease(loginItemList);
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"adding ControlPlane to startup items");
 #endif
 }
@@ -728,7 +728,7 @@
                 CFRelease(pathOfCurrentItem);
                 
                 if (startupItemFound) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
                     DSLog(@"removing ControlPlan from startup items");
 #endif
                     LSSharedFileListItemRemove(loginItemList, itemToCheck);

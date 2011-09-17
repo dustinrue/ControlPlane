@@ -380,17 +380,17 @@
 	while ((src = [en nextObject])) {
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"checking to see if %@ is enabled",[src name]);
 #endif
 		if (enabled && ![src isRunning]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
             DSLog(@"Starting %@ evidence source because it is enabled", [src name]);
 #endif
 			DSLog(@"Starting %@ evidence source", [src name]);
 			[src start];
 		} else if (!enabled && [src isRunning]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
       		DSLog(@"Stopping %@ evidence source because it is disabled", [src name]);
 #endif
 			DSLog(@"Stopping %@ evidence source", [src name]);

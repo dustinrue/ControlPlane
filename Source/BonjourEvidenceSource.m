@@ -163,7 +163,7 @@
 - (void)finishScanning:(id)arg
 {
 	stage = 0;
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	//DSLog(@"Found %d services offered", [hitsInProgress count]);
 #endif
 	[lock lock];
@@ -185,7 +185,7 @@
 	NSString *service = [services objectAtIndex:0];
 	[browser searchForServicesOfType:service inDomain:@""];
 	[services removeObjectAtIndex:0];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	//NSLog(@"Sent probe for hosts offering service %@", service);
 #endif
 	scanTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 1
@@ -209,7 +209,7 @@
 		NSString *service = [NSString stringWithFormat:@"%@.%@", [netService name], [netService type]];
 		if ([service hasSuffix:@".local."])
 			service = [service substringToIndex:([service length] - 6)];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		//NSLog(@"Heard about service [%@]", service);
 #endif
 		[services addObject:service];
@@ -222,7 +222,7 @@
 			[netService name], @"host",
 			[netService type], @"service",
 			nil];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		//NSLog(@"Found: %@", hit);
 #endif
 		[hitsInProgress addObject:hit];
@@ -247,14 +247,14 @@
 	 didRemoveService:(NSNetService *)netService
 	       moreComing:(BOOL)moreServicesComing
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	//NSLog(@"%s called.", __PRETTY_FUNCTION__);
 #endif
 }
 
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	//NSLog(@"%s called.", __PRETTY_FUNCTION__);
 #endif
 }

@@ -49,7 +49,7 @@ static NSString *macToString(const UInt8 *mac)
 	[apList setArray: allAps];
 	[self setDataCollected: [apList count] > 0];
 	
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"%@ >> %@", [self class], apList);
 #endif
 	
@@ -73,7 +73,7 @@ static NSString *macToString(const UInt8 *mac)
 	WIErr err;
 
 	if ((err = WirelessAttach(&wctxt, 0)) != noErr) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		NSLog(@"%@ >> WirelessAttached failed with error code 0x%08ld", [self class], (long) err);
 #endif
 		[self safeSetApList: all_aps];

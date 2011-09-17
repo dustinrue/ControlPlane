@@ -54,7 +54,7 @@
 
 - (void)dealloc
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"in dealloc");
 #endif
 	[lock release];
@@ -67,20 +67,20 @@
 - (void)start
 {
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"In bluetooth start");
 #endif
     
     // need to register for bluetooth connect notifications, but we need to delay it
     // until everything is loaded or we'll dead lock, not sure why
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"setting 5 second timer to register for bluetooth connection notifications");
 #endif
     registerForNotificationsTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5 target:self selector:@selector(registerForNotifications:) userInfo:nil repeats:NO]; 
     
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"setting 7 second timer to start bluetooth inquiry");
 #endif
     
@@ -107,7 +107,7 @@
 
 - (void)stop
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"In stop");
 #endif
 
@@ -117,7 +117,7 @@
     
     [self unregisterForConnectionNotifications];
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"issuing cleanupTimer invalidate");
 #endif
 
@@ -150,7 +150,7 @@
 
 - (void) startInquiry {
     if (![self inquiryStatus]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"starting IOBluetoothDeviceInquiry");
 #endif
         
@@ -163,7 +163,7 @@
 
 - (void) stopInquiry {
     if ([self inquiryStatus]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"stopping IOBluetoothDeviceInquiry");
 #endif
         
@@ -186,7 +186,7 @@
 - (void) registerForConnectionNotifications {
     
     if (![self registeredForNotifications]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"registering for connection notifications");
 #endif
         notf = [IOBluetoothDevice registerForConnectNotifications:self
@@ -199,7 +199,7 @@
 - (void) unregisterForConnectionNotifications {
     
   //  if ([self registeredForNotifications]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"unregistering for connection notifications");
 #endif
         [notf unregister];
@@ -215,7 +215,7 @@
 
 - (void)registerForNotifications:(NSTimer *)timer {
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"registering for notifications");
 #endif
     
@@ -244,18 +244,18 @@
 {
 	NSDictionary *ouiDb = [DB sharedOUIDB];
     
-#ifdef DEBUG_MODE 
+#ifdef DEBUG 
     //DSLog(@"ouiDB looks like %@", ouiDb);
 #endif
     
     
 	NSString *oui = [[mac substringToIndex:8] uppercaseString];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"attempting to get vendor info for mac %@", oui);
 #endif
 	NSString *name = [ouiDb valueForKey:oui];
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"converted %@ to %@", mac, name);
 #endif
 
@@ -267,7 +267,7 @@
     timerCounter++;
     
     if (goingToSleep) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"invalidating cleanupTimer because we're going to sleep");
 #endif
         [cleanupTimer invalidate];
@@ -294,7 +294,7 @@
     }
 
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	DSLog(@"know of %d device(s)%s and inquiry is running: %s", [devices count], holdTimer ? " -- hold timer running" : "", [self inquiryStatus] ? "YES":"NO");
     DSLog(@"I know about %@", devices);
 #endif
@@ -355,7 +355,7 @@
 	[lock lock];
 	NSEnumerator *en = [devices objectEnumerator];
 	NSDictionary *dev;
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"dev dictionary looks like %@",devices);
 #endif
 	while ((dev = [en nextObject])) {
@@ -383,7 +383,7 @@
 			  device:(IOBluetoothDevice *)device
 {
 	
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"in deviceInquiryDeviceFound");
 #endif
     
@@ -428,12 +428,12 @@
 
 - (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender error:(IOReturn)error aborted:(BOOL)aborted  {
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"in deviceInquiryComplete with goingToSleep == %s and error %x",goingToSleep ? "YES" : "NO", error);
 #endif
     
 	if (error != kIOReturnSuccess) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"error != kIOReturnSuccess, %x", error);
 #endif
         //[self stop];
@@ -461,7 +461,7 @@
 - (void)deviceConnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
 {
     // we're being notified that a device has connected
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	DSLog(@"Got notified of '%@' connecting!, %@", [device name], [device getAddressString]);
 #endif
     
@@ -474,7 +474,7 @@
 
 - (void)deviceDisconnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	DSLog(@"Got notified of '%@' disconnecting!", [device name]);
 #endif
     

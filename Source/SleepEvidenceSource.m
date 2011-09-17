@@ -68,7 +68,7 @@
 }
 
 - (void) goingToSleep: (NSNotification*) note {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	DSLog(@"goingToSleep: %@", [note name]);
 #endif
 	
@@ -79,7 +79,7 @@
 }
 
 - (void) wakeFromSleep: (NSNotification*) note {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	DSLog(@"wakeFromSleep: %@", [note name]);
 #endif
 	

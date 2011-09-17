@@ -83,12 +83,12 @@
 	leftLight  = scalarI_64[0];
 	rightLight = scalarI_64[1];
 	if (kr == KERN_SUCCESS) {  
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		NSLog(@"%@ >> successfully polled light sensor using 10.5+ method", [self class]);
 #endif
 	}
 	else {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 		NSLog(@"%@ >> unsuccessfully polled light sensor using 10.5+ method", [self class]);
 #endif
 		mach_error("I/O Kit error:", kr); 
@@ -105,7 +105,7 @@
 	NSString *perc = [nf stringFromNumber:level];
 	[self setValue:perc forKey:@"currentLevel"];
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"%@ >> Current light level: L:%llu R:%llu. (%@)", [self class], leftLight, rightLight, currentLevel);
 #endif
 	[lock unlock];

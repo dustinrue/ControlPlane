@@ -16,7 +16,7 @@
 
 static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info)
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"ipChange called with changedKeys:\n%@", changedKeys);
 #endif
 	IPEvidenceSource *src = (IPEvidenceSource *) info;
@@ -98,7 +98,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	[self setThreadNameFromClassName];
 
 	NSArray *addrs = [[self class] enumerate];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	DSLog(@"%@ >> found %lu address(s).", [self class], [addrs count]);
 #endif
 
@@ -235,7 +235,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	NSString *ip;
 
 	while ((ip = [en nextObject])) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
 #endif
         // if the rule is for a host address
@@ -243,14 +243,14 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
         // then GTFO
 
         if (isHostAddress && [[comp objectAtIndex:0] isEqualToString:ip]) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
             DSLog(@"matching on host address");
 #endif
             match = YES;
             break;
         }
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
 #endif
 
@@ -264,7 +264,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
         for (i = 0; i < 4; ++i) {
             // if i is less than our interesting octet then we can just compare the values directly
             if (i < networkOctetPosition) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
                 DSLog(@"checking %d and %d",[[currentIPArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue]);
 #endif
                 if ([[currentIPArray objectAtIndex:i] intValue] != [[ruleIPArray objectAtIndex:i] intValue])
@@ -272,7 +272,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
                 continue;
             }
             else {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
                 DSLog(@"subnet mask octet is not 255, doing host checks for %@", ip);
 #endif
             }
@@ -281,7 +281,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
             // if the final netmask is 0 and everything else has matched up to this
             // point then we know that the IP the machine has matches the rule
             if ([[ruleNetmaskArray objectAtIndex:i] intValue] == 0) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
                 DSLog(@"%@ matches current rule", ip);
 #endif
                 match = YES;
@@ -290,19 +290,19 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
             else {
                 // we must calculate what network the machine is on vs the 
                 // network the rule says we're looking for
-#ifdef DEBUG_MODE
+#ifdef DEBUG
                 DSLog(@"checking %@ for match because it is on the same subnet (%d vs %d) as the rule", ip,  [[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue]);
 #endif
                 if (([[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])  == ([[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])) {
                     // if these are equal then the machine is sitting on the same network as the rule
-#ifdef DEBUG_MODE
+#ifdef DEBUG
                     DSLog(@"%@ matches because it is on the same subnet as the rule", ip);
 #endif
                     match = YES;
                     break;
                 }
                 else {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
                     DSLog(@"%@ doesn't match rule %@/%@", ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
 #endif
                     match = NO;

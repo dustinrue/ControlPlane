@@ -145,7 +145,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 		}
 		
 		if (isNew) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 			//NSLog(@"FireWire >> [%d] Adding %@", cnt, dev_dict);
 #endif
 			[devices addObject:dev_dict];
@@ -190,7 +190,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 - (void)doUpdate
 {
 	[self enumerateAll];		// be on the safe side
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	NSLog(@"%@ >> found %ld devices", [self class], (long) [devices count]);
 #endif
 }

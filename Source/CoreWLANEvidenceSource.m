@@ -63,7 +63,7 @@
 	BOOL do_scan = YES;
 
     
-#ifdef DEBUG_MODE
+#ifdef DEBUG
     DSLog(@"Attempting to do the scan");
 #endif
     
@@ -73,7 +73,7 @@
     
     // first see if Wi-Fi is even turned on
     if (! self.currentInterface.power) {
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"wifi disabled, no scan done");
 #endif
         return;
@@ -114,7 +114,7 @@
         for (currentNetwork in self.scanResults) {
             [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
-    #ifdef DEBUG_MODE
+    #ifdef DEBUG
             DSLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssi]);
     #endif
         }
@@ -126,7 +126,7 @@
         // doing so with a scan we ask CoreWLAN to tell us about what 
         // we're connected to, ControlPlane can then see if the associated
         // network matches a rule
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"already associated with an AP, using connection info");
 #endif
         [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:self.currentInterface.ssid, @"WiFi SSID", self.currentInterface.bssid, @"WiFi BSSID", nil]];
@@ -136,7 +136,7 @@
 	[lock lock];
 	[apList setArray:all_aps];
 	[self setDataCollected:[apList count] > 0];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
 	DSLog(@"%@ >> %@", [self class], apList);
 #endif
 	[lock unlock];
@@ -171,7 +171,7 @@
 	NSDictionary *dict;
 	while ((dict = [en nextObject])) {
 		NSString *x = [dict valueForKey:key];
-#ifdef DEBUG_MODE
+#ifdef DEBUG
         DSLog(@"checking to see if %@ matches",[dict valueForKey:key]);
 #endif
 		if ([param isEqualToString:x]) {
