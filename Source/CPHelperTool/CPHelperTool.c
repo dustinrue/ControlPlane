@@ -16,15 +16,16 @@
 #import "CPHelperToolCommon.h"
 
 extern const BASCommandSpec kCPHelperToolCommandSet[];
+bool isLionOrHigher(void);
 
 
 // Implements the GetVersionCommand. Returns the version number of the helper tool.
-static OSStatus DoGetVersion(AuthorizationRef			auth,
-							 const void *				userData,
-							 CFDictionaryRef			request,
-							 CFMutableDictionaryRef		response,
-							 aslclient					asl,
-							 aslmsg						aslMsg) {
+static OSStatus DoGetVersion(AuthorizationRef		auth,
+							 const void *			userData,
+							 CFDictionaryRef		request,
+							 CFMutableDictionaryRef	response,
+							 aslclient				asl,
+							 aslmsg					aslMsg) {
 	
 	OSStatus retval = noErr;
 	CFNumberRef value;
@@ -47,12 +48,12 @@ static OSStatus DoGetVersion(AuthorizationRef			auth,
 }
 
 // enables time machine
-static OSStatus DoEnableTM (AuthorizationRef		auth,
-							const void *			userData,
-							CFDictionaryRef			request,
-							CFMutableDictionaryRef	response,
-							aslclient				asl,
-							aslmsg					aslMsg) {
+static OSStatus DoEnableTM(AuthorizationRef			auth,
+						   const void *				userData,
+						   CFDictionaryRef			request,
+						   CFMutableDictionaryRef	response,
+						   aslclient				asl,
+						   aslmsg					aslMsg) {
 	
 	assert(auth != NULL);
 	assert(request != NULL);
@@ -61,13 +62,8 @@ static OSStatus DoEnableTM (AuthorizationRef		auth,
 	char command[256];
 	int retValue = 0;
 	
-	// get system version
-	SInt32 major = 0, minor = 0;
-	Gestalt(gestaltSystemVersionMajor, &major);
-    Gestalt(gestaltSystemVersionMinor, &minor);
-	
 	// if Lion or greater
-	if ((major == 10 && minor >= 7) || major >= 11) {
+	if (isLionOrHigher()) {
 		sprintf(command,"/usr/bin/tmutil enable");
 		retValue = system(command);
 		
@@ -89,12 +85,12 @@ static OSStatus DoEnableTM (AuthorizationRef		auth,
 }
 
 // disables time machine
-static OSStatus DoDisableTM (AuthorizationRef		auth,
-							 const void *			userData,
-							 CFDictionaryRef		request,
-							 CFMutableDictionaryRef	response,
-							 aslclient				asl,
-							 aslmsg					aslMsg) {
+static OSStatus DoDisableTM(AuthorizationRef		auth,
+							const void *			userData,
+							CFDictionaryRef			request,
+							CFMutableDictionaryRef	response,
+							aslclient				asl,
+							aslmsg					aslMsg) {
 	
 	assert(auth != NULL);
 	assert(request != NULL);
@@ -103,13 +99,8 @@ static OSStatus DoDisableTM (AuthorizationRef		auth,
 	char command[256];
 	int retValue = 0;
 	
-	// get system version
-	SInt32 major = 0, minor = 0;
-	Gestalt(gestaltSystemVersionMajor, &major);
-    Gestalt(gestaltSystemVersionMinor, &minor);
-	
 	// if Lion or greater
-	if ((major == 10 && minor >= 7) || major >= 11) {
+	if (isLionOrHigher()) {
 		sprintf(command,"/usr/bin/tmutil disable");
 		retValue = system(command);
 		
@@ -131,12 +122,12 @@ static OSStatus DoDisableTM (AuthorizationRef		auth,
 }
 
 // Start a Time Machine backup
-static OSStatus DoStartBackupTM (AuthorizationRef		auth,
-								 const void *			userData,
-								 CFDictionaryRef		request,
-								 CFMutableDictionaryRef	response,
-								 aslclient				asl,
-								 aslmsg					aslMsg) {
+static OSStatus DoStartBackupTM(AuthorizationRef		auth,
+								const void *			userData,
+								CFDictionaryRef			request,
+								CFMutableDictionaryRef	response,
+								aslclient				asl,
+								aslmsg					aslMsg) {
 	
 	assert(auth != NULL);
 	assert(request != NULL);
@@ -145,13 +136,8 @@ static OSStatus DoStartBackupTM (AuthorizationRef		auth,
 	char command[256];
 	int retValue = 0;
 	
-	// get system version
-	SInt32 major = 0, minor = 0;
-	Gestalt(gestaltSystemVersionMajor, &major);
-    Gestalt(gestaltSystemVersionMinor, &minor);
-	
 	// if Lion or greater
-	if ((major == 10 && minor >= 7) || major >= 11) {
+	if (isLionOrHigher()) {
 		sprintf(command,"/usr/bin/tmutil startbackup");
 		retValue = system(command);
 	} else {	// Snow leopard
@@ -163,12 +149,12 @@ static OSStatus DoStartBackupTM (AuthorizationRef		auth,
 }
 
 // Stop a Time Machine backup
-static OSStatus DoStopBackupTM (AuthorizationRef		auth,
-								 const void *			userData,
-								 CFDictionaryRef		request,
-								 CFMutableDictionaryRef	response,
-								 aslclient				asl,
-								 aslmsg					aslMsg) {
+static OSStatus DoStopBackupTM(AuthorizationRef			auth,
+							   const void *				userData,
+							   CFDictionaryRef			request,
+							   CFMutableDictionaryRef	response,
+							   aslclient				asl,
+							   aslmsg					aslMsg) {
 	
 	assert(auth != NULL);
 	assert(request != NULL);
@@ -177,13 +163,8 @@ static OSStatus DoStopBackupTM (AuthorizationRef		auth,
 	char command[256];
 	int retValue = 0;
 	
-	// get system version
-	SInt32 major = 0, minor = 0;
-	Gestalt(gestaltSystemVersionMajor, &major);
-    Gestalt(gestaltSystemVersionMinor, &minor);
-	
 	// if Lion or greater
-	if ((major == 10 && minor >= 7) || major >= 11) {
+	if (isLionOrHigher()) {
 		sprintf(command,"/usr/bin/tmutil stopbackup");
 		retValue = system(command);
 	} else {	// Snow leopard
@@ -215,4 +196,18 @@ int main(int argc, char **argv) {
 	// we must quit.
 	
 	return BASHelperToolMain(kCPHelperToolCommandSet, kCPHelperToolCommandProcs);
+}
+
+/**
+ * Check if the OS is version 10.7 or higher
+ */
+bool isLionOrHigher(void) {
+	SInt32 major = 0, minor = 0;
+
+	// get system version
+	Gestalt(gestaltSystemVersionMajor, &major);
+	Gestalt(gestaltSystemVersionMinor, &minor);
+
+	// test it
+	return (major == 10 && minor >= 7) || major >= 11;
 }

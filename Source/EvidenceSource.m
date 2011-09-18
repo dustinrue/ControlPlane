@@ -128,10 +128,7 @@
 
 - (void)setThreadNameFromClassName
 {
-	// Mac OS X 10.5 (Leopard) introduces -[NSThread setName:], which might make crash logs easier to read
-	NSThread *thr = [NSThread currentThread];
-	if ([thr respondsToSelector:@selector(setName:)])
-		[thr performSelector:@selector(setName:) withObject:NSStringFromClass([self class])];
+	[[NSThread currentThread] setName: NSStringFromClass([self class])];
 }
 
 #pragma mark -
