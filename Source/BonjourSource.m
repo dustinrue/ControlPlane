@@ -7,6 +7,7 @@
 //
 
 #import "BonjourSource.h"
+#import "KVOAdditions.h"
 #import "Rule.h"
 #import "SourcesManager.h"
 
@@ -58,14 +59,16 @@
 }
 
 - (void) addObserver: (Rule *) rule {
+	SEL selector = NSSelectorFromString(@"servicesChangedWithOld:andNew:");
+	
 	[self addObserver: rule
 		   forKeyPath: @"services"
 			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-			  context: nil];
+			 selector: selector];
 }
 
 - (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"services"];
+	[self removeObserver: rule forKeyPath: @"services" selector: nil];
 }
 
 - (void) checkData {

@@ -7,6 +7,7 @@
 //
 
 #import "AudioOutputSource.h"
+#import "KVOAdditions.h"
 #import "Rule.h"
 #import "SourcesManager.h"
 
@@ -39,11 +40,16 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 }
 
 - (void) addObserver: (Rule *) rule {
-	[self addObserver: rule forKeyPath: @"source" options: NSKeyValueObservingOptionNew context: nil];
+	SEL selector = NSSelectorFromString(@"sourceChangedWithOld:andNew:");
+	
+	[self addObserver: rule
+		   forKeyPath: @"source"
+			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+			 selector: selector];
 }
 
 - (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"source"];
+	[self removeObserver: rule forKeyPath: @"source" selector: nil];
 }
 
 #pragma mark - CoreAudio stuff

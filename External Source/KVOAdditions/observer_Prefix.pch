@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'observer' target in the 'observer' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

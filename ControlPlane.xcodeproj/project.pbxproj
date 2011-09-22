@@ -131,6 +131,7 @@
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDD1A359142B9E5A00341B75 /* WLANSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A358142B9E5A00341B75 /* WLANSource.m */; };
+		DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A363142BD65600341B75 /* KVOAdditions.m */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -435,6 +436,8 @@
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Growl Registration Ticket.growlRegDict"; path = "Resources/Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		DDD1A357142B9E5A00341B75 /* WLANSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANSource.h; path = Source/WLANSource.h; sourceTree = "<group>"; };
 		DDD1A358142B9E5A00341B75 /* WLANSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSource.m; path = Source/WLANSource.m; sourceTree = "<group>"; };
+		DDD1A362142BD65600341B75 /* KVOAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOAdditions.h; sourceTree = "<group>"; };
+		DDD1A363142BD65600341B75 /* KVOAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVOAdditions.m; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
@@ -581,6 +584,7 @@
 			children = (
 				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
+				DDD1A361142BD65600341B75 /* KVOAdditions */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
 				32CA4F630368D1EE00C91783 /* Prefix.pch */,
 				DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */,
@@ -845,6 +849,16 @@
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 			);
 			name = "System Actions";
+			sourceTree = "<group>";
+		};
+		DDD1A361142BD65600341B75 /* KVOAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				DDD1A362142BD65600341B75 /* KVOAdditions.h */,
+				DDD1A363142BD65600341B75 /* KVOAdditions.m */,
+			);
+			name = KVOAdditions;
+			path = "External Source/KVOAdditions";
 			sourceTree = "<group>";
 		};
 		DDE29BE2142964B700A55469 /* Concrete Sources */ = {
@@ -1155,6 +1169,7 @@
 				DD23928B142A257500FE7DC7 /* LoopingSource.m in Sources */,
 				DD23929E142A916500FE7DC7 /* BonjourSource.m in Sources */,
 				DDD1A359142B9E5A00341B75 /* WLANSource.m in Sources */,
+				DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,9 +6,10 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "WLANSource.h"
+#import "KVOAdditions.h"
 #import "Rule.h"
 #import "SourcesManager.h"
+#import "WLANSource.h"
 #import <CoreWLAN/CoreWLAN.h>
 
 @interface WLANSource (Private)
@@ -42,14 +43,16 @@
 }
 
 - (void) addObserver: (Rule *) rule {
+	SEL selector = NSSelectorFromString(@"networksChangedWithOld:andNew:");
+	
 	[self addObserver: rule
 		   forKeyPath: @"networks"
 			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-			  context: nil];
+			 selector: selector];
 }
 
 - (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"networks"];
+	[self removeObserver: rule forKeyPath: @"networks" selector: nil];
 }
 
 - (void) checkData {

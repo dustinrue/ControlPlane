@@ -6,6 +6,7 @@
 //	Copyright 2011. All rights reserved.
 //
 
+#import "KVOAdditions.h"
 #import "PowerSource.h"
 #import "Rule.h"
 #import "SourcesManager.h"
@@ -40,11 +41,16 @@ static void sourceChange(void *info);
 }
 
 - (void) addObserver: (Rule *) rule {
-	[self addObserver: rule forKeyPath: @"status" options: NSKeyValueObservingOptionNew context: nil];
+	SEL selector = NSSelectorFromString(@"statusChangedWithOld:andNew:");
+	
+	[self addObserver: rule
+		   forKeyPath: @"status"
+			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+			 selector: selector];
 }
 
 - (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"status"];
+	[self removeObserver: rule forKeyPath: @"status" selector: nil];
 }
 
 #pragma mark - CoreAudio stuff
