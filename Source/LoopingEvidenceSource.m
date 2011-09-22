@@ -5,7 +5,6 @@
 //  Created by David Symonds on 19/07/07.
 //
 
-#import "DSLogger.h"
 #import "LoopingEvidenceSource.h"
 
 
@@ -42,7 +41,7 @@
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self setThreadNameFromClassName];
-	DSLog(@"Updating...");
+	DLog(@"Updating...");
 	
 	SEL selector = NSSelectorFromString(@"doUpdate");
 	if ([self respondsToSelector: selector])

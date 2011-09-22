@@ -6,7 +6,6 @@
 //
 
 #import "Action.h"
-#import "DSLogger.h"
 #import "CPController.h"
 #import "CPController+SleepThread.h"
 #import "NetworkLocationAction.h"
@@ -310,7 +309,7 @@
 	NSDictionary *oldPrefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName: oldDomain];
 	
 	if (oldPrefs) {
-		DSLog(@"Importing settings from MarcoPolo 2.x");
+		DLog(@"Importing settings from MarcoPolo 2.x");
 		[[NSUserDefaults standardUserDefaults] setPersistentDomain: oldPrefs forName: [[NSBundle mainBundle] bundleIdentifier]];
 		[[NSUserDefaults standardUserDefaults] removePersistentDomainForName: oldDomain];
 		[[NSUserDefaults standardUserDefaults] synchronize];
@@ -488,9 +487,8 @@
 
 - (void)contextsChanged:(NSNotification *)notification
 {
-#ifdef DEBUG
-    DSLog(@"in contextChanged");
-#endif
+	DLog(@"in contextChanged");
+	
 	// Fill in 'Force context' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
 	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
@@ -768,9 +766,8 @@
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
-#ifdef DEBUG
-    DSLog(@"in performTranisitionFrom");
-#endif
+	DLog(@"in performTranisitionFrom");
+	
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
 	NSArray *leaving_walk = [walks objectAtIndex:0];
 	NSArray *entering_walk = [walks objectAtIndex:1];
@@ -782,7 +779,7 @@
 	// Execute all the "Departure" actions
 	en = [leaving_walk objectEnumerator];
 	while ((ctxt = [en nextObject])) {
-		DSLog(@"Depart from %@", [ctxt name]);
+		DLog(@"Depart from %@", [ctxt name]);
 		[self triggerDepartureActions:[ctxt uuid]];
 	}
 
@@ -816,7 +813,7 @@
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
 	while ((ctxt = [en nextObject])) {
-		DSLog(@"Arrive at %@", [ctxt name]);
+		DLog(@"Arrive at %@", [ctxt name]);
 		[self triggerArrivalActions:[ctxt uuid]];
 	}
 
@@ -836,7 +833,7 @@
 	else
 		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
 	
-	DSLog(@"going to %@", [ctxt name]);
+	DLog(@"going to %@", [ctxt name]);
 	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
 		forKey:@"guessConfidence"];
 
@@ -953,14 +950,10 @@
 
 	BOOL no_guess = NO;
 	if (!guess) {
-#ifdef DEBUG
-		DSLog(@"No guess made.");
-#endif
+		DLog(@"No guess made.");
 		no_guess = YES;
 	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
-#ifdef DEBUG
-		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
-#endif
+		DLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 		no_guess = YES;
 	}
 
@@ -996,10 +989,9 @@
 			do_switch = NO;
 		} else if (--smoothCounter > 0)
 			do_switch = NO;
-#ifdef DEBUG
+		
 		if (!do_switch)
-			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
-#endif
+			DLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 	}
 
 	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
@@ -1008,9 +1000,7 @@
 		return;
 
 	if ([guess isEqualToString:currentContextUUID]) {
-#ifdef DEBUG
-		DSLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
-#endif
+		DLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
 		return;
 	}
 
@@ -1041,13 +1031,13 @@
 
 - (void)goingToSleep:(id)arg
 {
-	DSLog(@"Stopping update thread for sleep.");
+	DLog(@"Stopping update thread for sleep.");
 	[updatingTimer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)wakeFromSleep:(id)arg
 {
-	DSLog(@"Starting update thread after sleep.");
+	DLog(@"Starting update thread after sleep.");
 	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
 }
 

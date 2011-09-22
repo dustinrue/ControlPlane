@@ -7,7 +7,6 @@
 //
 
 #import "CoreLocationSource.h"
-#import "DSLogger.h"
 #import "JSONKit.h"
 
 @interface CoreLocationSource (Private)
@@ -234,18 +233,18 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	CLLocationDegrees lat = current.coordinate.latitude;
 	CLLocationDegrees lon = current.coordinate.longitude;
 	CLLocationAccuracy acc = current.horizontalAccuracy;
-	DSLog(@"New location: (%f, %f) with accuracy %f", lat, lon, acc);
+	DLog(@"New location: (%f, %f) with accuracy %f", lat, lon, acc);
 	
 	// store
 	[self setValue: [NSString stringWithFormat: @"%d m", (int) acc] forKey: @"accuracy"];
 }
 
 - (void) locationManager: (CLLocationManager *) manager didFailWithError: (NSError *) error {
-	DSLog(@"Location manager failed with error: %@", [error localizedDescription]);
+	DLog(@"Location manager failed with error: %@", [error localizedDescription]);
 	
 	switch (error.code) {
 		case kCLErrorDenied:
-			DSLog(@"Core Location denied!");
+			DLog(@"Core Location denied!");
 			[self stop];
 			break;
 		default:
@@ -277,7 +276,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 + (BOOL) geocodeAddress: (NSString **) address toLocation: (CLLocation **) location {
 	NSString *param = [*address stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat: @"%@address=%@&sensor=false", kGoogleAPIPrefix, param];
-	DSLog(@"%@", url);
+	DLog(@"%@", url);
 	
 	// fetch and parse response
 	NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString: url]];

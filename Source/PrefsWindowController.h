@@ -38,9 +38,6 @@
 	NSString *newActionWindowWhen;
 
     IBOutlet NSButton *startAtLoginStatus;
-	IBOutlet NSTextView *logBufferView;
-	NSNumber *logBufferPaused;
-	NSTimer *logBufferTimer;
     NSMenuItem *donateToControlPlane;
 }
 

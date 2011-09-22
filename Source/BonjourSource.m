@@ -7,7 +7,6 @@
 //
 
 #import "BonjourSource.h"
-#import "DSLogger.h"
 #import "Rule.h"
 #import "SourcesManager.h"
 
@@ -173,7 +172,7 @@
 
 - (void) netServiceBrowser: (NSNetServiceBrowser *) netServiceBrowser
 			  didNotSearch: (NSDictionary *) errorInfo {
-	DSLog(@"failure:\n%@", errorInfo);
+	DLog(@"failure:\n%@", errorInfo);
 }
 
 @end

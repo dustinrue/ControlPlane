@@ -7,7 +7,6 @@
 //
 
 #import "CPController+SleepThread.h"
-#import "DSLogger.h"
 
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #import <IOKit/IOMessage.h>
@@ -33,7 +32,7 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 	// register to receive system sleep notifications
 	root_port = IORegisterForSystemPower(self, &notifyPort, sleepCallBack, &notifierObject);
 	if (!root_port)
-		DSLog(@"IORegisterForSystemPower failed");
+		DLog(@"IORegisterForSystemPower failed");
 	
 	// add the notification port to the application runloop
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPort), kCFRunLoopCommonModes);
@@ -58,14 +57,14 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
 			// entering sleep
-			DSLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
+			DLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
 			
 			// Hack: we need to do an extra check (2 if smoothing is enabled) right before sleeping
 			//		 otherwise the sleep rule won't be triggered
 			[NSThread sleepForTimeInterval:2];
 			
 			// Call update for real (in case of smoothing, call twice)
-			DSLog(@"Sleep callback: calling doUpdateForReal");
+			DLog(@"Sleep callback: calling doUpdateForReal");
 			[cp_controller doUpdateForReal];
 			if (smoothing)
 				[cp_controller doUpdateForReal];
@@ -79,7 +78,7 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 			break;
 			
 		case kIOMessageSystemWillPowerOn:
-			DSLog(@"Sleep callback: waking up");
+			DLog(@"Sleep callback: waking up");
 			break;
 		case kIOMessageSystemHasPoweredOn:
 			break;

@@ -74,7 +74,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	
 	Source *sourceInstance = [m_sources objectForKey: source];
 	
-	assert(sourceInstance != nil);
+	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
 	[sourceInstance addObserver: rule];
 }
 
@@ -84,7 +84,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	
 	Source *sourceInstance = [m_sources objectForKey: source];
 	
-	assert(sourceInstance != nil);
+	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
 	[sourceInstance removeObserver: rule];
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "DisplayBrightnessAction.h"
-#import "DSLogger.h"
 #import <IOKit/graphics/IOGraphicsLib.h>
 
 @interface DisplayBrightnessAction (Private)
@@ -74,7 +73,7 @@
 	// get list of displays
 	err = CGGetActiveDisplayList(kMaxDisplays, display, &numDisplays);
 	if (err != CGDisplayNoErr) {
-		DSLog(@"Cannot get list of displays (error %d)", err);
+		DLog(@"Cannot get list of displays (error %d)", err);
 		errorOccurred = YES;
 	}
 	
@@ -86,7 +85,7 @@
 		// set brightness
 		err = IODisplaySetFloatParameter(service, kNilOptions, kDisplayBrightness, (brightness / 100.0));
 		if (err != kIOReturnSuccess) {
-			DSLog(@"Failed to set brightness of display 0x%x (error %d)", (unsigned int)dspy, err);
+			DLog(@"Failed to set brightness of display 0x%x (error %d)", (unsigned int)dspy, err);
 			errorOccurred = YES;
 			continue;
 		}

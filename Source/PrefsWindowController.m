@@ -1,7 +1,6 @@
 
 #import "AboutPanel.h"
 #import "Action.h"
-#import "DSLogger.h"
 #import "PrefsWindowController.h"
 
 
@@ -130,7 +129,6 @@
 
 - (void)doAddRule:(NSDictionary *)dict;
 - (void)doEditRule:(NSDictionary *)dict;
-- (void)updateLogBuffer:(NSTimer *)timer;
 
 @end
 
@@ -160,9 +158,6 @@
 	blankPrefsView = [[NSView alloc] init];
 
 	newActionWindowParameterViewCurrentControl = nil;
-
-	[self setValue:[NSNumber numberWithBool:NO] forKey:@"logBufferPaused"];
-	logBufferTimer = nil;
 
 	return self;
 }
@@ -287,8 +282,6 @@
 				@"Both", @"option",
 				NSLocalizedString(@"Both", @"When an action is triggered"), @"description",
 				nil]];
-
-	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:9]];
 }
 
 - (IBAction)runPreferences:(id)sender
@@ -383,20 +376,6 @@
 		size.height -= ([self toolbarHeight] + [self titleBarHeight]);
 		[oldGroup setValue:[NSNumber numberWithFloat:size.width] forKey:@"last_width"];
 		[oldGroup setValue:[NSNumber numberWithFloat:size.height] forKey:@"last_height"];
-	}
-
-	if ([groupId isEqualToString:@"Advanced"]) {
-		logBufferTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 0.5
-								  target:self
-								selector:@selector(updateLogBuffer:)
-								userInfo:nil
-								 repeats:YES];
-		[logBufferTimer fire];
-	} else {
-		if (logBufferTimer) {
-			[logBufferTimer invalidate];
-			logBufferTimer = nil;
-		}
 	}
 
 	currentPrefsView = [group objectForKey:@"view"];
@@ -695,9 +674,7 @@
     LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst,
                                   NULL, NULL, (CFURLRef)[self appPath], NULL, NULL);
     CFRelease(loginItemList);
-#ifdef DEBUG
-    DSLog(@"adding ControlPlane to startup items");
-#endif
+    DLog(@"adding ControlPlane to startup items");
 }
 
 - (void) disableStartAtLogin {
@@ -728,9 +705,7 @@
                 CFRelease(pathOfCurrentItem);
                 
                 if (startupItemFound) {
-#ifdef DEBUG
-                    DSLog(@"removing ControlPlan from startup items");
-#endif
+                    DLog(@"removing ControlPlan from startup items");
                     LSSharedFileListItemRemove(loginItemList, itemToCheck);
                 }
             }
@@ -767,7 +742,7 @@
                 BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
                 CFRelease(pathOfCurrentItem);
                 
-                DSLog(@"startupItemFound is %s", startupItemFound ? "true":"false");
+                DLog(@"startupItemFound is %s", startupItemFound ? "true":"false");
                 if (startupItemFound) {
                     CFRelease(loginItemList);
                     return TRUE;
@@ -792,21 +767,6 @@
         
     }
     [startAtLoginStatus setState:[self willStartAtLogin:[self appPath]] ? 1:0];
-}
-
-
-
-
-
-#pragma mark Miscellaneous
-
-- (void)updateLogBuffer:(NSTimer *)timer
-{
-	if (![logBufferPaused boolValue]) {
-		NSString *buf = [[DSLogger sharedLogger] buffer];
-		[logBufferView setString:buf];
-		[logBufferView scrollRangeToVisible:NSMakeRange([buf length] - 2, 1)];
-	}
 }
 
 @end

@@ -71,9 +71,9 @@
 	
 	// create request
 	bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	assert(bundleID != NULL);
+	ZAssert(bundleID != NULL, @"Unable to get bundle ID");
 	request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, nil];
-	assert(request != NULL);
+	ZAssert(request != NULL, @"Unable to create request");
 	
 	// Execute it.
 	error = BASExecuteRequestInHelperTool(auth,
@@ -116,8 +116,8 @@
 	// happens there's no way to recover; Authorization Services just won't work.
 	
 	err = AuthorizationCreate(NULL, NULL, kAuthorizationFlagDefaults, auth);
-	assert(err == noErr);
-	assert((err == noErr) == (*auth != NULL));
+	ZAssert(err == noErr, @"Error creating authorization");
+	ZAssert((err == noErr) == (*auth != NULL), @"Couldn't create authorization");
 	
 	// For each of our commands, check to see if a right specification exists and, if not,
 	// create it.

@@ -8,7 +8,6 @@
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "IPEvidenceSource.h"
-#import "DSLogger.h"
 #import <stdio.h>
 
 
@@ -98,9 +97,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	[self setThreadNameFromClassName];
 
 	NSArray *addrs = [[self class] enumerate];
-#ifdef DEBUG
-	DSLog(@"%@ >> found %lu address(s).", [self class], [addrs count]);
-#endif
+	DLog(@"%@ >> found %lu address(s).", [self class], [addrs count]);
 
 	[lock lock];
 	[addresses setArray:addrs];
@@ -235,24 +232,19 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	NSString *ip;
 
 	while ((ip = [en nextObject])) {
-#ifdef DEBUG
-        DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
-#endif
+        DLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
+		
         // if the rule is for a host address
         // then we can simply match the whole string wholesale and
         // then GTFO
 
         if (isHostAddress && [[comp objectAtIndex:0] isEqualToString:ip]) {
-#ifdef DEBUG
-            DSLog(@"matching on host address");
-#endif
+            DLog(@"matching on host address");
             match = YES;
             break;
         }
 
-#ifdef DEBUG
-        DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
-#endif
+        DLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
 
         
         // if we're here, then we have a network range we have to figure out
@@ -264,47 +256,35 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
         for (i = 0; i < 4; ++i) {
             // if i is less than our interesting octet then we can just compare the values directly
             if (i < networkOctetPosition) {
-#ifdef DEBUG
-                DSLog(@"checking %d and %d",[[currentIPArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue]);
-#endif
+				DLog(@"checking %d and %d",[[currentIPArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue]);
+				
                 if ([[currentIPArray objectAtIndex:i] intValue] != [[ruleIPArray objectAtIndex:i] intValue])
                     break;
                 continue;
-            }
-            else {
-#ifdef DEBUG
-                DSLog(@"subnet mask octet is not 255, doing host checks for %@", ip);
-#endif
+            } else {
+				DLog(@"subnet mask octet is not 255, doing host checks for %@", ip);
             }
             
 
             // if the final netmask is 0 and everything else has matched up to this
             // point then we know that the IP the machine has matches the rule
             if ([[ruleNetmaskArray objectAtIndex:i] intValue] == 0) {
-#ifdef DEBUG
-                DSLog(@"%@ matches current rule", ip);
-#endif
+				DLog(@"%@ matches current rule", ip);
                 match = YES;
                 break;
             }
             else {
                 // we must calculate what network the machine is on vs the 
                 // network the rule says we're looking for
-#ifdef DEBUG
-                DSLog(@"checking %@ for match because it is on the same subnet (%d vs %d) as the rule", ip,  [[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue]);
-#endif
+				DLog(@"checking %@ for match because it is on the same subnet (%d vs %d) as the rule", ip,  [[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue]);
+				
                 if (([[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])  == ([[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])) {
                     // if these are equal then the machine is sitting on the same network as the rule
-#ifdef DEBUG
-                    DSLog(@"%@ matches because it is on the same subnet as the rule", ip);
-#endif
+					DLog(@"%@ matches because it is on the same subnet as the rule", ip);
                     match = YES;
                     break;
-                }
-                else {
-#ifdef DEBUG
-                    DSLog(@"%@ doesn't match rule %@/%@", ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
-#endif
+                } else {
+					DLog(@"%@ doesn't match rule %@/%@", ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
                     match = NO;
                     break;
                 }

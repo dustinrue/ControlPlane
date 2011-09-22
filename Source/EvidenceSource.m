@@ -6,7 +6,6 @@
 //  Modified by Dustin Rue on 8/5/2011.
 //
 
-#import "DSLogger.h"
 #import "EvidenceSource.h"
 #import "PrefsWindowController.h"
 
@@ -90,7 +89,7 @@
 {
     goingToSleep = YES;
 	if ([self isRunning]) {
-		DSLog(@"Stopping %@ for sleep.", [self class]);
+		DLog(@"Stopping %@ for sleep.", [self class]);
 		startAfterSleep = YES;
 		[self stop];
 	} else
@@ -101,7 +100,7 @@
 {
     goingToSleep = NO;
 	if (startAfterSleep) {
-		DSLog(@"Starting %@ after sleep.", [self class]);
+		DLog(@"Starting %@ after sleep.", [self class]);
 		[self start];
 	}
 }
@@ -377,20 +376,13 @@
 	while ((src = [en nextObject])) {
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
-#ifdef DEBUG
-        DSLog(@"checking to see if %@ is enabled",[src name]);
-#endif
+		
+        DLog(@"checking to see if %@ is enabled",[src name]);
 		if (enabled && ![src isRunning]) {
-#ifdef DEBUG
-            DSLog(@"Starting %@ evidence source because it is enabled", [src name]);
-#endif
-			DSLog(@"Starting %@ evidence source", [src name]);
+			DLog(@"Starting %@ evidence source", [src name]);
 			[src start];
 		} else if (!enabled && [src isRunning]) {
-#ifdef DEBUG
-      		DSLog(@"Stopping %@ evidence source because it is disabled", [src name]);
-#endif
-			DSLog(@"Stopping %@ evidence source", [src name]);
+			DLog(@"Stopping %@ evidence source", [src name]);
 			[src stop];
 		}
 	}

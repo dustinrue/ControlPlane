@@ -6,8 +6,6 @@
 //
 
 #import "BonjourEvidenceSource.h"
-#import "DSLogger.h"
-
 
 @interface BonjourEvidenceSource (Private)
 
@@ -262,7 +260,7 @@
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
 	     didNotSearch:(NSDictionary *)errorInfo
 {
-	DSLog(@"failure:\n%@", errorInfo);
+	DLog(@"failure:\n%@", errorInfo);
 }
 
 @end

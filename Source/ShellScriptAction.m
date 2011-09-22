@@ -5,7 +5,6 @@
 //  Created by David Symonds on 23/04/07.
 //
 
-#import "DSLogger.h"
 #import "ShellScriptAction.h"
 
 
@@ -62,7 +61,7 @@
 	[task waitUntilExit];
 	
 	if ([task terminationStatus] != 0) {
-		DSLog(@"Failed to execute '%@'", path);
+		DLog(@"Failed to execute '%@'", path);
 		*errorString = NSLocalizedString(@"Failed executing shell script!", @"");
 		return NO;
 	}

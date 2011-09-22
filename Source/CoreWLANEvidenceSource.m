@@ -9,8 +9,6 @@
 
 #import <CoreWLAN/CoreWLAN.h>
 #import "CoreWLANEvidenceSource.h"
-#import "DSLogger.h"
-
 
 @implementation WiFiEvidenceSourceCoreWLAN
 
@@ -62,10 +60,7 @@
     NSArray *supportedInterfaces = [CWInterface supportedInterfaces];
 	BOOL do_scan = YES;
 
-    
-#ifdef DEBUG
-    DSLog(@"Attempting to do the scan");
-#endif
+    DLog(@"Attempting to do the scan");
     
     // get a list of supported Wi-Fi interfaces.  It is unlikely, but still possible, for there to
     // be more than one interface, yet this 
@@ -73,9 +68,7 @@
     
     // first see if Wi-Fi is even turned on
     if (! self.currentInterface.power) {
-#ifdef DEBUG
-        DSLog(@"wifi disabled, no scan done");
-#endif
+		DLog(@"wifi disabled, no scan done");
         return;
     }
     
@@ -106,7 +99,7 @@
         self.scanResults = [NSMutableArray arrayWithArray:[self.currentInterface scanForNetworksWithParameters:params error:&err]];
         
         if( err )
-            DSLog(@"error: %@",err);
+            DLog(@"error: %@",err);
         else
             [self.scanResults sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"ssid" ascending:YES selector:@selector	(caseInsensitiveCompare:)] autorelease]]];
         
@@ -114,9 +107,7 @@
         for (currentNetwork in self.scanResults) {
             [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
-    #ifdef DEBUG
-            DSLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssi]);
-    #endif
+			DLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssi]);
         }
 
     }
@@ -126,9 +117,7 @@
         // doing so with a scan we ask CoreWLAN to tell us about what 
         // we're connected to, ControlPlane can then see if the associated
         // network matches a rule
-#ifdef DEBUG
-        DSLog(@"already associated with an AP, using connection info");
-#endif
+		DLog(@"already associated with an AP, using connection info");
         [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:self.currentInterface.ssid, @"WiFi SSID", self.currentInterface.bssid, @"WiFi BSSID", nil]];
 
     }
@@ -136,9 +125,7 @@
 	[lock lock];
 	[apList setArray:all_aps];
 	[self setDataCollected:[apList count] > 0];
-#ifdef DEBUG
-	DSLog(@"%@ >> %@", [self class], apList);
-#endif
+	DLog(@"%@ >> %@", [self class], apList);
 	[lock unlock];
 }
 
@@ -171,9 +158,8 @@
 	NSDictionary *dict;
 	while ((dict = [en nextObject])) {
 		NSString *x = [dict valueForKey:key];
-#ifdef DEBUG
-        DSLog(@"checking to see if %@ matches",[dict valueForKey:key]);
-#endif
+		
+		DLog(@"checking to see if %@ matches",[dict valueForKey:key]);
 		if ([param isEqualToString:x]) {
 			match = YES;
 			break;

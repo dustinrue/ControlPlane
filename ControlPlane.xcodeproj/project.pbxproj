@@ -64,7 +64,6 @@
 		8DB8911F0BB88D0B005347C2 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */; };
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
 		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
-		8DBB44980C530F7600064010 /* DSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB44960C530F7600064010 /* DSLogger.m */; };
 		8DC410FB0C64665E00393759 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.xib */; };
 		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
@@ -298,8 +297,6 @@
 		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = oui.txt; path = Resources/oui.txt; sourceTree = "<group>"; };
 		8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShellScriptAction.h; path = Source/ShellScriptAction.h; sourceTree = "<group>"; };
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = Source/ShellScriptAction.m; sourceTree = "<group>"; };
-		8DBB44950C530F7600064010 /* DSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSLogger.h; path = Source/DSLogger.h; sourceTree = "<group>"; };
-		8DBB44960C530F7600064010 /* DSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSLogger.m; path = Source/DSLogger.m; sourceTree = "<group>"; };
 		8DC410FA0C64665E00393759 /* AboutPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutPanel.xib; path = Resources/AboutPanel.xib; sourceTree = "<group>"; };
 		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = Source/MuteAction.h; sourceTree = "<group>"; };
 		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = Source/MuteAction.m; sourceTree = "<group>"; };
@@ -512,8 +509,6 @@
 				8D8155CE0C3A304E00228463 /* ContextsDataSource.m */,
 				8D8C9E320BBB89320074D5B3 /* DB.h */,
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
-				8DBB44950C530F7600064010 /* DSLogger.h */,
-				8DBB44960C530F7600064010 /* DSLogger.m */,
 				8D90E51D0B71C4C9007D39FD /* CPController.h */,
 				8D90E51E0B71C4C9007D39FD /* CPController.m */,
 				DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */,
@@ -1128,7 +1123,6 @@
 				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
 				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
 				8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */,
-				8DBB44980C530F7600064010 /* DSLogger.m in Sources */,
 				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
 				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,

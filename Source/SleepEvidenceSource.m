@@ -6,7 +6,6 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "DSLogger.h"
 #import "SleepEvidenceSource.h"
 
 
@@ -68,9 +67,7 @@
 }
 
 - (void) goingToSleep: (NSNotification*) note {
-#ifdef DEBUG
-	DSLog(@"goingToSleep: %@", [note name]);
-#endif
+	DLog(@"goingToSleep: %@", [note name]);
 	
 	systemGoingToSleep = YES;
 	systemWakingUp = NO;
@@ -79,9 +76,7 @@
 }
 
 - (void) wakeFromSleep: (NSNotification*) note {
-#ifdef DEBUG
-	DSLog(@"wakeFromSleep: %@", [note name]);
-#endif
+	DLog(@"wakeFromSleep: %@", [note name]);
 	
 	systemGoingToSleep = NO;
 	systemWakingUp = YES;

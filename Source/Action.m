@@ -6,7 +6,6 @@
 //
 
 #import "Action.h"
-#import "DSLogger.h"
 #import "PrefsWindowController.h"
 
 @implementation Action

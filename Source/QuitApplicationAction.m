@@ -6,8 +6,6 @@
 //
 
 #import "QuitApplicationAction.h"
-#import "DSLogger.h"
-
 
 @implementation QuitApplicationAction
 
@@ -59,7 +57,7 @@
 	NSString *identifier = [[NSBundle bundleWithPath: path] bundleIdentifier];
 	
 	// terminate
-	DSLog(@"Terminating all instances of application '%@'", identifier);
+	DLog(@"Terminating all instances of application '%@'", identifier);
 	NSArray *apps = [NSRunningApplication runningApplicationsWithBundleIdentifier: identifier];
 	[apps makeObjectsPerformSelector: @selector(terminate)];
 	
