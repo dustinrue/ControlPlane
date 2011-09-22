@@ -312,6 +312,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = YES;
@@ -329,6 +330,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -342,6 +344,7 @@
 				GCC_PREFIX_HEADER = Quincy_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Quincy;
 				SDKROOT = macosx;
@@ -356,6 +359,7 @@
 				GCC_PREFIX_HEADER = Quincy_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = Quincy;
 				SDKROOT = macosx;
 			};
