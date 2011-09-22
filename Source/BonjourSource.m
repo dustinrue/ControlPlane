@@ -43,7 +43,6 @@
 	[m_browser release];
 	[m_unresolvedServices release];
 	[m_resolvedServices release];
-	[m_services release];
 	
 	[super dealloc];
 }

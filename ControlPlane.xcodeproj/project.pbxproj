@@ -131,6 +131,7 @@
 		DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
+		DDD1A359142B9E5A00341B75 /* WLANSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A358142B9E5A00341B75 /* WLANSource.m */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -436,6 +437,8 @@
 		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
 		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Growl Registration Ticket.growlRegDict"; path = "Resources/Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
+		DDD1A357142B9E5A00341B75 /* WLANSource.h */ = {isa = PBXFileReference; fileEncoding = 4; name = WLANSource.h; path = Source/WLANSource.h; sourceTree = "<group>"; };
+		DDD1A358142B9E5A00341B75 /* WLANSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSource.m; path = Source/WLANSource.m; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
@@ -860,6 +863,8 @@
 				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
 				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
 				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
+				DDD1A357142B9E5A00341B75 /* WLANSource.h */,
+				DDD1A358142B9E5A00341B75 /* WLANSource.m */,
 			);
 			name = "Concrete Sources";
 			sourceTree = "<group>";
@@ -1157,6 +1162,7 @@
 				DDE29BE8142A1D9700A55469 /* PowerSource.m in Sources */,
 				DD23928B142A257500FE7DC7 /* LoopingSource.m in Sources */,
 				DD23929E142A916500FE7DC7 /* BonjourSource.m in Sources */,
+				DDD1A359142B9E5A00341B75 /* WLANSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

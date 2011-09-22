@@ -70,7 +70,11 @@
     // until everything is loaded or we'll dead lock, not sure why
     
     DLog(@"setting 5 second timer to register for bluetooth connection notifications");
-    registerForNotificationsTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5 target:self selector:@selector(registerForNotifications:) userInfo:nil repeats:NO]; 
+    registerForNotificationsTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5
+																	 target:self
+																   selector:@selector(registerForNotifications:)
+																   userInfo:nil
+																	repeats:NO]; 
     
     DLog(@"setting 7 second timer to start bluetooth inquiry");
 	holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 7
