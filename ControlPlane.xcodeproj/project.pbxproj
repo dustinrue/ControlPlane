@@ -43,7 +43,6 @@
 		8D73CB8D0C46FD5200DF839E /* MonitorEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */; };
 		8D73CBB30C46FEC800DF839E /* PowerEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */; };
 		8D73CC140C470FE000DF839E /* RunningApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */; };
-		8D73CC700C47125300DF839E /* WiFiEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */; };
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
 		8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
 		8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
@@ -230,8 +229,6 @@
 		8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationEvidenceSource.m; path = Source/RunningApplicationEvidenceSource.m; sourceTree = "<group>"; };
 		8D3453C10C18E5C1006011D0 /* IChatAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IChatAction.h; path = Source/IChatAction.h; sourceTree = "<group>"; };
 		8D3453C20C18E5C1006011D0 /* IChatAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IChatAction.m; path = Source/IChatAction.m; sourceTree = "<group>"; };
-		8D35A30A0BBB9CFD006ACBB0 /* WiFiEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WiFiEvidenceSource.h; path = Source/WiFiEvidenceSource.h; sourceTree = "<group>"; };
-		8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = WiFiEvidenceSource.m; path = Source/WiFiEvidenceSource.m; sourceTree = "<group>"; };
 		8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = USBEvidenceSource.h; path = Source/USBEvidenceSource.h; sourceTree = "<group>"; };
 		8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = USBEvidenceSource.m; path = Source/USBEvidenceSource.m; sourceTree = "<group>"; };
 		8D38B6690C49D50200290F47 /* SliderWithValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SliderWithValue.h; path = Source/SliderWithValue.h; sourceTree = "<group>"; };
@@ -273,7 +270,6 @@
 		8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefsWindowController.h; path = Source/PrefsWindowController.h; sourceTree = "<group>"; };
 		8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefsWindowController.m; path = Source/PrefsWindowController.m; sourceTree = "<group>"; };
 		8D88FE290C534737007A14D6 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Resources/pause.png; sourceTree = "<group>"; };
-		8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Apple80211.h; path = Source/Apple80211.h; sourceTree = "<group>"; };
 		8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apple80211.framework; path = /System/Library/PrivateFrameworks/Apple80211.framework; sourceTree = "<absolute>"; };
 		8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvidenceSource.h; path = Source/EvidenceSource.h; sourceTree = "<group>"; };
 		8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvidenceSource.m; path = Source/EvidenceSource.m; sourceTree = "<group>"; };
@@ -341,8 +337,8 @@
 		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
 		DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHelperToolCommon.h; sourceTree = "<group>"; };
 		DA648AEF1412C17A00532B2C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
-		DA6D184A1154581000347E93 /* LmuTracker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LmuTracker.c; path = Source/LmuTracker/LmuTracker.c; sourceTree = "<group>"; };
-		DA6D184C1154581700347E93 /* LmuTrackerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LmuTrackerCommon.h; path = Source/LmuTracker/LmuTrackerCommon.h; sourceTree = "<group>"; };
+		DA6D184A1154581000347E93 /* LmuTracker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LmuTracker.c; path = "External Source/LmuTracker/LmuTracker.c"; sourceTree = "<group>"; };
+		DA6D184C1154581700347E93 /* LmuTrackerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LmuTrackerCommon.h; path = "External Source/LmuTracker/LmuTrackerCommon.h"; sourceTree = "<group>"; };
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA812E81140681D2006869F7 /* AppleScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleScript.h; path = Source/AppleScript.h; sourceTree = "<group>"; };
 		DA812E82140681D2006869F7 /* AppleScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppleScript.m; path = Source/AppleScript.m; sourceTree = "<group>"; };
@@ -368,8 +364,8 @@
 		DD44B5A414142D4D0016BF6B /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD44B5A514142D4D0016BF6B /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
-		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Source/JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Source/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "External Source/JSONKit/JSONKit.h"; sourceTree = "<group>"; };
+		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "External Source/JSONKit/JSONKit.m"; sourceTree = "<group>"; };
 		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Source.h; path = Source/Source.h; sourceTree = "<group>"; };
 		DD68A9DA142623210059A730 /* Source.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Source.m; path = Source/Source.m; sourceTree = "<group>"; };
 		DD68A9DB142623210059A730 /* SourcesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SourcesManager.h; path = Source/SourcesManager.h; sourceTree = "<group>"; };
@@ -437,7 +433,7 @@
 		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
 		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Growl Registration Ticket.growlRegDict"; path = "Resources/Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
-		DDD1A357142B9E5A00341B75 /* WLANSource.h */ = {isa = PBXFileReference; fileEncoding = 4; name = WLANSource.h; path = Source/WLANSource.h; sourceTree = "<group>"; };
+		DDD1A357142B9E5A00341B75 /* WLANSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANSource.h; path = Source/WLANSource.h; sourceTree = "<group>"; };
 		DDD1A358142B9E5A00341B75 /* WLANSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSource.m; path = Source/WLANSource.m; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
@@ -585,7 +581,6 @@
 			children = (
 				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
-				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
 				32CA4F630368D1EE00C91783 /* Prefix.pch */,
 				DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */,
@@ -698,8 +693,6 @@
 				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
 				8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */,
 				8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */,
-				8D35A30A0BBB9CFD006ACBB0 /* WiFiEvidenceSource.h */,
-				8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */,
 			);
 			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
@@ -1118,7 +1111,6 @@
 				8D73CB8D0C46FD5200DF839E /* MonitorEvidenceSource.m in Sources */,
 				8D73CBB30C46FEC800DF839E /* PowerEvidenceSource.m in Sources */,
 				8D73CC140C470FE000DF839E /* RunningApplicationEvidenceSource.m in Sources */,
-				8D73CC700C47125300DF839E /* WiFiEvidenceSource.m in Sources */,
 				8D91F17D0C47148200D9FC0F /* USBEvidenceSource.m in Sources */,
 				8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */,
 				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
