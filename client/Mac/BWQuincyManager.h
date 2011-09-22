@@ -151,7 +151,6 @@ typedef enum CrashReportStatus {
 
 - (void) cancelReport;
 - (void) sendReport:(NSString *)xml;
-- (void) postXML:(NSTimer *) timer;
 
 - (NSString *) applicationName;
 - (NSString *) applicationVersionString;
