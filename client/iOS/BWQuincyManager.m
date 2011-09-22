@@ -646,7 +646,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	[_responseData release];
 	_responseData = nil;
-	[connection autorelease];
+    _urlConnection = nil;
 	
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
 		[self.delegate connectionClosed];
@@ -703,7 +703,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 	
 	[_responseData release];
 	_responseData = nil;
-	[connection autorelease];
+    _urlConnection = nil;
 	
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
 		[self.delegate connectionClosed];
