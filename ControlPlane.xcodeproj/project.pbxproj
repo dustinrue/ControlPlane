@@ -102,10 +102,15 @@
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
+		DD23928B142A257500FE7DC7 /* LoopingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD23928A142A257500FE7DC7 /* LoopingSource.m */; };
+		DD23929E142A916500FE7DC7 /* BonjourSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD23929D142A916500FE7DC7 /* BonjourSource.m */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
 		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
+		DD68A9DD142623210059A730 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DA142623210059A730 /* Source.m */; };
+		DD68A9DE142623210059A730 /* SourcesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DC142623210059A730 /* SourcesManager.m */; };
+		DD68A9E21426294B0059A730 /* Rule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9E11426294B0059A730 /* Rule.m */; };
 		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
 		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
@@ -130,6 +135,9 @@
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
+		DDE29BE01429591D00A55469 /* AudioOutputSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BDF1429591D00A55469 /* AudioOutputSource.m */; };
+		DDE29BE51429662600A55469 /* CallbackSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BE41429662600A55469 /* CallbackSource.m */; };
+		DDE29BE8142A1D9700A55469 /* PowerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BE7142A1D9600A55469 /* PowerSource.m */; };
 		DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */ = {isa = PBXBuildFile; fileRef = DDF4E594141588E80028DF4A /* CoreLocationMap.html */; };
 		DDFF423114156B0A0047D311 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = DDFF423014156B0A0047D311 /* location.png */; };
 /* End PBXBuildFile section */
@@ -349,6 +357,11 @@
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DD239289142A257500FE7DC7 /* LoopingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoopingSource.h; path = Source/LoopingSource.h; sourceTree = "<group>"; };
+		DD23928A142A257500FE7DC7 /* LoopingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoopingSource.m; path = Source/LoopingSource.m; sourceTree = "<group>"; };
+		DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = Source/SynthesizeSingleton.h; sourceTree = "<group>"; };
+		DD23929C142A916500FE7DC7 /* BonjourSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourSource.h; path = Source/BonjourSource.h; sourceTree = "<group>"; };
+		DD23929D142A916500FE7DC7 /* BonjourSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourSource.m; path = Source/BonjourSource.m; sourceTree = "<group>"; };
 		DD3BAB8414163C6B000D5F88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DD44B57D141417E40016BF6B /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		DD44B5A014142D2D0016BF6B /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
@@ -359,6 +372,12 @@
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Source/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Source/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Source.h; path = Source/Source.h; sourceTree = "<group>"; };
+		DD68A9DA142623210059A730 /* Source.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Source.m; path = Source/Source.m; sourceTree = "<group>"; };
+		DD68A9DB142623210059A730 /* SourcesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SourcesManager.h; path = Source/SourcesManager.h; sourceTree = "<group>"; };
+		DD68A9DC142623210059A730 /* SourcesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SourcesManager.m; path = Source/SourcesManager.m; sourceTree = "<group>"; };
+		DD68A9E01426294B0059A730 /* Rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rule.h; path = Source/Rule.h; sourceTree = "<group>"; };
+		DD68A9E11426294B0059A730 /* Rule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rule.m; path = Source/Rule.m; sourceTree = "<group>"; };
 		DD6FCC681413EF6B0095E64F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DD8274E5141147BB0098FA6E /* controlplane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = controlplane.icns; path = Resources/controlplane.icns; sourceTree = "<group>"; };
 		DD8274EE141154780098FA6E /* MailIntervalAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailIntervalAction.h; path = Source/MailIntervalAction.h; sourceTree = "<group>"; };
@@ -425,6 +444,12 @@
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
 		DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITunesPlaylistAction.m; path = Source/ITunesPlaylistAction.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
+		DDE29BDE1429591D00A55469 /* AudioOutputSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputSource.h; path = Source/AudioOutputSource.h; sourceTree = "<group>"; };
+		DDE29BDF1429591D00A55469 /* AudioOutputSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputSource.m; path = Source/AudioOutputSource.m; sourceTree = "<group>"; };
+		DDE29BE31429662500A55469 /* CallbackSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallbackSource.h; path = Source/CallbackSource.h; sourceTree = "<group>"; };
+		DDE29BE41429662600A55469 /* CallbackSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CallbackSource.m; path = Source/CallbackSource.m; sourceTree = "<group>"; };
+		DDE29BE6142A1D9600A55469 /* PowerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerSource.h; path = Source/PowerSource.h; sourceTree = "<group>"; };
+		DDE29BE7142A1D9600A55469 /* PowerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerSource.m; path = Source/PowerSource.m; sourceTree = "<group>"; };
 		DDF4E594141588E80028DF4A /* CoreLocationMap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = CoreLocationMap.html; path = Resources/CoreLocationMap.html; sourceTree = "<group>"; };
 		DDFF423014156B0A0047D311 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = Resources/location.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -474,6 +499,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DD68A9DF142629310059A730 /* Rule */,
+				DD68A9D7142623080059A730 /* Sources */,
 				8DAD148E0BBCA40700F93914 /* Evidence Sources */,
 				8DF5A4130BC2350000CBEB4B /* Actions */,
 				8D0164850C02AB08004AD8DB /* UI Utilities */,
@@ -561,8 +588,9 @@
 				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
 				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
-				32CA4F630368D1EE00C91783 /* Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
+				32CA4F630368D1EE00C91783 /* Prefix.pch */,
+				DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -733,6 +761,31 @@
 			name = JSONKit;
 			sourceTree = "<group>";
 		};
+		DD68A9D7142623080059A730 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DDE29BE2142964B700A55469 /* Concrete Sources */,
+				DDE29BE31429662500A55469 /* CallbackSource.h */,
+				DDE29BE41429662600A55469 /* CallbackSource.m */,
+				DD239289142A257500FE7DC7 /* LoopingSource.h */,
+				DD23928A142A257500FE7DC7 /* LoopingSource.m */,
+				DD68A9D9142623210059A730 /* Source.h */,
+				DD68A9DA142623210059A730 /* Source.m */,
+				DD68A9DB142623210059A730 /* SourcesManager.h */,
+				DD68A9DC142623210059A730 /* SourcesManager.m */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		DD68A9DF142629310059A730 /* Rule */ = {
+			isa = PBXGroup;
+			children = (
+				DD68A9E01426294B0059A730 /* Rule.h */,
+				DD68A9E11426294B0059A730 /* Rule.m */,
+			);
+			name = Rule;
+			sourceTree = "<group>";
+		};
 		DD8274EB14114CFF0098FA6E /* Application Actions */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,6 +854,19 @@
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 			);
 			name = "System Actions";
+			sourceTree = "<group>";
+		};
+		DDE29BE2142964B700A55469 /* Concrete Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DDE29BDE1429591D00A55469 /* AudioOutputSource.h */,
+				DDE29BDF1429591D00A55469 /* AudioOutputSource.m */,
+				DD23929C142A916500FE7DC7 /* BonjourSource.h */,
+				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
+				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
+				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
+			);
+			name = "Concrete Sources";
 			sourceTree = "<group>";
 		};
 		DDFF422F14153F650047D311 /* UI */ = {
@@ -1089,6 +1155,14 @@
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
 				DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */,
 				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
+				DD68A9DD142623210059A730 /* Source.m in Sources */,
+				DD68A9DE142623210059A730 /* SourcesManager.m in Sources */,
+				DD68A9E21426294B0059A730 /* Rule.m in Sources */,
+				DDE29BE01429591D00A55469 /* AudioOutputSource.m in Sources */,
+				DDE29BE51429662600A55469 /* CallbackSource.m in Sources */,
+				DDE29BE8142A1D9700A55469 /* PowerSource.m in Sources */,
+				DD23928B142A257500FE7DC7 /* LoopingSource.m in Sources */,
+				DD23929E142A916500FE7DC7 /* BonjourSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

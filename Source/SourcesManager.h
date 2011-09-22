@@ -6,10 +6,19 @@
 //  Copyright 2011. All rights reserved.
 //
 
+@class Rule;
+@class Source;
+
 @interface SourcesManager : NSObject {
-	NSArray *m_sources;
+	NSMutableDictionary *m_sources;
+	NSMutableArray *m_sourceTypes;
+	BOOL m_sourcesCreated;
 }
 
-+ (SourcesManager*) sourcesManager;
++ (SourcesManager*) sharedSourcesManager;
+- (void) registerSourceType: (Class) type;
+- (void) registerRule: (Rule *) rule toSource: (NSString *) source;
+- (void) unRegisterRule: (Rule *) rule fromSource: (NSString *) source;
+- (Source *) getSource: (NSString *) name;
 
 @end

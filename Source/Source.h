@@ -6,6 +6,20 @@
 //  Copyright 2011. All rights reserved.
 //
 
-@interface Source : NSObject
+@class Rule;
+
+@interface Source : NSObject {
+	@private BOOL m_running;
+}
+
+@property (readwrite, assign) BOOL running;
+
+// implemented by subclasses
++ (void) load;
+- (NSString *) name;
+- (void) addObserver: (Rule *) rule;
+- (void) removeObserver: (Rule *) rule;
+- (void) start;
+- (void) stop;
 
 @end
