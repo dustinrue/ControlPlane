@@ -10,7 +10,6 @@
 #import "Source.h"
 #import "SourcesManager.h"
 #import "SynthesizeSingleton.h"
-#import <libkern/OSAtomic.h>
 
 @interface SourcesManager (Private)
 
@@ -23,21 +22,13 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 
 - (id) init {
-	if (sharedSourcesManager) {
-		[NSException raise:NSInternalInconsistencyException
-					format:@"[%@ %@] cannot be called; use +[%@ %@] instead"],
-					NSStringFromClass([self class]), NSStringFromSelector(_cmd), 
-					NSStringFromClass([self class]),
-					NSStringFromSelector(@selector(sharedInstance));
-		return nil;
-	}
+	ZAssert(!sharedSourcesManager, @"This is a singleton, use %@.shared%@", NSStringFromClass(self.class), NSStringFromClass(self.class));
 	
 	self = [super init];
-	if (!self)
-		return nil;
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_sources = [[NSMutableDictionary alloc] init];
-	m_sourceTypes = [[NSMutableArray alloc] init];
+	m_sources = [NSMutableDictionary new];
+	m_sourceTypes = [NSMutableArray new];
 	m_sourcesCreated = NO;
 	
 	return self;
@@ -61,9 +52,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	
 	// create an instance of each source type
 	for (Class type in m_sourceTypes) {
-		source = [[[type alloc] init] autorelease];
+		source = [[type new] autorelease];
 		[m_sources setObject: source forKey: source.name];
 	}
+	
+	m_sourcesCreated = YES;
 }
 
 #pragma mark - Rules registration
@@ -72,7 +65,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	if (!m_sourcesCreated)
 		[self createSources];
 	
-	Source *sourceInstance = [m_sources objectForKey: source];
+	Source *sourceInstance = [self getSource: source];
 	
 	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
 	[sourceInstance addObserver: rule];
@@ -83,7 +76,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	if (!m_sourcesCreated)
 		[self createSources];
 	
-	Source *sourceInstance = [m_sources objectForKey: source];
+	Source *sourceInstance = [self getSource: source];
 	
 	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
 	ZAssert(sourceInstance.listenersCount > 0, @"Source has no listeners!");

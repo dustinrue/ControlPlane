@@ -25,3 +25,8 @@
 - (void) stop;
 
 @end
+
+// Put this in each source implementation so that it registers with the manager
+#define registerSource(type) + (void) load { \
+	[SourcesManager.sharedSourcesManager registerSourceType: type.class]; \
+}

@@ -8,7 +8,7 @@
 #import "ContextsDataSource.h"
 
 
-@implementation Context
+@implementation CContext
 
 - (id)init
 {
@@ -57,7 +57,7 @@
 		uuid, @"uuid", parent, @"parent", name, @"name", nil];
 }
 
-- (NSComparisonResult)compare:(Context *)ctxt
+- (NSComparisonResult)compare:(CContext *)ctxt
 {
 	return [name compare:[ctxt name]];
 }
@@ -172,12 +172,12 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 
 // Private: assumes any depths already set in other contexts are correct, except when it's negative
-- (void)recomputeDepthOf:(Context *)context
+- (void)recomputeDepthOf:(CContext *)context
 {
 	if ([[context valueForKey:@"depth"] intValue] >= 0)
 		return;
 
-	Context *parent = [contexts objectForKey:[context parentUUID]];
+	CContext *parent = [contexts objectForKey:[context parentUUID]];
 	if (!parent)
 		[context setValue:[NSNumber numberWithInt:0] forKey:@"depth"];
 	else {
@@ -192,7 +192,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	// Recalculate depths
 	NSEnumerator *en = [contexts objectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject])) {
 		int depth = -1;
 		if ([ctxt isRoot])
@@ -217,14 +217,14 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSEnumerator *en = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Contexts"] objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [en nextObject])) {
-		Context *ctxt = [[Context alloc] initWithDictionary:dict];
+		CContext *ctxt = [[CContext alloc] initWithDictionary:dict];
 		[contexts setValue:ctxt forKey:[ctxt uuid]];
 		[ctxt release];
 	}
 
 	// Check consistency of parent UUIDs; drop the parent UUID if it is invalid
 	en = [contexts objectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject])) {
 		if (![ctxt isRoot] && ![contexts objectForKey:[ctxt parentUUID]]) {
 			NSLog(@"%s correcting broken parent UUID for context '%@'", __PRETTY_FUNCTION__, [ctxt name]);
@@ -241,7 +241,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	// Write out
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
 	NSEnumerator *en = [contexts objectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject]))
 		[array addObject:[ctxt dictionary]];
 
@@ -252,14 +252,14 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 #pragma mark Context creation via sheet
 
-- (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI
+- (CContext *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI
 {
-	Context *ctxt = [[[Context alloc] init] autorelease];
+	CContext *ctxt = [[[CContext alloc] init] autorelease];
 	[ctxt setName:name];
 
 	// Look for parent
 	if (fromUI && ([outlineView selectedRow] >= 0))
-		[ctxt setParentUUID:[(Context *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
+		[ctxt setParentUUID:[(CContext *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
 	else
 		[ctxt setParentUUID:@""];
 
@@ -326,7 +326,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		uuid = @"";
 
 	NSEnumerator *en = [contexts objectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject]))
 		if ([[ctxt parentUUID] isEqualToString:uuid])
 			[arr addObject:ctxt];
@@ -340,7 +340,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (void)removeContextRecursively:(NSString *)uuid
 {
 	NSEnumerator *en = [[self childrenOfContext:uuid] objectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject]))
 		[self removeContextRecursively:[ctxt uuid]];
 
@@ -350,7 +350,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 // Private
 - (void)removeContextAfterAlert:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	Context *ctxt = (Context *) contextInfo;
+	CContext *ctxt = (CContext *) contextInfo;
 
 	if (returnCode != NSAlertFirstButtonReturn)
 		return;		// cancelled
@@ -368,7 +368,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if (row < 0)
 		return;
 
-	Context *ctxt = (Context *) [outlineView itemAtRow:row];
+	CContext *ctxt = (CContext *) [outlineView itemAtRow:row];
 
 	if ([[self childrenOfContext:[ctxt uuid]] count] > 0) {
 		// Warn about destroying child contexts
@@ -393,14 +393,14 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[self outlineViewSelectionDidChange:nil];
 }
 
-- (Context *)contextByUUID:(NSString *)uuid
+- (CContext *)contextByUUID:(NSString *)uuid
 {
 	return [contexts objectForKey:uuid];
 }
 
-- (Context *) contextByName:(NSString *) name {
+- (CContext *) contextByName:(NSString *) name {
 	for (NSString *key in contexts) {
-		Context *value = [contexts objectForKey:key];
+		CContext *value = [contexts objectForKey:key];
 		
 		if ([[value name] isEqualToString: name])
 			return value;
@@ -417,7 +417,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 // Private
 - (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array
 {
-	Context *ctxt = [contexts objectForKey:uuid];
+	CContext *ctxt = [contexts objectForKey:uuid];
 	if (ctxt)
 		[array addObject:ctxt];
 	NSEnumerator *en = [[self childrenOfContext:uuid] objectEnumerator];
@@ -447,7 +447,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSMutableArray *walk = [NSMutableArray array];
 	while (limit > 0) {
 		--limit;
-		Context *ctxt = [contexts objectForKey:uuid];
+		CContext *ctxt = [contexts objectForKey:uuid];
 		if (!ctxt)
 			break;
 		[walk addObject:ctxt];
@@ -462,7 +462,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSArray *src_walk = [self walkToRoot:src_uuid];
 	NSArray *dst_walk = [self walkToRoot:dst_uuid];
 
-	Context *common = [src_walk firstObjectCommonWithArray:dst_walk];
+	CContext *common = [src_walk firstObjectCommonWithArray:dst_walk];
 	if (common) {
 		// Trim to minimal common walks
 		src_walk = [src_walk subarrayWithRange:NSMakeRange(0, [src_walk indexOfObject:common])];
@@ -472,7 +472,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	// Reverse dst_walk so we are walking *away* from the root
 	NSMutableArray *dst_walk_rev = [NSMutableArray arrayWithCapacity:[dst_walk count]];
 	NSEnumerator *en = [dst_walk reverseObjectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject]))
 		[dst_walk_rev addObject:ctxt];
 
@@ -496,7 +496,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	NSEnumerator *en = [[self orderedTraversal] objectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject])) {
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
 		[item setTitle:[ctxt name]];
@@ -535,7 +535,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-	Context *ctxt = (Context *) item;
+	CContext *ctxt = (CContext *) item;
 	if ([[tableColumn identifier] isEqualToString:@"context"])
 		return [ctxt name];
 	else if ([[tableColumn identifier] isEqualToString:@"confidence"])
@@ -548,7 +548,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if (![[tableColumn identifier] isEqualToString:@"context"])
 		return;
 
-	Context *ctxt = (Context *) item;
+	CContext *ctxt = (CContext *) item;
 	[ctxt setName:object];
 
 	//[self recomputeTransientData];
@@ -565,10 +565,10 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	NSString *new_parent_uuid = @"";
 	if (item)
-		new_parent_uuid = [(Context *) item uuid];
+		new_parent_uuid = [(CContext *) item uuid];
 
 	NSString *uuid = [[info draggingPasteboard] stringForType:MovedRowsType];
-	Context *ctxt = [contexts objectForKey:uuid];
+	CContext *ctxt = [contexts objectForKey:uuid];
 	[ctxt setParentUUID:new_parent_uuid];
 
 	[self recomputeTransientData];
@@ -585,8 +585,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		return NSDragOperationNone;
 
 	// Don't allow dropping on a child context
-	Context *moving = [contexts objectForKey:[[info draggingPasteboard] stringForType:MovedRowsType]];
-	Context *drop_on = (Context *) item;
+	CContext *moving = [contexts objectForKey:[[info draggingPasteboard] stringForType:MovedRowsType]];
+	CContext *drop_on = (CContext *) item;
 	if (drop_on && [[self walkToRoot:[drop_on uuid]] containsObject:moving])
 		return NSDragOperationNone;
 
@@ -601,7 +601,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[pboard declareTypes:typesArray owner:self];
 
 	// add context UUID for local move
-	Context *ctxt = (Context *) [items objectAtIndex:0];
+	CContext *ctxt = (CContext *) [items objectAtIndex:0];
 	[pboard setString:[ctxt uuid] forType:MovedRowsType];
 
 	return YES;
@@ -616,7 +616,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-	Context *ctxt = nil;
+	CContext *ctxt = nil;
 	NSInteger row = [outlineView selectedRow];
 	if (row >= 0)
 		ctxt = [outlineView itemAtRow:[outlineView selectedRow]];

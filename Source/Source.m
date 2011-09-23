@@ -16,8 +16,7 @@
 
 - (id) init {
 	self = [super init];
-	if (!self)
-		return nil;
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	self.running = NO;
 	self.listenersCount = 0;
@@ -39,7 +38,7 @@
 }
 
 - (NSString *) name {
-	return NSStringFromClass([self class]);
+	return NSStringFromClass(self.class);
 }
 
 #pragma mark - Subclass functions

@@ -17,24 +17,20 @@ static void sourceChange(void *info);
 
 @implementation PowerSource
 
+registerSource(PowerSource)
 @synthesize status = m_status;
 
 - (id) init {
 	self = [super init];
-	if (!self)
-		return nil;
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.status = nil;
+	self.status = kPowerUnknown;
 	m_runLoopSource = nil;
 	
 	return self;
 }
 
 #pragma mark - Required implementation of 'Source' class
-
-+ (void) load {
-	[[SourcesManager sharedSourcesManager] registerSourceType: self];
-}
 
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"statusChangedWithOld:andNew:");
@@ -62,7 +58,7 @@ static void sourceChange(void *info);
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), m_runLoopSource, kCFRunLoopDefaultMode);
 	CFRelease(m_runLoopSource);
 	
-	self.status = nil;
+	self.status = kPowerUnknown;
 }
 
 - (void) checkData {
@@ -84,13 +80,13 @@ static void sourceChange(void *info);
 	CFRelease(blob);
 	
 	// store it
-	self.status = (onBattery ? @"Battery" : @"A/C");
+	self.status = (onBattery ? kPowerBattery : kPowerAC);
 }
 
 static void sourceChange(void *info) {
 	PowerSource *src = (PowerSource *) info;
 	
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	[src checkData];
 	[pool release];
 }

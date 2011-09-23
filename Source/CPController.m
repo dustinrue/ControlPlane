@@ -159,7 +159,7 @@
 	CFStringRef oldDomain = CFSTR("au.id.symonds.MarcoPolo");
 	BOOL rulesImported = NO, actionsImported = NO;
 	BOOL ipActionsFound = NO;
-	Context *ctxt = nil;
+	CContext *ctxt = nil;
 
 	// Create contexts, populated from network locations
 	NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
@@ -367,7 +367,7 @@
 	// Persistent contexts
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
 		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
-		Context *ctxt = [contextsDataSource contextByUUID:uuid];
+		CContext *ctxt = [contextsDataSource contextByUUID:uuid];
 		if (ctxt) {
 			[self setValue:uuid forKey:@"currentContextUUID"];
 			NSString *ctxt_path = [contextsDataSource pathFromRootTo:uuid];
@@ -492,7 +492,7 @@
 	// Fill in 'Force context' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
 	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
-	Context *ctxt;
+	CContext *ctxt;
 	while ((ctxt = [en nextObject])) {
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
 		[item setTitle:[ctxt name]];
@@ -772,7 +772,7 @@
 	NSArray *leaving_walk = [walks objectAtIndex:0];
 	NSArray *entering_walk = [walks objectAtIndex:1];
 	NSEnumerator *en;
-	Context *ctxt;
+	CContext *ctxt;
 
 	[updatingSwitchingLock lock];
 
@@ -826,10 +826,10 @@
 
 - (void)forceSwitch:(id)sender
 {
-	Context *ctxt = nil;
+	CContext *ctxt = nil;
 	
-	if ([sender isKindOfClass:[Context class]])
-		ctxt = (Context *) sender;
+	if ([sender isKindOfClass:[CContext class]])
+		ctxt = (CContext *) sender;
 	else
 		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
 	
@@ -881,7 +881,7 @@
 		if ([ctxts count] == 0)
 			continue;	// Oops, something got busted along the way
 		NSEnumerator *enc = [ctxts objectEnumerator];
-		Context *ctxt;
+		CContext *ctxt;
 		int base_depth = [[[ctxts objectAtIndex:0] valueForKey:@"depth"] intValue];
 		while ((ctxt = [enc nextObject])) {
 			NSString *uuid = [ctxt uuid];
@@ -920,7 +920,7 @@
 	// Set all context confidences
 	en = [contexts objectEnumerator];
 	while ((uuid = [en nextObject])) {
-		Context *ctxt = [contextsDataSource contextByUUID:uuid];
+		CContext *ctxt = [contextsDataSource contextByUUID:uuid];
 		NSString *newConfString = @"";
 		NSNumber *unconf = [guesses objectForKey:uuid];
 		if (unconf) {
@@ -965,7 +965,7 @@
 		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
 			return;
 		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
-		Context *ctxt;
+		CContext *ctxt;
 		if (!(ctxt = [contextsDataSource contextByUUID:guess]))
 			return;
 		guessConfidenceString = NSLocalizedString(@"as default context",

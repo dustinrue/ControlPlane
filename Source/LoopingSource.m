@@ -14,8 +14,7 @@
 
 - (id) init {
 	self = [super init];
-	if (!self)
-		return nil;
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	self.interval = 10.0;
 	
@@ -23,8 +22,8 @@
 }
 
 - (void) run {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[[NSThread currentThread] setName: self.name];
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	NSThread.currentThread.name = self.name;
 	
 	while (self.running) {
 		[self checkData];
@@ -39,9 +38,9 @@
 		return;
 	
 	self.running = YES;
-	[NSThread detachNewThreadSelector:@selector(run)
-							 toTarget:self
-						   withObject:nil];
+	[NSThread detachNewThreadSelector: @selector(run)
+							 toTarget: self
+						   withObject: nil];
 }
 
 - (void) stop {

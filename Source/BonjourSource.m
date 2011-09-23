@@ -21,21 +21,21 @@
 
 @implementation BonjourSource
 
+registerSource(BonjourSource)
 @synthesize services = m_services;
 
 - (id) init {
 	self = [super init];
-	if (!self)
-		return nil;
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	m_stage = kNetNothing;
 	m_timer = nil;
-	m_browser = [[NSNetServiceBrowser alloc] init];
-	m_unresolvedServices = [[NSMutableArray alloc] init];
-	m_resolvedServices = [[NSMutableArray alloc] init];
-	[m_browser setDelegate: self];
+	m_browser = [NSNetServiceBrowser new];
+	m_unresolvedServices = [NSMutableArray new];
+	m_resolvedServices = [NSMutableArray new];
+	self.services = [[NSArray new] autorelease];
 	
-	self.services = [[[NSArray alloc] init] autorelease];
+	[m_browser setDelegate: self];
 	
 	return self;
 }
@@ -49,10 +49,6 @@
 }
 
 #pragma mark - Required implementation of 'Source' class
-
-+ (void) load {
-	[[SourcesManager sharedSourcesManager] registerSourceType: self];
-}
 
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"servicesChangedWithOld:andNew:");
@@ -104,7 +100,7 @@
 	m_timer = nil;
 	
 	// check if anything left to do
-	if ([m_unresolvedServices count] == 0) {
+	if (m_unresolvedServices.count == 0) {
 		m_stage = kNetFinished;
 		return;
 	}
@@ -134,16 +130,16 @@
 	// depending on stage, add to correct array
 	switch (m_stage) {
 		case kNetScanning:
-			service = [NSString stringWithFormat: @"%@.%@", [netService name], [netService type]];
+			service = [NSString stringWithFormat: @"%@.%@", netService.name, netService.type];
 			if ([service hasSuffix: @".local."])
-				service = [service substringToIndex: ([service length] - 6)];
+				service = [service substringToIndex: (service.length - 6)];
 			
 			[m_unresolvedServices addObject: service];
 			break;
 		case kNetResolving:
 			hit = [NSDictionary dictionaryWithObjectsAndKeys:
-				   [netService name], @"host",
-				   [netService type], @"service",
+				   netService.name, @"host",
+				   netService.type, @"service",
 				   nil];
 			
 			[m_resolvedServices addObject: hit];

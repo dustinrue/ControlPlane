@@ -132,6 +132,10 @@
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDD1A359142B9E5A00341B75 /* WLANSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A358142B9E5A00341B75 /* WLANSource.m */; };
 		DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A363142BD65600341B75 /* KVOAdditions.m */; };
+		DDD1A367142CC81200341B75 /* Context.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A366142CC80F00341B75 /* Context.m */; };
+		DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A36F142CD55E00341B75 /* ContextGroup.m */; };
+		DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A374142CD81900341B75 /* ContextsManager.m */; };
+		DDD1A378142D0E7100341B75 /* RunningApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -438,6 +442,14 @@
 		DDD1A358142B9E5A00341B75 /* WLANSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSource.m; path = Source/WLANSource.m; sourceTree = "<group>"; };
 		DDD1A362142BD65600341B75 /* KVOAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOAdditions.h; sourceTree = "<group>"; };
 		DDD1A363142BD65600341B75 /* KVOAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVOAdditions.m; sourceTree = "<group>"; };
+		DDD1A365142CC80E00341B75 /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Context.h; path = Source/Context.h; sourceTree = "<group>"; };
+		DDD1A366142CC80F00341B75 /* Context.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Context.m; path = Source/Context.m; sourceTree = "<group>"; };
+		DDD1A36E142CD55E00341B75 /* ContextGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextGroup.h; path = Source/ContextGroup.h; sourceTree = "<group>"; };
+		DDD1A36F142CD55E00341B75 /* ContextGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextGroup.m; path = Source/ContextGroup.m; sourceTree = "<group>"; };
+		DDD1A373142CD81900341B75 /* ContextsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextsManager.h; sourceTree = "<group>"; };
+		DDD1A374142CD81900341B75 /* ContextsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextsManager.m; sourceTree = "<group>"; };
+		DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationSource.h; path = Source/RunningApplicationSource.h; sourceTree = "<group>"; };
+		DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationSource.m; path = Source/RunningApplicationSource.m; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
@@ -498,7 +510,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				DD68A9DF142629310059A730 /* Rule */,
+				DDD1A372142CD6A000341B75 /* Contexts */,
+				DD68A9DF142629310059A730 /* Rules */,
 				DD68A9D7142623080059A730 /* Sources */,
 				8DAD148E0BBCA40700F93914 /* Evidence Sources */,
 				8DF5A4130BC2350000CBEB4B /* Actions */,
@@ -772,13 +785,13 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
-		DD68A9DF142629310059A730 /* Rule */ = {
+		DD68A9DF142629310059A730 /* Rules */ = {
 			isa = PBXGroup;
 			children = (
 				DD68A9E01426294B0059A730 /* Rule.h */,
 				DD68A9E11426294B0059A730 /* Rule.m */,
 			);
-			name = Rule;
+			name = Rules;
 			sourceTree = "<group>";
 		};
 		DD8274EB14114CFF0098FA6E /* Application Actions */ = {
@@ -861,6 +874,19 @@
 			path = "External Source/KVOAdditions";
 			sourceTree = "<group>";
 		};
+		DDD1A372142CD6A000341B75 /* Contexts */ = {
+			isa = PBXGroup;
+			children = (
+				DDD1A365142CC80E00341B75 /* Context.h */,
+				DDD1A366142CC80F00341B75 /* Context.m */,
+				DDD1A36E142CD55E00341B75 /* ContextGroup.h */,
+				DDD1A36F142CD55E00341B75 /* ContextGroup.m */,
+				DDD1A373142CD81900341B75 /* ContextsManager.h */,
+				DDD1A374142CD81900341B75 /* ContextsManager.m */,
+			);
+			name = Contexts;
+			sourceTree = "<group>";
+		};
 		DDE29BE2142964B700A55469 /* Concrete Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -870,6 +896,8 @@
 				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
 				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
 				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
+				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
+				DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */,
 				DDD1A357142B9E5A00341B75 /* WLANSource.h */,
 				DDD1A358142B9E5A00341B75 /* WLANSource.m */,
 			);
@@ -1170,6 +1198,10 @@
 				DD23929E142A916500FE7DC7 /* BonjourSource.m in Sources */,
 				DDD1A359142B9E5A00341B75 /* WLANSource.m in Sources */,
 				DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */,
+				DDD1A367142CC81200341B75 /* Context.m in Sources */,
+				DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */,
+				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
+				DDD1A378142D0E7100341B75 /* RunningApplicationSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

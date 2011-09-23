@@ -19,7 +19,7 @@
 
 - (void) setCurrentContext: (NSString*) newContext {
 	CPController *c = (CPController *) [NSApp delegate];
-	Context *context = [[c contextsDataSource] contextByName: newContext];
+	CContext *context = [[c contextsDataSource] contextByName: newContext];
 	
 	if (context)
 		[c forceSwitch: context];

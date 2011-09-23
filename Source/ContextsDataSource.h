@@ -6,7 +6,7 @@
 //
 
 
-@interface Context : NSObject {
+@interface CContext : NSObject {
 	NSString *uuid;
 	NSString *parent;	// UUID
 	NSString *name;
@@ -21,7 +21,7 @@
 
 - (BOOL)isRoot;
 - (NSDictionary *)dictionary;
-- (NSComparisonResult)compare:(Context *)ctxt;
+- (NSComparisonResult)compare:(CContext *)ctxt;
 
 - (NSString *)uuid;
 - (NSString *)parentUUID;
@@ -37,7 +37,7 @@
 
 	// shouldn't _really_ be here
 	IBOutlet NSOutlineView *outlineView;
-	Context *selection;
+	CContext *selection;
 
 	IBOutlet NSWindow *prefsWindow;
 	IBOutlet NSPanel *newContextSheet;
@@ -46,15 +46,15 @@
 
 - (void)loadContexts;
 - (void)saveContexts:(id)arg;
-- (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI;
+- (CContext *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI;
 
 - (IBAction)newContextPromptingForName:(id)sender;
 - (IBAction)newContextSheetAccepted:(id)sender;
 - (IBAction)newContextSheetRejected:(id)sender;
 - (IBAction)removeContext:(id)sender;
 
-- (Context *)contextByUUID:(NSString *)uuid;
-- (Context *)contextByName:(NSString *)name;
+- (CContext *)contextByUUID:(NSString *)uuid;
+- (CContext *)contextByName:(NSString *)name;
 - (NSArray *)arrayOfUUIDs;
 - (NSArray *)orderedTraversal;
 - (NSArray *)orderedTraversalRootedAt:(NSString *)uuid;

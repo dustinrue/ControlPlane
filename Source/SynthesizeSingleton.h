@@ -7,13 +7,15 @@
 //	Copyright 2011. All rights reserved.
 //
 
+#import <libkern/OSAtomic.h>
+
 #define SYNTHESIZE_SINGLETON_FOR_CLASS_WITH_ACCESSOR(classname, accessorMethodName) \
  \
 static void * volatile accessorMethodName = nil; \
  \
 + (classname *) accessorMethodName { \
 	while (!accessorMethodName) { \
-		classname *temp = [[self alloc] init]; \
+		classname *temp = [self new]; \
 		 \
 		if (!OSAtomicCompareAndSwapPtrBarrier(0x0, temp, &accessorMethodName)) \
 			[temp release]; \

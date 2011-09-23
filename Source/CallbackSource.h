@@ -11,7 +11,6 @@
 @interface CallbackSource : Source
 
 // implemented by subclasses
-+ (void) load;
 - (void) addObserver: (Rule *) rule;
 - (void) removeObserver: (Rule *) rule;
 - (void) registerCallback;

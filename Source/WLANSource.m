@@ -20,23 +20,23 @@
 
 @implementation WLANSource
 
+registerSource(WLANSource)
 @synthesize networks = m_networks;
 
 - (id) init {
 	self = [super init];
-	if (!self)
-		return nil;
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.networks = [[[NSArray alloc] init] autorelease];
+	self.networks = [[NSArray new] autorelease];
 	
 	return self;
 }
 
-#pragma mark - Required implementation of 'Source' class
-
-+ (void) load {
-	[[SourcesManager sharedSourcesManager] registerSourceType: self];
+- (void) dealloc {
+	[super dealloc];
 }
+
+#pragma mark - Required implementation of 'Source' class
 
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"networksChangedWithOld:andNew:");
@@ -52,7 +52,7 @@
 }
 
 - (void) checkData {
-	NSArray *supportedInterfaces = [CWInterface supportedInterfaces];
+	NSArray *supportedInterfaces = CWInterface.supportedInterfaces;
 	NSArray *results = nil;
 
 	// get a list of supported Wi-Fi interfaces.  It is highly unlikely, but still possible, for there to
@@ -68,7 +68,7 @@
 	
 	// depending on if we're already associated an the AlwaysScan preference,
 	// use the current connection info or perform a scan of APs.
-	if (currentSSID && ![[NSUserDefaults standardUserDefaults] boolForKey: @"WiFiAlwaysScans"]) {
+	if (currentSSID && ![NSUserDefaults.standardUserDefaults boolForKey: @"WiFiAlwaysScans"]) {
 		DLog(@"Already associated with an AP, using connection info");
 		results = [NSArray arrayWithObject: [NSDictionary dictionaryWithObjectsAndKeys:
 											 interface.ssid, @"SSID",
@@ -93,17 +93,17 @@
 	ZAssert(err, @"error: %@", err);
 	
 	// sort results
-	NSSortDescriptor *desc = [[[NSSortDescriptor alloc] initWithKey: @"ssid"
-														  ascending: YES
-														   selector: @selector(caseInsensitiveCompare:)] autorelease];
-	[scanResults sortUsingDescriptors: [NSArray arrayWithObject: desc]];
+	NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey: @"ssid"
+														 ascending: YES
+														  selector: @selector(caseInsensitiveCompare:)];
+	[scanResults sortUsingDescriptors: [NSArray arrayWithObject: [desc autorelease]]];
 	
 	// fill results array
 	for (CWNetwork *network in scanResults) {
 		[results addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							 [network ssid], @"WiFi SSID",
-							 [network bssid], @"WiFi BSSID", nil]];
-		DLog(@"Found ssid %@ with bssid %@ and RSSI %@", [network ssid], [network bssid], [network rssi]);
+							 network.ssid, @"WiFi SSID",
+							 network.bssid, @"WiFi BSSID", nil]];
+		DLog(@"Found ssid %@ with bssid %@ and RSSI %@", network.ssid, network.bssid, network.rssi);
 	}
 	
 	return results;

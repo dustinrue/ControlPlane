@@ -16,12 +16,12 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 
 @implementation AudioOutputSource
 
+registerSource(AudioOutputSource)
 @synthesize source = m_source;
 
 - (id) init {
 	self = [super init];
-	if (!self)
-		return nil;
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	m_deviceID = 0;
 	self.source = 0;
@@ -30,10 +30,6 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 }
 
 #pragma mark - Required implementation of 'Source' class
-
-+ (void) load {
-	[[SourcesManager sharedSourcesManager] registerSourceType: self];
-}
 
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"sourceChangedWithOld:andNew:");
@@ -51,6 +47,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 #pragma mark - CoreAudio stuff
 
 - (void) registerCallback {
+	OSStatus result;
 	UInt32 sz = sizeof(m_deviceID);
 	AudioObjectPropertyAddress address = {
 		kAudioHardwarePropertyDefaultSystemOutputDevice,
@@ -59,17 +56,13 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	};
 	
 	// get default output property
-	if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &address, 0, NULL, &sz, &m_deviceID) != noErr) {
-		NSLog(@"AudioHardwareGetProperty failed!");
-		return;
-	}
+	result = AudioObjectGetPropertyData(kAudioObjectSystemObject, &address, 0, NULL, &sz, &m_deviceID);
+	ZAssert(result != noErr, @"AudioHardwareGetProperty failed!");
 	
 	// register for change callback
 	address.mSelector = kAudioHardwarePropertyDefaultSystemOutputDevice;
-	if (AudioObjectAddPropertyListener(m_deviceID, &address, &sourceChange, self) != noErr) {
-		NSLog(@"AudioDeviceAddPropertyListener failed!");
-		return;
-	}
+	result = AudioObjectAddPropertyListener(m_deviceID, &address, &sourceChange, self);
+	ZAssert(result != noErr, @"AudioDeviceAddPropertyListener failed!");
 }
 
 - (void) unregisterCallback {
@@ -84,6 +77,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 }
 
 - (void) checkData {
+	OSStatus result;
 	UInt32 sourceID;
 	UInt32 sz = sizeof(sourceID);
 	AudioObjectPropertyAddress address = {
@@ -93,12 +87,10 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	};
 	
 	// get default output
-	if (AudioObjectGetPropertyData(m_deviceID, &address, 0, NULL, &sz, &sourceID) != noErr) {
-		NSLog(@"AudioDeviceGetProperty failed!");
-		return;
-	}
+	result = AudioObjectGetPropertyData(m_deviceID, &address, 0, NULL, &sz, &sourceID);
+	ZAssert(result != noErr, @"AudioDeviceGetProperty failed!");
 	
-	NSLog(@"%@ >> Got 0x%08lu", [self class], (unsigned long) sourceID);
+	DLog(@"%@ >> Got 0x%08lu", [self class], (unsigned long) sourceID);
 	
 	// store it
 	self.source = sourceID;
