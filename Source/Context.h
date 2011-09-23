@@ -14,6 +14,6 @@
 }
 
 @property (readwrite, copy) NSString *name;
-@property (readwrite, assign) BOOL active;
+@property (readwrite, assign, nonatomic) BOOL active;
 
 @end

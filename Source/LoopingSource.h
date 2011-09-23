@@ -9,14 +9,15 @@
 #import "Source.h"
 
 @interface LoopingSource : Source {
-	@protected NSTimeInterval m_interval;
+@private
+	NSTimeInterval m_interval;
 }
 
 @property (readwrite, assign) NSTimeInterval interval;
 
 // implemented by subclasses
-- (void) addObserver: (Rule *) rule;
-- (void) removeObserver: (Rule *) rule;
++ (void) load;
+- (NSArray *) observableKeys;
 - (void) checkData;
 
 @end

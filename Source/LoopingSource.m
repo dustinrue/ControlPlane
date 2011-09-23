@@ -57,12 +57,9 @@
 	[self doesNotRecognizeSelector: _cmd];
 }
 
-- (void) addObserver: (Rule *) rule {
+- (NSArray *) observableKeys {
 	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (void) removeObserver: (Rule *) rule {
-	[self doesNotRecognizeSelector: _cmd];
+	return nil;
 }
 
 - (void) checkData {

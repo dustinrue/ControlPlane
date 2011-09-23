@@ -10,6 +10,13 @@
 #import "Context.h"
 #import "Rule.h"
 
+@interface Context (Private)
+
+- (void) activated;
+- (void) deactivated;
+
+@end
+
 @implementation Context
 
 @synthesize name = m_name;
@@ -32,6 +39,29 @@
 	[m_actions release];
 	
 	[super dealloc];
+}
+
+- (void) setActive: (BOOL) active {
+	if (!m_active && active)
+		[self activated];
+	else if (m_active && !active)
+		[self deactivated];
+	
+	m_active = active;
+}
+
+- (void) activated {
+	DLog(@"Activated context '%@', executing actions", self.name);
+	
+	for (Action *action in m_actions)
+		;
+}
+
+- (void) deactivated {
+	DLog(@"Deactivated context '%@', executing actions", self.name);
+	
+	for (Action *action in m_actions)
+		;
 }
 
 @end

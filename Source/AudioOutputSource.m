@@ -7,9 +7,6 @@
 //
 
 #import "AudioOutputSource.h"
-#import "KVOAdditions.h"
-#import "Rule.h"
-#import "SourcesManager.h"
 
 static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 							 const AudioObjectPropertyAddress *inPropertyID, void *inClientData);
@@ -29,22 +26,11 @@ registerSource(AudioOutputSource)
 	return self;
 }
 
-#pragma mark - Required implementation of 'Source' class
+#pragma mark - Required implementation of 'CallbackSource' class
 
-- (void) addObserver: (Rule *) rule {
-	SEL selector = NSSelectorFromString(@"sourceChangedWithOld:andNew:");
-	
-	[self addObserver: rule
-		   forKeyPath: @"source"
-			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-			 selector: selector];
+- (NSArray *) observableKeys {
+	return [NSArray arrayWithObject: @"source"];
 }
-
-- (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"source" selector: nil];
-}
-
-#pragma mark - CoreAudio stuff
 
 - (void) registerCallback {
 	OSStatus result;

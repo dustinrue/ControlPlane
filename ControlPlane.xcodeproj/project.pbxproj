@@ -447,7 +447,7 @@
 		DDD1A36E142CD55E00341B75 /* ContextGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextGroup.h; path = Source/ContextGroup.h; sourceTree = "<group>"; };
 		DDD1A36F142CD55E00341B75 /* ContextGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextGroup.m; path = Source/ContextGroup.m; sourceTree = "<group>"; };
 		DDD1A373142CD81900341B75 /* ContextsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextsManager.h; path = Source/ContextsManager.h; sourceTree = "<group>"; };
-		DDD1A374142CD81900341B75 /* ContextsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; name = ContextsManager.m; path = Source/ContextsManager.m; sourceTree = "<group>"; };
+		DDD1A374142CD81900341B75 /* ContextsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextsManager.m; path = Source/ContextsManager.m; sourceTree = "<group>"; };
 		DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationSource.h; path = Source/RunningApplicationSource.h; sourceTree = "<group>"; };
 		DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationSource.m; path = Source/RunningApplicationSource.m; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };

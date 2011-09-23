@@ -6,21 +6,26 @@
 //  Copyright 2011. All rights reserved.
 //
 
+#import "SourcesManager.h"
+
 @class Rule;
 
 @interface Source : NSObject {
-	@private BOOL m_running;
-	@private unsigned int m_listenersCount;
+@private
+	BOOL m_running;
+	unsigned int m_listenersCount;
 }
 
 @property (readwrite, assign) BOOL running;
 @property (readwrite, assign, nonatomic) unsigned int listenersCount;
 @property (readonly, copy, nonatomic) NSString *name;
 
-// implemented by subclasses
-+ (void) load;
 - (void) addObserver: (Rule *) rule;
 - (void) removeObserver: (Rule *) rule;
+
+// implemented by subclasses
++ (void) load;
+- (NSArray *) observableKeys;
 - (void) start;
 - (void) stop;
 

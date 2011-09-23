@@ -6,9 +6,6 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "KVOAdditions.h"
-#import "Rule.h"
-#import "SourcesManager.h"
 #import "WLANSource.h"
 #import <CoreWLAN/CoreWLAN.h>
 
@@ -36,19 +33,10 @@ registerSource(WLANSource)
 	[super dealloc];
 }
 
-#pragma mark - Required implementation of 'Source' class
+#pragma mark - Required implementation of 'LoopingSource' class
 
-- (void) addObserver: (Rule *) rule {
-	SEL selector = NSSelectorFromString(@"networksChangedWithOld:andNew:");
-	
-	[self addObserver: rule
-		   forKeyPath: @"networks"
-			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-			 selector: selector];
-}
-
-- (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"networks" selector: nil];
+- (NSArray *) observableKeys {
+	return [NSArray arrayWithObject: @"networks"];
 }
 
 - (void) checkData {

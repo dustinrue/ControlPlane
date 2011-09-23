@@ -11,8 +11,8 @@
 @interface CallbackSource : Source
 
 // implemented by subclasses
-- (void) addObserver: (Rule *) rule;
-- (void) removeObserver: (Rule *) rule;
++ (void) load;
+- (NSArray *) observableKeys;
 - (void) registerCallback;
 - (void) unregisterCallback;
 - (void) checkData;

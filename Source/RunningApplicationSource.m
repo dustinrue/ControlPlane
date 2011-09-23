@@ -6,10 +6,7 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "KVOAdditions.h"
 #import "RunningApplicationSource.h"
-#import "Rule.h"
-#import "SourcesManager.h"
 
 @implementation RunningApplicationSource
 
@@ -25,19 +22,10 @@ registerSource(RunningApplicationSource)
 	return self;
 }
 
-#pragma mark - Required implementation of 'Source' class
+#pragma mark - Required implementation of 'CallbackSource' class
 
-- (void) addObserver: (Rule *) rule {
-	SEL selector = NSSelectorFromString(@"statusChangedWithOld:andNew:");
-	
-	[self addObserver: rule
-		   forKeyPath: @"status"
-			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-			 selector: selector];
-}
-
-- (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"status" selector: nil];
+- (NSArray *) observableKeys {
+	return [NSArray arrayWithObject: @"runningApplications"];
 }
 
 - (void) registerCallback {

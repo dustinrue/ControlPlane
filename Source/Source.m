@@ -6,6 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
+#import "KVOAdditions.h"
 #import "Rule.h"
 #import "Source.h"
 
@@ -41,18 +42,34 @@
 	return NSStringFromClass(self.class);
 }
 
+- (void) addObserver: (Rule *) rule {
+	SEL sel = nil;
+	
+	for (NSString *key in self.observableKeys) {
+		sel = NSSelectorFromString([NSString stringWithFormat: @"%@ChangedWithOld:andNew:", key]);
+		
+		if ([rule respondsToSelector: sel])
+			[self addObserver: rule
+				   forKeyPath: key
+					  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+					 selector: sel];
+	}
+}
+
+- (void) removeObserver: (Rule *) rule {
+	for (NSString *key in self.observableKeys)
+		[self removeObserver: rule forKeyPath: key selector: nil];
+}
+
 #pragma mark - Subclass functions
 
 + (void) load {
 	[self doesNotRecognizeSelector: _cmd];
 }
 
-- (void) addObserver: (Rule *) rule {
+- (NSArray *) observableKeys {
 	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (void) removeObserver: (Rule *) rule {
-	[self doesNotRecognizeSelector: _cmd];
+	return nil;
 }
 
 - (void) start {

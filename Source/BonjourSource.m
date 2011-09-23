@@ -7,9 +7,6 @@
 //
 
 #import "BonjourSource.h"
-#import "KVOAdditions.h"
-#import "Rule.h"
-#import "SourcesManager.h"
 
 @interface BonjourSource (Private)
 
@@ -48,19 +45,10 @@ registerSource(BonjourSource)
 	[super dealloc];
 }
 
-#pragma mark - Required implementation of 'Source' class
+#pragma mark - Required implementation of 'LoopingSource' class
 
-- (void) addObserver: (Rule *) rule {
-	SEL selector = NSSelectorFromString(@"servicesChangedWithOld:andNew:");
-	
-	[self addObserver: rule
-		   forKeyPath: @"services"
-			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-			 selector: selector];
-}
-
-- (void) removeObserver: (Rule *) rule {
-	[self removeObserver: rule forKeyPath: @"services" selector: nil];
+- (NSArray *) observableKeys {
+	return [NSArray arrayWithObject: @"services"];
 }
 
 - (void) checkData {
