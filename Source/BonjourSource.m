@@ -54,10 +54,6 @@
 	[[SourcesManager sharedSourcesManager] registerSourceType: self];
 }
 
-- (NSString *) name {
-	return @"Bonjour";
-}
-
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"servicesChangedWithOld:andNew:");
 	

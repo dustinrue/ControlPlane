@@ -10,13 +10,15 @@
 
 @interface Source : NSObject {
 	@private BOOL m_running;
+	@private unsigned int m_listenersCount;
 }
 
 @property (readwrite, assign) BOOL running;
+@property (readwrite, assign, nonatomic) unsigned int listenersCount;
+@property (readonly, copy, nonatomic) NSString *name;
 
 // implemented by subclasses
 + (void) load;
-- (NSString *) name;
 - (void) addObserver: (Rule *) rule;
 - (void) removeObserver: (Rule *) rule;
 - (void) start;

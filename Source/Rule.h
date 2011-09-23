@@ -8,8 +8,14 @@
 
 @interface Rule : NSObject {
 	BOOL m_enabled;
+	BOOL m_match;
 }
 
-@property (readwrite, assign) BOOL enabled;
+// implemented by subclasses
+- (void) beingEnabled;
+- (void) beingDisabled;
+
+@property (readwrite, assign, nonatomic) BOOL enabled;
+@property (readwrite, assign) BOOL match;
 
 @end

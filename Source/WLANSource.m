@@ -38,10 +38,6 @@
 	[[SourcesManager sharedSourcesManager] registerSourceType: self];
 }
 
-- (NSString *) name {
-	return @"WLAN";
-}
-
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"networksChangedWithOld:andNew:");
 	

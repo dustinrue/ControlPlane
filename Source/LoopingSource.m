@@ -17,7 +17,7 @@
 	if (!self)
 		return nil;
 	
-	self.running = NO;
+	self.interval = 10.0;
 	
 	return self;
 }
@@ -50,6 +50,20 @@
 	
 	// thread will stop with this
 	self.running = NO;
+}
+
+#pragma mark - Subclass functions
+
++ (void) load {
+	[self doesNotRecognizeSelector: _cmd];
+}
+
+- (void) addObserver: (Rule *) rule {
+	[self doesNotRecognizeSelector: _cmd];
+}
+
+- (void) removeObserver: (Rule *) rule {
+	[self doesNotRecognizeSelector: _cmd];
 }
 
 - (void) checkData {

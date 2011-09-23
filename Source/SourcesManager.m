@@ -76,6 +76,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	
 	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
 	[sourceInstance addObserver: rule];
+	sourceInstance.listenersCount++;
 }
 
 - (void) unRegisterRule: (Rule *) rule fromSource: (NSString *) source {
@@ -85,7 +86,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	Source *sourceInstance = [m_sources objectForKey: source];
 	
 	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
+	ZAssert(sourceInstance.listenersCount > 0, @"Source has no listeners!");
 	[sourceInstance removeObserver: rule];
+	sourceInstance.listenersCount--;
 }
 
 #pragma mark - Other functions

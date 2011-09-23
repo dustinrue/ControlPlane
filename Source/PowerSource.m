@@ -36,10 +36,6 @@ static void sourceChange(void *info);
 	[[SourcesManager sharedSourcesManager] registerSourceType: self];
 }
 
-- (NSString *) name {
-	return @"Power";
-}
-
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"statusChangedWithOld:andNew:");
 	

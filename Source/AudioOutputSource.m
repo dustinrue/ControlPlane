@@ -35,10 +35,6 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	[[SourcesManager sharedSourcesManager] registerSourceType: self];
 }
 
-- (NSString *) name {
-	return @"Audio Output";
-}
-
 - (void) addObserver: (Rule *) rule {
 	SEL selector = NSSelectorFromString(@"sourceChangedWithOld:andNew:");
 	

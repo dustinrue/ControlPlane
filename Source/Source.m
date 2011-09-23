@@ -12,6 +12,7 @@
 @implementation Source
 
 @synthesize running = m_running;
+@synthesize listenersCount = m_listenersCount;
 
 - (id) init {
 	self = [super init];
@@ -19,7 +20,8 @@
 		return nil;
 	
 	self.running = NO;
-
+	self.listenersCount = 0;
+	
 	return self;
 }
 
@@ -27,14 +29,23 @@
 	[super dealloc];
 }
 
-#pragma mark - Subclass functions
-
-+ (void) load {
+- (void) setListenersCount: (unsigned int) listenersCount {
+	if (!self.running && listenersCount > 0)
+		[self start];
+	else if (self.running && listenersCount == 0)
+		[self stop];
+	
+	m_listenersCount = listenersCount;
 }
 
 - (NSString *) name {
+	return NSStringFromClass([self class]);
+}
+
+#pragma mark - Subclass functions
+
++ (void) load {
 	[self doesNotRecognizeSelector: _cmd];
-	return nil;
 }
 
 - (void) addObserver: (Rule *) rule {

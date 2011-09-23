@@ -12,9 +12,12 @@
 	@protected NSTimeInterval m_interval;
 }
 
-// implemented by subclasses
-- (void) checkData;
-
 @property (readwrite, assign) NSTimeInterval interval;
+
+// implemented by subclasses
++ (void) load;
+- (void) addObserver: (Rule *) rule;
+- (void) removeObserver: (Rule *) rule;
+- (void) checkData;
 
 @end

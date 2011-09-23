@@ -29,6 +29,20 @@
 	self.running = NO;
 }
 
+#pragma mark - Subclass functions
+
++ (void) load {
+	[self doesNotRecognizeSelector: _cmd];
+}
+
+- (void) addObserver: (Rule *) rule {
+	[self doesNotRecognizeSelector: _cmd];
+}
+
+- (void) removeObserver: (Rule *) rule {
+	[self doesNotRecognizeSelector: _cmd];
+}
+
 - (void) registerCallback {
 	[self doesNotRecognizeSelector: _cmd];
 }
