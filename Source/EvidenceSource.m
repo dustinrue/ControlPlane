@@ -268,16 +268,12 @@
 
 @end
 
-#import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
-#import "BonjourEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
 #import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
-#import "PowerEvidenceSource.h"
-#import "RunningApplicationEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
 #import "CoreWLANEvidenceSource.h"
@@ -292,17 +288,13 @@
 		return nil;
     
 	NSArray *classes = [NSArray arrayWithObjects:
-						[AudioOutputEvidenceSource class],
 						[BluetoothEvidenceSource class],
-						[BonjourEvidenceSource class],
 						[CoreLocationSource class],
 						[FireWireEvidenceSource class],
 						[IPEvidenceSource class],
 						[LightEvidenceSource class],
 						[MonitorEvidenceSource class],
 						[NetworkLinkEvidenceSource class],
-						[PowerEvidenceSource class],
-						[RunningApplicationEvidenceSource class],
 						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
 						[USBEvidenceSource class],

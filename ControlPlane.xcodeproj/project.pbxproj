@@ -10,7 +10,6 @@
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* Main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* Main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */; };
 		8D185DC60BF428CF00A06B03 /* AdvancedPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D185DC50BF428CF00A06B03 /* AdvancedPrefs.png */; };
 		8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A45590BA00DE2004A6BC4 /* minus-8.png */; };
 		8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A455A0BA00DE2004A6BC4 /* plus-8.png */; };
@@ -106,6 +105,7 @@
 		DD4ADACD142D4BE500CE825F /* PowerRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACC142D4BE500CE825F /* PowerRule.m */; };
 		DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */; };
 		DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */; };
+		DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD5142D762800CE825F /* BonjourRule.m */; };
 		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD68A9DD142623210059A730 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DA142623210059A730 /* Source.m */; };
 		DD68A9DE142623210059A730 /* SourcesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DC142623210059A730 /* SourcesManager.m */; };
@@ -218,8 +218,6 @@
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = BonjourEvidenceSource.h; path = Source/BonjourEvidenceSource.h; sourceTree = "<group>"; };
-		8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = BonjourEvidenceSource.m; path = Source/BonjourEvidenceSource.m; sourceTree = "<group>"; };
 		8D185DC50BF428CF00A06B03 /* AdvancedPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AdvancedPrefs.png; path = Resources/AdvancedPrefs.png; sourceTree = "<group>"; };
 		8D1A45590BA00DE2004A6BC4 /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "Resources/minus-8.png"; sourceTree = "<group>"; };
 		8D1A455A0BA00DE2004A6BC4 /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "Resources/plus-8.png"; sourceTree = "<group>"; };
@@ -372,6 +370,8 @@
 		DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputRule.m; path = Source/AudioOutputRule.m; sourceTree = "<group>"; };
 		DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationRule.h; path = Source/RunningApplicationRule.h; sourceTree = "<group>"; };
 		DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationRule.m; path = Source/RunningApplicationRule.m; sourceTree = "<group>"; };
+		DD4ADAD4142D762800CE825F /* BonjourRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourRule.h; path = Source/BonjourRule.h; sourceTree = "<group>"; };
+		DD4ADAD5142D762800CE825F /* BonjourRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourRule.m; path = Source/BonjourRule.m; sourceTree = "<group>"; };
 		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "External Source/JSONKit/JSONKit.h"; sourceTree = "<group>"; };
 		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "External Source/JSONKit/JSONKit.m"; sourceTree = "<group>"; };
 		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Source.h; path = Source/Source.h; sourceTree = "<group>"; };
@@ -685,8 +685,6 @@
 			children = (
 				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
-				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
-				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
 				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
@@ -753,6 +751,8 @@
 			children = (
 				DD4ADACE142D58DD00CE825F /* AudioOutputRule.h */,
 				DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */,
+				DD4ADAD4142D762800CE825F /* BonjourRule.h */,
+				DD4ADAD5142D762800CE825F /* BonjourRule.m */,
 				DD4ADACB142D4BE500CE825F /* PowerRule.h */,
 				DD4ADACC142D4BE500CE825F /* PowerRule.m */,
 				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
@@ -1175,7 +1175,6 @@
 				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
 				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,
-				8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */,
 				8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */,
 				8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */,
 				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,
@@ -1216,6 +1215,7 @@
 				DD4ADACD142D4BE500CE825F /* PowerRule.m in Sources */,
 				DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */,
 				DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */,
+				DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

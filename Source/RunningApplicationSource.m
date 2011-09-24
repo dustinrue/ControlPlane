@@ -11,13 +11,13 @@
 @implementation RunningApplicationSource
 
 registerSource(RunningApplicationSource)
-@synthesize runningApplications = m_runningApplications;
+@synthesize applications = m_applications;
 
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.runningApplications = [[NSArray new] autorelease];
+	self.applications = [[NSArray new] autorelease];
 	
 	return self;
 }
@@ -25,7 +25,7 @@ registerSource(RunningApplicationSource)
 #pragma mark - Required implementation of 'CallbackSource' class
 
 - (NSArray *) observableKeys {
-	return [NSArray arrayWithObject: @"runningApplications"];
+	return [NSArray arrayWithObject: @"applications"];
 }
 
 - (void) registerCallback {
@@ -44,7 +44,7 @@ registerSource(RunningApplicationSource)
 															  name: nil
 															object: nil];
 	
-	self.runningApplications = [[NSArray new] autorelease];
+	self.applications = [[NSArray new] autorelease];
 }
 
 - (void) checkData {
@@ -58,7 +58,7 @@ registerSource(RunningApplicationSource)
 							app.localizedName, @"name", nil]];
 	
 	// store it
-	self.runningApplications = result;
+	self.applications = result;
 }
 
 @end

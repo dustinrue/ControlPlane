@@ -1,5 +1,5 @@
 //
-//	PowerRule.m
+//	RunningApplicationRule.m
 //	ControlPlane
 //
 //	Created by David Jennes on 24/09/11.
@@ -14,13 +14,13 @@
 
 #pragma mark - Source observe functions
 
-- (void) runningApplicationChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
+- (void) applicationsChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
 	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
 	NSString *needle = [self.data objectForKey: @"parameter"];
 	BOOL found = NO;
 	
 	// loop through apps
-	for (NSDictionary *app in source.runningApplications) {
+	for (NSDictionary *app in source.applications) {
 		found = [needle isEqualToString: [app valueForKey: @"identifier"]];
 		if (found)
 			break;
@@ -40,7 +40,7 @@
 	
 	// currently a match?
 	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
-	[self statusChangedWithOld: nil andNew: source.runningApplications];
+	[self applicationsChangedWithOld: nil andNew: source.applications];
 }
 
 - (void) beingDisabled {
@@ -52,7 +52,7 @@
 	NSMutableArray *result = [[NSArray new] autorelease];
 	
 	// loop through apps
-	for (NSDictionary *app in source.runningApplications)
+	for (NSDictionary *app in source.applications)
 		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
 							[app valueForKey: @"identifier"], @"parameter",
 							[app valueForKey: @"name"], @"description", nil]];
