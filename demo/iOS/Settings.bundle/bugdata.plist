@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>DefaultValue</key>
+			<true/>
+			<key>Key</key>
+			<string>CrashReportActivated</string>
+			<key>Title</key>
+			<string>SettingsActivateCrashReporter</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>SettingsActivateCrashReporterDescription</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>AutomaticallySendCrashReports</string>
+			<key>Title</key>
+			<string>SettingsAutoSendCrash</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>SettingsAutoSendCrashDescription</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
+			<string>CrashDataContactAllowKey</string>
+			<key>Title</key>
+			<string>SettingsAllowContact</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>Key</key>
+			<string>CrashDataContactEmailKey</string>
+			<key>KeyboardType</key>
+			<string>EmailAddress</string>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>Title</key>
+			<string>SettingsContactEmail</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>SettingsContactDescription</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+	</array>
+	<key>StringsTable</key>
+	<string>bugdata</string>
+	<key>Title</key>
+	<string>Bug data</string>
+</dict>
+</plist>

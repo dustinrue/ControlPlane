@@ -3,7 +3,7 @@
 	/*
 	* Author: Andreas Linde <mail@andreaslinde.de>
 	*
-	* Copyright (c) 2009 Andreas Linde. All rights reserved.
+	* Copyright (c) 2009-2011 Andreas Linde.
 	* All rights reserved.
 	*
 	* Permission is hereby granted, free of charge, to any person
@@ -127,8 +127,8 @@ if ($content !== false && strlen($content) > 0)
 		
 		
 			echo "  Symbolicating ...\n";
-				
-			exec('./symbolicatecrash -o '.$resultfilename.' '.$filename);
+			
+			exec('perl ./symbolicatecrash.pl -o '.$resultfilename.' '.$filename);
 	
 			unlink($filename);
 			

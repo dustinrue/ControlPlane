@@ -1,6 +1,6 @@
     Author: Andreas Linde <mail@andreaslinde.de>
 
-    Copyright (c) 2009 Andreas Linde. All rights reserved.
+    Copyright (c) 2009-2011 Andreas Linde.
     All rights reserved.
 
     Permission is hereby granted, free of charge, to any person
@@ -25,12 +25,13 @@
     OTHER DEALINGS IN THE SOFTWARE.
 
 
-# Main features of this demo project
+# Main features of QuincyKit
 
 - (Automatically) send crash reports to a developers database
 - Let the user decide per crash to (not) send data or always send
 - The user has the option to provide additional information in the settings, like email address for contacting the user
 - Give the user immediate feedback if the crash is known and will be fixed in the next update, or if the update is already waiting at Apple for approval, or if the update is already available to install
+
 
 # Main features on backend side for the developer
 
@@ -41,6 +42,7 @@
 - Assign bugfix versions for each crash group and define a status for each version, which can be used to provide some feedback for the user
   like: Bug already fixed, new version with bugfix already available, etc.
 
+
 ## Server side files
 
 - `/server/database_schema.sql` contains all the default tables
@@ -50,7 +52,10 @@
 - `/server/admin/` contains all administration scripts
 - `/server/admin/symbolicate.php` needs to be copied to a local mac, and the url has to be adjusted to access the scripts on your server
 
+
 # SERVER INSTALLATION
+
+The server requires at least PHP 5.2 and a MySQL server installation!
 
 - Copy the server scripts to your web server:
   All files inside /server except the content of the `/server/local` directory
@@ -78,6 +83,21 @@
 - If you are upgrading a previous edition, invoke 'migrate.php' first to update the database setup
 
 
+## UPDATE TO QUINCYKIT 2.0
+
+- Add the new database fields to the following tables:
+
+  **apps**
+  
+        `hockeyappidentifier` text default NULL
+
+  **crash**
+
+        `jailbreak` int(11) unsigned default '0'
+    
+- If you are upgrading from an early version, please make sure the database follows the schema defined in *database_schema.sql*.
+
+
 ## SERVER ENABLE PUSH NOTIFICATIONS
 
 - **NOTICE**: Push Notification requires the Server PHP installation to have curl addon installed!
@@ -99,19 +119,18 @@
   - set `$hostname` to the server hostname running the server side part, e.g. `www.crashreporterdemo.com`
   - if the `/admin/` directory on the server is access restricted, set the required username into `$webuser` and password into `$webpwd`
   - adjust the path to access the scripts (will be appended to `$hostname`):
-    - `$downloadtodosurl = '/admin/actionapi.php?action=getsymbolicationtodo';`	// the path to the script delivering the todo list
-    - `$getcrashdataurl = '/admin/actionapi.php?action=getlogcrashid&id=';`		// the path to the script delivering the crashlog
-    - `$updatecrashdataurl = '/admin/crash_update.php';`						// the path to the script updating the crashlog
-- Copy the symbolicatecrash executable into an accessable path, e.g. via
-    `cp /Developer/Platforms/iPhoneOS.platform/Developer/Library/PrivateFrameworks/DTDeviceKit.framework/Versions/A/Resources/symbolicatecrash /usr/local/bin/`
+      - `$downloadtodosurl = '/admin/actionapi.php?action=getsymbolicationtodo';`	// the path to the script delivering the todo list
+      - `$getcrashdataurl = '/admin/actionapi.php?action=getlogcrashid&id=';`		// the path to the script delivering the crashlog
+      - `$updatecrashdataurl = '/admin/crash_update.php';`						// the path to the script updating the crashlog
+- Make the modified symbolicatecrash.pl file from the `/server/local/` directory executable: `chmod + x symbolicatecrash.pl`
 - Copy the `.app` package and `.app.dSYM` package of each version into any directory of your Mac
   Best is to add the version number to the directory of each version, so multiple versions of the same app can be symbolicated.
   Example:
   
-      CrashReporterDemo_1_0/CrashReporterDemo.app
-      CrashReporterDemo_1_0/CrashReporterDemo.app.dSYM
-      CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app
-      CrashReporterDemoBeta_1_1/CrashReporterDemoBeta.app.dSYM
+        QuincyDemo_1_0/QuincyDemo.app
+        QuincyDemo_1_0/QuincyDemo.app.dSYM
+        QuincyDemoBeta_1_1/QuincyDemoBeta.app
+        QuincyDemoBeta_1_1/QuincyDemoBeta.app.dSYM
       
 - Test symbolification:
   - Download a crash report into the local directory from above
@@ -127,52 +146,97 @@
 
 # IPHONE PROJECT INSTALLATION
 
-- Include `CrashReportSender.h` and `CrashReportSender.m` into your project
+- Include `BWQuincyManager.h`, `BWQuincyManager.m` and `Quincy.bundle` into your project
 - Include `CrashReporter.framework` into your project
 - Add the "-all_load" flag to your projects build configurations "Other Linker Flags"
 - Add the Apple framework `SystemConfiguration.framework` to your project
 - In your `appDelegate.h` include
 
-      #import "CrashReportSender.h"
+        #import "BWQuincyManager.h"
 
-  and let your appDelegate implement the protocol `CrashReportSenderDelegate`
+  and let your appDelegate implement the protocol `BWQuincyManagerDelegate`
 - In your appDelegate applicationDidFinishLaunching function include
 
-      [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL delegate:self activateFeedback:NO];
+        [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
       
-  where `CRASH_REPORTER_URL` points to your `crash_v200.php` URL
 - Done.
-- When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in `CrashReportSender.h`
-- IMPORTANT: DO NOT include the hockey localization files of languages you do not support in the main app! So if you do not have a russian localization of your app, do NOT include the ru.lproj into your application, otherwise the app will show placeholders of your apps strings since it thinks there should be a russian localization for the rest of the app too.
-
+- When testing the connection and a server side error appears after sending a crash log, the error code is printed in the console. Error code values are listed in `BWQuincyManager.h`
 
 
 # MAC PROJECT INSTALLATION
 
-- Include `CrashReporterSender.framework` into your project
-- In your `appDelegate.m` include
+- Include `Quincy.framework` into your project
+- In your `appDelegate.h` include
 
-      #import "CrashReportSender.h"
+        #import <Quincy/BWQuincyManager.h>
+
+- In your appDelegate.h add the BWQuincyManagerDelegate protocol to your appDelegate
+
+        @interface DemoAppDelegate : NSObject <BWQuincyManagerDelegate> {}
 
 - In your `appDelegate` change the invocation of the main window to the following structure
 
-    // this delegate method is required
-    - (void) showMainApplicationWindow
-    {
-        // launch the main app window
-        // remember not to automatically show the main window if using NIBs
-        [window makeFirstResponder: nil];
-        [window makeKeyAndOrderFront:nil];
-    }
+        // this delegate method is required
+        - (void) showMainApplicationWindow
+        {
+            // launch the main app window
+            // remember not to automatically show the main window if using NIBs
+            [window makeFirstResponder: nil];
+            [window makeKeyAndOrderFront:nil];
+        }
 
 
-    - (void)applicationDidFinishLaunching:(NSNotification *)note
-    {
-      // Launch the crash reporter task
-      [[CrashReportSender sharedCrashReportSender] sendCrashReportToURL:CRASH_REPORTER_URL delegate:self companyName:COMPANY_NAME];
-    }
+        - (void)applicationDidFinishLaunching:(NSNotification *)note
+        {
+          // Launch the crash reporter task
+          [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
+          [[BWQuincyManager sharedQuincyManager] setDelegate:self];
+        }
 
 - Done.
+
+
+# BRANCHES:
+The branching structure follows the git flow concept, defined by Vincent Driessen: http://nvie.com/posts/a-successful-git-branching-model/
+
+* Master branch:
+
+	The main branch where the source code of HEAD always reflects a production-ready state.
+
+* Develop branch:
+
+	Consider this to be the main branch where the source code of HEAD always reflects a state with the latest delivered development changes for the next release. Some would call this the “integration branch”.
+
+* Feature branches:
+
+	These are used to develop new features for the upcoming or a distant future release. The essence of a feature branch is that it exists as long as the feature is in development, but will eventually be merged back into develop (to definitely add the new feature to the upcoming release) or discarded (in case of a disappointing experiment).
+
+* Release branches:
+
+	These branches support preparation of a new production release. By using this, the develop branch is cleared to receive features for the next big release.
+
+* Hotfix branches:
+
+	Hotfix branches are very much like release branches in that they are also meant to prepare for a new production release, albeit unplanned.
+
+
+# Dependencies
+
+## Server
+
+Web server supporting PHP 5.0+ and MySQL.
+
+## Mac OS X
+
+Requires Max OS X 10.5+
+
+## iOS
+
+Requires iOS 3.0+
+
+## ARC Support
+
+If you are including QuincyKit in a project with Automatic Reference Counting (ARC) enabled, you will need to set the `-fno-objc-arc` compiler flag on all of the QuincyKit source files. To do this in Xcode, go to your active target and select the "Build Phases" tab. In the "Compiler Flags" column, set `-fno-objc-arc` for each of the QuincyKit source files.
 
 
 # ACKNOWLEDGMENTS
@@ -187,5 +251,6 @@ Feel free to add enhancements, fixes, changes and provide them back to the commu
 
 Thanks  
 Andreas Linde  
-http://www.andreaslinde.com/  
-http://www.buzzworks.de/  
+http://www.andreaslinde.com/
+http://www.buzzworks.de/
+http://www.hockeyapp.net/

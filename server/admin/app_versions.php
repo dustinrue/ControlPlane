@@ -3,7 +3,7 @@
 	/*
 	 * Author: Andreas Linde <mail@andreaslinde.de>
 	 *
-	 * Copyright (c) 2009 Andreas Linde & Kent Sutherland. All rights reserved.
+	 * Copyright (c) 2009-2011 Andreas Linde & Kent Sutherland.
 	 * All rights reserved.
 	 *
 	 * Permission is hereby granted, free of charge, to any person
@@ -134,6 +134,8 @@ mysql_free_result($result);
 
 $osticks = "";
 $osvalues = "";
+$whereclause = "";
+
 $query2 = "SELECT systemversion, COUNT(systemversion) FROM ".$dbcrashtable.$whereclause." WHERE bundleidentifier = '".$bundleidentifier."' group by systemversion order by systemversion desc";
 $result2 = mysql_query($query2) or die(end_with_result('Error in SQL '.$query2));
 $numrows2 = mysql_num_rows($result2);
@@ -331,87 +333,12 @@ if ($numrows > 0) {
 mysql_close($link);
 
 ?>
-
 <script type="text/javascript">
 $(document).ready(function(){
-    $.jqplot.config.enablePlugins = true;
-<?php
-    if ($platformticks != "") {
-?>
-    line1 = [<?php echo $platformvalues; ?>];
-    plot1 = $.jqplot('platformdiv', [line1], {
-        seriesDefaults: {
-                renderer:$.jqplot.BarRenderer
-            },
-        axes:{
-            xaxis:{
-                renderer:$.jqplot.CategoryAxisRenderer,
-                ticks:[<?php echo $platformticks; ?>]
-            },
-            yaxis:{
-                min: 0,
-                tickOptions:{formatString:'%.0f'}
-            }
-        },
-        highlighter: {show: false}
-    });
-<?php
-    }
-    
-    if (sizeof($crashvaluesarray) > 0) {
-        foreach ($crashvaluesarray as $key => $value) {
-            if ($crashvalues != "") $crashvalues = $crashvalues.", ";
-            $crashvalues .= "['".$key."', ".$value."]";
-        }
-?>
-    line1 = [<?php echo $crashvalues; ?>];
-    plot1 = $.jqplot('crashdiv', [line1], {
-        seriesDefaults: {showMarker:false},
-        series:[
-            {pointLabels:{
-                show: false
-            }}],
-        axes:{
-            xaxis:{
-                renderer:$.jqplot.DateAxisRenderer,
-                rendererOptions:{tickRenderer:$.jqplot.CanvasAxisTickRenderer},
-                tickOptions:{formatString:'%#d-%b'}
-            },
-            yaxis:{
-                min: 0,
-                tickOptions:{formatString:'%.0f'}
-            }
-        },
-        highlighter: {sizeAdjust: 7.5}
-    });
-<?php
-    }
-    
-    if ($osticks != "") {
-?>
-    line1 = [<?php echo $osvalues; ?>];
-    plot1 = $.jqplot('osdiv', [line1], {
-        seriesDefaults: {
-                renderer:$.jqplot.BarRenderer
-            },
-        axes:{
-            xaxis:{
-                renderer:$.jqplot.CategoryAxisRenderer,
-                ticks:[<?php echo $osticks; ?>]
-            },
-            yaxis:{
-                min: 0,
-                tickOptions:{formatString:'%.0f'}
-            }
-        },
-        highlighter: {show: false}
-    });
-<?php
-    }
-?>
 
-
+<?php include "jqplot.php" ?>
 });
 </script>
+
 
 </body></html>

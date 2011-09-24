@@ -3,7 +3,7 @@
 	/*
 	 * Author: Andreas Linde <mail@andreaslinde.de>
 	 *
-	 * Copyright (c) 2009 Andreas Linde & Kent Sutherland. All rights reserved.
+	 * Copyright (c) 2009-2011 Andreas Linde & Kent Sutherland.
 	 * All rights reserved.
 	 *
 	 * Permission is hereby granted, free of charge, to any person
@@ -209,7 +209,7 @@ echo "<thead><tr><th>System</th><th>Timestamp</th><th>User / Contact</th><th>Act
 echo '<tbody>';
 
 // get all crashes
-$query = "SELECT userid, contact, systemversion, timestamp, id FROM ".$dbcrashtable.$whereclause." ORDER BY systemversion desc, timestamp desc";
+$query = "SELECT userid, contact, systemversion, timestamp, id, jailbreak, platform FROM ".$dbcrashtable.$whereclause." ORDER BY systemversion desc, timestamp desc";
 $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
 
 $numrows = mysql_num_rows($result);
@@ -221,6 +221,8 @@ if ($numrows > 0) {
 		$systemversion = $row[2];
 		$timestamp = $row[3];
 		$crashid = $row[4];
+		$jailbreak = $row[5];
+		$platform = $row[6];
 				
 		$todo = 2;
 		$query2 = "SELECT done FROM ".$dbsymbolicatetable." WHERE crashid = ".$crashid;
@@ -257,7 +259,12 @@ if ($numrows > 0) {
             $crashvaluesarray[$timeindex]++;
 		}
 
-		echo "<tr id='crashrow".$crashid."' valign='top' align='center'><td>".$systemversion."</td><td>".$timestamp."</td><td>".$userid."<br/>".$contact."</td><td>";
+		echo "<tr id='crashrow".$crashid."' valign='top' align='center'>";
+		echo "<td>".$systemversion;
+		if ($platform != "") echo "<br/>".mapPlatform($platform);
+		if ($jailbreak == 1) echo "<br/>Jailbroken";
+		echo "</td>";
+		echo "<td>".$timestamp."</td><td>".$userid."<br/>".$contact."</td><td>";
 		echo "<a href='javascript:showCrashID(".$crashid.")' class='button'>View</a>";
 
 		echo "<a href='actionapi.php?action=downloadcrashid&id=".$crashid."' class='button'>Download</a> ";
@@ -305,83 +312,7 @@ $(document).ready(function(){
         scrolling: "yes"
     });
 
-    $.jqplot.config.enablePlugins = true;
-
-<?php
-    if ($crashestime && sizeof($crashvaluesarray) > 0) {
-        foreach ($crashvaluesarray as $key => $value) {
-            if ($crashvalues != "") $crashvalues = $crashvalues.", ";
-            $crashvalues .= "['".$key."', ".$value."]";
-        }
-
-?>
-    line1 = [<?php echo $crashvalues; ?>];
-    plot1 = $.jqplot('crashdiv', [line1], {
-        seriesDefaults: {showMarker:false},
-        series:[
-            {pointLabels:{
-                show: false
-            }}],
-        axes:{
-            xaxis:{
-                renderer:$.jqplot.DateAxisRenderer,
-                rendererOptions:{tickRenderer:$.jqplot.CanvasAxisTickRenderer},
-                tickOptions:{formatString:'%#d-%b'}
-            },
-            yaxis:{
-                min: 0,
-                tickOptions:{formatString:'%.0f'}
-            }
-        },
-        highlighter: {sizeAdjust: 7.5}
-    });
-<?php
-    }
-    
-    if ($platformticks != "") {
-?>
-    line1 = [<?php echo $platformvalues; ?>];
-    plot1 = $.jqplot('platformdiv', [line1], {
-        seriesDefaults: {
-                renderer:$.jqplot.BarRenderer
-            },
-        axes:{
-            xaxis:{
-                renderer:$.jqplot.CategoryAxisRenderer,
-                ticks:[<?php echo $platformticks; ?>]
-            },
-            yaxis:{
-                min: 0,
-                tickOptions:{formatString:'%.0f'}
-            }
-        },
-        highlighter: {show: false}
-    });
-<?php
-    }
-    
-    if ($osticks != "") { 
-?>
-    line1 = [<?php echo $osvalues; ?>];
-    plot1 = $.jqplot('osdiv', [line1], {
-        seriesDefaults: {
-                renderer:$.jqplot.BarRenderer
-            },
-        axes:{
-            xaxis:{
-                renderer:$.jqplot.CategoryAxisRenderer,
-                ticks:[<?php echo $osticks; ?>]
-            },
-            yaxis:{
-                min: 0,
-                tickOptions:{formatString:'%.0f'}
-            }
-        },
-        highlighter: {show: false}
-    });
-<?php
-  }
-?>
+<?php include "jqplot.php" ?>
 });
 </script>
 
