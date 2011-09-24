@@ -7,15 +7,26 @@
 //
 
 @interface Rule : NSObject {
+@private
 	BOOL m_enabled;
 	BOOL m_match;
+	NSDictionary *m_data;
 }
 
-// implemented by subclasses
-- (void) beingEnabled;
-- (void) beingDisabled;
-
+@property (readwrite, copy, nonatomic) NSDictionary *data;
 @property (readwrite, assign, nonatomic) BOOL enabled;
 @property (readwrite, assign) BOOL match;
 
+// implemented by subclasses
+- (NSString *) name;
+- (void) beingEnabled;
+- (void) beingDisabled;
+- (NSArray *) suggestedValues;
+
 @end
+
+// Put this in each source implementation so that it registers with the manager
+#define registerRule(type) + (void) load { \
+	[RulesManager.sharedRulesManager registerRuleType: type.class]; \
+}
+

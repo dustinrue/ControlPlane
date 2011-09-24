@@ -105,6 +105,10 @@
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
+		DD4ADAC9142D457900CE825F /* RulesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAC8142D457900CE825F /* RulesManager.m */; };
+		DD4ADACD142D4BE500CE825F /* PowerRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACC142D4BE500CE825F /* PowerRule.m */; };
+		DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */; };
+		DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */; };
 		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD68A9DD142623210059A730 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DA142623210059A730 /* Source.m */; };
 		DD68A9DE142623210059A730 /* SourcesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DC142623210059A730 /* SourcesManager.m */; };
@@ -369,6 +373,14 @@
 		DD44B5A414142D4D0016BF6B /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD44B5A514142D4D0016BF6B /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
+		DD4ADAC7142D457900CE825F /* RulesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesManager.h; path = Source/RulesManager.h; sourceTree = "<group>"; };
+		DD4ADAC8142D457900CE825F /* RulesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulesManager.m; path = Source/RulesManager.m; sourceTree = "<group>"; };
+		DD4ADACB142D4BE500CE825F /* PowerRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerRule.h; path = Source/PowerRule.h; sourceTree = "<group>"; };
+		DD4ADACC142D4BE500CE825F /* PowerRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerRule.m; path = Source/PowerRule.m; sourceTree = "<group>"; };
+		DD4ADACE142D58DD00CE825F /* AudioOutputRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputRule.h; path = Source/AudioOutputRule.h; sourceTree = "<group>"; };
+		DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputRule.m; path = Source/AudioOutputRule.m; sourceTree = "<group>"; };
+		DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationRule.h; path = Source/RunningApplicationRule.h; sourceTree = "<group>"; };
+		DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationRule.m; path = Source/RunningApplicationRule.m; sourceTree = "<group>"; };
 		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "External Source/JSONKit/JSONKit.h"; sourceTree = "<group>"; };
 		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "External Source/JSONKit/JSONKit.m"; sourceTree = "<group>"; };
 		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Source.h; path = Source/Source.h; sourceTree = "<group>"; };
@@ -751,6 +763,19 @@
 			path = AuthorizationLib;
 			sourceTree = "<group>";
 		};
+		DD4ADACA142D48AD00CE825F /* Concrete Rules */ = {
+			isa = PBXGroup;
+			children = (
+				DD4ADACE142D58DD00CE825F /* AudioOutputRule.h */,
+				DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */,
+				DD4ADACB142D4BE500CE825F /* PowerRule.h */,
+				DD4ADACC142D4BE500CE825F /* PowerRule.m */,
+				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
+				DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */,
+			);
+			name = "Concrete Rules";
+			sourceTree = "<group>";
+		};
 		DD5BD2071416149B007BA88C /* JNI LmuTracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -788,8 +813,11 @@
 		DD68A9DF142629310059A730 /* Rules */ = {
 			isa = PBXGroup;
 			children = (
+				DD4ADACA142D48AD00CE825F /* Concrete Rules */,
 				DD68A9E01426294B0059A730 /* Rule.h */,
 				DD68A9E11426294B0059A730 /* Rule.m */,
+				DD4ADAC7142D457900CE825F /* RulesManager.h */,
+				DD4ADAC8142D457900CE825F /* RulesManager.m */,
 			);
 			name = Rules;
 			sourceTree = "<group>";
@@ -1202,6 +1230,10 @@
 				DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */,
 				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
 				DDD1A378142D0E7100341B75 /* RunningApplicationSource.m in Sources */,
+				DD4ADAC9142D457900CE825F /* RulesManager.m in Sources */,
+				DD4ADACD142D4BE500CE825F /* PowerRule.m in Sources */,
+				DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */,
+				DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

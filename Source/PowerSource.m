@@ -21,7 +21,7 @@ registerSource(PowerSource)
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.status = kPowerUnknown;
+	self.status = nil;
 	m_runLoopSource = nil;
 	
 	return self;
@@ -44,7 +44,7 @@ registerSource(PowerSource)
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), m_runLoopSource, kCFRunLoopDefaultMode);
 	CFRelease(m_runLoopSource);
 	
-	self.status = kPowerUnknown;
+	self.status = nil;
 }
 
 - (void) checkData {

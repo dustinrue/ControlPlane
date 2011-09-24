@@ -8,17 +8,14 @@
 
 #import "CallbackSource.h"
 
-typedef enum {
-	kPowerBattery,
-	kPowerAC,
-	kPowerUnknown
-} PowerStatus;
+#define kPowerAC @"A/C"
+#define kPowerBattery @"Battery"
 
 @interface PowerSource : CallbackSource {
-	PowerStatus m_status;
+	NSString *m_status;
 	CFRunLoopSourceRef m_runLoopSource;
 }
 
-@property (readwrite, assign) PowerStatus status;
+@property (readwrite, copy) NSString *status;
 
 @end

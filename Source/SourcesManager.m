@@ -66,8 +66,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 		[self createSources];
 	
 	Source *sourceInstance = [self getSource: source];
-	
 	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
+	
 	[sourceInstance addObserver: rule];
 	sourceInstance.listenersCount++;
 }
@@ -77,9 +77,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 		[self createSources];
 	
 	Source *sourceInstance = [self getSource: source];
-	
 	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
 	ZAssert(sourceInstance.listenersCount > 0, @"Source has no listeners!");
+	
 	[sourceInstance removeObserver: rule];
 	sourceInstance.listenersCount--;
 }
