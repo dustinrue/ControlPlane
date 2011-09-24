@@ -14,7 +14,7 @@
 
 #pragma mark - Source observe functions
 
-- (void) statusChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
+- (void) runningApplicationChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
 	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
 	NSString *needle = [self.data objectForKey: @"parameter"];
 	BOOL found = NO;
