@@ -86,7 +86,6 @@
 		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; };
-		DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */; };
 		DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A21E13D12A3200074503 /* cp-icon-active.icns */; };
 		DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22013D13C8300074503 /* cp-icon-inactive.icns */; };
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
@@ -106,6 +105,8 @@
 		DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */; };
 		DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */; };
 		DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD5142D762800CE825F /* BonjourRule.m */; };
+		DD4ADAD9142E1A8500CE825F /* WLANSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */; };
+		DD4ADADC142E2CEE00CE825F /* WLANBSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */; };
 		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD68A9DD142623210059A730 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DA142623210059A730 /* Source.m */; };
 		DD68A9DE142623210059A730 /* SourcesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DC142623210059A730 /* SourcesManager.m */; };
@@ -340,8 +341,6 @@
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA812E81140681D2006869F7 /* AppleScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleScript.h; path = Source/AppleScript.h; sourceTree = "<group>"; };
 		DA812E82140681D2006869F7 /* AppleScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppleScript.m; path = Source/AppleScript.m; sourceTree = "<group>"; };
-		DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreWLANEvidenceSource.h; path = Source/CoreWLANEvidenceSource.h; sourceTree = "<group>"; };
-		DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreWLANEvidenceSource.m; path = Source/CoreWLANEvidenceSource.m; sourceTree = "<group>"; };
 		DA83A21E13D12A3200074503 /* cp-icon-active.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-active.icns"; path = "Resources/cp-icon-active.icns"; sourceTree = "<group>"; };
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon-inactive.icns"; path = "Resources/cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "cp-icon.icns"; path = "Resources/cp-icon.icns"; sourceTree = "<group>"; };
@@ -372,6 +371,10 @@
 		DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationRule.m; path = Source/RunningApplicationRule.m; sourceTree = "<group>"; };
 		DD4ADAD4142D762800CE825F /* BonjourRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourRule.h; path = Source/BonjourRule.h; sourceTree = "<group>"; };
 		DD4ADAD5142D762800CE825F /* BonjourRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourRule.m; path = Source/BonjourRule.m; sourceTree = "<group>"; };
+		DD4ADAD7142E1A8400CE825F /* WLANSSIDRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANSSIDRule.h; path = Source/WLANSSIDRule.h; sourceTree = "<group>"; };
+		DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSSIDRule.m; path = Source/WLANSSIDRule.m; sourceTree = "<group>"; };
+		DD4ADADA142E2CEE00CE825F /* WLANBSSIDRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANBSSIDRule.h; path = Source/WLANBSSIDRule.h; sourceTree = "<group>"; };
+		DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANBSSIDRule.m; path = Source/WLANBSSIDRule.m; sourceTree = "<group>"; };
 		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "External Source/JSONKit/JSONKit.h"; sourceTree = "<group>"; };
 		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "External Source/JSONKit/JSONKit.m"; sourceTree = "<group>"; };
 		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Source.h; path = Source/Source.h; sourceTree = "<group>"; };
@@ -687,8 +690,6 @@
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
 				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
-				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
-				DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */,
 				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
 				8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
@@ -757,6 +758,10 @@
 				DD4ADACC142D4BE500CE825F /* PowerRule.m */,
 				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
 				DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */,
+				DD4ADADA142E2CEE00CE825F /* WLANBSSIDRule.h */,
+				DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */,
+				DD4ADAD7142E1A8400CE825F /* WLANSSIDRule.h */,
+				DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */,
 			);
 			name = "Concrete Rules";
 			sourceTree = "<group>";
@@ -1180,7 +1185,6 @@
 				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,
 				8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */,
 				DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */,
-				DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */,
 				DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */,
 				DA812E83140681D2006869F7 /* AppleScript.m in Sources */,
 				DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */,
@@ -1216,6 +1220,8 @@
 				DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */,
 				DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */,
 				DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */,
+				DD4ADAD9142E1A8500CE825F /* WLANSSIDRule.m in Sources */,
+				DD4ADADC142E2CEE00CE825F /* WLANBSSIDRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

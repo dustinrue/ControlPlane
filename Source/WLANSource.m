@@ -17,7 +17,7 @@
 
 @implementation WLANSource
 
-registerSource(WLANSource)
+registerSourceType(WLANSource)
 @synthesize networks = m_networks;
 
 - (id) init {
@@ -89,8 +89,8 @@ registerSource(WLANSource)
 	// fill results array
 	for (CWNetwork *network in scanResults) {
 		[results addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							 network.ssid, @"WiFi SSID",
-							 network.bssid, @"WiFi BSSID", nil]];
+							 network.ssid, @"SSID",
+							 network.bssid, @"BSSID", nil]];
 		DLog(@"Found ssid %@ with bssid %@ and RSSI %@", network.ssid, network.bssid, network.rssi);
 	}
 	

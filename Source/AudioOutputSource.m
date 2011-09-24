@@ -13,7 +13,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 
 @implementation AudioOutputSource
 
-registerSource(AudioOutputSource)
+registerSourceType(AudioOutputSource)
 @synthesize source = m_source;
 
 - (id) init {

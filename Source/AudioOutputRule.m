@@ -1,5 +1,5 @@
 //
-//	PowerRule.m
+//	AudioOutputRule.m
 //	ControlPlane
 //
 //	Created by David Jennes on 24/09/11.
@@ -13,6 +13,8 @@
 
 @implementation AudioOutputRule
 
+registerRuleType(AudioOutputRule)
+
 #pragma mark - Source observe functions
 
 - (void) sourceChangedWithOld: (UInt32) oldSource andNew: (UInt32) newSource {
@@ -24,7 +26,7 @@
 #pragma mark - Required implementation of 'Rule' class
 
 - (NSString *) name {
-	return NSLocalizedString(@"Audio Output", "Rule type");
+	return NSLocalizedString(@"Audio Output", @"Rule type");
 }
 
 - (void) beingEnabled {
@@ -43,13 +45,16 @@
 	return [NSArray arrayWithObjects:
 			[NSDictionary dictionaryWithObjectsAndKeys:
 			 [NSNumber numberWithInt: kIOAudioOutputPortSubTypeInternalSpeaker], @"parameter",
-			 NSLocalizedString(@"Internal Speakers", @"AudioOutputRule value suggestion"), @"description", nil],
+			 NSLocalizedString(@"Internal Speakers", @"AudioOutputRule suggestion description"), @"description",
+			 nil],
 			[NSDictionary dictionaryWithObjectsAndKeys:
 			 [NSNumber numberWithInt: kIOAudioOutputPortSubTypeHeadphones], @"parameter",
-			 NSLocalizedString(@"Headphones", @"AudioOutputRule value suggestion"), @"description", nil],
+			 NSLocalizedString(@"Headphones", @"AudioOutputRule suggestion description"), @"description",
+			 nil],
 			[NSDictionary dictionaryWithObjectsAndKeys:
 			 [NSNumber numberWithInt: kIOAudioOutputPortSubTypeExternalSpeaker], @"parameter",
-			 NSLocalizedString(@"External speakers", @"AudioOutputRule value suggestion"), @"description", nil],
+			 NSLocalizedString(@"External speakers", @"AudioOutputRule suggestion description"), @"description",
+			 nil],
 			nil];
 }
 

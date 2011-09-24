@@ -10,7 +10,7 @@
 
 @implementation RunningApplicationSource
 
-registerSource(RunningApplicationSource)
+registerSourceType(RunningApplicationSource)
 @synthesize applications = m_applications;
 
 - (id) init {

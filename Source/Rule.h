@@ -6,6 +6,8 @@
 //  Copyright 2011. All rights reserved.
 //
 
+#import "RulesManager.h"
+
 @interface Rule : NSObject {
 @private
 	BOOL m_enabled;
@@ -26,7 +28,7 @@
 @end
 
 // Put this in each source implementation so that it registers with the manager
-#define registerRule(type) + (void) load { \
+#define registerRuleType(type) + (void) load { \
 	[RulesManager.sharedRulesManager registerRuleType: type.class]; \
 }
 

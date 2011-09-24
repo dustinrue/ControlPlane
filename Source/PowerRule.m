@@ -12,6 +12,8 @@
 
 @implementation PowerRule
 
+registerRuleType(PowerRule)
+
 #pragma mark - Source observe functions
 
 - (void) statusChangedWithOld: (NSString *) oldStatus andNew: (NSString *) newStatus {
@@ -21,7 +23,7 @@
 #pragma mark - Required implementation of 'Rule' class
 
 - (NSString *) name {
-	return NSLocalizedString(@"Power", "Rule type");
+	return NSLocalizedString(@"Power", @"Rule type");
 }
 
 - (void) beingEnabled {
@@ -40,10 +42,12 @@
 	return [NSArray arrayWithObjects:
 			[NSDictionary dictionaryWithObjectsAndKeys:
 			 @"Battery", @"parameter",
-			 NSLocalizedString(@"Battery", @"PowerRule value suggestion"), @"description", nil],
+			 NSLocalizedString(@"Battery", @"PowerRule suggestion description"), @"description",
+			 nil],
 			[NSDictionary dictionaryWithObjectsAndKeys:
 			 @"A/C", @"parameter",
-			 NSLocalizedString(@"Power Adapter", @"PowerRule value suggestion"), @"description", nil],
+			 NSLocalizedString(@"Power Adapter", @"PowerRule suggestion description"), @"description",
+			 nil],
 			nil];
 }
 

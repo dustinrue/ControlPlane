@@ -14,7 +14,7 @@ static void sourceChange(void *info);
 
 @implementation PowerSource
 
-registerSource(PowerSource)
+registerSourceType(PowerSource)
 @synthesize status = m_status;
 
 - (id) init {

@@ -12,15 +12,16 @@
 
 @implementation RunningApplicationRule
 
+registerRuleType(RunningApplicationRule)
+
 #pragma mark - Source observe functions
 
 - (void) applicationsChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
-	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
 	NSString *needle = [self.data objectForKey: @"parameter"];
 	BOOL found = NO;
 	
 	// loop through apps
-	for (NSDictionary *app in source.applications) {
+	for (NSDictionary *app in newList) {
 		found = [needle isEqualToString: [app valueForKey: @"identifier"]];
 		if (found)
 			break;
@@ -32,7 +33,7 @@
 #pragma mark - Required implementation of 'Rule' class
 
 - (NSString *) name {
-	return NSLocalizedString(@"Running Application", "Rule type");
+	return NSLocalizedString(@"Running Application", @"Rule type");
 }
 
 - (void) beingEnabled {

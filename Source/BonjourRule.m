@@ -12,17 +12,18 @@
 
 @implementation BonjourRule
 
+registerRuleType(BonjourRule)
+
 #pragma mark - Source observe functions
 
 - (void) servicesChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
-	BonjourSource *source = (BonjourSource *) [SourcesManager.sharedSourcesManager getSource: @"BonjourSource"];
 	BOOL found = NO;
 	
-	NSString *host = [[self.data objectForKey: @"parameter"] objectAtIndex: 0];
-	NSString *service = [[self.data objectForKey: @"parameter"] objectAtIndex: 1];
+	NSString *host = [[self.data objectForKey: @"parameter"] objectForKey: @"host"];
+	NSString *service = [[self.data objectForKey: @"parameter"] objectForKey: @"service"];
 	
 	// loop through services
-	for (NSDictionary *item in source.services) {
+	for (NSDictionary *item in newList) {
 		found = [host isEqualToString: [item valueForKey: @"host"]] &&
 				[service isEqualToString: [item valueForKey: @"service"]];
 		
@@ -57,14 +58,13 @@
 	
 	// loop through services
 	for (NSDictionary *item in source.services) {
-		NSString *host = [item valueForKey: @"host"];
-		NSString *service = [item valueForKey: @"service"];
-		
-		NSArray *parameter = [NSArray arrayWithObjects: host, service, nil];
-		NSString *description = [NSString stringWithFormat: @"%@ on %@", host, service];
+		NSString *description = [NSString stringWithFormat:
+								 NSLocalizedString(@"%@ on %@", @"BonjourRule suggestion desciption"),
+								 [item valueForKey: @"host"],
+								 [item valueForKey: @"service"]];
 		
 		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							parameter, @"parameter",
+							item, @"parameter",
 							description, @"description", nil]];
 	}
 	

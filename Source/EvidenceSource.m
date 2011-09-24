@@ -276,7 +276,6 @@
 #import "NetworkLinkEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
-#import "CoreWLANEvidenceSource.h"
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 
@@ -298,7 +297,6 @@
 						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
 						[USBEvidenceSource class],
-						[WiFiEvidenceSourceCoreWLAN class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
