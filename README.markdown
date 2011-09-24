@@ -220,6 +220,25 @@ The branching structure follows the git flow concept, defined by Vincent Driesse
 	Hotfix branches are very much like release branches in that they are also meant to prepare for a new production release, albeit unplanned.
 
 
+# Dependencies
+
+## Server
+
+Web server supporting PHP 5.0+ and MySQL.
+
+## Mac OS X
+
+Requires Max OS X 10.5+
+
+## iOS
+
+Requires iOS 3.0+
+
+## ARC Support
+
+If you are including QuincyKit in a project with Automatic Reference Counting (ARC) enabled, you will need to set the `-fno-objc-arc` compiler flag on all of the QuincyKit source files. To do this in Xcode, go to your active target and select the "Build Phases" tab. In the "Compiler Flags" column, set `-fno-objc-arc` for each of the QuincyKit source files.
+
+
 # ACKNOWLEDGMENTS
 
 **The following 3rd party open source libraries have been used:**
