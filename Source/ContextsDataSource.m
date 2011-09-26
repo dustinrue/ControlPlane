@@ -30,9 +30,10 @@
 	if (!(self = [super init]))
 		return nil;
 
-	uuid = [[dict valueForKey:@"uuid"] copy];
+	uuid   = [[dict valueForKey:@"uuid"]   copy];
 	parent = [[dict valueForKey:@"parent"] copy];
-	name = [[dict valueForKey:@"name"] copy];
+	name   = [[dict valueForKey:@"name"]   copy];
+    group  = [[dict valueForKey:@"group"]  copy];
 
 	return self;
 }
@@ -54,7 +55,7 @@
 - (NSDictionary *)dictionary
 {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		uuid, @"uuid", parent, @"parent", name, @"name", nil];
+		uuid, @"uuid", parent, @"parent", name, @"name", group, @"group", nil];
 }
 
 - (NSComparisonResult)compare:(CContext *)ctxt
@@ -62,39 +63,20 @@
 	return [name compare:[ctxt name]];
 }
 
-- (NSString *)uuid
-{
-	return uuid;
-}
-
-- (NSString *)parentUUID
-{
-	return parent;
-}
-
-- (void)setParentUUID:(NSString *)parentUUID
-{
-	[parent autorelease];
-	parent = [parentUUID copy];
-}
-
-- (NSString *)name
-{
-	return name;
-}
-
-- (void)setName:(NSString *)newName
-{
-	[name autorelease];
-	name = [newName copy];
-}
-
+@synthesize uuid;
+@synthesize parent;
+@synthesize name;
+@synthesize group;
+@synthesize confidence;
+@synthesize depth;
+ 
 // Used by -[ContextsDataSource pathFromRootTo:]
 - (NSString *)description
 {
 	return name;
 }
 
+/*
 - (NSString *)confidence
 {
 	return confidence;
@@ -105,6 +87,7 @@
 	[confidence autorelease];
 	confidence = [newConfidence copy];
 }
+*/
 
 @end
 
@@ -177,7 +160,9 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if ([[context valueForKey:@"depth"] intValue] >= 0)
 		return;
 
-	CContext *parent = [contexts objectForKey:[context parentUUID]];
+
+	CContext *parent = [contexts objectForKey:[context parent]];
+
 	if (!parent)
 		[context setValue:[NSNumber numberWithInt:0] forKey:@"depth"];
 	else {
@@ -226,9 +211,9 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	en = [contexts objectEnumerator];
 	CContext *ctxt;
 	while ((ctxt = [en nextObject])) {
-		if (![ctxt isRoot] && ![contexts objectForKey:[ctxt parentUUID]]) {
+		if (![ctxt isRoot] && ![contexts objectForKey:[ctxt parent]]) {
 			NSLog(@"%s correcting broken parent UUID for context '%@'", __PRETTY_FUNCTION__, [ctxt name]);
-			[ctxt setParentUUID:@""];
+			[ctxt setParent:@""];
 		}
 	}
 
@@ -259,9 +244,9 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	// Look for parent
 	if (fromUI && ([outlineView selectedRow] >= 0))
-		[ctxt setParentUUID:[(CContext *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
+		[ctxt setParent:[(CContext *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
 	else
-		[ctxt setParentUUID:@""];
+		[ctxt setParent:@""];
 
 
 	[contexts setValue:ctxt forKey:[ctxt uuid]];
@@ -271,7 +256,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	if (fromUI) {
 		if (![ctxt isRoot])
-			[outlineView expandItem:[contexts objectForKey:[ctxt parentUUID]]];
+			[outlineView expandItem:[contexts objectForKey:[ctxt parent]]];
 		[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[outlineView rowForItem:ctxt]] byExtendingSelection:NO];
 		[self outlineViewSelectionDidChange:nil];
 	} else
@@ -328,7 +313,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSEnumerator *en = [contexts objectEnumerator];
 	CContext *ctxt;
 	while ((ctxt = [en nextObject]))
-		if ([[ctxt parentUUID] isEqualToString:uuid])
+		if ([[ctxt parent] isEqualToString:uuid])
 			[arr addObject:ctxt];
 
 	[arr sortUsingSelector:@selector(compare:)];
@@ -451,7 +436,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		if (!ctxt)
 			break;
 		[walk addObject:ctxt];
-		uuid = [ctxt parentUUID];
+		uuid = [ctxt parent];
 	}
 
 	return walk;
@@ -569,7 +554,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	NSString *uuid = [[info draggingPasteboard] stringForType:MovedRowsType];
 	CContext *ctxt = [contexts objectForKey:uuid];
-	[ctxt setParentUUID:new_parent_uuid];
+	[ctxt setParent:new_parent_uuid];
+
 
 	[self recomputeTransientData];
 	[self postContextsChangedNotification];

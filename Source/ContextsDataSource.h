@@ -10,10 +10,11 @@
 	NSString *uuid;
 	NSString *parent;	// UUID
 	NSString *name;
+    NSString *group;    // group this context belongs to
 
 	// Transient
-	NSNumber *depth;
-	NSString *confidence;
+	@private NSNumber *depth;
+    @private NSString *confidence;
 }
 
 - (id)init;
@@ -23,12 +24,22 @@
 - (NSDictionary *)dictionary;
 - (NSComparisonResult)compare:(CContext *)ctxt;
 
+
+@property (readwrite, copy) NSString *uuid;
+@property (readwrite, copy) NSString *parent;
+@property (readwrite, copy) NSString *name;
+@property (readwrite, copy) NSString *group;
+@property (readwrite, copy) NSString *confidence;
+@property (readwrite, copy) NSNumber  *depth;
+
+
+/*
 - (NSString *)uuid;
 - (NSString *)parentUUID;
 - (void)setParentUUID:(NSString *)parentUUID;
 - (NSString *)name;
 - (void)setName:(NSString *)newName;
-
+*/
 @end
 
 
