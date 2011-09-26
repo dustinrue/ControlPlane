@@ -107,6 +107,9 @@
 		DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD5142D762800CE825F /* BonjourRule.m */; };
 		DD4ADAD9142E1A8500CE825F /* WLANSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */; };
 		DD4ADADC142E2CEE00CE825F /* WLANBSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */; };
+		DD4ADADF142F901500CE825F /* LocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADADE142F901500CE825F /* LocationSource.m */; };
+		DD4ADAE6142F97F700CE825F /* LocationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE5142F97F600CE825F /* LocationRule.m */; };
+		DD4ADAE9143124CD00CE825F /* CLLocation+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */; };
 		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD68A9DD142623210059A730 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DA142623210059A730 /* Source.m */; };
 		DD68A9DE142623210059A730 /* SourcesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DC142623210059A730 /* SourcesManager.m */; };
@@ -375,6 +378,12 @@
 		DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSSIDRule.m; path = Source/WLANSSIDRule.m; sourceTree = "<group>"; };
 		DD4ADADA142E2CEE00CE825F /* WLANBSSIDRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANBSSIDRule.h; path = Source/WLANBSSIDRule.h; sourceTree = "<group>"; };
 		DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANBSSIDRule.m; path = Source/WLANBSSIDRule.m; sourceTree = "<group>"; };
+		DD4ADADD142F901300CE825F /* LocationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationSource.h; path = Source/LocationSource.h; sourceTree = "<group>"; };
+		DD4ADADE142F901500CE825F /* LocationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationSource.m; path = Source/LocationSource.m; sourceTree = "<group>"; };
+		DD4ADAE4142F97F500CE825F /* LocationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationRule.h; path = Source/LocationRule.h; sourceTree = "<group>"; };
+		DD4ADAE5142F97F600CE825F /* LocationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationRule.m; path = Source/LocationRule.m; sourceTree = "<group>"; };
+		DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CLLocation+Geocoding.h"; path = "Source/CLLocation+Geocoding.h"; sourceTree = "<group>"; };
+		DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CLLocation+Geocoding.m"; path = "Source/CLLocation+Geocoding.m"; sourceTree = "<group>"; };
 		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "External Source/JSONKit/JSONKit.h"; sourceTree = "<group>"; };
 		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "External Source/JSONKit/JSONKit.m"; sourceTree = "<group>"; };
 		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Source.h; path = Source/Source.h; sourceTree = "<group>"; };
@@ -605,6 +614,8 @@
 				DD5BD20C141614CA007BA88C /* JSONKit */,
 				DDD1A361142BD65600341B75 /* KVOAdditions */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
+				DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */,
+				DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */,
 				32CA4F630368D1EE00C91783 /* Prefix.pch */,
 				DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */,
 			);
@@ -754,6 +765,8 @@
 				DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */,
 				DD4ADAD4142D762800CE825F /* BonjourRule.h */,
 				DD4ADAD5142D762800CE825F /* BonjourRule.m */,
+				DD4ADAE4142F97F500CE825F /* LocationRule.h */,
+				DD4ADAE5142F97F600CE825F /* LocationRule.m */,
 				DD4ADACB142D4BE500CE825F /* PowerRule.h */,
 				DD4ADACC142D4BE500CE825F /* PowerRule.m */,
 				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
@@ -914,6 +927,8 @@
 				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
 				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
 				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
+				DD4ADADD142F901300CE825F /* LocationSource.h */,
+				DD4ADADE142F901500CE825F /* LocationSource.m */,
 				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
 				DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */,
 				DDD1A357142B9E5A00341B75 /* WLANSource.h */,
@@ -1222,6 +1237,9 @@
 				DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */,
 				DD4ADAD9142E1A8500CE825F /* WLANSSIDRule.m in Sources */,
 				DD4ADADC142E2CEE00CE825F /* WLANBSSIDRule.m in Sources */,
+				DD4ADADF142F901500CE825F /* LocationSource.m in Sources */,
+				DD4ADAE6142F97F700CE825F /* LocationRule.m in Sources */,
+				DD4ADAE9143124CD00CE825F /* CLLocation+Geocoding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
