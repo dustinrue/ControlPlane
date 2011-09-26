@@ -8,7 +8,6 @@
 
 #import "BonjourRule.h"
 #import "BonjourSource.h"
-#import "SourcesManager.h"
 
 @implementation BonjourRule
 
@@ -41,11 +40,10 @@ registerRuleType(BonjourRule)
 }
 
 - (void) beingEnabled {
-	[SourcesManager.sharedSourcesManager registerRule: self toSource: @"BonjourSource"];
+	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"BonjourSource"];
 	
 	// currently a match?
-	BonjourSource *source = (BonjourSource *) [SourcesManager.sharedSourcesManager getSource: @"BonjourSource"];
-	[self servicesChangedWithOld: nil andNew: source.services];
+	[self servicesChangedWithOld: nil andNew: ((BonjourSource *) source).services];
 }
 
 - (void) beingDisabled {

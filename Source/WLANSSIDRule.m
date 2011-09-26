@@ -8,7 +8,6 @@
 
 #import "WLANSource.h"
 #import "WLANSSIDRule.h"
-#import "SourcesManager.h"
 
 @implementation WLANSSIDRule
 
@@ -39,11 +38,10 @@ registerRuleType(WLANSSIDRule)
 }
 
 - (void) beingEnabled {
-	[SourcesManager.sharedSourcesManager registerRule: self toSource: @"WLANSource"];
+	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"WLANSource"];
 	
 	// currently a match?
-	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: @"WLANSource"];
-	[self networksChangedWithOld: nil andNew: source.networks];
+	[self networksChangedWithOld: nil andNew: ((WLANSource *) source).networks];
 }
 
 - (void) beingDisabled {

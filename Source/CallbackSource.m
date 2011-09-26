@@ -32,7 +32,6 @@
 #pragma mark - Subclass functions
 
 + (void) load {
-	[self doesNotRecognizeSelector: _cmd];
 }
 
 - (NSArray *) observableKeys {

@@ -33,5 +33,7 @@
 
 // Put this in each source implementation so that it registers with the manager
 #define registerSourceType(type) + (void) load { \
+	NSAutoreleasePool *pool = [NSAutoreleasePool new]; \
 	[SourcesManager.sharedSourcesManager registerSourceType: type.class]; \
+	[pool release]; \
 }

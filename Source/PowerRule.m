@@ -8,7 +8,6 @@
 
 #import "PowerRule.h"
 #import "PowerSource.h"
-#import "SourcesManager.h"
 
 @implementation PowerRule
 
@@ -27,11 +26,10 @@ registerRuleType(PowerRule)
 }
 
 - (void) beingEnabled {
-	[SourcesManager.sharedSourcesManager registerRule: self toSource: @"PowerSource"];
+	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"PowerSource"];
 	
 	// currently a match?
-	PowerSource *source = (PowerSource *) [SourcesManager.sharedSourcesManager getSource: @"PowerSource"];
-	[self statusChangedWithOld: nil andNew: source.status];
+	[self statusChangedWithOld: nil andNew: ((PowerSource *) source).status];
 }
 
 - (void) beingDisabled {

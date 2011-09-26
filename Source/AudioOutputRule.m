@@ -8,7 +8,6 @@
 
 #import "AudioOutputRule.h"
 #import "AudioOutputSource.h"
-#import "SourcesManager.h"
 #import <IOKit/audio/IOAudioTypes.h>
 
 @implementation AudioOutputRule
@@ -30,11 +29,10 @@ registerRuleType(AudioOutputRule)
 }
 
 - (void) beingEnabled {
-	[SourcesManager.sharedSourcesManager registerRule: self toSource: @"AudioOutputSource"];
+	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"AudioOutputSource"];
 	
 	// currently a match?
-	AudioOutputSource *source = (AudioOutputSource *) [SourcesManager.sharedSourcesManager getSource: @"AudioOutputSource"];
-	[self sourceChangedWithOld: 0 andNew: source.source];
+	[self sourceChangedWithOld: 0 andNew: ((AudioOutputSource *) source).source];
 }
 
 - (void) beingDisabled {

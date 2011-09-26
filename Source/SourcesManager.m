@@ -61,15 +61,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 
 #pragma mark - Rules registration
 
-- (void) registerRule: (Rule *) rule toSource: (NSString *) source {
+- (Source *) registerRule: (Rule *) rule toSource: (NSString *) source {
 	if (!m_sourcesCreated)
 		[self createSources];
 	
+	// find it
 	Source *sourceInstance = [self getSource: source];
 	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
 	
+	// register
 	[sourceInstance addObserver: rule];
 	sourceInstance.listenersCount++;
+	
+	return sourceInstance;
 }
 
 - (void) unRegisterRule: (Rule *) rule fromSource: (NSString *) source {

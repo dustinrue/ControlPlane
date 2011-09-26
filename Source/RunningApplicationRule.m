@@ -8,7 +8,6 @@
 
 #import "RunningApplicationRule.h"
 #import "RunningApplicationSource.h"
-#import "SourcesManager.h"
 
 @implementation RunningApplicationRule
 
@@ -37,11 +36,10 @@ registerRuleType(RunningApplicationRule)
 }
 
 - (void) beingEnabled {
-	[SourcesManager.sharedSourcesManager registerRule: self toSource: @"RunningApplicationSource"];
+	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"RunningApplicationSource"];
 	
 	// currently a match?
-	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
-	[self applicationsChangedWithOld: nil andNew: source.applications];
+	[self applicationsChangedWithOld: nil andNew: ((RunningApplicationSource *) source).applications];
 }
 
 - (void) beingDisabled {

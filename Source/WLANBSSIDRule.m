@@ -8,7 +8,6 @@
 
 #import "WLANBSSIDRule.h"
 #import "WLANSource.h"
-#import "SourcesManager.h"
 
 @implementation WLANBSSIDRule
 

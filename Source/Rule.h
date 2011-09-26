@@ -29,6 +29,7 @@
 
 // Put this in each source implementation so that it registers with the manager
 #define registerRuleType(type) + (void) load { \
+	NSAutoreleasePool *pool = [NSAutoreleasePool new]; \
 	[RulesManager.sharedRulesManager registerRuleType: type.class]; \
+	[pool release]; \
 }
-
