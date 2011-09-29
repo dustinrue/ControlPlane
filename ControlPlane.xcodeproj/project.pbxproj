@@ -65,7 +65,6 @@
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
-		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
 		8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; };
 		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; };
@@ -123,6 +122,8 @@
 		DD8274FB141177750098FA6E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274FD14117C580098FA6E /* SpeakAction.m */; };
 		DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; };
+		DD96FDF51434D2570034BE0E /* FireWireSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDF41434D2570034BE0E /* FireWireSource.m */; };
+		DD96FDFC143500B10034BE0E /* FireWireRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDFB143500B10034BE0E /* FireWireRule.m */; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -305,8 +306,6 @@
 		8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FirewallRuleAction.m; path = Source/FirewallRuleAction.m; sourceTree = "<group>"; };
 		8DCBE9690C1A7ECE008260EF /* MountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MountAction.h; path = Source/MountAction.h; sourceTree = "<group>"; };
 		8DCBE96A0C1A7ECE008260EF /* MountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MountAction.m; path = Source/MountAction.m; sourceTree = "<group>"; };
-		8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FireWireEvidenceSource.h; path = Source/FireWireEvidenceSource.h; sourceTree = "<group>"; };
-		8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FireWireEvidenceSource.m; path = Source/FireWireEvidenceSource.m; sourceTree = "<group>"; };
 		8DD790AA0BC28A9F00705346 /* OpenAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenAction.h; path = Source/OpenAction.h; sourceTree = "<group>"; };
 		8DD790AB0BC28A9F00705346 /* OpenAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OpenAction.m; path = Source/OpenAction.m; sourceTree = "<group>"; };
 		8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MailSMTPServerAction.h; path = Source/MailSMTPServerAction.h; sourceTree = "<group>"; };
@@ -407,6 +406,10 @@
 		DD8274FD14117C580098FA6E /* SpeakAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpeakAction.m; path = Source/SpeakAction.m; sourceTree = "<group>"; };
 		DD827505141188880098FA6E /* DisplayBrightnessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayBrightnessAction.h; path = Source/DisplayBrightnessAction.h; sourceTree = "<group>"; };
 		DD827506141188880098FA6E /* DisplayBrightnessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayBrightnessAction.m; path = Source/DisplayBrightnessAction.m; sourceTree = "<group>"; };
+		DD96FDF31434D2570034BE0E /* FireWireSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireWireSource.h; path = Source/FireWireSource.h; sourceTree = "<group>"; };
+		DD96FDF41434D2570034BE0E /* FireWireSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireSource.m; path = Source/FireWireSource.m; sourceTree = "<group>"; };
+		DD96FDFA143500B00034BE0E /* FireWireRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireWireRule.h; path = Source/FireWireRule.h; sourceTree = "<group>"; };
+		DD96FDFB143500B10034BE0E /* FireWireRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireRule.m; path = Source/FireWireRule.m; sourceTree = "<group>"; };
 		DDA2013B1411C0FB00DE570E /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013D1411C10900DE570E /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013E1411C11100DE570E /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -701,8 +704,6 @@
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
 				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
-				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
-				8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
 				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
@@ -765,6 +766,8 @@
 				DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */,
 				DD4ADAD4142D762800CE825F /* BonjourRule.h */,
 				DD4ADAD5142D762800CE825F /* BonjourRule.m */,
+				DD96FDFA143500B00034BE0E /* FireWireRule.h */,
+				DD96FDFB143500B10034BE0E /* FireWireRule.m */,
 				DD4ADAE4142F97F500CE825F /* LocationRule.h */,
 				DD4ADAE5142F97F600CE825F /* LocationRule.m */,
 				DD4ADACB142D4BE500CE825F /* PowerRule.h */,
@@ -925,10 +928,12 @@
 				DDE29BDF1429591D00A55469 /* AudioOutputSource.m */,
 				DD23929C142A916500FE7DC7 /* BonjourSource.h */,
 				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
-				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
-				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
+				DD96FDF31434D2570034BE0E /* FireWireSource.h */,
+				DD96FDF41434D2570034BE0E /* FireWireSource.m */,
 				DD4ADADD142F901300CE825F /* LocationSource.h */,
 				DD4ADADE142F901500CE825F /* LocationSource.m */,
+				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
+				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
 				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
 				DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */,
 				DDD1A357142B9E5A00341B75 /* WLANSource.h */,
@@ -1181,7 +1186,6 @@
 				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
 				8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */,
 				8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */,
-				8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */,
 				8D73CB8D0C46FD5200DF839E /* MonitorEvidenceSource.m in Sources */,
 				8D91F17D0C47148200D9FC0F /* USBEvidenceSource.m in Sources */,
 				8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */,
@@ -1240,6 +1244,8 @@
 				DD4ADADF142F901500CE825F /* LocationSource.m in Sources */,
 				DD4ADAE6142F97F700CE825F /* LocationRule.m in Sources */,
 				DD4ADAE9143124CD00CE825F /* CLLocation+Geocoding.m in Sources */,
+				DD96FDF51434D2570034BE0E /* FireWireSource.m in Sources */,
+				DD96FDFC143500B10034BE0E /* FireWireRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

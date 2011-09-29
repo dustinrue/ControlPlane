@@ -14,6 +14,6 @@
 	UInt32 m_source;
 }
 
-@property (readwrite, nonatomic, assign) UInt32 source;
+@property (readwrite, assign) UInt32 source;
 
 @end

@@ -269,7 +269,6 @@
 @end
 
 #import "BluetoothEvidenceSource.h"
-#import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
 #import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
@@ -289,7 +288,6 @@
 	NSArray *classes = [NSArray arrayWithObjects:
 						[BluetoothEvidenceSource class],
 						[CoreLocationSource class],
-						[FireWireEvidenceSource class],
 						[IPEvidenceSource class],
 						[LightEvidenceSource class],
 						[MonitorEvidenceSource class],
