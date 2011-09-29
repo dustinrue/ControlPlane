@@ -8,14 +8,27 @@
 
 #import "CallbackSource.h"
 
-#define kPowerAC @"A/C"
-#define kPowerBattery @"Battery"
+typedef enum {
+	kDisplayOn = 0,
+	kDisplayDimmed = 1,
+	kDisplayOff = 2
+} eDisplayState;
+
+typedef enum {
+	kPowerError = 0,
+	kPowerBattery = 1,
+	kPowerAC = 2
+} ePowerSource;
 
 @interface PowerSource : CallbackSource {
-	NSString *m_status;
+	eDisplayState m_displayState;
+	ePowerSource m_powerSource;
+	
+	CFRunLoopSourceRef m_runLoopDisplay;
 	CFRunLoopSourceRef m_runLoopSource;
 }
 
-@property (readwrite, copy) NSString *status;
+@property (readwrite, assign) eDisplayState displayState;
+@property (readwrite, assign) ePowerSource powerSource;
 
 @end

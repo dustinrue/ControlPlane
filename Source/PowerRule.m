@@ -15,8 +15,11 @@ registerRuleType(PowerRule)
 
 #pragma mark - Source observe functions
 
-- (void) statusChangedWithOld: (NSString *) oldStatus andNew: (NSString *) newStatus {
-	self.match = [[self.data objectForKey: @"parameter"] isEqualToString: newStatus];
+- (void) powerSourceChangedWithOld: (ePowerSource) oldSource andNew: (ePowerSource) newSource {
+	NSNumber *parameter = [self.data objectForKey: @"parameter"];
+	
+	if (newSource != kPowerError)
+		self.match = (parameter.intValue == newSource);
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -29,7 +32,7 @@ registerRuleType(PowerRule)
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"PowerSource"];
 	
 	// currently a match?
-	[self statusChangedWithOld: nil andNew: ((PowerSource *) source).status];
+	[self powerSourceChangedWithOld: kPowerError andNew: ((PowerSource *) source).powerSource];
 }
 
 - (void) beingDisabled {
@@ -39,11 +42,11 @@ registerRuleType(PowerRule)
 - (NSArray *) suggestedValues {
 	return [NSArray arrayWithObjects:
 			[NSDictionary dictionaryWithObjectsAndKeys:
-			 @"Battery", @"parameter",
+			 [NSNumber numberWithInt: kPowerBattery], @"parameter",
 			 NSLocalizedString(@"Battery", @"PowerRule suggestion description"), @"description",
 			 nil],
 			[NSDictionary dictionaryWithObjectsAndKeys:
-			 @"A/C", @"parameter",
+			 [NSNumber numberWithInt: kPowerAC], @"parameter",
 			 NSLocalizedString(@"Power Adapter", @"PowerRule suggestion description"), @"description",
 			 nil],
 			nil];
