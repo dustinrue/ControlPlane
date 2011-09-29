@@ -27,6 +27,10 @@ registerRuleType(FireWireRule)
 	return NSLocalizedString(@"FireWire", @"Rule type");
 }
 
+- (NSString *) category {
+	return NSLocalizedString(@"Devices", @"Rule category");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"FireWireSource"];
 	

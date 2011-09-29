@@ -35,6 +35,10 @@ registerRuleType(RunningApplicationRule)
 	return NSLocalizedString(@"Running Application", @"Rule type");
 }
 
+- (NSString *) category {
+	return NSLocalizedString(@"System", @"Rule category");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"RunningApplicationSource"];
 	

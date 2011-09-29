@@ -28,7 +28,11 @@ registerRuleType(LightRule)
 #pragma mark - Required implementation of 'Rule' class
 
 - (NSString *) name {
-	return NSLocalizedString(@"Light", @"Rule type");
+	return NSLocalizedString(@"Ambient Light", @"Rule type");
+}
+
+- (NSString *) category {
+	return NSLocalizedString(@"Sensors", @"Rule category");
 }
 
 - (void) beingEnabled {

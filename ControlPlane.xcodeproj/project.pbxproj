@@ -99,7 +99,7 @@
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
 		DD4ADAC9142D457900CE825F /* RulesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAC8142D457900CE825F /* RulesManager.m */; };
-		DD4ADACD142D4BE500CE825F /* PowerRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACC142D4BE500CE825F /* PowerRule.m */; };
+		DD4ADACD142D4BE500CE825F /* PowerSourceRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */; };
 		DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */; };
 		DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */; };
 		DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD5142D762800CE825F /* BonjourRule.m */; };
@@ -362,8 +362,8 @@
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD4ADAC7142D457900CE825F /* RulesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesManager.h; path = Source/RulesManager.h; sourceTree = "<group>"; };
 		DD4ADAC8142D457900CE825F /* RulesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulesManager.m; path = Source/RulesManager.m; sourceTree = "<group>"; };
-		DD4ADACB142D4BE500CE825F /* PowerRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerRule.h; path = Source/PowerRule.h; sourceTree = "<group>"; };
-		DD4ADACC142D4BE500CE825F /* PowerRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerRule.m; path = Source/PowerRule.m; sourceTree = "<group>"; };
+		DD4ADACB142D4BE500CE825F /* PowerSourceRule.h */ = {isa = PBXFileReference; fileEncoding = 4; name = PowerSourceRule.h; path = Source/PowerSourceRule.h; sourceTree = "<group>"; };
+		DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerSourceRule.m; path = Source/PowerSourceRule.m; sourceTree = "<group>"; };
 		DD4ADACE142D58DD00CE825F /* AudioOutputRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputRule.h; path = Source/AudioOutputRule.h; sourceTree = "<group>"; };
 		DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputRule.m; path = Source/AudioOutputRule.m; sourceTree = "<group>"; };
 		DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationRule.h; path = Source/RunningApplicationRule.h; sourceTree = "<group>"; };
@@ -770,8 +770,8 @@
 				DD96FE011435304C0034BE0E /* LightRule.m */,
 				DD4ADAE4142F97F500CE825F /* LocationRule.h */,
 				DD4ADAE5142F97F600CE825F /* LocationRule.m */,
-				DD4ADACB142D4BE500CE825F /* PowerRule.h */,
-				DD4ADACC142D4BE500CE825F /* PowerRule.m */,
+				DD4ADACB142D4BE500CE825F /* PowerSourceRule.h */,
+				DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */,
 				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
 				DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */,
 				DD4ADADA142E2CEE00CE825F /* WLANBSSIDRule.h */,
@@ -1227,7 +1227,7 @@
 				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
 				DDD1A378142D0E7100341B75 /* RunningApplicationSource.m in Sources */,
 				DD4ADAC9142D457900CE825F /* RulesManager.m in Sources */,
-				DD4ADACD142D4BE500CE825F /* PowerRule.m in Sources */,
+				DD4ADACD142D4BE500CE825F /* PowerSourceRule.m in Sources */,
 				DD4ADAD0142D58DD00CE825F /* AudioOutputRule.m in Sources */,
 				DD4ADAD3142D60CF00CE825F /* RunningApplicationRule.m in Sources */,
 				DD4ADAD6142D762900CE825F /* BonjourRule.m in Sources */,

@@ -28,6 +28,10 @@ registerRuleType(AudioOutputRule)
 	return NSLocalizedString(@"Audio Output", @"Rule type");
 }
 
+- (NSString *) category {
+	return NSLocalizedString(@"System", @"Rule category");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"AudioOutputSource"];
 	

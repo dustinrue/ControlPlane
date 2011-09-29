@@ -21,6 +21,7 @@
 
 // implemented by subclasses
 - (NSString *) name;
+- (NSString *) category;
 - (void) beingEnabled;
 - (void) beingDisabled;
 - (NSArray *) suggestedValues;

@@ -37,6 +37,10 @@ registerRuleType(WLANBSSIDRule)
 	return NSLocalizedString(@"Wi-Fi BSSID", @"Rule type");
 }
 
+- (NSString *) category {
+	return NSLocalizedString(@"Network", @"Rule category");
+}
+
 - (void) beingEnabled {
 	[SourcesManager.sharedSourcesManager registerRule: self toSource: @"WLANSource"];
 	

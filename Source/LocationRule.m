@@ -33,6 +33,10 @@ registerRuleType(LocationRule)
 	return NSLocalizedString(@"Location", @"Rule type");
 }
 
+- (NSString *) category {
+	return NSLocalizedString(@"Network", @"Rule category");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"LocationSource"];
 	

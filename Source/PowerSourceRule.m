@@ -6,12 +6,12 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "PowerRule.h"
+#import "PowerSourceRule.h"
 #import "PowerSource.h"
 
-@implementation PowerRule
+@implementation PowerSourceRule
 
-registerRuleType(PowerRule)
+registerRuleType(PowerSourceRule)
 
 #pragma mark - Source observe functions
 
@@ -25,7 +25,11 @@ registerRuleType(PowerRule)
 #pragma mark - Required implementation of 'Rule' class
 
 - (NSString *) name {
-	return NSLocalizedString(@"Power", @"Rule type");
+	return NSLocalizedString(@"Source", @"Rule type");
+}
+
+- (NSString *) category {
+	return NSLocalizedString(@"Power", @"Rule category");
 }
 
 - (void) beingEnabled {

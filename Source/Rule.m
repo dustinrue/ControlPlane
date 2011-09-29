@@ -59,6 +59,11 @@
 	return nil;
 }
 
+- (NSString *) category {
+	[self doesNotRecognizeSelector: _cmd];
+	return nil;
+}
+
 - (void) beingEnabled {
 	[self doesNotRecognizeSelector: _cmd];
 }
