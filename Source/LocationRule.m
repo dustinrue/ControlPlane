@@ -68,7 +68,6 @@ registerRuleType(LocationRule)
 			 dict, @"parameter",
 			 description, @"description",
 			 nil]];
-	return nil;
 }
 
 @end

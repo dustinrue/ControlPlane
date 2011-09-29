@@ -89,7 +89,6 @@
 		DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22013D13C8300074503 /* cp-icon-inactive.icns */; };
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
-		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
@@ -124,6 +123,8 @@
 		DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; };
 		DD96FDF51434D2570034BE0E /* FireWireSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDF41434D2570034BE0E /* FireWireSource.m */; };
 		DD96FDFC143500B10034BE0E /* FireWireRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDFB143500B10034BE0E /* FireWireRule.m */; };
+		DD96FDFF143506F60034BE0E /* SensorsSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDFE143506EE0034BE0E /* SensorsSource.m */; };
+		DD96FE021435304D0034BE0E /* LightRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE011435304C0034BE0E /* LightRule.m */; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -286,8 +287,6 @@
 		8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IPEvidenceSource.m; path = Source/IPEvidenceSource.m; sourceTree = "<group>"; };
 		8D90E51D0B71C4C9007D39FD /* CPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPController.h; path = Source/CPController.h; sourceTree = "<group>"; };
 		8D90E51E0B71C4C9007D39FD /* CPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPController.m; path = Source/CPController.m; sourceTree = "<group>"; };
-		8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LightEvidenceSource.h; path = Source/LightEvidenceSource.h; sourceTree = "<group>"; };
-		8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LightEvidenceSource.m; path = Source/LightEvidenceSource.m; sourceTree = "<group>"; };
 		8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-arrow.png"; path = "Resources/plus-arrow.png"; sourceTree = "<group>"; };
 		8D9AE3A30BE0DA7E00D4D4E4 /* PopButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PopButton.h; path = Source/PopButton.h; sourceTree = "<group>"; };
 		8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PopButton.m; path = Source/PopButton.m; sourceTree = "<group>"; };
@@ -338,8 +337,6 @@
 		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
 		DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHelperToolCommon.h; sourceTree = "<group>"; };
 		DA648AEF1412C17A00532B2C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
-		DA6D184A1154581000347E93 /* LmuTracker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LmuTracker.c; path = "External Source/LmuTracker/LmuTracker.c"; sourceTree = "<group>"; };
-		DA6D184C1154581700347E93 /* LmuTrackerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LmuTrackerCommon.h; path = "External Source/LmuTracker/LmuTrackerCommon.h"; sourceTree = "<group>"; };
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA812E81140681D2006869F7 /* AppleScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleScript.h; path = Source/AppleScript.h; sourceTree = "<group>"; };
 		DA812E82140681D2006869F7 /* AppleScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppleScript.m; path = Source/AppleScript.m; sourceTree = "<group>"; };
@@ -410,6 +407,10 @@
 		DD96FDF41434D2570034BE0E /* FireWireSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireSource.m; path = Source/FireWireSource.m; sourceTree = "<group>"; };
 		DD96FDFA143500B00034BE0E /* FireWireRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireWireRule.h; path = Source/FireWireRule.h; sourceTree = "<group>"; };
 		DD96FDFB143500B10034BE0E /* FireWireRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireRule.m; path = Source/FireWireRule.m; sourceTree = "<group>"; };
+		DD96FDFD143506EC0034BE0E /* SensorsSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SensorsSource.h; path = Source/SensorsSource.h; sourceTree = "<group>"; };
+		DD96FDFE143506EE0034BE0E /* SensorsSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SensorsSource.m; path = Source/SensorsSource.m; sourceTree = "<group>"; };
+		DD96FE001435304C0034BE0E /* LightRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightRule.h; path = Source/LightRule.h; sourceTree = "<group>"; };
+		DD96FE011435304C0034BE0E /* LightRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LightRule.m; path = Source/LightRule.m; sourceTree = "<group>"; };
 		DDA2013B1411C0FB00DE570E /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013D1411C10900DE570E /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013E1411C11100DE570E /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -613,7 +614,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
 				DDD1A361142BD65600341B75 /* KVOAdditions */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
@@ -706,8 +706,6 @@
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
-				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
-				8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */,
 				8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */,
 				8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */,
 				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
@@ -768,6 +766,8 @@
 				DD4ADAD5142D762800CE825F /* BonjourRule.m */,
 				DD96FDFA143500B00034BE0E /* FireWireRule.h */,
 				DD96FDFB143500B10034BE0E /* FireWireRule.m */,
+				DD96FE001435304C0034BE0E /* LightRule.h */,
+				DD96FE011435304C0034BE0E /* LightRule.m */,
 				DD4ADAE4142F97F500CE825F /* LocationRule.h */,
 				DD4ADAE5142F97F600CE825F /* LocationRule.m */,
 				DD4ADACB142D4BE500CE825F /* PowerRule.h */,
@@ -780,15 +780,6 @@
 				DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */,
 			);
 			name = "Concrete Rules";
-			sourceTree = "<group>";
-		};
-		DD5BD2071416149B007BA88C /* JNI LmuTracker */ = {
-			isa = PBXGroup;
-			children = (
-				DA6D184C1154581700347E93 /* LmuTrackerCommon.h */,
-				DA6D184A1154581000347E93 /* LmuTracker.c */,
-			);
-			name = "JNI LmuTracker";
 			sourceTree = "<group>";
 		};
 		DD5BD20C141614CA007BA88C /* JSONKit */ = {
@@ -936,6 +927,8 @@
 				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
 				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
 				DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */,
+				DD96FDFD143506EC0034BE0E /* SensorsSource.h */,
+				DD96FDFE143506EE0034BE0E /* SensorsSource.m */,
 				DDD1A357142B9E5A00341B75 /* WLANSource.h */,
 				DDD1A358142B9E5A00341B75 /* WLANSource.m */,
 			);
@@ -1203,7 +1196,6 @@
 				8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */,
 				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,
 				8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */,
-				DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */,
 				DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */,
 				DA812E83140681D2006869F7 /* AppleScript.m in Sources */,
 				DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */,
@@ -1246,6 +1238,8 @@
 				DD4ADAE9143124CD00CE825F /* CLLocation+Geocoding.m in Sources */,
 				DD96FDF51434D2570034BE0E /* FireWireSource.m in Sources */,
 				DD96FDFC143500B10034BE0E /* FireWireRule.m in Sources */,
+				DD96FDFF143506F60034BE0E /* SensorsSource.m in Sources */,
+				DD96FE021435304D0034BE0E /* LightRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

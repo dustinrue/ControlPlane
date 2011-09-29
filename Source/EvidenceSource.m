@@ -270,7 +270,6 @@
 
 #import "BluetoothEvidenceSource.h"
 #import "IPEvidenceSource.h"
-#import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
@@ -289,7 +288,6 @@
 						[BluetoothEvidenceSource class],
 						[CoreLocationSource class],
 						[IPEvidenceSource class],
-						[LightEvidenceSource class],
 						[MonitorEvidenceSource class],
 						[NetworkLinkEvidenceSource class],
 						[SleepEvidenceSource class],
