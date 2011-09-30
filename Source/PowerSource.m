@@ -35,7 +35,7 @@ registerSourceType(PowerSource)
 #pragma mark - Required implementation of 'CallbackSource' class
 
 - (NSArray *) observableKeys {
-	return [NSArray arrayWithObject: @"status"];
+	return [NSArray arrayWithObjects: @"displayState", @"powerSource", nil];
 }
 
 - (void) registerCallback {

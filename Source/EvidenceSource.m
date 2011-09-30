@@ -272,7 +272,6 @@
 #import "IPEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
-#import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 
 @implementation EvidenceSourceSetController
@@ -287,7 +286,6 @@
 						[CoreLocationSource class],
 						[IPEvidenceSource class],
 						[NetworkLinkEvidenceSource class],
-						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
 						nil];
 	if (NO) {
