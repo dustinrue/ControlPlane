@@ -9,9 +9,9 @@
 #import "CallbackSource.h"
 
 @interface RunningApplicationSource : CallbackSource {
-	NSArray *m_applications;
+	NSDictionary *m_applications;
 }
 
-@property (readwrite, copy) NSArray *applications;
+@property (readwrite, copy) NSDictionary *applications;
 
 @end

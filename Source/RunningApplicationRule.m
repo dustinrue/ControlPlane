@@ -24,17 +24,8 @@ registerRuleType(RunningApplicationRule)
 	return self;
 }
 
-- (void) applicationsChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
-	BOOL found = NO;
-	
-	// loop through apps
-	for (NSDictionary *app in newList) {
-		found = [m_identifier isEqualToString: [app valueForKey: @"identifier"]];
-		if (found)
-			break;
-	}
-	
-	self.match = found;
+- (void) applicationsChangedWithOld: (NSDictionary *) oldList andNew: (NSDictionary *) newList {
+	self.match = ([newList valueForKey: m_identifier] != nil);
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -67,10 +58,11 @@ registerRuleType(RunningApplicationRule)
 	NSMutableArray *result = [[NSArray new] autorelease];
 	
 	// loop through apps
-	for (NSDictionary *app in source.applications)
+	for (NSString *identifier in source.applications)
 		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							[app valueForKey: @"identifier"], @"parameter",
-							[app valueForKey: @"name"], @"description", nil]];
+							identifier, @"parameter", 
+							[source.applications valueForKey: identifier], @"description",
+							nil]];
 	
 	return result;
 }

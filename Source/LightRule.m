@@ -54,8 +54,8 @@ registerRuleType(LightRule)
 }
 
 - (void) loadData {
-	m_treshold = [[[self.data objectForKey: @"parameter"] objectForKey: @"treshold"] doubleValue];
-	m_above = [[[self.data objectForKey: @"parameter"] objectForKey: @"above"] boolValue];
+	m_treshold = [[self.data valueForKeyPath: @"parameter.treshold"] doubleValue];
+	m_above = [[self.data objectForKey: @"parameter.above"] boolValue];
 }
 
 - (NSArray *) suggestedValues {

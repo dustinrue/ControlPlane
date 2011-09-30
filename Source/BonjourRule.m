@@ -62,8 +62,8 @@ registerRuleType(BonjourRule)
 }
 
 - (void) loadData {
-	m_host = [[self.data objectForKey: @"parameter"] objectForKey: @"host"];
-	m_service = [[self.data objectForKey: @"parameter"] objectForKey: @"service"];
+	m_host = [self.data valueForKeyPath: @"parameter.host"];
+	m_service = [self.data valueForKeyPath: @"parameter.service"];
 }
 
 - (NSArray *) suggestedValues {

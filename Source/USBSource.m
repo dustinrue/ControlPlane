@@ -157,7 +157,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator) {
 														 kCFAllocatorDefault, kNilOptions);
 	ZAssert(kr == kIOReturnSuccess, @"Unable to get USB device ID");
 	
-	return [props valueForKey:@"idProduct"];
+	return [props valueForKey: @"idProduct"];
 }
 
 - (NSNumber *) vendorIdForDevice: (io_service_t *) device {
@@ -167,7 +167,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator) {
 														 kCFAllocatorDefault, kNilOptions);
 	ZAssert(kr == kIOReturnSuccess, @"Unable to get USB vendor ID");
 	
-	return [props valueForKey:@"idVendor"];
+	return [props valueForKey: @"idVendor"];
 }
 
 - (NSString *) nameForDevice: (io_service_t *) device {

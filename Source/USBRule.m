@@ -62,8 +62,8 @@ registerRuleType(USBRule)
 }
 
 - (void) loadData {
-	m_product = [[self.data objectForKey: @"parameter"] valueForKey: @"productID"];
-	m_vendor = [[self.data objectForKey: @"parameter"] valueForKey: @"vendorID"];
+	m_product = [self.data valueForKeyPath: @"parameter.productID"];
+	m_vendor = [self.data valueForKeyPath: @"parameter.vendorID"];
 }
 
 - (NSArray *) suggestedValues {

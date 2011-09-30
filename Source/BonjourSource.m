@@ -59,7 +59,8 @@ registerSourceType(BonjourSource)
 			break;
 		case kNetFinished:
 			// store scan results
-			self.services = m_resolvedServices;
+			if (![self.services isEqualToArray: m_resolvedServices])
+				self.services = m_resolvedServices;
 			m_stage = kNetNothing;
 			break;
 		default:

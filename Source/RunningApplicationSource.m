@@ -17,7 +17,7 @@ registerSourceType(RunningApplicationSource)
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.applications = [[NSArray new] autorelease];
+	self.applications = [[NSDictionary new] autorelease];
 	
 	return self;
 }
@@ -49,16 +49,15 @@ registerSourceType(RunningApplicationSource)
 
 - (void) checkData {
 	NSArray *apps = [NSWorkspace.sharedWorkspace runningApplications];
-	NSMutableArray *result = [[[NSMutableArray alloc] initWithCapacity: apps.count] autorelease];
+	NSMutableDictionary *result = [[NSMutableDictionary new] autorelease];
 	
 	// loop through apps and get their info
 	for (NSRunningApplication *app in apps)
-		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							app.bundleIdentifier, @"identifier",
-							app.localizedName, @"name", nil]];
+		[result setObject: app.bundleIdentifier forKey: app.localizedName];
 	
 	// store it
-	self.applications = result;
+	if (![self.applications isEqualToDictionary: result])
+		self.applications = result;
 }
 
 @end

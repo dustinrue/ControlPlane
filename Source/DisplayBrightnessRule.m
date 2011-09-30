@@ -54,8 +54,8 @@ registerRuleType(DisplayBrightnessRule)
 }
 
 - (void) loadData {
-	m_treshold = [[[self.data objectForKey: @"parameter"] objectForKey: @"host"] doubleValue];
-	m_above = [[[self.data objectForKey: @"parameter"] objectForKey: @"service"] boolValue];
+	m_treshold = [[self.data valueForKeyPath: @"parameter.host"] doubleValue];
+	m_above = [[self.data valueForKeyPath: @"parameter.service"] boolValue];
 }
 
 - (NSArray *) suggestedValues {

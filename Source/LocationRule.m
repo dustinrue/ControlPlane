@@ -54,8 +54,8 @@ registerRuleType(LocationRule)
 }
 
 - (void) loadData {
-	CLLocationDegrees lat = [[[self.data objectForKey: @"parameter"] objectForKey: @"latitude"] doubleValue];
-	CLLocationDegrees lng = [[[self.data objectForKey: @"parameter"] objectForKey: @"longitude"] doubleValue];
+	CLLocationDegrees lat = [[self.data valueForKeyPath: @"parameter.latitude"] doubleValue];
+	CLLocationDegrees lng = [[self.data valueForKeyPath: @"parameter.longitude"] doubleValue];
 	
 	m_location = [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
 }
