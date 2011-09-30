@@ -137,11 +137,11 @@ registerSourceType(FireWireSource)
 }
 
 static void cDevAdded(void *ref, io_iterator_t iterator) {
-	[(FireWireSource *) ref devAdded:iterator];
+	[(FireWireSource *) ref devAdded: iterator];
 }
 
 static void cDevRemoved(void *ref, io_iterator_t iterator) {
-	[(FireWireSource *) ref devRemoved:iterator];
+	[(FireWireSource *) ref devRemoved: iterator];
 }
 
 #pragma mark - Utility methods

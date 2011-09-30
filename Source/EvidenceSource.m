@@ -273,7 +273,6 @@
 #import "MonitorEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
-#import "USBEvidenceSource.h"
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 
@@ -292,7 +291,6 @@
 						[NetworkLinkEvidenceSource class],
 						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
-						[USBEvidenceSource class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'

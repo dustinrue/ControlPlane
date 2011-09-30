@@ -16,10 +16,11 @@ typedef enum {
 } NetStage;
 
 @interface BonjourSource : LoopingSource<NSNetServiceBrowserDelegate> {
+	NSArray *m_services;
+	
 	NSNetServiceBrowser *m_browser;
 	NSMutableArray *m_unresolvedServices;
 	NSMutableArray *m_resolvedServices;
-	NSArray *m_services;
 	NSTimer *m_timer;
 	NetStage m_stage;
 }
