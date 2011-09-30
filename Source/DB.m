@@ -6,72 +6,100 @@
 //
 
 #import "DB.h"
+#import "SynthesizeSingleton.h"
 
+@interface DB (Private)
 
-static NSDictionary *ouiDb = nil;
-static NSDictionary *usbVendorDb = nil;
+- (NSDictionary *) readOUIDB;
+- (NSDictionary *) readUSBVendorDB;
 
+@end
 
 @implementation DB
 
-+ (NSDictionary *)sharedOUIDB
-{
-	if (!ouiDb) {
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"oui" ofType:@"txt"];
-		NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-		FILE *f = fopen([path cStringUsingEncoding:NSUTF8StringEncoding], "r");
-        
-		// TODO: handle failure
-		while (!feof(f)) {
-			char buf[200];
-			if (!fgets(buf, sizeof(buf), f))
-				break;
-			// Line format:  00-00-4C   \t\tNEC CORPORATION
-			NSString *line = [NSString stringWithCString:buf encoding:NSASCIIStringEncoding];
-			if (!line)
-				continue;	// bad line
-			NSScanner *scan = [NSScanner scannerWithString:line];
-			NSString *prefix, *vendor_name;
-			[scan scanUpToString:@"\t" intoString:&prefix];
-			prefix = [prefix uppercaseString];
-			// (NSScanner will skip over the white space)
-			[scan scanUpToString:@"\n" intoString:&vendor_name];
+SYNTHESIZE_SINGLETON_FOR_CLASS(DB);
+@synthesize ouiDB = m_ouiDB;
+@synthesize usbVendorDB = m_usbVendorDB;
 
-			[dict setValue:vendor_name forKey:prefix];
-		}
-		fclose(f);
-		ouiDb = dict;
-	}
-
-	return ouiDb;
+- (id) init {
+	ZAssert(!sharedDB, @"This is a singleton, use %@.shared%@", NSStringFromClass(self.class), NSStringFromClass(self.class));
+	
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_ouiDB = [self readOUIDB];
+	m_usbVendorDB = [self readUSBVendorDB];
+	
+	return self;
 }
 
-+ (NSDictionary *)sharedUSBVendorDB
-{
-	if (!usbVendorDb) {
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"usb-vendors" ofType:@"txt"];
-		NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-		FILE *f = fopen([path cStringUsingEncoding:NSUTF8StringEncoding], "r");
-		// TODO: handle failure
-		while (!feof(f)) {
-			char buf[200];
-			if (!fgets(buf, sizeof(buf), f))
-				break;
-			// Line format:  1033|NEC Corporation
-			NSString *line = [NSString stringWithCString:buf encoding:NSUTF8StringEncoding];
-			NSScanner *scan = [NSScanner scannerWithString:line];
-			NSString *vendor_id, *vendor_name;
-			[scan scanUpToString:@"|" intoString:&vendor_id];
-			[scan setScanLocation:[scan scanLocation] + 1];
-			[scan scanUpToString:@"\n" intoString:&vendor_name];
+- (void) dealloc {
+	[super dealloc];
+}
 
-			[dict setValue:vendor_name forKey:vendor_id];
-		}
-		fclose(f);
-		usbVendorDb = dict;
+- (NSDictionary *) readOUIDB {
+	NSString *path = [[NSBundle mainBundle] pathForResource: @"oui" ofType: @"txt"];
+	NSMutableDictionary *dict = [[NSMutableDictionary new] autorelease];
+	
+	// open file
+	FILE *f = fopen([path cStringUsingEncoding: NSUTF8StringEncoding], "r");
+	char buf[200];
+	NSString *prefix, *vendor_name;
+	
+	// loop through lines
+	while (!feof(f)) {
+		if (!fgets(buf, sizeof(buf), f))
+			break;
+		
+		// Line format:  00-00-4C   \t\tNEC CORPORATION
+		NSString *line = [NSString stringWithCString: buf encoding: NSASCIIStringEncoding];
+		if (!line)
+			continue;
+		
+		// get data
+		NSScanner *scan = [NSScanner scannerWithString: line];
+		[scan scanUpToString: @"\t" intoString: &prefix];
+		[scan scanUpToString: @"\n" intoString: &vendor_name];
+		
+		// store it
+		[dict setValue: vendor_name forKey: prefix.uppercaseString];
 	}
+	fclose(f);
+	
+	return dict;
+}
 
-	return usbVendorDb;
+- (NSDictionary *) readUSBVendorDB {
+	NSString *path = [[NSBundle mainBundle] pathForResource: @"usb-vendors" ofType: @"txt"];
+	NSMutableDictionary *dict = [[NSMutableDictionary new] autorelease];
+	
+	// open file
+	FILE *f = fopen([path cStringUsingEncoding:NSUTF8StringEncoding], "r");
+	char buf[200];
+	NSString *vendor_id, *vendor_name;
+	
+	// loop through lines
+	while (!feof(f)) {
+		if (!fgets(buf, sizeof(buf), f))
+			break;
+		
+		// Line format:  1033|NEC Corporation
+		NSString *line = [NSString stringWithCString: buf encoding: NSUTF8StringEncoding];
+		if (!line)
+			continue;
+		
+		// get data
+		NSScanner *scan = [NSScanner scannerWithString: line];
+		[scan scanUpToString: @"|" intoString: &vendor_id];
+		[scan setScanLocation: [scan scanLocation] + 1];
+		[scan scanUpToString: @"\n" intoString: &vendor_name];
+		
+		// store it
+		[dict setValue: vendor_name forKey: vendor_id];
+	}
+	fclose(f);
+	
+	return dict;
 }
 
 @end

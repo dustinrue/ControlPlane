@@ -211,7 +211,7 @@
 // Returns a string (set to auto-release), or nil.
 + (NSString *)vendorByMAC:(NSString *)mac
 {
-	NSDictionary *ouiDb = [DB sharedOUIDB];
+	NSDictionary *ouiDb = DB.sharedDB.ouiDB;
     
 	NSString *oui = [[mac substringToIndex:8] uppercaseString];
     DLog(@"attempting to get vendor info for mac %@", oui);

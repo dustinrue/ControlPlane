@@ -59,7 +59,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 // Returns a string, or the vendor_id in hexadecimal.
 + (NSString *)usbVendorById:(UInt16)vendor_id
 {
-	NSDictionary *vendDb = [DB sharedUSBVendorDB];
+	NSDictionary *vendDb = DB.sharedDB.usbVendorDB;
 	NSString *vid = [NSString stringWithFormat:@"%d", vendor_id];
 	NSString *name = [vendDb valueForKey:vid];
 
