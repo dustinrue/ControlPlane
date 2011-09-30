@@ -38,7 +38,6 @@
 		8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */; };
 		8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CAED0C17BA7900E56526 /* ToggleableAction.m */; };
 		8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */; };
-		8D73CB8D0C46FD5200DF839E /* MonitorEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */; };
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
 		8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
 		8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
@@ -129,6 +128,8 @@
 		DD96FE0B14353CA30034BE0E /* DisplayStateRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE0A14353CA20034BE0E /* DisplayStateRule.m */; };
 		DD96FE111435D3860034BE0E /* USBSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE101435D37A0034BE0E /* USBSource.m */; };
 		DD96FE14143611330034BE0E /* USBRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE13143611310034BE0E /* USBRule.m */; };
+		DD96FE1714361BCF0034BE0E /* MonitorSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1614361BCD0034BE0E /* MonitorSource.m */; };
+		DD96FE1A143629A60034BE0E /* MonitorRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE191436299F0034BE0E /* MonitorRule.m */; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -252,8 +253,6 @@
 		8D481B070B6098DD0097CF9C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		8D4DBDC20BE1E3C00024DEA0 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Resources/gear.png; sourceTree = "<group>"; };
 		8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ContextsPrefs.png; path = Resources/ContextsPrefs.png; sourceTree = "<group>"; };
-		8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MonitorEvidenceSource.h; path = Source/MonitorEvidenceSource.h; sourceTree = "<group>"; };
-		8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MonitorEvidenceSource.m; path = Source/MonitorEvidenceSource.m; sourceTree = "<group>"; };
 		8D57B1430C4457AB00EC620D /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		8D643C650C4EF197006D8ECC /* GenericLoopingEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericLoopingEvidenceSource.h; path = Source/GenericLoopingEvidenceSource.h; sourceTree = "<group>"; };
 		8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericLoopingEvidenceSource.m; path = Source/GenericLoopingEvidenceSource.m; sourceTree = "<group>"; };
@@ -423,6 +422,10 @@
 		DD96FE101435D37A0034BE0E /* USBSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = USBSource.m; path = Source/USBSource.m; sourceTree = "<group>"; };
 		DD96FE121436112F0034BE0E /* USBRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = USBRule.h; path = Source/USBRule.h; sourceTree = "<group>"; };
 		DD96FE13143611310034BE0E /* USBRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = USBRule.m; path = Source/USBRule.m; sourceTree = "<group>"; };
+		DD96FE1514361BCC0034BE0E /* MonitorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorSource.h; path = Source/MonitorSource.h; sourceTree = "<group>"; };
+		DD96FE1614361BCD0034BE0E /* MonitorSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorSource.m; path = Source/MonitorSource.m; sourceTree = "<group>"; };
+		DD96FE181436299D0034BE0E /* MonitorRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorRule.h; path = Source/MonitorRule.h; sourceTree = "<group>"; };
+		DD96FE191436299F0034BE0E /* MonitorRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorRule.m; path = Source/MonitorRule.m; sourceTree = "<group>"; };
 		DDA2013B1411C0FB00DE570E /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013D1411C10900DE570E /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013E1411C11100DE570E /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -718,8 +721,6 @@
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
-				8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */,
-				8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */,
 				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
 				8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */,
 				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
@@ -786,6 +787,8 @@
 				DD96FE011435304C0034BE0E /* LightRule.m */,
 				DD4ADAE4142F97F500CE825F /* LocationRule.h */,
 				DD4ADAE5142F97F600CE825F /* LocationRule.m */,
+				DD96FE181436299D0034BE0E /* MonitorRule.h */,
+				DD96FE191436299F0034BE0E /* MonitorRule.m */,
 				DD4ADACB142D4BE500CE825F /* PowerSourceRule.h */,
 				DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */,
 				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
@@ -941,6 +944,8 @@
 				DD96FDF41434D2570034BE0E /* FireWireSource.m */,
 				DD4ADADD142F901300CE825F /* LocationSource.h */,
 				DD4ADADE142F901500CE825F /* LocationSource.m */,
+				DD96FE1514361BCC0034BE0E /* MonitorSource.h */,
+				DD96FE1614361BCD0034BE0E /* MonitorSource.m */,
 				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
 				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
 				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
@@ -1199,7 +1204,6 @@
 				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
 				8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */,
 				8D68EBDF0C460BF800F25744 /* IPEvidenceSource.m in Sources */,
-				8D73CB8D0C46FD5200DF839E /* MonitorEvidenceSource.m in Sources */,
 				8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */,
 				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
 				8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */,
@@ -1264,6 +1268,8 @@
 				DD96FE0B14353CA30034BE0E /* DisplayStateRule.m in Sources */,
 				DD96FE111435D3860034BE0E /* USBSource.m in Sources */,
 				DD96FE14143611330034BE0E /* USBRule.m in Sources */,
+				DD96FE1714361BCF0034BE0E /* MonitorSource.m in Sources */,
+				DD96FE1A143629A60034BE0E /* MonitorRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
