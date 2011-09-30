@@ -127,6 +127,7 @@
 		DD96FE021435304D0034BE0E /* LightRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE011435304C0034BE0E /* LightRule.m */; };
 		DD96FE0514353AAB0034BE0E /* DisplayBrightnessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE0414353AAA0034BE0E /* DisplayBrightnessRule.m */; };
 		DD96FE0814353B990034BE0E /* KeyboardBrightnessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE0714353B980034BE0E /* KeyboardBrightnessRule.m */; };
+		DD96FE0B14353CA30034BE0E /* DisplayStateRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE0A14353CA20034BE0E /* DisplayStateRule.m */; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -417,6 +418,8 @@
 		DD96FE0414353AAA0034BE0E /* DisplayBrightnessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayBrightnessRule.m; path = Source/DisplayBrightnessRule.m; sourceTree = "<group>"; };
 		DD96FE0614353B970034BE0E /* KeyboardBrightnessRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardBrightnessRule.h; path = Source/KeyboardBrightnessRule.h; sourceTree = "<group>"; };
 		DD96FE0714353B980034BE0E /* KeyboardBrightnessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardBrightnessRule.m; path = Source/KeyboardBrightnessRule.m; sourceTree = "<group>"; };
+		DD96FE0914353CA10034BE0E /* DisplayStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; name = DisplayStateRule.h; path = Source/DisplayStateRule.h; sourceTree = "<group>"; };
+		DD96FE0A14353CA20034BE0E /* DisplayStateRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayStateRule.m; path = Source/DisplayStateRule.m; sourceTree = "<group>"; };
 		DDA2013B1411C0FB00DE570E /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013D1411C10900DE570E /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013E1411C11100DE570E /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -772,6 +775,8 @@
 				DD4ADAD5142D762800CE825F /* BonjourRule.m */,
 				DD96FE0314353AAA0034BE0E /* DisplayBrightnessRule.h */,
 				DD96FE0414353AAA0034BE0E /* DisplayBrightnessRule.m */,
+				DD96FE0914353CA10034BE0E /* DisplayStateRule.h */,
+				DD96FE0A14353CA20034BE0E /* DisplayStateRule.m */,
 				DD96FDFA143500B00034BE0E /* FireWireRule.h */,
 				DD96FDFB143500B10034BE0E /* FireWireRule.m */,
 				DD96FE0614353B970034BE0E /* KeyboardBrightnessRule.h */,
@@ -1252,6 +1257,7 @@
 				DD96FE021435304D0034BE0E /* LightRule.m in Sources */,
 				DD96FE0514353AAB0034BE0E /* DisplayBrightnessRule.m in Sources */,
 				DD96FE0814353B990034BE0E /* KeyboardBrightnessRule.m in Sources */,
+				DD96FE0B14353CA30034BE0E /* DisplayStateRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

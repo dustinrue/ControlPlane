@@ -1,5 +1,5 @@
 //
-//	PowerRule.h
+//	PowerSourceRule.h
 //	ControlPlane
 //
 //	Created by David Jennes on 24/09/11.

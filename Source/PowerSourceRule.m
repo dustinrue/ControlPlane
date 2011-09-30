@@ -1,5 +1,5 @@
 //
-//	PowerRule.m
+//	PowerSourceRule.m
 //	ControlPlane
 //
 //	Created by David Jennes on 24/09/11.
@@ -47,11 +47,11 @@ registerRuleType(PowerSourceRule)
 	return [NSArray arrayWithObjects:
 			[NSDictionary dictionaryWithObjectsAndKeys:
 			 [NSNumber numberWithInt: kPowerBattery], @"parameter",
-			 NSLocalizedString(@"Battery", @"PowerRule suggestion description"), @"description",
+			 NSLocalizedString(@"Battery", @"PowerSourceRule suggestion description"), @"description",
 			 nil],
 			[NSDictionary dictionaryWithObjectsAndKeys:
 			 [NSNumber numberWithInt: kPowerAC], @"parameter",
-			 NSLocalizedString(@"Power Adapter", @"PowerRule suggestion description"), @"description",
+			 NSLocalizedString(@"Power Adapter", @"PowerSourceRule suggestion description"), @"description",
 			 nil],
 			nil];
 }
