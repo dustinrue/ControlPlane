@@ -8,6 +8,9 @@
 
 #import "Rule.h"
 
-@interface LightRule : Rule
+@interface LightRule : Rule {
+	double m_treshold;
+	BOOL m_above;
+}
 
 @end

@@ -13,18 +13,25 @@
 
 registerRuleType(BonjourRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_host = nil;
+	m_service = nil;
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) servicesChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
 	BOOL found = NO;
 	
-	NSString *host = [[self.data objectForKey: @"parameter"] objectForKey: @"host"];
-	NSString *service = [[self.data objectForKey: @"parameter"] objectForKey: @"service"];
-	
 	// loop through services
 	for (NSDictionary *item in newList) {
-		found = [host isEqualToString: [item valueForKey: @"host"]] &&
-				[service isEqualToString: [item valueForKey: @"service"]];
+		found = [m_host isEqualToString: [item valueForKey: @"host"]] &&
+				[m_service isEqualToString: [item valueForKey: @"service"]];
 		
 		if (found)
 			break;
@@ -52,6 +59,11 @@ registerRuleType(BonjourRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"BonjourSource"];
+}
+
+- (void) loadData {
+	m_host = [[self.data objectForKey: @"parameter"] objectForKey: @"host"];
+	m_service = [[self.data objectForKey: @"parameter"] objectForKey: @"service"];
 }
 
 - (NSArray *) suggestedValues {

@@ -13,12 +13,19 @@
 
 registerRuleType(DisplayStateRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_state = kDisplayOn;
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) displayStateChangedWithOld: (eDisplayState) oldState andNew: (eDisplayState) newState {
-	NSNumber *parameter = [self.data objectForKey: @"parameter"];
-	
-	self.match = (parameter.intValue == newState);
+	self.match = (m_state == newState);
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -40,6 +47,10 @@ registerRuleType(DisplayStateRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"PowerSource"];
+}
+
+- (void) loadData {
+	m_state = [[self.data objectForKey: @"parameter"] intValue];
 }
 
 - (NSArray *) suggestedValues {

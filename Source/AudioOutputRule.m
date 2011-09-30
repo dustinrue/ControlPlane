@@ -14,12 +14,19 @@
 
 registerRuleType(AudioOutputRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_source = 0;
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) sourceChangedWithOld: (UInt32) oldSource andNew: (UInt32) newSource {
-	UInt32 param = (UInt32) [[self.data objectForKey: @"parameter"] intValue];
-	
-	self.match = (param == newSource);
+	self.match = (m_source == newSource);
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -41,6 +48,10 @@ registerRuleType(AudioOutputRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"AudioOutputSource"];
+}
+
+- (void) loadData {
+	m_source = [[self.data objectForKey: @"parameter"] intValue];
 }
 
 - (NSArray *) suggestedValues {

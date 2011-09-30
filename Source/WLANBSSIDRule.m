@@ -13,16 +13,23 @@
 
 registerRuleType(WLANBSSIDRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_bssid = nil;
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) networksChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
 	BOOL found = NO;
 	
-	NSString *needle = [self.data objectForKey: @"parameter"];
-	
 	// loop through services
 	for (NSDictionary *item in newList) {
-		found = [needle isEqualToString: [item valueForKey: @"BSSID"]];
+		found = [m_bssid isEqualToString: [item valueForKey: @"BSSID"]];
 		
 		if (found)
 			break;
@@ -51,6 +58,10 @@ registerRuleType(WLANBSSIDRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"WLANSource"];
+}
+
+- (void) loadData {
+	m_bssid = [self.data objectForKey: @"parameter"];
 }
 
 - (NSArray *) suggestedValues {

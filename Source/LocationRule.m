@@ -14,15 +14,20 @@
 
 registerRuleType(LocationRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_location = [[[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0] autorelease];
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) locationChangedWithOld: (CLLocation *) oldLocation andNew: (CLLocation *) newLocation {
-	CLLocationDegrees lat = [[[self.data objectForKey: @"parameter"] objectForKey: @"latitude"] doubleValue];
-	CLLocationDegrees lng = [[[self.data objectForKey: @"parameter"] objectForKey: @"longitude"] doubleValue];
-	CLLocation *loc = [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
-	
 	if (newLocation)
-		self.match = [loc distanceFromLocation: newLocation] <= newLocation.horizontalAccuracy;
+		self.match = [m_location distanceFromLocation: newLocation] <= newLocation.horizontalAccuracy;
 	else
 		self.match = NO;
 }
@@ -46,6 +51,13 @@ registerRuleType(LocationRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"LocationSource"];
+}
+
+- (void) loadData {
+	CLLocationDegrees lat = [[[self.data objectForKey: @"parameter"] objectForKey: @"latitude"] doubleValue];
+	CLLocationDegrees lng = [[[self.data objectForKey: @"parameter"] objectForKey: @"longitude"] doubleValue];
+	
+	m_location = [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
 }
 
 - (NSArray *) suggestedValues {

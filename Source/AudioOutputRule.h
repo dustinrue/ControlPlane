@@ -8,6 +8,8 @@
 
 #import "Rule.h"
 
-@interface AudioOutputRule : Rule
+@interface AudioOutputRule : Rule {
+	UInt32 m_source;
+}
 
 @end

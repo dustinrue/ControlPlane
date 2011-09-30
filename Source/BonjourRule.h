@@ -8,6 +8,9 @@
 
 #import "Rule.h"
 
-@interface BonjourRule : Rule
+@interface BonjourRule : Rule {
+	NSString *m_host;
+	NSString *m_service;
+}
 
 @end

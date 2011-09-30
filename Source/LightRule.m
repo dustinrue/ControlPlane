@@ -13,16 +13,23 @@
 
 registerRuleType(LightRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_above = YES;
+	m_treshold = -1.0;
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) lightLevelChangedWithOld: (double) oldLevel andNew: (double) newLevel {
-	NSNumber *treshold = [[self.data objectForKey: @"parameter"] objectForKey: @"treshold"];
-	NSNumber *above = [[self.data objectForKey: @"parameter"] objectForKey: @"above"];
-	
-	if (above.boolValue)
-		self.match = (treshold.doubleValue <= newLevel);
+	if (m_above)
+		self.match = (m_treshold <= newLevel);
 	else
-		self.match = (treshold.doubleValue > newLevel);
+		self.match = (m_treshold > newLevel);
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -44,6 +51,11 @@ registerRuleType(LightRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"SensorsSource"];
+}
+
+- (void) loadData {
+	m_treshold = [[[self.data objectForKey: @"parameter"] objectForKey: @"treshold"] doubleValue];
+	m_above = [[[self.data objectForKey: @"parameter"] objectForKey: @"above"] boolValue];
 }
 
 - (NSArray *) suggestedValues {

@@ -48,6 +48,7 @@
 		self.enabled = NO;
 		[m_data release];
 		m_data = [data copy];
+		[self loadData];
 		self.enabled = old;
 	}
 }
@@ -69,6 +70,10 @@
 }
 
 - (void) beingDisabled {
+	[self doesNotRecognizeSelector: _cmd];
+}
+
+- (void) loadData {
 	[self doesNotRecognizeSelector: _cmd];
 }
 

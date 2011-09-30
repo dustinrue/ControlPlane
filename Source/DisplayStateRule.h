@@ -8,6 +8,8 @@
 
 #import "Rule.h"
 
-@interface DisplayStateRule : Rule
+@interface DisplayStateRule : Rule {
+	int m_state;
+}
 
 @end

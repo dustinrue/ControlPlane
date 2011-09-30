@@ -24,6 +24,7 @@
 - (NSString *) category;
 - (void) beingEnabled;
 - (void) beingDisabled;
+- (void) loadData;
 - (NSArray *) suggestedValues;
 
 @end

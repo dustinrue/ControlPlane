@@ -15,13 +15,21 @@ registerRuleType(RunningApplicationRule)
 
 #pragma mark - Source observe functions
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_identifier = nil;
+	
+	return self;
+}
+
 - (void) applicationsChangedWithOld: (NSArray *) oldList andNew: (NSArray *) newList {
-	NSString *needle = [self.data objectForKey: @"parameter"];
 	BOOL found = NO;
 	
 	// loop through apps
 	for (NSDictionary *app in newList) {
-		found = [needle isEqualToString: [app valueForKey: @"identifier"]];
+		found = [m_identifier isEqualToString: [app valueForKey: @"identifier"]];
 		if (found)
 			break;
 	}
@@ -48,6 +56,10 @@ registerRuleType(RunningApplicationRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"RunningApplicationSource"];
+}
+
+- (void) loadData {
+	m_identifier = [self.data objectForKey: @"parameter"];
 }
 
 - (NSArray *) suggestedValues {

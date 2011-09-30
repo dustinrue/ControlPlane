@@ -8,6 +8,8 @@
 
 #import "Rule.h"
 
-@interface WLANSSIDRule : Rule
+@interface WLANSSIDRule : Rule {
+	NSString *m_ssid;
+}
 
 @end

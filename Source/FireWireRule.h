@@ -8,6 +8,8 @@
 
 #import "Rule.h"
 
-@interface FireWireRule : Rule
+@interface FireWireRule : Rule {
+	NSNumber *m_guid;
+}
 
 @end

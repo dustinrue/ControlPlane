@@ -8,6 +8,8 @@
 
 #import "Rule.h"
 
-@interface RunningApplicationRule : Rule
+@interface RunningApplicationRule : Rule {
+	NSString *m_identifier;
+}
 
 @end

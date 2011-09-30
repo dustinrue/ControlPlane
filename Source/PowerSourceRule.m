@@ -13,13 +13,20 @@
 
 registerRuleType(PowerSourceRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_source = kPowerError;
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) powerSourceChangedWithOld: (ePowerSource) oldSource andNew: (ePowerSource) newSource {
-	NSNumber *parameter = [self.data objectForKey: @"parameter"];
-	
 	if (newSource != kPowerError)
-		self.match = (parameter.intValue == newSource);
+		self.match = (m_source == newSource);
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -41,6 +48,10 @@ registerRuleType(PowerSourceRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"PowerSource"];
+}
+
+- (void) loadData {
+	m_source = [[self.data objectForKey: @"parameter"] intValue];
 }
 
 - (NSArray *) suggestedValues {

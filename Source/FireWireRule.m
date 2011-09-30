@@ -13,12 +13,19 @@
 
 registerRuleType(FireWireRule)
 
+- (id) init {
+	self = [super init];
+	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	
+	m_guid = nil;
+	
+	return self;
+}
+
 #pragma mark - Source observe functions
 
 - (void) devicesChangedWithOld: (NSDictionary *) oldList andNew: (NSDictionary *) newList {
-	NSNumber *guid = [self.data objectForKey: @"parameter"];
-	
-	self.match = ([newList objectForKey: guid] != nil);
+	self.match = ([newList objectForKey: m_guid] != nil);
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -40,6 +47,10 @@ registerRuleType(FireWireRule)
 
 - (void) beingDisabled {
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"FireWireSource"];
+}
+
+- (void) loadData {
+	m_guid = [self.data objectForKey: @"parameter"];
 }
 
 - (NSArray *) suggestedValues {

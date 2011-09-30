@@ -8,6 +8,8 @@
 
 #import "Rule.h"
 
-@interface PowerSourceRule : Rule
+@interface PowerSourceRule : Rule {
+	int m_source;
+}
 
 @end

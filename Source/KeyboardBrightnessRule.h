@@ -8,6 +8,9 @@
 
 #import "Rule.h"
 
-@interface KeyboardBrightnessRule : Rule
+@interface KeyboardBrightnessRule : Rule {
+	double m_treshold;
+	BOOL m_above;
+}
 
 @end
