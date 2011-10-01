@@ -56,11 +56,14 @@ registerSourceType(SystemStateSource)
 - (void) unregisterCallback {
 	CFRunLoopSourceRef runLoopSource = IONotificationPortGetRunLoopSource(m_notifyPort);
 	
-	// unregister
+	// sleep
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
 	IODeregisterForSystemPower(&m_notifierObject);
 	IOServiceClose(m_rootPort);
 	IONotificationPortDestroy(m_notifyPort);
+	
+	// poweroff
+	[NSNotificationCenter.defaultCenter removeObserver: self];
 	
 	self.state = kSystemNormal;
 }
