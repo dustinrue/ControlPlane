@@ -5,7 +5,7 @@
 //  Created by David Symonds on 1/02/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 #import "CPController.h"
 #import "CPController+SleepThread.h"
 #import "NetworkLocationAction.h"
@@ -250,7 +250,7 @@
 	en = [lookup objectEnumerator];
 	cnt = 0;
 	while ((ctxt = [en nextObject])) {
-		Action *act = [[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
+		CAction *act = [[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
 		NSMutableDictionary *act_dict = [act dictionary];
 		[act_dict setValue:[ctxt uuid] forKey:@"context"];
 		[act_dict setValue:NSLocalizedString(@"Set Network Location", @"") forKey:@"description"];
@@ -606,7 +606,7 @@
 - (void)executeAction:(id)arg
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	Action *action = (Action *) arg;
+	CAction *action = (CAction *) arg;
 
 	NSString *errorString;
 	if (![action execute:&errorString])
@@ -639,7 +639,7 @@
 	[self doGrowl:growlTitle withMessage:growlMessage];
 
 	NSEnumerator *en = [actions objectEnumerator];
-	Action *action;
+	CAction *action;
 	while ((action = [en nextObject])) {
 		[self increaseActionsInProgress];
 		[NSThread detachNewThreadSelector:@selector(executeAction:)
@@ -664,7 +664,7 @@
 
 	NSMutableArray *batch = [NSMutableArray array];
 	NSEnumerator *en = [actions objectEnumerator];
-	Action *action;
+	CAction *action;
 	while ((action = [en nextObject])) {
 		if ([batch count] == 0) {
 			[batch addObject:action];
@@ -733,7 +733,7 @@
 		double original_delay = [[action valueForKey:@"delay"] doubleValue];
 		[surrogateAction setValue:[NSNumber numberWithDouble:(max_delay - original_delay)]
 				   forKey:@"delay"];
-		[set addObject:[Action actionFromDictionary:surrogateAction]];
+		[set addObject:[CAction actionFromDictionary:surrogateAction]];
 	}
 	[self executeActionSet:set];
 
@@ -756,7 +756,7 @@
 			continue;
 		if (![[action objectForKey:@"enabled"] boolValue])
 			continue;
-		[set addObject:[Action actionFromDictionary:action]];
+		[set addObject:[CAction actionFromDictionary:action]];
 	}
 
 	[self executeActionSet:set];

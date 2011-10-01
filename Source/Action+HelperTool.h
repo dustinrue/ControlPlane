@@ -6,10 +6,10 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "Action.h"
+#import "CAction.h"
 #import "CPHelperToolCommon.h"
 
-@interface Action (HelperTool)
+@interface CAction (HelperTool)
 
 - (BOOL) helperToolPerformAction: (NSString *) action;
 

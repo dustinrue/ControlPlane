@@ -63,7 +63,7 @@
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; };
 		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; };
-		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
+		8DF5A4180BC2353D00CBEB4B /* CAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* CAction.m */; };
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; };
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
@@ -309,8 +309,8 @@
 		8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GenericEvidenceSource.m; path = Source/GenericEvidenceSource.m; sourceTree = "<group>"; };
 		8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScreenSaverTimeAction.h; path = Source/ScreenSaverTimeAction.h; sourceTree = "<group>"; };
 		8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ScreenSaverTimeAction.m; path = Source/ScreenSaverTimeAction.m; sourceTree = "<group>"; };
-		8DF5A4150BC2353D00CBEB4B /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = Source/Action.h; sourceTree = "<group>"; };
-		8DF5A4160BC2353D00CBEB4B /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Action.m; path = Source/Action.m; sourceTree = "<group>"; };
+		8DF5A4150BC2353D00CBEB4B /* CAction.h */ = {isa = PBXFileReference; fileEncoding = 4; name = CAction.h; path = Source/CAction.h; sourceTree = "<group>"; };
+		8DF5A4160BC2353D00CBEB4B /* CAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CAction.m; path = Source/CAction.m; sourceTree = "<group>"; };
 		8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultPrinterAction.h; path = Source/DefaultPrinterAction.h; sourceTree = "<group>"; };
 		8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultPrinterAction.m; path = Source/DefaultPrinterAction.m; sourceTree = "<group>"; };
 		8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QuitApplicationAction.h; path = Source/QuitApplicationAction.h; sourceTree = "<group>"; };
@@ -725,8 +725,8 @@
 			children = (
 				DD8274EB14114CFF0098FA6E /* Application Actions */,
 				DD8274ED14114D620098FA6E /* System Actions */,
-				8DF5A4150BC2353D00CBEB4B /* Action.h */,
-				8DF5A4160BC2353D00CBEB4B /* Action.m */,
+				8DF5A4150BC2353D00CBEB4B /* CAction.h */,
+				8DF5A4160BC2353D00CBEB4B /* CAction.m */,
 				DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */,
 				DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */,
 				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
@@ -1181,7 +1181,7 @@
 				8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */,
 				8D8C9CE70BBB7BE00074D5B3 /* BluetoothEvidenceSource.m in Sources */,
 				8D8C9E350BBB89320074D5B3 /* DB.m in Sources */,
-				8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */,
+				8DF5A4180BC2353D00CBEB4B /* CAction.m in Sources */,
 				8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */,
 				8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */,
 				8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */,

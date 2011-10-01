@@ -5,10 +5,10 @@
 //  Created by Mark Wallis on 17/07/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface FirewallRuleAction : Action <ActionWithLimitedOptions> {
+@interface FirewallRuleAction : CAction <ActionWithLimitedOptions> {
 	NSString *ruleName;
 }
 

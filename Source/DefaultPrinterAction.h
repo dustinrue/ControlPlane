@@ -5,10 +5,10 @@
 //  Created by David Symonds on 3/04/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface DefaultPrinterAction : Action <ActionWithLimitedOptions> {
+@interface DefaultPrinterAction : CAction <ActionWithLimitedOptions> {
 	NSString *printerQueue;
 }
 

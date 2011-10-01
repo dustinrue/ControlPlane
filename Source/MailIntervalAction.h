@@ -6,10 +6,10 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface MailIntervalAction : Action <ActionWithLimitedOptions> {
+@interface MailIntervalAction : CAction <ActionWithLimitedOptions> {
 	NSNumber *time;
 }
 

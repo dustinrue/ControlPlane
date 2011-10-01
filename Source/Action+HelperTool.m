@@ -9,7 +9,7 @@
 #import "Action+HelperTool.h"
 #import <libkern/OSAtomic.h>
 
-@interface Action (HelperTool_Private)
+@interface CAction (HelperTool_Private)
 
 - (OSStatus) helperToolActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response andAuth: (AuthorizationRef) auth;
 - (void) helperToolInit: (AuthorizationRef *) auth;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation Action (HelperTool)
+@implementation CAction (HelperTool)
 
 - (BOOL) helperToolPerformAction: (NSString *) action {
 	static int32_t versionCheck = 0;

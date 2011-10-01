@@ -5,10 +5,10 @@
 //  Created by David Symonds on 7/06/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface ToggleableAction : Action <ActionWithLimitedOptions> {
+@interface ToggleableAction : CAction <ActionWithLimitedOptions> {
 	BOOL turnOn;
 }
 

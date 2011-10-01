@@ -6,10 +6,10 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface DisplayBrightnessAction : Action <ActionWithString> {
+@interface DisplayBrightnessAction : CAction <ActionWithString> {
 	NSString *brightnessText;
 	unsigned int brightness;
 }

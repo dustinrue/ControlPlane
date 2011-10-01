@@ -5,10 +5,10 @@
 //  Created by David Symonds on 15/10/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface QuitApplicationAction : Action <ActionWithString> {
+@interface QuitApplicationAction : CAction <ActionWithString> {
 	NSString *application;
 }
 

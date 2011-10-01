@@ -5,10 +5,10 @@
 //  Created by David Symonds on 8/06/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface IChatAction : Action <ActionWithString> {
+@interface IChatAction : CAction <ActionWithString> {
 	NSString *status;
 }
 

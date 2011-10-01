@@ -5,10 +5,10 @@
 //  Created by David Symonds on 12/11/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface DesktopBackgroundAction : Action <ActionWithFileParameter> {
+@interface DesktopBackgroundAction : CAction <ActionWithFileParameter> {
 	NSString *path;
 }
 

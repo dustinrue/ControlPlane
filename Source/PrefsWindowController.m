@@ -1,6 +1,6 @@
 
 #import "AboutPanel.h"
-#import "Action.h"
+#import "CAction.h"
 #import "PrefsWindowController.h"
 
 
@@ -27,7 +27,7 @@
 
 - (id)transformedValue:(id)theValue
 {
-	return [Action helpTextForActionOfType:(NSString *) theValue];
+	return [CAction helpTextForActionOfType:(NSString *) theValue];
 }
 
 @end
@@ -557,8 +557,8 @@
 - (void)addAction:(id)sender
 {
 	Class klass = [sender representedObject];
-	[self setValue:[Action typeForClass:klass] forKey:@"newActionType"];
-	[self setValue:NSLocalizedString([Action typeForClass:klass], @"Action type")
+	[self setValue:[CAction typeForClass:klass] forKey:@"newActionType"];
+	[self setValue:NSLocalizedString([CAction typeForClass:klass], @"Action type")
 		forKey:@"newActionTypeString"];
 
 	[self setValue:[klass creationHelpText] forKey:@"newActionWindowHelpText"];
@@ -598,7 +598,7 @@
 		if ([panel runModal] != NSOKButton)
 			return;
 		NSString *filename = [panel filename];
-		Action *action = [[[klass alloc] initWithFile:filename] autorelease];
+		CAction *action = [[[klass alloc] initWithFile:filename] autorelease];
 
 		NSMutableDictionary *actionDictionary = [action dictionary];
 		[actionsController addObject:actionDictionary];
@@ -621,7 +621,7 @@
 	}
 
 	// Worst-case fallback: just make a new action, and select it:
-	Action *action = [[[[sender representedObject] alloc] init] autorelease];
+	CAction *action = [[[[sender representedObject] alloc] init] autorelease];
 	NSMutableDictionary *actionDictionary = [action dictionary];
 
 	[actionsController addObject:actionDictionary];
@@ -630,8 +630,8 @@
 
 - (IBAction)doAddAction:(id)sender
 {
-	Class klass = [Action classForType:newActionType];
-	Action *tmp_action = [[klass alloc] init];
+	Class klass = [CAction classForType:newActionType];
+	CAction *tmp_action = [[klass alloc] init];
 	NSMutableDictionary *dict = [tmp_action dictionary];
 	[tmp_action release];
 

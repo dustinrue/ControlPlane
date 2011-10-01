@@ -5,10 +5,10 @@
 //  Created by Mark Wallis on 18/07/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface VPNAction : Action <ActionWithLimitedOptions> {
+@interface VPNAction : CAction <ActionWithLimitedOptions> {
 	NSString *vpnType;
 }
 

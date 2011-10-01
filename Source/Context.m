@@ -6,7 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "Action.h"
+#import "CAction.h"
 #import "Context.h"
 #import "Rule.h"
 
@@ -53,15 +53,25 @@
 - (void) activated {
 	DLog(@"Activated context '%@', executing actions", self.name);
 	
-	for (Action *action in m_actions)
+	for (CAction *action in m_actions)
 		;
 }
 
 - (void) deactivated {
 	DLog(@"Deactivated context '%@', executing actions", self.name);
 	
-	for (Action *action in m_actions)
+	for (CAction *action in m_actions)
 		;
+}
+
++ (NSString *) stringWithUUID {
+	CFUUIDRef uuidObj = CFUUIDCreate(nil);
+	
+	// convert to string
+	NSString *uuidString = (NSString *) CFUUIDCreateString(nil, uuidObj);
+	CFRelease(uuidObj);
+	
+	return [uuidString autorelease];
 }
 
 @end

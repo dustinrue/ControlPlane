@@ -36,7 +36,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 	[m_rulesTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
-
 - (Rule *) createRuleOfType: (NSString *) type {
 	Class ruleType = [m_rulesTypes objectForKey: type];
 	ZAssert(ruleType, @"Unknown rule type");

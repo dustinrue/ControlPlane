@@ -5,10 +5,10 @@
 //  Created by David Symonds on 4/07/07.
 //
 
-#import "Action.h"
+#import "CAction.h"
 
 
-@interface NetworkLocationAction : Action <ActionWithLimitedOptions> {
+@interface NetworkLocationAction : CAction <ActionWithLimitedOptions> {
 	NSString *networkLocation;
 }
 
