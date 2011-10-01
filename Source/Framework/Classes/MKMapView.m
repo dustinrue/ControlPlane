@@ -189,7 +189,7 @@
 	// Unfortunately if you just call stop/start, it'll never resend the kCLErrorDenied error.
 	locationManager = [[CLLocationManager alloc] init];
 	locationManager.delegate = self;
-	locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     }
     
     if (showsUserLocation)
@@ -654,13 +654,14 @@
         [self locationManager: locationManager didUpdateToLocation: userLocation.location fromLocation:nil];
     }
     
-    // In case we have to resume state from NSCoding
-    [self setMapType:[self mapType]];
-    [self setShowsUserLocation:[self showsUserLocation]];
-    
     if ([frame isEqual:[webView mainFrame]])
+    {
+        // In case we have to resume state from NSCoding
+        [self setMapType:[self mapType]];
+        [self setShowsUserLocation:[self showsUserLocation]];
+        
 	[self performSelector:@selector(delegateDidFinishLoadingMap) withObject:nil afterDelay:0.5];
-        //[self delegateDidFinishLoadingMap];
+    }
 }
 
 #pragma mark WebUIDelegate
