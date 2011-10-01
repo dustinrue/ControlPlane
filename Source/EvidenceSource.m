@@ -271,7 +271,6 @@
 #import "BluetoothEvidenceSource.h"
 #import "IPEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
-#import "TimeOfDayEvidenceSource.h"
 #import "CoreLocationSource.h"
 
 @implementation EvidenceSourceSetController
@@ -286,7 +285,6 @@
 						[CoreLocationSource class],
 						[IPEvidenceSource class],
 						[NetworkLinkEvidenceSource class],
-						[TimeOfDayEvidenceSource class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'

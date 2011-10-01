@@ -30,8 +30,6 @@
 		8D4DBDC30BE1E3C00024DEA0 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4DBDC20BE1E3C00024DEA0 /* gear.png */; };
 		8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */; };
 		8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D57B1430C4457AB00EC620D /* CoreAudio.framework */; };
-		8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */; };
-		8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */; };
 		8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
 		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
@@ -63,7 +61,6 @@
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
-		8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; };
 		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; };
 		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
@@ -132,6 +129,7 @@
 		DD96FE1A143629A60034BE0E /* MonitorRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE191436299F0034BE0E /* MonitorRule.m */; };
 		DD96FE1D143631A10034BE0E /* SleepSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1C1436319E0034BE0E /* SleepSource.m */; };
 		DD96FE20143658E50034BE0E /* SleepRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1F143658CE0034BE0E /* SleepRule.m */; };
+		DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE2214365D120034BE0E /* TimeOfDayRule.m */; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -255,10 +253,6 @@
 		8D4DBDC20BE1E3C00024DEA0 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Resources/gear.png; sourceTree = "<group>"; };
 		8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ContextsPrefs.png; path = Resources/ContextsPrefs.png; sourceTree = "<group>"; };
 		8D57B1430C4457AB00EC620D /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
-		8D643C650C4EF197006D8ECC /* GenericLoopingEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericLoopingEvidenceSource.h; path = Source/GenericLoopingEvidenceSource.h; sourceTree = "<group>"; };
-		8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericLoopingEvidenceSource.m; path = Source/GenericLoopingEvidenceSource.m; sourceTree = "<group>"; };
-		8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoopingEvidenceSource.h; path = Source/LoopingEvidenceSource.h; sourceTree = "<group>"; };
-		8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LoopingEvidenceSource.m; path = Source/LoopingEvidenceSource.m; sourceTree = "<group>"; };
 		8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VPNAction.h; path = Source/VPNAction.h; sourceTree = "<group>"; };
 		8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = VPNAction.m; path = Source/VPNAction.m; sourceTree = "<group>"; };
 		8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleWiFiAction.h; path = Source/ToggleWiFiAction.h; sourceTree = "<group>"; };
@@ -311,8 +305,6 @@
 		8DD790AB0BC28A9F00705346 /* OpenAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OpenAction.m; path = Source/OpenAction.m; sourceTree = "<group>"; };
 		8DD790C10BC28C4E00705346 /* MailSMTPServerAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MailSMTPServerAction.h; path = Source/MailSMTPServerAction.h; sourceTree = "<group>"; };
 		8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MailSMTPServerAction.m; path = Source/MailSMTPServerAction.m; sourceTree = "<group>"; };
-		8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayEvidenceSource.h; path = Source/TimeOfDayEvidenceSource.h; sourceTree = "<group>"; };
-		8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayEvidenceSource.m; path = Source/TimeOfDayEvidenceSource.m; sourceTree = "<group>"; };
 		8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GenericEvidenceSource.h; path = Source/GenericEvidenceSource.h; sourceTree = "<group>"; };
 		8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GenericEvidenceSource.m; path = Source/GenericEvidenceSource.m; sourceTree = "<group>"; };
 		8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScreenSaverTimeAction.h; path = Source/ScreenSaverTimeAction.h; sourceTree = "<group>"; };
@@ -431,6 +423,8 @@
 		DD96FE1C1436319E0034BE0E /* SleepSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepSource.m; path = Source/SleepSource.m; sourceTree = "<group>"; };
 		DD96FE1E143658CA0034BE0E /* SleepRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepRule.h; path = Source/SleepRule.h; sourceTree = "<group>"; };
 		DD96FE1F143658CE0034BE0E /* SleepRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepRule.m; path = Source/SleepRule.m; sourceTree = "<group>"; };
+		DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayRule.h; path = Source/TimeOfDayRule.h; sourceTree = "<group>"; };
+		DD96FE2214365D120034BE0E /* TimeOfDayRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayRule.m; path = Source/TimeOfDayRule.m; sourceTree = "<group>"; };
 		DDA2013B1411C0FB00DE570E /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013D1411C10900DE570E /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013E1411C11100DE570E /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -707,10 +701,6 @@
 				8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */,
 				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
 				8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */,
-				8D643C650C4EF197006D8ECC /* GenericLoopingEvidenceSource.h */,
-				8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */,
-				8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */,
-				8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */,
 			);
 			name = "Evidence Sources";
 			sourceTree = "<group>";
@@ -726,8 +716,6 @@
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
 				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
 				8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */,
-				8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */,
-				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
 			);
 			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
@@ -796,6 +784,8 @@
 				DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */,
 				DD96FE1E143658CA0034BE0E /* SleepRule.h */,
 				DD96FE1F143658CE0034BE0E /* SleepRule.m */,
+				DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */,
+				DD96FE2214365D120034BE0E /* TimeOfDayRule.m */,
 				DD96FE121436112F0034BE0E /* USBRule.h */,
 				DD96FE13143611310034BE0E /* USBRule.m */,
 				DD4ADADA142E2CEE00CE825F /* WLANBSSIDRule.h */,
@@ -1213,10 +1203,7 @@
 				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
 				8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */,
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
-				8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */,
-				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
 				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
-				8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */,
 				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
 				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,
@@ -1276,6 +1263,7 @@
 				DD96FE1A143629A60034BE0E /* MonitorRule.m in Sources */,
 				DD96FE1D143631A10034BE0E /* SleepSource.m in Sources */,
 				DD96FE20143658E50034BE0E /* SleepRule.m in Sources */,
+				DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
