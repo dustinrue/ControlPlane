@@ -52,4 +52,10 @@
 	return NO;
 }
 
+- (NSArray *) suggestedValues {
+	[self doesNotRecognizeSelector: _cmd];
+	return nil;
+}
+
+
 @end

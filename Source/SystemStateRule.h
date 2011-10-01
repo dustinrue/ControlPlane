@@ -1,5 +1,5 @@
 //
-//  SleepRule.h
+//  SystemStateRule.h
 //  ControlPlane
 //
 //  Created by David Jennes on 30/09/11.
@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface SleepRule : Rule {
+@interface SystemStateRule : Rule {
 	int m_state;
 }
 

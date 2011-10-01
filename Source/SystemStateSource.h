@@ -1,5 +1,5 @@
 //
-//  SleepSource.h
+//  SystemStateSource.h
 //  ControlPlane
 //
 //  Created by David Jennes on 30/09/11.
@@ -9,13 +9,14 @@
 #import "CallbackSource.h"
 
 typedef enum {
-	kSleepNormal = 0,
-	kSleepSleep = 1,
-	kSleepWake = 2
-} eSleepState;
+	kSystemNormal = 0,
+	kSystemSleep = 1,
+	kSystemWake = 2,
+	kSystemPowerOff = 3
+} eSystemState;
 
-@interface SleepSource : CallbackSource {
-	eSleepState m_state;
+@interface SystemStateSource : CallbackSource {
+	eSystemState m_state;
 	BOOL m_allowSleep;
 	
 	io_connect_t m_rootPort;
@@ -23,7 +24,7 @@ typedef enum {
 	IONotificationPortRef m_notifyPort;
 }
 
-@property (readwrite, assign) eSleepState state;
+@property (readwrite, assign) eSystemState state;
 @property (readwrite, assign) BOOL allowSleep;
 
 @end

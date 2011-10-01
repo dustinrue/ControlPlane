@@ -127,8 +127,8 @@
 		DD96FE14143611330034BE0E /* USBRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE13143611310034BE0E /* USBRule.m */; };
 		DD96FE1714361BCF0034BE0E /* MonitorSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1614361BCD0034BE0E /* MonitorSource.m */; };
 		DD96FE1A143629A60034BE0E /* MonitorRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE191436299F0034BE0E /* MonitorRule.m */; };
-		DD96FE1D143631A10034BE0E /* SleepSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1C1436319E0034BE0E /* SleepSource.m */; };
-		DD96FE20143658E50034BE0E /* SleepRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1F143658CE0034BE0E /* SleepRule.m */; };
+		DD96FE1D143631A10034BE0E /* SystemStateSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1C1436319E0034BE0E /* SystemStateSource.m */; };
+		DD96FE20143658E50034BE0E /* SystemStateRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1F143658CE0034BE0E /* SystemStateRule.m */; };
 		DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE2214365D120034BE0E /* TimeOfDayRule.m */; };
 		DD96FE2714369DC80034BE0E /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE2614369DC80034BE0E /* Action.m */; };
 		DD96FE2A143741ED0034BE0E /* ActionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE29143741ED0034BE0E /* ActionsManager.m */; };
@@ -421,10 +421,10 @@
 		DD96FE1614361BCD0034BE0E /* MonitorSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorSource.m; path = Source/MonitorSource.m; sourceTree = "<group>"; };
 		DD96FE181436299D0034BE0E /* MonitorRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorRule.h; path = Source/MonitorRule.h; sourceTree = "<group>"; };
 		DD96FE191436299F0034BE0E /* MonitorRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorRule.m; path = Source/MonitorRule.m; sourceTree = "<group>"; };
-		DD96FE1B1436319B0034BE0E /* SleepSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepSource.h; path = Source/SleepSource.h; sourceTree = "<group>"; };
-		DD96FE1C1436319E0034BE0E /* SleepSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepSource.m; path = Source/SleepSource.m; sourceTree = "<group>"; };
-		DD96FE1E143658CA0034BE0E /* SleepRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepRule.h; path = Source/SleepRule.h; sourceTree = "<group>"; };
-		DD96FE1F143658CE0034BE0E /* SleepRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepRule.m; path = Source/SleepRule.m; sourceTree = "<group>"; };
+		DD96FE1B1436319B0034BE0E /* SystemStateSource.h */ = {isa = PBXFileReference; fileEncoding = 4; name = SystemStateSource.h; path = Source/SystemStateSource.h; sourceTree = "<group>"; };
+		DD96FE1C1436319E0034BE0E /* SystemStateSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateSource.m; path = Source/SystemStateSource.m; sourceTree = "<group>"; };
+		DD96FE1E143658CA0034BE0E /* SystemStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; name = SystemStateRule.h; path = Source/SystemStateRule.h; sourceTree = "<group>"; };
+		DD96FE1F143658CE0034BE0E /* SystemStateRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateRule.m; path = Source/SystemStateRule.m; sourceTree = "<group>"; };
 		DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayRule.h; path = Source/TimeOfDayRule.h; sourceTree = "<group>"; };
 		DD96FE2214365D120034BE0E /* TimeOfDayRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayRule.m; path = Source/TimeOfDayRule.m; sourceTree = "<group>"; };
 		DD96FE2514369DC80034BE0E /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = Source/Action.h; sourceTree = "<group>"; };
@@ -789,8 +789,8 @@
 				DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */,
 				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
 				DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */,
-				DD96FE1E143658CA0034BE0E /* SleepRule.h */,
-				DD96FE1F143658CE0034BE0E /* SleepRule.m */,
+				DD96FE1E143658CA0034BE0E /* SystemStateRule.h */,
+				DD96FE1F143658CE0034BE0E /* SystemStateRule.m */,
 				DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */,
 				DD96FE2214365D120034BE0E /* TimeOfDayRule.m */,
 				DD96FE121436112F0034BE0E /* USBRule.h */,
@@ -913,12 +913,20 @@
 		DD96FE2414369D9E0034BE0E /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				DD96FE2B14378C980034BE0E /* Concrete Actions */,
 				DD96FE2514369DC80034BE0E /* Action.h */,
 				DD96FE2614369DC80034BE0E /* Action.m */,
 				DD96FE28143741ED0034BE0E /* ActionsManager.h */,
 				DD96FE29143741ED0034BE0E /* ActionsManager.m */,
 			);
 			name = Actions;
+			sourceTree = "<group>";
+		};
+		DD96FE2B14378C980034BE0E /* Concrete Actions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Concrete Actions";
 			sourceTree = "<group>";
 		};
 		DDD1A361142BD65600341B75 /* KVOAdditions */ = {
@@ -963,8 +971,8 @@
 				DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */,
 				DD96FDFD143506EC0034BE0E /* SensorsSource.h */,
 				DD96FDFE143506EE0034BE0E /* SensorsSource.m */,
-				DD96FE1B1436319B0034BE0E /* SleepSource.h */,
-				DD96FE1C1436319E0034BE0E /* SleepSource.m */,
+				DD96FE1B1436319B0034BE0E /* SystemStateSource.h */,
+				DD96FE1C1436319E0034BE0E /* SystemStateSource.m */,
 				DD96FE0F1435D3770034BE0E /* USBSource.h */,
 				DD96FE101435D37A0034BE0E /* USBSource.m */,
 				DDD1A357142B9E5A00341B75 /* WLANSource.h */,
@@ -1279,8 +1287,8 @@
 				DD96FE14143611330034BE0E /* USBRule.m in Sources */,
 				DD96FE1714361BCF0034BE0E /* MonitorSource.m in Sources */,
 				DD96FE1A143629A60034BE0E /* MonitorRule.m in Sources */,
-				DD96FE1D143631A10034BE0E /* SleepSource.m in Sources */,
-				DD96FE20143658E50034BE0E /* SleepRule.m in Sources */,
+				DD96FE1D143631A10034BE0E /* SystemStateSource.m in Sources */,
+				DD96FE20143658E50034BE0E /* SystemStateRule.m in Sources */,
 				DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */,
 				DD96FE2714369DC80034BE0E /* Action.m in Sources */,
 				DD96FE2A143741ED0034BE0E /* ActionsManager.m in Sources */,
