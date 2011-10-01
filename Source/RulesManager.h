@@ -9,7 +9,7 @@
 @class Rule;
 
 @interface RulesManager : NSObject {
-	NSMutableDictionary *m_rulesTypes;
+	NSMutableDictionary *m_ruleTypes;
 }
 
 + (RulesManager *) sharedRulesManager;

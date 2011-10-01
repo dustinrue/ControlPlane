@@ -19,13 +19,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_rulesTypes = [NSMutableDictionary new];
+	m_ruleTypes = [NSMutableDictionary new];
 	
 	return self;
 }
 
 - (void) dealloc {
-	[m_rulesTypes release];
+	[m_ruleTypes release];
 	
 	[super dealloc];
 }
@@ -33,11 +33,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 #pragma mark - Rule types
 
 - (void) registerRuleType: (Class) type {
-	[m_rulesTypes setObject: type forKey: NSStringFromClass(type)];
+	[m_ruleTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
 - (Rule *) createRuleOfType: (NSString *) type {
-	Class ruleType = [m_rulesTypes objectForKey: type];
+	Class ruleType = [m_ruleTypes objectForKey: type];
 	ZAssert(ruleType, @"Unknown rule type");
 	
 	return [[ruleType new] autorelease];
