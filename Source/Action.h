@@ -2,60 +2,29 @@
 //  Action.h
 //  ControlPlane
 //
-//  Created by David Symonds on 3/04/07.
+//  Created by David Jennes on 01/10/11.
+//  Copyright 2011. All rights reserved.
 //
 
+#import "ActionsManager.h"
+
 @interface Action : NSObject {
-	NSString *type, *context, *when;
-	NSNumber *delay, *enabled;
+@private
+	BOOL m_enabled;
+	NSNumber *m_delay;
+	eWhen m_when;
+	NSDictionary *m_data;
 }
 
-+ (NSString *)typeForClass:(Class)klass;
-+ (Class)classForType:(NSString *)type;
+@property (readwrite, assign) BOOL enabled;
+@property (readwrite, assign) NSNumber *delay;
+@property (readwrite, assign) eWhen when;
+@property (readwrite, copy) NSDictionary *data;
 
-+ (Action *)actionFromDictionary:(NSDictionary *)dict;
-- (id)init;
-- (id)initWithDictionary:(NSDictionary *)dict;
-- (void)dealloc;
-- (NSMutableDictionary *)dictionary;
-+ (NSString *)helpTextForActionOfType:(NSString *)type;
-
-- (NSComparisonResult)compareDelay:(Action *)other;
-
-// To be implemented by descendant classes:
-- (NSString *)description;	// (use present-tense imperative)
-- (BOOL)execute:(NSString **)errorString;
-+ (NSString *)helpText;
-+ (NSString *)creationHelpText;
-
-@end
-
-@protocol ActionWithLimitedOptions
-+ (NSArray *)limitedOptions;		// Returns an array of dictionaries (keys: option, description)
-- (id)initWithOption:(NSObject *)option;
-@end
-
-@protocol ActionWithFileParameter
-- (id)initWithFile:(NSString *)file;
-@end
-
-// An action whose creation UI should just prompt for a string (NSTextField)
-@protocol ActionWithString
-@end
-
-//////////////////////////////////////////////////////////////////////////////////////////
-
-@interface ActionSetController : NSObject {
-	IBOutlet NSWindowController *prefsWindowController;
-	NSArray *classes;	// array of class objects
-}
-
-- (NSArray *)types;
-
-// NSMenu delegates
-- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel;
-- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action;
-- (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu;
-
+// implemented by subclasses
+- (NSString *) name;
+- (NSString *) category;
+- (void) loadData;
+- (BOOL) execute;
 
 @end

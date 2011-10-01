@@ -130,6 +130,8 @@
 		DD96FE1D143631A10034BE0E /* SleepSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1C1436319E0034BE0E /* SleepSource.m */; };
 		DD96FE20143658E50034BE0E /* SleepRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1F143658CE0034BE0E /* SleepRule.m */; };
 		DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE2214365D120034BE0E /* TimeOfDayRule.m */; };
+		DD96FE2714369DC80034BE0E /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE2614369DC80034BE0E /* Action.m */; };
+		DD96FE2A143741ED0034BE0E /* ActionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE29143741ED0034BE0E /* ActionsManager.m */; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -309,7 +311,7 @@
 		8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GenericEvidenceSource.m; path = Source/GenericEvidenceSource.m; sourceTree = "<group>"; };
 		8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScreenSaverTimeAction.h; path = Source/ScreenSaverTimeAction.h; sourceTree = "<group>"; };
 		8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ScreenSaverTimeAction.m; path = Source/ScreenSaverTimeAction.m; sourceTree = "<group>"; };
-		8DF5A4150BC2353D00CBEB4B /* CAction.h */ = {isa = PBXFileReference; fileEncoding = 4; name = CAction.h; path = Source/CAction.h; sourceTree = "<group>"; };
+		8DF5A4150BC2353D00CBEB4B /* CAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAction.h; path = Source/CAction.h; sourceTree = "<group>"; };
 		8DF5A4160BC2353D00CBEB4B /* CAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CAction.m; path = Source/CAction.m; sourceTree = "<group>"; };
 		8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultPrinterAction.h; path = Source/DefaultPrinterAction.h; sourceTree = "<group>"; };
 		8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultPrinterAction.m; path = Source/DefaultPrinterAction.m; sourceTree = "<group>"; };
@@ -425,6 +427,10 @@
 		DD96FE1F143658CE0034BE0E /* SleepRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepRule.m; path = Source/SleepRule.m; sourceTree = "<group>"; };
 		DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayRule.h; path = Source/TimeOfDayRule.h; sourceTree = "<group>"; };
 		DD96FE2214365D120034BE0E /* TimeOfDayRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayRule.m; path = Source/TimeOfDayRule.m; sourceTree = "<group>"; };
+		DD96FE2514369DC80034BE0E /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = Source/Action.h; sourceTree = "<group>"; };
+		DD96FE2614369DC80034BE0E /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Action.m; path = Source/Action.m; sourceTree = "<group>"; };
+		DD96FE28143741ED0034BE0E /* ActionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionsManager.h; path = Source/ActionsManager.h; sourceTree = "<group>"; };
+		DD96FE29143741ED0034BE0E /* ActionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionsManager.m; path = Source/ActionsManager.m; sourceTree = "<group>"; };
 		DDA2013B1411C0FB00DE570E /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013D1411C10900DE570E /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA2013E1411C11100DE570E /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -541,6 +547,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DD96FE2414369D9E0034BE0E /* Actions */,
 				DDD1A372142CD6A000341B75 /* Contexts */,
 				DD68A9DF142629310059A730 /* Rules */,
 				DD68A9D7142623080059A730 /* Sources */,
@@ -901,6 +908,17 @@
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
 			);
 			name = "System Actions";
+			sourceTree = "<group>";
+		};
+		DD96FE2414369D9E0034BE0E /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				DD96FE2514369DC80034BE0E /* Action.h */,
+				DD96FE2614369DC80034BE0E /* Action.m */,
+				DD96FE28143741ED0034BE0E /* ActionsManager.h */,
+				DD96FE29143741ED0034BE0E /* ActionsManager.m */,
+			);
+			name = Actions;
 			sourceTree = "<group>";
 		};
 		DDD1A361142BD65600341B75 /* KVOAdditions */ = {
@@ -1264,6 +1282,8 @@
 				DD96FE1D143631A10034BE0E /* SleepSource.m in Sources */,
 				DD96FE20143658E50034BE0E /* SleepRule.m in Sources */,
 				DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */,
+				DD96FE2714369DC80034BE0E /* Action.m in Sources */,
+				DD96FE2A143741ED0034BE0E /* ActionsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

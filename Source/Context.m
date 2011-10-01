@@ -6,7 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "CAction.h"
+#import "ActionsManager.h"
 #import "Context.h"
 #import "Rule.h"
 
@@ -52,16 +52,12 @@
 
 - (void) activated {
 	DLog(@"Activated context '%@', executing actions", self.name);
-	
-	for (CAction *action in m_actions)
-		;
+	[ActionsManager.sharedActionsManager executeActions: m_actions when: kWhenEntering];
 }
 
 - (void) deactivated {
 	DLog(@"Deactivated context '%@', executing actions", self.name);
-	
-	for (CAction *action in m_actions)
-		;
+	[ActionsManager.sharedActionsManager executeActions: m_actions when: kWhenLeaving];
 }
 
 + (NSString *) stringWithUUID {
