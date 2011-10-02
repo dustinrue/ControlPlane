@@ -65,7 +65,8 @@ registerSourceType(WLANSource)
 		results = [self scanForNetworks: interface];
 	
 	// store it
-	self.networks = results;
+	if (![self.networks isEqualToArray: results])
+		self.networks = results;
 }
 
 #pragma mark - Helper functions

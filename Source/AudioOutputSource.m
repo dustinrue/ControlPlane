@@ -79,7 +79,8 @@ registerSourceType(AudioOutputSource)
 	DLog(@"%@ >> Got 0x%08lu", [self class], (unsigned long) sourceID);
 	
 	// store it
-	self.source = sourceID;
+	if (self.source != sourceID)
+		self.source = sourceID;
 }
 
 static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,

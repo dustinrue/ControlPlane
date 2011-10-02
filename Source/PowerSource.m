@@ -92,11 +92,13 @@ registerSourceType(PowerSource)
 			batteryFound = YES;
 	}
 	
-	// release
+	// result
 	CFRelease(blob);
+	BOOL result = (batteryFound ? kPowerBattery : (acFound ? kPowerAC : kPowerError));
 	
 	// store it
-	self.powerSource = (batteryFound ? kPowerBattery : (acFound ? kPowerAC : kPowerError));
+	if (self.powerSource != result)
+		self.powerSource = result;
 }
 
 #pragma mark - Internal callbacks

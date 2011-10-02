@@ -69,32 +69,40 @@ registerSourceType(SystemStateSource)
 }
 
 - (void) checkData {
-	self.state = kSystemNormal;
+	if (self.state != kSystemNormal)
+		self.state = kSystemNormal;
 }
 
 #pragma mark - Internal callbacks
 
 void powerCallback(void *refCon, io_service_t service, natural_t msgType, void *msgArgument) {
 	SystemStateSource *source = (SystemStateSource *) refCon;
+	eSystemState result = kSystemNormal;
 	
 	switch (msgType) {
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
 			source.allowSleep = NO;
-			source.state = kSystemSleep;
-			
-			// wait for 20 seconds or until allowed to sleep
-			for (unsigned i = 0; i < 20 && !source.allowSleep; ++i)
-				[NSThread sleepForTimeInterval: 1];
-			
-			IOAllowPowerChange(source->m_rootPort, (long) msgArgument);
+			result = kSystemSleep;
 			break;
 		case kIOMessageSystemWillPowerOn:
-			source.state = kSystemWake;
+			result = kSystemWake;
 			break;
 		case kIOMessageSystemHasPoweredOn:
-			source.state = kSystemNormal;
+			result = kSystemNormal;
 			break;
+	}
+	
+	// store result
+	if (source.state != result)
+		source.state = result;
+	
+	// wait to allow sleep if needed
+	if (result == kSystemSleep) {
+		for (unsigned i = 0; i < 20 && !source.allowSleep; ++i)
+			[NSThread sleepForTimeInterval: 1];
+		
+		IOAllowPowerChange(source->m_rootPort, (long) msgArgument);
 	}
 }
 

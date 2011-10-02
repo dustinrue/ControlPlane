@@ -124,7 +124,7 @@ registerSourceType(FireWireSource)
 	
 	// store when different
 	if (![self.devices isEqualToDictionary: devices])
-		self.devices = [[devices copy] autorelease];
+		self.devices = devices;
 }
 
 - (void) devRemoved: (io_iterator_t) iterator {

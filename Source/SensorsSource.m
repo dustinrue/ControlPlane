@@ -65,10 +65,18 @@ registerSourceType(SensorsSource)
 }
 
 - (void) checkData {
-	// Update readings
-	self.displayBrightness = [self getDisplayBrightness];
-	self.keyboardBrightness = [self getKeyboardBrightness];
-	self.lightLevel = [self getLightLevel];
+	// get readings
+	double displayBrightness = [self getDisplayBrightness];
+	double keyboardBrightness = [self getKeyboardBrightness];
+	double lightLevel = [self getLightLevel];
+	
+	// update readings
+	if (self.displayBrightness != displayBrightness)
+		self.displayBrightness = displayBrightness;
+	if (self.keyboardBrightness != keyboardBrightness)
+		self.keyboardBrightness = keyboardBrightness;
+	if (self.lightLevel != lightLevel)
+		self.lightLevel = lightLevel;
 }
 
 #pragma mark - Helper functions
