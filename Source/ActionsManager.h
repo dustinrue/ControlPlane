@@ -24,7 +24,6 @@ typedef enum {
 + (ActionsManager *) sharedActionsManager;
 - (void) registerActionType: (Class) type;
 - (Action *) createActionOfType: (NSString *) type;
-- (void) executeAction: (Action *) action;
 - (void) executeActions: (NSArray *) actions when: (eWhen) when;
 
 @end

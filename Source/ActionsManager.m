@@ -12,7 +12,7 @@
 
 @interface ActionsManager (Private)
 
-- (void) actuallyExecuteAction: (Action *) action;
+- (void) executeAction: (Action *) action;
 - (NSDictionary *) filterActions: (NSArray *) actions when: (eWhen) when;
 
 @end
@@ -60,22 +60,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 #pragma mark - Action execution
 
 - (void) executeAction: (Action *) action {
-	[NSThread detachNewThreadSelector: @selector(actuallyExecuteAction:)
-							 toTarget: self
-						   withObject: action];
-}
-
-- (void) actuallyExecuteAction: (Action *) action {
+	BOOL result = NO;
+	self.actionsInProgress++;
+	
+	// This is called with detachThread, so create pool and set thread name
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	NSThread.currentThread.name = action.name;
-	BOOL result = NO;
 	
 	// perform action
 	result = [action execute];
 	
 	// finish up
 	if (!result)
-		DLog(@"TODO: notify");
+		DLog(@""); // TODO: notify
+	self.actionsInProgress--;
 	[pool release];
 }
 
@@ -97,8 +95,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 		elapsed = time;
 		
 		// execute actions
-		for (Action *action in [filteredActions objectForKey: elapsed])
-			[self executeAction: action];
+		for (Action *action in [filteredActions objectForKey: elapsed]) {
+			[NSThread detachNewThreadSelector: @selector(executeAction:)
+									 toTarget: self
+								   withObject: action];
+		}
 	}
 }
 
