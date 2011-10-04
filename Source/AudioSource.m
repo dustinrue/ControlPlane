@@ -200,16 +200,16 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	result = AudioObjectGetPropertyDataSize(deviceID, &address, 0, NULL, &propertySize);
 	ZAssert(result != noErr, @"AudioObjectGetPropertyDataSize failed!");
 	if (propertySize > 0)
-		return @"output";
+		return NSLocalizedString(@"output", @"AudioSource");
 	
 	// if there are any input streams, then it is an input
 	address.mScope = kAudioDevicePropertyScopeInput;
 	result = AudioObjectGetPropertyDataSize(deviceID, &address, 0, NULL, &propertySize);
 	ZAssert(result != noErr, @"AudioObjectGetPropertyDataSize failed!");
 	if (propertySize > 0)
-		return @"input";
+		return NSLocalizedString(@"input", @"AudioSource");
 	
-	return @"unknown";
+	return NSLocalizedString(@"unknown", @"AudioSource");
 }
 
 @end

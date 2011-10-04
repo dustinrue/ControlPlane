@@ -57,13 +57,14 @@ registerRuleType(AudioOutputRule)
 - (NSArray *) suggestedValues {
 	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: @"AudioSource"];
 	NSMutableArray *result = [[NSArray new] autorelease];
+	NSString *typeName = NSLocalizedString(@"output", @"AudioSource");
 	
 	// loop through devices
 	for (NSNumber *device in source.devices) {
 		NSString *name = [source.devices objectForKey: device];
 		
 		// only output devices
-		if ([name rangeOfString: @"output"].location != NSNotFound)
+		if ([name rangeOfString: typeName].location != NSNotFound)
 			[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
 								device, @"parameter",
 								name, @"description", nil]];
