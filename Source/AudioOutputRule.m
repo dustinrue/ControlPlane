@@ -7,7 +7,7 @@
 //
 
 #import "AudioOutputRule.h"
-#import "AudioOutputSource.h"
+#import "AudioSource.h"
 #import <IOKit/audio/IOAudioTypes.h>
 
 @implementation AudioOutputRule
@@ -18,15 +18,15 @@ registerRuleType(AudioOutputRule)
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_source = 0;
+	m_output = nil;
 	
 	return self;
 }
 
 #pragma mark - Source observe functions
 
-- (void) sourceChangedWithOld: (NSUInteger) oldSource andNew: (NSUInteger) newSource {
-	self.match = (m_source == newSource);
+- (void) outputChangedWithOld: (NSNumber *) oldOutput andNew: (NSNumber *) newOutput {
+	self.match = [m_output isEqualToNumber: newOutput];
 }
 
 #pragma mark - Required implementation of 'Rule' class
@@ -40,35 +40,36 @@ registerRuleType(AudioOutputRule)
 }
 
 - (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"AudioOutputSource"];
+	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"AudioSource"];
 	
 	// currently a match?
-	[self sourceChangedWithOld: 0 andNew: ((AudioOutputSource *) source).source];
+	[self outputChangedWithOld: 0 andNew: ((AudioSource *) source).output];
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"AudioOutputSource"];
+	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"AudioSource"];
 }
 
 - (void) loadData {
-	m_source = [[self.data objectForKey: @"parameter"] intValue];
+	m_output = [self.data objectForKey: @"parameter"];
 }
 
 - (NSArray *) suggestedValues {
-	return [NSArray arrayWithObjects:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithUnsignedInt: kIOAudioOutputPortSubTypeInternalSpeaker], @"parameter",
-			 NSLocalizedString(@"Internal Speakers", @"AudioOutputRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithUnsignedInt: kIOAudioOutputPortSubTypeHeadphones], @"parameter",
-			 NSLocalizedString(@"Headphones", @"AudioOutputRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithUnsignedInt: kIOAudioOutputPortSubTypeExternalSpeaker], @"parameter",
-			 NSLocalizedString(@"External speakers", @"AudioOutputRule suggestion description"), @"description",
-			 nil],
-			nil];
+	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: @"AudioSource"];
+	NSMutableArray *result = [[NSArray new] autorelease];
+	
+	// loop through devices
+	for (NSNumber *device in source.devices) {
+		NSString *name = [source.devices objectForKey: device];
+		
+		// only output devices
+		if ([name rangeOfString: @"output"].location != NSNotFound)
+			[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
+								device, @"parameter",
+								name, @"description", nil]];
+	}
+	
+	return result;
 }
 
 @end

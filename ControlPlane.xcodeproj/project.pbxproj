@@ -153,7 +153,7 @@
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
-		DDE29BE01429591D00A55469 /* AudioOutputSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BDF1429591D00A55469 /* AudioOutputSource.m */; };
+		DDE29BE01429591D00A55469 /* AudioSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BDF1429591D00A55469 /* AudioSource.m */; };
 		DDE29BE51429662600A55469 /* CallbackSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BE41429662600A55469 /* CallbackSource.m */; };
 		DDE29BE8142A1D9700A55469 /* PowerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BE7142A1D9600A55469 /* PowerSource.m */; };
 		DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */ = {isa = PBXBuildFile; fileRef = DDF4E594141588E80028DF4A /* CoreLocationMap.html */; };
@@ -495,8 +495,8 @@
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
 		DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITunesPlaylistAction.m; path = Source/ITunesPlaylistAction.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
-		DDE29BDE1429591D00A55469 /* AudioOutputSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputSource.h; path = Source/AudioOutputSource.h; sourceTree = "<group>"; };
-		DDE29BDF1429591D00A55469 /* AudioOutputSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputSource.m; path = Source/AudioOutputSource.m; sourceTree = "<group>"; };
+		DDE29BDE1429591D00A55469 /* AudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; name = AudioSource.h; path = Source/AudioSource.h; sourceTree = "<group>"; };
+		DDE29BDF1429591D00A55469 /* AudioSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSource.m; path = Source/AudioSource.m; sourceTree = "<group>"; };
 		DDE29BE31429662500A55469 /* CallbackSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallbackSource.h; path = Source/CallbackSource.h; sourceTree = "<group>"; };
 		DDE29BE41429662600A55469 /* CallbackSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CallbackSource.m; path = Source/CallbackSource.m; sourceTree = "<group>"; };
 		DDE29BE6142A1D9600A55469 /* PowerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerSource.h; path = Source/PowerSource.h; sourceTree = "<group>"; };
@@ -958,8 +958,8 @@
 		DDE29BE2142964B700A55469 /* Concrete Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DDE29BDE1429591D00A55469 /* AudioOutputSource.h */,
-				DDE29BDF1429591D00A55469 /* AudioOutputSource.m */,
+				DDE29BDE1429591D00A55469 /* AudioSource.h */,
+				DDE29BDF1429591D00A55469 /* AudioSource.m */,
 				DD23929C142A916500FE7DC7 /* BonjourSource.h */,
 				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
 				DD96FDF31434D2570034BE0E /* FireWireSource.h */,
@@ -1258,7 +1258,7 @@
 				DD68A9DD142623210059A730 /* Source.m in Sources */,
 				DD68A9DE142623210059A730 /* SourcesManager.m in Sources */,
 				DD68A9E21426294B0059A730 /* Rule.m in Sources */,
-				DDE29BE01429591D00A55469 /* AudioOutputSource.m in Sources */,
+				DDE29BE01429591D00A55469 /* AudioSource.m in Sources */,
 				DDE29BE51429662600A55469 /* CallbackSource.m in Sources */,
 				DDE29BE8142A1D9700A55469 /* PowerSource.m in Sources */,
 				DD23928B142A257500FE7DC7 /* LoopingSource.m in Sources */,
