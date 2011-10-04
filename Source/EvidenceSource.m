@@ -269,7 +269,6 @@
 @end
 
 #import "BluetoothEvidenceSource.h"
-#import "IPEvidenceSource.h"
 #import "CoreLocationSource.h"
 
 @implementation EvidenceSourceSetController
@@ -282,7 +281,6 @@
 	NSArray *classes = [NSArray arrayWithObjects:
 						[BluetoothEvidenceSource class],
 						[CoreLocationSource class],
-						[IPEvidenceSource class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'

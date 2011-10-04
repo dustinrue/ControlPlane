@@ -13,7 +13,8 @@ static void storeChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *i
 
 @interface NetworkSource (Private)
 
-- (void) checkDataThread;
+- (void) checkAddressesThread;
+- (void) checkInterfacesThread;
 
 @end
 
@@ -28,6 +29,7 @@ registerSourceType(NetworkSource)
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
+	self.addresses = [[NSArray new] autorelease];
 	self.interfaces = [[NSDictionary new] autorelease];
 	self.interfaceNames = [[NSDictionary new] autorelease];
 	
@@ -41,20 +43,23 @@ registerSourceType(NetworkSource)
 #pragma mark - Required implementation of 'CallbackSource' class
 
 - (NSArray *) observableKeys {
-	return [NSArray arrayWithObject: @"interfaces"];
+	return [NSArray arrayWithObjects: @"interfaces", @"addresses", nil];
 }
 
 - (void) registerCallback {
 	NSArray *interfaces = [(NSArray *) SCNetworkInterfaceCopyAll() autorelease];
-	NSMutableArray *monitoredInterfaces = [[NSMutableArray new] autorelease];
+	NSMutableArray *keys = [[NSMutableArray new] autorelease];
 	
-	// monitored interfaces
+	// monitor interfaces
 	for (NSUInteger i = 0; i < interfaces.count; ++i) {
 		SCNetworkInterfaceRef interface = (SCNetworkInterfaceRef) [interfaces objectAtIndex: i];
-		[monitoredInterfaces addObject: [NSString stringWithFormat: 
-										 @"State:/Network/Interface/%@/Link",
-										 SCNetworkInterfaceGetBSDName(interface)]];
+		[keys addObject: [NSString stringWithFormat: 
+						  @"State:/Network/Interface/%@/Link",
+						  SCNetworkInterfaceGetBSDName(interface)]];
 	}
+	
+	// monitor IP changes
+	[keys addObject: @"State:/Network/Global/IPv4"];
 	
 	// register for async. notifications
 	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL};
@@ -62,7 +67,7 @@ registerSourceType(NetworkSource)
 	m_runLoop = SCDynamicStoreCreateRunLoopSource(NULL, m_store, 0);
 	
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), m_runLoop, kCFRunLoopCommonModes);
-	SCDynamicStoreSetNotificationKeys(m_store, (CFArrayRef) monitoredInterfaces, NULL);
+	SCDynamicStoreSetNotificationKeys(m_store, (CFArrayRef) keys, NULL);
 }
 
 - (void) unregisterCallback {
@@ -70,19 +75,56 @@ registerSourceType(NetworkSource)
 	CFRelease(m_runLoop);
 	CFRelease(m_store);
 	
+	self.addresses = [[NSArray new] autorelease];
 	self.interfaces = [[NSDictionary new] autorelease];
 	self.interfaceNames = [[NSDictionary new] autorelease];
 }
 
 - (void) checkData {
-	[NSThread detachNewThreadSelector: @selector(checkDataThread)
+	[NSThread detachNewThreadSelector: @selector(checkAddressesThread)
+							 toTarget: self
+						   withObject: nil];
+	[NSThread detachNewThreadSelector: @selector(checkInterfacesThread)
 							 toTarget: self
 						   withObject: nil];
 }
 
-#pragma mark - Threaded checkData
+#pragma mark - Threaded data checking
 
-- (void) checkDataThread {
+- (void) checkAddressesThread {
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	NSThread.currentThread.name = @"NetworkSource-Addresses";
+	
+	// get all addresses
+	NSArray *addresses = NSHost.currentHost.addresses;
+	NSMutableArray *result = [[NSMutableArray new] autorelease];
+	
+	// loop over them
+	for (NSString *ip in addresses) {
+		ip = ip.lowercaseString;
+		
+		// filter unusable addresses
+		if ([ip hasPrefix:@"127.0.0."] ||	// Localhost IPv4
+			[ip isEqualToString:@"::1"] ||	// Localhost IPv6
+			[ip hasPrefix:@"ff"] ||			// Multicast IPv6
+			[ip hasPrefix:@"169.254."] ||	// Link-local IPv4
+			[ip hasPrefix:@"fe80:"])		// Link-local IPv6
+			continue;
+		
+		[result addObject: ip];
+	}
+	
+	// store it
+	if (![self.addresses isEqualToArray: result])
+		self.addresses = result;
+	
+	[pool release];
+}
+
+- (void) checkInterfacesThread {
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	NSThread.currentThread.name = @"NetworkSource-Interfaces";
+	
 	NSMutableDictionary *result = [[NSMutableDictionary new] autorelease];
 	NSMutableDictionary *resultNames = [[NSMutableDictionary new] autorelease];
 	
@@ -114,15 +156,35 @@ registerSourceType(NetworkSource)
 		self.interfaceNames = resultNames;
 		self.interfaces = result;
 	}
+	
+	[pool release];
 }
 
 #pragma mark - Internal callbacks
 
 static void storeChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
-	NetworkSource *src = (NetworkSource *) info;
-	
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	[src checkData];
+	NetworkSource *src = (NetworkSource *) info;
+	NSArray *keys = (NSArray *) changedKeys;
+	BOOL done = NO;
+	
+	// check if addresses changed.
+	if ([keys containsObject: @"State:/Network/Global/IPv4"]) {
+		[NSThread detachNewThreadSelector: @selector(checkAddressesThread)
+								 toTarget: src
+							   withObject: nil];
+		
+		// we're done (i.e. no interfaces change) if the changedKeys only contains
+		// the IPv4 state key
+		done = (keys.count == 1);
+	}
+	
+	// interfaces might have changed
+	if (!done)
+		[NSThread detachNewThreadSelector: @selector(checkInterfacesThread)
+								 toTarget: src
+							   withObject: nil];
+	
 	[pool release];
 }
 
