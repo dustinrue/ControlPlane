@@ -137,7 +137,7 @@
 		DDA201581411C35700DE570E /* LightRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2015A1411C35700DE570E /* LightRule.xib */; };
 		DDA201621411C37300DE570E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201641411C37300DE570E /* MainMenu.xib */; };
 		DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
-		DDA80270143A7FAA00745EB8 /* NetworkLinkSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA8026F143A7FAA00745EB8 /* NetworkLinkSource.m */; };
+		DDA80270143A7FAA00745EB8 /* NetworkSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA8026F143A7FAA00745EB8 /* NetworkSource.m */; };
 		DDA80274143A922100745EB8 /* NetworkLinkRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80273143A922100745EB8 /* NetworkLinkRule.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
@@ -466,8 +466,8 @@
 		DDA201711411C39400DE570E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/TimeOfDayRule.xib"; sourceTree = "<group>"; };
 		DDA201721411C39400DE570E /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/TimeOfDayRule.xib; sourceTree = "<group>"; };
 		DDA201731411C39400DE570E /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/TimeOfDayRule.xib; sourceTree = "<group>"; };
-		DDA8026E143A7FAA00745EB8 /* NetworkLinkSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLinkSource.h; path = Source/NetworkLinkSource.h; sourceTree = "<group>"; };
-		DDA8026F143A7FAA00745EB8 /* NetworkLinkSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkSource.m; path = Source/NetworkLinkSource.m; sourceTree = "<group>"; };
+		DDA8026E143A7FAA00745EB8 /* NetworkSource.h */ = {isa = PBXFileReference; fileEncoding = 4; name = NetworkSource.h; path = Source/NetworkSource.h; sourceTree = "<group>"; };
+		DDA8026F143A7FAA00745EB8 /* NetworkSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSource.m; path = Source/NetworkSource.m; sourceTree = "<group>"; };
 		DDA80272143A922100745EB8 /* NetworkLinkRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLinkRule.h; path = Source/NetworkLinkRule.h; sourceTree = "<group>"; };
 		DDA80273143A922100745EB8 /* NetworkLinkRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkRule.m; path = Source/NetworkLinkRule.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
@@ -968,8 +968,8 @@
 				DD4ADADE142F901500CE825F /* LocationSource.m */,
 				DD96FE1514361BCC0034BE0E /* MonitorSource.h */,
 				DD96FE1614361BCD0034BE0E /* MonitorSource.m */,
-				DDA8026E143A7FAA00745EB8 /* NetworkLinkSource.h */,
-				DDA8026F143A7FAA00745EB8 /* NetworkLinkSource.m */,
+				DDA8026E143A7FAA00745EB8 /* NetworkSource.h */,
+				DDA8026F143A7FAA00745EB8 /* NetworkSource.m */,
 				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
 				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
 				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
@@ -1296,7 +1296,7 @@
 				DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */,
 				DD96FE2714369DC80034BE0E /* Action.m in Sources */,
 				DD96FE2A143741ED0034BE0E /* ActionsManager.m in Sources */,
-				DDA80270143A7FAA00745EB8 /* NetworkLinkSource.m in Sources */,
+				DDA80270143A7FAA00745EB8 /* NetworkSource.m in Sources */,
 				DDA80274143A922100745EB8 /* NetworkLinkRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

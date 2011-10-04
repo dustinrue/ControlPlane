@@ -7,7 +7,7 @@
 //
 
 #import "NetworkLinkRule.h"
-#import "NetworkLinkSource.h"
+#import "NetworkSource.h"
 
 @implementation NetworkLinkRule
 
@@ -40,14 +40,14 @@ registerRuleType(NetworkLinkRule)
 }
 
 - (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"NetworkLinkSource"];
+	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"NetworkSource"];
 	
 	// currently a match?
-	[self interfacesChangedWithOld: nil andNew: ((NetworkLinkSource *) source).interfaces];
+	[self interfacesChangedWithOld: nil andNew: ((NetworkSource *) source).interfaces];
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"NetworkLinkSource"];
+	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"NetworkSource"];
 }
 
 - (void) loadData {
@@ -56,7 +56,7 @@ registerRuleType(NetworkLinkRule)
 }
 
 - (NSArray *) suggestedValues {
-	NetworkLinkSource *source = (NetworkLinkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkLinkSource"];
+	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkSource"];
 	NSMutableArray *result = [[NSArray new] autorelease];
 	NSString *description = nil;
 	
