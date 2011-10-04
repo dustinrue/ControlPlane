@@ -7,13 +7,12 @@
 //
 
 #import "CallbackSource.h"
-#import <CoreAudio/CoreAudio.h>
 
 @interface AudioOutputSource : CallbackSource {
-	AudioDeviceID m_deviceID;
-	UInt32 m_source;
+	NSUInteger m_deviceID;
+	NSUInteger m_source;
 }
 
-@property (readwrite, assign) UInt32 source;
+@property (readwrite, assign) NSUInteger source;
 
 @end

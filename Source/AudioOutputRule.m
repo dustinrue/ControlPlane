@@ -25,7 +25,7 @@ registerRuleType(AudioOutputRule)
 
 #pragma mark - Source observe functions
 
-- (void) sourceChangedWithOld: (UInt32) oldSource andNew: (UInt32) newSource {
+- (void) sourceChangedWithOld: (NSUInteger) oldSource andNew: (NSUInteger) newSource {
 	self.match = (m_source == newSource);
 }
 
@@ -57,15 +57,15 @@ registerRuleType(AudioOutputRule)
 - (NSArray *) suggestedValues {
 	return [NSArray arrayWithObjects:
 			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kIOAudioOutputPortSubTypeInternalSpeaker], @"parameter",
+			 [NSNumber numberWithUnsignedInt: kIOAudioOutputPortSubTypeInternalSpeaker], @"parameter",
 			 NSLocalizedString(@"Internal Speakers", @"AudioOutputRule suggestion description"), @"description",
 			 nil],
 			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kIOAudioOutputPortSubTypeHeadphones], @"parameter",
+			 [NSNumber numberWithUnsignedInt: kIOAudioOutputPortSubTypeHeadphones], @"parameter",
 			 NSLocalizedString(@"Headphones", @"AudioOutputRule suggestion description"), @"description",
 			 nil],
 			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kIOAudioOutputPortSubTypeExternalSpeaker], @"parameter",
+			 [NSNumber numberWithUnsignedInt: kIOAudioOutputPortSubTypeExternalSpeaker], @"parameter",
 			 NSLocalizedString(@"External speakers", @"AudioOutputRule suggestion description"), @"description",
 			 nil],
 			nil];

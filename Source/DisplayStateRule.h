@@ -9,7 +9,7 @@
 #import "Rule.h"
 
 @interface DisplayStateRule : Rule {
-	int m_state;
+	NSUInteger m_state;
 }
 
 @end

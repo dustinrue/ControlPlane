@@ -9,7 +9,7 @@
 #import "Rule.h"
 
 @interface AudioOutputRule : Rule {
-	UInt32 m_source;
+	NSUInteger m_source;
 }
 
 @end

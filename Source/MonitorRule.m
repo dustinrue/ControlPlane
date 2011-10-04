@@ -16,6 +16,8 @@ registerRuleType(MonitorRule)
 - (id) init {
     self = [super init];
     
+	m_serial = nil;
+	
     return self;
 }
 

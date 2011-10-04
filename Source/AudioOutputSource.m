@@ -7,6 +7,7 @@
 //
 
 #import "AudioOutputSource.h"
+#import <CoreAudio/CoreAudio.h>
 
 static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 							 const AudioObjectPropertyAddress *inPropertyID, void *inClientData);
@@ -47,7 +48,7 @@ registerSourceType(AudioOutputSource)
 	
 	// register for change callback
 	address.mSelector = kAudioHardwarePropertyDefaultSystemOutputDevice;
-	result = AudioObjectAddPropertyListener(m_deviceID, &address, &sourceChange, self);
+	result = AudioObjectAddPropertyListener((UInt32) m_deviceID, &address, &sourceChange, self);
 	ZAssert(result != noErr, @"AudioDeviceAddPropertyListener failed!");
 }
 
@@ -73,7 +74,7 @@ registerSourceType(AudioOutputSource)
 	};
 	
 	// get default output
-	result = AudioObjectGetPropertyData(m_deviceID, &address, 0, NULL, &sz, &sourceID);
+	result = AudioObjectGetPropertyData((UInt32) m_deviceID, &address, 0, NULL, &sz, &sourceID);
 	ZAssert(result != noErr, @"AudioDeviceGetProperty failed!");
 	
 	DLog(@"%@ >> Got 0x%08lu", [self class], (unsigned long) sourceID);
