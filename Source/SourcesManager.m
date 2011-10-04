@@ -17,6 +17,7 @@
 @interface SourcesManager (Private)
 
 - (void) createSources;
+- (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass;
 
 @end
 
@@ -48,9 +49,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 
 - (void) registerSourceType: (Class) type {
 	// sanity check
-	if (class_getSuperclass(type) == CallbackSource.class)
+	if ([self isClass: CallbackSource.class superclassOfClass: type])
 		ZAssert([type conformsToProtocol: @protocol(CallbackSourceProtocol)], @"Unsupported Source type");
-	else if (class_getSuperclass(type) == LoopingSource.class)
+	else if ([self isClass: LoopingSource.class superclassOfClass: type])
 		ZAssert([type conformsToProtocol: @protocol(LoopingSourceProtocol)], @"Unsupported Source type");
 	else
 		ZAssert([type conformsToProtocol: @protocol(SourceProtocol)], @"Unsupported Source type");
@@ -104,6 +105,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 
 - (Source *) getSource: (NSString *) name {
 	return [m_sources objectForKey: name];
+}
+
+- (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass {
+	Class class = class_getSuperclass(subClass);
+	
+	while(class != nil) {
+		if (class == aClass)
+			return YES;
+		class = class_getSuperclass(subClass);
+	}
+	
+	return NO;
 }
 
 @end
