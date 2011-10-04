@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface WLANBSSIDRule : Rule {
+@interface WLANBSSIDRule : Rule<RuleProtocol> {
 	NSString *m_bssid;
 }
 

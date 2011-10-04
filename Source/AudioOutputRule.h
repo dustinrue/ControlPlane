@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface AudioOutputRule : Rule {
+@interface AudioOutputRule : Rule<RuleProtocol> {
 	NSNumber *m_output;
 }
 

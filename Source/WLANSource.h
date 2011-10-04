@@ -8,7 +8,7 @@
 
 #import "LoopingSource.h"
 
-@interface WLANSource : LoopingSource {
+@interface WLANSource : LoopingSource<LoopingSourceProtocol> {
 	NSArray *m_networks;
 }
 

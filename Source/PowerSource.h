@@ -20,7 +20,7 @@ typedef enum {
 	kPowerAC = 2
 } ePowerSource;
 
-@interface PowerSource : CallbackSource {
+@interface PowerSource : CallbackSource<CallbackSourceProtocol> {
 	eDisplayState m_displayState;
 	ePowerSource m_powerSource;
 	

@@ -10,24 +10,27 @@
 
 @class Rule;
 
-@interface Source : NSObject {
-@private
-	BOOL m_running;
-	unsigned int m_listenersCount;
-}
+@protocol SourceProtocol <NSObject>
 
-@property (readwrite, assign) BOOL running;
-@property (readwrite, assign, nonatomic) unsigned int listenersCount;
-@property (readonly, copy, nonatomic) NSString *name;
-
-- (void) addObserver: (Rule *) rule;
-- (void) removeObserver: (Rule *) rule;
-
-// implemented by subclasses
 + (void) load;
 - (NSArray *) observableKeys;
 - (void) start;
 - (void) stop;
+
+@end
+
+@interface Source : NSObject {
+@private
+	BOOL m_running;
+	NSUInteger m_listenersCount;
+}
+
+@property (readwrite, assign) BOOL running;
+@property (readwrite, assign, nonatomic) NSUInteger listenersCount;
+@property (readonly, copy, nonatomic) NSString *name;
+
+- (void) addObserver: (Rule *) rule;
+- (void) removeObserver: (Rule *) rule;
 
 @end
 

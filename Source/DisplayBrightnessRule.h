@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface DisplayBrightnessRule : Rule {
+@interface DisplayBrightnessRule : Rule<RuleProtocol> {
 	double m_treshold;
 	BOOL m_above;
 }

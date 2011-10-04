@@ -6,6 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
+#import "Rule.h"
 #import "RulesManager.h"
 #import "SynthesizeSingleton.h"
 
@@ -33,6 +34,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 #pragma mark - Rule types
 
 - (void) registerRuleType: (Class) type {
+	ZAssert([type conformsToProtocol: @protocol(RuleProtocol)], @"Unsupported Rule type");
 	[m_ruleTypes setObject: type forKey: NSStringFromClass(type)];
 }
 

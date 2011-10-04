@@ -26,7 +26,7 @@
 	NSThread.currentThread.name = self.name;
 	
 	while (self.running) {
-		[self checkData];
+		[(id<LoopingSourceProtocol>) self checkData];
 		[NSThread sleepForTimeInterval: self.interval];
 	}
 	
@@ -49,20 +49,6 @@
 	
 	// thread will stop with this
 	self.running = NO;
-}
-
-#pragma mark - Subclass functions
-
-+ (void) load {
-}
-
-- (NSArray *) observableKeys {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (void) checkData {
-	[self doesNotRecognizeSelector: _cmd];
 }
 
 @end

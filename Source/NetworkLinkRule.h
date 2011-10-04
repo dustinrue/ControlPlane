@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface NetworkLinkRule : Rule {
+@interface NetworkLinkRule : Rule<RuleProtocol> {
 	NSString *m_name;
 	BOOL m_active;
 }

@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface MonitorRule : Rule {
+@interface MonitorRule : Rule<RuleProtocol> {
 	NSNumber *m_serial;
 }
 

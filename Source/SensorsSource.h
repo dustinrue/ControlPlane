@@ -8,7 +8,7 @@
 
 #import "LoopingSource.h"
 
-@interface SensorsSource : LoopingSource {
+@interface SensorsSource : LoopingSource<LoopingSourceProtocol> {
 	double m_displayBrightness;
 	double m_keyboardBrightness;
 	double m_lightLevel;

@@ -15,7 +15,7 @@ typedef enum {
 	kSystemPowerOff = 3
 } eSystemState;
 
-@interface SystemStateSource : CallbackSource {
+@interface SystemStateSource : CallbackSource<CallbackSourceProtocol> {
 	eSystemState m_state;
 	BOOL m_allowSleep;
 	

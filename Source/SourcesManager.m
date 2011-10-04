@@ -6,10 +6,13 @@
 //  Copyright 2011. All rights reserved.
 //
 
+#import "CallbackSource.h"
+#import "LoopingSource.h"
 #import "Rule.h"
 #import "Source.h"
 #import "SourcesManager.h"
 #import "SynthesizeSingleton.h"
+#import <objc/objc-class.h>
 
 @interface SourcesManager (Private)
 
@@ -44,6 +47,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 #pragma mark - Source types
 
 - (void) registerSourceType: (Class) type {
+	// sanity check
+	if (class_getSuperclass(type) == CallbackSource.class)
+		ZAssert([type conformsToProtocol: @protocol(CallbackSourceProtocol)], @"Unsupported Source type");
+	else if (class_getSuperclass(type) == LoopingSource.class)
+		ZAssert([type conformsToProtocol: @protocol(LoopingSourceProtocol)], @"Unsupported Source type");
+	else
+		ZAssert([type conformsToProtocol: @protocol(SourceProtocol)], @"Unsupported Source type");
+	
+	// store it
 	[m_sourceTypes addObject: type];
 }
 

@@ -47,6 +47,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 #pragma mark - Action types
 
 - (void) registerActionType: (Class) type {
+	ZAssert([type conformsToProtocol: @protocol(ActionProtocol)], @"Unsupported Action type");
 	[m_actionTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
@@ -65,10 +66,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 	
 	// This is called with detachThread, so create pool and set thread name
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	NSThread.currentThread.name = action.name;
+	NSThread.currentThread.name = ((id<ActionProtocol>) action).name;
 	
 	// perform action
-	result = [action execute];
+	result = [(id<ActionProtocol>) action execute];
 	
 	// finish up
 	if (!result)

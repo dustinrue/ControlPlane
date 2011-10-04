@@ -8,6 +8,17 @@
 
 #import "ActionsManager.h"
 
+@protocol ActionProtocol <NSObject>
+
+- (NSString *) name;
+- (NSString *) category;
+- (void) loadData: (id) data;
+- (BOOL) execute;
+- (NSString *) describeValue: (id) value;
+- (NSArray *) suggestedValues;
+
+@end
+
 @interface Action : NSObject {
 @private
 	BOOL m_enabled;
@@ -19,14 +30,7 @@
 @property (readwrite, assign) BOOL enabled;
 @property (readwrite, assign) NSNumber *delay;
 @property (readwrite, assign) eWhen when;
-@property (readwrite, copy) NSDictionary *data;
-
-// implemented by subclasses
-- (NSString *) name;
-- (NSString *) category;
-- (void) loadData;
-- (BOOL) execute;
-- (NSArray *) suggestedValues;
+@property (readwrite, copy, nonatomic) NSDictionary *data;
 
 @end
 

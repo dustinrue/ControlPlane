@@ -8,7 +8,7 @@
 
 #import "CallbackSource.h"
 
-@interface RunningApplicationSource : CallbackSource {
+@interface RunningApplicationSource : CallbackSource<CallbackSourceProtocol> {
 	NSDictionary *m_applications;
 }
 

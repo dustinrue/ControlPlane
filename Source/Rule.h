@@ -8,6 +8,19 @@
 
 #import "RulesManager.h"
 
+@protocol RuleProtocol <NSObject>
+
++ (void) load;
+- (NSString *) name;
+- (NSString *) category;
+- (void) beingEnabled;
+- (void) beingDisabled;
+- (void) loadData: (id) data;
+- (NSString *) describeValue: (id) value;
+- (NSArray *) suggestedValues;
+
+@end
+
 @interface Rule : NSObject {
 @private
 	BOOL m_enabled;
@@ -18,15 +31,6 @@
 @property (readwrite, copy, nonatomic) NSDictionary *data;
 @property (readwrite, assign, nonatomic) BOOL enabled;
 @property (readwrite, assign) BOOL match;
-
-// implemented by subclasses
-- (NSString *) name;
-- (NSString *) category;
-- (void) beingEnabled;
-- (void) beingDisabled;
-- (void) loadData: (id) data;
-- (NSString *) describeValue: (id) value;
-- (NSArray *) suggestedValues;
 
 @end
 

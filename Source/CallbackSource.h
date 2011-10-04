@@ -8,13 +8,17 @@
 
 #import "Source.h"
 
-@interface CallbackSource : Source
+@protocol CallbackSourceProtocol <SourceProtocol>
 
-// implemented by subclasses
-+ (void) load;
-- (NSArray *) observableKeys;
 - (void) registerCallback;
 - (void) unregisterCallback;
 - (void) checkData;
+
+@end
+
+@interface CallbackSource : Source
+
+- (void) start;
+- (void) stop;
 
 @end

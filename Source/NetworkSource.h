@@ -9,7 +9,7 @@
 #import "CallbackSource.h"
 #import <SystemConfiguration/SCDynamicStore.h>
 
-@interface NetworkSource : CallbackSource {
+@interface NetworkSource : CallbackSource<CallbackSourceProtocol> {
 	NSArray *m_addresses;
 	NSDictionary *m_interfaces;
 	NSDictionary *m_interfaceNames;

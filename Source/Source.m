@@ -29,11 +29,11 @@
 	[super dealloc];
 }
 
-- (void) setListenersCount: (unsigned int) listenersCount {
+- (void) setListenersCount: (NSUInteger) listenersCount {
 	if (!self.running && listenersCount > 0)
-		[self start];
+		[(id<SourceProtocol>) self start];
 	else if (self.running && listenersCount == 0)
-		[self stop];
+		[(id<SourceProtocol>) self stop];
 	
 	m_listenersCount = listenersCount;
 }
@@ -45,7 +45,7 @@
 - (void) addObserver: (Rule *) rule {
 	SEL sel = nil;
 	
-	for (NSString *key in self.observableKeys) {
+	for (NSString *key in ((id<SourceProtocol>) self).observableKeys) {
 		sel = NSSelectorFromString([NSString stringWithFormat: @"%@ChangedWithOld:andNew:", key]);
 		
 		if ([rule respondsToSelector: sel])
@@ -57,26 +57,8 @@
 }
 
 - (void) removeObserver: (Rule *) rule {
-	for (NSString *key in self.observableKeys)
+	for (NSString *key in ((id<SourceProtocol>) self).observableKeys)
 		[self removeObserver: rule forKeyPath: key selector: nil];
-}
-
-#pragma mark - Subclass functions
-
-+ (void) load {
-}
-
-- (NSArray *) observableKeys {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (void) start {
-	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (void) stop {
-	[self doesNotRecognizeSelector: _cmd];
 }
 
 @end

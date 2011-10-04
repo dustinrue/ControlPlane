@@ -8,7 +8,7 @@
 
 #import "CallbackSource.h"
 
-@interface USBSource : CallbackSource {
+@interface USBSource : CallbackSource<CallbackSourceProtocol> {
 	NSArray *m_devices;
 	
 	IONotificationPortRef m_notificationPort;

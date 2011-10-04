@@ -15,7 +15,7 @@ typedef enum {
 	kNetFinished
 } NetStage;
 
-@interface BonjourSource : LoopingSource<NSNetServiceBrowserDelegate> {
+@interface BonjourSource : LoopingSource<LoopingSourceProtocol, NSNetServiceBrowserDelegate> {
 	NSArray *m_services;
 	
 	NSNetServiceBrowser *m_browser;

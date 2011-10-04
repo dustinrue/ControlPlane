@@ -8,6 +8,12 @@
 
 #import "Source.h"
 
+@protocol LoopingSourceProtocol <SourceProtocol>
+
+- (void) checkData;
+
+@end
+
 @interface LoopingSource : Source {
 @private
 	NSTimeInterval m_interval;
@@ -15,9 +21,7 @@
 
 @property (readwrite, assign) NSTimeInterval interval;
 
-// implemented by subclasses
-+ (void) load;
-- (NSArray *) observableKeys;
-- (void) checkData;
+- (void) start;
+- (void) stop;
 
 @end

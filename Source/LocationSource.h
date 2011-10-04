@@ -9,7 +9,7 @@
 #import "CallbackSource.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface LocationSource : CallbackSource<CLLocationManagerDelegate> {
+@interface LocationSource : CallbackSource<CallbackSourceProtocol, CLLocationManagerDelegate> {
 	CLLocation *m_location;
 	CLLocationManager *m_manager;
 }

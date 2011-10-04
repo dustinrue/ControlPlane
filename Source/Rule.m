@@ -31,9 +31,9 @@
 
 - (void) setEnabled: (BOOL) enabled {
 	if (!m_enabled && enabled)
-		[self beingEnabled];
+		[(id<RuleProtocol>) self beingEnabled];
 	else if (m_enabled && !enabled)
-		[self beingDisabled];
+		[(id<RuleProtocol>) self beingDisabled];
 	
 	m_enabled = enabled;
 }
@@ -48,43 +48,9 @@
 		self.enabled = NO;
 		[m_data release];
 		m_data = [data copy];
-		[self loadData: [m_data objectForKey: @"value"]];
+		[(id<RuleProtocol>) self loadData: [m_data objectForKey: @"value"]];
 		self.enabled = old;
 	}
-}
-
-#pragma mark - Subclass functions
-
-- (NSString *) name {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (NSString *) category {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (void) beingEnabled {
-	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (void) beingDisabled {
-	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (void) loadData: (id) data {
-	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (NSString *) describeValue: (id) value {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (NSArray *) suggestedValues {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
 }
 
 @end

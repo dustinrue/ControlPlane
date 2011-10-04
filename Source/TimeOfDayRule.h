@@ -21,7 +21,7 @@ typedef enum {
 	kWeekend = 9
 } eDayOfWeek;
 
-@interface TimeOfDayRule : Rule {
+@interface TimeOfDayRule : Rule<RuleProtocol> {
 	NSDate *m_start;
 	NSDate *m_end;
 	eDayOfWeek m_day;

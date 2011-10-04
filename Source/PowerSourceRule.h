@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface PowerSourceRule : Rule {
+@interface PowerSourceRule : Rule<RuleProtocol> {
 	NSUInteger m_source;
 }
 

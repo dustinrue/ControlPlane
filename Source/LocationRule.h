@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface LocationRule : Rule {
+@interface LocationRule : Rule<RuleProtocol> {
 	CLLocation *m_location;
 }
 

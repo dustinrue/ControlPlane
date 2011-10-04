@@ -8,7 +8,7 @@
 
 #import "CallbackSource.h"
 
-@interface FireWireSource : CallbackSource {
+@interface FireWireSource : CallbackSource<CallbackSourceProtocol> {
 	NSDictionary *m_devices;
 	
 	IONotificationPortRef m_notificationPort;

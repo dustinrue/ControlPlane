@@ -8,7 +8,7 @@
 
 #import "LoopingSource.h"
 
-@interface MonitorSource : LoopingSource {
+@interface MonitorSource : LoopingSource<LoopingSourceProtocol> {
 	NSDictionary *m_devices;
 }
 

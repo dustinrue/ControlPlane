@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface DisplayStateRule : Rule {
+@interface DisplayStateRule : Rule<RuleProtocol> {
 	NSUInteger m_state;
 }
 

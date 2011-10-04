@@ -31,30 +31,19 @@
 	[super dealloc];
 }
 
-#pragma mark - Subclass functions
-
-- (NSString *) name {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (NSString *) category {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (void) loadData {
-	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (BOOL) execute {
-	[self doesNotRecognizeSelector: _cmd];
-	return NO;
-}
-
-- (NSArray *) suggestedValues {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
+- (void) setData: (NSDictionary *) data {
+	BOOL old = self.enabled;
+	
+	// shortly disable (and re-enable) the rule while setting it's data
+	// needed to force a check if the rule matches the new data
+	
+	if (m_data != data) {
+		self.enabled = NO;
+		[m_data release];
+		m_data = [data copy];
+		[(id<ActionProtocol>) self loadData: [m_data objectForKey: @"value"]];
+		self.enabled = old;
+	}
 }
 
 

@@ -14,41 +14,19 @@
 	if (self.running)
 		return;
 	
-	[self registerCallback];
+	[(id<CallbackSourceProtocol>) self registerCallback];
 	self.running = YES;
 	
 	// do a preliminary check
-	[self checkData];
+	[(id<CallbackSourceProtocol>) self checkData];
 }
 
 - (void) stop {
 	if (!self.running)
 		return;
 	
-	[self unregisterCallback];
+	[(id<CallbackSourceProtocol>) self unregisterCallback];
 	self.running = NO;
-}
-
-#pragma mark - Subclass functions
-
-+ (void) load {
-}
-
-- (NSArray *) observableKeys {
-	[self doesNotRecognizeSelector: _cmd];
-	return nil;
-}
-
-- (void) registerCallback {
-	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (void) unregisterCallback {
-	[self doesNotRecognizeSelector: _cmd];
-}
-
-- (void) checkData {
-	[self doesNotRecognizeSelector: _cmd];
 }
 
 @end

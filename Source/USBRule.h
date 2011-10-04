@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface USBRule : Rule {
+@interface USBRule : Rule<RuleProtocol> {
 	NSNumber *m_product;
 	NSNumber *m_vendor;
 }

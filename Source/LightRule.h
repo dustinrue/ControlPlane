@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface LightRule : Rule {
+@interface LightRule : Rule<RuleProtocol> {
 	double m_treshold;
 	BOOL m_above;
 }

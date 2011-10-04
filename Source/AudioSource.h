@@ -8,7 +8,7 @@
 
 #import "CallbackSource.h"
 
-@interface AudioSource : CallbackSource {
+@interface AudioSource : CallbackSource<CallbackSourceProtocol> {
 	NSDictionary *m_devices;
 	NSNumber *m_input;
 	NSNumber *m_output;

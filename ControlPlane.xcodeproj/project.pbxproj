@@ -495,7 +495,7 @@
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
 		DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITunesPlaylistAction.m; path = Source/ITunesPlaylistAction.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
-		DDE29BDE1429591D00A55469 /* AudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; name = AudioSource.h; path = Source/AudioSource.h; sourceTree = "<group>"; };
+		DDE29BDE1429591D00A55469 /* AudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSource.h; path = Source/AudioSource.h; sourceTree = "<group>"; };
 		DDE29BDF1429591D00A55469 /* AudioSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSource.m; path = Source/AudioSource.m; sourceTree = "<group>"; };
 		DDE29BE31429662500A55469 /* CallbackSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallbackSource.h; path = Source/CallbackSource.h; sourceTree = "<group>"; };
 		DDE29BE41429662600A55469 /* CallbackSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CallbackSource.m; path = Source/CallbackSource.m; sourceTree = "<group>"; };

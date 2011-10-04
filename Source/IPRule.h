@@ -13,7 +13,7 @@ typedef union {
 	int32_t value;
 } Address;
 
-@interface IPRule : Rule {
+@interface IPRule : Rule<RuleProtocol> {
 	Address m_ip;
 	Address m_mask;
 }
