@@ -166,21 +166,18 @@ static void storeChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *i
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	NetworkSource *src = (NetworkSource *) info;
 	NSArray *keys = (NSArray *) changedKeys;
-	BOOL done = NO;
+	NSUInteger todo = keys.count;
 	
 	// check if addresses changed.
 	if ([keys containsObject: @"State:/Network/Global/IPv4"]) {
 		[NSThread detachNewThreadSelector: @selector(checkAddressesThread)
 								 toTarget: src
 							   withObject: nil];
-		
-		// we're done (i.e. no interfaces change) if the changedKeys only contains
-		// the IPv4 state key
-		done = (keys.count == 1);
+		todo--;
 	}
 	
 	// interfaces might have changed
-	if (!done)
+	if (todo > 0)
 		[NSThread detachNewThreadSelector: @selector(checkInterfacesThread)
 								 toTarget: src
 							   withObject: nil];

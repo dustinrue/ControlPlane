@@ -49,28 +49,31 @@ registerRuleType(SystemStateRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"SystemStateSource"];
 }
 
-- (void) loadData {
-	m_state = [[self.data objectForKey: @"parameter"] intValue];
+- (void) loadData: (id) data {
+	m_state = [data unsignedIntValue];
+}
+
+- (NSString *) describeValue: (id) value {
+	switch ([value unsignedIntValue]) {
+		case kSystemNormal:
+			return NSLocalizedString(@"Normal", @"SystemStateRule value description");
+		case kSystemSleep:
+			return NSLocalizedString(@"Sleep", @"SystemStateRule value description");
+		case kSystemWake:
+			return NSLocalizedString(@"Wake", @"SystemStateRule value description");
+		case kSystemPowerOff:
+			return NSLocalizedString(@"Power Off", @"SystemStateRule value description");
+		default:
+			return NSLocalizedString(@"Unknown", @"SystemStateRule value description");
+	}
 }
 
 - (NSArray *) suggestedValues {
 	return [NSArray arrayWithObjects:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kSystemNormal], @"parameter",
-			 NSLocalizedString(@"Normal", @"SystemStateRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kSystemSleep], @"parameter",
-			 NSLocalizedString(@"Sleep", @"SystemStateRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kSystemWake], @"parameter",
-			 NSLocalizedString(@"Wake", @"SystemStateRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kSystemPowerOff], @"parameter",
-			 NSLocalizedString(@"Power Off", @"SystemStateRule suggestion description"), @"description",
-			 nil],
+			[NSNumber numberWithUnsignedInt: kSystemNormal],
+			[NSNumber numberWithUnsignedInt: kSystemSleep],
+			[NSNumber numberWithUnsignedInt: kSystemWake],
+			[NSNumber numberWithUnsignedInt: kSystemPowerOff],
 			nil];
 }
 

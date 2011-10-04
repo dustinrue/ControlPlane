@@ -50,15 +50,33 @@ registerRuleType(NetworkLinkRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"NetworkSource"];
 }
 
-- (void) loadData {
-	m_name = [self.data valueForKeyPath: @"parameter.name"];
-	m_active = [[self.data valueForKeyPath: @"parameter.active"] boolValue];
+- (void) loadData: (id) data {
+	m_name = [data objectForKey: @"name"];
+	m_active = [[data objectForKey: @"active"] boolValue];
+}
+
+- (NSString *) describeValue: (id) value {
+	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkSource"];
+	NSString *interface = [value objectForKey: @"name"];
+	
+	// get interface name
+	NSString *name = [source.interfaceNames objectForKey: interface];
+	if (!name)
+		name = NSLocalizedString(@"Unknown Interface", @"NetworkLinkRule value description");
+	
+	if ([[value objectForKey: @"active"] boolValue])
+		return [NSString stringWithFormat:
+				NSLocalizedString(@"%@ (%@) link active", @"NetworkLinkRule value description"),
+				interface, name];
+	else
+		return [NSString stringWithFormat:
+				NSLocalizedString(@"%@ (%@) link active", @"NetworkLinkRule value description"),
+				interface, name];
 }
 
 - (NSArray *) suggestedValues {
 	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkSource"];
 	NSMutableArray *result = [[NSArray new] autorelease];
-	NSString *description = nil;
 	
 	// loop through devices
 	for (NSString *interface in source.interfaces)
@@ -66,21 +84,9 @@ registerRuleType(NetworkLinkRule)
 		for (int i = 0; i < 2; ++i) {
 			BOOL active = (i == 1);
 			
-			if (active)
-				description = [NSString stringWithFormat:
-							   NSLocalizedString(@"%@ (%@) link active", @"NetworkLinkRule suggestion description"),
-							   interface, [source.interfaceNames objectForKey: interface]];
-			else
-				description = [NSString stringWithFormat:
-							   NSLocalizedString(@"%@ (%@) link inactive", @"NetworkLinkRule suggestion description"),
-							   interface, [source.interfaceNames objectForKey: interface]];
-			
 			[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-								[NSDictionary dictionaryWithObjectsAndKeys:
-								 interface, @"name",
-								 [NSNumber numberWithBool: active], @"active",
-								 nil], @"parameter",
-								description, @"description",
+								interface, @"name",
+								[NSNumber numberWithBool: active], @"active",
 								nil]];
 	}
 	

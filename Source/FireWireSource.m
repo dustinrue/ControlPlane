@@ -113,7 +113,6 @@ registerSourceType(FireWireSource)
 		
 		IOObjectRelease(device);
 		NSDictionary *dev = [NSDictionary dictionaryWithObjectsAndKeys:
-							 guid, @"guid",
 							 name, @"name",
 							 vendor, @"vendor",
 							 nil];

@@ -61,27 +61,21 @@ registerRuleType(USBRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"USBSource"];
 }
 
-- (void) loadData {
-	m_product = [self.data valueForKeyPath: @"parameter.productID"];
-	m_vendor = [self.data valueForKeyPath: @"parameter.vendorID"];
+- (void) loadData: (id) data {
+	m_product = [data objectForKey: @"productID"];
+	m_vendor = [data objectForKey: @"vendorID"];
+}
+
+- (NSString *) describeValue: (id) value {
+	return [NSString stringWithFormat: @"%@ (%@)",
+			[value valueForKey: @"name"],
+			[value valueForKey: @"vendor"]];
 }
 
 - (NSArray *) suggestedValues {
 	USBSource *source = (USBSource *) [SourcesManager.sharedSourcesManager getSource: @"USBSource"];
-	NSMutableArray *result = [[NSArray new] autorelease];
 	
-	// loop through apps
-	for (NSDictionary *device in source.devices) {
-		NSString *description = [NSString stringWithFormat: @"%@ (%@)",
-								 [device valueForKey: @"name"],
-								 [device valueForKey: @"vendor"]];
-		
-		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							device, @"parameter",
-							description, @"description", nil]];
-	}
-	
-	return result;
+	return source.devices;
 }
 
 @end

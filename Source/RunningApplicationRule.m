@@ -49,22 +49,24 @@ registerRuleType(RunningApplicationRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"RunningApplicationSource"];
 }
 
-- (void) loadData {
-	m_identifier = [self.data objectForKey: @"parameter"];
+- (void) loadData: (id) data {
+	m_identifier = data;
+}
+
+- (NSString *) describeValue: (id) value {
+	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
+	NSString *name = [source.applications objectForKey: value];
+	
+	if (!name)
+		name = NSLocalizedString(@"Unknown Application", @"RunningApplicationRule value description");
+	
+	return name;
 }
 
 - (NSArray *) suggestedValues {
 	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
-	NSMutableArray *result = [[NSArray new] autorelease];
 	
-	// loop through apps
-	for (NSString *identifier in source.applications)
-		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							identifier, @"parameter", 
-							[source.applications valueForKey: identifier], @"description",
-							nil]];
-	
-	return result;
+	return source.applications.allKeys;
 }
 
 @end

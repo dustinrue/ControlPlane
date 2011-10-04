@@ -50,8 +50,18 @@ registerRuleType(AudioOutputRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"AudioSource"];
 }
 
-- (void) loadData {
-	m_output = [self.data objectForKey: @"parameter"];
+- (void) loadData: (id) data {
+	m_output = data;
+}
+
+- (NSString *) describeValue: (id) value {
+	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: @"AudioSource"];
+	NSString *name = [source.devices objectForKey: value];
+	
+	if (name)
+		return name;
+	else
+		return NSLocalizedString(@"Unknown Device", @"AudioOutputRule value description");
 }
 
 - (NSArray *) suggestedValues {
@@ -60,15 +70,10 @@ registerRuleType(AudioOutputRule)
 	NSString *typeName = NSLocalizedString(@"output", @"AudioSource");
 	
 	// loop through devices
-	for (NSNumber *device in source.devices) {
-		NSString *name = [source.devices objectForKey: device];
-		
+	for (NSNumber *device in source.devices)
 		// only output devices
-		if ([name rangeOfString: typeName].location != NSNotFound)
-			[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-								device, @"parameter",
-								name, @"description", nil]];
-	}
+		if ([[source.devices objectForKey: device] rangeOfString: typeName].location != NSNotFound)
+			[result addObject: device];
 	
 	return result;
 }

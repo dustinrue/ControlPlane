@@ -48,22 +48,24 @@ registerRuleType(MonitorRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"MonitorSource"];
 }
 
-- (void) loadData {
-	m_serial = [self.data objectForKey: @"parameter"];
+- (void) loadData: (id) data {
+	m_serial = data;
+}
+
+- (NSString *) describeValue: (id) value {
+	MonitorSource *source = (MonitorSource *) [SourcesManager.sharedSourcesManager getSource: @"MonitorSource"];
+	NSString *name = [source.devices objectForKey: value];
+	
+	if (name)
+		return name;
+	else
+		return NSLocalizedString(@"Unknown Device", @"MonitorRule value description");
 }
 
 - (NSArray *) suggestedValues {
 	MonitorSource *source = (MonitorSource *) [SourcesManager.sharedSourcesManager getSource: @"MonitorSource"];
-	NSMutableArray *result = [[NSArray new] autorelease];
 	
-	// loop through devices
-	for (NSString *serial in source.devices)
-		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							serial, @"parameter",
-							[source.devices objectForKey: serial], @"description",
-							nil]];
-	
-	return result;
+	return source.devices.allKeys;
 }
 
 @end

@@ -60,26 +60,20 @@ registerRuleType(WLANBSSIDRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"WLANSource"];
 }
 
-- (void) loadData {
-	m_bssid = [self.data objectForKey: @"parameter"];
+- (void) loadData: (id) data {
+	m_bssid = [data objectForKey: @"BSSID"];
+}
+
+- (NSString *) describeValue: (id) value {
+	return [NSString stringWithFormat: @"%@ (%@)",
+			[value valueForKey: @"BSSID"],
+			[value valueForKey: @"SSID"]];
 }
 
 - (NSArray *) suggestedValues {
 	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: @"WLANSource"];
-	NSMutableArray *result = [[NSArray new] autorelease];
 	
-	// loop through networks
-	for (NSDictionary *item in source.networks) {
-		NSString *description = [NSString stringWithFormat: @"%@ (%@)",
-								 [item valueForKey: @"BSSID"],
-								 [item valueForKey: @"SSID"]];
-		
-		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							[item valueForKey: @"BSSID"], @"parameter",
-							description, @"description", nil]];
-	}
-	
-	return result;
+	return source.networks;
 }
 
 @end

@@ -61,28 +61,22 @@ registerRuleType(BonjourRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"BonjourSource"];
 }
 
-- (void) loadData {
-	m_host = [self.data valueForKeyPath: @"parameter.host"];
-	m_service = [self.data valueForKeyPath: @"parameter.service"];
+- (void) loadData: (id) data {
+	m_host = [data objectForKey: @"host"];
+	m_service = [data objectForKey: @"service"];
+}
+
+- (NSString *) describeValue: (id) value {
+	return [NSString stringWithFormat:
+			NSLocalizedString(@"%@ on %@", @"BonjourRule value desciption"),
+			[value valueForKey: @"host"],
+			[value valueForKey: @"service"]];
 }
 
 - (NSArray *) suggestedValues {
 	BonjourSource *source = (BonjourSource *) [SourcesManager.sharedSourcesManager getSource: @"BonjourSource"];
-	NSMutableArray *result = [[NSArray new] autorelease];
 	
-	// loop through services
-	for (NSDictionary *item in source.services) {
-		NSString *description = [NSString stringWithFormat:
-								 NSLocalizedString(@"%@ on %@", @"BonjourRule suggestion desciption"),
-								 [item valueForKey: @"host"],
-								 [item valueForKey: @"service"]];
-		
-		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							item, @"parameter",
-							description, @"description", nil]];
-	}
-	
-	return result;
+	return source.services;
 }
 
 @end

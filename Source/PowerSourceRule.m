@@ -50,20 +50,25 @@ registerRuleType(PowerSourceRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"PowerSource"];
 }
 
-- (void) loadData {
-	m_source = [[self.data objectForKey: @"parameter"] intValue];
+- (void) loadData: (id) data {
+	m_source = [data unsignedIntValue];
+}
+
+- (NSString *) describeValue: (id) value {
+	switch ([value unsignedIntValue]) {
+		case kPowerBattery:
+			return NSLocalizedString(@"Battery", @"PowerSourceRule value description");
+		case kPowerAC:
+			return NSLocalizedString(@"Power Adapter", @"PowerSourceRule value description");
+		default:
+			return NSLocalizedString(@"Unknown", @"PowerSourceRule value description");
+	}
 }
 
 - (NSArray *) suggestedValues {
 	return [NSArray arrayWithObjects:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kPowerBattery], @"parameter",
-			 NSLocalizedString(@"Battery", @"PowerSourceRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kPowerAC], @"parameter",
-			 NSLocalizedString(@"Power Adapter", @"PowerSourceRule suggestion description"), @"description",
-			 nil],
+			[NSNumber numberWithUnsignedInt: kPowerBattery],
+			[NSNumber numberWithUnsignedInt: kPowerAC],
 			nil];
 }
 

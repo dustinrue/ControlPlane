@@ -53,37 +53,37 @@ registerRuleType(LocationRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"LocationSource"];
 }
 
-- (void) loadData {
-	CLLocationDegrees lat = [[self.data valueForKeyPath: @"parameter.latitude"] doubleValue];
-	CLLocationDegrees lng = [[self.data valueForKeyPath: @"parameter.longitude"] doubleValue];
+- (void) loadData: (id) data {
+	CLLocationDegrees lat = [[data objectForKey: @"latitude"] doubleValue];
+	CLLocationDegrees lng = [[data objectForKey: @"longitude"] doubleValue];
 	
 	m_location = [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
 }
 
+- (NSString *) describeValue: (id) value {
+	CLLocationDegrees lat = [[value objectForKey: @"latitude"] doubleValue];
+	CLLocationDegrees lng = [[value objectForKey: @"longitude"] doubleValue];
+	CLLocation *location = [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
+	
+	NSString *description = [location reverseGeocode];
+	if (!description)
+		description = NSLocalizedString(@"Unknown location", @"LocationRule value description");
+	
+	return description;
+}
+
 - (NSArray *) suggestedValues {
 	LocationSource *source = (LocationSource *) [SourcesManager.sharedSourcesManager getSource: @"LocationSource"];
-	CLLocation *location = source.location;
-	NSString *description = nil;
 	
-	// defaults
-	if (location)
-		description = [location reverseGeocode];
-	else
+	CLLocation *location = source.location;
+	if (!location)
 		location = [[[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0] autorelease];
-	if (!description)
-		description = NSLocalizedString(@"Unknown location", @"LocationRule suggestion description");
 	
 	// location to dictionary
-	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-						  [NSNumber numberWithDouble: location.coordinate.latitude], @"latitude",
-						  [NSNumber numberWithDouble: location.coordinate.longitude], @"longitude",
-						  nil];
-	
-	return [NSArray arrayWithObject:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 dict, @"parameter",
-			 description, @"description",
-			 nil]];
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithDouble: location.coordinate.latitude], @"latitude",
+			[NSNumber numberWithDouble: location.coordinate.longitude], @"longitude",
+			nil];
 }
 
 @end

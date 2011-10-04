@@ -49,24 +49,28 @@ registerRuleType(DisplayStateRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"PowerSource"];
 }
 
-- (void) loadData {
-	m_state = [[self.data objectForKey: @"parameter"] intValue];
+- (void) loadData: (id) data {
+	m_state = [data unsignedIntValue];
+}
+
+- (NSString *) describeValue: (id) value {
+	switch ([value unsignedIntValue]) {
+		case kDisplayOn:
+			return NSLocalizedString(@"On", @"DisplayStateRule value description");
+		case kDisplayDimmed:
+			return NSLocalizedString(@"Dimmed", @"DisplayStateRule value description");
+		case kDisplayOff:
+			return NSLocalizedString(@"Off", @"DisplayStateRule value description");
+		default:
+			return @"";
+	}
 }
 
 - (NSArray *) suggestedValues {
 	return [NSArray arrayWithObjects:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kDisplayOn], @"parameter",
-			 NSLocalizedString(@"On", @"DisplayStateRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kDisplayDimmed], @"parameter",
-			 NSLocalizedString(@"Dimmed", @"DisplayStateRule suggestion description"), @"description",
-			 nil],
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSNumber numberWithInt: kDisplayOff], @"parameter",
-			 NSLocalizedString(@"Off", @"DisplayStateRule suggestion description"), @"description",
-			 nil],
+			[NSNumber numberWithUnsignedInt: kDisplayOn],
+			[NSNumber numberWithUnsignedInt: kDisplayDimmed],
+			[NSNumber numberWithUnsignedInt: kDisplayOff],
 			nil];
 }
 

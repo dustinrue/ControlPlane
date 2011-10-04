@@ -31,6 +31,27 @@
 	return self;
 }
 
+- (NSArray *) listOfDays {
+	static NSArray *days = nil;
+	
+	if (!days) {
+		NSMutableArray *list = [[NSMutableArray new] autorelease];
+		[list addObject: NSLocalizedString(@"Every Day", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Monday", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Tuesday", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Wednesday", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Thursday", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Friday", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Saturday", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Sunday", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Weekdays", @"TimeOfDayRule day description")];
+		[list addObject: NSLocalizedString(@"Weekend", @"TimeOfDayRule day description")];
+		days = [list copy];
+	}
+	
+	return days;
+}
+
 #pragma mark - Required implementation of 'Rule' class
 
 - (NSString *) name {
@@ -54,24 +75,32 @@
 	m_timer = nil;
 }
 
-- (void) loadData {
-	m_start = [self.data valueForKeyPath: @"parameter.start"];
-	m_end = [self.data valueForKeyPath: @"parameter.end"];
-	m_day = [[self.data valueForKeyPath: @"parameter.day"] intValue];
+- (void) loadData: (id) data {
+	m_start = [data objectForKey: @"start"];
+	m_end = [data objectForKey: @"end"];
+	m_day = [[data objectForKey: @"day"] unsignedIntValue];
+}
+
+- (NSString *) describeValue: (id) value {
+	NSDateFormatter *formatter = [[NSDateFormatter new] autorelease];
+	formatter.dateFormat = @"HH:mm";
+	
+	return [NSString stringWithFormat:
+			NSLocalizedString(@"Between %@ and %@ (%@)", @"TimeOfDayRule value description"),
+			[formatter stringFromDate: [value objectForKey: @"start"]],
+			[formatter stringFromDate: [value objectForKey: @"end"]],
+			[self.listOfDays objectAtIndex: [[value objectForKey: @"day"] unsignedIntValue]]];
 }
 
 - (NSArray *) suggestedValues {
 	NSDateFormatter *formatter = [[NSDateFormatter new] autorelease];
-	[formatter setDateFormat: @"HH:mm"];
+	formatter.dateFormat = @"HH:mm";
 	
 	return [NSArray arrayWithObject:
 			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSDictionary dictionaryWithObjectsAndKeys:
-			  [formatter dateFromString: @"09:00"], @"start",
-			  [formatter dateFromString: @"17:00"], @"end",
-			  [NSNumber numberWithInt: kAllDays], @"day",
-			  nil], @"parameter",
-			 NSLocalizedString(@"Every Day", @"TimeOfDayRule suggestion description"), @"description",
+			 [formatter dateFromString: @"09:00"], @"start",
+			 [formatter dateFromString: @"17:00"], @"end",
+			 [NSNumber numberWithInt: kAllDays], @"day",
 			 nil]];
 }
 

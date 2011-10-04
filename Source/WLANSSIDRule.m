@@ -59,8 +59,12 @@ registerRuleType(WLANSSIDRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"WLANSource"];
 }
 
-- (void) loadData {
-	m_ssid = [self.data objectForKey: @"parameter"];
+- (void) loadData: (id) data {
+	m_ssid = data;
+}
+
+- (NSString *) describeValue: (id) value {
+	return value;
 }
 
 - (NSArray *) suggestedValues {
@@ -68,11 +72,8 @@ registerRuleType(WLANSSIDRule)
 	NSMutableArray *result = [[NSArray new] autorelease];
 	
 	// loop through networks
-	for (NSDictionary *item in source.networks) {
-		[result addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-							[item valueForKey: @"SSID"], @"parameter",
-							[item valueForKey: @"SSID"], @"description", nil]];
-	}
+	for (NSDictionary *item in source.networks)
+		[result addObject: [item valueForKey: @"SSID"]];
 	
 	return result;
 }

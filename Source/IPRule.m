@@ -71,9 +71,16 @@ registerRuleType(IPRule)
 	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"NetworkSource"];
 }
 
-- (void) loadData {
-	m_ip = [self stringToAddress: [self.data valueForKeyPath: @"parameter.ip"]];
-	m_mask = [self stringToAddress: [self.data valueForKeyPath: @"parameter.netmask"]];
+- (void) loadData: (id) data {
+	m_ip = [self stringToAddress: [data objectForKey: @"ip"]];
+	m_mask = [self stringToAddress: [data objectForKey: @"netmask"]];
+}
+
+- (NSString *) describeValue: (id) value {
+	return [NSString stringWithFormat:
+			NSLocalizedString(@"Match %@ in subnet %@", @"IPRule value description"),
+			[value objectForKey: @"ip"],
+			[value objectForKey: @"netmask"]];
 }
 
 - (NSArray *) suggestedValues {
@@ -86,14 +93,10 @@ registerRuleType(IPRule)
 	else
 		address = @"192.168.0.1";
 	
-	return [NSArray arrayWithObject:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-			 [NSDictionary dictionaryWithObjectsAndKeys:
-			  address, @"ip",
-			  @"255.255.255.0", @"netmask",
-			  nil], @"parameter",
-			 NSLocalizedString(@"Current IP Address", "IPRule suggestion description"), @"description",
-			 nil]];
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			address, @"ip",
+			@"255.255.255.0", @"netmask",
+			nil];
 }
 
 @end
