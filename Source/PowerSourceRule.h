@@ -9,7 +9,7 @@
 #import "Rule.h"
 
 @interface PowerSourceRule : Rule {
-	int m_source;
+	NSUInteger m_source;
 }
 
 @end

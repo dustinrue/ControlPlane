@@ -18,7 +18,6 @@
 		8D232F800BD9D228006A3963 /* GeneralPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232F7F0BD9D228006A3963 /* GeneralPrefs.png */; };
 		8D232FB50BD9D507006A3963 /* ActionsPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB30BD9D507006A3963 /* ActionsPrefs.png */; };
 		8D232FB60BD9D507006A3963 /* RulesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB40BD9D507006A3963 /* RulesPrefs.png */; };
-		8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */; };
 		8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3453C20C18E5C1006011D0 /* IChatAction.m */; };
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.png */; };
@@ -138,6 +137,8 @@
 		DDA201581411C35700DE570E /* LightRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2015A1411C35700DE570E /* LightRule.xib */; };
 		DDA201621411C37300DE570E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201641411C37300DE570E /* MainMenu.xib */; };
 		DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
+		DDA80270143A7FAA00745EB8 /* NetworkLinkSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA8026F143A7FAA00745EB8 /* NetworkLinkSource.m */; };
+		DDA80274143A922100745EB8 /* NetworkLinkRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80273143A922100745EB8 /* NetworkLinkRule.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
 		DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
@@ -237,8 +238,6 @@
 		8D232F7F0BD9D228006A3963 /* GeneralPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GeneralPrefs.png; path = Resources/GeneralPrefs.png; sourceTree = "<group>"; };
 		8D232FB30BD9D507006A3963 /* ActionsPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ActionsPrefs.png; path = Resources/ActionsPrefs.png; sourceTree = "<group>"; };
 		8D232FB40BD9D507006A3963 /* RulesPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RulesPrefs.png; path = Resources/RulesPrefs.png; sourceTree = "<group>"; };
-		8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkLinkEvidenceSource.h; path = Source/NetworkLinkEvidenceSource.h; sourceTree = "<group>"; };
-		8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkEvidenceSource.m; path = Source/NetworkLinkEvidenceSource.m; sourceTree = "<group>"; };
 		8D3453C10C18E5C1006011D0 /* IChatAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IChatAction.h; path = Source/IChatAction.h; sourceTree = "<group>"; };
 		8D3453C20C18E5C1006011D0 /* IChatAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IChatAction.m; path = Source/IChatAction.m; sourceTree = "<group>"; };
 		8D38B6690C49D50200290F47 /* SliderWithValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SliderWithValue.h; path = Source/SliderWithValue.h; sourceTree = "<group>"; };
@@ -421,9 +420,9 @@
 		DD96FE1614361BCD0034BE0E /* MonitorSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorSource.m; path = Source/MonitorSource.m; sourceTree = "<group>"; };
 		DD96FE181436299D0034BE0E /* MonitorRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorRule.h; path = Source/MonitorRule.h; sourceTree = "<group>"; };
 		DD96FE191436299F0034BE0E /* MonitorRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorRule.m; path = Source/MonitorRule.m; sourceTree = "<group>"; };
-		DD96FE1B1436319B0034BE0E /* SystemStateSource.h */ = {isa = PBXFileReference; fileEncoding = 4; name = SystemStateSource.h; path = Source/SystemStateSource.h; sourceTree = "<group>"; };
+		DD96FE1B1436319B0034BE0E /* SystemStateSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemStateSource.h; path = Source/SystemStateSource.h; sourceTree = "<group>"; };
 		DD96FE1C1436319E0034BE0E /* SystemStateSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateSource.m; path = Source/SystemStateSource.m; sourceTree = "<group>"; };
-		DD96FE1E143658CA0034BE0E /* SystemStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; name = SystemStateRule.h; path = Source/SystemStateRule.h; sourceTree = "<group>"; };
+		DD96FE1E143658CA0034BE0E /* SystemStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemStateRule.h; path = Source/SystemStateRule.h; sourceTree = "<group>"; };
 		DD96FE1F143658CE0034BE0E /* SystemStateRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateRule.m; path = Source/SystemStateRule.m; sourceTree = "<group>"; };
 		DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayRule.h; path = Source/TimeOfDayRule.h; sourceTree = "<group>"; };
 		DD96FE2214365D120034BE0E /* TimeOfDayRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayRule.m; path = Source/TimeOfDayRule.m; sourceTree = "<group>"; };
@@ -467,6 +466,10 @@
 		DDA201711411C39400DE570E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/TimeOfDayRule.xib"; sourceTree = "<group>"; };
 		DDA201721411C39400DE570E /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/TimeOfDayRule.xib; sourceTree = "<group>"; };
 		DDA201731411C39400DE570E /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/TimeOfDayRule.xib; sourceTree = "<group>"; };
+		DDA8026E143A7FAA00745EB8 /* NetworkLinkSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLinkSource.h; path = Source/NetworkLinkSource.h; sourceTree = "<group>"; };
+		DDA8026F143A7FAA00745EB8 /* NetworkLinkSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkSource.m; path = Source/NetworkLinkSource.m; sourceTree = "<group>"; };
+		DDA80272143A922100745EB8 /* NetworkLinkRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLinkRule.h; path = Source/NetworkLinkRule.h; sourceTree = "<group>"; };
+		DDA80273143A922100745EB8 /* NetworkLinkRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkRule.m; path = Source/NetworkLinkRule.m; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CPController+SleepThread.h"; path = "Source/CPController+SleepThread.h"; sourceTree = "<group>"; };
 		DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CPController+SleepThread.m"; path = "Source/CPController+SleepThread.m"; sourceTree = "<group>"; };
@@ -721,8 +724,6 @@
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
-				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
-				8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */,
 			);
 			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
@@ -785,6 +786,8 @@
 				DD4ADAE5142F97F600CE825F /* LocationRule.m */,
 				DD96FE181436299D0034BE0E /* MonitorRule.h */,
 				DD96FE191436299F0034BE0E /* MonitorRule.m */,
+				DDA80272143A922100745EB8 /* NetworkLinkRule.h */,
+				DDA80273143A922100745EB8 /* NetworkLinkRule.m */,
 				DD4ADACB142D4BE500CE825F /* PowerSourceRule.h */,
 				DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */,
 				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
@@ -965,6 +968,8 @@
 				DD4ADADE142F901500CE825F /* LocationSource.m */,
 				DD96FE1514361BCC0034BE0E /* MonitorSource.h */,
 				DD96FE1614361BCD0034BE0E /* MonitorSource.m */,
+				DDA8026E143A7FAA00745EB8 /* NetworkLinkSource.h */,
+				DDA8026F143A7FAA00745EB8 /* NetworkLinkSource.m */,
 				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
 				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
 				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
@@ -1230,7 +1235,6 @@
 				8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */,
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
 				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
-				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
 				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,
 				8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */,
@@ -1292,6 +1296,8 @@
 				DD96FE2314365D1B0034BE0E /* TimeOfDayRule.m in Sources */,
 				DD96FE2714369DC80034BE0E /* Action.m in Sources */,
 				DD96FE2A143741ED0034BE0E /* ActionsManager.m in Sources */,
+				DDA80270143A7FAA00745EB8 /* NetworkLinkSource.m in Sources */,
+				DDA80274143A922100745EB8 /* NetworkLinkRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
