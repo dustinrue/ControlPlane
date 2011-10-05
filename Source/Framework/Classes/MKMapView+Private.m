@@ -27,14 +27,14 @@
     
     // Create the overlay data structures
     overlays = [[NSMutableArray array] retain];
-    overlayViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    overlayScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    overlayViews = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
+    overlayScriptObjects = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
     
     // Create the annotation data structures
     annotations = [[NSMutableArray array] retain];
     selectedAnnotations = [[NSMutableArray array] retain];
-    annotationViews = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    annotationScriptObjects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    annotationViews = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
+    annotationScriptObjects = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
     
     [self loadMapKitHtml];
     

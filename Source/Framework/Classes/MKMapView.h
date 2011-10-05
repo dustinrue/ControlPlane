@@ -33,11 +33,11 @@
     CLLocationManager *locationManager;
     BOOL hasSetCenterCoordinate;
     // Overlays
-    CFMutableDictionaryRef overlayViews;
-    CFMutableDictionaryRef overlayScriptObjects;
+    NSMapTable *overlayViews;
+    NSMapTable *overlayScriptObjects;
     // Annotations
-    CFMutableDictionaryRef annotationViews;
-    CFMutableDictionaryRef annotationScriptObjects;
+    NSMapTable *annotationViews;
+    NSMapTable *annotationScriptObjects;
 
     
 }

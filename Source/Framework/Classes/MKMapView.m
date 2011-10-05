@@ -65,16 +65,12 @@
     [locationManager release];
     [userLocation release];
     [overlays release];
-    CFRelease(overlayViews);
-    overlayViews = NULL;
-    CFRelease(overlayScriptObjects);
-    overlayScriptObjects = NULL;
+    [overlayViews release];
+    [overlayScriptObjects release];
     [annotations release];
     [selectedAnnotations release];
-    CFRelease(annotationViews);
-    annotationViews = NULL;
-    CFRelease(annotationScriptObjects);
-    annotationScriptObjects = NULL;
+    [annotationViews release];
+    [annotationScriptObjects release];
     [super dealloc];
 }
 
@@ -303,9 +299,9 @@
     }
     
     [overlays insertObject:overlay atIndex:index];
-    CFDictionarySetValue(overlayViews, overlay, overlayView);
-    CFDictionarySetValue(overlayScriptObjects, overlay, overlayScriptObject);
-    
+    [overlayViews setObject:overlayView forKey:overlay];
+    [overlayScriptObjects setObject:overlayScriptObject forKey:overlay];
+        
     NSArray *args = [NSArray arrayWithObject:overlayScriptObject];
     [webScriptObject callWebScriptMethod:@"addOverlay" withArguments:args];
     [overlayView draw:overlayScriptObject];
@@ -332,13 +328,13 @@
         return;
     
     WebScriptObject *webScriptObject = [webView windowScriptObject];
-    WebScriptObject *overlayScriptObject = (WebScriptObject *)CFDictionaryGetValue(overlayScriptObjects, overlay);
+    WebScriptObject *overlayScriptObject = (WebScriptObject *)[overlayScriptObjects objectForKey: overlay];
     NSArray *args = [NSArray arrayWithObject:overlayScriptObject];
     [webScriptObject callWebScriptMethod:@"removeOverlay" withArguments:args];
 
-    CFDictionaryRemoveValue(overlayViews, overlay);
-    CFDictionaryRemoveValue(overlayScriptObjects, overlay);
-
+    [overlayViews removeObjectForKey:overlay];
+    [overlayScriptObjects removeObjectForKey:overlay];
+    
     [overlays removeObject:overlay];
     [self updateOverlayZIndexes];
 }
@@ -355,7 +351,7 @@
 {
     if (![overlays containsObject:overlay])
         return nil;
-    return (MKOverlayView *)CFDictionaryGetValue(overlayViews, overlay);
+    return (MKOverlayView *)[overlayViews objectForKey: overlay];
 }
 
 #pragma mark Annotations
@@ -396,8 +392,8 @@
     }
     
     [annotations addObject:annotation];
-    CFDictionarySetValue(annotationViews, annotation, annotationView);
-    CFDictionarySetValue(annotationScriptObjects, annotation, annotationScriptObject);
+    [annotationViews setObject:annotationView forKey:annotation];
+    [annotationScriptObjects setObject:annotationScriptObject forKey:annotation];
     
     NSArray *args = [NSArray arrayWithObject:annotationScriptObject];
     [webScriptObject callWebScriptMethod:@"addAnnotation" withArguments:args];
@@ -424,12 +420,12 @@
         return;
     
     WebScriptObject *webScriptObject = [webView windowScriptObject];
-    WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+    WebScriptObject *annotationScriptObject = (WebScriptObject *)[annotationScriptObjects objectForKey: annotation];
     NSArray *args = [NSArray arrayWithObject:annotationScriptObject];
     [webScriptObject callWebScriptMethod:@"removeAnnotation" withArguments:args];
     
-    CFDictionaryRemoveValue(annotationViews, annotation);
-    CFDictionaryRemoveValue(annotationScriptObjects, annotation);
+    [annotationViews removeObjectForKey: annotation];
+    [annotationScriptObjects removeObjectForKey: annotation];
     
     [annotations removeObject:annotation];
 }
@@ -446,7 +442,7 @@
 {
     if (![annotations containsObject:annotation])
         return nil;
-    return (MKAnnotationView *)CFDictionaryGetValue(annotationViews, annotation);
+    return (MKAnnotationView *)[annotationViews objectForKey: annotation];
 }
 
 - (MKAnnotationView *)dequeueReusableAnnotationViewWithIdentifier:(NSString *)identifier
@@ -460,12 +456,12 @@
     if ([selectedAnnotations containsObject:annotation])
         return;
 
-    MKAnnotationView *annotationView = (id)CFDictionaryGetValue(annotationViews, annotation);
+    MKAnnotationView *annotationView = (id)[annotationViews objectForKey: annotation];
     [selectedAnnotations addObject:annotation];
     [self delegateDidSelectAnnotationView:annotationView];
     
     WebScriptObject *webScriptObject = [webView windowScriptObject];
-    WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+    WebScriptObject *annotationScriptObject = (WebScriptObject *)[annotationScriptObjects objectForKey: annotation];
 
     if (annotation.title && annotationView.canShowCallout)
     {
@@ -483,12 +479,12 @@
     if (![selectedAnnotations containsObject:annotation])
         return;
 
-    MKAnnotationView *annotationView = (id)CFDictionaryGetValue(annotationViews, annotation);
+    MKAnnotationView *annotationView = (id)[annotationViews objectForKey: annotation];
     [selectedAnnotations removeObject:annotation];
     [self delegateDidDeselectAnnotationView:annotationView];
 
     WebScriptObject *webScriptObject = [webView windowScriptObject];
-    WebScriptObject *annotationScriptObject = (WebScriptObject *)CFDictionaryGetValue(annotationScriptObjects, annotation);
+    WebScriptObject *annotationScriptObject = (WebScriptObject *)[annotationScriptObjects objectForKey: annotation];
     
     NSArray *args = [NSArray arrayWithObjects:annotationScriptObject, [NSNumber numberWithBool:YES], nil];
     [webScriptObject callWebScriptMethod:@"setAnnotationCalloutHidden" withArguments:args];
