@@ -14,18 +14,21 @@
 
 - (void) activated;
 - (void) deactivated;
++ (NSString *) stringWithUUID;
 
 @end
 
 @implementation Context
 
-@synthesize name = m_name;
 @synthesize active = m_active;
+@synthesize name = m_name;
+@synthesize uuid = m_uuid;
 
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
+	self.uuid = [Context stringWithUUID];
 	self.name = nil;
 	self.active = NO;
 	m_rules = [NSMutableArray new];

@@ -26,6 +26,9 @@
 }
 
 - (void) dealloc {
+	if (self.running)
+		[(id<SourceProtocol>) self stop];
+	
 	[super dealloc];
 }
 

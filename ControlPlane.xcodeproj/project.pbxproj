@@ -139,7 +139,24 @@
 		DDA80270143A7FAA00745EB8 /* NetworkSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA8026F143A7FAA00745EB8 /* NetworkSource.m */; };
 		DDA80274143A922100745EB8 /* NetworkLinkRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80273143A922100745EB8 /* NetworkLinkRule.m */; };
 		DDA80277143AA61F00745EB8 /* IPRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80276143AA61C00745EB8 /* IPRule.m */; };
+		DDA8031B143BEE4200745EB8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA8031A143BEE4200745EB8 /* Cocoa.framework */; };
+		DDA80336143BEFCB00745EB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDA80330143BEFCB00745EB8 /* Info.plist */; };
+		DDA80339143BF0F700745EB8 /* Plugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80332143BEFCB00745EB8 /* Plugin.m */; };
+		DDA8033A143BF0F700745EB8 /* PluginsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80334143BEFCB00745EB8 /* PluginsManager.m */; };
+		DDA8033B143BF11700745EB8 /* Plugin.h in Headers */ = {isa = PBXBuildFile; fileRef = DDA80331143BEFCB00745EB8 /* Plugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA8033C143BF11700745EB8 /* PluginsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDA80333143BEFCB00745EB8 /* PluginsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA8033D143BF14700745EB8 /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = DD96FE2514369DC80034BE0E /* Action.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA8033E143BF14700745EB8 /* ActionsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD96FE28143741ED0034BE0E /* ActionsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA8033F143BF14700745EB8 /* Rule.h in Headers */ = {isa = PBXBuildFile; fileRef = DD68A9E01426294B0059A730 /* Rule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA80340143BF14700745EB8 /* RulesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD4ADAC7142D457900CE825F /* RulesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA80341143BF14700745EB8 /* CallbackSource.h in Headers */ = {isa = PBXBuildFile; fileRef = DDE29BE31429662500A55469 /* CallbackSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA80342143BF14700745EB8 /* LoopingSource.h in Headers */ = {isa = PBXBuildFile; fileRef = DD239289142A257500FE7DC7 /* LoopingSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA80343143BF14700745EB8 /* Source.h in Headers */ = {isa = PBXBuildFile; fileRef = DD68A9D9142623210059A730 /* Source.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD68A9DB142623210059A730 /* SourcesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDA80349143BF36100745EB8 /* Plugins.h in Headers */ = {isa = PBXBuildFile; fileRef = DDA80348143BF31800745EB8 /* Plugins.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
+		DDAC864F143BFABA00682538 /* Plugins.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDA80319143BEE4100745EB8 /* Plugins.framework */; };
+		DDAC8650143BFC0F00682538 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA80319143BEE4100745EB8 /* Plugins.framework */; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
 		DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
@@ -175,6 +192,13 @@
 			remoteGlobalIDString = DA5B01FA1412BB1700E19C50;
 			remoteInfo = CPHelperTool;
 		};
+		DDA80346143BF17D00745EB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDA80318143BEE4100745EB8;
+			remoteInfo = Plugin;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -184,6 +208,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DDAC864F143BFABA00682538 /* Plugins.framework in Copy Frameworks */,
 				8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */,
 				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
 			);
@@ -470,6 +495,18 @@
 		DDA80273143A922100745EB8 /* NetworkLinkRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkRule.m; path = Source/NetworkLinkRule.m; sourceTree = "<group>"; };
 		DDA80275143AA61900745EB8 /* IPRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPRule.h; path = Source/IPRule.h; sourceTree = "<group>"; };
 		DDA80276143AA61C00745EB8 /* IPRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPRule.m; path = Source/IPRule.m; sourceTree = "<group>"; };
+		DDA80319143BEE4100745EB8 /* Plugins.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugins.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDA8031A143BEE4200745EB8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DDA8031D143BEE4200745EB8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DDA8031E143BEE4200745EB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DDA8031F143BEE4200745EB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DDA80330143BEFCB00745EB8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/CPPlugins/Info.plist; sourceTree = SOURCE_ROOT; };
+		DDA80331143BEFCB00745EB8 /* Plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plugin.h; path = Source/CPPlugins/Plugin.h; sourceTree = SOURCE_ROOT; };
+		DDA80332143BEFCB00745EB8 /* Plugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Plugin.m; path = Source/CPPlugins/Plugin.m; sourceTree = SOURCE_ROOT; };
+		DDA80333143BEFCB00745EB8 /* PluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginsManager.h; path = Source/CPPlugins/PluginsManager.h; sourceTree = SOURCE_ROOT; };
+		DDA80334143BEFCB00745EB8 /* PluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluginsManager.m; path = Source/CPPlugins/PluginsManager.m; sourceTree = SOURCE_ROOT; };
+		DDA80348143BF31800745EB8 /* Plugins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plugins.h; path = Source/CPPlugins/Plugins.h; sourceTree = SOURCE_ROOT; };
+		DDA8034A143BF43E00745EB8 /* PluginsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginsInternal.h; path = ../Source/CPPlugins/PluginsInternal.h; sourceTree = "<group>"; };
 		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CPController+SleepThread.h"; path = "Source/CPController+SleepThread.h"; sourceTree = "<group>"; };
 		DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CPController+SleepThread.m"; path = "Source/CPController+SleepThread.m"; sourceTree = "<group>"; };
@@ -510,6 +547,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDAC8650143BFC0F00682538 /* Plugins.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
 				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
@@ -541,6 +579,14 @@
 				DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */,
 				DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */,
 				DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDA80315143BEE4100745EB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDA8031B143BEE4200745EB8 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,6 +661,7 @@
 				DA1204DA13D0E5C800CDA091 /* ControlPlane.app */,
 				DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FB1412BB1700E19C50 /* CPHelperTool */,
+				DDA80319143BEE4100745EB8 /* Plugins.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -623,6 +670,7 @@
 			isa = PBXGroup;
 			children = (
 				DA5B01E91412BA6700E19C50 /* HelperTool */,
+				DDA80320143BEE4200745EB8 /* Plugin Framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -684,6 +732,8 @@
 			children = (
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */,
+				DDA8031A143BEE4200745EB8 /* Cocoa.framework */,
+				DDA8031C143BEE4200745EB8 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -932,6 +982,31 @@
 			name = "Concrete Actions";
 			sourceTree = "<group>";
 		};
+		DDA8031C143BEE4200745EB8 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDA8031D143BEE4200745EB8 /* AppKit.framework */,
+				DDA8031E143BEE4200745EB8 /* CoreData.framework */,
+				DDA8031F143BEE4200745EB8 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		DDA80320143BEE4200745EB8 /* Plugin Framework */ = {
+			isa = PBXGroup;
+			children = (
+				DDA80330143BEFCB00745EB8 /* Info.plist */,
+				DDA80331143BEFCB00745EB8 /* Plugin.h */,
+				DDA80332143BEFCB00745EB8 /* Plugin.m */,
+				DDA80348143BF31800745EB8 /* Plugins.h */,
+				DDA8034A143BF43E00745EB8 /* PluginsInternal.h */,
+				DDA80333143BEFCB00745EB8 /* PluginsManager.h */,
+				DDA80334143BEFCB00745EB8 /* PluginsManager.m */,
+			);
+			name = "Plugin Framework";
+			path = CPPlugins;
+			sourceTree = "<group>";
+		};
 		DDD1A361142BD65600341B75 /* KVOAdditions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1004,6 +1079,27 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		DDA80316143BEE4100745EB8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDA80349143BF36100745EB8 /* Plugins.h in Headers */,
+				DDA8033D143BF14700745EB8 /* Action.h in Headers */,
+				DDA8033E143BF14700745EB8 /* ActionsManager.h in Headers */,
+				DDA8033F143BF14700745EB8 /* Rule.h in Headers */,
+				DDA80340143BF14700745EB8 /* RulesManager.h in Headers */,
+				DDA80341143BF14700745EB8 /* CallbackSource.h in Headers */,
+				DDA80342143BF14700745EB8 /* LoopingSource.h in Headers */,
+				DDA80343143BF14700745EB8 /* Source.h in Headers */,
+				DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */,
+				DDA8033B143BF11700745EB8 /* Plugin.h in Headers */,
+				DDA8033C143BF11700745EB8 /* PluginsManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		8D1107260486CEB800E47090 /* ControlPlane */ = {
 			isa = PBXNativeTarget;
@@ -1020,6 +1116,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DDA80347143BF17D00745EB8 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
 			);
@@ -1062,6 +1159,24 @@
 			productName = CPHelperTool;
 			productReference = DA5B01FB1412BB1700E19C50 /* CPHelperTool */;
 			productType = "com.apple.product-type.tool";
+		};
+		DDA80318143BEE4100745EB8 /* Plugins */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDA8032A143BEE4900745EB8 /* Build configuration list for PBXNativeTarget "Plugins" */;
+			buildPhases = (
+				DDA80314143BEE4100745EB8 /* Sources */,
+				DDA80315143BEE4100745EB8 /* Frameworks */,
+				DDA80316143BEE4100745EB8 /* Headers */,
+				DDA80317143BEE4100745EB8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Plugins;
+			productName = CPPlugins;
+			productReference = DDA80319143BEE4100745EB8 /* Plugins.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -1112,6 +1227,7 @@
 				8D1107260486CEB800E47090 /* ControlPlane */,
 				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FA1412BB1700E19C50 /* CPHelperTool */,
+				DDA80318143BEE4100745EB8 /* Plugins */,
 			);
 		};
 /* End PBXProject section */
@@ -1154,6 +1270,14 @@
 				DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */,
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
+				DDA80336143BEFCB00745EB8 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDA80317143BEE4100745EB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1319,6 +1443,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDA80314143BEE4100745EB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDA80339143BF0F700745EB8 /* Plugin.m in Sources */,
+				DDA8033A143BF0F700745EB8 /* PluginsManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1331,6 +1464,11 @@
 			isa = PBXTargetDependency;
 			target = DA5B01FA1412BB1700E19C50 /* CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
+		};
+		DDA80347143BF17D00745EB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDA80318143BEE4100745EB8 /* Plugins */;
+			targetProxy = DDA80346143BF17D00745EB8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1615,6 +1753,34 @@
 			};
 			name = Release;
 		};
+		DDA8032B143BEE4900745EB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = Source/CPPlugins/Info.plist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		DDA8032C143BEE4900745EB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = Source/CPPlugins/Info.plist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1650,6 +1816,15 @@
 			buildConfigurations = (
 				DA5B02031412BB1800E19C50 /* Debug */,
 				DA5B02041412BB1800E19C50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDA8032A143BEE4900745EB8 /* Build configuration list for PBXNativeTarget "Plugins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDA8032B143BEE4900745EB8 /* Debug */,
+				DDA8032C143BEE4900745EB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

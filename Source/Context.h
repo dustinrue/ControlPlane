@@ -7,13 +7,15 @@
 //
 
 @interface Context : NSObject {
-	NSString *m_name;
-	NSMutableArray *m_rules;
-	NSMutableArray *m_actions;
 	BOOL m_active;
+	NSString *m_name;
+	NSString *m_uuid;
+	NSMutableArray *m_actions;
+	NSMutableArray *m_rules;
 }
 
-@property (readwrite, copy) NSString *name;
 @property (readwrite, assign, nonatomic) BOOL active;
+@property (readwrite, copy) NSString *name;
+@property (readwrite, copy) NSString *uuid;
 
 @end

@@ -72,6 +72,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	m_sourcesCreated = YES;
 }
 
+#pragma mark - Other functions
+
+- (Source *) getSource: (NSString *) name {
+	return [m_sources objectForKey: name];
+}
+
+- (void) removeSource: (NSString *) name {
+	[m_sources removeObjectForKey: name];
+}
+
+- (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass {
+	Class class = class_getSuperclass(subClass);
+	
+	while(class != nil) {
+		if (class == aClass)
+			return YES;
+		class = class_getSuperclass(subClass);
+	}
+	
+	return NO;
+}
+
 #pragma mark - Rules registration
 
 - (Source *) registerRule: (Rule *) rule toSource: (NSString *) source {
@@ -99,24 +121,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	
 	[sourceInstance removeObserver: rule];
 	sourceInstance.listenersCount--;
-}
-
-#pragma mark - Other functions
-
-- (Source *) getSource: (NSString *) name {
-	return [m_sources objectForKey: name];
-}
-
-- (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass {
-	Class class = class_getSuperclass(subClass);
-	
-	while(class != nil) {
-		if (class == aClass)
-			return YES;
-		class = class_getSuperclass(subClass);
-	}
-	
-	return NO;
 }
 
 @end
