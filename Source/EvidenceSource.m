@@ -268,7 +268,6 @@
 
 @end
 
-#import "BluetoothEvidenceSource.h"
 #import "CoreLocationSource.h"
 
 @implementation EvidenceSourceSetController
@@ -279,7 +278,6 @@
 		return nil;
     
 	NSArray *classes = [NSArray arrayWithObjects:
-						[BluetoothEvidenceSource class],
 						[CoreLocationSource class],
 						nil];
 	if (NO) {

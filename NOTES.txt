@@ -11,7 +11,7 @@ To update:
 Pre-Release Checklist
 ---------------------
 	+ Check version numbers in Info.plist
-	+ Git tag
+	+ Git (annotated) tag
 	+ Run ./make_disk_image.sh
 	+ Update appcast.xml
 	+ Upload *.dmg and appcast.xml
