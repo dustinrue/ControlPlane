@@ -11,8 +11,6 @@
 
 @implementation MonitorRule
 
-registerRuleType(MonitorRule)
-
 - (id) init {
     self = [super init];
     

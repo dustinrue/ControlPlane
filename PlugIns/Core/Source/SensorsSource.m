@@ -25,7 +25,6 @@ enum {
 
 @implementation SensorsSource
 
-registerSourceType(SensorsSource)
 @synthesize displayBrightness = m_displayBrightness;
 @synthesize keyboardBrightness = m_keyboardBrightness;
 @synthesize lightLevel = m_lightLevel;

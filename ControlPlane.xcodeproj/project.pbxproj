@@ -174,6 +174,7 @@
 		DDAC87D3143C208200682538 /* DB.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9E330BBB89320074D5B3 /* DB.m */; };
 		DDAC87D4143C20F700682538 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
 		DDAC87D5143C20F700682538 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
+		DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAC87D7143C282D00682538 /* CorePlugin.m */; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
 		DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
@@ -545,6 +546,8 @@
 		DDAC871E143C136A00682538 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DDAC8720143C139900682538 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		DDAC8753143C1C5600682538 /* PluginsInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginsInfo.plist; sourceTree = "<group>"; };
+		DDAC87D6143C282D00682538 /* CorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CorePlugin.h; path = PlugIns/Core/Source/CorePlugin.h; sourceTree = "<group>"; };
+		DDAC87D7143C282D00682538 /* CorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CorePlugin.m; path = PlugIns/Core/Source/CorePlugin.m; sourceTree = "<group>"; };
 		DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CPController+SleepThread.h"; path = "Source/CPController+SleepThread.h"; sourceTree = "<group>"; };
 		DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CPController+SleepThread.m"; path = "Source/CPController+SleepThread.m"; sourceTree = "<group>"; };
 		DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreLocationSource.h; path = Source/CoreLocationSource.h; sourceTree = "<group>"; };
@@ -1009,6 +1012,8 @@
 				DDAC866D143C050E00682538 /* Actions */,
 				DDAC866E143C051D00682538 /* Rules */,
 				DDAC866F143C052C00682538 /* Sources */,
+				DDAC87D6143C282D00682538 /* CorePlugin.h */,
+				DDAC87D7143C282D00682538 /* CorePlugin.m */,
 				8D8C9E320BBB89320074D5B3 /* DB.h */,
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
 			);
@@ -1565,6 +1570,7 @@
 				DDAC878D143C1D6500682538 /* USBSource.m in Sources */,
 				DDAC878F143C1D6500682538 /* WLANSource.m in Sources */,
 				DDAC87D3143C208200682538 /* DB.m in Sources */,
+				DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

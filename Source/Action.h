@@ -33,10 +33,3 @@
 @property (readwrite, copy, nonatomic) NSDictionary *data;
 
 @end
-
-// Put this in each source implementation so that it registers with the manager
-#define registerActionType(type) + (void) load { \
-	NSAutoreleasePool *pool = [NSAutoreleasePool new]; \
-	[RulesManager.sharedRulesManager registerActionType: type.class]; \
-	[pool release]; \
-}

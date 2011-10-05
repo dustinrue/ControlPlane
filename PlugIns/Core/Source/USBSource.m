@@ -27,7 +27,6 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 
 @implementation USBSource
 
-registerSourceType(USBSource)
 @synthesize devices = m_devices;
 
 - (id) init {

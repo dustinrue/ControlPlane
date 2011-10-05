@@ -18,7 +18,6 @@
 
 @implementation BonjourSource
 
-registerSourceType(BonjourSource)
 @synthesize services = m_services;
 
 - (id) init {

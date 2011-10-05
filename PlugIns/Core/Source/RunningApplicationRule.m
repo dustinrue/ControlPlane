@@ -11,8 +11,6 @@
 
 @implementation RunningApplicationRule
 
-registerRuleType(RunningApplicationRule)
-
 #pragma mark - Source observe functions
 
 - (id) init {

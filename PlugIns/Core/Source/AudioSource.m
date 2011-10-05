@@ -29,7 +29,6 @@ typedef enum {
 
 @implementation AudioSource
 
-registerSourceType(AudioSource)
 @synthesize devices = m_devices;
 @synthesize input = m_input;
 @synthesize output = m_output;

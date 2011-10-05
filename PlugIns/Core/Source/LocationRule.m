@@ -12,8 +12,6 @@
 
 @implementation LocationRule
 
-registerRuleType(LocationRule)
-
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));

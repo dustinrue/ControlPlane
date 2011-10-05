@@ -23,7 +23,6 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 
 @implementation FireWireSource
 
-registerSourceType(FireWireSource)
 @synthesize devices = m_devices;
 
 - (id) init {

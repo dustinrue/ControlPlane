@@ -20,7 +20,6 @@ static void storeChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *i
 
 @implementation NetworkSource
 
-registerSourceType(NetworkSource)
 @synthesize addresses = m_addresses;
 @synthesize interfaces = m_interfaces;
 @synthesize interfaceNames = m_interfaceNames;

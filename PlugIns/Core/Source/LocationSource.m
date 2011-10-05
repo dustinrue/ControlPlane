@@ -10,7 +10,6 @@
 
 @implementation LocationSource
 
-registerSourceType(LocationSource)
 @synthesize location = m_location;
 
 - (id) init {

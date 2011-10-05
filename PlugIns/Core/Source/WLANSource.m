@@ -17,7 +17,6 @@
 
 @implementation WLANSource
 
-registerSourceType(WLANSource)
 @synthesize networks = m_networks;
 
 - (id) init {

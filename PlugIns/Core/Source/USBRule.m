@@ -11,8 +11,6 @@
 
 @implementation USBRule
 
-registerRuleType(USBRule)
-
 #pragma mark - Source observe functions
 
 - (id) init {

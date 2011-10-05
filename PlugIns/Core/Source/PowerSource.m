@@ -16,7 +16,6 @@ static void displayChange(void *context, io_service_t y, natural_t msgType, void
 
 @implementation PowerSource
 
-registerSourceType(PowerSource)
 @synthesize displayState = m_displayState;
 @synthesize powerSource = m_powerSource;
 

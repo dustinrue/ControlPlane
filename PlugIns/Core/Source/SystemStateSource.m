@@ -20,7 +20,6 @@ static void powerCallback(void *rootPort, io_service_t y, natural_t msgType, voi
 
 @implementation SystemStateSource
 
-registerSourceType(SystemStateSource)
 @synthesize state = m_state;
 @synthesize allowSleep = m_allowSleep;
 

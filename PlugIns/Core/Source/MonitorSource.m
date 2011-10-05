@@ -11,7 +11,6 @@
 
 @implementation MonitorSource
 
-registerSourceType(MonitorSource)
 @synthesize devices = m_devices;
 
 - (id) init {
