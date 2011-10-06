@@ -26,7 +26,7 @@
 
 @property (readwrite, assign) BOOL running;
 @property (readwrite, assign, nonatomic) NSUInteger listenersCount;
-@property (readonly, copy, nonatomic) NSString *name;
+@property (readonly) NSString *name;
 
 - (void) addObserver: (Rule *) rule;
 - (void) removeObserver: (Rule *) rule;

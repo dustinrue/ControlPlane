@@ -10,12 +10,13 @@
 
 @protocol ActionProtocol <NSObject>
 
-- (NSString *) name;
-- (NSString *) category;
 - (void) loadData: (id) data;
 - (BOOL) execute;
 - (NSString *) describeValue: (id) value;
-- (NSArray *) suggestedValues;
+
+@property (readonly) NSString *name;
+@property (readonly) NSString *category;
+@property (readonly) NSArray *suggestedValues;
 
 @end
 

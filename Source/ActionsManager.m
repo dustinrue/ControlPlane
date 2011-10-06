@@ -15,6 +15,8 @@
 - (void) executeAction: (Action *) action;
 - (NSDictionary *) filterActions: (NSArray *) actions when: (eWhen) when;
 
+@property (readwrite, assign) NSUInteger actionsInProgress;
+
 @end
 
 @implementation ActionsManager

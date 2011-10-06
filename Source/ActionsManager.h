@@ -18,8 +18,8 @@ typedef enum {
 	NSUInteger m_actionsInProgress;
 }
 
-@property (readonly, assign) BOOL executionInProgress;
-@property (readwrite, assign) NSUInteger actionsInProgress;
+@property (readonly) BOOL executionInProgress;
+@property (readonly) NSUInteger actionsInProgress;
 
 + (ActionsManager *) sharedActionsManager;
 - (void) registerActionType: (Class) type;

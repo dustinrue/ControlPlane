@@ -10,13 +10,14 @@
 
 @protocol RuleProtocol <NSObject>
 
-- (NSString *) name;
-- (NSString *) category;
 - (void) beingEnabled;
 - (void) beingDisabled;
 - (void) loadData: (id) data;
 - (NSString *) describeValue: (id) value;
-- (NSArray *) suggestedValues;
+
+@property (readonly) NSString *name;
+@property (readonly) NSString *category;
+@property (readonly) NSArray *suggestedValues;
 
 @end
 

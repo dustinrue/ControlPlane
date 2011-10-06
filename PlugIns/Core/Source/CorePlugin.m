@@ -10,16 +10,6 @@
 
 @implementation CorePlugin
 
-static NSMutableArray *m_actionTypes = nil;
-static NSMutableArray *m_ruleTypes = nil;
-static NSMutableArray *m_sourceTypes = nil;
-
-+ (void) load {
-	m_actionTypes = [NSMutableArray new];
-	m_ruleTypes = [NSMutableArray new];
-	m_sourceTypes = [NSMutableArray new];
-}
-
 - (NSArray *) actions {
 	return [NSArray array];
 }
