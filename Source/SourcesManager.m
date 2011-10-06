@@ -64,9 +64,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	Source *source = nil;
 	
 	// create an instance of each source type
-	for (Class type in m_sourceTypes) {
-		source = [[type new] autorelease];
-		[m_sources setObject: source forKey: source.name];
+	@synchronized(m_sources) {
+		for (Class type in m_sourceTypes) {
+			source = [[type new] autorelease];
+			[m_sources setObject: source forKey: source.name];
+		}
 	}
 	
 	m_sourcesCreated = YES;
@@ -75,11 +77,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 #pragma mark - Other functions
 
 - (Source *) getSource: (NSString *) name {
-	return [m_sources objectForKey: name];
+	@synchronized(m_sources) {
+		return [m_sources objectForKey: name];
+	}
 }
 
 - (void) removeSource: (NSString *) name {
-	[m_sources removeObjectForKey: name];
+	@synchronized(m_sources) {
+		[m_sources removeObjectForKey: name];
+	}
 }
 
 - (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass {
@@ -100,25 +106,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	if (!m_sourcesCreated)
 		[self createSources];
 	
-	// find it
-	Source *sourceInstance = [self getSource: source];
-	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
-	
-	// register
-	[sourceInstance addObserver: rule];
-	
-	return sourceInstance;
+	@synchronized(m_sources) {
+		// find it
+		Source *sourceInstance = [self getSource: source];
+		ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
+		
+		// register
+		[sourceInstance addObserver: rule];
+		
+		return sourceInstance;
+	}
 }
 
 - (void) unRegisterRule: (Rule *) rule fromSource: (NSString *) source {
 	if (!m_sourcesCreated)
 		[self createSources];
 	
-	Source *sourceInstance = [self getSource: source];
-	ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
-	ZAssert(sourceInstance.listenersCount > 0, @"Source has no listeners!");
-	
-	[sourceInstance removeObserver: rule];
+	@synchronized(m_sources) {
+		// find it
+		Source *sourceInstance = [self getSource: source];
+		ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
+		
+		// unregister
+		[sourceInstance removeObserver: rule];
+	}
 }
 
 @end

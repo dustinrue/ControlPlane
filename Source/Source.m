@@ -76,6 +76,7 @@
 	for (NSString *key in ((id<SourceProtocol>) self).observableKeys)
 		[self removeObserver: rule forKeyPath: key selector: nil];
 	
+	ZAssert(self.listenersCount > 0, @"Source has no listeners!");
 	self.listenersCount--;
 }
 
