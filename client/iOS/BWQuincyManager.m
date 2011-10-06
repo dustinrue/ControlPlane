@@ -90,7 +90,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 
 @synthesize appIdentifier = _appIdentifier;
 
-#if __IPHONE_OS_VERSION_MIN_ALLOWED >= 40000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 40000
 +(BWQuincyManager *)sharedQuincyManager
 {   
     static BWQuincyManager *sharedInstance = nil;
