@@ -35,3 +35,5 @@ Backup[ ]of[ ]*.pages/
 Backup[ ]of[ ]*.key/
 Backup[ ]of[ ]*.numbers/
 
+
+ControlPlane.xcodeproj/project.pbxproj
