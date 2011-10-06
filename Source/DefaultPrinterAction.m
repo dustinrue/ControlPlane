@@ -6,7 +6,8 @@
 //
 
 #import "DefaultPrinterAction.h"
-
+#import <ScriptingBridge/SBApplication.h>
+#import "Printer Setup Utility.h"
 
 @implementation DefaultPrinterAction
 
@@ -54,18 +55,22 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	// got to escape forbidden characters
-	NSString *printer = [[printerQueue stringByReplacingOccurrencesOfString:@" " withString:@"_"]
-						 stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
-	
-	NSArray *args = [NSArray arrayWithObjects:@"-d", printer, nil];
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/lpoptions" arguments:args];
-	[task waitUntilExit];
 
-	if ([task terminationStatus] != 0) {
-		*errorString = NSLocalizedString(@"Couldn't set default printer!", @"");
-		return NO;
-	}
+    PrinterSetupUtilityApplication *PSUA = [SBApplication applicationWithBundleIdentifier: @"com.apple.print.PrintCenter"];
+    SBElementArray *availablePrinters = [PSUA printers];
+  
+    NSLog(@"%@",[self description]);
+    
+    // documentation says objectWithName returns nil if the object isn't found
+    // I'm not seeing that at all so this will always succeed. 
+    if ([availablePrinters objectWithName:printerQueue]) {
+        [PSUA setCurrentPrinter:[availablePrinters objectWithName:printerQueue]];
+    }
+    else {
+        *errorString = NSLocalizedString(@"Couldn't set default printer!", @"");
+        return NO;
+    }
+    
 
 	return YES;
 }
