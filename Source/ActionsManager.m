@@ -82,8 +82,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 
 #pragma mark - Action set execution
 
-- (void) executeActions: (NSArray *) actions when: (eWhen) when {
-	NSDictionary *filteredActions = [self filterActions: actions when: when];
+- (void) executeActions: (NSArray *) actions when: (NSUInteger) when {
+	NSDictionary *filteredActions = [self filterActions: actions when: (eWhen) when];
 	
 	// when entering, sort ascending, otherwise descending
 	NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: (when == kWhenEntering)];

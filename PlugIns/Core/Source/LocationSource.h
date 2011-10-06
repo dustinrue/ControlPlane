@@ -6,7 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "CallbackSource.h"
+#import <Plugins/Sources.h>
 #import <CoreLocation/CoreLocation.h>
 
 @interface LocationSource : CallbackSource<CallbackSourceProtocol, CLLocationManagerDelegate> {

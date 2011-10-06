@@ -6,7 +6,7 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "Rule.h"
+#import <Plugins/Rules.h>
 
 @interface BonjourRule : Rule<RuleProtocol> {
 	NSString *m_host;

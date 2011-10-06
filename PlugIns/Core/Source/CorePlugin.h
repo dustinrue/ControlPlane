@@ -6,7 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "Plugin.h"
+#import <Plugins/Plugins.h>
 
 @interface CorePlugin : Plugin
 

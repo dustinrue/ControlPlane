@@ -6,8 +6,6 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "SourcesManager.h"
-
 @class Rule;
 
 @protocol SourceProtocol <NSObject>

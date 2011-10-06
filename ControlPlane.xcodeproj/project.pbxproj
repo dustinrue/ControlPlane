@@ -175,6 +175,9 @@
 		DDAC87D4143C20F700682538 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
 		DDAC87D5143C20F700682538 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
 		DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAC87D7143C282D00682538 /* CorePlugin.m */; };
+		DDAC87DA143E6D8400682538 /* Rules.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87D9143E6D7400682538 /* Rules.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDAC87DC143E6DD400682538 /* Actions.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DB143E6DD100682538 /* Actions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDAC87DE143E6E8D00682538 /* Sources.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DD143E6E8C00682538 /* Sources.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
 		DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
@@ -548,6 +551,9 @@
 		DDAC8753143C1C5600682538 /* PluginsInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginsInfo.plist; sourceTree = "<group>"; };
 		DDAC87D6143C282D00682538 /* CorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CorePlugin.h; path = PlugIns/Core/Source/CorePlugin.h; sourceTree = "<group>"; };
 		DDAC87D7143C282D00682538 /* CorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CorePlugin.m; path = PlugIns/Core/Source/CorePlugin.m; sourceTree = "<group>"; };
+		DDAC87D9143E6D7400682538 /* Rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rules.h; path = Source/Rules.h; sourceTree = SOURCE_ROOT; };
+		DDAC87DB143E6DD100682538 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Actions.h; path = Source/Actions.h; sourceTree = SOURCE_ROOT; };
+		DDAC87DD143E6E8C00682538 /* Sources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sources.h; path = Source/Sources.h; sourceTree = SOURCE_ROOT; };
 		DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CPController+SleepThread.h"; path = "Source/CPController+SleepThread.h"; sourceTree = "<group>"; };
 		DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CPController+SleepThread.m"; path = "Source/CPController+SleepThread.m"; sourceTree = "<group>"; };
 		DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreLocationSource.h; path = Source/CoreLocationSource.h; sourceTree = "<group>"; };
@@ -884,6 +890,7 @@
 				DD23928A142A257500FE7DC7 /* LoopingSource.m */,
 				DD68A9D9142623210059A730 /* Source.h */,
 				DD68A9DA142623210059A730 /* Source.m */,
+				DDAC87DD143E6E8C00682538 /* Sources.h */,
 				DD68A9DB142623210059A730 /* SourcesManager.h */,
 				DD68A9DC142623210059A730 /* SourcesManager.m */,
 			);
@@ -896,6 +903,7 @@
 			children = (
 				DD68A9E01426294B0059A730 /* Rule.h */,
 				DD68A9E11426294B0059A730 /* Rule.m */,
+				DDAC87D9143E6D7400682538 /* Rules.h */,
 				DD4ADAC7142D457900CE825F /* RulesManager.h */,
 				DD4ADAC8142D457900CE825F /* RulesManager.m */,
 			);
@@ -978,6 +986,7 @@
 			children = (
 				DD96FE2514369DC80034BE0E /* Action.h */,
 				DD96FE2614369DC80034BE0E /* Action.m */,
+				DDAC87DB143E6DD100682538 /* Actions.h */,
 				DD96FE28143741ED0034BE0E /* ActionsManager.h */,
 				DD96FE29143741ED0034BE0E /* ActionsManager.m */,
 			);
@@ -1181,6 +1190,9 @@
 				DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */,
 				DDA8033B143BF11700745EB8 /* Plugin.h in Headers */,
 				DDA8033C143BF11700745EB8 /* PluginsManager.h in Headers */,
+				DDAC87DA143E6D8400682538 /* Rules.h in Headers */,
+				DDAC87DC143E6DD400682538 /* Actions.h in Headers */,
+				DDAC87DE143E6E8D00682538 /* Sources.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

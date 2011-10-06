@@ -6,9 +6,9 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "ActionsManager.h"
 #import "Context.h"
-#import "Rule.h"
+#import <Plugins/Actions.h>
+#import <Plugins/Rules.h>
 
 @interface Context (Private)
 

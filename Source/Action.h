@@ -6,7 +6,10 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "ActionsManager.h"
+typedef enum {
+	kWhenEntering = 0,
+	kWhenLeaving = 1
+} eWhen;
 
 @protocol ActionProtocol <NSObject>
 

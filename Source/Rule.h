@@ -6,8 +6,6 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "RulesManager.h"
-
 @protocol RuleProtocol <NSObject>
 
 - (void) beingEnabled;

@@ -8,11 +8,6 @@
 
 @class Action;
 
-typedef enum {
-	kWhenEntering = 0,
-	kWhenLeaving = 1
-} eWhen;
-
 @interface ActionsManager : NSObject {
 	NSMutableDictionary *m_actionTypes;
 	NSUInteger m_actionsInProgress;
@@ -24,6 +19,6 @@ typedef enum {
 + (ActionsManager *) sharedActionsManager;
 - (void) registerActionType: (Class) type;
 - (Action *) createActionOfType: (NSString *) type;
-- (void) executeActions: (NSArray *) actions when: (eWhen) when;
+- (void) executeActions: (NSArray *) actions when: (NSUInteger) when;
 
 @end

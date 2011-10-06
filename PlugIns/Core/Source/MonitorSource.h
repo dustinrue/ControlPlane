@@ -6,7 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "LoopingSource.h"
+#import <Plugins/Sources.h>
 
 @interface MonitorSource : LoopingSource<LoopingSourceProtocol> {
 	NSDictionary *m_devices;

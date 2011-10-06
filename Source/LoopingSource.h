@@ -6,7 +6,7 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "Source.h"
+#import <Plugins/Source.h>
 
 @protocol LoopingSourceProtocol <SourceProtocol>
 

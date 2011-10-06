@@ -6,7 +6,7 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "LoopingSource.h"
+#import <Plugins/Sources.h>
 
 @interface WLANSource : LoopingSource<LoopingSourceProtocol> {
 	NSArray *m_networks;
