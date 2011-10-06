@@ -31,6 +31,6 @@
 @property (readwrite, assign) BOOL enabled;
 @property (readwrite, assign) NSNumber *delay;
 @property (readwrite, assign) eWhen when;
-@property (readwrite, copy, nonatomic) NSDictionary *data;
+@property (readwrite, copy) NSDictionary *data;
 
 @end

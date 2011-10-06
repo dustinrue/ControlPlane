@@ -106,7 +106,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	
 	// register
 	[sourceInstance addObserver: rule];
-	sourceInstance.listenersCount++;
 	
 	return sourceInstance;
 }
@@ -120,7 +119,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	ZAssert(sourceInstance.listenersCount > 0, @"Source has no listeners!");
 	
 	[sourceInstance removeObserver: rule];
-	sourceInstance.listenersCount--;
 }
 
 @end

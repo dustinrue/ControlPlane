@@ -23,13 +23,13 @@
 
 @interface Rule : NSObject {
 @private
-	BOOL m_enabled;
 	BOOL m_match;
+	NSNumber *m_enabled;
 	NSDictionary *m_data;
 }
 
-@property (readwrite, copy, nonatomic) NSDictionary *data;
-@property (readwrite, assign, nonatomic) BOOL enabled;
+@property (readwrite, copy) NSDictionary *data;
+@property (readwrite, assign) BOOL enabled;
 @property (readwrite, assign) BOOL match;
 
 @end

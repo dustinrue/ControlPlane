@@ -10,17 +10,22 @@
 #import "Rule.h"
 #import "Source.h"
 
+@interface Source (Private)
+
+@property (readwrite, assign, nonatomic) NSUInteger listenersCount;
+
+@end
+
 @implementation Source
 
 @synthesize running = m_running;
-@synthesize listenersCount = m_listenersCount;
 
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
+	m_listenersCount = [NSNumber numberWithUnsignedInt: 0];
 	self.running = NO;
-	self.listenersCount = 0;
 	
 	return self;
 }
@@ -32,13 +37,19 @@
 	[super dealloc];
 }
 
+- (NSUInteger) listenersCount {
+	return m_listenersCount.unsignedIntValue;
+}
+
 - (void) setListenersCount: (NSUInteger) listenersCount {
-	if (!self.running && listenersCount > 0)
-		[(id<SourceProtocol>) self start];
-	else if (self.running && listenersCount == 0)
-		[(id<SourceProtocol>) self stop];
-	
-	m_listenersCount = listenersCount;
+	@synchronized(m_listenersCount) {
+		if (!self.running && listenersCount > 0)
+			[(id<SourceProtocol>) self start];
+		else if (self.running && listenersCount == 0)
+			[(id<SourceProtocol>) self stop];
+		
+		m_listenersCount = [NSNumber numberWithUnsignedInt: (unsigned int) listenersCount];
+	}
 }
 
 - (NSString *) name {
@@ -57,11 +68,15 @@
 					  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
 					 selector: sel];
 	}
+	
+	self.listenersCount++;
 }
 
 - (void) removeObserver: (Rule *) rule {
 	for (NSString *key in ((id<SourceProtocol>) self).observableKeys)
 		[self removeObserver: rule forKeyPath: key selector: nil];
+	
+	self.listenersCount--;
 }
 
 @end

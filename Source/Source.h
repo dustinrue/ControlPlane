@@ -21,11 +21,11 @@
 @interface Source : NSObject {
 @private
 	BOOL m_running;
-	NSUInteger m_listenersCount;
+	NSNumber *m_listenersCount;
 }
 
 @property (readwrite, assign) BOOL running;
-@property (readwrite, assign, nonatomic) NSUInteger listenersCount;
+@property (readonly) NSUInteger listenersCount;
 @property (readonly) NSString *name;
 
 - (void) addObserver: (Rule *) rule;
