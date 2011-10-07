@@ -12,6 +12,16 @@
 #import "MKWebView.h"
 #import "MKMapView+Private.h"
 
+// MKAnnotation has a readonly coordinate property, but draggable annotations
+// need the ability to set them.
+@protocol MKDraggableAnnotation <NSObject>
+
+// Center latitude and longitude of the annotion view.
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+
+@end
+
+
 
 @implementation MKMapView (WebViewIntegration)
 
@@ -237,7 +247,7 @@
             if ([annotation respondsToSelector:@selector(setCoordinate:)])
             {
                 CLLocationCoordinate2D newCoordinate = [self coordinateForAnnotationScriptObject:annotationScriptObject];
-                [(id)annotation setCoordinate:newCoordinate];
+                [(id <MKDraggableAnnotation> )annotation setCoordinate:newCoordinate];
                 MKAnnotationView *view = (MKAnnotationView *)[annotationViews objectForKey: annotation];
                 if (view.dragState != MKAnnotationViewDragStateDragging)
                 {
@@ -261,7 +271,7 @@
             if ([annotation respondsToSelector:@selector(setCoordinate:)])
             {
                 CLLocationCoordinate2D newCoordinate = [self coordinateForAnnotationScriptObject:annotationScriptObject];
-                [(id)annotation setCoordinate:newCoordinate];
+                [(id <MKDraggableAnnotation>)annotation setCoordinate:newCoordinate];
                 MKAnnotationView *view = (MKAnnotationView *)[annotationViews objectForKey: annotation];
                 view.dragState = MKAnnotationViewDragStateNone;
                 [self delegateAnnotationView:view didChangeDragState:MKAnnotationViewDragStateNone fromOldState:MKAnnotationViewDragStateDragging];
