@@ -1003,6 +1003,7 @@
 				/Applications/Mail.app,
 				"/System/Library/CoreServices/System Events.app",
 				/Applications/iTunes.app,
+				"/System/Library/CoreServices/Printer Setup Utility.app",
 			);
 			name = "Generate Script Bridge Headers";
 			outputPaths = (
@@ -1010,6 +1011,7 @@
 				"$(DERIVED_FILE_DIR)/Mail.h",
 				"$(DERIVED_FILE_DIR)/System Events.h",
 				"$(DERIVED_FILE_DIR)/iTunes.h",
+				"$(DERIVED_FILE_DIR)/Printer Setup Utility.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
