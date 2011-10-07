@@ -6,6 +6,8 @@
 //  Copyright 2011. All rights reserved.
 //
 
+@class CLLocation;
+
 #import <Plugins/Rules.h>
 
 @interface LocationRule : Rule<RuleProtocol> {

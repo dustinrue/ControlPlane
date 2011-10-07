@@ -57,6 +57,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 		ZAssert([type conformsToProtocol: @protocol(SourceProtocol)], @"Unsupported Source type");
 	
 	// store it
+	DLog(@"Registererd type: %@", NSStringFromClass(type));
 	[m_sourceTypes addObject: type];
 }
 
@@ -91,10 +92,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 - (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass {
 	Class class = class_getSuperclass(subClass);
 	
-	while(class != nil) {
+	while (class != nil) {
 		if (class == aClass)
 			return YES;
-		class = class_getSuperclass(subClass);
+		class = class_getSuperclass(class);
 	}
 	
 	return NO;

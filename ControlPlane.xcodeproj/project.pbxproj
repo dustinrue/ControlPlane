@@ -186,7 +186,6 @@
 		DDD1A367142CC81200341B75 /* Context.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A366142CC80F00341B75 /* Context.m */; };
 		DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A36F142CD55E00341B75 /* ContextGroup.m */; };
 		DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A374142CD81900341B75 /* ContextsManager.m */; };
-		DDD1A378142D0E7100341B75 /* RunningApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
@@ -1509,7 +1508,6 @@
 				DDD1A367142CC81200341B75 /* Context.m in Sources */,
 				DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */,
 				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
-				DDD1A378142D0E7100341B75 /* RunningApplicationSource.m in Sources */,
 				DD4ADAE9143124CD00CE825F /* CLLocation+Geocoding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

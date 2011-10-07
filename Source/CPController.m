@@ -9,6 +9,7 @@
 #import "CPController.h"
 #import "CPController+SleepThread.h"
 #import "NetworkLocationAction.h"
+#import <Plugins/Plugins.h>
 
 @interface CPController (Private)
 
@@ -324,6 +325,8 @@
 - (void)awakeFromNib {
 	// Init Growl
 	[GrowlApplicationBridge setGrowlDelegate: self];
+	
+	[PluginsManager.sharedPluginsManager loadPlugins];
 	
 	// If there aren't any contexts defined, nor rules, nor actions, import settings
 	if (([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) &&

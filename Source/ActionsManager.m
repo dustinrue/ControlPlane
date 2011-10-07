@@ -50,6 +50,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 
 - (void) registerActionType: (Class) type {
 	ZAssert([type conformsToProtocol: @protocol(ActionProtocol)], @"Unsupported Action type");
+	
+	DLog(@"Registererd type: %@", NSStringFromClass(type));
 	[m_actionTypes setObject: type forKey: NSStringFromClass(type)];
 }
 

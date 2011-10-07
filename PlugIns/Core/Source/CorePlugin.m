@@ -31,39 +31,14 @@
 - (void) registerTypes {
 	for (Class source in self.sources)
 		[SourcesManager.sharedSourcesManager registerSourceType: source];
+	for (Class rule in self.rules)
+		[RulesManager.sharedRulesManager registerRuleType: rule];
+	for (Class action in self.actions)
+		[ActionsManager.sharedActionsManager registerActionType: action];
 }
 
 - (NSArray *) actions {
-	return [NSArray array];
-}
-
-#import "AudioSource.h"
-#import "BonjourSource.h"
-#import "FireWireSource.h"
-#import "LocationSource.h"
-#import "MonitorSource.h"
-#import "NetworkSource.h"
-#import "PowerSource.h"
-#import "RunningApplicationSource.h"
-#import "SensorsSource.h"
-#import "SystemStateSource.h"
-#import "USBSource.h"
-#import "WLANSource.h"
-
-- (NSArray *) sources {
 	return [NSArray arrayWithObjects:
-			AudioSource.class,
-			BonjourSource.class,
-			FireWireSource.class,
-			LocationSource.class,
-			MonitorSource.class,
-			NetworkSource.class,
-			PowerSource.class,
-			RunningApplicationSource.class,
-			SensorsSource.class,
-			SystemStateSource.class,
-			USBSource.class,
-			WLANSource.class,
 			nil];
 }
 
@@ -106,6 +81,36 @@
 			USBRule.class,
 			WLANBSSIDRule.class,
 			WLANSSIDRule.class,
+			nil];
+}
+
+#import "AudioSource.h"
+#import "BonjourSource.h"
+#import "FireWireSource.h"
+#import "LocationSource.h"
+#import "MonitorSource.h"
+#import "NetworkSource.h"
+#import "PowerSource.h"
+#import "RunningApplicationSource.h"
+#import "SensorsSource.h"
+#import "SystemStateSource.h"
+#import "USBSource.h"
+#import "WLANSource.h"
+
+- (NSArray *) sources {
+	return [NSArray arrayWithObjects:
+			AudioSource.class,
+			BonjourSource.class,
+			FireWireSource.class,
+			LocationSource.class,
+			MonitorSource.class,
+			NetworkSource.class,
+			PowerSource.class,
+			RunningApplicationSource.class,
+			SensorsSource.class,
+			SystemStateSource.class,
+			USBSource.class,
+			WLANSource.class,
 			nil];
 }
 
