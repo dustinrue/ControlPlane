@@ -52,6 +52,7 @@
 1208|Seiko Epson Corp.
 1211|I-O Data Device, Inc.
 1221|Fujitsu Ltd.
+1226|Lite-On Technology Corp.
 1227|FUJIFILM Corporation
 1228|ST-Ericsson
 1240|Microchip Technology Inc.
@@ -68,7 +69,6 @@
 1273|Brother Industries, Ltd.
 1276|SUNPLUS TECHNOLOGY CO., LTD.
 1278|PFU Limited
-1281|Fujikura/DDK
 1287|Hosiden Corporation
 1293|Belkin Corporation
 1300|FCI Electronics
@@ -101,6 +101,7 @@
 1446|Cisco Systems, Inc.
 1449|OmniVision Technologies, Inc.
 1452|Apple
+1453|Y.C. Cable U.S.A., Inc
 14627|National Instruments
 1470|Tyco Electronics
 1473|Kawasaki Microelectronics, Inc.
@@ -190,6 +191,7 @@
 2233|RadioShack Corporation
 2247|TAI TWUN ENTERPRISE CO., LTD.
 2276|Pioneer Corporation
+2278|Gemalto SA
 2303|AuthenTec, Inc.
 2310|FARADAY Technology Corp.
 2313|Audio-Technica Corp.
@@ -232,6 +234,7 @@
 2755|SANYO Semiconductor Company Micro
 2760|Vimicro Corporation
 2787|Allion Test Labs, Inc.
+2800|Option NV
 2821|ASUSTek Computer Inc.
 2846|Electronic Warfare Associates, Inc. (EWA)
 2849|Yokogawa Electric Corporation
@@ -244,12 +247,12 @@
 2967|O2Micro, Inc.
 2996|HTC Corporation
 2997|Murata Manufacturing Co., Ltd.
-3010|Seagate Technology LLC
 3034|Realtek Semiconductor Corp.
 3035|Ericsson AB
 3044|Elka International Ltd.
 3054|LTK International Limited
 3078|Hasbro, Inc.
+3083|Dura Micro, Inc.
 3108|Taiyo Yuden Co., Ltd.
 3129|Aeroflex
 3141|Sonix Technology Co., Ltd.
@@ -270,7 +273,6 @@
 3315|Qualcomm Atheros, Inc.
 3351|NALTEC, Inc.
 3353|Shanghai Hank Connection Co., Ltd.
-3393|Ta Yun Electronic Technology Co., Ltd.
 3402|NF Corporation
 3403|Grape Systems Inc.
 3409|Volex (Asia) Pte Ltd
@@ -321,7 +323,6 @@
 4024|Wistron Corporation
 4026|SAN SHING ELECTRONICS CO., LTD..
 4046|Sony Ericsson Mobile Communications AB
-4087|CHI SHING COMPUTER ACCESSORIES CO., LTD.
 4096|Speed Tech Corp.
 4100|LG Electronics Inc.
 4134|Newly Corporation
@@ -346,7 +347,7 @@
 4370|Golden Bright (Sichuan) Electronic Technology Co Ltd
 4371|Medion AG
 4381|Centon Electronics
-4382|VSO Electric Co., Ltd.
+4382|VSO ELECTRONICS CO., LTD.
 4398|Master Hill Electric Wire and Cable Co., Ltd.
 4400|Tenx Technology, Inc.
 4422|Shimane SANYO Electric Co., Ltd.
@@ -365,6 +366,7 @@
 4706|MICRO VISION CO., LTD.
 4716|Aristocrat Technologies
 4717|Bel Stewart
+4737|Gean Sen Electronic Co., Ltd.
 4742|MARVELL SEMICONDUCTOR, INC.
 4756|RISO KAGAKU CORP.
 4779|Honey Bee Electronic International Ltd.
@@ -398,7 +400,6 @@
 5376|Ellisys
 5398|Skymedi Corporation
 5404|VeriSilicon Holdings Co., Ltd.
-5421|JMicron Technology Corp.
 5422|HLDS (Hitachi-LG Data Storage, Inc.)
 5440|Phihong Technology Co., Ltd.
 5451|PNY Technologies Inc.
@@ -410,7 +411,6 @@
 5510|Palconn Technology Co., Ltd.
 5528|Kunshan Guoji Electronics Co., Ltd.
 5538|Freescale Semiconductor, Inc.
-5546|Hong Kong Gearway Electronics Co., Ltd.
 5577|D-Box Technologies
 5600|Seong Ji Industrial Co., Ltd.
 5645|Samtec
@@ -419,6 +419,7 @@
 5728|Creatix Polymedia GmbH
 5753|Total Phase
 5762|Maxwise Production Enterprise Ltd.
+5797|Shenzhen Zhengerya Technology Co., Ltd.
 5804|Dongguan ChingLung Wire & Cable Co., Ltd.
 5836|silex technology, Inc.
 5942|CANON IMAGING SYSTEMS INC.
@@ -438,6 +439,7 @@
 6121|DisplayLink (UK) Ltd.
 6127|Lenovo
 6133|K.K. Rocky
+6185|Dongguan YuQiu Electronics Co., Ltd.
 6193|Gwo Jinn Industries Co., Ltd.
 6296|Summit Microelectronics
 6297|Linkiss Co., Ltd.
@@ -460,6 +462,7 @@
 6541|Fairchild Imaging
 6556|Richnex Microelectronics Corporation
 6557|Dexxon
+6610|ZTE Corporation
 6632|Industrial Technology Research Institute
 6655|Best Buy
 6666|USB-IF non-workshop
@@ -470,8 +473,8 @@
 6730|Silicon Image
 6746|Tandberg Data
 6766|Global Unichip Corp.
-6767|Sagem Orga GmbH
 6777|Bayer Health Care LLC
+6779|Lumberg Connect GmbH
 6786|Proconn Technology Co., Ltd.
 6794|Simula Technology Inc.
 6795|SGS Taiwan Ltd.
@@ -487,6 +490,7 @@
 6966|ViXS Systems, Inc.
 6984|Plastron Precision Co., Ltd.
 7048|ShenMing Electron (Dong Guan) Co., Ltd.
+7055|Super Talent Technology, Inc.
 7065|Shenzhen Yuanchuan Electronic
 7108|Ford Motor Co.
 7118|Contac Cable Industrial Limited
@@ -565,7 +569,7 @@
 8220|Freeport Resources Enterprises Corp.
 8284|Shenzhen Tronixin Electronics Co., Ltd.
 8317|CESI Technology Co., Ltd.
-8334|ICT-LANTO LIMITED
+8334|Luxshare-ICT
 8341|CE LINK LIMITED
 8342|Microconn Electronic Co., Ltd.
 8367|Shenzhen CARVE Electronics Co., Ltd.
@@ -612,9 +616,7 @@
 9008|Tensorcom
 9048|Greenconn Corporation
 9049|Shenzhen Autone-Tronic Technology Co., Ltd.
-9068|ZheJiang Chunsheng Electronics Co., Ltd.
-9069|e-supplies Co., Ltd.
-9090|Trigaudio, Inc.
+9051|KangXiang Electronic Co., Ltd.
 9131|Shenzhen Zhengtong Electronics Co., Ltd.
 9132|Marunix Electron Limited
 9147|EMI STOP CORP.
@@ -682,7 +684,13 @@
 9608|Infinitegra, Inc.
 9617|Optimus Semiconductor Inc.
 9627|INUVIO
+9628|Immedia Semiconductor Inc.
 9629|RCA DA AMAZONIA LTDA
 9636|ALGOLTEK, INC.
 9643|Carmanah Signs
 9650|DRS-RSTA, Inc.
+9651|DongGuan Elinke Industrial Co., Ltd.
+9667|Phorus
+9671|MEGATRON Elektronik AG & Co.
+9683|Zhe Jiang Huasheng Technology Co., Ltd.
+9697|Daimler AG
