@@ -2096,6 +2096,7 @@
 00-08-2E	Multitone Electronics PLC
 00-08-2F	Cisco Systems
 00-08-30	Cisco Systems
+00-08-31	Cisco Systems
 00-08-4E	DivergeNet, Inc.
 00-08-4F	Qualstar Corporation
 00-08-50	Arizona Instrument Corp.
@@ -14276,6 +14277,7 @@
 8C-B6-4F	Cisco Systems
 8C-B8-2C	IPitomy Communications
 8C-B8-64	AcSiP Technology Corp.
+8C-C8-CD	Samsung Electronics Co., LTD
 8C-CF-5C	BEFEGA GmbH
 8C-D1-7B	CG Mobile
 8C-D6-28	Ikor Metering
@@ -14316,6 +14318,7 @@
 90-84-0D	Apple, Inc
 90-88-A2	IONICS TECHNOLOGY ME LTDA
 90-8D-1D	GH Technologies
+90-8F-CF	UNO System Co., Ltd
 90-90-3C	TRISON TECHNOLOGY CORPORATION
 90-90-60	RSI VIDEO TECHNOLOGIES
 90-92-B4	Diehl BGT Defence GmbH & Co. KG
@@ -14345,7 +14348,6 @@
 94-1D-1C	TLab West Systems AB
 94-20-53	Nokia Corporation
 94-23-6E	Shenzhen Junlan Electronic Ltd
-94-2B-F3	Cisco Systems
 94-2E-63	Finsécur
 94-31-9B	Alphatronics BV
 94-33-DD	Taco Electronic Solutions, Inc.
@@ -15047,6 +15049,7 @@ D4-00-0D	Phoenix Broadband Technologies, LLC.
 D4-02-4A	Delphian Systems LLC
 D4-11-D6	ShotSpotter, Inc.
 D4-12-96	Anobit Technologies Ltd.
+D4-12-BB	Quadrant Components Inc. Ltd
 D4-1C-1C	RCF S.P.A.
 D4-1F-0C	TVI Vision Oy
 D4-20-6D	HTC Corporation
