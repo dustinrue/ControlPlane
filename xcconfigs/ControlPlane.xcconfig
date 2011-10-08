@@ -6,6 +6,10 @@
 //  Copyright 2011. All rights reserved.
 //
 
+// Version
+CURRENT_PROJECT_VERSION = 1.2.0.alpha1
+CURRENT_MARKETING_VERSION = 1.2.0 Alpha 1
+
 // Packaging
 INFOPLIST_FILE = Resources/Info.plist
 PRODUCT_NAME = ControlPlane
