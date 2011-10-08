@@ -60,11 +60,11 @@
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
 		DA4A629513E25C9D00CE976F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629413E25C9D00CE976F /* Credits.html */; };
 		DA5B01E61412B86400E19C50 /* CPHelperInstallTool in Copy Helper Tool */ = {isa = PBXBuildFile; fileRef = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */; };
-		DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
-		DA5B01F61412BB0D00E19C50 /* BetterAuthorizationSampleLibInstallTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */; };
+		DA5B01F31412BAEC00E19C50 /* BetterAuthorizationLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationLib.c */; };
+		DA5B01F61412BB0D00E19C50 /* BetterAuthorizationLibInstallTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F41412BAF400E19C50 /* BetterAuthorizationLibInstallTool.c */; };
 		DA5B020A1412BBF200E19C50 /* CPHelperTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B02091412BBF200E19C50 /* CPHelperTool.c */; };
 		DA5B020C1412BDEF00E19C50 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DA5B020D1412BDFC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
+		DA5B020D1412BDFC00E19C50 /* BetterAuthorizationLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationLib.c */; };
 		DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; };
@@ -381,9 +381,9 @@
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperInstallTool; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterAuthorizationSampleLib.h; sourceTree = "<group>"; };
-		DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLib.c; sourceTree = "<group>"; };
-		DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLibInstallTool.c; sourceTree = "<group>"; };
+		DA5B01EB1412BA6700E19C50 /* BetterAuthorizationLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterAuthorizationLib.h; sourceTree = "<group>"; };
+		DA5B01F21412BAEC00E19C50 /* BetterAuthorizationLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationLib.c; sourceTree = "<group>"; };
+		DA5B01F41412BAF400E19C50 /* BetterAuthorizationLibInstallTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationLibInstallTool.c; sourceTree = "<group>"; };
 		DA5B01FB1412BB1700E19C50 /* CPHelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B02091412BBF200E19C50 /* CPHelperTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperTool.c; sourceTree = "<group>"; };
 		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
@@ -745,8 +745,8 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				DDFF422F14153F650047D311 /* UI */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
-				19C28FACFE9D520D11CA2CBB /* Products */,
 				DDFB06191440F7B4000689E4 /* Configurations */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = ControlPlane;
 			sourceTree = "<group>";
@@ -862,7 +862,7 @@
 			isa = PBXGroup;
 			children = (
 				DA5B01EA1412BA6700E19C50 /* AuthorizationLib */,
-				DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */,
+				DA5B01F41412BAF400E19C50 /* BetterAuthorizationLibInstallTool.c */,
 				DA5B02091412BBF200E19C50 /* CPHelperTool.c */,
 				DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */,
 				DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */,
@@ -874,8 +874,8 @@
 		DA5B01EA1412BA6700E19C50 /* AuthorizationLib */ = {
 			isa = PBXGroup;
 			children = (
-				DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */,
-				DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */,
+				DA5B01F21412BAEC00E19C50 /* BetterAuthorizationLib.c */,
+				DA5B01EB1412BA6700E19C50 /* BetterAuthorizationLib.h */,
 			);
 			path = AuthorizationLib;
 			sourceTree = "<group>";
@@ -1522,7 +1522,7 @@
 				DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */,
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
 				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
-				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
+				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationLib.c in Sources */,
 				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
@@ -1540,7 +1540,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA5B01F61412BB0D00E19C50 /* BetterAuthorizationSampleLibInstallTool.c in Sources */,
+				DA5B01F61412BB0D00E19C50 /* BetterAuthorizationLibInstallTool.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1548,7 +1548,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA5B020D1412BDFC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
+				DA5B020D1412BDFC00E19C50 /* BetterAuthorizationLib.c in Sources */,
 				DA5B020A1412BBF200E19C50 /* CPHelperTool.c in Sources */,
 				DA5B020C1412BDEF00E19C50 /* CPHelperToolCommon.c in Sources */,
 			);

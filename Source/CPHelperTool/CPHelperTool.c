@@ -12,7 +12,7 @@
 #import <unistd.h>
 #import <CoreServices/CoreServices.h>
 
-#import "AuthorizationLib/BetterAuthorizationSampleLib.h"
+#import "AuthorizationLib/BetterAuthorizationLib.h"
 #import "CPHelperToolCommon.h"
 
 extern const BASCommandSpec kCPHelperToolCommandSet[];
@@ -189,7 +189,7 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
 };
 
 int main(int argc, char **argv) {
-	// Go directly into BetterAuthorizationSampleLib code.
+	// Go directly into BetterAuthorizationLib code.
 	
 	// IMPORTANT
 	// BASHelperToolMain doesn't clean up after itself, so once it returns 

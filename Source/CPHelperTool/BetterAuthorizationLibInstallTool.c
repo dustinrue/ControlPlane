@@ -1,7 +1,7 @@
 /*
-	File:       BetterAuthorizationSampleLibInstallTool.c
+	File:       BetterAuthorizationLibInstallTool.c
 
-    Contains:   Tool to install BetterAuthorizationSampleLib-based privileged helper tools.
+    Contains:   Tool to install BetterAuthorizationLib-based privileged helper tools.
 
     Written by: DTS
 
@@ -56,10 +56,10 @@
 #import <sys/stat.h>
 
 // Allows access to path information associated with tool and plist installation
-// from BetterAuthorizationSampleLib.h
+// from BetterAuthorizationLib.h
 #define BAS_PRIVATE 1		
 
-#import "AuthorizationLib/BetterAuthorizationSampleLib.h"
+#import "AuthorizationLib/BetterAuthorizationLib.h"
 
 extern char **environ;
 

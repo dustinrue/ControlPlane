@@ -1,5 +1,5 @@
 /*
-	File:       BetterAuthorizationSampleLib.c
+	File:       BetterAuthorizationLib.c
 
     Contains:   Implementation of reusable code for privileged helper tools.
 
@@ -45,14 +45,14 @@
 */
 
 // Define BAS_PRIVATE so that we pick up our private definitions from 
-// "BetterAuthorizationSampleLib.h".
+// "BetterAuthorizationLib.h".
 
 #define BAS_PRIVATE 1
 
 // Helper for easier error logging:
 #define AslLogError(errStr) err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, errStr); assert(err == 0);
 
-#import "BetterAuthorizationSampleLib.h"
+#import "BetterAuthorizationLib.h"
 
 #import <launch.h>
 #import <unistd.h>
@@ -1007,7 +1007,7 @@ static OSStatus FindCommand(
 /*
     Watchdog Timer
     --------------
-    BetterAuthorizationSampleLib's privileged helper tool server is single threaded.  Thus, 
+    BetterAuthorizationLib's privileged helper tool server is single threaded.  Thus, 
     it's possible for a broken or malicious client to stop progress within the helper 
     tool simply by sending the tool half a request.  The single thread of execution 
     within the tool will wait forever for the rest of the request and, while it's 
@@ -1021,7 +1021,7 @@ static OSStatus FindCommand(
     relaunch the tool on demand, courtesy of launchd.
     
     I use SIGALRM to implement this functionality.  As stated in our header, the 
-    BetterAuthorizationSampleLib code claims this signal and our clients are required not 
+    BetterAuthorizationLib code claims this signal and our clients are required not 
     to use it.  Also, the default disposition for SIGALRM is to quit the process, 
     which is exactly what I want.
 */
@@ -1067,7 +1067,7 @@ static void DisableWatchdog(void)
 /*
     On-The-'Wire' Protocol
     ----------------------
-    The on-the-'wire' protocol for a BetterAuthorizationSampleLib connection (from the 
+    The on-the-'wire' protocol for a BetterAuthorizationLib connection (from the 
     perspective of the client) is:
     
     connect
@@ -1233,7 +1233,7 @@ static int HandleConnection(
         // You can force a debug version of the tool to stop and wait on 
         // launch using the following Terminal command:
         //
-        // $ sudo launchctl stop com.example.BetterAuthorizationSample
+        // $ sudo launchctl stop com.example.BetterAuthorization
         // $ sudo launchctl setenv BASWaitForDebugger 1
     {
         int         err;

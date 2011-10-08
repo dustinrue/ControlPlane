@@ -1,5 +1,5 @@
 /*
-	File:       BetterAuthorizationSampleLib.h
+	File:       BetterAuthorizationLib.h
 
     Contains:   Interface to reusable code for privileged helper tools.
 
@@ -44,8 +44,8 @@
 
 */
 
-#ifndef _BetterAuthorizationSampleLIB_H
-#define _BetterAuthorizationSampleLIB_H
+#ifndef _BetterAuthorizationLIB_H
+#define _BetterAuthorizationLIB_H
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Security/Security.h>
@@ -62,23 +62,23 @@ extern "C" {
     felicitous form, you can generate HTML from the HeaderDoc comments using the 
     following command:
     
-    $ headerdoc2html BetterAuthorizationSampleLib.h
-    $ open BetterAuthorizationSampleLib/index.html
+    $ headerdoc2html BetterAuthorizationLib.h
+    $ open BetterAuthorizationLib/index.html
 */
 
 /*!
-    @header         BetterAuthorizationSampleLib
+    @header         BetterAuthorizationLib
     
     @abstract       Reusable library for creating helper tools that perform privileged 
                     operations on behalf of your application.
 
-    @discussion     BetterAuthorizationSampleLib allows you to perform privileged operations 
+    @discussion     BetterAuthorizationLib allows you to perform privileged operations 
                     in a helper tool. In this model, your application runs with standard 
                     privileges and, when it needs to do a privileged operation, it makes a 
                     request to the helper tool.  The helper tool uses Authorization Services 
                     to ensure that the user is authorized to perform that operation.
                     
-                    BetterAuthorizationSampleLib takes care of all of the mechanics of 
+                    BetterAuthorizationLib takes care of all of the mechanics of 
                     installing the helper tool and communicating with it.  Specifically, it 
                     has routines that your application can call to:
                     
@@ -87,7 +87,7 @@ extern "C" {
                      2. install the helper tool if it's not installed, or fix an installation if 
                         it's broken (BASDiagnoseFailure and BASFixFailure)
                       
-                    BetterAuthorizationSampleLib also helps you implement the helper tool.  
+                    BetterAuthorizationLib also helps you implement the helper tool.  
 					Specifically, you call the routine BASHelperToolMain in the main entry 
 					point for your helper tool, passing it an array of command callbacks (of 
                     type BASCommandProc).  BASHelperToolMain will take care of all the details 
@@ -95,7 +95,7 @@ extern "C" {
                     execute the actual command.
                     
                     A command consists of request and response CFDictionaries (or, equivalently, 
-                    NSDictionaries).  BetterAuthorizationSampleLib defines three special keys for 
+                    NSDictionaries).  BetterAuthorizationLib defines three special keys for 
                     these dictionaries:
                     
                      1. kBASCommandKey -- In the request dictionary, this is the name of the 
@@ -109,24 +109,24 @@ extern "C" {
                         an array of file descriptors being returned from the helper tool.
 
                     You can use any other key to represent addition parameters (or return values) 
-                    for the command.  The only constraints that BetterAuthorizationSampleLib applies 
+                    for the command.  The only constraints that BetterAuthorizationLib applies 
                     to these extra parameters is that they must be serialisable as a CFPropertyList.
                     
-                    BetterAuthorizationSampleLib requires that you tell it about the list of commands 
+                    BetterAuthorizationLib requires that you tell it about the list of commands 
                     that you support.  Each command is represented by a command specification 
                     (BASCommandSpec).  The command specification includes the following information:
                     
                      1. The name of the command.  This is the same as the kBASCommandKey value in 
                         the request dictionary.
                       
-                     2. The authorization right associated with the command.  BetterAuthorizationSampleLib 
+                     2. The authorization right associated with the command.  BetterAuthorizationLib 
 						uses this to ensure that the user is authorized to use the command before 
                         it calls your command callback in the privileged helper tool.
                         
                      3. Information to create the command's authorization right specification in the 
                         policy database.  The is used by the BASSetDefaultRules function.
                     
-                    Finally, BetterAuthorizationSampleLib includes a number of utilities routines to help 
+                    Finally, BetterAuthorizationLib includes a number of utilities routines to help 
                     wrangle error codes (BASErrnoToOSStatus, BASOSStatusToErrno, and BASGetErrorFromResponse) 
                     and file descriptors (BASCloseDescriptorArray).
 */
@@ -137,9 +137,9 @@ extern "C" {
 /*!
     @struct         BASCommandSpec
     
-    @abstract       Describes a privileged operation to BetterAuthorizationSampleLib.
+    @abstract       Describes a privileged operation to BetterAuthorizationLib.
     
-    @discussion     Both the application and the tool must tell BetterAuthorizationSampleLib about 
+    @discussion     Both the application and the tool must tell BetterAuthorizationLib about 
                     the operations (that is, commands) that they support.  They do this by passing 
                     in an array of BASCommandSpec structures.  Each element describes one command.  
                     The array is terminated by a command whose commandName field is NULL.
@@ -159,7 +159,7 @@ extern "C" {
     @field rightName
                     This is the name of the authorization right associated with the 
                     command.  This can be NULL if you don't want any right associated with the 
-                    command.  If it's not NULL, BetterAuthorizationSampleLib will acquire that right 
+                    command.  If it's not NULL, BetterAuthorizationLib will acquire that right 
                     before allowing the command to execute.
     
     @field rightDefaultRule
@@ -175,14 +175,14 @@ extern "C" {
     @field rightDescriptionKey
                     This is a key used to form a custom prompt for the right.  The value of this 
                     string should be a key into a .strings file whose name you supply to 
-                    BASSetDefaultRules.  When BetterAuthorizationSampleLib creates the right specification, 
+                    BASSetDefaultRules.  When BetterAuthorizationLib creates the right specification, 
                     it uses this key to get all of the localised prompt strings for the right.
 
                     This must be NULL if rightName is NULL.  Otherwise, this may be NULL if you 
                     don't want a custom prompt for your right.
 
     @field userData
-                    This field is is for the benefit of the client; BetterAuthorizationSampleLib 
+                    This field is is for the benefit of the client; BetterAuthorizationLib 
                     does not use it in any way.
 */
 
@@ -212,7 +212,7 @@ typedef struct BASCommandSpec BASCommandSpec;
 					The length of a command name must not be greater than 1024 UTF-16 values.
 */
 
-#define kBASCommandKey      "com.apple.dts.BetterAuthorizationSample.command"			// CFString
+#define kBASCommandKey      "com.apple.dts.BetterAuthorization.command"			// CFString
 
 // Standard keys for the response dictionary
 
@@ -225,7 +225,7 @@ typedef struct BASCommandSpec BASCommandSpec;
                     for the response, interpreted as an OSStatus.
 */
 
-#define kBASErrorKey        "com.apple.dts.BetterAuthorizationSample.error"				// CFNumber
+#define kBASErrorKey        "com.apple.dts.BetterAuthorization.error"				// CFNumber
 
 /*!
     @define         kBASDescriptorArrayKey
@@ -237,7 +237,7 @@ typedef struct BASCommandSpec BASCommandSpec;
 					the response.  The numbers are interpreted as ints.
 */
 
-#define kBASDescriptorArrayKey "com.apple.dts.BetterAuthorizationSample.descriptors"	// CFArray of CFNumber
+#define kBASDescriptorArrayKey "com.apple.dts.BetterAuthorization.descriptors"	// CFArray of CFNumber
 
 /////////////////////////////////////////////////////////////////
 #pragma mark ***** Helper Tool Routines
@@ -742,7 +742,7 @@ extern void BASCloseDescriptorArray(
 #pragma mark ***** Utility Routines
 
 // The following definitions are exported purely for the convenience of the 
-// install tool ("BetterAuthorizationSampleLibInstallTool.c").  You must not 
+// install tool ("BetterAuthorizationLibInstallTool.c").  You must not 
 // use them in your own code.
 
 #if !defined(BAS_PRIVATE)

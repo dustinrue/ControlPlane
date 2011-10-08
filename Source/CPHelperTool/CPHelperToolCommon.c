@@ -7,7 +7,7 @@
 //
 
 #import "CPHelperToolCommon.h"
-#import "BetterAuthorizationSampleLib.h"
+#import "BetterAuthorizationLib.h"
 
 const BASCommandSpec kCPHelperToolCommandSet[] = {
 	{	kCPHelperToolGetVersionCommand,		// commandName
