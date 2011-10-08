@@ -1,0 +1,15 @@
+//
+//  Core.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 08/10/11.
+//  Copyright 2011. All rights reserved.
+//
+
+// Packaging
+INFOPLIST_FILE = PlugIns/Core/Info.plist
+PRODUCT_NAME = Core
+WRAPPER_EXTENSION = plugin
+
+// Deployment
+INSTALL_PATH = $(LOCAL_LIBRARY_DIR)/Bundles

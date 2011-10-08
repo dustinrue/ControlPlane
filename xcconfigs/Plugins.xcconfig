@@ -1,0 +1,17 @@
+//
+//  Plugins.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 08/10/11.
+//  Copyright 2011. All rights reserved.
+//
+
+// Packaging
+FRAMEWORK_VERSION = A
+INFOPLIST_FILE = Resources/PluginsInfo.plist
+PRODUCT_NAME = Plugins
+WRAPPER_EXTENSION = framework
+
+// Linking
+DYLIB_COMPATIBILITY_VERSION = 1
+DYLIB_CURRENT_VERSION = 1

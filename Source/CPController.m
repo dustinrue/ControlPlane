@@ -326,6 +326,7 @@
 	// Init Growl
 	[GrowlApplicationBridge setGrowlDelegate: self];
 	
+	// Load all plugins
 	[PluginsManager.sharedPluginsManager loadPlugins];
 	
 	// If there aren't any contexts defined, nor rules, nor actions, import settings

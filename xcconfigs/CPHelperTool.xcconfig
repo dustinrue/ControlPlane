@@ -1,0 +1,10 @@
+//
+//  CPHelperTool.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 08/10/11.
+//  Copyright 2011. All rights reserved.
+//
+
+// Packaging
+PRODUCT_NAME = CPHelperTool

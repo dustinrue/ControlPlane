@@ -1,0 +1,23 @@
+//
+//  Release.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 08/10/11.
+//  Copyright 2011. All rights reserved.
+//
+
+#include "Base.xcconfig"
+
+// Build options
+GCC_GENERATE_DEBUGGING_SYMBOLS = NO
+
+// Deployment
+COPY_PHASE_STRIP = YES
+STRIP_INSTALLED_PRODUCT = YES
+
+// Compiler options
+GCC_GENERATE_DEBUGGING_SYMBOLS = NO
+GCC_DYNAMIC_NO_PIC = YES
+GCC_OPTIMIZATION_LEVEL = s
+GCC_PREPROCESSOR_DEFINITIONS = RELEASE
+GCC_SYMBOLS_PRIVATE_EXTERN = YES

@@ -1,0 +1,17 @@
+//
+//  ControlPlane.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 08/10/11.
+//  Copyright 2011. All rights reserved.
+//
+
+// Packaging
+INFOPLIST_FILE = Resources/Info.plist
+PRODUCT_NAME = ControlPlane
+
+// Disable a warning for scripting bridge
+GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO
+
+// Deployment
+INSTALL_PATH = $(HOME)/Applications

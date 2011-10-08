@@ -1,0 +1,23 @@
+//
+//  Debug.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 08/10/11.
+//  Copyright 2011. All rights reserved.
+//
+
+#include "Base.xcconfig"
+
+// Build options
+GENERATE_PROFILING_CODE = YES
+
+// Deployment
+COPY_PHASE_STRIP = NO
+STRIP_INSTALLED_PRODUCT = NO
+
+// Compiler options
+GCC_GENERATE_DEBUGGING_SYMBOLS = YES
+GCC_DYNAMIC_NO_PIC = NO
+GCC_OPTIMIZATION_LEVEL = 0
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG
+GCC_SYMBOLS_PRIVATE_EXTERN = NO
