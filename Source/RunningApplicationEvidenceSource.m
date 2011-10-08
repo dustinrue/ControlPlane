@@ -29,7 +29,7 @@
 
 - (void)doFullUpdate
 {
-	NSArray *app_list = [[NSWorkspace sharedWorkspace] launchedApplications];
+	NSArray *app_list = [[NSWorkspace sharedWorkspace] runningApplications];
 	NSMutableArray *apps = [[NSMutableArray alloc] initWithCapacity:[app_list count]];
 	NSEnumerator *en = [app_list objectEnumerator];
 	NSDictionary *dict;
