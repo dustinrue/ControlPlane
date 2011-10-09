@@ -123,7 +123,6 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		return [selectedRule distanceFromLocation: ruleLocation] <= current.horizontalAccuracy;
 	else
 		return 0;
-    selected 
 }
 
 - (IBAction) showCoreLocation: (id) sender {

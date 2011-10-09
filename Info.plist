@@ -31,7 +31,7 @@
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>1.0.8</string>
+	<string>1.0.9</string>
 	<key>CPDonationURL</key>
 	<string>http://controlplane.dustinrue.com/support-controlplane/</string>
 	<key>CPSupportURL</key>
