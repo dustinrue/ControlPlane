@@ -6,6 +6,7 @@
 //
 
 #import "RunningApplicationEvidenceSource.h"
+#import "DSLogger.h"
 
 
 @implementation RunningApplicationEvidenceSource
@@ -29,22 +30,28 @@
 
 - (void)doFullUpdate
 {
-	NSArray *app_list = [[NSWorkspace sharedWorkspace] runningApplications];
-	NSMutableArray *apps = [[NSMutableArray alloc] initWithCapacity:[app_list count]];
-	NSEnumerator *en = [app_list objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [en nextObject])) {
-		NSString *identifier = [dict valueForKey:@"NSApplicationBundleIdentifier"];
-		NSString *name = [dict valueForKey:@"NSApplicationName"];
-		[apps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			identifier, @"identifier", name, @"name", nil]];
+    NSArray *runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
+
+	NSMutableArray *apps = [[NSMutableArray alloc] initWithCapacity:[runningApps count]];
+
+	for (NSRunningApplication *runningApp in runningApps) {
+		NSString *identifier = [runningApp bundleIdentifier];
+		NSString *name = [runningApp localizedName];
+        
+        // some programs, like mdworker, don't have a bundleIdentifier
+        if ([identifier length] == 0) 
+            identifier = [runningApp localizedName];
+        
+        if ([identifier length] != 0)
+            [apps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                             identifier, @"identifier", name, @"name", nil]];
 	}
 
 	[lock lock];
 	[applications setArray:apps];
 	[self setDataCollected:[applications count] > 0];
 #ifdef DEBUG_MODE
-	//NSLog(@"Running apps:\n%@", applications);
+	DSLog(@"Running apps:\n%@", applications);
 #endif
 	[lock unlock];
 	
