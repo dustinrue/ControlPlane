@@ -32,7 +32,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	locationManager = [[CLLocationManager alloc] init];
 	locationManager.delegate = self;
 	current = nil;
-	selected = nil;
+	selectedRule = nil;
 	
 	// for custom panel
 	scriptObject = nil;
@@ -53,7 +53,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	[locationManager release];
 	
 	[current release];
-	[selected release];
+	[selectedRule release];
 	
 	[super dealloc];
 }
@@ -95,16 +95,16 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// do we already have settings?
 	if ([dict objectForKey:@"parameter"])
-		[CoreLocationSource convertText: [dict objectForKey:@"parameter"] toLocation: &selected];
+		[CoreLocationSource convertText: [dict objectForKey:@"parameter"] toLocation: &selectedRule];
 	else
-		selected = [current copy];
+		selectedRule = [current copy];
 	
 	// get corresponding address
-	if (![CoreLocationSource geocodeLocation: selected toAddress: &add])
+	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
 		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
 	
 	// show values
-	[self setValue: [CoreLocationSource convertLocationToText: selected] forKey: @"coordinates"];
+	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
 	[self updateMap];
 }
@@ -119,21 +119,22 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
 	
 	// match if distance is smaller than accuracy
-	if (selected && current)
-		return [selected distanceFromLocation: ruleLocation] <= current.horizontalAccuracy;
+	if (ruleLocation && current)
+		return [selectedRule distanceFromLocation: ruleLocation] <= current.horizontalAccuracy;
 	else
 		return 0;
+    selected 
 }
 
 - (IBAction) showCoreLocation: (id) sender {
 	NSString *add = nil;
 	
-	selected = [current copy];
-	if (![CoreLocationSource geocodeLocation: selected toAddress: &add])
+	selectedRule = [current copy];
+	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
 		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
 	
 	// show values
-	[self setValue: [CoreLocationSource convertLocationToText: selected] forKey: @"coordinates"];
+	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
 	[self updateMap];
 }
@@ -149,7 +150,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// if correct, set coordinates
 	if (result) {
-		selected = loc;
+		selectedRule = loc;
 		
 		[self setValue: [CoreLocationSource convertLocationToText: loc] forKey: @"coordinates"];
 		[self setValue: *newValue forKey: @"address"];
@@ -168,7 +169,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// if correct, set address
 	if (result) {
-		selected = loc;
+		selectedRule = loc;
 		[CoreLocationSource geocodeLocation: loc toAddress: &add];
 		
 		[self setValue: *newValue forKey: @"coordinates"];
@@ -185,12 +186,12 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 - (void) updateSelectedWithLatitude: (NSNumber *) latitude andLongitude: (NSNumber *) longitude {
 	NSString *add = nil;
 	
-	selected = [[CLLocation alloc] initWithLatitude: [latitude doubleValue] longitude: [longitude doubleValue]];
-	if (![CoreLocationSource geocodeLocation: selected toAddress: &add])
+	selectedRule = [[CLLocation alloc] initWithLatitude: [latitude doubleValue] longitude: [longitude doubleValue]];
+	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
 		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
 	
 	// show values
-	[self setValue: [CoreLocationSource convertLocationToText: selected] forKey: @"coordinates"];
+	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
 }
 
@@ -266,8 +267,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	htmlString = [NSString stringWithFormat: htmlString,
 				  (current ? current.coordinate.latitude : 0.0),
 				  (current ? current.coordinate.longitude : 0.0),
-				  (selected ? selected.coordinate.latitude : 0.0),
-				  (selected ? selected.coordinate.longitude : 0.0),
+				  (selectedRule ? selectedRule.coordinate.latitude : 0.0),
+				  (selectedRule ? selectedRule.coordinate.longitude : 0.0),
 				  (current ? current.horizontalAccuracy : 0.0)];
 	
 	// Load the HTML in the WebView
@@ -336,6 +337,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// get values
 	lat = [[comp objectAtIndex: 0] doubleValue];
 	lon = [[comp objectAtIndex: 1] doubleValue];
+    DSLog(@"lat/long of the rule is %f/%f", lat,lon);
 	*location = [[CLLocation alloc] initWithLatitude: lat longitude: lon];
 	
 	return YES;
