@@ -68,7 +68,7 @@
 #endif
     
     // get a list of supported Wi-Fi interfaces.  It is unlikely, but still possible, for there to
-    // be more than one interface, yet this 
+    // be more than one interface, yet this assumes there is just one
     self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
     
     // first see if Wi-Fi is even turned on
