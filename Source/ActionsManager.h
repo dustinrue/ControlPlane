@@ -18,6 +18,7 @@
 
 + (ActionsManager *) sharedActionsManager;
 - (void) registerActionType: (Class) type;
+- (void) unregisterActionType: (Class) type;
 - (Action *) createActionOfType: (NSString *) type;
 - (void) executeActions: (NSArray *) actions when: (NSUInteger) when;
 

@@ -48,7 +48,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"LocationSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"LocationSource"];
 }
 
 - (void) loadData: (id) data {

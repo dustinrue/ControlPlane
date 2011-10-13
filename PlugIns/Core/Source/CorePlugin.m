@@ -7,40 +7,8 @@
 //
 
 #import "CorePlugin.h"
-#import <Plugins/ActionsManager.h>
-#import <Plugins/RulesManager.h>
-#import <Plugins/SourcesManager.h>
-
-@interface CorePlugin (Private)
-
-- (void) registerTypes;
-
-@end
 
 @implementation CorePlugin
-
-- (id) initWithBundle: (NSBundle *) bundle {
-	self = [super initWithBundle: bundle];
-	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
-	
-	[self registerTypes];
-	
-	return self;
-}
-
-- (void) registerTypes {
-	for (Class source in self.sources)
-		[SourcesManager.sharedSourcesManager registerSourceType: source];
-	for (Class rule in self.rules)
-		[RulesManager.sharedRulesManager registerRuleType: rule];
-	for (Class action in self.actions)
-		[ActionsManager.sharedActionsManager registerActionType: action];
-}
-
-- (NSArray *) actions {
-	return [NSArray arrayWithObjects:
-			nil];
-}
 
 #import "AudioOutputRule.h"
 #import "BonjourRule.h"

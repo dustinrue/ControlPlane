@@ -56,7 +56,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"USBSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"USBSource"];
 }
 
 - (void) loadData: (id) data {

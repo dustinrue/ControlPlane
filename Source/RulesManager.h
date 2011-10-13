@@ -14,6 +14,7 @@
 
 + (RulesManager *) sharedRulesManager;
 - (void) registerRuleType: (Class) type;
+- (void) unregisterRuleType: (Class) type;
 - (Rule *) createRuleOfType: (NSString *) type;
 
 @end

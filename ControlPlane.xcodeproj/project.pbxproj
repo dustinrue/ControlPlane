@@ -74,12 +74,22 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in Copy Helper Tool */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
+		DD01EF2E14422B72006672E0 /* BluetoothSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF2C14422AE0006672E0 /* BluetoothSource.m */; };
+		DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */; };
+		DD01EF31144345D6006672E0 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
+		DD01EF371443B543006672E0 /* RuleView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF351443B543006672E0 /* RuleView.h */; };
+		DD01EF381443B543006672E0 /* RuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF361443B543006672E0 /* RuleView.m */; };
+		DD01EF3B1443B5B4006672E0 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF391443B5B4006672E0 /* View.h */; };
+		DD01EF3C1443B5B4006672E0 /* View.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF3A1443B5B4006672E0 /* View.m */; };
+		DD01EF3F1443B62F006672E0 /* ActionView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF3D1443B62E006672E0 /* ActionView.h */; };
+		DD01EF401443B62F006672E0 /* ActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF3E1443B62F006672E0 /* ActionView.m */; };
+		DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF411443B67A006672E0 /* ViewsManager.h */; };
+		DD01EF441443B67A006672E0 /* ViewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF421443B67A006672E0 /* ViewsManager.m */; };
+		DD01EF461443B6B6006672E0 /* Views.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF451443B6B6006672E0 /* Views.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
-		DD4ADAE9143124CD00CE825F /* CLLocation+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */; };
-		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
 		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
@@ -179,7 +189,6 @@
 		DDAC87DC143E6DD400682538 /* Actions.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DB143E6DD100682538 /* Actions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAC87DE143E6E8D00682538 /* Sources.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DD143E6E8C00682538 /* Sources.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; };
-		DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A363142BD65600341B75 /* KVOAdditions.m */; };
@@ -397,6 +406,17 @@
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "PlugIns/Core/Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
+		DD01EF2B14422AE0006672E0 /* BluetoothSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothSource.h; path = PlugIns/Core/Source/BluetoothSource.h; sourceTree = "<group>"; };
+		DD01EF2C14422AE0006672E0 /* BluetoothSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothSource.m; path = PlugIns/Core/Source/BluetoothSource.m; sourceTree = "<group>"; };
+		DD01EF351443B543006672E0 /* RuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuleView.h; path = Source/CPPlugins/RuleView.h; sourceTree = SOURCE_ROOT; };
+		DD01EF361443B543006672E0 /* RuleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuleView.m; path = Source/CPPlugins/RuleView.m; sourceTree = SOURCE_ROOT; };
+		DD01EF391443B5B4006672E0 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = View.h; path = Source/View.h; sourceTree = SOURCE_ROOT; };
+		DD01EF3A1443B5B4006672E0 /* View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = View.m; path = Source/View.m; sourceTree = SOURCE_ROOT; };
+		DD01EF3D1443B62E006672E0 /* ActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionView.h; path = Source/ActionView.h; sourceTree = SOURCE_ROOT; };
+		DD01EF3E1443B62F006672E0 /* ActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionView.m; path = Source/ActionView.m; sourceTree = SOURCE_ROOT; };
+		DD01EF411443B67A006672E0 /* ViewsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewsManager.h; path = Source/ViewsManager.h; sourceTree = SOURCE_ROOT; };
+		DD01EF421443B67A006672E0 /* ViewsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewsManager.m; path = Source/ViewsManager.m; sourceTree = SOURCE_ROOT; };
+		DD01EF451443B6B6006672E0 /* Views.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Views.h; path = Source/Views.h; sourceTree = SOURCE_ROOT; };
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DD239289142A257500FE7DC7 /* LoopingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopingSource.h; sourceTree = "<group>"; };
 		DD23928A142A257500FE7DC7 /* LoopingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopingSource.m; sourceTree = "<group>"; };
@@ -429,8 +449,8 @@
 		DD4ADADE142F901500CE825F /* LocationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationSource.m; path = PlugIns/Core/Source/LocationSource.m; sourceTree = "<group>"; };
 		DD4ADAE4142F97F500CE825F /* LocationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationRule.h; path = PlugIns/Core/Source/LocationRule.h; sourceTree = "<group>"; };
 		DD4ADAE5142F97F600CE825F /* LocationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationRule.m; path = PlugIns/Core/Source/LocationRule.m; sourceTree = "<group>"; };
-		DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CLLocation+Geocoding.h"; path = "Source/CLLocation+Geocoding.h"; sourceTree = "<group>"; };
-		DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CLLocation+Geocoding.m"; path = "Source/CLLocation+Geocoding.m"; sourceTree = "<group>"; };
+		DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CLLocation+Geocoding.h"; path = "PlugIns/Core/Source/CLLocation+Geocoding.h"; sourceTree = "<group>"; };
+		DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CLLocation+Geocoding.m"; path = "PlugIns/Core/Source/CLLocation+Geocoding.m"; sourceTree = "<group>"; };
 		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "External Source/JSONKit/JSONKit.h"; sourceTree = "<group>"; };
 		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "External Source/JSONKit/JSONKit.m"; sourceTree = "<group>"; };
 		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
@@ -665,7 +685,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		080E96DDFE201D6D7F000001 /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
 				DDD1A372142CD6A000341B75 /* Contexts */,
@@ -685,7 +705,7 @@
 				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
 				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
 			);
-			name = Classes;
+			name = ControlPlane;
 			sourceTree = "<group>";
 		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
@@ -737,7 +757,7 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
-				080E96DDFE201D6D7F000001 /* Classes */,
+				080E96DDFE201D6D7F000001 /* ControlPlane */,
 				DDAC866A143C043500682538 /* Core Plugin */,
 				DA5B01E91412BA6700E19C50 /* HelperTool */,
 				DDA80320143BEE4200745EB8 /* Plugin Framework */,
@@ -757,8 +777,6 @@
 				DD5BD20C141614CA007BA88C /* JSONKit */,
 				DDD1A361142BD65600341B75 /* KVOAdditions */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
-				DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */,
-				DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */,
 				32CA4F630368D1EE00C91783 /* Prefix.pch */,
 				DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */,
 			);
@@ -878,6 +896,33 @@
 				DA5B01EB1412BA6700E19C50 /* BetterAuthorizationLib.h */,
 			);
 			path = AuthorizationLib;
+			sourceTree = "<group>";
+		};
+		DD01EF3314439FE1006672E0 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */,
+				DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */,
+				8D8C9E320BBB89320074D5B3 /* DB.h */,
+				8D8C9E330BBB89320074D5B3 /* DB.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		DD01EF341443B4E8006672E0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DD01EF3D1443B62E006672E0 /* ActionView.h */,
+				DD01EF3E1443B62F006672E0 /* ActionView.m */,
+				DD01EF351443B543006672E0 /* RuleView.h */,
+				DD01EF361443B543006672E0 /* RuleView.m */,
+				DD01EF391443B5B4006672E0 /* View.h */,
+				DD01EF3A1443B5B4006672E0 /* View.m */,
+				DD01EF451443B6B6006672E0 /* Views.h */,
+				DD01EF411443B67A006672E0 /* ViewsManager.h */,
+				DD01EF421443B67A006672E0 /* ViewsManager.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		DD5BD20C141614CA007BA88C /* JSONKit */ = {
@@ -1009,6 +1054,7 @@
 				DDAC8741143C19D800682538 /* Plugins */,
 				DD68A9DF142629310059A730 /* Rules */,
 				DD68A9D7142623080059A730 /* Sources */,
+				DD01EF341443B4E8006672E0 /* Views */,
 			);
 			name = "Plugin Framework";
 			path = CPPlugins;
@@ -1018,6 +1064,7 @@
 			isa = PBXGroup;
 			children = (
 				DDAC866B143C044E00682538 /* Classes */,
+				DD01EF3314439FE1006672E0 /* Other Sources */,
 				DDAC866C143C045900682538 /* Resources */,
 			);
 			name = "Core Plugin";
@@ -1031,8 +1078,6 @@
 				DDAC866F143C052C00682538 /* Sources */,
 				DDAC87D6143C282D00682538 /* CorePlugin.h */,
 				DDAC87D7143C282D00682538 /* CorePlugin.m */,
-				8D8C9E320BBB89320074D5B3 /* DB.h */,
-				8D8C9E330BBB89320074D5B3 /* DB.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1103,6 +1148,8 @@
 			children = (
 				DDE29BDE1429591D00A55469 /* AudioSource.h */,
 				DDE29BDF1429591D00A55469 /* AudioSource.m */,
+				DD01EF2B14422AE0006672E0 /* BluetoothSource.h */,
+				DD01EF2C14422AE0006672E0 /* BluetoothSource.m */,
 				DD23929C142A916500FE7DC7 /* BonjourSource.h */,
 				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
 				DD96FDF31434D2570034BE0E /* FireWireSource.h */,
@@ -1202,20 +1249,25 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDA8033B143BF11700745EB8 /* Plugin.h in Headers */,
 				DDA80349143BF36100745EB8 /* Plugins.h in Headers */,
+				DDA8033C143BF11700745EB8 /* PluginsManager.h in Headers */,
 				DDA8033D143BF14700745EB8 /* Action.h in Headers */,
+				DDAC87DC143E6DD400682538 /* Actions.h in Headers */,
 				DDA8033E143BF14700745EB8 /* ActionsManager.h in Headers */,
 				DDA8033F143BF14700745EB8 /* Rule.h in Headers */,
+				DDAC87DA143E6D8400682538 /* Rules.h in Headers */,
 				DDA80340143BF14700745EB8 /* RulesManager.h in Headers */,
 				DDA80341143BF14700745EB8 /* CallbackSource.h in Headers */,
 				DDA80342143BF14700745EB8 /* LoopingSource.h in Headers */,
 				DDA80343143BF14700745EB8 /* Source.h in Headers */,
-				DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */,
-				DDA8033B143BF11700745EB8 /* Plugin.h in Headers */,
-				DDA8033C143BF11700745EB8 /* PluginsManager.h in Headers */,
-				DDAC87DA143E6D8400682538 /* Rules.h in Headers */,
-				DDAC87DC143E6DD400682538 /* Actions.h in Headers */,
 				DDAC87DE143E6E8D00682538 /* Sources.h in Headers */,
+				DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */,
+				DD01EF371443B543006672E0 /* RuleView.h in Headers */,
+				DD01EF3B1443B5B4006672E0 /* View.h in Headers */,
+				DD01EF3F1443B62F006672E0 /* ActionView.h in Headers */,
+				DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */,
+				DD01EF461443B6B6006672E0 /* Views.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1326,7 +1378,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ControlPlane" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1480,6 +1532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationLib.c in Sources */,
 				DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */,
 				8D11072D0486CEB800E47090 /* Main.m in Sources */,
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
@@ -1522,17 +1575,13 @@
 				DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */,
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
 				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
-				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationLib.c in Sources */,
 				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
-				DDAE004D141521EF00FDADE8 /* CoreLocationSource.m in Sources */,
-				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */,
 				DDD1A367142CC81200341B75 /* Context.m in Sources */,
 				DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */,
 				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
-				DD4ADAE9143124CD00CE825F /* CLLocation+Geocoding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1568,6 +1617,10 @@
 				DDAC8747143C1AD900682538 /* LoopingSource.m in Sources */,
 				DDAC8748143C1AD900682538 /* Source.m in Sources */,
 				DDAC8749143C1AD900682538 /* SourcesManager.m in Sources */,
+				DD01EF381443B543006672E0 /* RuleView.m in Sources */,
+				DD01EF3C1443B5B4006672E0 /* View.m in Sources */,
+				DD01EF401443B62F006672E0 /* ActionView.m in Sources */,
+				DD01EF441443B67A006672E0 /* ViewsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1607,6 +1660,9 @@
 				DDAC878F143C1D6500682538 /* WLANSource.m in Sources */,
 				DDAC87D3143C208200682538 /* DB.m in Sources */,
 				DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */,
+				DD01EF2E14422B72006672E0 /* BluetoothSource.m in Sources */,
+				DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */,
+				DD01EF31144345D6006672E0 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

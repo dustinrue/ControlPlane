@@ -11,16 +11,15 @@
 
 @interface SourcesManager : NSObject {
 	NSMutableDictionary *m_sources;
-	NSMutableArray *m_sourceTypes;
-	BOOL m_sourcesCreated;
 }
 
 + (SourcesManager *) sharedSourcesManager;
 - (void) registerSourceType: (Class) type;
+- (void) unregisterSourceType: (Class) type;
 - (Source *) getSource: (NSString *) name;
 - (void) removeSource: (Source *) source;
 
 - (Source *) registerRule: (Rule *) rule toSource: (NSString *) source;
-- (void) unRegisterRule: (Rule *) rule fromSource: (NSString *) source;
+- (void) unregisterRule: (Rule *) rule fromSource: (NSString *) source;
 
 @end

@@ -268,8 +268,6 @@
 
 @end
 
-#import "CoreLocationSource.h"
-
 @implementation EvidenceSourceSetController
 
 - (id)init
@@ -278,7 +276,6 @@
 		return nil;
     
 	NSArray *classes = [NSArray arrayWithObjects:
-						[CoreLocationSource class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'

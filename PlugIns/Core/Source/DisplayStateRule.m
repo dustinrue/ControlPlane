@@ -44,7 +44,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"PowerSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"PowerSource"];
 }
 
 - (void) loadData: (id) data {

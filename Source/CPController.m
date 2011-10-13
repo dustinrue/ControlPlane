@@ -1014,6 +1014,7 @@
 - (void)updateThread:(id)arg
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSThread.currentThread.name = @"CPController Update Thread";
 
 	while (!timeToDie) {
 		[updatingLock lockWhenCondition:1];

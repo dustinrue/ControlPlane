@@ -44,7 +44,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"FireWireSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"FireWireSource"];
 }
 
 - (void) loadData: (id) data {

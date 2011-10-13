@@ -48,7 +48,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"SensorsSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"SensorsSource"];
 }
 
 - (void) loadData: (id) data {

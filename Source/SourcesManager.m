@@ -16,7 +16,7 @@
 
 @interface SourcesManager (Private)
 
-- (void) createSources;
+- (Source *) createSource: (NSString *) name;
 - (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass;
 
 @end
@@ -32,15 +32,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	m_sources = [NSMutableDictionary new];
-	m_sourceTypes = [NSMutableArray new];
-	m_sourcesCreated = NO;
 	
 	return self;
 }
 
 - (void) dealloc {
 	[m_sources release];
-	[m_sourceTypes release];
 	
 	[super dealloc];
 }
@@ -56,23 +53,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	else
 		ZAssert([type conformsToProtocol: @protocol(SourceProtocol)], @"Unsupported Source type");
 	
-	// store it
-	DLog(@"Registererd type: %@", NSStringFromClass(type));
-	[m_sourceTypes addObject: type];
+	// create it
+	@synchronized(m_sources) {
+		Source *source = [[type new] autorelease];
+		[m_sources setObject: source forKey: source.name];
+		DLog(@"Registererd source: %@", source.name);
+	}
 }
 
-- (void) createSources {
-	Source *source = nil;
+- (void) unregisterSourceType: (Class) type {
+	NSString *name = NSStringFromClass(type);
 	
-	// create an instance of each source type
+	// Delete source if created
 	@synchronized(m_sources) {
-		for (Class type in m_sourceTypes) {
-			source = [[type new] autorelease];
-			[m_sources setObject: source forKey: source.name];
-		}
+		Source *source = [m_sources objectForKey: name];
+		ZAssert(source, @"Unknown source type");
+		[m_sources removeObjectForKey: name];
+		DLog(@"Unregistererd source: %@", name);
 	}
-	
-	m_sourcesCreated = YES;
 }
 
 #pragma mark - Other functions
@@ -103,33 +101,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 
 #pragma mark - Rules registration
 
-- (Source *) registerRule: (Rule *) rule toSource: (NSString *) source {
-	if (!m_sourcesCreated)
-		[self createSources];
-	
+- (Source *) registerRule: (Rule *) rule toSource: (NSString *) name {
 	@synchronized(m_sources) {
 		// find it
-		Source *sourceInstance = [self getSource: source];
-		ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
+		Source *source = [self getSource: name];
+		ZAssert(source, @"Unknown source: %@", name);
 		
 		// register
-		[sourceInstance addObserver: rule];
-		
-		return sourceInstance;
+		[source addObserver: rule];
+		return source;
 	}
 }
 
-- (void) unRegisterRule: (Rule *) rule fromSource: (NSString *) source {
-	if (!m_sourcesCreated)
-		[self createSources];
-	
+- (void) unregisterRule: (Rule *) rule fromSource: (NSString *) name {
 	@synchronized(m_sources) {
 		// find it
-		Source *sourceInstance = [self getSource: source];
-		ZAssert(sourceInstance != nil, @"Unknown source: %@", source);
+		Source *source = [self getSource: name];
+		ZAssert(source, @"Unknown source: %@", name);
 		
 		// unregister
-		[sourceInstance removeObserver: rule];
+		[source removeObserver: rule];
 	}
 }
 

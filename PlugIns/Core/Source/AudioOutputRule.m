@@ -45,7 +45,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"AudioSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"AudioSource"];
 }
 
 - (void) loadData: (id) data {

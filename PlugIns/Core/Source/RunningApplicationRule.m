@@ -44,7 +44,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"RunningApplicationSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"RunningApplicationSource"];
 }
 
 - (void) loadData: (id) data {

@@ -24,6 +24,7 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 
 - (void) monitorSleepThread: (id) arg {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSThread.currentThread.name = @"CPController Sleep Thread";
 	
 	IONotificationPortRef notifyPort; 
 	io_object_t notifierObject; 

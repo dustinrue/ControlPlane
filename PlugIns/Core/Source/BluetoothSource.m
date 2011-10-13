@@ -10,26 +10,27 @@
 
 @implementation BluetoothSource
 
+@synthesize connectedDevices = m_connectedDevices;
 @synthesize devices = m_devices;
 
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
+	self.connectedDevices = [[NSDictionary new] autorelease];
 	self.devices = [[NSDictionary new] autorelease];
 	
 	return self;
 }
 
 - (void) dealloc {
-	
 	[super dealloc];
 }
 
 #pragma mark - Required implementation of 'CallbackSource' class
 
 - (NSArray *) observableKeys {
-	return [NSArray arrayWithObject: @"devices"];
+	return [NSArray arrayWithObjects: @"connectedDevices", @"devices", nil];
 }
 
 - (void) registerCallback {

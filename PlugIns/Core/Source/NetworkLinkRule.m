@@ -45,7 +45,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"NetworkSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"NetworkSource"];
 }
 
 - (void) loadData: (id) data {

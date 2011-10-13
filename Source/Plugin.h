@@ -21,6 +21,7 @@
 @property (readonly) NSArray *actions;
 @property (readonly) NSArray *rules;
 @property (readonly) NSArray *sources;
+@property (readonly) NSArray *views;
 
 @end
 
@@ -29,6 +30,8 @@
 }
 
 - (id) initWithBundle: (NSBundle *) bundle;
+- (void) registerTypesWithManagers;
+- (void) unregisterTypesWithManagers;
 
 @property (readonly) NSBundle *bundle;
 

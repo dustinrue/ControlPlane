@@ -7,6 +7,10 @@
 //
 
 #import "Plugin.h"
+#import "ActionsManager.h"
+#import "RulesManager.h"
+#import "SourcesManager.h"
+#import "ViewsManager.h"
 
 @implementation Plugin
 
@@ -31,13 +35,38 @@
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	m_bundle = [bundle retain];
+	[self registerTypesWithManagers];
     
 	return self;
 }
 
 - (void) dealloc {
+	[self unregisterTypesWithManagers];
+	
     [m_bundle release];
     [super dealloc];
+}
+
+- (void) registerTypesWithManagers {
+	for (Class source in self.sources)
+		[SourcesManager.sharedSourcesManager registerSourceType: source];
+	for (Class rule in self.rules)
+		[RulesManager.sharedRulesManager registerRuleType: rule];
+	for (Class action in self.actions)
+		[ActionsManager.sharedActionsManager registerActionType: action];
+	for (Class view in self.views)
+		[ViewsManager.sharedViewsManager registerViewType: view];
+}
+
+- (void) unregisterTypesWithManagers {
+	for (Class view in self.views)
+		[ViewsManager.sharedViewsManager unregisterViewType: view];
+	for (Class action in self.actions)
+		[ActionsManager.sharedActionsManager unregisterActionType: action];
+	for (Class rule in self.rules)
+		[RulesManager.sharedRulesManager unregisterRuleType: rule];
+	for (Class source in self.sources)
+		[SourcesManager.sharedSourcesManager unregisterSourceType: source];
 }
 
 - (NSString *) name {
@@ -69,6 +98,10 @@
 }
 
 - (NSArray *) sources {
+	return [NSArray array];
+}
+
+- (NSArray *) views {
 	return [NSArray array];
 }
 

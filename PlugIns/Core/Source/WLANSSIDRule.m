@@ -54,7 +54,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"WLANSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"WLANSource"];
 }
 
 - (void) loadData: (id) data {

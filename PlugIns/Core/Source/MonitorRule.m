@@ -43,7 +43,7 @@
 }
 
 - (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unRegisterRule: self fromSource: @"MonitorSource"];
+	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"MonitorSource"];
 }
 
 - (void) loadData: (id) data {

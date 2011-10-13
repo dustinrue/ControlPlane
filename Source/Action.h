@@ -21,6 +21,9 @@ typedef enum {
 @property (readonly) NSString *category;
 @property (readonly) NSArray *suggestedValues;
 
+@optional
+@property (readonly) Class customView;
+
 @end
 
 @interface Action : NSObject {

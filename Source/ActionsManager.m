@@ -55,6 +55,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 	[m_actionTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
+- (void) unregisterActionType: (Class) type {
+	[m_actionTypes removeObjectForKey: NSStringFromClass(type)];
+	DLog(@"Unregistererd type: %@", NSStringFromClass(type));
+}
+
 - (Action *) createActionOfType: (NSString *) type {
 	Class actionType = [m_actionTypes objectForKey: type];
 	ZAssert(actionType, @"Unknown action type");

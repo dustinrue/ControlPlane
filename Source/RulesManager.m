@@ -40,6 +40,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 	[m_ruleTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
+- (void) unregisterRuleType: (Class) type {
+	[m_ruleTypes removeObjectForKey: NSStringFromClass(type)];
+	DLog(@"Unregistererd type: %@", NSStringFromClass(type));
+}
+
 - (Rule *) createRuleOfType: (NSString *) type {
 	Class ruleType = [m_ruleTypes objectForKey: type];
 	ZAssert(ruleType, @"Unknown rule type");
