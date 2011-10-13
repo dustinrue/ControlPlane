@@ -76,7 +76,6 @@
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DD01EF2E14422B72006672E0 /* BluetoothSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF2C14422AE0006672E0 /* BluetoothSource.m */; };
 		DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */; };
-		DD01EF31144345D6006672E0 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD01EF371443B543006672E0 /* RuleView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF351443B543006672E0 /* RuleView.h */; };
 		DD01EF381443B543006672E0 /* RuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF361443B543006672E0 /* RuleView.m */; };
 		DD01EF3B1443B5B4006672E0 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF391443B5B4006672E0 /* View.h */; };
@@ -87,6 +86,9 @@
 		DD01EF441443B67A006672E0 /* ViewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF421443B67A006672E0 /* ViewsManager.m */; };
 		DD01EF461443B6B6006672E0 /* Views.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF451443B6B6006672E0 /* Views.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
+		DD19C6941447918B00608844 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
+		DD19C6951447919300608844 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DD5BD209141614C4007BA88C /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD19C696144791B000608844 /* libJSONKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD19C690144790E800608844 /* libJSONKit.a */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
@@ -418,6 +420,8 @@
 		DD01EF421443B67A006672E0 /* ViewsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewsManager.m; path = Source/ViewsManager.m; sourceTree = SOURCE_ROOT; };
 		DD01EF451443B6B6006672E0 /* Views.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Views.h; path = Source/Views.h; sourceTree = SOURCE_ROOT; };
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DD19C690144790E800608844 /* libJSONKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJSONKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD19C697144799B500608844 /* JSONKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = JSONKit.xcconfig; path = xcconfigs/JSONKit.xcconfig; sourceTree = "<group>"; };
 		DD239289142A257500FE7DC7 /* LoopingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopingSource.h; sourceTree = "<group>"; };
 		DD23928A142A257500FE7DC7 /* LoopingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopingSource.m; sourceTree = "<group>"; };
 		DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = Source/SynthesizeSingleton.h; sourceTree = "<group>"; };
@@ -654,6 +658,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD19C68D144790E800608844 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDA80315143BEE4100745EB8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -666,6 +677,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD19C696144791B000608844 /* libJSONKit.a in Frameworks */,
 				DDAC8663143C004A00682538 /* Plugins.framework in Frameworks */,
 				DDAC8724143C140B00682538 /* Apple80211.framework in Frameworks */,
 				DDAC8725143C140B00682538 /* AudioToolbox.framework in Frameworks */,
@@ -750,6 +762,7 @@
 				DA5B01FB1412BB1700E19C50 /* CPHelperTool */,
 				DDA80319143BEE4100745EB8 /* Plugins.framework */,
 				DDAC8655143C003500682538 /* Core.plugin */,
+				DD19C690144790E800608844 /* libJSONKit.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1220,6 +1233,7 @@
 				DDFB06281440FE1B000689E4 /* CPHelperInstallTool.xcconfig */,
 				DDFB06291440FE1B000689E4 /* CPHelperTool.xcconfig */,
 				DDFB061C1440F7CF000689E4 /* Debug.xcconfig */,
+				DD19C697144799B500608844 /* JSONKit.xcconfig */,
 				DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */,
 				DDFB061D1440F7CF000689E4 /* Release.xcconfig */,
 			);
@@ -1245,6 +1259,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		DD19C68E144790E800608844 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD19C6951447919300608844 /* JSONKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDA80316143BEE4100745EB8 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1335,6 +1357,23 @@
 			productReference = DA5B01FB1412BB1700E19C50 /* CPHelperTool */;
 			productType = "com.apple.product-type.tool";
 		};
+		DD19C68F144790E800608844 /* JSONKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD19C691144790E800608844 /* Build configuration list for PBXNativeTarget "JSONKit" */;
+			buildPhases = (
+				DD19C68C144790E800608844 /* Sources */,
+				DD19C68D144790E800608844 /* Frameworks */,
+				DD19C68E144790E800608844 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JSONKit;
+			productName = JSONKit;
+			productReference = DD19C690144790E800608844 /* libJSONKit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		DDA80318143BEE4100745EB8 /* Plugins */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDA8032A143BEE4900745EB8 /* Build configuration list for PBXNativeTarget "Plugins" */;
@@ -1418,10 +1457,11 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* ControlPlane */,
+				DDAC8654143C003500682538 /* Core */,
 				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FA1412BB1700E19C50 /* CPHelperTool */,
+				DD19C68F144790E800608844 /* JSONKit */,
 				DDA80318143BEE4100745EB8 /* Plugins */,
-				DDAC8654143C003500682538 /* Core */,
 			);
 		};
 /* End PBXProject section */
@@ -1603,6 +1643,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD19C68C144790E800608844 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD19C6941447918B00608844 /* JSONKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDA80314143BEE4100745EB8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1662,7 +1710,6 @@
 				DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */,
 				DD01EF2E14422B72006672E0 /* BluetoothSource.m in Sources */,
 				DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */,
-				DD01EF31144345D6006672E0 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1872,6 +1919,20 @@
 			};
 			name = Release;
 		};
+		DD19C692144790E800608844 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD19C697144799B500608844 /* JSONKit.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DD19C693144790E800608844 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD19C697144799B500608844 /* JSONKit.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		DDA8032B143BEE4900745EB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */;
@@ -1938,6 +1999,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		DD19C691144790E800608844 /* Build configuration list for PBXNativeTarget "JSONKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD19C692144790E800608844 /* Debug */,
+				DD19C693144790E800608844 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		DDA8032A143BEE4900745EB8 /* Build configuration list for PBXNativeTarget "Plugins" */ = {
 			isa = XCConfigurationList;

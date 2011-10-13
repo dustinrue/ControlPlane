@@ -31,7 +31,7 @@
 - (void) checkData {
 	NSMutableDictionary *devices = [[NSMutableDictionary new] autorelease];
 	CGDirectDisplayID displays[4];
-	CGDisplayCount numDisplays = -1;
+	CGDisplayCount numDisplays = 0;
 	NSString *name;
 	
 	// get list of displays

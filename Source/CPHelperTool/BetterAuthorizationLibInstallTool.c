@@ -232,7 +232,7 @@ static int CopyFileOverwriting(
 			
 			bytesWritten = 0;
 			while ( (err == 0) && (bytesWritten < bytesReadThisTime) ) {
-				bytesWrittenThisTime = write(destFD, &buf[bytesWritten], bytesReadThisTime - bytesWritten);
+				bytesWrittenThisTime = write(destFD, &buf[bytesWritten], (size_t) (bytesReadThisTime - bytesWritten));
 				if (bytesWrittenThisTime < 0) {
 					err = errno;
 				} else {
@@ -332,7 +332,7 @@ static int InstallCommand(
             // don't have to worry about malicious files existing within the 
             // directory because its only writeable by root.
 
-            err = chown(kBASToolDirPath, -1, 0);
+            err = chown(kBASToolDirPath, (uid_t) -1, 0);
             if (err < 0) {
                 err = errno;
             }

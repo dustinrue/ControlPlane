@@ -1,0 +1,16 @@
+//
+//  JSONKit.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 08/10/11.
+//  Copyright 2011. All rights reserved.
+//
+
+// Packaging
+PRODUCT_NAME = JSONKit
+EXECUTABLE_PREFIX = lib
+
+// Warnings
+CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO
+CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO
+CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO

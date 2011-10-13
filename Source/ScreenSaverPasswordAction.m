@@ -20,7 +20,7 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	BOOL success;
+	Boolean success;
 	
 	NSNumber *val = [NSNumber numberWithBool:turnOn];
 	CFPreferencesSetValue(CFSTR("askForPassword"), (CFPropertyListRef) val,

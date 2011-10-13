@@ -484,7 +484,7 @@
 								description:message
 						   notificationName:title
 								   iconData:nil
-								   priority:pri
+								   priority:(int) pri
 								   isSticky:NO
 							   clickContext:nil];
 }
@@ -723,7 +723,7 @@
 		NSNumber *aDelay;
 		if ((aDelay = [action valueForKey:@"delay"])) {
 			if ([aDelay doubleValue] > max_delay)
-				max_delay = [aDelay doubleValue];
+				max_delay = (int) [aDelay doubleValue];
 		}
 
 		[actionsToRun addObject:action];

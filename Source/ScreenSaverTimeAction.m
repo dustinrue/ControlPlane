@@ -65,7 +65,7 @@
 	CFPreferencesSetValue(CFSTR("idleTime"), (CFPropertyListRef) n,
 			      CFSTR("com.apple.screensaver"),
 			      kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
-	BOOL success = CFPreferencesSynchronize(CFSTR("com.apple.screensaver"),
+	Boolean success = CFPreferencesSynchronize(CFSTR("com.apple.screensaver"),
 				 kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
 
 	// Notify login process
@@ -97,11 +97,10 @@
 + (NSArray *)limitedOptions
 {
 	int opts[] = { 3, 5, 15, 30, 60, 120, 0 };
-	int num_opts = sizeof(opts) / sizeof(opts[0]);
+	NSUInteger num_opts = sizeof(opts) / sizeof(opts[0]);
 	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:num_opts];
 
-	int i;
-	for (i = 0; i < num_opts; ++i) {
+	for (NSUInteger i = 0; i < num_opts; ++i) {
 		NSNumber *option = [NSNumber numberWithInt:opts[i]];
 		NSString *description;
 

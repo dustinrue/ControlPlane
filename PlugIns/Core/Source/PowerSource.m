@@ -93,7 +93,7 @@ static void displayChange(void *context, io_service_t y, natural_t msgType, void
 	
 	// result
 	CFRelease(blob);
-	BOOL result = (batteryFound ? kPowerBattery : (acFound ? kPowerAC : kPowerError));
+	ePowerSource result = (batteryFound ? kPowerBattery : (acFound ? kPowerAC : kPowerError));
 	
 	// store it
 	if (self.powerSource != result)

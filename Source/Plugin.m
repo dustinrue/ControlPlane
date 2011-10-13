@@ -82,7 +82,7 @@
 }
 
 - (NSUInteger) version {
-    return [[self.bundle.infoDictionary valueForKey: @"CFBundleVersion"] intValue];
+    return [[self.bundle.infoDictionary valueForKey: @"CFBundleVersion"] unsignedIntValue];
 }
 
 - (NSUInteger) apiVersion {

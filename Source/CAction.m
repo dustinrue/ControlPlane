@@ -274,7 +274,7 @@
 
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
-	Class klass = [classes objectAtIndex:index];
+	Class klass = [classes objectAtIndex: (NSUInteger) index];
 	NSString *type = [CAction typeForClass:klass];
 	NSString *localisedType = NSLocalizedString(type, @"Action type");
 

@@ -96,10 +96,10 @@
 
 + (NSArray *) limitedOptions {
 	int options[] = {1, 5, 15, 30, 60, 0};
-	int total = sizeof(options) / sizeof(options[0]);
+	NSUInteger total = sizeof(options) / sizeof(options[0]);
 	NSMutableArray *arr = [NSMutableArray arrayWithCapacity: total];
 	
-	for (int i = 0; i < total; ++i) {
+	for (NSUInteger i = 0; i < total; ++i) {
 		NSNumber *option = [NSNumber numberWithInt: options[i]];
 		NSString *description;
 		

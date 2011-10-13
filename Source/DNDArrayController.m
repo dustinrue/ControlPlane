@@ -57,13 +57,13 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSArray *rows = [[info draggingPasteboard] propertyListForType:MovedRowsType];
 	NSIndexSet *indexSet = [self indexSetFromRows:rows];
 
-	[self moveObjectsInArrangedObjectsFromIndexes:indexSet toIndex:row];
+	[self moveObjectsInArrangedObjectsFromIndexes:indexSet toIndex: (NSUInteger) row];
 
 	// set selected rows to those that were just moved
 	// Need to work out what moved where to determine proper selection...
-	NSUInteger rowsAbove = [self rowsAboveRow:row inIndexSet:indexSet];
+	NSUInteger rowsAbove = [self rowsAboveRow: (NSUInteger) row inIndexSet:indexSet];
 
-	NSRange range = NSMakeRange(row - rowsAbove, [indexSet count]);
+	NSRange range = NSMakeRange((NSUInteger) row - rowsAbove, [indexSet count]);
 	indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
 	[self setSelectionIndexes:indexSet];
 
@@ -77,7 +77,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	BOOL drawInGrey = NO;
 
-	NSDictionary *thisRow = [[self arrangedObjects] objectAtIndex:rowIndex];
+	NSDictionary *thisRow = [[self arrangedObjects] objectAtIndex: (NSUInteger) rowIndex];
 	NSNumber *enabled;
 	if ((enabled = [thisRow objectForKey:@"enabled"]) && ![enabled boolValue])
 		drawInGrey = YES;
@@ -120,7 +120,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSEnumerator *rowEnumerator = [rows objectEnumerator];
 	NSNumber *idx;
 	while ((idx = [rowEnumerator nextObject]))
-		[indexSet addIndex:[idx intValue]];
+		[indexSet addIndex:[idx unsignedIntValue]];
 	return indexSet;
 }
 

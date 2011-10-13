@@ -157,7 +157,7 @@ static ToolTip *sharedToolTip = nil;
 	if (draw) {
 		NSRect r1 = [[self controlView] convertRect:knobRect toView:nil];
 		NSPoint p1 = [[[self controlView] window] convertBaseToScreen:r1.origin];
-		float bump = [self knobThickness] / 2;
+		double bump = [self knobThickness] / 2;
 		p1.x += bump;
 		p1.y += bump;
 		[ToolTip setString:[[self class] toolTipTextForValue:[self doubleValue]] atPoint:p1];

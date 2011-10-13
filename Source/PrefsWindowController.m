@@ -219,8 +219,8 @@
 	while ((group = [en nextObject])) {
 		NSView *view = [group valueForKey:@"view"];
 		NSSize frameSize = [view frame].size;
-		[group setValue:[NSNumber numberWithFloat:frameSize.width] forKey:@"min_width"];
-		[group setValue:[NSNumber numberWithFloat:frameSize.height] forKey:@"min_height"];
+		[group setValue:[NSNumber numberWithFloat:(float) frameSize.width] forKey:@"min_width"];
+		[group setValue:[NSNumber numberWithFloat:(float) frameSize.height] forKey:@"min_height"];
 	}
 
 	// Init. toolbar
@@ -345,12 +345,12 @@
 	NSRect contentRect;
 
 	contentRect = [NSWindow contentRectForFrameRect:[prefsWindow frame] styleMask:[prefsWindow styleMask]];
-	return (NSHeight(contentRect) - NSHeight([[prefsWindow contentView] frame]));
+	return (float) (NSHeight(contentRect) - NSHeight([[prefsWindow contentView] frame]));
 }
 
 - (float)titleBarHeight
 {
-	return [prefsWindow frame].size.height - [[prefsWindow contentView] frame].size.height - [self toolbarHeight];
+	return (float) ([prefsWindow frame].size.height - [[prefsWindow contentView] frame].size.height - [self toolbarHeight]);
 }
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item
@@ -374,8 +374,8 @@
 		NSMutableDictionary *oldGroup = [self groupById:currentPrefsGroup];
 		NSSize size = [prefsWindow frame].size;
 		size.height -= ([self toolbarHeight] + [self titleBarHeight]);
-		[oldGroup setValue:[NSNumber numberWithFloat:size.width] forKey:@"last_width"];
-		[oldGroup setValue:[NSNumber numberWithFloat:size.height] forKey:@"last_height"];
+		[oldGroup setValue:[NSNumber numberWithFloat:(float) size.width] forKey:@"last_width"];
+		[oldGroup setValue:[NSNumber numberWithFloat:(float) size.height] forKey:@"last_height"];
 	}
 
 	currentPrefsView = [group objectForKey:@"view"];
@@ -406,8 +406,8 @@
 
 	tbHeight = [self toolbarHeight];
 
-	newWidth = size.width;
-	newHeight = size.height;
+	newWidth = (float) size.width;
+	newHeight = (float) size.height;
 
 	frame = [NSWindow contentRectForFrameRect:[prefsWindow frame]
 					styleMask:[prefsWindow styleMask]];
@@ -701,7 +701,7 @@
             OSStatus err = LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL);
             
             if (err == noErr) {
-                BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
+                Boolean startupItemFound = CFEqual(pathOfCurrentItem,appPath);
                 CFRelease(pathOfCurrentItem);
                 
                 if (startupItemFound) {
@@ -739,7 +739,7 @@
             OSStatus err = LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL);
             
             if (err == noErr) {
-                BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
+                Boolean startupItemFound = CFEqual(pathOfCurrentItem,appPath);
                 CFRelease(pathOfCurrentItem);
                 
                 DLog(@"startupItemFound is %s", startupItemFound ? "true":"false");

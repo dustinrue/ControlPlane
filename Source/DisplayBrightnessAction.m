@@ -83,7 +83,7 @@
 		io_service_t service = CGDisplayIOServicePort(dspy);
 		
 		// set brightness
-		err = IODisplaySetFloatParameter(service, kNilOptions, kDisplayBrightness, (brightness / 100.0));
+		err = IODisplaySetFloatParameter(service, kNilOptions, kDisplayBrightness, (brightness / 100.0f));
 		if (err != kIOReturnSuccess) {
 			DLog(@"Failed to set brightness of display 0x%x (error %d)", (unsigned int)dspy, err);
 			errorOccurred = YES;

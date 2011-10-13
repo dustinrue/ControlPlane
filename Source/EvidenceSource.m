@@ -387,7 +387,7 @@
 
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
-	EvidenceSource *src = [sources objectAtIndex:index];
+	EvidenceSource *src = [sources objectAtIndex: (NSUInteger) index];
 	NSString *localisedName = NSLocalizedString([src name], @"Evidence source");
 
 	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add %@ Rule...", @"Menu item"), localisedName];
@@ -439,7 +439,7 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
 {
-	EvidenceSource *src = [sources objectAtIndex:rowIndex];
+	EvidenceSource *src = [sources objectAtIndex: (NSUInteger) rowIndex];
 	NSString *col_id = [aTableColumn identifier];
 
 	if ([col_id isEqualToString:@"enabled"]) {
@@ -455,7 +455,7 @@
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
 {
-	EvidenceSource *src = [sources objectAtIndex:rowIndex];
+	EvidenceSource *src = [sources objectAtIndex: (NSUInteger) rowIndex];
 	NSString *col_id = [aTableColumn identifier];
 
 	if ([col_id isEqualToString:@"enabled"]) {

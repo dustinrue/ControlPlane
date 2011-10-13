@@ -28,7 +28,7 @@
 	Address result;
 	
 	for (NSUInteger i = 0; i < 4; ++i)
-		result.octets[i] = [[octets objectAtIndex: i] intValue];
+		result.octets[i] = (unsigned char) [[octets objectAtIndex: i] unsignedIntValue];
 	
 	return result;
 }

@@ -230,7 +230,7 @@ static int BASRead(int fd, void *buf, size_t bufSize, size_t *bytesRead)
 		bytesThisTime = read(fd, cursor, bytesLeft);
 		if (bytesThisTime > 0) {
 			cursor    += bytesThisTime;
-			bytesLeft -= bytesThisTime;
+			bytesLeft -= (size_t) bytesThisTime;
 		} else if (bytesThisTime == 0) {
 			err = EPIPE;
 		} else {
@@ -333,7 +333,7 @@ static int BASWrite(int fd, const void *buf, size_t bufSize, size_t *bytesWritte
 		bytesThisTime = write(fd, cursor, bytesLeft);
 		if (bytesThisTime > 0) {
 			cursor    += bytesThisTime;
-			bytesLeft -= bytesThisTime;
+			bytesLeft -= (size_t) bytesThisTime;
 		} else if (bytesThisTime == 0) {
 			assert(false);
 			err = EPIPE;
@@ -489,7 +489,7 @@ static int BASWriteDictionary(CFDictionaryRef dict, int fdOut)
         err = BASWrite(fdOut, &dictSize, sizeof(dictSize), NULL);
     }
 	if (err == 0) {
-		err = BASWrite(fdOut, CFDataGetBytePtr(dictData), CFDataGetLength(dictData), NULL);
+		err = BASWrite(fdOut, CFDataGetBytePtr(dictData), (size_t) CFDataGetLength(dictData), NULL);
 	}
 
 	if (dictData != NULL) {
@@ -970,12 +970,12 @@ static OSStatus FindCommand(
     if (retval == noErr) {
         size_t      bufSize;
         
-        bufSize = CFStringGetMaximumSizeForEncoding(CFStringGetLength(commandStr), kCFStringEncodingUTF8) + 1;
+        bufSize = (size_t) CFStringGetMaximumSizeForEncoding(CFStringGetLength(commandStr), kCFStringEncodingUTF8) + 1;
         command = malloc(bufSize);
         
         if (command == NULL) {
             retval = memFullErr;
-        } else if ( ! CFStringGetCString(commandStr, command, bufSize, kCFStringEncodingUTF8) ) {
+        } else if ( ! CFStringGetCString(commandStr, command, (CFIndex) bufSize, kCFStringEncodingUTF8) ) {
             retval = coreFoundationUnknownErr;
         }
     }
@@ -1765,7 +1765,7 @@ extern OSStatus BASExecuteRequestInHelperTool(
         if (pathLen >= (int) sizeof(addr.sun_path)) {
             retval = paramErr;                  // length of bundle pushed us over the UNIX domain socket path length limit
         } else {
-			addr.sun_len = SUN_LEN(&addr);
+			addr.sun_len = (unsigned char) SUN_LEN(&addr);
 		}
     }
     
@@ -1882,7 +1882,7 @@ extern BASFailCode BASDiagnoseFailure(
             
                 addr.sun_family = AF_UNIX;
                 (void) snprintf(addr.sun_path, sizeof(addr.sun_path), kBASSocketPathFormat, bundleIDC);
-				addr.sun_len    = SUN_LEN(&addr);
+				addr.sun_len    = (unsigned char) SUN_LEN(&addr);
             
                 // Attempt to connect to the socket.  If we get ECONNREFUSED, it means no one is 
                 // listening.
@@ -2354,7 +2354,7 @@ static OSStatus GetToolPath(CFStringRef bundleID, CFStringRef toolName, char *to
         }
     }
     if (err == noErr) {
-        success = CFURLGetFileSystemRepresentation(toolURL, true, (UInt8 *) toolPath, toolPathSize);
+        success = CFURLGetFileSystemRepresentation(toolURL, true, (UInt8 *) toolPath, (CFIndex) toolPathSize);
         if ( ! success ) {
             err = coreFoundationUnknownErr;
         }

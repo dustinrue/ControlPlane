@@ -9,7 +9,7 @@
 #import <Plugins/Rules.h>
 
 typedef union {
-	char octets[4];
+	unsigned char octets[4];
 	int32_t value;
 } Address;
 
