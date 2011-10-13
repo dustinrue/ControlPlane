@@ -96,7 +96,7 @@
 
 - (id)initWithOption:(NSString *)option
 {
-	[self init];
+	self = [self init];
 	[printerQueue autorelease];
 	printerQueue = [option copy];
 	return self;

@@ -107,7 +107,7 @@
 
 - (id)initWithOption:(NSString *)option
 {
-	[self init];
+	self = [self init];
 	[hostname autorelease];
 	hostname = [option copy];
 	return self;

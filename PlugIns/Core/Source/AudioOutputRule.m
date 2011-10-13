@@ -64,7 +64,7 @@
 
 - (NSArray *) suggestedValues {
 	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: @"AudioSource"];
-	NSMutableArray *result = [[NSArray new] autorelease];
+	NSMutableArray *result = [[NSMutableArray new] autorelease];
 	NSString *typeName = NSLocalizedString(@"output", @"AudioSource");
 	
 	// loop through devices

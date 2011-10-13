@@ -87,7 +87,7 @@
 
 - (id)initWithFile:(NSString *)file
 {
-	[self init];
+	self = [self init];
 	[path release];
 	path = [file copy];
 	return self;

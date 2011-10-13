@@ -67,7 +67,7 @@
 
 - (NSArray *) suggestedValues {
 	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: @"WLANSource"];
-	NSMutableArray *result = [[NSArray new] autorelease];
+	NSMutableArray *result = [[NSMutableArray new] autorelease];
 	
 	// loop through networks
 	for (NSDictionary *item in source.networks)

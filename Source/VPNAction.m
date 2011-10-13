@@ -124,7 +124,7 @@
 
 - (id)initWithOption:(NSString *)option
 {
-	[self init];
+	self = [self init];
 	[vpnType autorelease];
 	vpnType = [option copy];
 	return self;

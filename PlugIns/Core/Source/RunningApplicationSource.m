@@ -43,7 +43,7 @@
 															  name: nil
 															object: nil];
 	
-	self.applications = [[NSArray new] autorelease];
+	self.applications = [[NSDictionary new] autorelease];
 }
 
 - (void) checkData {

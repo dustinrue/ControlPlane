@@ -83,7 +83,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	ZAssert(kr == KERN_SUCCESS, @"IOServiceGetMatchingServices returned 0x%08x", kr);
 	
 	// Get all devices
-	m_devices = [[NSDictionary new] autorelease];
+	m_devices = [[NSArray new] autorelease];
 	[self devAdded: iterator];
 	IOObjectRelease(iterator);
 }

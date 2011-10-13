@@ -64,7 +64,7 @@
 
 - (id)initWithOption:(NSNumber *)option
 {
-	[self init];
+	self = [self init];
 	turnOn = [option boolValue];
 	return self;
 }

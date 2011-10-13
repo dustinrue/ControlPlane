@@ -21,7 +21,7 @@
 	self.name = name;
 	self.activeContext = nil;
 	m_suggestedContext = nil;
-	m_contexts = [NSMutableArray new];
+	m_contexts = [NSMutableDictionary new];
 	
 	return self;
 }
