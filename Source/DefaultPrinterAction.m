@@ -55,19 +55,16 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-
+    
     PrinterSetupUtilityApplication *PSUA = [SBApplication applicationWithBundleIdentifier: @"com.apple.print.PrintCenter"];
     SBElementArray *availablePrinters = [PSUA printers];
-  
-    NSLog(@"%@",[self description]);
     
-    // documentation says objectWithName returns nil if the object isn't found
-    // I'm not seeing that at all so this will always succeed. 
-    if ([availablePrinters objectWithName:printerQueue]) {
+    
+    if ([[availablePrinters objectWithName:printerQueue] name] != NULL) {
         [PSUA setCurrentPrinter:[availablePrinters objectWithName:printerQueue]];
     }
     else {
-        *errorString = NSLocalizedString(@"Couldn't set default printer!", @"");
+        *errorString = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Couldn't set default printer to", @""), printerQueue];
         return NO;
     }
     

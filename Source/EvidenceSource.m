@@ -362,10 +362,18 @@
 	NSEnumerator *en = [sources objectEnumerator];
 	EvidenceSource *src;
 	while ((src = [en nextObject])) {
+        NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
+		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
+
 		if (![src matchesRulesOfType:[rule objectForKey:@"type"]])
 			continue;
-		if ([src doesRuleMatch:rule])
-			return YES;
+		if (enabled && [src isRunning] && [src doesRuleMatch:rule]) {
+#if DEBUG_MODE
+            DSLog(@"checking EvidenceSource %@ for matching rules", src);
+#endif
+            return YES;
+        }
+			
 	}
 	return NO;
 }
