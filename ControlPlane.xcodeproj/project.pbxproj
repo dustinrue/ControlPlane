@@ -408,8 +408,8 @@
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
 		DD01EF2B14422AE0006672E0 /* BluetoothSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothSource.h; path = PlugIns/Core/Source/BluetoothSource.h; sourceTree = "<group>"; };
 		DD01EF2C14422AE0006672E0 /* BluetoothSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothSource.m; path = PlugIns/Core/Source/BluetoothSource.m; sourceTree = "<group>"; };
-		DD01EF351443B543006672E0 /* RuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuleView.h; path = Source/CPPlugins/RuleView.h; sourceTree = SOURCE_ROOT; };
-		DD01EF361443B543006672E0 /* RuleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuleView.m; path = Source/CPPlugins/RuleView.m; sourceTree = SOURCE_ROOT; };
+		DD01EF351443B543006672E0 /* RuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuleView.h; path = Source/RuleView.h; sourceTree = SOURCE_ROOT; };
+		DD01EF361443B543006672E0 /* RuleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuleView.m; path = Source/RuleView.m; sourceTree = SOURCE_ROOT; };
 		DD01EF391443B5B4006672E0 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = View.h; path = Source/View.h; sourceTree = SOURCE_ROOT; };
 		DD01EF3A1443B5B4006672E0 /* View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = View.m; path = Source/View.m; sourceTree = SOURCE_ROOT; };
 		DD01EF3D1443B62E006672E0 /* ActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionView.h; path = Source/ActionView.h; sourceTree = SOURCE_ROOT; };
