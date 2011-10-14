@@ -31,6 +31,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	m_actionTypes = [NSMutableDictionary new];
+	m_executionLock = [NSLock new];
 	self.actionsInProgress = 0;
 	
 	return self;
@@ -84,26 +85,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 #pragma mark - Action set execution
 
 - (void) executeActions: (NSArray *) actions when: (NSUInteger) when {
-	NSDictionary *filteredActions = [self filterActions: actions when: (eWhen) when];
-	
-	// when entering, sort ascending, otherwise descending
-	NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: (when == kWhenEntering)];
-	
-	// execution times index
-	NSArray *index = [filteredActions.allKeys sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]];
-	
-	NSNumber *elapsed = (index.count > 0 ? [index objectAtIndex: 0] : nil);
-	for (NSNumber *time in index) {
-		// delay
-		[NSThread sleepForTimeInterval: fabs(time.doubleValue - elapsed.doubleValue)];
-		elapsed = time;
+	@synchronized(m_executionLock) {
+		self.actionsInProgress++;
 		
-		// execute actions
-		for (Action *action in [filteredActions objectForKey: elapsed]) {
-			[NSThread detachNewThreadSelector: @selector(executeAction:)
-									 toTarget: self
-								   withObject: action];
+		// filter actions by 'when'
+		NSDictionary *filteredActions = [self filterActions: actions when: (eWhen) when];
+		
+		// when entering, sort ascending, otherwise descending
+		NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: (when == kWhenEntering)];
+		
+		// execution times index
+		NSArray *index = [filteredActions.allKeys sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]];
+		
+		NSNumber *elapsed = (index.count > 0 ? [index objectAtIndex: 0] : nil);
+		for (NSNumber *time in index) {
+			// delay
+			[NSThread sleepForTimeInterval: fabs(time.doubleValue - elapsed.doubleValue)];
+			elapsed = time;
+			
+			// execute actions
+			for (Action *action in [filteredActions objectForKey: elapsed]) {
+				[NSThread detachNewThreadSelector: @selector(executeAction:)
+										 toTarget: self
+									   withObject: action];
+			}
 		}
+		self.actionsInProgress--;
 	}
 }
 

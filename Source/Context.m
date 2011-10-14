@@ -86,11 +86,15 @@
 	if (oldMatch == newMatch)
 		return;
 	
-	// recalculate our confidence level
-	NSUInteger confidence = 0;
+	// recalculate our confidence level, using (a modified version of) Hooper's Rule
+	// namely: Ctot = 1 - ((1 - C1) * (1 - C2) * (1 - C3) * ... )
+	
+	double product = 1.0;
 	for (Rule *rule in self.rules)
 		if (rule.match)
-			confidence += rule.confidence;
+			product *= 1.0 - (rule.confidence / 100.0);
+	product = (1.0 - product);
+	NSUInteger confidence = (NSUInteger) (100 * product);
 	
 	// store it
 	if (self.confidence != confidence)

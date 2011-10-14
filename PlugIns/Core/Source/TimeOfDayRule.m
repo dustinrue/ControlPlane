@@ -67,7 +67,7 @@
 											   target: self
 											 selector: @selector(checkMatch)
 											 userInfo: nil
-											  repeats: NO];
+											  repeats: YES];
 }
 
 - (void) beingDisabled {

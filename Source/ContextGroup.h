@@ -13,6 +13,7 @@
 	NSMutableDictionary *m_contexts;
 	Context *m_activeContext;
 	Context *m_suggestedContext;
+	NSTimer *m_suggestionTimer;
 }
 
 @property (readwrite, copy) NSString *name;

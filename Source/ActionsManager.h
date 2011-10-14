@@ -11,6 +11,7 @@
 @interface ActionsManager : NSObject {
 	NSMutableDictionary *m_actionTypes;
 	NSUInteger m_actionsInProgress;
+	NSLock *m_executionLock;
 }
 
 @property (readonly) BOOL executionInProgress;
