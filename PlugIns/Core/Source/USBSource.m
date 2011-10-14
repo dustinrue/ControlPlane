@@ -33,7 +33,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.devices = [[NSArray new] autorelease];
+	self.devices = [NSArray new];
 	
 	return self;
 }
@@ -55,10 +55,10 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	
 	// register notifications
 	IOServiceAddMatchingNotification(m_notificationPort, kIOMatchedNotification,
-									 matchDict, cDevAdded, (void *) self,
+									 matchDict, cDevAdded, (__bridge void *) self,
 									 &m_addedIterator);
 	IOServiceAddMatchingNotification(m_notificationPort, kIOTerminatedNotification,
-									 matchDict, cDevRemoved, (void *) self,
+									 matchDict, cDevRemoved, (__bridge void *) self,
 									 &m_removedIterator);
 	
 	// Prime notifications
@@ -83,7 +83,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	ZAssert(kr == KERN_SUCCESS, @"IOServiceGetMatchingServices returned 0x%08x", kr);
 	
 	// Get all devices
-	m_devices = [[NSArray new] autorelease];
+	m_devices = [NSArray new];
 	[self devAdded: iterator];
 	IOObjectRelease(iterator);
 }
@@ -91,7 +91,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 #pragma mark - Internal callbacks
 
 - (void) devAdded: (io_iterator_t) iterator {
-	NSMutableArray *devices = [[NSMutableArray new] autorelease];
+	NSMutableArray *devices = [NSMutableArray new];
 	io_service_t device;
 	
 	while ((device = IOIteratorNext(iterator))) {
@@ -127,7 +127,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	
 	// store when different
 	if (![self.devices isEqualTo: devices])
-		self.devices = [[devices copy] autorelease];
+		self.devices = [devices copy];
 }
 
 - (void) devRemoved: (io_iterator_t) iterator {
@@ -140,33 +140,39 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 }
 
 static void cDevAdded(void *ref, io_iterator_t iterator) {
-	[(USBSource *) ref devAdded: iterator];
+	[(__bridge USBSource *) ref devAdded: iterator];
 }
 
 static void cDevRemoved(void *ref, io_iterator_t iterator) {
-	[(USBSource *) ref devRemoved: iterator];
+	[(__bridge USBSource *) ref devRemoved: iterator];
 }
 
 #pragma mark - Utility methods
 
 - (NSNumber *) productIdForDevice: (io_service_t *) device {
-	NSMutableDictionary *props = nil;
+	CFMutableDictionaryRef props = nil;
+	NSNumber *result = nil;
 	
-	kern_return_t kr = IORegistryEntryCreateCFProperties(*device, (CFMutableDictionaryRef *) &props,
-														 kCFAllocatorDefault, kNilOptions);
+	kern_return_t kr = IORegistryEntryCreateCFProperties(*device, &props, kCFAllocatorDefault, kNilOptions);
 	ZAssert(kr == kIOReturnSuccess, @"Unable to get USB device ID");
 	
-	return [props valueForKey: @"idProduct"];
+	result = (__bridge NSNumber *)(CFDictionaryGetValue(props, CFSTR("idProduct")));
+	CFRelease(props);
+	
+	return result;
 }
 
 - (NSNumber *) vendorIdForDevice: (io_service_t *) device {
-	NSMutableDictionary *props = nil;
+	CFMutableDictionaryRef props = nil;
+	NSNumber *result = nil;
 	
-	kern_return_t kr = IORegistryEntryCreateCFProperties(*device, (CFMutableDictionaryRef *) &props,
-														 kCFAllocatorDefault, kNilOptions);
+	kern_return_t kr = IORegistryEntryCreateCFProperties(*device, &props, kCFAllocatorDefault, kNilOptions);
 	ZAssert(kr == kIOReturnSuccess, @"Unable to get USB vendor ID");
 	
-	return [props valueForKey: @"idVendor"];
+	result = (__bridge NSNumber *)(CFDictionaryGetValue(props, CFSTR("idVendor")));
+	CFRelease(props);
+	
+	return result;
 }
 
 - (NSString *) nameForDevice: (io_service_t *) device {

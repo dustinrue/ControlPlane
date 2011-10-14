@@ -74,7 +74,7 @@
 
 - (NSArray *) suggestedValues {
 	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkSource"];
-	NSMutableArray *result = [[NSMutableArray new] autorelease];
+	NSMutableArray *result = [NSMutableArray new];
 	
 	// loop through devices
 	for (NSString *interface in source.interfaces)

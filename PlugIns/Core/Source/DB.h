@@ -11,7 +11,7 @@
 }
 
 + (DB *) sharedDB;
-@property (readonly) NSDictionary *ouiDB;
-@property (readonly) NSDictionary *usbVendorDB;
+@property (readonly, strong) NSDictionary *ouiDB;
+@property (readonly, strong) NSDictionary *usbVendorDB;
 
 @end

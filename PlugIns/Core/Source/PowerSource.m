@@ -43,7 +43,7 @@ static void displayChange(void *context, io_service_t y, natural_t msgType, void
 	io_object_t notifier;
 	
 	// power source callback
-	m_runLoopSource = IOPSNotificationCreateRunLoopSource(sourceChange, self);
+	m_runLoopSource = IOPSNotificationCreateRunLoopSource(sourceChange, (__bridge void *) self);
 	
 	// display callback
 	wrangler = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceNameMatching("IODisplayWrangler"));
@@ -51,7 +51,7 @@ static void displayChange(void *context, io_service_t y, natural_t msgType, void
 	port = IONotificationPortCreate(kIOMasterPortDefault);
 	ZAssert(port, @"IONotificationPortCreate failed");
 	
-	kern_return_t kr = IOServiceAddInterestNotification(port, wrangler, kIOGeneralInterest, displayChange, self, &notifier);
+	kern_return_t kr = IOServiceAddInterestNotification(port, wrangler, kIOGeneralInterest, displayChange, (__bridge void *) self, &notifier);
 	ZAssert(kr == kIOReturnSuccess, @"IOServiceAddInterestNotification failed");
 	
 	m_runLoopDisplay = IONotificationPortGetRunLoopSource(port);
@@ -77,12 +77,12 @@ static void displayChange(void *context, io_service_t y, natural_t msgType, void
 	
 	// get list of power sources
 	CFTypeRef blob = IOPSCopyPowerSourcesInfo();
-	NSArray *list = [(NSArray *) IOPSCopyPowerSourcesList(blob) autorelease];
+	NSArray *list = (__bridge_transfer NSArray *) IOPSCopyPowerSourcesList(blob);
 	
 	// loop through list
 	NSEnumerator *en = [list objectEnumerator];
-	while ((source = [en nextObject])) {
-		NSDictionary *dict = (NSDictionary *) IOPSGetPowerSourceDescription(blob, source);
+	while ((source = (__bridge CFTypeRef)([en nextObject]))) {
+		NSDictionary *dict = (__bridge NSDictionary *) IOPSGetPowerSourceDescription(blob, source);
 		NSString *value = [dict valueForKey: @kIOPSPowerSourceStateKey];
 		
 		if ([value isEqualToString: @kIOPSACPowerValue])
@@ -103,15 +103,15 @@ static void displayChange(void *context, io_service_t y, natural_t msgType, void
 #pragma mark - Internal callbacks
 
 static void sourceChange(void *info) {
-	PowerSource *src = (PowerSource *) info;
+	PowerSource *src = (__bridge PowerSource *) info;
 	
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	[src checkData];
-	[pool release];
+	@autoreleasepool {
+		[src checkData];
+	}
 }
 
 static void displayChange(void *context, io_service_t y, natural_t msgType, void *msgArgument) {
-	PowerSource *src = (PowerSource *) msgArgument;
+	PowerSource *src = (__bridge PowerSource *) msgArgument;
 	
 	switch (msgType) {
 		case kIOMessageDeviceWillPowerOff:

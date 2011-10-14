@@ -37,13 +37,13 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	double lng = [[[[result objectForKey: @"geometry"] objectForKey: @"location"] objectForKey: @"lng"] doubleValue];
 	
 	// create location
-	return [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
+	return [[CLLocation alloc] initWithLatitude: lat longitude: lng];
 }
 
 + (NSString *) reverseGeocodeLatitude: (CLLocationDegrees) latitude
 			   longitude: (CLLocationDegrees) longitude {
 	
-	CLLocation *loc = [[[CLLocation alloc] initWithLatitude: latitude longitude: longitude] autorelease];
+	CLLocation *loc = [[CLLocation alloc] initWithLatitude: latitude longitude: longitude];
 	
 	return [loc reverseGeocode];
 }
@@ -69,7 +69,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// get result
 	NSString *result = [[results objectAtIndex: 0] objectForKey: @"formatted_address"];
-	return [[result copy] autorelease];
+	return [result copy];
 }
 
 @end

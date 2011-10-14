@@ -17,14 +17,10 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.connectedDevices = [[NSDictionary new] autorelease];
-	self.devices = [[NSDictionary new] autorelease];
+	self.connectedDevices = [NSDictionary new];
+	self.devices = [NSDictionary new];
 	
 	return self;
-}
-
-- (void) dealloc {
-	[super dealloc];
 }
 
 #pragma mark - Required implementation of 'CallbackSource' class

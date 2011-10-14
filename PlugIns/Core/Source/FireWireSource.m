@@ -29,14 +29,9 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.devices = [[NSDictionary new] autorelease];
+	self.devices = [NSDictionary new];
 	
 	return self;
-}
-
-- (void) dealloc {
-	
-	[super dealloc];
 }
 
 #pragma mark - Required implementation of 'CallbackSource' class
@@ -56,10 +51,10 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	
 	// register notifications
 	IOServiceAddMatchingNotification(m_notificationPort, kIOMatchedNotification,
-									 matchDict, cDevAdded, (void *) self,
+									 matchDict, cDevAdded, (__bridge void *) self,
 									 &m_addedIterator);
 	IOServiceAddMatchingNotification(m_notificationPort, kIOTerminatedNotification,
-									 matchDict, cDevRemoved, (void *) self,
+									 matchDict, cDevRemoved, (__bridge void *) self,
 									 &m_removedIterator);
 	
 	// Prime notifications
@@ -84,7 +79,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	ZAssert(kr == KERN_SUCCESS, @"IOServiceGetMatchingServices returned 0x%08x", kr);
 	
 	// Get all devices
-	m_devices = [[NSDictionary new] autorelease];
+	m_devices = [NSDictionary new];
 	[self devAdded: iterator];
 	IOObjectRelease(iterator);
 }
@@ -92,7 +87,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 #pragma mark - Internal callbacks
 
 - (void) devAdded: (io_iterator_t) iterator {
-	NSMutableDictionary *devices = [[NSMutableDictionary new] autorelease];
+	NSMutableDictionary *devices = [NSMutableDictionary new];
 	io_service_t device;
 	
 	while ((device = IOIteratorNext(iterator))) {
@@ -135,34 +130,37 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 }
 
 static void cDevAdded(void *ref, io_iterator_t iterator) {
-	[(FireWireSource *) ref devAdded: iterator];
+	[(__bridge FireWireSource *) ref devAdded: iterator];
 }
 
 static void cDevRemoved(void *ref, io_iterator_t iterator) {
-	[(FireWireSource *) ref devRemoved: iterator];
+	[(__bridge FireWireSource *) ref devRemoved: iterator];
 }
 
 #pragma mark - Utility methods
 
 - (NSNumber *) guidForDevice: (io_service_t *) device {
-	NSNumber *guid = (NSNumber *) IORegistryEntryCreateCFProperty(*device, CFSTR("GUID"),
-																  kCFAllocatorDefault, 0);
+	NSNumber *guid = (__bridge_transfer NSNumber *) IORegistryEntryCreateCFProperty(*device,
+																					CFSTR("GUID"),
+																					kCFAllocatorDefault, 0);
 	
-	return [guid autorelease];
+	return guid;
 }
 
 - (NSString *) nameForDevice: (io_service_t *) device {
-	NSString *name = (NSString *) IORegistryEntryCreateCFProperty(*device, CFSTR("FireWire Product Name"),
-																  kCFAllocatorDefault, 0);
+	NSString *name = (__bridge_transfer NSString *) IORegistryEntryCreateCFProperty(*device,
+																					CFSTR("FireWire Product Name"),
+																					kCFAllocatorDefault, 0);
 	
-	return [name autorelease];
+	return name;
 }
 
 - (NSString *) vendorForDevice: (io_service_t *) device {
-	NSString *name = (NSString *) IORegistryEntryCreateCFProperty(*device, CFSTR("FireWire Vendor Name"),
-																  kCFAllocatorDefault, 0);
+	NSString *name = (__bridge_transfer NSString *) IORegistryEntryCreateCFProperty(*device,
+																					CFSTR("FireWire Vendor Name"),
+																					kCFAllocatorDefault, 0);
 	
-	return [name autorelease];
+	return name;
 }
 
 @end

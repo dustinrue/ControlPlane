@@ -35,7 +35,7 @@
 	static NSArray *days = nil;
 	
 	if (!days) {
-		NSMutableArray *list = [[NSMutableArray new] autorelease];
+		NSMutableArray *list = [NSMutableArray new];
 		[list addObject: NSLocalizedString(@"Every Day", @"TimeOfDayRule day description")];
 		[list addObject: NSLocalizedString(@"Monday", @"TimeOfDayRule day description")];
 		[list addObject: NSLocalizedString(@"Tuesday", @"TimeOfDayRule day description")];
@@ -82,7 +82,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	NSDateFormatter *formatter = [[NSDateFormatter new] autorelease];
+	NSDateFormatter *formatter = [NSDateFormatter new];
 	formatter.dateFormat = @"HH:mm";
 	
 	return [NSString stringWithFormat:
@@ -93,7 +93,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	NSDateFormatter *formatter = [[NSDateFormatter new] autorelease];
+	NSDateFormatter *formatter = [NSDateFormatter new];
 	formatter.dateFormat = @"HH:mm";
 	
 	return [NSArray arrayWithObject:
@@ -115,7 +115,7 @@
 }
 
 - (BOOL) matchesDay: (NSDate *) date {
-	NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar] autorelease];
+	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
 	[calendar setFirstWeekday: 2];	// Monday
 	NSInteger weekday = [calendar components: NSWeekdayCalendarUnit fromDate: date].weekday;
 	
@@ -133,7 +133,7 @@
 }
 
 - (BOOL) isAfterStart: (NSDate *) date {
-	NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar] autorelease];
+	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
 	
 	NSDateComponents *compDate = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: date];
 	NSDateComponents *compStart = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: m_start];
@@ -143,7 +143,7 @@
 }
 
 - (BOOL) isBeforeEnd: (NSDate *) date {
-	NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar] autorelease];
+	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
 	
 	NSDateComponents *compDate = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: date];
 	NSDateComponents *compEnd = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: m_end];

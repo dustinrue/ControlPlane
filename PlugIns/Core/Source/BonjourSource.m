@@ -29,19 +29,11 @@
 	m_browser = [NSNetServiceBrowser new];
 	m_unresolvedServices = [NSMutableArray new];
 	m_resolvedServices = [NSMutableArray new];
-	self.services = [[NSArray new] autorelease];
+	self.services = [NSArray new];
 	
 	[m_browser setDelegate: self];
 	
 	return self;
-}
-
-- (void) dealloc {
-	[m_browser release];
-	[m_unresolvedServices release];
-	[m_resolvedServices release];
-	
-	[super dealloc];
 }
 
 #pragma mark - Required implementation of 'LoopingSource' class
@@ -145,10 +137,8 @@
 		m_stage = kNetResolving;
 	
 	// resolve next
-	if (m_timer) {
+	if (m_timer)
 		[m_timer invalidate];
-		[m_timer release];
-	}
 	[self resolveNextService];
 }
 

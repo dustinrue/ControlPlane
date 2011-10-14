@@ -17,7 +17,7 @@
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	self.location = nil;
-	m_manager = [[CLLocationManager alloc] init];
+	m_manager = [CLLocationManager new];
 	m_manager.delegate = self;
 	
 	return self;
@@ -25,9 +25,6 @@
 
 - (void) dealloc {
 	[m_manager stopUpdatingLocation];
-	[m_manager release];
-	
-	[super dealloc];
 }
 
 #pragma mark - Required implementation of 'CallbackSource' class

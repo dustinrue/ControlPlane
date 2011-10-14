@@ -33,13 +33,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DB);
 	return self;
 }
 
-- (void) dealloc {
-	[super dealloc];
-}
-
 - (NSDictionary *) readOUIDB {
 	NSString *path = [NSBundle.mainBundle pathForResource: @"oui" ofType: @"txt"];
-	NSMutableDictionary *dict = [[NSMutableDictionary new] autorelease];
+	NSMutableDictionary *dict = [NSMutableDictionary new];
 	
 	// open file
 	FILE *f = fopen([path cStringUsingEncoding: NSUTF8StringEncoding], "r");
@@ -71,7 +67,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DB);
 
 - (NSDictionary *) readUSBVendorDB {
 	NSString *path = [NSBundle.mainBundle pathForResource: @"usb-vendors" ofType: @"txt"];
-	NSMutableDictionary *dict = [[NSMutableDictionary new] autorelease];
+	NSMutableDictionary *dict = [NSMutableDictionary new];
 	
 	// open file
 	FILE *f = fopen([path cStringUsingEncoding:NSUTF8StringEncoding], "r");

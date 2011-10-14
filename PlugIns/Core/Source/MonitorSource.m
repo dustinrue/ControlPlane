@@ -17,7 +17,7 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.devices = [[NSDictionary new] autorelease];
+	self.devices = [NSDictionary new];
 	
 	return self;
 }
@@ -29,7 +29,7 @@
 }
 
 - (void) checkData {
-	NSMutableDictionary *devices = [[NSMutableDictionary new] autorelease];
+	NSMutableDictionary *devices = [NSMutableDictionary new];
 	CGDirectDisplayID displays[4];
 	CGDisplayCount numDisplays = 0;
 	NSString *name;
@@ -43,7 +43,8 @@
 		CGDirectDisplayID display = displays[i];
 		
 		// get info
-		NSDictionary *info = (NSDictionary *) IODisplayCreateInfoDictionary(CGDisplayIOServicePort(display),
+		NSDictionary *info = (__bridge_transfer NSDictionary *)
+								IODisplayCreateInfoDictionary(CGDisplayIOServicePort(display),
 															  kIODisplayOnlyPreferredName);
 		ZAssert(info, @"Couldn't get info about display with ID 0x%08x!", display);
 		
@@ -58,7 +59,6 @@
 			name = NSLocalizedString(@"(Unnamed Display)", "MonitorSource");
 		
 		[devices setObject: name forKey: serial];
-		[info release];
 	}
 	
 	// store it

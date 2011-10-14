@@ -53,8 +53,6 @@ enum {
 
 - (void) dealloc {
 	IOServiceClose(m_dataPort);
-	
-	[super dealloc];
 }
 
 #pragma mark - Required implementation of 'LoopingSource' class

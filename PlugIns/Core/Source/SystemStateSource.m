@@ -41,7 +41,7 @@ static void powerCallback(void *rootPort, io_service_t y, natural_t msgType, voi
 
 - (void) registerCallback {
 	// sleep
-	m_rootPort = IORegisterForSystemPower(self, &m_notifyPort, powerCallback, &m_notifierObject);
+	m_rootPort = IORegisterForSystemPower((__bridge void *) self, &m_notifyPort, powerCallback, &m_notifierObject);
 	CFRunLoopSourceRef runLoopSource = IONotificationPortGetRunLoopSource(m_notifyPort);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
 	
@@ -75,7 +75,7 @@ static void powerCallback(void *rootPort, io_service_t y, natural_t msgType, voi
 #pragma mark - Internal callbacks
 
 void powerCallback(void *refCon, io_service_t service, natural_t msgType, void *msgArgument) {
-	SystemStateSource *source = (SystemStateSource *) refCon;
+	SystemStateSource *source = (__bridge SystemStateSource *) refCon;
 	eSystemState result = kSystemNormal;
 	
 	switch (msgType) {

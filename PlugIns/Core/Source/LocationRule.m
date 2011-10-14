@@ -16,7 +16,7 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_location = [[[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0] autorelease];
+	m_location = [[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0];
 	
 	return self;
 }
@@ -55,13 +55,13 @@
 	CLLocationDegrees lat = [[data objectForKey: @"latitude"] doubleValue];
 	CLLocationDegrees lng = [[data objectForKey: @"longitude"] doubleValue];
 	
-	m_location = [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
+	m_location = [[CLLocation alloc] initWithLatitude: lat longitude: lng];
 }
 
 - (NSString *) describeValue: (id) value {
 	CLLocationDegrees lat = [[value objectForKey: @"latitude"] doubleValue];
 	CLLocationDegrees lng = [[value objectForKey: @"longitude"] doubleValue];
-	CLLocation *location = [[[CLLocation alloc] initWithLatitude: lat longitude: lng] autorelease];
+	CLLocation *location = [[CLLocation alloc] initWithLatitude: lat longitude: lng];
 	
 	NSString *description = [location reverseGeocode];
 	if (!description)
@@ -75,7 +75,7 @@
 	
 	CLLocation *location = source.location;
 	if (!location)
-		location = [[[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0] autorelease];
+		location = [[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0];
 	
 	// location to dictionary
 	return [NSDictionary dictionaryWithObjectsAndKeys:

@@ -16,7 +16,7 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.applications = [[NSDictionary new] autorelease];
+	self.applications = [NSDictionary new];
 	
 	return self;
 }
@@ -43,12 +43,12 @@
 															  name: nil
 															object: nil];
 	
-	self.applications = [[NSDictionary new] autorelease];
+	self.applications = [NSDictionary new];
 }
 
 - (void) checkData {
 	NSArray *apps = [NSWorkspace.sharedWorkspace runningApplications];
-	NSMutableDictionary *result = [[NSMutableDictionary new] autorelease];
+	NSMutableDictionary *result = [NSMutableDictionary new];
 	
 	// loop through apps and get their info
 	for (NSRunningApplication *app in apps)

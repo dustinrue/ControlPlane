@@ -37,7 +37,7 @@ typedef enum {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.devices = [[NSDictionary new] autorelease];
+	self.devices = [NSDictionary new];
 	self.input = [NSNumber numberWithUnsignedInt: 0];
 	self.output = [NSNumber numberWithUnsignedInt: 0];
 	
@@ -57,19 +57,20 @@ typedef enum {
 		kAudioObjectPropertyScopeGlobal,
 		kAudioObjectPropertyElementMaster
 	};
+	void *selfVoid = (__bridge void *) self;
 	
 	// register for output change
-	result = AudioObjectAddPropertyListener([self getDefaultDevice: kAudioTypeOutput], &address, &sourceChange, self);
+	result = AudioObjectAddPropertyListener([self getDefaultDevice: kAudioTypeOutput], &address, &sourceChange, selfVoid);
 	ZAssert(result != noErr, @"AudioDeviceAddPropertyListener failed!");
 	
 	// register for input change
 	address.mSelector = kAudioHardwarePropertyDefaultInputDevice;
-	result = AudioObjectAddPropertyListener([self getDefaultDevice: kAudioTypeInput], &address, &sourceChange, self);
+	result = AudioObjectAddPropertyListener([self getDefaultDevice: kAudioTypeInput], &address, &sourceChange, selfVoid);
 	ZAssert(result != noErr, @"AudioDeviceAddPropertyListener failed!");
 	
 	// register for devices list change
 	address.mSelector = kAudioHardwarePropertyDevices;
-	result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &address, &sourceChange, self);
+	result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &address, &sourceChange, selfVoid);
 	ZAssert(result != noErr, @"AudioDeviceAddPropertyListener failed!");
 }
 
@@ -81,11 +82,11 @@ typedef enum {
 	};
 	
 	// Unregister listener
-	AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &address, &sourceChange, self);
+	AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &address, &sourceChange, (__bridge void *) self);
 }
 
 - (void) checkData {
-	NSMutableDictionary *devices = [[NSMutableDictionary new] autorelease];
+	NSMutableDictionary *devices = [NSMutableDictionary new];
 	OSStatus result;
 	AudioDeviceID list[64];
 	AudioObjectPropertyAddress address = {
@@ -128,11 +129,11 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 							 const AudioObjectPropertyAddress *inPropertyID,
 							 void *inClientData) {
 	
-	AudioSource *src = (AudioSource *) inClientData;
+	AudioSource *src = (__bridge AudioSource *) inClientData;
 	
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[src checkData];
-	[pool release];
+	@autoreleasepool {
+		[src checkData];
+	}
 	
 	return 0;
 }

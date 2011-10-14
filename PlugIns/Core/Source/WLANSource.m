@@ -23,13 +23,9 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	self.networks = [[NSArray new] autorelease];
+	self.networks = [NSArray new];
 	
 	return self;
-}
-
-- (void) dealloc {
-	[super dealloc];
 }
 
 #pragma mark - Required implementation of 'LoopingSource' class
@@ -84,7 +80,7 @@
 	NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey: @"ssid"
 														 ascending: YES
 														  selector: @selector(caseInsensitiveCompare:)];
-	[scanResults sortUsingDescriptors: [NSArray arrayWithObject: [desc autorelease]]];
+	[scanResults sortUsingDescriptors: [NSArray arrayWithObject: desc]];
 	
 	// fill results array
 	for (CWNetwork *network in scanResults) {
