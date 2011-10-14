@@ -8,7 +8,7 @@
 
 // Architectures
 ARCHS = $(ARCHS_STANDARD_64_BIT)
-SDKROOT = macosx10.6
+SDKROOT = macosx10.7
 
 // Build options
 DEBUG_INFORMATION_FORMAT = dwarf-with-dsym

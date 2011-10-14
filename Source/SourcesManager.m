@@ -35,12 +35,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	return self;
 }
 
-- (void) dealloc {
-	[m_sources release];
-	
-	[super dealloc];
-}
-
 #pragma mark - Source types
 
 - (void) registerSourceType: (Class) type {
@@ -48,7 +42,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	
 	// create it
 	@synchronized(m_sources) {
-		Source *source = [[type new] autorelease];
+		Source *source = [type new];
 		[m_sources setObject: source forKey: source.name];
 		DLog(@"Registererd source: %@", source.name);
 	}

@@ -27,11 +27,6 @@
 	return self;
 }
 
-- (void) dealloc {
-	[m_data release];
-	[super dealloc];
-}
-
 - (NSDictionary *) data {
 	return m_data;
 }
@@ -45,7 +40,6 @@
 		
 		if (m_data != data) {
 			self.enabled = NO;
-			[m_data release];
 			m_data = [data copy];
 			[(id<ActionProtocol>) self loadData: [m_data objectForKey: @"value"]];
 			self.enabled = old;

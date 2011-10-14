@@ -25,12 +25,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 	return self;
 }
 
-- (void) dealloc {
-	[m_ruleTypes release];
-	
-	[super dealloc];
-}
-
 #pragma mark - Rule types
 
 - (void) registerRuleType: (Class) type {
@@ -49,7 +43,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 	Class ruleType = [m_ruleTypes objectForKey: type];
 	ZAssert(ruleType, @"Unknown rule type");
 	
-	return [[ruleType new] autorelease];
+	return [ruleType new];
 }
 
 @end

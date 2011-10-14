@@ -36,12 +36,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 	return self;
 }
 
-- (void) dealloc {
-	[m_actionTypes release];
-	
-	[super dealloc];
-}
-
 - (BOOL) executionInProgress {
 	return m_actionsInProgress > 0;
 }
@@ -64,7 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 	Class actionType = [m_actionTypes objectForKey: type];
 	ZAssert(actionType, @"Unknown action type");
 	
-	return [[actionType new] autorelease];
+	return [actionType new];
 }
 
 #pragma mark - Action execution
@@ -74,17 +68,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 	self.actionsInProgress++;
 	
 	// This is called with detachThread, so create pool and set thread name
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	NSThread.currentThread.name = ((id<ActionProtocol>) action).name;
-	
-	// perform action
-	result = [(id<ActionProtocol>) action execute];
-	
-	// finish up
-	if (!result)
-		DLog(@""); // TODO: notify
-	self.actionsInProgress--;
-	[pool release];
+	@autoreleasepool {
+		NSThread.currentThread.name = ((id<ActionProtocol>) action).name;
+		
+		// perform action
+		result = [(id<ActionProtocol>) action execute];
+		
+		// finish up
+		if (!result)
+			DLog(@""); // TODO: notify
+		self.actionsInProgress--;
+	}
 }
 
 #pragma mark - Action set execution
@@ -114,12 +108,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 }
 
 - (NSDictionary *) filterActions: (NSArray *) actions when: (eWhen) when {
-	NSMutableDictionary *filteredActions = [[NSMutableDictionary new] autorelease];
+	NSMutableDictionary *filteredActions = [NSMutableDictionary new];
 	
 	// always have an action-set at time (delay) 0.0!
 	NSNumber *begin = [NSNumber numberWithDouble: 0.0];
 	if (![filteredActions objectForKey: begin])
-		[filteredActions setObject: [[NSMutableArray new] autorelease] forKey: begin];
+		[filteredActions setObject: [NSMutableArray new] forKey: begin];
 	
 	// sort actions by delay
 	for (Action *action in actions)
@@ -129,7 +123,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 			
 			// if no list, create and store first
 			if (!list) {
-				list = [[NSMutableArray new] autorelease];
+				list = [NSMutableArray new];
 				[filteredActions setObject: list forKey: delay];
 			}
 			

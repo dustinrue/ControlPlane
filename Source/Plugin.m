@@ -22,7 +22,7 @@
 
 + (id<Plugin>) createPlugin: (NSBundle *) bundle {
 	Class class = [bundle principalClass];
-	id<Plugin> plugin = (id<Plugin>) [[[class alloc] initWithBundle: bundle] autorelease];
+	id<Plugin> plugin = (id<Plugin>) [[class alloc] initWithBundle: bundle];
 	
 	return plugin;
 }
@@ -34,7 +34,7 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_bundle = [bundle retain];
+	m_bundle = bundle;
 	[self registerTypesWithManagers];
     
 	return self;
@@ -42,9 +42,6 @@
 
 - (void) dealloc {
 	[self unregisterTypesWithManagers];
-	
-    [m_bundle release];
-    [super dealloc];
 }
 
 - (void) registerTypesWithManagers {

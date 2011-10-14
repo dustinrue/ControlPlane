@@ -597,7 +597,7 @@
 		[panel setCanChooseDirectories:NO];
 		if ([panel runModal] != NSOKButton)
 			return;
-		NSString *filename = [panel filename];
+		NSString *filename = panel.URL.path;
 		CAction *action = [[[klass alloc] initWithFile:filename] autorelease];
 
 		NSMutableDictionary *actionDictionary = [action dictionary];

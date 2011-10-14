@@ -1937,6 +1937,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Debug;
 		};
@@ -1944,6 +1945,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Release;
 		};

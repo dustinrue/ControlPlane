@@ -33,6 +33,6 @@
 - (void) registerTypesWithManagers;
 - (void) unregisterTypesWithManagers;
 
-@property (readonly, retain) NSBundle *bundle;
+@property (readonly, strong) NSBundle *bundle;
 
 @end

@@ -114,6 +114,7 @@
 @interface ContextsDataSource (Private)
 
 - (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification;
 
 @end
 

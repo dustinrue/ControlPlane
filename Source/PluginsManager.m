@@ -25,12 +25,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PluginsManager);
 	return self;
 }
 
-- (void) dealloc {
-	[m_plugins release];
-	
-	[super release];
-}
-
 - (Plugin *) pluginWithIdentifier: (NSString *) identifier {
 	return [m_plugins objectForKey: identifier];
 }
@@ -67,7 +61,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PluginsManager);
 
 - (void) unloadPlugin: (Plugin *) plugin {
 	// Remove from dictionary
-	[plugin retain];
 	[m_plugins removeObjectForKey: plugin.identifier];
 	
 	// Stop plugin
@@ -76,16 +69,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PluginsManager);
 	} @catch (NSException *warn) {
 		ALog(@"stopPlugin failed");
 	}
-	
-	// Delete it
-	[plugin release];
 }
 
 - (void) loadPlugins {
 	static NSString * const appSupportPath = @"Application Support/ControlPlane/PlugIns";
 	static NSString * const pluginType = @"plugin";
-	NSMutableArray *paths = [[NSMutableArray new] autorelease];
+	
+	NSMutableArray *paths = [NSMutableArray new];
 	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *tempPath = nil;
 	
 	// Built in path
     NSString *builtInPath = NSBundle.mainBundle.builtInPlugInsPath;
@@ -100,8 +92,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PluginsManager);
 	[paths addObjectsFromArray: [NSBundle pathsForResourcesOfType: pluginType
 													  inDirectory: builtInPath]];
 	for (NSString *path in libraries) {
-		path = [path stringByAppendingPathComponent: appSupportPath];
-		[paths addObjectsFromArray: [fm contentsOfDirectoryAtPath: path error: nil]];
+		tempPath = [path stringByAppendingPathComponent: appSupportPath];
+		[paths addObjectsFromArray: [fm contentsOfDirectoryAtPath: tempPath error: nil]];
 	}
 	
 	// load plugins

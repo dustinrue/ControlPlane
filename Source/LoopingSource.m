@@ -22,15 +22,14 @@
 }
 
 - (void) run {
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	NSThread.currentThread.name = self.name;
-	
-	while (self.running) {
-		[(id<LoopingSourceProtocol>) self checkData];
-		[NSThread sleepForTimeInterval: self.interval];
+	@autoreleasepool {
+		NSThread.currentThread.name = self.name;
+		
+		while (self.running) {
+			[(id<LoopingSourceProtocol>) self checkData];
+			[NSThread sleepForTimeInterval: self.interval];
+		}
 	}
-	
-	[pool release];
 }
 
 - (void) start {

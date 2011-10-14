@@ -29,13 +29,6 @@
 	return self;
 }
 
-- (void) dealloc {
-	[m_data release];
-	[m_enabledLock release];
-	[m_negationLock release];
-	[super dealloc];
-}
-
 - (BOOL) enabled {
 	return m_enabled;
 }
@@ -64,7 +57,6 @@
 		
 		if (m_data != data) {
 			self.enabled = NO;
-			[m_data release];
 			m_data = [data copy];
 			[(id<RuleProtocol>) self loadData: [m_data objectForKey: @"value"]];
 			self.enabled = old;

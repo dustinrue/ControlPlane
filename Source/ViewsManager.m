@@ -30,13 +30,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ViewsManager);
 	return self;
 }
 
-- (void) dealloc {
-	[m_viewsAssociation dealloc];
-	[m_viewTypes dealloc];
-	
-	[super dealloc];
-}
-
 #pragma mark - View types
 
 - (void) registerViewType: (Class) type {
@@ -63,7 +56,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ViewsManager);
 	else
 		ALog(@"Couldn't find a correct view type for object %@.", object);
 	
-	return [[type new] autorelease];
+	return [type new];
 }
 
 @end
