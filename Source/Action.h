@@ -32,8 +32,6 @@ typedef enum {
 	double m_delay;
 	eWhen m_when;
 	NSDictionary *m_data;
-	
-	NSLock *m_delayLock;
 }
 
 @property (readwrite, assign) BOOL enabled;

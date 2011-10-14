@@ -23,10 +23,6 @@
 	return self;
 }
 
-- (void) dealloc {
-	[m_manager stopUpdatingLocation];
-}
-
 #pragma mark - Required implementation of 'CallbackSource' class
 
 - (NSArray *) observableKeys {

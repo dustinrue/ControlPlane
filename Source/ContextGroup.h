@@ -16,7 +16,7 @@
 }
 
 @property (readwrite, copy) NSString *name;
-@property (readwrite, retain) Context *activeContext;
+@property (readwrite, strong) Context *activeContext;
 
 - (id) initWithName: (NSString *) name;
 - (void) addContext: (Context *) context;

@@ -25,16 +25,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ContextsManager);
 	return self;
 }
 
-- (void) dealloc {
-	[m_groups release];
-	
-	[super dealloc];
-}
 
 #pragma mark - Context management
 
 - (void) createGroup: (NSString *) name {
-	ContextGroup *group = [[[ContextGroup alloc] initWithName: name] autorelease];
+	ContextGroup *group = [[ContextGroup alloc] initWithName: name];
 	
 	[m_groups setObject: group forKey: name];
 }

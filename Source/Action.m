@@ -18,7 +18,6 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_delayLock = [NSLock new];
 	m_data = [NSDictionary new];
 	self.enabled = NO;
 	self.delay = 0.0;
@@ -33,16 +32,23 @@
 
 - (void) setData: (NSDictionary *) data {
 	@synchronized(m_data) {
-		BOOL old = self.enabled;
-		
-		// shortly disable (and re-enable) the rule while setting it's data
-		// needed to force a check if the rule matches the new data
+		// shortly disable (and re-enable) the action while setting it's data
 		
 		if (m_data != data) {
 			self.enabled = NO;
 			m_data = [data copy];
-			[(id<ActionProtocol>) self loadData: [m_data objectForKey: @"value"]];
-			self.enabled = old;
+			
+			// action info
+			self.delay = [[m_data objectForKey: @"delay"] doubleValue];
+			self.when = [[m_data objectForKey: @"when"] unsignedIntValue];
+			BOOL enabled = [[m_data objectForKey: @"enabled"] boolValue];
+			
+			// load value data
+			id value = [m_data objectForKey: @"value"];
+			ZAssert(value, @"Data contains no 'value' key");
+			[(id<ActionProtocol>) self loadData: value];
+			
+			self.enabled = enabled;
 		}
 	}
 }

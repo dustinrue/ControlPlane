@@ -37,12 +37,6 @@
 	return self;
 }
 
-- (void) dealloc {
-	[m_rules release];
-	[m_actions release];
-	
-	[super dealloc];
-}
 
 - (void) setActive: (BOOL) active {
 	if (!m_active && active)
@@ -67,10 +61,10 @@
 	CFUUIDRef uuidObj = CFUUIDCreate(nil);
 	
 	// convert to string
-	NSString *uuidString = (NSString *) CFUUIDCreateString(nil, uuidObj);
+	NSString *uuidString = (__bridge_transfer NSString *) CFUUIDCreateString(nil, uuidObj);
 	CFRelease(uuidObj);
 	
-	return [uuidString autorelease];
+	return uuidString;
 }
 
 @end

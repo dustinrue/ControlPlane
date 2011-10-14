@@ -31,7 +31,7 @@
 	BOOL m_negation;
 	
 	NSLock *m_enabledLock;
-	NSLock *m_negationLock;
+	NSRecursiveLock *m_matchLock;
 }
 
 @property (readwrite, assign) NSUInteger confidence;

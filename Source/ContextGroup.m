@@ -26,14 +26,9 @@
 	return self;
 }
 
-- (void) dealloc {
-	[m_contexts release];
-	
-	[super dealloc];
-}
 
 - (void) addContext: (Context *) context {
-	[m_contexts setObject: [context autorelease] forKey: context.name];
+	[m_contexts setObject: context forKey: context.name];
 }
 
 - (void) removeContext: (NSString *) context {

@@ -13,13 +13,6 @@
 #import "SourcesManager.h"
 #import "SynthesizeSingleton.h"
 
-@interface SourcesManager (Private)
-
-- (Source *) createSource: (NSString *) name;
-- (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass;
-
-@end
-
 @implementation SourcesManager
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
@@ -61,17 +54,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	}
 }
 
-#pragma mark - Other functions
-
 - (Source *) getSource: (NSString *) name {
 	@synchronized(m_sources) {
 		return [m_sources objectForKey: name];
-	}
-}
-
-- (void) removeSource: (NSString *) name {
-	@synchronized(m_sources) {
-		[m_sources removeObjectForKey: name];
 	}
 }
 

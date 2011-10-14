@@ -17,7 +17,6 @@
 - (void) registerSourceType: (Class) type;
 - (void) unregisterSourceType: (Class) type;
 - (Source *) getSource: (NSString *) name;
-- (void) removeSource: (Source *) source;
 
 - (Source *) registerRule: (Rule *) rule toSource: (NSString *) source;
 - (void) unregisterRule: (Rule *) rule fromSource: (NSString *) source;

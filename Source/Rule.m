@@ -19,7 +19,7 @@
 	
 	m_data = [NSDictionary new];
 	m_enabledLock = [NSLock new];
-	m_negationLock = [NSLock new];
+	m_matchLock = [NSRecursiveLock new];
 	
 	self.enabled = NO;
 	self.confidence = 100;
@@ -50,31 +50,51 @@
 
 - (void) setData: (NSDictionary *) data {
 	@synchronized(m_data) {
-		BOOL old = self.enabled;
-		
 		// shortly disable (and re-enable) the rule while setting it's data
 		// needed to force a check if the rule matches the new data
 		
 		if (m_data != data) {
 			self.enabled = NO;
 			m_data = [data copy];
-			[(id<RuleProtocol>) self loadData: [m_data objectForKey: @"value"]];
-			self.enabled = old;
+			
+			// negation
+			self.negation = [[m_data objectForKey: @"negation"] boolValue];
+			
+			// load value data
+			id value = [m_data objectForKey: @"value"];
+			ZAssert(value, @"Data contains no 'value' key");
+			[(id<RuleProtocol>) self loadData: value];
+			
+			// enable if needed
+			self.enabled = [[m_data objectForKey: @"enabled"] boolValue];
 		}
 	}
 }
+
+- (BOOL) match {
+	return m_match;
+}
+
+- (void) setMatch: (BOOL) match {
+	@synchronized(m_matchLock) {
+		m_match = self.negation ^ match;
+	}
+}
+
 
 - (BOOL) negation {
 	return m_negation;
 }
 
 - (void) setNegation: (BOOL) negation {
-	@synchronized(m_negationLock) {
-		// if the user flips the negation flag, also flip the match flag!
-		if (m_negation != negation)
-			self.match = !self.match;
+	@synchronized(m_matchLock) {
+		if (m_negation == negation)
+			return;
 		
+		// if the user flips the negation flag, also flip the match flag!
+		BOOL old = self.match;
 		m_negation = negation;
+		self.match = old;
 	}
 }
 
