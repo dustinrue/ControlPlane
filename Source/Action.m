@@ -18,9 +18,10 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
+	m_delayLock = [NSLock new];
 	m_data = [NSDictionary new];
 	self.enabled = NO;
-	self.delay = [NSNumber numberWithDouble: 0.0];
+	self.delay = 0.0;
 	self.when = kWhenEntering;
 	
 	return self;

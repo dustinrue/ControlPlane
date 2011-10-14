@@ -29,13 +29,15 @@ typedef enum {
 @interface Action : NSObject {
 @private
 	BOOL m_enabled;
-	NSNumber *m_delay;
+	double m_delay;
 	eWhen m_when;
 	NSDictionary *m_data;
+	
+	NSLock *m_delayLock;
 }
 
 @property (readwrite, assign) BOOL enabled;
-@property (readwrite, assign) NSNumber *delay;
+@property (readwrite, assign) double delay;
 @property (readwrite, assign) eWhen when;
 @property (readwrite, copy) NSDictionary *data;
 

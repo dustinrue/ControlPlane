@@ -19,12 +19,13 @@
 @interface Source : NSObject {
 @private
 	BOOL m_running;
-	NSNumber *m_listenersCount;
+	NSUInteger m_listenersCount;
+	NSLock *m_listenersLock;
 }
 
 @property (readwrite, assign) BOOL running;
-@property (readonly) NSUInteger listenersCount;
-@property (readonly) NSString *name;
+@property (readonly, assign) NSUInteger listenersCount;
+@property (readonly, copy) NSString *name;
 
 - (void) addObserver: (Rule *) rule;
 - (void) removeObserver: (Rule *) rule;

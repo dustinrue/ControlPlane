@@ -24,14 +24,17 @@
 
 @interface Rule : NSObject {
 @private
-	NSNumber *m_confidence;
-	NSNumber *m_enabled;
+	NSUInteger m_confidence;
+	BOOL m_enabled;
 	NSDictionary *m_data;
 	BOOL m_match;
-	NSNumber *m_negation;
+	BOOL m_negation;
+	
+	NSLock *m_enabledLock;
+	NSLock *m_negationLock;
 }
 
-@property (readwrite, assign) NSNumber *confidence;
+@property (readwrite, assign) NSUInteger confidence;
 @property (readwrite, copy) NSDictionary *data;
 @property (readwrite, assign) BOOL enabled;
 @property (readwrite, assign) BOOL match;

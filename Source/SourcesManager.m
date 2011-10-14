@@ -12,7 +12,6 @@
 #import "Source.h"
 #import "SourcesManager.h"
 #import "SynthesizeSingleton.h"
-#import <objc/objc-class.h>
 
 @interface SourcesManager (Private)
 
@@ -45,13 +44,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 #pragma mark - Source types
 
 - (void) registerSourceType: (Class) type {
-	// sanity check
-	if ([self isClass: CallbackSource.class superclassOfClass: type])
-		ZAssert([type conformsToProtocol: @protocol(CallbackSourceProtocol)], @"Unsupported Source type");
-	else if ([self isClass: LoopingSource.class superclassOfClass: type])
-		ZAssert([type conformsToProtocol: @protocol(LoopingSourceProtocol)], @"Unsupported Source type");
-	else
-		ZAssert([type conformsToProtocol: @protocol(SourceProtocol)], @"Unsupported Source type");
+	ZAssert([type conformsToProtocol: @protocol(SourceProtocol)], @"Unsupported Source type");
 	
 	// create it
 	@synchronized(m_sources) {
@@ -68,6 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	@synchronized(m_sources) {
 		Source *source = [m_sources objectForKey: name];
 		ZAssert(source, @"Unknown source type");
+		
 		[m_sources removeObjectForKey: name];
 		DLog(@"Unregistererd source: %@", name);
 	}
@@ -85,18 +79,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	@synchronized(m_sources) {
 		[m_sources removeObjectForKey: name];
 	}
-}
-
-- (BOOL) isClass: (Class) aClass superclassOfClass: (Class) subClass {
-	Class class = class_getSuperclass(subClass);
-	
-	while (class != nil) {
-		if (class == aClass)
-			return YES;
-		class = class_getSuperclass(class);
-	}
-	
-	return NO;
 }
 
 #pragma mark - Rules registration

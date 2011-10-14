@@ -17,32 +17,37 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_enabled = [NSNumber numberWithBool: NO];
 	m_data = [NSDictionary new];
-	m_negation = [NSNumber numberWithBool: NO];
-	self.confidence = [NSNumber numberWithInt: 100];
+	m_enabledLock = [NSLock new];
+	m_negationLock = [NSLock new];
+	
+	self.enabled = NO;
+	self.confidence = 100;
 	self.match = NO;
+	self.negation = NO;
 	
 	return self;
 }
 
 - (void) dealloc {
 	[m_data release];
+	[m_enabledLock release];
+	[m_negationLock release];
 	[super dealloc];
 }
 
 - (BOOL) enabled {
-	return m_enabled.boolValue;
+	return m_enabled;
 }
 
 - (void) setEnabled: (BOOL) enabled {
-	@synchronized(m_enabled) {
-		if (!m_enabled.boolValue && enabled)
+	@synchronized(m_enabledLock) {
+		if (!m_enabled && enabled)
 			[(id<RuleProtocol>) self beingEnabled];
-		else if (m_enabled.boolValue && !enabled)
+		else if (m_enabled && !enabled)
 			[(id<RuleProtocol>) self beingDisabled];
 		
-		m_enabled = [NSNumber numberWithBool: enabled];
+		m_enabled = enabled;
 	}
 }
 
@@ -68,16 +73,16 @@
 }
 
 - (BOOL) negation {
-	return m_negation.boolValue;
+	return m_negation;
 }
 
 - (void) setNegation: (BOOL) negation {
-	@synchronized(m_negation) {
+	@synchronized(m_negationLock) {
 		// if the user flips the negation flag, also flip the match flag!
-		if (m_negation.boolValue != negation)
+		if (m_negation != negation)
 			self.match = !self.match;
 		
-		m_negation = [NSNumber numberWithBool: negation];
+		m_negation = negation;
 	}
 }
 

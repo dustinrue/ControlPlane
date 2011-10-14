@@ -24,8 +24,9 @@
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
-	m_listenersCount = [NSNumber numberWithUnsignedInt: 0];
+	m_listenersLock = [NSLock new];
 	self.running = NO;
+	self.listenersCount = 0;
 	
 	return self;
 }
@@ -38,17 +39,17 @@
 }
 
 - (NSUInteger) listenersCount {
-	return m_listenersCount.unsignedIntValue;
+	return m_listenersCount;
 }
 
 - (void) setListenersCount: (NSUInteger) listenersCount {
-	@synchronized(m_listenersCount) {
+	@synchronized(m_listenersLock) {
 		if (!self.running && listenersCount > 0)
 			[(id<SourceProtocol>) self start];
 		else if (self.running && listenersCount == 0)
 			[(id<SourceProtocol>) self stop];
 		
-		m_listenersCount = [NSNumber numberWithUnsignedInt: (unsigned int) listenersCount];
+		m_listenersCount = listenersCount;
 	}
 }
 

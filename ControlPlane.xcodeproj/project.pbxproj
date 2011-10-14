@@ -2007,6 +2007,7 @@
 				DD19C693144790E800608844 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DDA8032A143BEE4900745EB8 /* Build configuration list for PBXNativeTarget "Plugins" */ = {
 			isa = XCConfigurationList;

@@ -124,12 +124,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 	// sort actions by delay
 	for (Action *action in actions)
 		if (action.enabled && action.when == when) {
-			NSMutableArray *list = [filteredActions objectForKey: action.delay];
+			NSNumber *delay = [NSNumber numberWithDouble: action.delay];
+			NSMutableArray *list = [filteredActions objectForKey: delay];
 			
 			// if no list, create and store first
 			if (!list) {
 				list = [[NSMutableArray new] autorelease];
-				[filteredActions setObject: list forKey: action.delay];
+				[filteredActions setObject: list forKey: delay];
 			}
 			
 			// store action
