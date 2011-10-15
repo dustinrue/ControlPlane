@@ -154,7 +154,7 @@
 
 - (id)initWithOption:(NSString *)option
 {
-	[self init];
+	self = [super init];
 	[networkLocation autorelease];
 	networkLocation = [option copy];
 	return self;

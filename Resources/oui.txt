@@ -13187,6 +13187,7 @@
 28-26-A6	PBR electronics GmbH
 28-34-10	Enigma Diagnostics Limited
 28-37-37	Apple, Inc.
+28-38-CF	Gen2wave
 28-39-E7	Preceno Technology Pte.Ltd.
 28-3C-E4	Huawei Technologies Co., Ltd
 28-40-1A	C8 MediSensors, Inc.
@@ -13635,6 +13636,7 @@
 50-F0-03	Open Stack, Inc.
 50-F6-1A	Kunshan JADE Technologies co., Ltd.
 50-FA-AB	L-tek d.o.o.
+50-FC-30	Treehouse Labs
 54-03-F5	EBN Technology Corp.
 54-04-96	Gigawave LTD
 54-04-A6	ASUSTek COMPUTER INC.
@@ -13797,11 +13799,13 @@
 64-16-F0	Shehzhen Huawei Communication Technologies Co., Ltd.
 64-1A-22	Heliospectra/Woodhill Investments
 64-1E-81	Dowslake Microsystems
+64-27-37	Hon Hai Precision Ind. Co.,Ltd. 
 64-31-50	Hewlett-Packard Company
 64-31-7E	Dexin Corporation
 64-34-09	BITwave Pte Ltd
 64-43-46	GuangDong Quick Network Computer CO.,LTD
 64-4B-C3	Shanghai WOASiS Telecommunications Ltd., Co.
+64-4B-F0	CalDigit, Inc
 64-4D-70	dSPACE GmbH
 64-4F-74	LENUS Co., Ltd.
 64-55-7F	NSFOCUS Information Technology Co., Ltd.
@@ -14123,6 +14127,7 @@
 7C-DD-20	IOXOS Technologies S.A.
 7C-DD-90	Shenzhen Ogemray Technology Co., Ltd.
 7C-E0-44	NEON Inc
+7C-E9-D3	Hon Hai Precision Ind. Co.,Ltd.
 7C-ED-8D	MICROSOFT
 7C-EF-18	Creative Product Design Pty. Ltd.
 7C-F0-5F	Apple Inc
@@ -14518,6 +14523,7 @@ A0-E2-01	AVTrace Ltd.(China)
 A0-E2-95	DAT System Co.,Ltd
 A0-E9-DB	Ningbo FreeWings Technologies Co.,Ltd
 A0-F2-17	GE Medical System(China) Co., Ltd. 
+A0-F3-E4	Alcatel -Lucent IPD
 A4-01-30	ABIsystems Co., LTD
 A4-0C-C3	Cisco Systems
 A4-13-4E	Luxul Wireless
@@ -15256,6 +15262,7 @@ E4-4E-18	Gardasoft VisionLimited
 E4-4F-29	MA Lighting Technology GmbH
 E4-55-EA	Dedicated Computing
 E4-64-49	Motorola Mobility, Inc.
+E4-67-BA	Danish Interpretation Systems A/S
 E4-6C-21	messMa GmbH
 E4-75-1E	Getinge Sterilization AB
 E4-7C-F9	Samsung Electronics Co., LTD

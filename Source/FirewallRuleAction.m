@@ -178,7 +178,7 @@ static NSLock *sharedLock = nil;
 
 - (id)initWithOption:(NSString *)option
 {
-	[self init];
+	self = [super init];
 	[ruleName autorelease];
 	ruleName = [option copy];
 	return self;
