@@ -47,7 +47,7 @@
 }
 
 - (NSString *) helpText {
-	return NSLocalizedString(@"Connected to a WiFi network named", @"WLANBSSIDRule");
+	return NSLocalizedString(@"Connected to a WiFi network named", @"WLANSSIDRule");
 }
 
 - (void) beingEnabled {

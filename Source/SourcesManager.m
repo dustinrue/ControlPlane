@@ -18,8 +18,6 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 
 - (id) init {
-	ZAssert(!sharedSourcesManager, @"This is a singleton, use %@.shared%@", NSStringFromClass(self.class), NSStringFromClass(self.class));
-	
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	

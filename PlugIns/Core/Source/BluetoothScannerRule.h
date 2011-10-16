@@ -8,7 +8,7 @@
 
 #import "Rule.h"
 
-@interface BluetoothScannerRule : Rule {
+@interface BluetoothScannerRule : Rule<RuleProtocol> {
 	NSString *m_address;
 }
 
