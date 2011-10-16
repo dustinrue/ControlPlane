@@ -305,7 +305,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 
 
 - (void) showCrashStatusMessage {
-	UIAlertView *alertView;
+	UIAlertView *alertView = nil;
 	
 	if (_serverResult >= CrashReportStatusAssigned && 
         _crashIdenticalCurrentVersion) {
@@ -338,7 +338,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 				break;
 		}
 		
-		if (alertView != nil) {
+		if (alertView) {
 			[alertView setTag: QuincyKitAlertTypeFeedback];
 			[alertView show];
 			[alertView release];
