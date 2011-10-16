@@ -11,6 +11,8 @@
 @implementation CorePlugin
 
 #import "AudioOutputRule.h"
+#import "BluetoothConnectedRule.h"
+#import "BluetoothScannerRule.h"
 #import "BonjourRule.h"
 #import "DisplayBrightnessRule.h"
 #import "DisplayStateRule.h"
@@ -32,6 +34,8 @@
 - (NSArray *) rules {
 	return [NSArray arrayWithObjects:
 			AudioOutputRule.class,
+			BluetoothConnectedRule.class,
+			BluetoothScannerRule.class,
 			BonjourRule.class,
 			DisplayBrightnessRule.class,
 			DisplayStateRule.class,
@@ -53,6 +57,8 @@
 }
 
 #import "AudioSource.h"
+#import "BluetoothConnectedSource.h"
+#import "BluetoothScannerSource.h"
 #import "BonjourSource.h"
 #import "FireWireSource.h"
 #import "LocationSource.h"
@@ -68,6 +74,8 @@
 - (NSArray *) sources {
 	return [NSArray arrayWithObjects:
 			AudioSource.class,
+			BluetoothConnectedSource.class,
+			BluetoothScannerSource.class,
 			BonjourSource.class,
 			FireWireSource.class,
 			LocationSource.class,

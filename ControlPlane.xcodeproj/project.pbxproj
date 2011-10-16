@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8D11072D0486CEB800E47090 /* Main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* Main.m */; settings = {ATTRIBUTES = (); COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8D11072D0486CEB800E47090 /* Main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* Main.m */; settings = {ATTRIBUTES = (); }; };
 		8D185DC60BF428CF00A06B03 /* AdvancedPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D185DC50BF428CF00A06B03 /* AdvancedPrefs.png */; };
 		8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A45590BA00DE2004A6BC4 /* minus-8.png */; };
 		8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A455A0BA00DE2004A6BC4 /* plus-8.png */; };
@@ -74,7 +74,7 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in Copy Helper Tool */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DD01EF2E14422B72006672E0 /* BluetoothSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF2C14422AE0006672E0 /* BluetoothSource.m */; };
+		DD01EF2E14422B72006672E0 /* BluetoothConnectedSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF2C14422AE0006672E0 /* BluetoothConnectedSource.m */; };
 		DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */; };
 		DD01EF371443B543006672E0 /* RuleView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF351443B543006672E0 /* RuleView.h */; };
 		DD01EF381443B543006672E0 /* RuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF361443B543006672E0 /* RuleView.m */; };
@@ -89,6 +89,9 @@
 		DD19C6941447918B00608844 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD19C6951447919300608844 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DD5BD209141614C4007BA88C /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD19C696144791B000608844 /* libJSONKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD19C690144790E800608844 /* libJSONKit.a */; };
+		DD19C6C8144B0A7D00608844 /* BluetoothScannerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6C7144B0A7A00608844 /* BluetoothScannerSource.m */; };
+		DD19C6CB144B365C00608844 /* BluetoothConnectedRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6CA144B365C00608844 /* BluetoothConnectedRule.m */; };
+		DD19C6CE144B3C7400608844 /* BluetoothScannerRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6CD144B3C7300608844 /* BluetoothScannerRule.m */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
@@ -347,8 +350,6 @@
 		8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apple80211.framework; path = /System/Library/PrivateFrameworks/Apple80211.framework; sourceTree = "<absolute>"; };
 		8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvidenceSource.h; path = Source/EvidenceSource.h; sourceTree = "<group>"; };
 		8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvidenceSource.m; path = Source/EvidenceSource.m; sourceTree = "<group>"; };
-		8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothEvidenceSource.h; path = Source/BluetoothEvidenceSource.h; sourceTree = "<group>"; };
-		8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothEvidenceSource.m; path = Source/BluetoothEvidenceSource.m; sourceTree = "<group>"; };
 		8D8C9E320BBB89320074D5B3 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = PlugIns/Core/Source/DB.h; sourceTree = "<group>"; };
 		8D8C9E330BBB89320074D5B3 /* DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB.m; path = PlugIns/Core/Source/DB.m; sourceTree = "<group>"; };
 		8D90E51D0B71C4C9007D39FD /* CPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPController.h; path = Source/CPController.h; sourceTree = "<group>"; };
@@ -408,8 +409,8 @@
 		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "PlugIns/Core/Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
-		DD01EF2B14422AE0006672E0 /* BluetoothSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothSource.h; path = PlugIns/Core/Source/BluetoothSource.h; sourceTree = "<group>"; };
-		DD01EF2C14422AE0006672E0 /* BluetoothSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothSource.m; path = PlugIns/Core/Source/BluetoothSource.m; sourceTree = "<group>"; };
+		DD01EF2B14422AE0006672E0 /* BluetoothConnectedSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectedSource.h; path = PlugIns/Core/Source/BluetoothConnectedSource.h; sourceTree = "<group>"; };
+		DD01EF2C14422AE0006672E0 /* BluetoothConnectedSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothConnectedSource.m; path = PlugIns/Core/Source/BluetoothConnectedSource.m; sourceTree = "<group>"; };
 		DD01EF351443B543006672E0 /* RuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuleView.h; path = Source/RuleView.h; sourceTree = SOURCE_ROOT; };
 		DD01EF361443B543006672E0 /* RuleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuleView.m; path = Source/RuleView.m; sourceTree = SOURCE_ROOT; };
 		DD01EF391443B5B4006672E0 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = View.h; path = Source/View.h; sourceTree = SOURCE_ROOT; };
@@ -422,6 +423,12 @@
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DD19C690144790E800608844 /* libJSONKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJSONKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD19C697144799B500608844 /* JSONKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = JSONKit.xcconfig; path = xcconfigs/JSONKit.xcconfig; sourceTree = "<group>"; };
+		DD19C6C6144B0A7500608844 /* BluetoothScannerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothScannerSource.h; path = PlugIns/Core/Source/BluetoothScannerSource.h; sourceTree = "<group>"; };
+		DD19C6C7144B0A7A00608844 /* BluetoothScannerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothScannerSource.m; path = PlugIns/Core/Source/BluetoothScannerSource.m; sourceTree = "<group>"; };
+		DD19C6C9144B365C00608844 /* BluetoothConnectedRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectedRule.h; path = PlugIns/Core/Source/BluetoothConnectedRule.h; sourceTree = "<group>"; };
+		DD19C6CA144B365C00608844 /* BluetoothConnectedRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothConnectedRule.m; path = PlugIns/Core/Source/BluetoothConnectedRule.m; sourceTree = "<group>"; };
+		DD19C6CC144B3C7100608844 /* BluetoothScannerRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothScannerRule.h; path = PlugIns/Core/Source/BluetoothScannerRule.h; sourceTree = "<group>"; };
+		DD19C6CD144B3C7300608844 /* BluetoothScannerRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothScannerRule.m; path = PlugIns/Core/Source/BluetoothScannerRule.m; sourceTree = "<group>"; };
 		DD239289142A257500FE7DC7 /* LoopingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopingSource.h; sourceTree = "<group>"; };
 		DD23928A142A257500FE7DC7 /* LoopingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopingSource.m; sourceTree = "<group>"; };
 		DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = Source/SynthesizeSingleton.h; sourceTree = "<group>"; };
@@ -866,8 +873,6 @@
 		8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
-				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
 				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 			);
@@ -1118,6 +1123,10 @@
 			children = (
 				DD4ADACE142D58DD00CE825F /* AudioOutputRule.h */,
 				DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */,
+				DD19C6C9144B365C00608844 /* BluetoothConnectedRule.h */,
+				DD19C6CA144B365C00608844 /* BluetoothConnectedRule.m */,
+				DD19C6CC144B3C7100608844 /* BluetoothScannerRule.h */,
+				DD19C6CD144B3C7300608844 /* BluetoothScannerRule.m */,
 				DD4ADAD4142D762800CE825F /* BonjourRule.h */,
 				DD4ADAD5142D762800CE825F /* BonjourRule.m */,
 				DD96FE0314353AAA0034BE0E /* DisplayBrightnessRule.h */,
@@ -1161,8 +1170,10 @@
 			children = (
 				DDE29BDE1429591D00A55469 /* AudioSource.h */,
 				DDE29BDF1429591D00A55469 /* AudioSource.m */,
-				DD01EF2B14422AE0006672E0 /* BluetoothSource.h */,
-				DD01EF2C14422AE0006672E0 /* BluetoothSource.m */,
+				DD01EF2B14422AE0006672E0 /* BluetoothConnectedSource.h */,
+				DD01EF2C14422AE0006672E0 /* BluetoothConnectedSource.m */,
+				DD19C6C6144B0A7500608844 /* BluetoothScannerSource.h */,
+				DD19C6C7144B0A7A00608844 /* BluetoothScannerSource.m */,
 				DD23929C142A916500FE7DC7 /* BonjourSource.h */,
 				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
 				DD96FDF31434D2570034BE0E /* FireWireSource.h */,
@@ -1708,8 +1719,11 @@
 				DDAC878F143C1D6500682538 /* WLANSource.m in Sources */,
 				DDAC87D3143C208200682538 /* DB.m in Sources */,
 				DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */,
-				DD01EF2E14422B72006672E0 /* BluetoothSource.m in Sources */,
+				DD01EF2E14422B72006672E0 /* BluetoothConnectedSource.m in Sources */,
 				DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */,
+				DD19C6C8144B0A7D00608844 /* BluetoothScannerSource.m in Sources */,
+				DD19C6CB144B365C00608844 /* BluetoothConnectedRule.m in Sources */,
+				DD19C6CE144B3C7400608844 /* BluetoothScannerRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
