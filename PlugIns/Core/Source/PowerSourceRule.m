@@ -37,6 +37,10 @@
 	return NSLocalizedString(@"Power", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Being powered by", @"PowerSourceRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"PowerSource"];
 	

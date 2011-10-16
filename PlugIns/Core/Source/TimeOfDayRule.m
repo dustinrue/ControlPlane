@@ -62,6 +62,10 @@
 	return NSLocalizedString(@"System", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Time is", @"TimeOfDayRule");
+}
+
 - (void) beingEnabled {
 	m_timer = [NSTimer scheduledTimerWithTimeInterval: 60.0
 											   target: self

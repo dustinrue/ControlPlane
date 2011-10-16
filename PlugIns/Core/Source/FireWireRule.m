@@ -36,6 +36,10 @@
 	return NSLocalizedString(@"Devices", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Connected to", @"FireWireRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"FireWireSource"];
 	

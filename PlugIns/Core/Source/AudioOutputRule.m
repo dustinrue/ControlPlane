@@ -37,6 +37,10 @@
 	return NSLocalizedString(@"System", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Audio output going to", @"AudioOutputRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"AudioSource"];
 	

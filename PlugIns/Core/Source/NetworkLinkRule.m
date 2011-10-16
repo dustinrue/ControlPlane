@@ -37,6 +37,10 @@
 	return NSLocalizedString(@"Network", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Network link on interface", @"NetworkLinkRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"NetworkSource"];
 	

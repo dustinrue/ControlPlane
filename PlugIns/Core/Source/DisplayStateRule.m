@@ -29,11 +29,15 @@
 #pragma mark - Required implementation of 'Rule' class
 
 - (NSString *) name {
-	return NSLocalizedString(@"Source", @"Rule type");
+	return NSLocalizedString(@"Display", @"Rule type");
 }
 
 - (NSString *) category {
 	return NSLocalizedString(@"Power", @"Rule category");
+}
+
+- (NSString *) helpText {
+	return NSLocalizedString(@"Display is", @"DisplayStateRule");
 }
 
 - (void) beingEnabled {

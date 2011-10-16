@@ -48,6 +48,10 @@
 	return NSLocalizedString(@"Devices", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Connected to", @"USBRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"USBSource"];
 	

@@ -36,6 +36,10 @@
 	return NSLocalizedString(@"System", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"The following application is running", @"RunningApplicationRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"RunningApplicationSource"];
 	

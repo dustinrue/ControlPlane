@@ -40,6 +40,10 @@
 	return NSLocalizedString(@"Sensors", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Brightness is set to", @"KeyboardBrightnessRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"SensorsSource"];
 	

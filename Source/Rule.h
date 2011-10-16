@@ -16,6 +16,7 @@
 @property (readonly) NSString *name;
 @property (readonly) NSString *category;
 @property (readonly) NSArray *suggestedValues;
+@property (readonly) NSString *helpText;
 
 @optional
 @property (readonly) Class customView;

@@ -35,6 +35,10 @@
 	return NSLocalizedString(@"Devices", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"An attached monitor is named", @"MonitorRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"MonitorSource"];
 	

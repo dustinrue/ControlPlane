@@ -58,6 +58,10 @@
 	return NSLocalizedString(@"Network", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"IP settings are", @"IPRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"NetworkSource"];
 	

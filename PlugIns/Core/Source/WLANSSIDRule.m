@@ -46,6 +46,10 @@
 	return NSLocalizedString(@"Network", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Connected to a WiFi network named", @"WLANBSSIDRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"WLANSource"];
 	

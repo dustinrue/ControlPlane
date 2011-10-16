@@ -48,6 +48,10 @@
 	return NSLocalizedString(@"Network", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"In presence of", @"BonjourRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"BonjourSource"];
 	

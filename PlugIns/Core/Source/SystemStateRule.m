@@ -36,6 +36,10 @@
 	return NSLocalizedString(@"Power", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"System state is", @"SystemStateRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"SystemStateSource"];
 	
@@ -56,11 +60,11 @@
 		case kSystemNormal:
 			return NSLocalizedString(@"Normal", @"SystemStateRule value description");
 		case kSystemSleep:
-			return NSLocalizedString(@"Sleep", @"SystemStateRule value description");
+			return NSLocalizedString(@"Sleeping", @"SystemStateRule value description");
 		case kSystemWake:
-			return NSLocalizedString(@"Wake", @"SystemStateRule value description");
+			return NSLocalizedString(@"Waking", @"SystemStateRule value description");
 		case kSystemPowerOff:
-			return NSLocalizedString(@"Power Off", @"SystemStateRule value description");
+			return NSLocalizedString(@"Powering Off", @"SystemStateRule value description");
 		default:
 			return NSLocalizedString(@"Unknown", @"SystemStateRule value description");
 	}

@@ -36,6 +36,10 @@
 	return NSLocalizedString(@"Devices", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"In presence of", @"BluetoothScannerRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"BluetoothScannerSource"];
 	
@@ -57,7 +61,7 @@
 	// get device data
 	NSDictionary *data = [source.devices objectForKey: value];
 	if (!data)
-		return NSLocalizedString(@"Unknown Device", @"BluetoothConnectedRule value description");
+		return NSLocalizedString(@"Unknown Device", @"BluetoothScannerRule value description");
 	
 	// describe it
 	return [NSString stringWithFormat: @"%@ [%@]",

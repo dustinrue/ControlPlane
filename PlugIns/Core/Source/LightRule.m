@@ -40,6 +40,10 @@
 	return NSLocalizedString(@"Sensors", @"Rule category");
 }
 
+- (NSString *) helpText {
+	return NSLocalizedString(@"Ambient light level is", @"LightRule");
+}
+
 - (void) beingEnabled {
 	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"SensorsSource"];
 	
