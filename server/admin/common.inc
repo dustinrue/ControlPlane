@@ -224,6 +224,9 @@ function mapPlatform($device)
     case "iPhone3,3":
       $platform = "4 CDMA";
       break;
+    case "iPhone4,1":
+      $platform = "4S";
+      break;
 		case "iPad1,1":
 			$platform = "iPad";
 			break;

@@ -90,6 +90,22 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 
 @synthesize appIdentifier = _appIdentifier;
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 40000
++(BWQuincyManager *)sharedQuincyManager
+{   
+    static BWQuincyManager *sharedInstance = nil;
+    static dispatch_once_t pred;
+    
+    if (sharedInstance) return sharedInstance;
+    
+    dispatch_once(&pred, ^{
+        sharedInstance = [BWQuincyManager alloc];
+        sharedInstance = [sharedInstance init];
+    });
+    
+    return sharedInstance;
+}
+#else
 + (BWQuincyManager *)sharedQuincyManager {
 	static BWQuincyManager *quincyManager = nil;
 	
@@ -99,6 +115,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 	
 	return quincyManager;
 }
+#endif
 
 - (id) init {
     if ((self = [super init])) {
@@ -288,7 +305,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 
 
 - (void) showCrashStatusMessage {
-	UIAlertView *alertView;
+	UIAlertView *alertView = nil;
 	
 	if (_serverResult >= CrashReportStatusAssigned && 
         _crashIdenticalCurrentVersion) {
@@ -321,7 +338,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 				break;
 		}
 		
-		if (alertView != nil) {
+		if (alertView) {
 			[alertView setTag: QuincyKitAlertTypeFeedback];
 			[alertView show];
 			[alertView release];
@@ -483,7 +500,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 			[crashes appendFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><platform>%@</platform><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
              [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
              report.applicationInfo.applicationIdentifier,
-             [[UIDevice currentDevice] systemVersion],
+             report.systemInfo.operatingSystemVersion,
              [self _getDevicePlatform],
              [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
              report.applicationInfo.applicationVersion,
