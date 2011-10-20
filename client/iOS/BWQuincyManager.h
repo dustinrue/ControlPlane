@@ -125,7 +125,7 @@ typedef enum CrashReportStatus {
 // Return the contact value (e.g. email) the crashreport should contain, empty by default
 -(NSString *) crashReportContact;
 
-// Return the description the crashreport should contain, empty by default
+// Return the description the crashreport should contain, empty by default. The string will automatically be wrapped into <[DATA[ ]]>, so make sure you don't do that in your string.
 -(NSString *) crashReportDescription;
 
 // Invoked when the internet connection is started, to let the app enable the activity indicator

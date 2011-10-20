@@ -466,15 +466,15 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
     if (self.autoSubmitDeviceUDID) {
         userid = [self deviceIdentifier];
     } else if (self.delegate != nil && [self.delegate respondsToSelector:@selector(crashReportUserID)]) {
-		userid = [self.delegate crashReportUserID];
+		userid = [self.delegate crashReportUserID] ?: @"";
 	}
 	
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(crashReportContact)]) {
-		contact = [self.delegate crashReportContact];
+		contact = [self.delegate crashReportContact] ?: @"";
 	}
 	
 	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(crashReportDescription)]) {
-		description = [self.delegate crashReportDescription];
+		description = [self.delegate crashReportDescription] ?: @"";
 	}
 	
     NSMutableString *crashes = nil;
@@ -502,17 +502,17 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
                 crashes = [NSMutableString string];
             }
             
-			[crashes appendFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><platform>%@</platform><senderversion>%@</senderversion><version>%@</version><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
+			[crashes appendFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%@</bundleidentifier><systemversion>%@</systemversion><platform>%@</platform><senderversion>%@</senderversion><version>%@</version><log><![CDATA[%@]]></log><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description></crash>",
              [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"] UTF8String],
              report.applicationInfo.applicationIdentifier,
              report.systemInfo.operatingSystemVersion,
              [self _getDevicePlatform],
              [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
              report.applicationInfo.applicationVersion,
+             crashLogString,
              userid,
              contact,
-             description,
-             crashLogString];
+             description];
             
             // store this crash report as user approved, so if it fails it will retry automatically
             [approvedCrashReports setObject:[NSNumber numberWithBool:YES] forKey:[_crashFiles objectAtIndex:i]];
