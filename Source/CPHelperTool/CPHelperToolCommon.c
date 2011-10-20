@@ -52,6 +52,18 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
         "DisableIS",
         NULL
     },
+    {   kCPHelperToolEnableFirewallCommand,
+        kCPHelperToolToggleFWRightName,
+        "allow",
+        "EnableFirewall",
+        NULL
+    },
+    {   kCPHelperToolDisableFirewallCommand,
+        kCPHelperToolToggleFWRightName,
+        "allow",
+        "DisableFirewall",
+        NULL
+    },
 	{	NULL,
 		NULL,
 		NULL,

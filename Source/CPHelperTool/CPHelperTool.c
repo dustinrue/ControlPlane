@@ -30,8 +30,8 @@ static OSStatus DoGetVersion(AuthorizationRef			auth,
 	CFNumberRef value;
 	static const unsigned int kCurrentVersion = kCPHelperToolVersionNumber;
 	
-	assert(auth != NULL);
-	assert(request != NULL);
+	assert(auth     != NULL);
+	assert(request  != NULL);
 	assert(response != NULL);
 	
 	// Add to the response.
@@ -46,6 +46,7 @@ static OSStatus DoGetVersion(AuthorizationRef			auth,
 	return retval;
 }
 
+#pragma mark Time Machine
 // enables time machine
 static OSStatus DoEnableTM (AuthorizationRef		auth,
 							const void *			userData,
@@ -54,8 +55,8 @@ static OSStatus DoEnableTM (AuthorizationRef		auth,
 							aslclient				asl,
 							aslmsg					aslMsg) {
 	
-	assert(auth != NULL);
-	assert(request != NULL);
+	assert(auth     != NULL);
+	assert(request  != NULL);
 	assert(response != NULL);
 	
 	char command[256];
@@ -96,8 +97,8 @@ static OSStatus DoDisableTM (AuthorizationRef		auth,
 							 aslclient				asl,
 							 aslmsg					aslMsg) {
 	
-	assert(auth != NULL);
-	assert(request != NULL);
+	assert(auth     != NULL);
+	assert(request  != NULL);
 	assert(response != NULL);
 	
 	char command[256];
@@ -138,8 +139,8 @@ static OSStatus DoStartBackupTM (AuthorizationRef		auth,
 								 aslclient				asl,
 								 aslmsg					aslMsg) {
 	
-	assert(auth != NULL);
-	assert(request != NULL);
+	assert(auth     != NULL);
+	assert(request  != NULL);
 	assert(response != NULL);
 	
 	char command[256];
@@ -170,8 +171,8 @@ static OSStatus DoStopBackupTM (AuthorizationRef		auth,
 								 aslclient				asl,
 								 aslmsg					aslMsg) {
 	
-	assert(auth != NULL);
-	assert(request != NULL);
+	assert(auth     != NULL);
+	assert(request  != NULL);
 	assert(response != NULL);
 	
 	char command[256];
@@ -194,6 +195,7 @@ static OSStatus DoStopBackupTM (AuthorizationRef		auth,
 	return retValue;
 }
 
+#pragma mark Internet Sharing
 // Enable Internet Sharing
 static OSStatus DoEnableIS (AuthorizationRef		auth,
                             const void *			userData,
@@ -236,6 +238,49 @@ static OSStatus DoDisableIS (AuthorizationRef		auth,
 	return retValue;
 }
 
+#pragma mark Firewall 
+// Enable Firewall, this globally enables the firewall
+static OSStatus DoEnableFirewall (AuthorizationRef          auth,
+                                  const void *              userData,
+                                  CFDictionaryRef           request,
+                                  CFMutableDictionaryRef	response,
+                                  aslclient                 asl,
+                                  aslmsg					aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/usr/libexec/ApplicationFirewall/socketfilterfw %s %s", "--setglobalstate", "on");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
+// Globally disable the firewall
+static OSStatus DoDisableFirewall (AuthorizationRef         auth,
+                                   const void *             userData,
+                                   CFDictionaryRef          request,
+                                   CFMutableDictionaryRef	response,
+                                   aslclient				asl,
+                                   aslmsg					aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/usr/libexec/ApplicationFirewall/socketfilterfw %s %s", "--setglobalstate", "off");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
 #pragma mark -
 #pragma mark Tool Infrastructure
 
@@ -248,6 +293,8 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
 	DoStopBackupTM,
     DoEnableIS,
     DoDisableIS,
+    DoEnableFirewall,
+    DoDisableFirewall,
 	NULL
 };
 

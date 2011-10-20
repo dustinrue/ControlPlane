@@ -170,6 +170,7 @@
 #import "SpeakAction.h"
 #import "StartTimeMachineAction.h"
 #import "ToggleBluetoothAction.h"
+#import "ToggleFirewallAction.h"
 #import "ToggleInternetSharingAction.h"
 #import "ToggleTimeMachineAction.h"
 #import "ToggleWiFiAction.h"
@@ -211,6 +212,7 @@
 			   [SpeakAction class],
 			   [StartTimeMachineAction class],
 			   [ToggleBluetoothAction class],
+               [ToggleFirewallAction class],
                [ToggleInternetSharingAction class],
                [ToggleTimeMachineAction class],
 			   [ToggleWiFiAction class],
@@ -227,8 +229,8 @@
 #ifdef DEBUG_MODE
 		NSLocalizedString(@"FirewallRule", @"Action type");
 #endif
-		NSLocalizedString(@"IChat", @"Action type");
-		NSLocalizedString(@"ITunesPlaylist", @"Action type");
+		NSLocalizedString(@"iChat", @"Action type");
+		NSLocalizedString(@"iTunesPlaylist", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");
 		NSLocalizedString(@"MailIMAPServer", @"Action type");
 		NSLocalizedString(@"MailSMTPServer", @"Action type");
@@ -246,6 +248,7 @@
 		NSLocalizedString(@"Speak", @"Action type");
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
+        NSLocalizedString(@"ToggleFirewall", @"Action type");
         NSLocalizedString(@"ToggleInternetSharing", @"Action type");
         NSLocalizedString(@"TimeMachineAction",@"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
