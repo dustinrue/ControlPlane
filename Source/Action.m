@@ -170,6 +170,7 @@
 #import "SpeakAction.h"
 #import "StartTimeMachineAction.h"
 #import "ToggleBluetoothAction.h"
+#import "ToggleInternetSharingAction.h"
 #import "ToggleTimeMachineAction.h"
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
@@ -210,6 +211,7 @@
 			   [SpeakAction class],
 			   [StartTimeMachineAction class],
 			   [ToggleBluetoothAction class],
+               [ToggleInternetSharingAction class],
                [ToggleTimeMachineAction class],
 			   [ToggleWiFiAction class],
 			   [UnmountAction class],
@@ -244,6 +246,7 @@
 		NSLocalizedString(@"Speak", @"Action type");
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
+        NSLocalizedString(@"ToggleInternetSharing", @"Action type");
         NSLocalizedString(@"TimeMachineAction",@"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
 		NSLocalizedString(@"Unmount", @"Action type");

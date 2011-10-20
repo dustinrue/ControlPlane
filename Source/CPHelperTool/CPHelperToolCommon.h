@@ -12,7 +12,7 @@
 #import "BetterAuthorizationSampleLib.h"
 
 // Helper tool version
-#define kCPHelperToolVersionNumber			13
+#define kCPHelperToolVersionNumber			14
 
 // Commands
 #define kCPHelperToolGetVersionCommand		"GetVersion"
@@ -23,9 +23,13 @@
 #define kCPHelperToolStartBackupTMCommand	"StartBackupTM"
 #define kCPHelperToolStopBackupTMCommand	"StopBackupTM"
 
+#define kCPHelperToolEnableISCommand        "EnableIS"
+#define kCPHelperToolDisableISCommand       "DisableIS"
+
 // Rights
 #define kCPHelperToolToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"
 #define kCPHelperToolRunBackupTMRightName	"com.dustinrue.ControlPlane.RunBackupTM"
+#define kCPHelperToolToggleISRightName      "com.dustinrue.ControlPlane.ToggleIS"
 
 // Commands array (keep in sync!)
 extern const BASCommandSpec kCPHelperToolCommandSet[];

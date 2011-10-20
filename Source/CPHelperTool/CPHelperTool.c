@@ -194,6 +194,48 @@ static OSStatus DoStopBackupTM (AuthorizationRef		auth,
 	return retValue;
 }
 
+// Enable Internet Sharing
+static OSStatus DoEnableIS (AuthorizationRef		auth,
+                            const void *			userData,
+                            CFDictionaryRef         request,
+                            CFMutableDictionaryRef	response,
+                            aslclient				asl,
+                            aslmsg					aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/bin/launchctl load -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
+// Disable Internet Sharing
+static OSStatus DoDisableIS (AuthorizationRef		auth,
+                            const void *			userData,
+                            CFDictionaryRef         request,
+                            CFMutableDictionaryRef	response,
+                            aslclient				asl,
+                            aslmsg					aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
 #pragma mark -
 #pragma mark Tool Infrastructure
 
@@ -204,6 +246,8 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
 	DoDisableTM,
 	DoStartBackupTM,
 	DoStopBackupTM,
+    DoEnableIS,
+    DoDisableIS,
 	NULL
 };
 
