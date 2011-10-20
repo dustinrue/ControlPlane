@@ -154,7 +154,7 @@
 
 - (void) helperToolAlert: (NSMutableDictionary *) parameters {
 	NSInteger t = NSRunAlertPanel(NSLocalizedString(@"ControlPlane Helper Needed", @"Fix helper tool"),
-								  NSLocalizedString(@"ControlPlane needs to install a helper app to enable and disable Time Machine", @"Fix helper tool"),
+								  NSLocalizedString(@"ControlPlane needs to install a helper app to enable and disable some items", @"Fix helper tool"),
 								  NSLocalizedString(@"Install", @"Fix helper tool"),
 								  NSLocalizedString(@"Cancel", @"Fix helper tool"),
 								  NULL);

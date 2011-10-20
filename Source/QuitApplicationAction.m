@@ -58,9 +58,15 @@
 	
 	// terminate
 	DLog(@"Terminating all instances of application '%@'", identifier);
-	NSArray *apps = [NSRunningApplication runningApplicationsWithBundleIdentifier: identifier];
-	[apps makeObjectsPerformSelector: @selector(terminate)];
-	
+    if (identifier.length > 0) {
+        NSArray *apps = [NSRunningApplication runningApplicationsWithBundleIdentifier: identifier];
+        [apps makeObjectsPerformSelector: @selector(terminate)];
+	} else {
+        NSString *errorFormat = NSLocalizedString(@"Error terminating application '%@'.  Application not found.", @"");
+        *errorString = [NSString stringWithFormat: errorFormat, application];
+        return NO;
+    }
+    
 	return YES;
 }
 

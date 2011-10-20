@@ -204,6 +204,7 @@
 		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 		DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */ = {isa = PBXBuildFile; fileRef = DDF4E594141588E80028DF4A /* CoreLocationMap.html */; };
+		DDFAEFE3144FD2EC006472EE /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFAEFE2144FD2EC006472EE /* ToggleInternetSharingAction.m */; };
 		DDFF423114156B0A0047D311 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = DDFF423014156B0A0047D311 /* location.png */; };
 /* End PBXBuildFile section */
 
@@ -615,6 +616,8 @@
 		DDE29BE6142A1D9600A55469 /* PowerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerSource.h; path = PlugIns/Core/Source/PowerSource.h; sourceTree = "<group>"; };
 		DDE29BE7142A1D9600A55469 /* PowerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerSource.m; path = PlugIns/Core/Source/PowerSource.m; sourceTree = "<group>"; };
 		DDF4E594141588E80028DF4A /* CoreLocationMap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = CoreLocationMap.html; sourceTree = "<group>"; };
+		DDFAEFE1144FD2EC006472EE /* ToggleInternetSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleInternetSharingAction.h; path = Source/ToggleInternetSharingAction.h; sourceTree = "<group>"; };
+		DDFAEFE2144FD2EC006472EE /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DDFB061C1440F7CF000689E4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfigs/Debug.xcconfig; sourceTree = "<group>"; };
 		DDFB061D1440F7CF000689E4 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfigs/Release.xcconfig; sourceTree = "<group>"; };
 		DDFB06251440FE1B000689E4 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Base.xcconfig; path = xcconfigs/Base.xcconfig; sourceTree = "<group>"; };
@@ -1040,6 +1043,8 @@
 				DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
 				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
+				DDFAEFE1144FD2EC006472EE /* ToggleInternetSharingAction.h */,
+				DDFAEFE2144FD2EC006472EE /* ToggleInternetSharingAction.m */,
 				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
 				DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */,
 				8D649BA20BE8033A00716059 /* ToggleWiFiAction.h */,
@@ -1633,6 +1638,7 @@
 				DDD1A367142CC81200341B75 /* Context.m in Sources */,
 				DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */,
 				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
+				DDFAEFE3144FD2EC006472EE /* ToggleInternetSharingAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
