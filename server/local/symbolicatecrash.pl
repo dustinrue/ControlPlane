@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 #
 # This script parses a crashdump file and attempts to resolve addresses into function names.
 #
@@ -7,15 +7,17 @@
 #       That finds the symbols for binaries that a developer has built with "DWARF with dSYM File".
 #   b) searching in various SDK directories.
 #
-# Copyright (c) 2008-2009 Apple Inc. All Rights Reserved.
+# Copyright (c) 2008-2011 Apple Inc. All Rights Reserved.
 #
 #
 
 use strict;
-#use warnings;
+use warnings;
 use Getopt::Std;
 use Cwd qw(realpath);
 use Math::BigInt;
+use List::MoreUtils qw(uniq);
+use File::Basename qw(basename);
 
 #############################
 
@@ -28,7 +30,7 @@ sub usage();
 my %opt;
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 
-getopts('Ahvo:',\%opt);
+getopts('hvo:',\%opt);
 
 usage() if $opt{'h'};
 
@@ -46,47 +48,33 @@ my %entity2char = (
 
 # Array of all the supported architectures.
 my %architectures = (
-	ARM      =>  "armv6",
-	X86      =>  "i386",
-	"X86-64" =>  "x86_64",
-	PPC      =>  "ppc",
-	"PPC-64" =>  "ppc64",
-	"ARMV4T" =>  "armv4t",
-	"ARMV5"  =>  "armv5",
-	"ARMV6"  =>  "armv6",
-	"ARMV7"  =>  "armv7",
+    ARM      =>  "armv6",
+    X86      =>  "i386",
+    "X86-64" =>  "x86_64",
+    PPC      =>  "ppc",
+    "PPC-64" =>  "ppc64",
+    "ARMV4T" =>  "armv4t",
+    "ARMV5"  =>  "armv5",
+    "ARMV6"  =>  "armv6",
+    "ARMV7"  =>  "armv7",
 );
 #############################
 
-
-my $devToolsPath = `/usr/bin/xcode-select -print-path`;
-chomp $devToolsPath;
-
 # Find otool from the latest iphoneos
-my $otool = `xcrun -sdk iphoneos -find otool`;
-chomp($otool);
-my $atos = `xcrun -sdk iphoneos -find atos`;
-chomp($atos);
+my $otool = "xcrun -sdk iphoneos otool";
+my $atos = "xcrun -sdk iphoneos atos";
+my $lipo = "xcrun -sdk iphoneos lipo";
+my $size = "xcrun -sdk iphoneos size";
 
-if ( ! -f $otool ) {
-    # if that doesn't exist, then assume the PDK was installed
-    $otool = "/usr/bin/otool";
-    $atos = "/usr/bin/atos";
-}
 print STDERR "otool path is '$otool'\n" if $opt{v};
 print STDERR "atos path is '$atos'\n" if $opt{v};
-
-# quotemeta makes the paths such that -f can't be used
-$devToolsPath = quotemeta($devToolsPath);
-$otool = quotemeta($otool);
-$atos = quotemeta($atos);
-
 
 #############################
 # run the script
 
 symbolicate_log(@ARGV);
 
+exit 0;
 
 #############################
 
@@ -99,7 +87,7 @@ sub HELP_MESSAGE() {
 sub usage() {
 print STDERR <<EOF;
 usage: 
-    $0 [-Ah] [-o <OUTPUT_FILE>] LOGFILE [SYMBOL_PATH ...]
+    $0 [-h] [-o <OUTPUT_FILE>] LOGFILE [SYMBOL_PATH ...]
     
     Symbolicates a crashdump LOGFILE which may be "-" to refer to stdin. By default,
     all heuristics will be employed in an attempt to symbolicate all addresses. 
@@ -107,7 +95,6 @@ usage:
     
 Options:
     
-    -A  Only symbolicate the application, not libraries
     -o  If specified, the symbolicated log will be written to OUTPUT_FILE (defaults to stdout)
     -h  Display this message
     -v  Verbose
@@ -120,45 +107,21 @@ exit 1;
 sub getSymbolDirPaths {
     my ($osVersion, $osBuild) = @_;
     
-    my @devToolsPaths = ($devToolsPath);
-    
-    my @foundPaths = `mdfind -onlyin / "kMDItemCFBundleIdentifier == 'com.apple.Xcode'"`;
+    my @foundPaths = `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode' || kMDItemCFBundleIdentifier == 'com.apple.Xcode'"`;
+    my @result = ();
     
     foreach my $foundPath (@foundPaths) {
         chomp $foundPath;
         $foundPath =~ s/\/Applications\/Xcode.app$//;
         $foundPath = quotemeta($foundPath);
-        if( $foundPath ne $devToolsPath ) {
-            push(@devToolsPaths, $foundPath);
-        }
-    }
-    
-    my @result = ();
-    
-    foreach my $foundDevToolsPath (@devToolsPaths) {
-        my $symbolDirs = $foundDevToolsPath . '\/Platforms\/*\.platform/DeviceSupport\/*\/Symbols*';
-        my @pathResults = grep { -e && -d && !/Simulator/ } glob $symbolDirs;
+        
+        my @pathResults = grep { -e && -d && !/Simulator/ } glob $foundPath.'\/Platforms\/*\.platform/DeviceSupport\/*\/Symbols*';
+        push(@pathResults, grep { -e && -d } glob '{\/System,,~}\/Library\/Developer\/Xcode\/iOS\ DeviceSupport\/*\/Symbols*');
         print STDERR "Symbol directory paths:  @pathResults\n" if $opt{v};
         push(@result, @pathResults);
     }
-	
-	## start with most specific "version build", then just build, last just version.
-	my @pathsForOSbuild = grep { /$osVersion \($osBuild\)/ } @result;
-	if ( @pathsForOSbuild <= 0 ) {
-		@pathsForOSbuild = grep { /$osBuild/ } @result;
-	}
-	if ( @pathsForOSbuild <= 0 ) {
-		@pathsForOSbuild = grep { /$osVersion/ } @result;
-	}
-
-	if ( @pathsForOSbuild <= 0 ) {
-		print STDERR "Symbol directory path(s) not found for $osVersion ($osBuild):  @pathsForOSbuild\n" if $opt{v};
-        # hmm, didn't find a path for the specific build, so return all the paths we got.
-        return @result;
-    }
-	
-	print STDERR "Symbol directory path(s) for $osVersion ($osBuild):  @pathsForOSbuild\n" if $opt{v};
-	return @pathsForOSbuild;
+    
+    return @result;
 }
 
 sub getSymbolPathFor_searchpaths {
@@ -201,109 +164,93 @@ sub getSymbolPathFor_dsymUuid{
     # Do the search in Spotlight.
     my $cmd = "mdfind \"com_apple_xcode_dsym_uuids == $myuuid\"";
     print STDERR "Running $cmd\n" if $opt{v};
-    my $dsymdir = `$cmd`;
-    chomp $dsymdir;
-    $dsymdir or return undef;
-    # only take the first result if mdfind returned multiple
-    my @paths = split /\n/, $dsymdir;
-    for my $path (@paths) {
-        $dsymdir = $path;
+    
+    my @dsym_paths    = ();
+    my @archive_paths = ();
+    
+    foreach my $dsymdir (split(/\n/, `$cmd`)) {
+        $cmd = "mdls -name com_apple_xcode_dsym_paths ".quotemeta($dsymdir);
+        print STDERR "Running $cmd\n" if $opt{v};
+        
+        my $com_apple_xcode_dsym_paths = `$cmd`;
+        $com_apple_xcode_dsym_paths =~ s/^com_apple_xcode_dsym_paths\ \= \(\n//;
+        $com_apple_xcode_dsym_paths =~ s/\n\)//;
+        
+        my @subpaths = split(/,\n/, $com_apple_xcode_dsym_paths);
+        map(s/^[[:space:]]*\"//, @subpaths);
+        map(s/\"[[:space:]]*$//, @subpaths);
+        
+        push(@dsym_paths, map($dsymdir."/".$_, @subpaths));
+        
+        if($dsymdir =~ m/\.xcarchive$/) {
+            push(@archive_paths, $dsymdir);
+        }
     }
-    $dsymdir = quotemeta($dsymdir);	# quote the result to handle spaces in path and executable names
-    print STDERR "dsym directory: $dsymdir\n" if $opt{v};
     
-    my $pathToDsym;
-    my $dsymBaseName;
-    my $executable;
+    @dsym_paths = uniq(@dsym_paths);
     
-    # Find the executable from the dsym.
-    if ($dsymdir =~ /(.*)\/(.*).dSYM/) {
-        $pathToDsym = $1;
-        $dsymBaseName = $2;
-        $executable = $dsymBaseName;
-    } else {
-    	print STDERR "No match for dsymdir\n\n" if $opt{v};
-    	my @files = glob("$dsymdir/*/*");
-    	my $file;
-        foreach $file (@files) {
-            print STDERR "$file\n";
-            if ($file =~ /(.*)\/(.*).dSYM$/) {
-                print STDERR "using $file\n";
-                $pathToDsym = quotemeta($1);
-                $dsymBaseName = $2;
-                $executable = $dsymBaseName;
-                last;
+    my @exec_names  = map(basename($_), @dsym_paths);
+    @exec_names = uniq(@exec_names);
+    
+    print STDERR "\@dsym_paths = ( @dsym_paths )\n" if $opt{v};
+    print STDERR "\@exec_names = ( @exec_names )\n" if $opt{v};
+    
+    my @exec_paths  = ();
+    foreach my $exec_name (@exec_names) {
+        #We need to find all of the apps with the given name (both in- and outside of any archive)
+        #First, use spotlight to find un-archived apps:
+        my $cmd = "mdfind \"kMDItemContentType == com.apple.application-bundle && kMDItemFSName == '$exec_name.app'\"";
+        print STDERR "Running $cmd\n" if $opt{v};
+        
+        foreach my $app_bundle (split(/\n/, `$cmd`)) {
+            if( -f "$app_bundle/$exec_name") {
+                push(@exec_paths, "$app_bundle/$exec_name");
+            }
+        }
+        
+        #Find any naked executables
+        $cmd = "mdfind \"kMDItemContentType == public.unix-executable && kMDItemFSName == '$exec_name'\"";
+        print STDERR "Running $cmd\n" if $opt{v};
+        
+        foreach my $exec_file (split(/\n/, `$cmd`)) {
+            if( -f "$exec_file") {
+                push(@exec_paths, "$exec_file");
+            }
+        }
+        
+        #Next, try to find paths within any archives
+        foreach my $archive_path (@archive_paths) {
+            my $cmd = "find \"$archive_path/Products\" -name \"$exec_name.app\"";
+            print STDERR "Running $cmd\n" if $opt{v};
+            
+            foreach my $app_bundle (split(/\n/, `$cmd`)) {
+                if( -f "$app_bundle/$exec_name") {
+                    push(@exec_paths, "$app_bundle/$exec_name");
+                }
             }
         }
     }
-    $executable =~ s/\..*//g;	# strip off the suffix, if any
     
-	print STDERR "Executable: $executable\n\n" if $opt{v};
-	
-	$executable =~ s/\\//g; # remove \ characters from the executable name.
-    chomp($executable); # remove newline character if any from the executable path.
-    my @paths = glob "$pathToDsym/$dsymBaseName/{,$executable,Contents/MacOS/$executable}";
-    print STDERR "pathToDsym: $pathToDsym\n" if $opt{v};
-    print STDERR "dsymBaseName: $dsymBaseName\n" if $opt{v};
-    print STDERR "executable: $executable\n" if $opt{v};
-    print STDERR "paths: @paths\n" if $opt{v};
-    
-    my @executablePath = grep { -x && ! -d } glob "$pathToDsym/$dsymBaseName/{,$executable,Contents/MacOS/$executable}";
-	
-	# Fix for <rdar://problem/6871493>, we shouldn't really need the executable name as we are using the uuid's, but as this has been working this way for some time now, we are continuing...
-	my @spotLightSearchForExecutable = `mdfind $executable.app`; # To cover the case where the DSYM's and .app are no located in the same location.
-	print STDERR "spotLightSearchForExecutable: @spotLightSearchForExecutable\n\n" if $opt{v};
-	print STDERR "Executable: $executable\n\n" if $opt{v};
-	foreach (@spotLightSearchForExecutable) {
-        $_ =~ s/\/$//;
-        chomp($_);
-	    if ($_ =~ /.*.xcarchive/) {
-	        my $path = quotemeta("$_");
-	        $path = $path."/*/*/*/$executable";
-            print STDERR "searching $path\n" if $opt{v};        	        
-	        my @files = glob("$path");
-	        my $file;
-	        foreach $file (@files) {
-            	print STDERR "Found $file\n" if $opt{v};        
-	        }
-	        if (@files) {
-	            $_ = $files[0];
-            	print STDERR "Found executable in .xcarchive: $_\n" if $opt{v};
-	        }
-	    } else {
-            $_ = $_."/".$executable;
+    if ( @exec_paths >= 1 ) {
+        foreach my $exec (@exec_paths) {
+            if ( !matchesUUID($exec, $uuid, $arch) ) {
+                print STDERR "UUID of executable is: $uuid\n" if $opt{v};
+                print STDERR "Executable name: $exec\n\n" if $opt{v};
+                print STDERR "UUID doesn't match dsym for executable $exec\n" if $opt{v};
+            } else {
+                print STDERR "Found executable $exec\n" if $opt{v};
+                return $exec;
+            }
         }
-	}
-	@executablePath = (@executablePath,@spotLightSearchForExecutable); 
-	print STDERR "executablePath = @executablePath\n\n" if $opt{v};
-    my $executableCount = @executablePath;
-	print STDERR "executableCount = $executableCount\n\n" if $opt{v};
-    if ( $executableCount > 1 ) {
-        print STDERR "Found more than one executable for a dsym: @executablePath\n" if $opt{v};
     }
-    if ( $executableCount >= 1 ) {
-		my $exec;
-		while (defined($exec = shift @executablePath) ){
-			if ( !matchesUUID($exec, $uuid, $arch) ) {
-				print STDERR "UUID of executable is: $uuid\n" if $opt{v};
-				print STDERR "Executable name: $exec\n" if $opt{v};
-				print STDERR "UUID doesn't match dsym for executable $exec\n\n" if $opt{v};
-				
-			} else {
-				print STDERR "Found executable $exec\n" if $opt{v};
-				return $exec;
-			}
-		}
-    }
-	
+    
     print STDERR "Did not find executable for dsym\n" if $opt{v};
     return undef;
 }
 
 #########
 
-sub matchesUUID
-{  
+sub matchesUUID {
     my ($path, $uuid, $arch) = @_;
     
     if ( ! -f $path ) {
@@ -311,22 +258,35 @@ sub matchesUUID
         return 0;
     }
     
-    my $TEST_uuid = `$otool -arch $arch -l "$path"`;
+    my $cmd = "$lipo -info '$path'";
+    print STDERR "Running $cmd\n" if $opt{v};
+    
+    my $lipo_result = `$cmd`;
+    if( index($lipo_result, $arch) < 0) {
+        print STDERR "## $path doesn't contain $arch slice\n" if $opt{v};
+        return 0;
+    }
+    
+    $cmd = "$otool -arch $arch -l '$path'";
+    
+    print STDERR "Running $cmd\n" if $opt{v};
+    
+    my $TEST_uuid = `$cmd`;
     
     if ( $TEST_uuid =~ /uuid ((0x[0-9A-Fa-f]{2}\s+?){16})/ || $TEST_uuid =~ /uuid ([^\s]+)\s/ ) {
         my $test = $1;
         
         if ( $test =~ /^0x/ ) {
             # old style 0xnn 0xnn 0xnn ... on two lines
-			$test =  join("", split /\s*0x/, $test);
-			
-			$test =~ s/0x//g;     ## remove 0x
-			$test =~ s/\s//g;     ## remove spaces
-		} else {
-			# new style XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-			$test =~ s/-//g;     ## remove -
-			$test = lc($test);
-		}
+            $test =  join("", split /\s*0x/, $test);
+            
+            $test =~ s/0x//g;     ## remove 0x
+            $test =~ s/\s//g;     ## remove spaces
+        } else {
+            # new style XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+            $test =~ s/-//g;     ## remove -
+            $test = lc($test);
+        }
         
         if ( $test eq $uuid ) {
             ## See that it isn't stripped.  Even fully stripped apps have one symbol, so ensure that there is more than one.
@@ -338,11 +298,11 @@ sub matchesUUID
                 
             print STDERR "## $path appears to be stripped, skipping.\n" if $opt{v};
         } else {
-			print STDERR "Given UUID $uuid for '$path' is really UUID $test\n" if $opt{v};
-		}
+            print STDERR "Given UUID $uuid for '$path' is really UUID $test\n" if $opt{v};
+        }
     } else {
-		print STDERR "Can't understand the output from otool ($TEST_uuid -> '$otool -arch $arch -l $path')\n" if $opt{v};
-	}
+        print STDERR "Can't understand the output from otool ($TEST_uuid -> $cmd)\n";
+    }
 
     return 0;
 }
@@ -398,17 +358,9 @@ sub getSymbolPathFor {
     }
     # if $out_path is defined here, then we have already verified that the UUID matches
     if ( !defined($out_path) ) {
-        undef $out_path;
-        if ($path =~ m/^\/System\// || $path =~ m/^\/usr\//) {
-            # Don't use Spotlight to try to find dsym by UUID for system dylibs, since they won't have dsyms.
-            # We get here if the host system no longer has an SDK whose frameworks match the UUIDs in the crash logs. 
-            print STDERR "NOT searching in Spotlight for dsym with UUID of $path\n" if $opt{v};
-        } else {
-            print STDERR "Searching in Spotlight for dsym with UUID of $path\n" if $opt{v};
-            $out_path = getSymbolPathFor_dsymUuid($uuid, $arch);
-            print STDERR " Found $out_path\n" if $opt{v};
-            undef $out_path if ( defined($out_path) && !length($out_path) );
-        }
+        print STDERR "Searching in Spotlight for dsym with UUID of $uuid\n" if $opt{v};
+        $out_path = getSymbolPathFor_dsymUuid($uuid, $arch);
+        undef $out_path if ( defined($out_path) && !length($out_path) );
     }
     
     if (defined($out_path)) {
@@ -555,7 +507,7 @@ sub parse_images {
     for my $line (@lines) {
         next if $line =~ /PEF binary:/; # ignore these
         
-	$line =~ s/(&(\w+);?)/$entity2char{$2} || $1/eg;
+    $line =~ s/(&(\w+);?)/$entity2char{$2} || $1/eg;
         
 	if ($line =~ /$pat/ox) {
 
@@ -621,6 +573,58 @@ sub resolve_partial_id {
         }
     }
     return undef;
+}
+
+sub fixup_last_exception_backtrace {
+    my ($log_ref,$exception,$images) = @_;
+    my $repl = $exception;
+    if ($exception =~ m/^.0x/) {
+        my @lines = split / /, substr($exception, 1, length($exception)-2);
+        my $counter = 0;
+        $repl = "";
+        for my $line (@lines) {
+            my ($image,$image_base) = findImageByAddress($images, $line);
+            my $offset = hex($line) - hex($image_base);
+            my $formattedTrace = sprintf("%-3d %-30s\t0x%08x %s + %d", $counter, $image, hex($line), $image_base, $offset);
+            $repl .= $formattedTrace . "\n";
+            ++$counter;
+        }
+        $log_ref = replace_chunk($log_ref, $exception, $repl);
+        # may need to do this a second time since there could be First throw call stack too
+        $log_ref = replace_chunk($log_ref, $exception, $repl);
+    }
+    return ($log_ref, $repl);
+}
+
+sub parse_last_exception_backtrace {
+    print STDERR "Parsing last exception backtrace\n" if $opt{v};
+    my ($backtrace,$images, $inHex) = @_;
+    my @lines = split /\n/,$backtrace;
+    
+    my %frames = ();
+    
+    # these two have to be parallel; we'll lookup by hex, and replace decimal if needed
+    my @hexAddr;
+    my @replAddr;
+    
+    for my $line (@lines) {
+        # end once we're done with the frames
+        last if $line =~ /\)/;
+        last if !length($line);
+        
+        if ($inHex && $line =~ /0x([[:xdigit:]]+)/) {
+            push @hexAddr, sprintf("0x%08s", $1);
+            push @replAddr, "0x".$1;
+        }
+        elsif ($line =~ /(\d+)/) {
+            push @hexAddr, sprintf("0x%08x", $1);
+            push @replAddr, $1;
+        }
+    }
+    
+    # we don't have a hint as to the binary assignment of these frames
+    # map_addresses will do it for us
+    return map_addresses(\@hexAddr,$images,\@replAddr);
 }
 
 # returns an oddly-constructed hash:
@@ -737,6 +741,21 @@ sub parse_report_version {
     $version =~ /(\d+)/;
     return $1;
 }
+sub findImageByAddress {
+    my ($images,$address) = @_;
+    my $image;
+    
+    for $image (values %$images) {
+        if ( hex($address) >= hex($$image{base}) && hex($address) <= hex($$image{extent}) )
+        {
+            return ($$image{bundlename},$$image{base});
+        }
+    }
+    
+    print STDERR "Unable to map $address\n" if $opt{v};
+    
+    return undef;
+}
 
 sub findImageByNameAndAddress {
     my ($images,$bundle,$address) = @_;
@@ -746,7 +765,7 @@ sub findImageByNameAndAddress {
     
     my $binary = $$images{$bundle};
     
-    while( length($$binary{nextID}) ) {
+    while($$binary{nextID} && length($$binary{nextID}) ) {
         last if ( hex($address) >= hex($$binary{base}) && hex($address) <= hex($$binary{extent}) );
         
         $key = $key . $$binary{nextID};
@@ -807,32 +826,26 @@ sub fetch_symbolled_binaries {
                 next;
             }
         }
-        
-        # app can't slide
-        next if $b eq $bundle;
-        
-	print STDERR "\r${pre}checking address range for $b$post" if $opt{v};
-	$pre .= ".";
+                
+        print STDERR "\r${pre}checking address range for $b$post" if $opt{v};
+        $pre .= ".";
         
         # check for sliding. set slide offset if so
-        if (-e '/usr/bin/size') {
-            open my($ph),"-|",'size','-m','-l','-x',$symbol or die $!;
-            my $real_base = ( 
-            grep { $_ } 
-            map { (/_TEXT.*vmaddr\s+(\w+)/)[0] } <$ph> 
-            )[0];
-            close $ph;
-            if ($?) {
-                # call to size failed.  Don't use this image in symbolication; don't die
-                delete $$images{$b};
-                print STDOUT "Error in symbol file for $symbol\n"; # tell the user
-                print STDERR "Error in symbol file for $symbol\n"; # and log it
-                next;
-            }
-            
-            if($$lib{base} ne $real_base) {
-                $$lib{slide} =  hex($real_base) - hex($$lib{base});
-            }
+        open my($ph),"-|", "$size -m -l -x '$symbol'" or die $!;
+        my $real_base = ( 
+        grep { $_ } 
+        map { (/_TEXT.*vmaddr\s+(\w+)/)[0] } <$ph> 
+        )[0];
+        close $ph;
+        if ($?) {
+            # call to size failed.  Don't use this image in symbolication; don't die
+            delete $$images{$b};
+            print STDERR "Error in symbol file for $symbol\n"; # and log it
+            next;
+        }
+        
+        if($$lib{base} ne $real_base) {
+            $$lib{slide} =  hex($real_base) - hex($$lib{base});
         }
     }
     print STDERR "\rdone.$post\n" if $opt{v};
@@ -871,6 +884,7 @@ sub symbolize_frames {
         # each library
         $frames_to_lookup{$$lib{symbol}}{$address} = $frame;
         $arch_map{$$lib{symbol}} = $$lib{arch};
+        $base_map{$$lib{symbol}} = $$lib{base};
     }
     
     # run atos for each library
@@ -881,6 +895,7 @@ sub symbolize_frames {
         
         # run atos with the addresses and binary files we just gathered
         my $arch = $arch_map{$symbol};
+        my $base = $base_map{$symbol};
         my $cmd = "$atos -arch $arch -o '$escapedSymbol' @{[ keys %$frames ]} | ";
         
         print STDERR "Running $cmd\n" if $opt{v};
@@ -921,10 +936,9 @@ sub symbolize_frames {
 # run the final regex to symbolize the log
 sub replace_symbolized_frames {
     my ($log_ref,$bt)  = @_; 
-    
     my $re = join "|" , map { quotemeta } keys %$bt;
-    my $log = $$log_ref;
     
+    my $log = $$log_ref;
     if (length($re) > 0) {
         $log =~ s#$re#
         my $frame = $$bt{$&};
@@ -936,6 +950,14 @@ sub replace_symbolized_frames {
     
         $log =~ s/(&(\w+);?)/$entity2char{$2} || $1/eg;
     }
+    return \$log;
+}
+
+sub replace_chunk {
+    my ($log_ref,$old,$new) = @_;
+    my $log = $$log_ref;
+    my $re = quotemeta $old;
+    $log =~ s/$re/$new/;
     return \$log;
 }
 
@@ -990,29 +1012,28 @@ sub symbolicate_log {
     
     # just parse out crashing thread
     my $bt = {};
-    if($opt{t}) {
-        # just do crashing logs
-        my $crashing = parse_section($log_ref,'Thread') 
-        || parse_section($log_ref,'Crashed Thread'); # new format
-        my $thread = parse_section($log_ref,"Thread $crashing Crashed",multiline=>1);
-        
-        die "Can't locate crashed thread in log file.  Try using -a option\n" unless defined $thread;
-        
-        $bt = parse_backtrace($thread,$images);
-    } else {
-        my $threads = parse_sections($log_ref,'Thread\s+\d+\s?(Highlighted|Crashed)?',multiline=>1);
-        for my $thread (values %$threads) {
-            # merge all of the frames from all backtraces into one
-            # collection
-            my $b = parse_backtrace($thread,$images);
-            @$bt{keys %$b} = values %$b;
-        }
+    my $threads = parse_sections($log_ref,'Thread\s+\d+\s?(Highlighted|Crashed)?',multiline=>1);
+    for my $thread (values %$threads) {
+        # merge all of the frames from all backtraces into one
+        # collection
+        my $b = parse_backtrace($thread,$images);
+        @$bt{keys %$b} = values %$b;
     }
     
     # extract build
     my ($version, $build) = parse_OSVersion($log_ref);
     print STDERR "OS Version $version Build $build\n" if $opt{v};
     
+    my $exception = parse_section($log_ref,'Last Exception Backtrace', multiline=>1);
+    if (defined $exception) {
+        ($log_ref, $exception) = fixup_last_exception_backtrace($log_ref, $exception, $images);
+        #my $e = parse_last_exception_backtrace($exception, $images, 1);
+        my $e = parse_backtrace($exception, $images);
+        
+        # treat these frames in the same was as any thread
+        @$bt{keys %$e} = values %$e;
+    }
+
     # sort out just the images needed for this backtrace
     prune_used_images($images,$bt);
     if ( $opt{v} ) {
@@ -1038,7 +1059,13 @@ sub symbolicate_log {
     # run atos
     symbolize_frames($images,$bt);
     
-    # run our fancy regex
-    my $new_log = replace_symbolized_frames($log_ref,$bt);
-    output_log($new_log);
+    if(keys %$bt) {
+        # run our fancy regex
+        my $new_log = replace_symbolized_frames($log_ref,$bt);
+        output_log($new_log);
+    } else {
+        #There were no symbols found
+        print STDERR "No symbolic information found\n";
+        output_log($log_ref);
+    }
 }
