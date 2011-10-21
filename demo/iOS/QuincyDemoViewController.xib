@@ -45,6 +45,7 @@
 						<string key="NSFrame">{{72, 205}, {176, 37}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="276807005"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -55,7 +56,7 @@
 						<string key="IBUIDisabledTitle">Trigger Crash</string>
 						<string key="IBUISelectedTitle">Trigger Crash</string>
 						<string key="IBUINormalTitle">Trigger Crash</string>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="392365629">
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="1014278857">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
@@ -63,28 +64,29 @@
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 						</object>
-						<object class="NSColor" key="IBUINormalTitleShadowColor" id="384154662">
+						<object class="NSColor" key="IBUINormalTitleShadowColor" id="982993881">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MAA</bytes>
 						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="874451155">
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="769909416">
 							<string key="name">Helvetica-Bold</string>
 							<string key="family">Helvetica</string>
 							<int key="traits">2</int>
 							<double key="pointSize">15</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="519558242">
+						<object class="NSFont" key="IBUIFont" id="117773203">
 							<string key="NSName">Helvetica-Bold</string>
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
 					</object>
-					<object class="IBUIButton" id="435311088">
+					<object class="IBUIButton" id="276807005">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{61, 285}, {199, 37}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -92,14 +94,14 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">Trigger Exception Crash</string>
-						<reference key="IBUIHighlightedTitleColor" ref="392365629"/>
+						<reference key="IBUIHighlightedTitleColor" ref="1014278857"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 						</object>
-						<reference key="IBUINormalTitleShadowColor" ref="384154662"/>
-						<reference key="IBUIFontDescription" ref="874451155"/>
-						<reference key="IBUIFont" ref="519558242"/>
+						<reference key="IBUINormalTitleShadowColor" ref="982993881"/>
+						<reference key="IBUIFontDescription" ref="769909416"/>
+						<reference key="IBUIFont" ref="117773203"/>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
@@ -141,7 +143,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">triggerButtonExceptionCrash</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="435311088"/>
+						<reference key="destination" ref="276807005"/>
 					</object>
 					<int key="connectionID">25</int>
 				</object>
@@ -156,17 +158,8 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">triggerCrash</string>
-						<reference key="source" ref="435311088"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">23</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">triggerExceptionCrash</string>
-						<reference key="source" ref="435311088"/>
+						<reference key="source" ref="276807005"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -201,7 +194,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="268644568"/>
-							<reference ref="435311088"/>
+							<reference ref="276807005"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -212,7 +205,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">22</int>
-						<reference key="object" ref="435311088"/>
+						<reference key="object" ref="276807005"/>
 						<reference key="parent" ref="774585933"/>
 					</object>
 				</object>
