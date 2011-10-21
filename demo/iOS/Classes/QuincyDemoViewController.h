@@ -30,12 +30,14 @@
 
 @interface QuincyDemoViewController : UIViewController {
 	IBOutlet UIButton *triggerButtonCrash;
+	IBOutlet UIButton *triggerButtonExceptionCrash;
 	
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *triggerButtonCrash;
 
 - (IBAction) triggerCrash;
+- (IBAction) triggerExceptionCrash;
 
 @end
 
