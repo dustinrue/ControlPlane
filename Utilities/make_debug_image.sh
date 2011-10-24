@@ -16,7 +16,7 @@ VERSION=`cat Info.plist | grep -A 1 'CFBundleShortVersionString' | \
 APPNAME=ControlPlane
 IMG=$APPNAME-$VERSION
 IMGTMP=Utilities/ControlPlane-Template
-CONFIGURATION=Release
+CONFIGURATION=Debug
 APP=build/$CONFIGURATION/$APPNAME.app
 ICON=Resources/controlplane.icns
 
