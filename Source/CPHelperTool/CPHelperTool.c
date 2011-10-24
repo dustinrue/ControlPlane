@@ -253,7 +253,7 @@ static OSStatus DoEnableFirewall (AuthorizationRef          auth,
 	char command[256];
 	int retValue = 0;
     
-    sprintf(command, "/usr/libexec/ApplicationFirewall/socketfilterfw %s %s", "--setglobalstate", "on");
+    sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.alf globalstate -int 1");
     retValue = system(command);
 	
 	
@@ -274,7 +274,7 @@ static OSStatus DoDisableFirewall (AuthorizationRef         auth,
 	char command[256];
 	int retValue = 0;
     
-    sprintf(command, "/usr/libexec/ApplicationFirewall/socketfilterfw %s %s", "--setglobalstate", "off");
+    sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.alf globalstate -int 0");
     retValue = system(command);
 	
 	
