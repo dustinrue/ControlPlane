@@ -5,6 +5,8 @@
 //  Created by Dustin Rue on 10/20/11.
 //  Copyright (c) 2011. All rights reserved.
 //
+//  Inspired by - http://krypted.com/mac-os-x/command-line-alf-redux/
+//
 
 #import "ToggleableAction.h"
 

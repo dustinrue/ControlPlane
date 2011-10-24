@@ -776,8 +776,6 @@
 		DD8274ED14114D620098FA6E /* System Actions */ = {
 			isa = PBXGroup;
 			children = (
-				DAE893E414546897005FA13C /* ToggleFirewallAction.h */,
-				DAE893E514546897005FA13C /* ToggleFirewallAction.m */,
 				8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */,
 				8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */,
 				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
@@ -804,6 +802,8 @@
 				DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
 				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
+				DAE893E414546897005FA13C /* ToggleFirewallAction.h */,
+				DAE893E514546897005FA13C /* ToggleFirewallAction.m */,
 				DA922E9B144FC95200920B40 /* ToggleInternetSharingAction.h */,
 				DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */,
 				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
