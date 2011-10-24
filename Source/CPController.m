@@ -735,7 +735,14 @@
 		double original_delay = [[action valueForKey:@"delay"] doubleValue];
 		[surrogateAction setValue:[NSNumber numberWithDouble:(max_delay - original_delay)]
 				   forKey:@"delay"];
-		[set addObject:[Action actionFromDictionary:surrogateAction]];
+        @try {
+            [set addObject:[Action actionFromDictionary:surrogateAction]];
+        }
+        @catch (NSException *exception) {
+    
+            DSLog(@"ERROR: %@",NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+        }
+		
 	}
 	[self executeActionSet:set];
 
@@ -758,7 +765,14 @@
 			continue;
 		if (![[action objectForKey:@"enabled"] boolValue])
 			continue;
-		[set addObject:[Action actionFromDictionary:action]];
+        
+        @try {
+            [set addObject:[Action actionFromDictionary:action]];
+        }
+        @catch (NSException *exception) {
+            DSLog(@"ERROR: %@",NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+        }
+		
 	}
 
 	[self executeActionSet:set];

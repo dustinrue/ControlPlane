@@ -102,7 +102,7 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DAE893E614546897005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
+		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
@@ -1039,6 +1039,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */,
 				DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */,
 				DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
@@ -1107,7 +1108,6 @@
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
 				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
-				DAE893E614546897005FA13C /* ToggleFirewallAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
