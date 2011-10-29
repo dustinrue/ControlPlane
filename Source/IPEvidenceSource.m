@@ -249,6 +249,9 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
             match = YES;
             break;
         }
+        else if (isHostAddress) {
+            break;
+        }
 
 #ifdef DEBUG_MODE
         DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
