@@ -93,6 +93,7 @@
 		DD19C6CB144B365C00608844 /* BluetoothConnectedRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6CA144B365C00608844 /* BluetoothConnectedRule.m */; };
 		DD19C6CE144B3C7400608844 /* BluetoothScannerRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6CD144B3C7300608844 /* BluetoothScannerRule.m */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
+		DD4364BF145E13A500A716A1 /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4364BE145E13A500A716A1 /* ToggleFirewallAction.m */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
 		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
@@ -436,6 +437,8 @@
 		DD23929C142A916500FE7DC7 /* BonjourSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourSource.h; path = PlugIns/Core/Source/BonjourSource.h; sourceTree = "<group>"; };
 		DD23929D142A916500FE7DC7 /* BonjourSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourSource.m; path = PlugIns/Core/Source/BonjourSource.m; sourceTree = "<group>"; };
 		DD3BAB8414163C6B000D5F88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
+		DD4364BD145E13A500A716A1 /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
+		DD4364BE145E13A500A716A1 /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
 		DD44B57D141417E40016BF6B /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		DD44B5A014142D2D0016BF6B /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD44B5A214142D4D0016BF6B /* da-DK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
@@ -1043,6 +1046,8 @@
 				DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
 				8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */,
+				DD4364BD145E13A500A716A1 /* ToggleFirewallAction.h */,
+				DD4364BE145E13A500A716A1 /* ToggleFirewallAction.m */,
 				DDFAEFE1144FD2EC006472EE /* ToggleInternetSharingAction.h */,
 				DDFAEFE2144FD2EC006472EE /* ToggleInternetSharingAction.m */,
 				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
@@ -1639,6 +1644,7 @@
 				DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */,
 				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
 				DDFAEFE3144FD2EC006472EE /* ToggleInternetSharingAction.m in Sources */,
+				DD4364BF145E13A500A716A1 /* ToggleFirewallAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

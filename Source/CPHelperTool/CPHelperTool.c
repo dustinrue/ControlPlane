@@ -47,6 +47,8 @@ static OSStatus DoGetVersion(AuthorizationRef		auth,
 	return retval;
 }
 
+#pragma mark - Time Machine
+
 // enables time machine
 static OSStatus DoEnableTM(AuthorizationRef			auth,
 						   const void *				userData,
@@ -175,6 +177,8 @@ static OSStatus DoStopBackupTM(AuthorizationRef			auth,
 	return retValue;
 }
 
+#pragma mark - Internet Sharing
+
 // Enable Internet Sharing
 static OSStatus DoEnableIS(AuthorizationRef		auth,
 						   const void *			userData,
@@ -217,8 +221,50 @@ static OSStatus DoDisableIS(AuthorizationRef		auth,
 	return retValue;
 }
 
-#pragma mark -
-#pragma mark Tool Infrastructure
+#pragma mark - Firewall
+
+// Enable Firewall, this globally enables the firewall
+static OSStatus DoEnableFirewall(AuthorizationRef		auth,
+								 const void *			userData,
+								 CFDictionaryRef		request,
+								 CFMutableDictionaryRef	response,
+								 aslclient				asl,
+								 aslmsg					aslMsg) {
+	assert(auth != NULL);
+	assert(request != NULL);
+	assert(response != NULL);
+
+	char command[256];
+	int retValue = 0;
+
+	sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.alf globalstate -int 1");
+	retValue = system(command);
+	
+	return retValue;
+}
+
+// Globally disable the firewall
+static OSStatus DoDisableFirewall(AuthorizationRef			auth,
+								  const void *				userData,
+								  CFDictionaryRef			request,
+								  CFMutableDictionaryRef	response,
+								  aslclient					asl,
+								  aslmsg					aslMsg) {
+	assert(auth != NULL);
+	assert(request != NULL);
+	assert(response != NULL);
+
+	char command[256];
+	int retValue = 0;
+
+	sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.alf globalstate -int 0");
+	retValue = system(command);
+
+
+	return retValue;
+}
+
+#pragma mark - Tool Infrastructure
 
 // the list defined here must match (same order) the list in CPHelperToolCommon.c
 static const BASCommandProc kCPHelperToolCommandProcs[] = {
@@ -229,6 +275,8 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
 	DoStopBackupTM,
 	DoEnableIS,
 	DoDisableIS,
+	DoEnableFirewall,
+	DoDisableFirewall,
 	NULL
 };
 
