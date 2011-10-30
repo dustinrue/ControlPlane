@@ -19,3 +19,6 @@ WRAPPER_EXTENSION = framework
 // Linking
 DYLIB_COMPATIBILITY_VERSION = 1
 DYLIB_CURRENT_VERSION = 1
+
+// Deployment
+INSTALL_PATH = @executable_path/../Frameworks
