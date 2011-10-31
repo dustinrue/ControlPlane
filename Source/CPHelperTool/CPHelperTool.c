@@ -47,220 +47,148 @@ static OSStatus DoGetVersion(AuthorizationRef		auth,
 	return retval;
 }
 
-#pragma mark - Time Machine
+#pragma mark - Firewall
 
-// enables time machine
-static OSStatus DoEnableTM(AuthorizationRef			auth,
-						   const void *				userData,
-						   CFDictionaryRef			request,
-						   CFMutableDictionaryRef	response,
-						   aslclient				asl,
-						   aslmsg					aslMsg) {
-	
-	assert(auth != NULL);
-	assert(request != NULL);
-	assert(response != NULL);
-	
-	char command[256];
-	int retValue = 0;
-	
-	// if Lion or greater
-	if (isLionOrHigher()) {
-		sprintf(command,"/usr/bin/tmutil enable");
-		retValue = system(command);
-		
-        // disabling local backups causes any stored local backups
-        // to be deleted, this option is left here in case someone
-        // actually wants to do that
-        /*
-		if (!retValue) {
-			sprintf(command,"/usr/bin/tmutil enablelocal");
-			retValue = system(command);
-		}
-        */
-	} else {	// Snow leopard
-		sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "TRUE");
-		retValue = system(command);
-	}
-	
-	return retValue;
-}
-
-// disables time machine
-static OSStatus DoDisableTM(AuthorizationRef		auth,
-							const void *			userData,
-							CFDictionaryRef			request,
-							CFMutableDictionaryRef	response,
-							aslclient				asl,
-							aslmsg					aslMsg) {
-	
-	assert(auth != NULL);
-	assert(request != NULL);
-	assert(response != NULL);
-	
-	char command[256];
-	int retValue = 0;
-	
-	// if Lion or greater
-	if (isLionOrHigher()) {
-		sprintf(command,"/usr/bin/tmutil disable");
-		retValue = system(command);
-		
-        // disabling local backups causes any stored local backups
-        // to be deleted, this option is left here in case someone
-        // actually wants to do that
-        /*
-		if (!retValue) {
-			sprintf(command,"/usr/bin/tmutil disablelocal");
-			retValue = system(command);
-		}
-        */
-	} else {	// Snow leopard
-		sprintf(command,"/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist %s %s %s", "AutoBackup", "-boolean", "FALSE");
-		retValue = system(command);
-	}
-	
-	return retValue;
-}
-
-// Start a Time Machine backup
-static OSStatus DoStartBackupTM(AuthorizationRef		auth,
-								const void *			userData,
-								CFDictionaryRef			request,
-								CFMutableDictionaryRef	response,
-								aslclient				asl,
-								aslmsg					aslMsg) {
-	
-	assert(auth != NULL);
-	assert(request != NULL);
-	assert(response != NULL);
-	
-	char command[256];
-	int retValue = 0;
-	
-	// if Lion or greater
-	if (isLionOrHigher()) {
-		sprintf(command,"/usr/bin/tmutil startbackup");
-		retValue = system(command);
-	} else {	// Snow leopard
-		sprintf(command, "/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd-helper &");
-		retValue = system(command);
-	}
-	
-	return retValue;
-}
-
-// Stop a Time Machine backup
-static OSStatus DoStopBackupTM(AuthorizationRef			auth,
+// Globally enable or disable the Firewall
+static OSStatus DoSetEnabledFW(AuthorizationRef			auth,
 							   const void *				userData,
 							   CFDictionaryRef			request,
 							   CFMutableDictionaryRef	response,
 							   aslclient				asl,
 							   aslmsg					aslMsg) {
 	
+	OSStatus retValue = noErr;
+	char command[256];
+	
 	assert(auth != NULL);
 	assert(request != NULL);
 	assert(response != NULL);
 	
-	char command[256];
-	int retValue = 0;
+	// check request parameter
+	CFBooleanRef parameter = (CFBooleanRef) CFDictionaryGetValue(request, CFSTR("param"));
+	if (parameter == NULL || CFGetTypeID(parameter) != CFBooleanGetTypeID())
+		return BASErrnoToOSStatus(EINVAL);
 	
 	// if Lion or greater
-	if (isLionOrHigher()) {
-		sprintf(command,"/usr/bin/tmutil stopbackup");
-		retValue = system(command);
-	} else {	// Snow leopard
-		sprintf(command, "/usr/bin/killall backupd-helper");
-		retValue = system(command);
-	}
+	if (isLionOrHigher())
+		sprintf(command, "/usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate %s",
+				parameter == kCFBooleanTrue ? "on" : "off");
+	// Snow Leopard
+	else
+		sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.alf globalstate -int %d",
+				parameter == kCFBooleanTrue);
 	
+	retValue = system(command);
 	return retValue;
 }
 
 #pragma mark - Internet Sharing
 
-// Enable Internet Sharing
-static OSStatus DoEnableIS(AuthorizationRef		auth,
-						   const void *			userData,
-						   CFDictionaryRef         request,
-						   CFMutableDictionaryRef	response,
-						   aslclient				asl,
-						   aslmsg					aslMsg) {
+// Enable or disable Internet Sharing
+static OSStatus DoSetEnabledIS(AuthorizationRef			auth,
+							   const void *				userData,
+							   CFDictionaryRef			request,
+							   CFMutableDictionaryRef	response,
+							   aslclient				asl,
+							   aslmsg					aslMsg) {
+	
+	OSStatus retValue = noErr;
+	char command[256];
 	
 	assert(auth != NULL);
 	assert(request != NULL);
 	assert(response != NULL);
 	
-	char command[256];
-	int retValue = 0;
+	// check request parameter
+	CFBooleanRef parameter = (CFBooleanRef) CFDictionaryGetValue(request, CFSTR("param"));
+	if (parameter == NULL || CFGetTypeID(parameter) != CFBooleanGetTypeID())
+		return BASErrnoToOSStatus(EINVAL);
 	
-	sprintf(command, "/bin/launchctl load -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist");
+	sprintf(command, "/bin/launchctl %s -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist",
+			parameter == kCFBooleanTrue ? "load" : "unload");
 	retValue = system(command);
 	
 	return retValue;
 }
 
-// Disable Internet Sharing
-static OSStatus DoDisableIS(AuthorizationRef		auth,
-							const void *			userData,
-							CFDictionaryRef         request,
-							CFMutableDictionaryRef	response,
-							aslclient				asl,
-							aslmsg					aslMsg) {
+#pragma mark - Time Machine
+
+// Enables or disables time machine
+static OSStatus DoSetEnabledTM(AuthorizationRef			auth,
+							   const void *				userData,
+							   CFDictionaryRef			request,
+							   CFMutableDictionaryRef	response,
+							   aslclient				asl,
+							   aslmsg					aslMsg) {
+	
+	OSStatus retValue = noErr;
+	char command[256];
 	
 	assert(auth != NULL);
 	assert(request != NULL);
 	assert(response != NULL);
 	
-	char command[256];
-	int retValue = 0;
+	// check request parameter
+	CFBooleanRef parameter = (CFBooleanRef) CFDictionaryGetValue(request, CFSTR("param"));
+	if (parameter == NULL || CFGetTypeID(parameter) != CFBooleanGetTypeID())
+		return BASErrnoToOSStatus(EINVAL);
 	
-	sprintf(command, "/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist");
+	// if Lion or greater
+	if (isLionOrHigher()) {
+		sprintf(command, "/usr/bin/tmutil %s", parameter == kCFBooleanTrue ? "enable" : "disable");
+		//retValue = system(command);
+		
+		// disabling local backups causes any stored local backups
+		// to be deleted, this option is left here in case someone
+		// actually wants to do that
+		/*
+		if (!retValue) {
+			sprintf(command, "/usr/bin/tmutil %s", parameter == kCFBooleanTrue ? "enablelocal" : "disablelocal");
+			retValue = system(command);
+		}*/
+		
+	// Snow leopard
+	} else
+		sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine.plist AutoBackup -boolean %s",
+				parameter == kCFBooleanTrue ? "TRUE" : "FALSE");
+	
 	retValue = system(command);
-	
 	return retValue;
 }
 
-#pragma mark - Firewall
-
-// Enable Firewall, this globally enables the firewall
-static OSStatus DoEnableFirewall(AuthorizationRef		auth,
-								 const void *			userData,
-								 CFDictionaryRef		request,
-								 CFMutableDictionaryRef	response,
-								 aslclient				asl,
-								 aslmsg					aslMsg) {
-	assert(auth != NULL);
-	assert(request != NULL);
-	assert(response != NULL);
-
-	char command[256];
-	int retValue = 0;
-
-	sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.alf globalstate -int 1");
-	retValue = system(command);
-	
-	return retValue;
-}
-
-// Globally disable the firewall
-static OSStatus DoDisableFirewall(AuthorizationRef			auth,
+// Start or stop a Time Machine backup
+static OSStatus DoControlBackupTM(AuthorizationRef			auth,
 								  const void *				userData,
 								  CFDictionaryRef			request,
 								  CFMutableDictionaryRef	response,
 								  aslclient					asl,
 								  aslmsg					aslMsg) {
+	
+	OSStatus retValue = noErr;
+	char command[256];
+	
 	assert(auth != NULL);
 	assert(request != NULL);
 	assert(response != NULL);
-
-	char command[256];
-	int retValue = 0;
-
-	sprintf(command, "/usr/bin/defaults write /Library/Preferences/com.apple.alf globalstate -int 0");
+	
+	// check request parameter
+	CFBooleanRef parameter = (CFBooleanRef) CFDictionaryGetValue(request, CFSTR("param"));
+	if (parameter == NULL || CFGetTypeID(parameter) != CFBooleanGetTypeID())
+		return BASErrnoToOSStatus(EINVAL);
+	
+	// if Lion or greater
+	if (isLionOrHigher())
+		sprintf(command, "/usr/bin/tmutil %s", parameter == kCFBooleanTrue ? "startbackup" : "stopbackup");
+		
+	// Snow leopard
+	else {
+		if (parameter == kCFBooleanTrue)
+			sprintf(command, "/System/Library/CoreServices/backupd.bundle/Contents/Resources/backupd-helper &");
+		else
+			sprintf(command, "/usr/bin/killall backupd-helper");
+	}
+	
 	retValue = system(command);
-
-
 	return retValue;
 }
 
@@ -269,14 +197,10 @@ static OSStatus DoDisableFirewall(AuthorizationRef			auth,
 // the list defined here must match (same order) the list in CPHelperToolCommon.c
 static const BASCommandProc kCPHelperToolCommandProcs[] = {
 	DoGetVersion,
-	DoEnableTM,
-	DoDisableTM,
-	DoStartBackupTM,
-	DoStopBackupTM,
-	DoEnableIS,
-	DoDisableIS,
-	DoEnableFirewall,
-	DoDisableFirewall,
+	DoSetEnabledFW,
+	DoSetEnabledIS,
+	DoSetEnabledTM,
+	DoControlBackupTM,
 	NULL
 };
 

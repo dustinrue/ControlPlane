@@ -22,9 +22,8 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	NSString *command = turnOn ? @kCPHelperToolEnableFirewallCommand : @kCPHelperToolDisableFirewallCommand;
-	
-	BOOL result = [self helperToolPerformAction: command];
+	BOOL result = [CAction helperToolPerformAction: @kCPHelperToolSetEnabledFWCommand
+									 withParameter: [NSNumber numberWithBool: turnOn]];
 	
 	if (!result) {
 		if (turnOn)

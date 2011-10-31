@@ -20,9 +20,8 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	NSString *command = turnOn ? @kCPHelperToolStartBackupTMCommand : @kCPHelperToolStopBackupTMCommand;
-	
-	BOOL result = [self helperToolPerformAction: command];
+	BOOL result = [CAction helperToolPerformAction: @kCPHelperToolControlBackupTMCommand
+									 withParameter: [NSNumber numberWithBool: turnOn]];
 	
 	if (!result) {
 		if (turnOn)

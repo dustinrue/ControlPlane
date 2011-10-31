@@ -11,16 +11,20 @@
 
 @interface CAction (HelperTool_Private)
 
-- (OSStatus) helperToolActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response andAuth: (AuthorizationRef) auth;
-- (void) helperToolInit: (AuthorizationRef *) auth;
-- (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth;
-- (void) helperToolAlert: (NSMutableDictionary *) parameters;
++ (OSStatus) helperToolActualPerform: (NSString *) action withParameter: (id) parameter response: (CFDictionaryRef *) response auth: (AuthorizationRef) auth;
++ (void) helperToolInit: (AuthorizationRef *) auth;
++ (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth;
++ (void) helperToolAlert: (NSMutableDictionary *) parameters;
 
 @end
 
 @implementation CAction (HelperTool)
 
-- (BOOL) helperToolPerformAction: (NSString *) action {
++ (BOOL) helperToolPerformAction: (NSString *) action {
+	return [CAction helperToolPerformAction: action withParameter: nil];
+}
+
++ (BOOL) helperToolPerformAction: (NSString *) action withParameter: (id) parameter {
 	static int32_t versionCheck = 0;
 	
 	CFDictionaryRef response = NULL;
@@ -28,14 +32,14 @@
 	OSStatus error = noErr;
 	
 	// initialize
-	[self helperToolInit: &auth];
+	[CAction helperToolInit: &auth];
 	
 	if (!versionCheck) {
 		// start version check
 		OSAtomicIncrement32(&versionCheck);
 		
 		// get version of helper tool
-		error = [self helperToolActualPerform: @kCPHelperToolGetVersionCommand withResponse: &response andAuth: auth];
+		error = [CAction helperToolActualPerform: @kCPHelperToolGetVersionCommand withParameter: nil response: &response auth: auth];
 		if (error) {
 			OSAtomicDecrement32(&versionCheck);
 			return NO;
@@ -44,7 +48,7 @@
 		// check version and update if needed
 		NSNumber *version = [(NSDictionary *) response objectForKey: @kCPHelperToolGetVersionResponse];
 		if ([version intValue] < kCPHelperToolVersionNumber)
-			[self helperToolFix: kBASFailNeedsUpdate withAuth: auth];
+			[CAction helperToolFix: kBASFailNeedsUpdate withAuth: auth];
 		
 		// finish version check
 		OSAtomicIncrement32(&versionCheck);
@@ -55,14 +59,15 @@
 		[NSThread sleepForTimeInterval: 1];
 	
 	// perform actual action
-	error = [self helperToolActualPerform: (NSString *) action withResponse: &response andAuth: auth];
+	error = [CAction helperToolActualPerform: (NSString *) action withParameter: parameter response: &response auth: auth];
 	
 	return (error ? NO : YES);
 }
 
-- (OSStatus) helperToolActualPerform: (NSString *) action
-						withResponse: (CFDictionaryRef *) response
-							 andAuth: (AuthorizationRef) auth {
++ (OSStatus) helperToolActualPerform: (NSString *) action
+					   withParameter: (id) parameter
+							response: (CFDictionaryRef *) response
+								auth: (AuthorizationRef) auth {
 	
 	NSString *bundleID;
 	NSDictionary *request;
@@ -72,7 +77,10 @@
 	// create request
 	bundleID = [[NSBundle mainBundle] bundleIdentifier];
 	ZAssert(bundleID != NULL, @"Unable to get bundle ID");
-	request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, nil];
+	if (parameter)
+		request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, parameter, @"param", nil];
+	else
+		request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, nil];
 	ZAssert(request != NULL, @"Unable to create request");
 	
 	// Execute it.
@@ -87,7 +95,7 @@
 		BASFailCode failCode = BASDiagnoseFailure(auth, (CFStringRef) bundleID);
 		
 		// try to fix
-		error = [self helperToolFix: failCode withAuth: auth];
+		error = [CAction helperToolFix: failCode withAuth: auth];
 		
 		// If the fix went OK, retry the request.
 		if (error == noErr)
@@ -108,7 +116,7 @@
 	return error;
 }
 
-- (void) helperToolInit: (AuthorizationRef *) auth {
++ (void) helperToolInit: (AuthorizationRef *) auth {
 	OSStatus err = 0;
 	
 	// Create the AuthorizationRef that we'll use through this application.  We ignore 
@@ -131,7 +139,7 @@
 					   CFSTR("CPHelperToolAuthorizationPrompts"));
 }
 
-- (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth {
++ (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth {
 	NSMutableDictionary *parameters = [[[NSMutableDictionary alloc] init] autorelease];
 	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
 	OSStatus err = noErr;
@@ -140,7 +148,7 @@
 	// to authorize in order to fix it.  Ideally we'd use failCode to describe the type of 
 	// error to the user.
 	
-	[self performSelectorOnMainThread: @selector(helperToolAlert:) withObject: parameters waitUntilDone: YES];
+	[CAction performSelectorOnMainThread: @selector(helperToolAlert:) withObject: parameters waitUntilDone: YES];
 	err = [[parameters objectForKey: @"result"] intValue];
 	
 	// Try to fix things.
@@ -152,7 +160,7 @@
 	return err;
 }
 
-- (void) helperToolAlert: (NSMutableDictionary *) parameters {
++ (void) helperToolAlert: (NSMutableDictionary *) parameters {
 	NSInteger t = NSRunAlertPanel(NSLocalizedString(@"ControlPlane Helper Needed", @"Fix helper tool"),
 								  NSLocalizedString(@"ControlPlane needs to install a helper app to enable and disable some items", @"Fix helper tool"),
 								  NSLocalizedString(@"Install", @"Fix helper tool"),

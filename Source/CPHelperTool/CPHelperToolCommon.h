@@ -12,28 +12,23 @@
 #import "BetterAuthorizationLib.h"
 
 // Helper tool version
-#define kCPHelperToolVersionNumber			17
+#define kCPHelperToolVersionNumber			18
 
 // Commands
 #define kCPHelperToolGetVersionCommand		"GetVersion"
 #define kCPHelperToolGetVersionResponse		"Version"
 
-#define kCPHelperToolEnableTMCommand		"EnableTM"
-#define kCPHelperToolDisableTMCommand		"DisableTM"
-#define kCPHelperToolStartBackupTMCommand	"StartBackupTM"
-#define kCPHelperToolStopBackupTMCommand	"StopBackupTM"
+#define kCPHelperToolSetEnabledFWCommand	"SetEnabledFW"
 
-#define kCPHelperToolEnableISCommand        "EnableIS"
-#define kCPHelperToolDisableISCommand       "DisableIS"
+#define kCPHelperToolSetEnabledISCommand	"SetEnabledIS"
 
-#define kCPHelperToolEnableFirewallCommand	"EnableFirewall"
-#define kCPHelperToolDisableFirewallCommand	"DisableFirewall"
+#define kCPHelperToolSetEnabledTMCommand	"SetEnabledTM"
+#define kCPHelperToolControlBackupTMCommand	"ControlBackupTM"
 
 // Rights
-#define kCPHelperToolToggleTMRightName		"com.dustinrue.ControlPlane.ToggleTM"
-#define kCPHelperToolRunBackupTMRightName	"com.dustinrue.ControlPlane.RunBackupTM"
-#define kCPHelperToolToggleISRightName      "com.dustinrue.ControlPlane.ToggleIS"
-#define kCPHelperToolToggleFWRightName		"com.dustinrue.ControlPlane.ToggleFW"
+#define kCPHelperToolFireWallRightName			"com.dustinrue.ControlPlane.FireWall"
+#define kCPHelperToolInternetSharingRightName	"com.dustinrue.ControlPlane.InternetSharing"
+#define kCPHelperToolTimeMachineRightName		"com.dustinrue.ControlPlane.TimeMachine"
 
 // Commands array (keep in sync!)
 extern const BASCommandSpec kCPHelperToolCommandSet[];
