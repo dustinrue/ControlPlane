@@ -140,14 +140,15 @@
 }
 
 + (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth {
-	NSMutableDictionary *parameters = [[[NSMutableDictionary alloc] init] autorelease];
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
+	NSMutableDictionary *parameters = [[NSMutableDictionary new] autorelease];
+	NSString *bundleID = NSBundle.mainBundle.bundleIdentifier;
 	OSStatus err = noErr;
 	
 	// At this point we tell the user that something has gone wrong and that we need 
 	// to authorize in order to fix it.  Ideally we'd use failCode to describe the type of 
 	// error to the user.
 	
+	[parameters setObject: [NSNumber numberWithUnsignedInt: failCode] forKey: @"failCode"];
 	[CAction performSelectorOnMainThread: @selector(helperToolAlert:) withObject: parameters waitUntilDone: YES];
 	err = [[parameters objectForKey: @"result"] intValue];
 	
@@ -161,10 +162,27 @@
 }
 
 + (void) helperToolAlert: (NSMutableDictionary *) parameters {
+	BASFailCode failCode = [[parameters objectForKey: @"failCode"] unsignedIntValue];
+	NSString *message = nil;
+	NSString *button = nil;
+	
+	switch (failCode) {
+		case kBASFailDisabled:
+			message = NSLocalizedString(@"ControlPlane needs to enable a helper app to perform certain actions", @"Fix helper tool");
+			button = NSLocalizedString(@"Enable", @"Fix helper tool");
+			break;
+		case kBASFailNeedsUpdate:
+			message = NSLocalizedString(@"ControlPlane needs to update a helper app to perform certain actions", @"Fix helper tool");
+			button = NSLocalizedString(@"Update", @"Fix helper tool");
+			break;
+		default:
+			message = NSLocalizedString(@"ControlPlane needs to install a helper app to perform certain actions", @"Fix helper tool");
+			button = NSLocalizedString(@"Install", @"Fix helper tool");
+			break;
+	}
+	
 	NSInteger t = NSRunAlertPanel(NSLocalizedString(@"ControlPlane Helper Needed", @"Fix helper tool"),
-								  NSLocalizedString(@"ControlPlane needs to install a helper app to enable and disable some items", @"Fix helper tool"),
-								  NSLocalizedString(@"Install", @"Fix helper tool"),
-								  NSLocalizedString(@"Cancel", @"Fix helper tool"),
+								  message, button, NSLocalizedString(@"Cancel", @"Fix helper tool"),
 								  NULL);
 	
 	[parameters setObject: [NSNumber numberWithInteger: t] forKey: @"result"];

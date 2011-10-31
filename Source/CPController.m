@@ -322,12 +322,17 @@
 	return (oldPrefs ? YES : NO);
 }
 
+#import "Action+HelperTool.h"
 - (void)awakeFromNib {
 	// Init Growl
 	[GrowlApplicationBridge setGrowlDelegate: self];
 	
 	// Load all plugins
-	[PluginsManager.sharedPluginsManager loadPlugins];
+//	[PluginsManager.sharedPluginsManager loadPlugins];
+	
+	// test helpertool
+	[CAction helperToolPerformAction: @kCPHelperToolSetEnabledFWCommand
+					   withParameter: [NSNumber numberWithBool: YES]];
 	
 	// If there aren't any contexts defined, nor rules, nor actions, import settings
 	if (([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) &&
