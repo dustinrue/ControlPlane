@@ -18,16 +18,16 @@ IMG=$APPNAME-$VERSION
 IMGTMP=Utilities/ControlPlane-Template
 CONFIGURATION=Release
 APP=build/$CONFIGURATION/$APPNAME.app
-ICON=Resources/controlplane.icns
+#ICON=Resources/controlplane.icns
 
 if [ "$1" == "release" ]; then
         cd Utilities
-        ./update-oui.sh
-        ./update-usb-data.sh
+#        ./update-oui.sh
+#        ./update-usb-data.sh
         cd ..
 fi
 
-#xcodebuild -configuration "$CONFIGURATION" clean build
+xcodebuild -configuration "$CONFIGURATION" clean build
 if [ ! -d "$APP" ]; then
 	echo "Something failed in the build process!"
 	exit 1
@@ -72,11 +72,11 @@ rm "$IMG.sparseimage"
 # run a helper script exposing location of private key for Sparkle updates
 if [ "$1" == "release" ]; then
         . cp_pm_env.sh
-        ls -l "$IMG"
-        ruby "$SIGNING_SCRIPT" "$IMG" "$PRIVATE_KEY" 
-        mv "$IMG" "$IMGDEST"
+        ls -l "$IMG.dmg"
+        ruby "$SIGNING_SCRIPT" "$IMG.dmg" "$PRIVATE_KEY" 
+        mv "$IMG.dmg" "$IMGDEST"
 fi
 
 if [ "$1" == "open" ]; then
-        open "$IMG"
+        open "$IMG.dmg"
 fi
