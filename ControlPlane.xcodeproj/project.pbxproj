@@ -17,45 +17,24 @@
 		8D232F800BD9D228006A3963 /* GeneralPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232F7F0BD9D228006A3963 /* GeneralPrefs.png */; };
 		8D232FB50BD9D507006A3963 /* ActionsPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB30BD9D507006A3963 /* ActionsPrefs.png */; };
 		8D232FB60BD9D507006A3963 /* RulesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB40BD9D507006A3963 /* RulesPrefs.png */; };
-		8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3453C20C18E5C1006011D0 /* IChatAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.png */; };
 		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D4DBDC30BE1E3C00024DEA0 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4DBDC20BE1E3C00024DEA0 /* gear.png */; };
 		8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */; };
-		8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CAED0C17BA7900E56526 /* ToggleableAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
-		8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
 		8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8155CE0C3A304E00228463 /* ContextsDataSource.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D88FE2A0C534737007A14D6 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D88FE290C534737007A14D6 /* pause.png */; };
-		8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */; };
 		8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D90E51E0B71C4C9007D39FD /* CPController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D9AE3790BE0D11800D4D4E4 /* plus-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */; };
 		8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8DC410FB0C64665E00393759 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.xib */; };
-		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8DF5A4180BC2353D00CBEB4B /* CAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* CAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
 		DA4A629513E25C9D00CE976F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629413E25C9D00CE976F /* Credits.html */; };
@@ -65,17 +44,12 @@
 		DA5B020A1412BBF200E19C50 /* CPHelperTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B02091412BBF200E19C50 /* CPHelperTool.c */; };
 		DA5B020C1412BDEF00E19C50 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DA5B020D1412BDFC00E19C50 /* BetterAuthorizationLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationLib.c */; };
-		DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
-		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A21E13D12A3200074503 /* cp-icon-active.icns */; };
 		DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22013D13C8300074503 /* cp-icon-inactive.icns */; };
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in Copy Helper Tool */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
-		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DD01EF2E14422B72006672E0 /* BluetoothConnectedSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF2C14422AE0006672E0 /* BluetoothConnectedSource.m */; };
-		DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */; };
 		DD01EF371443B543006672E0 /* RuleView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF351443B543006672E0 /* RuleView.h */; };
 		DD01EF381443B543006672E0 /* RuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF361443B543006672E0 /* RuleView.m */; };
 		DD01EF3B1443B5B4006672E0 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF391443B5B4006672E0 /* View.h */; };
@@ -85,26 +59,21 @@
 		DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF411443B67A006672E0 /* ViewsManager.h */; };
 		DD01EF441443B67A006672E0 /* ViewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF421443B67A006672E0 /* ViewsManager.m */; };
 		DD01EF461443B6B6006672E0 /* Views.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF451443B6B6006672E0 /* Views.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
-		DD19C6941447918B00608844 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
-		DD19C6951447919300608844 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DD5BD209141614C4007BA88C /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DD19C696144791B000608844 /* libJSONKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD19C690144790E800608844 /* libJSONKit.a */; };
-		DD19C6C8144B0A7D00608844 /* BluetoothScannerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6C7144B0A7A00608844 /* BluetoothScannerSource.m */; };
-		DD19C6CB144B365C00608844 /* BluetoothConnectedRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6CA144B365C00608844 /* BluetoothConnectedRule.m */; };
-		DD19C6CE144B3C7400608844 /* BluetoothScannerRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD19C6CD144B3C7300608844 /* BluetoothScannerRule.m */; };
+		DD23F8571460E2BD000665ED /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
+		DD23F8581460E2EC000665ED /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8491460E222000665ED /* CoreFoundation.framework */; };
+		DD23F8591460E2EC000665ED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8471460E216000665ED /* Security.framework */; };
+		DD23F8741460E41D000665ED /* NSLogger.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DD23F8731460E41C000665ED /* NSLogger.xcconfig */; };
+		DD23F8771460E4C6000665ED /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52D1C1460A4C900A42B09 /* LoggerClient.m */; };
+		DD23F8781460E4CD000665ED /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF52D1B1460A4C900A42B09 /* LoggerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD23F8791460E4CD000665ED /* LoggerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF52D1D1460A4C900A42B09 /* LoggerCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD23F87A1460E5CA000665ED /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
+		DD23F88A1460E6BE000665ED /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8881460E68B000665ED /* SystemConfiguration.framework */; };
+		DD23F88B1460E70E000665ED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8471460E216000665ED /* Security.framework */; };
+		DD23F88D1460E899000665ED /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F88C1460E898000665ED /* IOKit.framework */; };
+		DD23F8901460E93A000665ED /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
-		DD4364BF145E13A500A716A1 /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4364BE145E13A500A716A1 /* ToggleFirewallAction.m */; };
-		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
-		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
-		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F514116CC80098FA6E /* OpenURLAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F81411748B0098FA6E /* LockKeychainAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DD8274FB141177750098FA6E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
-		DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274FD14117C580098FA6E /* SpeakAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -124,31 +93,9 @@
 		DDA80343143BF14700745EB8 /* Source.h in Headers */ = {isa = PBXBuildFile; fileRef = DD68A9D9142623210059A730 /* Source.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD68A9DB142623210059A730 /* SourcesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDA80349143BF36100745EB8 /* Plugins.h in Headers */ = {isa = PBXBuildFile; fileRef = DDA80348143BF31800745EB8 /* Plugins.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
 		DDAC864F143BFABA00682538 /* Plugins.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDA80319143BEE4100745EB8 /* Plugins.framework */; };
 		DDAC8650143BFC0F00682538 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA80319143BEE4100745EB8 /* Plugins.framework */; };
-		DDAC865C143C003500682538 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDAC865A143C003500682538 /* Localizable.strings */; };
-		DDAC8663143C004A00682538 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA80319143BEE4100745EB8 /* Plugins.framework */; };
 		DDAC86C2143C107A00682538 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
-		DDAC8717143C12D700682538 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC8716143C12D700682538 /* CoreAudio.framework */; };
-		DDAC871B143C132F00682538 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC871A143C132E00682538 /* IOBluetooth.framework */; };
-		DDAC871D143C134C00682538 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC871C143C134C00682538 /* IOKit.framework */; };
-		DDAC871F143C136A00682538 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC871E143C136A00682538 /* SystemConfiguration.framework */; };
-		DDAC8721143C139900682538 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC8720143C139900682538 /* WebKit.framework */; };
-		DDAC8722143C13CA00682538 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
-		DDAC8724143C140B00682538 /* Apple80211.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */; };
-		DDAC8725143C140B00682538 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
-		DDAC8726143C140B00682538 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
-		DDAC8727143C140B00682538 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC8716143C12D700682538 /* CoreAudio.framework */; };
-		DDAC872A143C140B00682538 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
-		DDAC872C143C140B00682538 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
-		DDAC872E143C140B00682538 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC871A143C132E00682538 /* IOBluetooth.framework */; };
-		DDAC872F143C140B00682538 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC871C143C134C00682538 /* IOKit.framework */; };
-		DDAC8731143C140B00682538 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
-		DDAC8732143C140B00682538 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
-		DDAC8733143C140B00682538 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC871E143C136A00682538 /* SystemConfiguration.framework */; };
-		DDAC8734143C140B00682538 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC8720143C139900682538 /* WebKit.framework */; };
-		DDAC8740143C185400682538 /* Core.plugin in Copy Plugins */ = {isa = PBXBuildFile; fileRef = DDAC8655143C003500682538 /* Core.plugin */; };
 		DDAC8742143C1AC200682538 /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE2614369DC80034BE0E /* Action.m */; };
 		DDAC8743143C1AC200682538 /* ActionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE29143741ED0034BE0E /* ActionsManager.m */; };
 		DDAC8744143C1ACD00682538 /* Rule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9E11426294B0059A730 /* Rule.m */; };
@@ -157,40 +104,6 @@
 		DDAC8747143C1AD900682538 /* LoopingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD23928A142A257500FE7DC7 /* LoopingSource.m */; };
 		DDAC8748143C1AD900682538 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DA142623210059A730 /* Source.m */; };
 		DDAC8749143C1AD900682538 /* SourcesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD68A9DC142623210059A730 /* SourcesManager.m */; };
-		DDAC8755143C1D6500682538 /* AudioOutputRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */; };
-		DDAC8757143C1D6500682538 /* BonjourRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD5142D762800CE825F /* BonjourRule.m */; };
-		DDAC8759143C1D6500682538 /* DisplayBrightnessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE0414353AAA0034BE0E /* DisplayBrightnessRule.m */; };
-		DDAC875B143C1D6500682538 /* DisplayStateRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE0A14353CA20034BE0E /* DisplayStateRule.m */; };
-		DDAC875D143C1D6500682538 /* FireWireRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDFB143500B10034BE0E /* FireWireRule.m */; };
-		DDAC875F143C1D6500682538 /* IPRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80276143AA61C00745EB8 /* IPRule.m */; };
-		DDAC8761143C1D6500682538 /* KeyboardBrightnessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE0714353B980034BE0E /* KeyboardBrightnessRule.m */; };
-		DDAC8763143C1D6500682538 /* LightRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE011435304C0034BE0E /* LightRule.m */; };
-		DDAC8765143C1D6500682538 /* LocationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAE5142F97F600CE825F /* LocationRule.m */; };
-		DDAC8767143C1D6500682538 /* MonitorRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE191436299F0034BE0E /* MonitorRule.m */; };
-		DDAC8769143C1D6500682538 /* NetworkLinkRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA80273143A922100745EB8 /* NetworkLinkRule.m */; };
-		DDAC876B143C1D6500682538 /* PowerSourceRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */; };
-		DDAC876D143C1D6500682538 /* RunningApplicationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */; };
-		DDAC876F143C1D6500682538 /* SystemStateRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1F143658CE0034BE0E /* SystemStateRule.m */; };
-		DDAC8771143C1D6500682538 /* TimeOfDayRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE2214365D120034BE0E /* TimeOfDayRule.m */; };
-		DDAC8773143C1D6500682538 /* USBRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE13143611310034BE0E /* USBRule.m */; };
-		DDAC8775143C1D6500682538 /* WLANBSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */; };
-		DDAC8777143C1D6500682538 /* WLANSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */; };
-		DDAC8779143C1D6500682538 /* AudioSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BDF1429591D00A55469 /* AudioSource.m */; };
-		DDAC877B143C1D6500682538 /* BonjourSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD23929D142A916500FE7DC7 /* BonjourSource.m */; };
-		DDAC877D143C1D6500682538 /* FireWireSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDF41434D2570034BE0E /* FireWireSource.m */; };
-		DDAC877F143C1D6500682538 /* LocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4ADADE142F901500CE825F /* LocationSource.m */; };
-		DDAC8781143C1D6500682538 /* MonitorSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1614361BCD0034BE0E /* MonitorSource.m */; };
-		DDAC8783143C1D6500682538 /* NetworkSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA8026F143A7FAA00745EB8 /* NetworkSource.m */; };
-		DDAC8785143C1D6500682538 /* PowerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE29BE7142A1D9600A55469 /* PowerSource.m */; };
-		DDAC8787143C1D6500682538 /* RunningApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */; };
-		DDAC8789143C1D6500682538 /* SensorsSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FDFE143506EE0034BE0E /* SensorsSource.m */; };
-		DDAC878B143C1D6500682538 /* SystemStateSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE1C1436319E0034BE0E /* SystemStateSource.m */; };
-		DDAC878D143C1D6500682538 /* USBSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD96FE101435D37A0034BE0E /* USBSource.m */; };
-		DDAC878F143C1D6500682538 /* WLANSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A358142B9E5A00341B75 /* WLANSource.m */; };
-		DDAC87D3143C208200682538 /* DB.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9E330BBB89320074D5B3 /* DB.m */; };
-		DDAC87D4143C20F700682538 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
-		DDAC87D5143C20F700682538 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
-		DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAC87D7143C282D00682538 /* CorePlugin.m */; };
 		DDAC87DA143E6D8400682538 /* Rules.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87D9143E6D7400682538 /* Rules.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAC87DC143E6DD400682538 /* Actions.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DB143E6DD100682538 /* Actions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAC87DE143E6E8D00682538 /* Sources.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DD143E6E8C00682538 /* Sources.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -201,11 +114,10 @@
 		DDD1A367142CC81200341B75 /* Context.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A366142CC80F00341B75 /* Context.m */; };
 		DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A36F142CD55E00341B75 /* ContextGroup.m */; };
 		DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A374142CD81900341B75 /* ContextsManager.m */; };
-		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 		DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */ = {isa = PBXBuildFile; fileRef = DDF4E594141588E80028DF4A /* CoreLocationMap.html */; };
-		DDFAEFE3144FD2EC006472EE /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFAEFE2144FD2EC006472EE /* ToggleInternetSharingAction.m */; };
+		DDF52EB61460BEA500A42B09 /* SynthesizeSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDF52EB71460C30700A42B09 /* Core.plugin in Copy Plugins */ = {isa = PBXBuildFile; fileRef = DDF52EA81460BDA800A42B09 /* Core.plugin */; };
 		DDFF423114156B0A0047D311 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = DDFF423014156B0A0047D311 /* location.png */; };
 /* End PBXBuildFile section */
 
@@ -224,6 +136,13 @@
 			remoteGlobalIDString = DA5B01FA1412BB1700E19C50;
 			remoteInfo = CPHelperTool;
 		};
+		DD23F8751460E4A9000665ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD23F85E1460E378000665ED;
+			remoteInfo = NSLogger;
+		};
 		DDA80346143BF17D00745EB8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -231,18 +150,25 @@
 			remoteGlobalIDString = DDA80318143BEE4100745EB8;
 			remoteInfo = Plugin;
 		};
-		DDAC8661143C004100682538 /* PBXContainerItemProxy */ = {
+		DDF52EA71460BDA800A42B09 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDA80318143BEE4100745EB8;
-			remoteInfo = Plugins;
+			containerPortal = DDF52E9E1460BDA700A42B09 /* Core.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DDF52D8E1460B54D00A42B09;
+			remoteInfo = Core;
 		};
-		DDAC873E143C184600682538 /* PBXContainerItemProxy */ = {
+		DDF52EA91460BDA800A42B09 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			containerPortal = DDF52E9E1460BDA700A42B09 /* Core.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DDF52D6A1460B3C900A42B09;
+			remoteInfo = JSONKit;
+		};
+		DDF52EAC1460BDCA00A42B09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E9E1460BDA700A42B09 /* Core.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = DDAC8654143C003500682538;
+			remoteGlobalIDString = DDF52D8D1460B54D00A42B09;
 			remoteInfo = Core;
 		};
 /* End PBXContainerItemProxy section */
@@ -255,7 +181,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDAC864F143BFABA00682538 /* Plugins.framework in Copy Frameworks */,
-				8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */,
 				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -297,7 +222,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				DDAC8740143C185400682538 /* Core.plugin in Copy Plugins */,
+				DDF52EB71460C30700A42B09 /* Core.plugin in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +230,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* Main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Main.m; path = Source/Main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = Source/Prefix.pch; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
@@ -349,11 +273,8 @@
 		8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefsWindowController.h; path = Source/PrefsWindowController.h; sourceTree = "<group>"; };
 		8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefsWindowController.m; path = Source/PrefsWindowController.m; sourceTree = "<group>"; };
 		8D88FE290C534737007A14D6 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
-		8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apple80211.framework; path = /System/Library/PrivateFrameworks/Apple80211.framework; sourceTree = "<absolute>"; };
 		8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvidenceSource.h; path = Source/EvidenceSource.h; sourceTree = "<group>"; };
 		8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvidenceSource.m; path = Source/EvidenceSource.m; sourceTree = "<group>"; };
-		8D8C9E320BBB89320074D5B3 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = PlugIns/Core/Source/DB.h; sourceTree = "<group>"; };
-		8D8C9E330BBB89320074D5B3 /* DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB.m; path = PlugIns/Core/Source/DB.m; sourceTree = "<group>"; };
 		8D90E51D0B71C4C9007D39FD /* CPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPController.h; path = Source/CPController.h; sourceTree = "<group>"; };
 		8D90E51E0B71C4C9007D39FD /* CPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPController.m; path = Source/CPController.m; sourceTree = "<group>"; };
 		8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus-arrow.png"; sourceTree = "<group>"; };
@@ -363,7 +284,6 @@
 		8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DesktopBackgroundAction.m; path = Source/DesktopBackgroundAction.m; sourceTree = "<group>"; };
 		8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = MailIMAPServerAction.h; path = Source/MailIMAPServerAction.h; sourceTree = "<group>"; };
 		8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MailIMAPServerAction.m; path = Source/MailIMAPServerAction.m; sourceTree = "<group>"; };
-		8DB8917B0BB89BD8005347C2 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = oui.txt; path = PlugIns/Core/Resources/oui.txt; sourceTree = "<group>"; };
 		8DBAFAF90BDC3B7B00BE0747 /* ShellScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShellScriptAction.h; path = Source/ShellScriptAction.h; sourceTree = "<group>"; };
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = Source/ShellScriptAction.m; sourceTree = "<group>"; };
 		8DC410FA0C64665E00393759 /* AboutPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutPanel.xib; path = Resources/AboutPanel.xib; sourceTree = "<group>"; };
@@ -391,7 +311,6 @@
 		8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmountAction.m; path = Source/UnmountAction.m; sourceTree = "<group>"; };
 		DA1204DA13D0E5C800CDA091 /* ControlPlane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlPlane.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		DA48F2E3140AD2FC00B000D3 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperInstallTool; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -402,17 +321,13 @@
 		DA5B02091412BBF200E19C50 /* CPHelperTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperTool.c; sourceTree = "<group>"; };
 		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
 		DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHelperToolCommon.h; sourceTree = "<group>"; };
-		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA812E81140681D2006869F7 /* AppleScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleScript.h; path = Source/AppleScript.h; sourceTree = "<group>"; };
 		DA812E82140681D2006869F7 /* AppleScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppleScript.m; path = Source/AppleScript.m; sourceTree = "<group>"; };
 		DA83A21E13D12A3200074503 /* cp-icon-active.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "cp-icon-active.icns"; sourceTree = "<group>"; };
 		DA83A22013D13C8300074503 /* cp-icon-inactive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "cp-icon-inactive.icns"; sourceTree = "<group>"; };
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "cp-icon.icns"; sourceTree = "<group>"; };
-		DA83A22613D1430000074503 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "usb-vendors.txt"; path = "PlugIns/Core/Resources/usb-vendors.txt"; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
-		DD01EF2B14422AE0006672E0 /* BluetoothConnectedSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectedSource.h; path = PlugIns/Core/Source/BluetoothConnectedSource.h; sourceTree = "<group>"; };
-		DD01EF2C14422AE0006672E0 /* BluetoothConnectedSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothConnectedSource.m; path = PlugIns/Core/Source/BluetoothConnectedSource.m; sourceTree = "<group>"; };
 		DD01EF351443B543006672E0 /* RuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuleView.h; path = Source/RuleView.h; sourceTree = SOURCE_ROOT; };
 		DD01EF361443B543006672E0 /* RuleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuleView.m; path = Source/RuleView.m; sourceTree = SOURCE_ROOT; };
 		DD01EF391443B5B4006672E0 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = View.h; path = Source/View.h; sourceTree = SOURCE_ROOT; };
@@ -422,24 +337,18 @@
 		DD01EF411443B67A006672E0 /* ViewsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewsManager.h; path = Source/ViewsManager.h; sourceTree = SOURCE_ROOT; };
 		DD01EF421443B67A006672E0 /* ViewsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewsManager.m; path = Source/ViewsManager.m; sourceTree = SOURCE_ROOT; };
 		DD01EF451443B6B6006672E0 /* Views.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Views.h; path = Source/Views.h; sourceTree = SOURCE_ROOT; };
-		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		DD19C690144790E800608844 /* libJSONKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJSONKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD19C697144799B500608844 /* JSONKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = JSONKit.xcconfig; path = xcconfigs/JSONKit.xcconfig; sourceTree = "<group>"; };
-		DD19C6C6144B0A7500608844 /* BluetoothScannerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothScannerSource.h; path = PlugIns/Core/Source/BluetoothScannerSource.h; sourceTree = "<group>"; };
-		DD19C6C7144B0A7A00608844 /* BluetoothScannerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothScannerSource.m; path = PlugIns/Core/Source/BluetoothScannerSource.m; sourceTree = "<group>"; };
-		DD19C6C9144B365C00608844 /* BluetoothConnectedRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectedRule.h; path = PlugIns/Core/Source/BluetoothConnectedRule.h; sourceTree = "<group>"; };
-		DD19C6CA144B365C00608844 /* BluetoothConnectedRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothConnectedRule.m; path = PlugIns/Core/Source/BluetoothConnectedRule.m; sourceTree = "<group>"; };
-		DD19C6CC144B3C7100608844 /* BluetoothScannerRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothScannerRule.h; path = PlugIns/Core/Source/BluetoothScannerRule.h; sourceTree = "<group>"; };
-		DD19C6CD144B3C7300608844 /* BluetoothScannerRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothScannerRule.m; path = PlugIns/Core/Source/BluetoothScannerRule.m; sourceTree = "<group>"; };
 		DD239289142A257500FE7DC7 /* LoopingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopingSource.h; sourceTree = "<group>"; };
 		DD23928A142A257500FE7DC7 /* LoopingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopingSource.m; sourceTree = "<group>"; };
 		DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = Source/SynthesizeSingleton.h; sourceTree = "<group>"; };
-		DD23929C142A916500FE7DC7 /* BonjourSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourSource.h; path = PlugIns/Core/Source/BonjourSource.h; sourceTree = "<group>"; };
-		DD23929D142A916500FE7DC7 /* BonjourSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourSource.m; path = PlugIns/Core/Source/BonjourSource.m; sourceTree = "<group>"; };
+		DD23F8471460E216000665ED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		DD23F8491460E222000665ED /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		DD23F85F1460E378000665ED /* NSLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD23F8731460E41C000665ED /* NSLogger.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = NSLogger.xcconfig; path = xcconfigs/NSLogger.xcconfig; sourceTree = "<group>"; };
+		DD23F8881460E68B000665ED /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DD23F88C1460E898000665ED /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		DD3BAB8414163C6B000D5F88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DD4364BD145E13A500A716A1 /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DD4364BE145E13A500A716A1 /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
-		DD44B57D141417E40016BF6B /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		DD44B5A014142D2D0016BF6B /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD44B5A214142D4D0016BF6B /* da-DK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD44B5A314142D4D0016BF6B /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
@@ -448,33 +357,12 @@
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD4ADAC7142D457900CE825F /* RulesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulesManager.h; sourceTree = "<group>"; };
 		DD4ADAC8142D457900CE825F /* RulesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RulesManager.m; sourceTree = "<group>"; };
-		DD4ADACB142D4BE500CE825F /* PowerSourceRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerSourceRule.h; path = PlugIns/Core/Source/PowerSourceRule.h; sourceTree = "<group>"; };
-		DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerSourceRule.m; path = PlugIns/Core/Source/PowerSourceRule.m; sourceTree = "<group>"; };
-		DD4ADACE142D58DD00CE825F /* AudioOutputRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputRule.h; path = PlugIns/Core/Source/AudioOutputRule.h; sourceTree = "<group>"; };
-		DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputRule.m; path = PlugIns/Core/Source/AudioOutputRule.m; sourceTree = "<group>"; };
-		DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationRule.h; path = PlugIns/Core/Source/RunningApplicationRule.h; sourceTree = "<group>"; };
-		DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationRule.m; path = PlugIns/Core/Source/RunningApplicationRule.m; sourceTree = "<group>"; };
-		DD4ADAD4142D762800CE825F /* BonjourRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourRule.h; path = PlugIns/Core/Source/BonjourRule.h; sourceTree = "<group>"; };
-		DD4ADAD5142D762800CE825F /* BonjourRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourRule.m; path = PlugIns/Core/Source/BonjourRule.m; sourceTree = "<group>"; };
-		DD4ADAD7142E1A8400CE825F /* WLANSSIDRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANSSIDRule.h; path = PlugIns/Core/Source/WLANSSIDRule.h; sourceTree = "<group>"; };
-		DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSSIDRule.m; path = PlugIns/Core/Source/WLANSSIDRule.m; sourceTree = "<group>"; };
-		DD4ADADA142E2CEE00CE825F /* WLANBSSIDRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANBSSIDRule.h; path = PlugIns/Core/Source/WLANBSSIDRule.h; sourceTree = "<group>"; };
-		DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANBSSIDRule.m; path = PlugIns/Core/Source/WLANBSSIDRule.m; sourceTree = "<group>"; };
-		DD4ADADD142F901300CE825F /* LocationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationSource.h; path = PlugIns/Core/Source/LocationSource.h; sourceTree = "<group>"; };
-		DD4ADADE142F901500CE825F /* LocationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationSource.m; path = PlugIns/Core/Source/LocationSource.m; sourceTree = "<group>"; };
-		DD4ADAE4142F97F500CE825F /* LocationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationRule.h; path = PlugIns/Core/Source/LocationRule.h; sourceTree = "<group>"; };
-		DD4ADAE5142F97F600CE825F /* LocationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationRule.m; path = PlugIns/Core/Source/LocationRule.m; sourceTree = "<group>"; };
-		DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CLLocation+Geocoding.h"; path = "PlugIns/Core/Source/CLLocation+Geocoding.h"; sourceTree = "<group>"; };
-		DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CLLocation+Geocoding.m"; path = "PlugIns/Core/Source/CLLocation+Geocoding.m"; sourceTree = "<group>"; };
-		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "External Source/JSONKit/JSONKit.h"; sourceTree = "<group>"; };
-		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "External Source/JSONKit/JSONKit.m"; sourceTree = "<group>"; };
 		DD68A9D9142623210059A730 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
 		DD68A9DA142623210059A730 /* Source.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Source.m; sourceTree = "<group>"; };
 		DD68A9DB142623210059A730 /* SourcesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourcesManager.h; sourceTree = "<group>"; };
 		DD68A9DC142623210059A730 /* SourcesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SourcesManager.m; sourceTree = "<group>"; };
 		DD68A9E01426294B0059A730 /* Rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rule.h; sourceTree = "<group>"; };
 		DD68A9E11426294B0059A730 /* Rule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rule.m; sourceTree = "<group>"; };
-		DD6FCC681413EF6B0095E64F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DD8274E5141147BB0098FA6E /* controlplane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = controlplane.icns; sourceTree = "<group>"; };
 		DD8274EE141154780098FA6E /* MailIntervalAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailIntervalAction.h; path = Source/MailIntervalAction.h; sourceTree = "<group>"; };
 		DD8274EF141154780098FA6E /* MailIntervalAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MailIntervalAction.m; path = Source/MailIntervalAction.m; sourceTree = "<group>"; };
@@ -484,39 +372,10 @@
 		DD8274F514116CC80098FA6E /* OpenURLAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenURLAction.m; path = Source/OpenURLAction.m; sourceTree = "<group>"; };
 		DD8274F71411748B0098FA6E /* LockKeychainAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LockKeychainAction.h; path = Source/LockKeychainAction.h; sourceTree = "<group>"; };
 		DD8274F81411748B0098FA6E /* LockKeychainAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LockKeychainAction.m; path = Source/LockKeychainAction.m; sourceTree = "<group>"; };
-		DD8274FA141177750098FA6E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DD8274FC14117C570098FA6E /* SpeakAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpeakAction.h; path = Source/SpeakAction.h; sourceTree = "<group>"; };
 		DD8274FD14117C580098FA6E /* SpeakAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpeakAction.m; path = Source/SpeakAction.m; sourceTree = "<group>"; };
 		DD827505141188880098FA6E /* DisplayBrightnessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayBrightnessAction.h; path = Source/DisplayBrightnessAction.h; sourceTree = "<group>"; };
 		DD827506141188880098FA6E /* DisplayBrightnessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayBrightnessAction.m; path = Source/DisplayBrightnessAction.m; sourceTree = "<group>"; };
-		DD96FDF31434D2570034BE0E /* FireWireSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireWireSource.h; path = PlugIns/Core/Source/FireWireSource.h; sourceTree = "<group>"; };
-		DD96FDF41434D2570034BE0E /* FireWireSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireSource.m; path = PlugIns/Core/Source/FireWireSource.m; sourceTree = "<group>"; };
-		DD96FDFA143500B00034BE0E /* FireWireRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireWireRule.h; path = PlugIns/Core/Source/FireWireRule.h; sourceTree = "<group>"; };
-		DD96FDFB143500B10034BE0E /* FireWireRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireRule.m; path = PlugIns/Core/Source/FireWireRule.m; sourceTree = "<group>"; };
-		DD96FDFD143506EC0034BE0E /* SensorsSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SensorsSource.h; path = PlugIns/Core/Source/SensorsSource.h; sourceTree = "<group>"; };
-		DD96FDFE143506EE0034BE0E /* SensorsSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SensorsSource.m; path = PlugIns/Core/Source/SensorsSource.m; sourceTree = "<group>"; };
-		DD96FE001435304C0034BE0E /* LightRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightRule.h; path = PlugIns/Core/Source/LightRule.h; sourceTree = "<group>"; };
-		DD96FE011435304C0034BE0E /* LightRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LightRule.m; path = PlugIns/Core/Source/LightRule.m; sourceTree = "<group>"; };
-		DD96FE0314353AAA0034BE0E /* DisplayBrightnessRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayBrightnessRule.h; path = PlugIns/Core/Source/DisplayBrightnessRule.h; sourceTree = "<group>"; };
-		DD96FE0414353AAA0034BE0E /* DisplayBrightnessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayBrightnessRule.m; path = PlugIns/Core/Source/DisplayBrightnessRule.m; sourceTree = "<group>"; };
-		DD96FE0614353B970034BE0E /* KeyboardBrightnessRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardBrightnessRule.h; path = PlugIns/Core/Source/KeyboardBrightnessRule.h; sourceTree = "<group>"; };
-		DD96FE0714353B980034BE0E /* KeyboardBrightnessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardBrightnessRule.m; path = PlugIns/Core/Source/KeyboardBrightnessRule.m; sourceTree = "<group>"; };
-		DD96FE0914353CA10034BE0E /* DisplayStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayStateRule.h; path = PlugIns/Core/Source/DisplayStateRule.h; sourceTree = "<group>"; };
-		DD96FE0A14353CA20034BE0E /* DisplayStateRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayStateRule.m; path = PlugIns/Core/Source/DisplayStateRule.m; sourceTree = "<group>"; };
-		DD96FE0F1435D3770034BE0E /* USBSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = USBSource.h; path = PlugIns/Core/Source/USBSource.h; sourceTree = "<group>"; };
-		DD96FE101435D37A0034BE0E /* USBSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = USBSource.m; path = PlugIns/Core/Source/USBSource.m; sourceTree = "<group>"; };
-		DD96FE121436112F0034BE0E /* USBRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = USBRule.h; path = PlugIns/Core/Source/USBRule.h; sourceTree = "<group>"; };
-		DD96FE13143611310034BE0E /* USBRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = USBRule.m; path = PlugIns/Core/Source/USBRule.m; sourceTree = "<group>"; };
-		DD96FE1514361BCC0034BE0E /* MonitorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorSource.h; path = PlugIns/Core/Source/MonitorSource.h; sourceTree = "<group>"; };
-		DD96FE1614361BCD0034BE0E /* MonitorSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorSource.m; path = PlugIns/Core/Source/MonitorSource.m; sourceTree = "<group>"; };
-		DD96FE181436299D0034BE0E /* MonitorRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorRule.h; path = PlugIns/Core/Source/MonitorRule.h; sourceTree = "<group>"; };
-		DD96FE191436299F0034BE0E /* MonitorRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorRule.m; path = PlugIns/Core/Source/MonitorRule.m; sourceTree = "<group>"; };
-		DD96FE1B1436319B0034BE0E /* SystemStateSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemStateSource.h; path = PlugIns/Core/Source/SystemStateSource.h; sourceTree = "<group>"; };
-		DD96FE1C1436319E0034BE0E /* SystemStateSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateSource.m; path = PlugIns/Core/Source/SystemStateSource.m; sourceTree = "<group>"; };
-		DD96FE1E143658CA0034BE0E /* SystemStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemStateRule.h; path = PlugIns/Core/Source/SystemStateRule.h; sourceTree = "<group>"; };
-		DD96FE1F143658CE0034BE0E /* SystemStateRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateRule.m; path = PlugIns/Core/Source/SystemStateRule.m; sourceTree = "<group>"; };
-		DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayRule.h; path = PlugIns/Core/Source/TimeOfDayRule.h; sourceTree = "<group>"; };
-		DD96FE2214365D120034BE0E /* TimeOfDayRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayRule.m; path = PlugIns/Core/Source/TimeOfDayRule.m; sourceTree = "<group>"; };
 		DD96FE2514369DC80034BE0E /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
 		DD96FE2614369DC80034BE0E /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Action.m; sourceTree = "<group>"; };
 		DD96FE28143741ED0034BE0E /* ActionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsManager.h; sourceTree = "<group>"; };
@@ -557,34 +416,14 @@
 		DDA201711411C39400DE570E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/TimeOfDayRule.xib"; sourceTree = "<group>"; };
 		DDA201721411C39400DE570E /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/TimeOfDayRule.xib; sourceTree = "<group>"; };
 		DDA201731411C39400DE570E /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/TimeOfDayRule.xib; sourceTree = "<group>"; };
-		DDA8026E143A7FAA00745EB8 /* NetworkSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSource.h; path = PlugIns/Core/Source/NetworkSource.h; sourceTree = "<group>"; };
-		DDA8026F143A7FAA00745EB8 /* NetworkSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSource.m; path = PlugIns/Core/Source/NetworkSource.m; sourceTree = "<group>"; };
-		DDA80272143A922100745EB8 /* NetworkLinkRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLinkRule.h; path = PlugIns/Core/Source/NetworkLinkRule.h; sourceTree = "<group>"; };
-		DDA80273143A922100745EB8 /* NetworkLinkRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkRule.m; path = PlugIns/Core/Source/NetworkLinkRule.m; sourceTree = "<group>"; };
-		DDA80275143AA61900745EB8 /* IPRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPRule.h; path = PlugIns/Core/Source/IPRule.h; sourceTree = "<group>"; };
-		DDA80276143AA61C00745EB8 /* IPRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPRule.m; path = PlugIns/Core/Source/IPRule.m; sourceTree = "<group>"; };
 		DDA80319143BEE4100745EB8 /* Plugins.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugins.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDA80331143BEFCB00745EB8 /* Plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plugin.h; path = Source/Plugin.h; sourceTree = SOURCE_ROOT; };
 		DDA80332143BEFCB00745EB8 /* Plugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Plugin.m; path = Source/Plugin.m; sourceTree = SOURCE_ROOT; };
 		DDA80333143BEFCB00745EB8 /* PluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginsManager.h; path = Source/PluginsManager.h; sourceTree = SOURCE_ROOT; };
 		DDA80334143BEFCB00745EB8 /* PluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluginsManager.m; path = Source/PluginsManager.m; sourceTree = SOURCE_ROOT; };
 		DDA80348143BF31800745EB8 /* Plugins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plugins.h; path = Source/Plugins.h; sourceTree = SOURCE_ROOT; };
-		DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
-		DDAC8655143C003500682538 /* Core.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Core.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDAC8659143C003500682538 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = PlugIns/Core/Info.plist; sourceTree = "<group>"; };
-		DDAC865B143C003500682538 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDAC86C1143C107A00682538 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		DDAC86C3143C108600682538 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		DDAC8712143C128D00682538 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		DDAC8716143C12D700682538 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		DDAC8718143C130400682538 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		DDAC871A143C132E00682538 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
-		DDAC871C143C134C00682538 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		DDAC871E143C136A00682538 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		DDAC8720143C139900682538 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		DDAC8753143C1C5600682538 /* PluginsInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginsInfo.plist; sourceTree = "<group>"; };
-		DDAC87D6143C282D00682538 /* CorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CorePlugin.h; path = PlugIns/Core/Source/CorePlugin.h; sourceTree = "<group>"; };
-		DDAC87D7143C282D00682538 /* CorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CorePlugin.m; path = PlugIns/Core/Source/CorePlugin.m; sourceTree = "<group>"; };
 		DDAC87D9143E6D7400682538 /* Rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rules.h; path = Source/Rules.h; sourceTree = SOURCE_ROOT; };
 		DDAC87DB143E6DD100682538 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Actions.h; path = Source/Actions.h; sourceTree = SOURCE_ROOT; };
 		DDAC87DD143E6E8C00682538 /* Sources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sources.h; path = Source/Sources.h; sourceTree = SOURCE_ROOT; };
@@ -595,8 +434,6 @@
 		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
 		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
-		DDD1A357142B9E5A00341B75 /* WLANSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANSource.h; path = PlugIns/Core/Source/WLANSource.h; sourceTree = "<group>"; };
-		DDD1A358142B9E5A00341B75 /* WLANSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSource.m; path = PlugIns/Core/Source/WLANSource.m; sourceTree = "<group>"; };
 		DDD1A362142BD65600341B75 /* KVOAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOAdditions.h; sourceTree = "<group>"; };
 		DDD1A363142BD65600341B75 /* KVOAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVOAdditions.m; sourceTree = "<group>"; };
 		DDD1A365142CC80E00341B75 /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Context.h; path = Source/Context.h; sourceTree = "<group>"; };
@@ -605,27 +442,23 @@
 		DDD1A36F142CD55E00341B75 /* ContextGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextGroup.m; path = Source/ContextGroup.m; sourceTree = "<group>"; };
 		DDD1A373142CD81900341B75 /* ContextsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextsManager.h; path = Source/ContextsManager.h; sourceTree = "<group>"; };
 		DDD1A374142CD81900341B75 /* ContextsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextsManager.m; path = Source/ContextsManager.m; sourceTree = "<group>"; };
-		DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationSource.h; path = PlugIns/Core/Source/RunningApplicationSource.h; sourceTree = "<group>"; };
-		DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationSource.m; path = PlugIns/Core/Source/RunningApplicationSource.m; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
 		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
 		DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITunesPlaylistAction.m; path = Source/ITunesPlaylistAction.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ControlPlane.sdef; sourceTree = "<group>"; };
-		DDE29BDE1429591D00A55469 /* AudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSource.h; path = PlugIns/Core/Source/AudioSource.h; sourceTree = "<group>"; };
-		DDE29BDF1429591D00A55469 /* AudioSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSource.m; path = PlugIns/Core/Source/AudioSource.m; sourceTree = "<group>"; };
 		DDE29BE31429662500A55469 /* CallbackSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallbackSource.h; sourceTree = "<group>"; };
 		DDE29BE41429662600A55469 /* CallbackSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallbackSource.m; sourceTree = "<group>"; };
-		DDE29BE6142A1D9600A55469 /* PowerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerSource.h; path = PlugIns/Core/Source/PowerSource.h; sourceTree = "<group>"; };
-		DDE29BE7142A1D9600A55469 /* PowerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerSource.m; path = PlugIns/Core/Source/PowerSource.m; sourceTree = "<group>"; };
 		DDF4E594141588E80028DF4A /* CoreLocationMap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = CoreLocationMap.html; sourceTree = "<group>"; };
+		DDF52D1B1460A4C900A42B09 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
+		DDF52D1C1460A4C900A42B09 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
+		DDF52D1D1460A4C900A42B09 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
+		DDF52E9E1460BDA700A42B09 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = PlugIns/Core/Core.xcodeproj; sourceTree = "<group>"; };
 		DDFAEFE1144FD2EC006472EE /* ToggleInternetSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleInternetSharingAction.h; path = Source/ToggleInternetSharingAction.h; sourceTree = "<group>"; };
 		DDFAEFE2144FD2EC006472EE /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DDFB061C1440F7CF000689E4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfigs/Debug.xcconfig; sourceTree = "<group>"; };
 		DDFB061D1440F7CF000689E4 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfigs/Release.xcconfig; sourceTree = "<group>"; };
-		DDFB06251440FE1B000689E4 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Base.xcconfig; path = xcconfigs/Base.xcconfig; sourceTree = "<group>"; };
 		DDFB06261440FE1B000689E4 /* ControlPlane.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ControlPlane.xcconfig; path = xcconfigs/ControlPlane.xcconfig; sourceTree = "<group>"; };
-		DDFB06271440FE1B000689E4 /* Core.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Core.xcconfig; path = xcconfigs/Core.xcconfig; sourceTree = "<group>"; };
 		DDFB06281440FE1B000689E4 /* CPHelperInstallTool.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = CPHelperInstallTool.xcconfig; path = xcconfigs/CPHelperInstallTool.xcconfig; sourceTree = "<group>"; };
 		DDFB06291440FE1B000689E4 /* CPHelperTool.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = CPHelperTool.xcconfig; path = xcconfigs/CPHelperTool.xcconfig; sourceTree = "<group>"; };
 		DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Plugins.xcconfig; path = xcconfigs/Plugins.xcconfig; sourceTree = "<group>"; };
@@ -637,21 +470,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDAC8650143BFC0F00682538 /* Plugins.framework in Frameworks */,
-				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
-				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
 				DDAC86C2143C107A00682538 /* Cocoa.framework in Frameworks */,
-				DDAC8717143C12D700682538 /* CoreAudio.framework in Frameworks */,
-				DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */,
-				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
 				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
-				DDAC871B143C132F00682538 /* IOBluetooth.framework in Frameworks */,
-				DDAC871D143C134C00682538 /* IOKit.framework in Frameworks */,
-				DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */,
-				DD8274FB141177750098FA6E /* Security.framework in Frameworks */,
+				DD23F88D1460E899000665ED /* IOKit.framework in Frameworks */,
+				DDAC8650143BFC0F00682538 /* Plugins.framework in Frameworks */,
+				DD23F88B1460E70E000665ED /* Security.framework in Frameworks */,
 				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
-				DDAC871F143C136A00682538 /* SystemConfiguration.framework in Frameworks */,
-				DDAC8721143C139900682538 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,15 +490,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */,
-				DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */,
+				DD23F8571460E2BD000665ED /* Cocoa.framework in Frameworks */,
+				DD23F8581460E2EC000665ED /* CoreFoundation.framework in Frameworks */,
+				DD23F8591460E2EC000665ED /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DD19C68D144790E800608844 /* Frameworks */ = {
+		DD23F85B1460E378000665ED /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD23F87A1460E5CA000665ED /* Cocoa.framework in Frameworks */,
+				DD23F88A1460E6BE000665ED /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,28 +509,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDAC8722143C13CA00682538 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDAC8652143C003500682538 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD19C696144791B000608844 /* libJSONKit.a in Frameworks */,
-				DDAC8663143C004A00682538 /* Plugins.framework in Frameworks */,
-				DDAC8724143C140B00682538 /* Apple80211.framework in Frameworks */,
-				DDAC8725143C140B00682538 /* AudioToolbox.framework in Frameworks */,
-				DDAC8726143C140B00682538 /* Cocoa.framework in Frameworks */,
-				DDAC8727143C140B00682538 /* CoreAudio.framework in Frameworks */,
-				DDAC872A143C140B00682538 /* CoreLocation.framework in Frameworks */,
-				DDAC872C143C140B00682538 /* CoreWLAN.framework in Frameworks */,
-				DDAC872E143C140B00682538 /* IOBluetooth.framework in Frameworks */,
-				DDAC872F143C140B00682538 /* IOKit.framework in Frameworks */,
-				DDAC8731143C140B00682538 /* ScriptingBridge.framework in Frameworks */,
-				DDAC8732143C140B00682538 /* Security.framework in Frameworks */,
-				DDAC8733143C140B00682538 /* SystemConfiguration.framework in Frameworks */,
-				DDAC8734143C140B00682538 /* WebKit.framework in Frameworks */,
+				DD23F8901460E93A000665ED /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,38 +539,25 @@
 			name = ControlPlane;
 			sourceTree = "<group>";
 		};
-		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+		1058C7A0FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				8D80BB950B8B033400104A87 /* Growl.framework */,
 				8D20720E0B86AB0000D61A9E /* Sparkle.framework */,
 			);
-			name = "Linked Frameworks";
+			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */ = {
+		1058C7A2FEA54F0111CA2CBB /* System Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DDAC8712143C128D00682538 /* AppKit.framework */,
-				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
-				DD06E810140C661600059764 /* AudioToolbox.framework */,
 				DDAC86C1143C107A00682538 /* Cocoa.framework */,
-				DDAC8716143C12D700682538 /* CoreAudio.framework */,
-				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
-				DDAC8718143C130400682538 /* CoreFoundation.framework */,
-				DD6FCC681413EF6B0095E64F /* CoreLocation.framework */,
-				DD44B57D141417E40016BF6B /* CoreServices.framework */,
-				DA72BF9313CD317B002D27DD /* CoreWLAN.framework */,
-				DDAC86C3143C108600682538 /* Foundation.framework */,
-				DDAC871A143C132E00682538 /* IOBluetooth.framework */,
-				DDAC871C143C134C00682538 /* IOKit.framework */,
-				DA48F2E3140AD2FC00B000D3 /* Kernel.framework */,
-				DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */,
-				DD8274FA141177750098FA6E /* Security.framework */,
-				DDAC871E143C136A00682538 /* SystemConfiguration.framework */,
-				DDAC8720143C139900682538 /* WebKit.framework */,
+				DD23F8491460E222000665ED /* CoreFoundation.framework */,
+				DD23F88C1460E898000665ED /* IOKit.framework */,
+				DD23F8471460E216000665ED /* Security.framework */,
+				DD23F8881460E68B000665ED /* SystemConfiguration.framework */,
 			);
-			name = "Apple Frameworks";
+			name = "System Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -774,8 +567,7 @@
 				DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FB1412BB1700E19C50 /* CPHelperTool */,
 				DDA80319143BEE4100745EB8 /* Plugins.framework */,
-				DDAC8655143C003500682538 /* Core.plugin */,
-				DD19C690144790E800608844 /* libJSONKit.a */,
+				DD23F85F1460E378000665ED /* NSLogger.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -783,15 +575,15 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
+				DDF52E9E1460BDA700A42B09 /* Core.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* ControlPlane */,
-				DDAC866A143C043500682538 /* Core Plugin */,
 				DA5B01E91412BA6700E19C50 /* HelperTool */,
 				DDA80320143BEE4200745EB8 /* Plugin Framework */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				DDFF422F14153F650047D311 /* UI */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				DDFB06191440F7B4000689E4 /* Configurations */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = ControlPlane;
@@ -800,8 +592,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DD5BD20C141614CA007BA88C /* JSONKit */,
 				DDD1A361142BD65600341B75 /* KVOAdditions */,
+				DDF52CFE1460A4C900A42B09 /* NSLogger */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
 				32CA4F630368D1EE00C91783 /* Prefix.pch */,
 				DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */,
@@ -843,8 +635,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
-				1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */,
+				1058C7A0FEA54F0111CA2CBB /* Other Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* System Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -922,17 +714,6 @@
 			path = AuthorizationLib;
 			sourceTree = "<group>";
 		};
-		DD01EF3314439FE1006672E0 /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				DD4ADAE7143124CD00CE825F /* CLLocation+Geocoding.h */,
-				DD4ADAE8143124CD00CE825F /* CLLocation+Geocoding.m */,
-				8D8C9E320BBB89320074D5B3 /* DB.h */,
-				8D8C9E330BBB89320074D5B3 /* DB.m */,
-			);
-			name = "Other Sources";
-			sourceTree = "<group>";
-		};
 		DD01EF341443B4E8006672E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -947,15 +728,6 @@
 				DD01EF421443B67A006672E0 /* ViewsManager.m */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		DD5BD20C141614CA007BA88C /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				DD5BD209141614C4007BA88C /* JSONKit.h */,
-				DD5BD20A141614C4007BA88C /* JSONKit.m */,
-			);
-			name = JSONKit;
 			sourceTree = "<group>";
 		};
 		DD68A9D7142623080059A730 /* Sources */ = {
@@ -1088,128 +860,6 @@
 			path = CPPlugins;
 			sourceTree = "<group>";
 		};
-		DDAC866A143C043500682538 /* Core Plugin */ = {
-			isa = PBXGroup;
-			children = (
-				DDAC866B143C044E00682538 /* Classes */,
-				DD01EF3314439FE1006672E0 /* Other Sources */,
-				DDAC866C143C045900682538 /* Resources */,
-			);
-			name = "Core Plugin";
-			sourceTree = "<group>";
-		};
-		DDAC866B143C044E00682538 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				DDAC866D143C050E00682538 /* Actions */,
-				DDAC866E143C051D00682538 /* Rules */,
-				DDAC866F143C052C00682538 /* Sources */,
-				DDAC87D6143C282D00682538 /* CorePlugin.h */,
-				DDAC87D7143C282D00682538 /* CorePlugin.m */,
-			);
-			name = Classes;
-			sourceTree = "<group>";
-		};
-		DDAC866C143C045900682538 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				DDAC8659143C003500682538 /* Info.plist */,
-				DDAC865A143C003500682538 /* Localizable.strings */,
-				8DB8917B0BB89BD8005347C2 /* oui.txt */,
-				DA83A22613D1430000074503 /* usb-vendors.txt */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		DDAC866D143C050E00682538 /* Actions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Actions;
-			sourceTree = "<group>";
-		};
-		DDAC866E143C051D00682538 /* Rules */ = {
-			isa = PBXGroup;
-			children = (
-				DD4ADACE142D58DD00CE825F /* AudioOutputRule.h */,
-				DD4ADACF142D58DD00CE825F /* AudioOutputRule.m */,
-				DD19C6C9144B365C00608844 /* BluetoothConnectedRule.h */,
-				DD19C6CA144B365C00608844 /* BluetoothConnectedRule.m */,
-				DD19C6CC144B3C7100608844 /* BluetoothScannerRule.h */,
-				DD19C6CD144B3C7300608844 /* BluetoothScannerRule.m */,
-				DD4ADAD4142D762800CE825F /* BonjourRule.h */,
-				DD4ADAD5142D762800CE825F /* BonjourRule.m */,
-				DD96FE0314353AAA0034BE0E /* DisplayBrightnessRule.h */,
-				DD96FE0414353AAA0034BE0E /* DisplayBrightnessRule.m */,
-				DD96FE0914353CA10034BE0E /* DisplayStateRule.h */,
-				DD96FE0A14353CA20034BE0E /* DisplayStateRule.m */,
-				DD96FDFA143500B00034BE0E /* FireWireRule.h */,
-				DD96FDFB143500B10034BE0E /* FireWireRule.m */,
-				DDA80275143AA61900745EB8 /* IPRule.h */,
-				DDA80276143AA61C00745EB8 /* IPRule.m */,
-				DD96FE0614353B970034BE0E /* KeyboardBrightnessRule.h */,
-				DD96FE0714353B980034BE0E /* KeyboardBrightnessRule.m */,
-				DD96FE001435304C0034BE0E /* LightRule.h */,
-				DD96FE011435304C0034BE0E /* LightRule.m */,
-				DD4ADAE4142F97F500CE825F /* LocationRule.h */,
-				DD4ADAE5142F97F600CE825F /* LocationRule.m */,
-				DD96FE181436299D0034BE0E /* MonitorRule.h */,
-				DD96FE191436299F0034BE0E /* MonitorRule.m */,
-				DDA80272143A922100745EB8 /* NetworkLinkRule.h */,
-				DDA80273143A922100745EB8 /* NetworkLinkRule.m */,
-				DD4ADACB142D4BE500CE825F /* PowerSourceRule.h */,
-				DD4ADACC142D4BE500CE825F /* PowerSourceRule.m */,
-				DD4ADAD1142D60CF00CE825F /* RunningApplicationRule.h */,
-				DD4ADAD2142D60CF00CE825F /* RunningApplicationRule.m */,
-				DD96FE1E143658CA0034BE0E /* SystemStateRule.h */,
-				DD96FE1F143658CE0034BE0E /* SystemStateRule.m */,
-				DD96FE2114365D0F0034BE0E /* TimeOfDayRule.h */,
-				DD96FE2214365D120034BE0E /* TimeOfDayRule.m */,
-				DD96FE121436112F0034BE0E /* USBRule.h */,
-				DD96FE13143611310034BE0E /* USBRule.m */,
-				DD4ADADA142E2CEE00CE825F /* WLANBSSIDRule.h */,
-				DD4ADADB142E2CEE00CE825F /* WLANBSSIDRule.m */,
-				DD4ADAD7142E1A8400CE825F /* WLANSSIDRule.h */,
-				DD4ADAD8142E1A8500CE825F /* WLANSSIDRule.m */,
-			);
-			name = Rules;
-			sourceTree = "<group>";
-		};
-		DDAC866F143C052C00682538 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				DDE29BDE1429591D00A55469 /* AudioSource.h */,
-				DDE29BDF1429591D00A55469 /* AudioSource.m */,
-				DD01EF2B14422AE0006672E0 /* BluetoothConnectedSource.h */,
-				DD01EF2C14422AE0006672E0 /* BluetoothConnectedSource.m */,
-				DD19C6C6144B0A7500608844 /* BluetoothScannerSource.h */,
-				DD19C6C7144B0A7A00608844 /* BluetoothScannerSource.m */,
-				DD23929C142A916500FE7DC7 /* BonjourSource.h */,
-				DD23929D142A916500FE7DC7 /* BonjourSource.m */,
-				DD96FDF31434D2570034BE0E /* FireWireSource.h */,
-				DD96FDF41434D2570034BE0E /* FireWireSource.m */,
-				DD4ADADD142F901300CE825F /* LocationSource.h */,
-				DD4ADADE142F901500CE825F /* LocationSource.m */,
-				DD96FE1514361BCC0034BE0E /* MonitorSource.h */,
-				DD96FE1614361BCD0034BE0E /* MonitorSource.m */,
-				DDA8026E143A7FAA00745EB8 /* NetworkSource.h */,
-				DDA8026F143A7FAA00745EB8 /* NetworkSource.m */,
-				DDE29BE6142A1D9600A55469 /* PowerSource.h */,
-				DDE29BE7142A1D9600A55469 /* PowerSource.m */,
-				DDD1A376142D0E7000341B75 /* RunningApplicationSource.h */,
-				DDD1A377142D0E7100341B75 /* RunningApplicationSource.m */,
-				DD96FDFD143506EC0034BE0E /* SensorsSource.h */,
-				DD96FDFE143506EE0034BE0E /* SensorsSource.m */,
-				DD96FE1B1436319B0034BE0E /* SystemStateSource.h */,
-				DD96FE1C1436319E0034BE0E /* SystemStateSource.m */,
-				DD96FE0F1435D3770034BE0E /* USBSource.h */,
-				DD96FE101435D37A0034BE0E /* USBSource.m */,
-				DDD1A357142B9E5A00341B75 /* WLANSource.h */,
-				DDD1A358142B9E5A00341B75 /* WLANSource.m */,
-			);
-			name = Sources;
-			sourceTree = "<group>";
-		};
 		DDAC8741143C19D800682538 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,16 +895,34 @@
 			name = Contexts;
 			sourceTree = "<group>";
 		};
+		DDF52CFE1460A4C900A42B09 /* NSLogger */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52D1B1460A4C900A42B09 /* LoggerClient.h */,
+				DDF52D1C1460A4C900A42B09 /* LoggerClient.m */,
+				DDF52D1D1460A4C900A42B09 /* LoggerCommon.h */,
+			);
+			name = NSLogger;
+			path = "External Source/NSLogger/Client Logger/iOS";
+			sourceTree = "<group>";
+		};
+		DDF52E9F1460BDA700A42B09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52EA81460BDA800A42B09 /* Core.plugin */,
+				DDF52EAA1460BDA800A42B09 /* libJSONKit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DDFB06191440F7B4000689E4 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				DDFB06251440FE1B000689E4 /* Base.xcconfig */,
 				DDFB06261440FE1B000689E4 /* ControlPlane.xcconfig */,
-				DDFB06271440FE1B000689E4 /* Core.xcconfig */,
 				DDFB06281440FE1B000689E4 /* CPHelperInstallTool.xcconfig */,
 				DDFB06291440FE1B000689E4 /* CPHelperTool.xcconfig */,
 				DDFB061C1440F7CF000689E4 /* Debug.xcconfig */,
-				DD19C697144799B500608844 /* JSONKit.xcconfig */,
+				DD23F8731460E41C000665ED /* NSLogger.xcconfig */,
 				DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */,
 				DDFB061D1440F7CF000689E4 /* Release.xcconfig */,
 			);
@@ -1280,11 +948,12 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		DD19C68E144790E800608844 /* Headers */ = {
+		DD23F85C1460E378000665ED /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD19C6951447919300608844 /* JSONKit.h in Headers */,
+				DD23F8781460E4CD000665ED /* LoggerClient.h in Headers */,
+				DD23F8791460E4CD000665ED /* LoggerCommon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1311,6 +980,7 @@
 				DD01EF3F1443B62F006672E0 /* ActionView.h in Headers */,
 				DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */,
 				DD01EF461443B6B6006672E0 /* Views.h in Headers */,
+				DDF52EB61460BEA500A42B09 /* SynthesizeSingleton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1333,10 +1003,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				DDAC873F143C184600682538 /* PBXTargetDependency */,
-				DDA80347143BF17D00745EB8 /* PBXTargetDependency */,
+				DDF52EAD1460BDCA00A42B09 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
+				DD23F8761460E4A9000665ED /* PBXTargetDependency */,
+				DDA80347143BF17D00745EB8 /* PBXTargetDependency */,
 			);
 			name = ControlPlane;
 			productInstallPath = "$(HOME)/Applications";
@@ -1378,22 +1049,23 @@
 			productReference = DA5B01FB1412BB1700E19C50 /* CPHelperTool */;
 			productType = "com.apple.product-type.tool";
 		};
-		DD19C68F144790E800608844 /* JSONKit */ = {
+		DD23F85E1460E378000665ED /* NSLogger */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD19C691144790E800608844 /* Build configuration list for PBXNativeTarget "JSONKit" */;
+			buildConfigurationList = DD23F8701460E378000665ED /* Build configuration list for PBXNativeTarget "NSLogger" */;
 			buildPhases = (
-				DD19C68C144790E800608844 /* Sources */,
-				DD19C68D144790E800608844 /* Frameworks */,
-				DD19C68E144790E800608844 /* Headers */,
+				DD23F85A1460E378000665ED /* Sources */,
+				DD23F85B1460E378000665ED /* Frameworks */,
+				DD23F85C1460E378000665ED /* Headers */,
+				DD23F85D1460E378000665ED /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = JSONKit;
-			productName = JSONKit;
-			productReference = DD19C690144790E800608844 /* libJSONKit.a */;
-			productType = "com.apple.product-type.library.static";
+			name = NSLogger;
+			productName = NSLogger;
+			productReference = DD23F85F1460E378000665ED /* NSLogger.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 		DDA80318143BEE4100745EB8 /* Plugins */ = {
 			isa = PBXNativeTarget;
@@ -1412,24 +1084,6 @@
 			productName = CPPlugins;
 			productReference = DDA80319143BEE4100745EB8 /* Plugins.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		DDAC8654143C003500682538 /* Core */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DDAC865E143C003500682538 /* Build configuration list for PBXNativeTarget "Core" */;
-			buildPhases = (
-				DDAC8651143C003500682538 /* Sources */,
-				DDAC8652143C003500682538 /* Frameworks */,
-				DDAC8653143C003500682538 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DDAC8662143C004100682538 /* PBXTargetDependency */,
-			);
-			name = Core;
-			productName = Core;
-			productReference = DDAC8655143C003500682538 /* Core.plugin */;
-			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -1475,17 +1129,39 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ControlPlane */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DDF52E9F1460BDA700A42B09 /* Products */;
+					ProjectRef = DDF52E9E1460BDA700A42B09 /* Core.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* ControlPlane */,
-				DDAC8654143C003500682538 /* Core */,
 				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FA1412BB1700E19C50 /* CPHelperTool */,
-				DD19C68F144790E800608844 /* JSONKit */,
+				DD23F85E1460E378000665ED /* NSLogger */,
 				DDA80318143BEE4100745EB8 /* Plugins */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DDF52EA81460BDA800A42B09 /* Core.plugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Core.plugin;
+			remoteRef = DDF52EA71460BDA800A42B09 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDF52EAA1460BDA800A42B09 /* libJSONKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libJSONKit.a;
+			remoteRef = DDF52EA91460BDA800A42B09 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -1523,6 +1199,14 @@
 				DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */,
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
+				DD23F8741460E41D000665ED /* NSLogger.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD23F85D1460E378000665ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1530,16 +1214,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDAC8653143C003500682538 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DDAC865C143C003500682538 /* Localizable.strings in Resources */,
-				DDAC87D4143C20F700682538 /* oui.txt in Resources */,
-				DDAC87D5143C20F700682538 /* usb-vendors.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1600,51 +1274,21 @@
 				8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */,
 				8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */,
 				8DF5A4180BC2353D00CBEB4B /* CAction.m in Sources */,
-				8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */,
-				8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */,
-				8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */,
 				8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */,
-				8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */,
-				8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */,
 				8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */,
-				8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */,
-				8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */,
 				8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */,
-				8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */,
-				8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */,
-				8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */,
 				8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */,
-				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
 				8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */,
 				8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */,
-				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
-				8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */,
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
-				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
-				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,
-				8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */,
-				8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */,
-				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,
-				8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */,
 				DA812E83140681D2006869F7 /* AppleScript.m in Sources */,
-				DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */,
-				DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */,
-				DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */,
-				DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */,
-				DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */,
-				DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */,
-				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
-				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
-				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
 				DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */,
 				DDD1A367142CC81200341B75 /* Context.m in Sources */,
 				DDD1A370142CD55E00341B75 /* ContextGroup.m in Sources */,
 				DDD1A375142CD81900341B75 /* ContextsManager.m in Sources */,
-				DDFAEFE3144FD2EC006472EE /* ToggleInternetSharingAction.m in Sources */,
-				DD4364BF145E13A500A716A1 /* ToggleFirewallAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1666,11 +1310,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DD19C68C144790E800608844 /* Sources */ = {
+		DD23F85A1460E378000665ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD19C6941447918B00608844 /* JSONKit.m in Sources */,
+				DD23F8771460E4C6000665ED /* LoggerClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1695,50 +1339,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDAC8651143C003500682538 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DDAC8755143C1D6500682538 /* AudioOutputRule.m in Sources */,
-				DDAC8757143C1D6500682538 /* BonjourRule.m in Sources */,
-				DDAC8759143C1D6500682538 /* DisplayBrightnessRule.m in Sources */,
-				DDAC875B143C1D6500682538 /* DisplayStateRule.m in Sources */,
-				DDAC875D143C1D6500682538 /* FireWireRule.m in Sources */,
-				DDAC875F143C1D6500682538 /* IPRule.m in Sources */,
-				DDAC8761143C1D6500682538 /* KeyboardBrightnessRule.m in Sources */,
-				DDAC8763143C1D6500682538 /* LightRule.m in Sources */,
-				DDAC8765143C1D6500682538 /* LocationRule.m in Sources */,
-				DDAC8767143C1D6500682538 /* MonitorRule.m in Sources */,
-				DDAC8769143C1D6500682538 /* NetworkLinkRule.m in Sources */,
-				DDAC876B143C1D6500682538 /* PowerSourceRule.m in Sources */,
-				DDAC876D143C1D6500682538 /* RunningApplicationRule.m in Sources */,
-				DDAC876F143C1D6500682538 /* SystemStateRule.m in Sources */,
-				DDAC8771143C1D6500682538 /* TimeOfDayRule.m in Sources */,
-				DDAC8773143C1D6500682538 /* USBRule.m in Sources */,
-				DDAC8775143C1D6500682538 /* WLANBSSIDRule.m in Sources */,
-				DDAC8777143C1D6500682538 /* WLANSSIDRule.m in Sources */,
-				DDAC8779143C1D6500682538 /* AudioSource.m in Sources */,
-				DDAC877B143C1D6500682538 /* BonjourSource.m in Sources */,
-				DDAC877D143C1D6500682538 /* FireWireSource.m in Sources */,
-				DDAC877F143C1D6500682538 /* LocationSource.m in Sources */,
-				DDAC8781143C1D6500682538 /* MonitorSource.m in Sources */,
-				DDAC8783143C1D6500682538 /* NetworkSource.m in Sources */,
-				DDAC8785143C1D6500682538 /* PowerSource.m in Sources */,
-				DDAC8787143C1D6500682538 /* RunningApplicationSource.m in Sources */,
-				DDAC8789143C1D6500682538 /* SensorsSource.m in Sources */,
-				DDAC878B143C1D6500682538 /* SystemStateSource.m in Sources */,
-				DDAC878D143C1D6500682538 /* USBSource.m in Sources */,
-				DDAC878F143C1D6500682538 /* WLANSource.m in Sources */,
-				DDAC87D3143C208200682538 /* DB.m in Sources */,
-				DDAC87D8143C282D00682538 /* CorePlugin.m in Sources */,
-				DD01EF2E14422B72006672E0 /* BluetoothConnectedSource.m in Sources */,
-				DD01EF30144344C2006672E0 /* CLLocation+Geocoding.m in Sources */,
-				DD19C6C8144B0A7D00608844 /* BluetoothScannerSource.m in Sources */,
-				DD19C6CB144B365C00608844 /* BluetoothConnectedRule.m in Sources */,
-				DD19C6CE144B3C7400608844 /* BluetoothScannerRule.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1752,20 +1352,20 @@
 			target = DA5B01FA1412BB1700E19C50 /* CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
 		};
+		DD23F8761460E4A9000665ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD23F85E1460E378000665ED /* NSLogger */;
+			targetProxy = DD23F8751460E4A9000665ED /* PBXContainerItemProxy */;
+		};
 		DDA80347143BF17D00745EB8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDA80318143BEE4100745EB8 /* Plugins */;
 			targetProxy = DDA80346143BF17D00745EB8 /* PBXContainerItemProxy */;
 		};
-		DDAC8662143C004100682538 /* PBXTargetDependency */ = {
+		DDF52EAD1460BDCA00A42B09 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DDA80318143BEE4100745EB8 /* Plugins */;
-			targetProxy = DDAC8661143C004100682538 /* PBXContainerItemProxy */;
-		};
-		DDAC873F143C184600682538 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAC8654143C003500682538 /* Core */;
-			targetProxy = DDAC873E143C184600682538 /* PBXContainerItemProxy */;
+			name = Core;
+			targetProxy = DDF52EAC1460BDCA00A42B09 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1877,15 +1477,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		DDAC865A143C003500682538 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DDAC865B143C003500682538 /* en */,
-			);
-			name = Localizable.strings;
-			path = PlugIns/Core/Resources;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1893,7 +1484,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB06261440FE1B000689E4 /* ControlPlane.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Debug;
 		};
@@ -1901,7 +1491,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB06261440FE1B000689E4 /* ControlPlane.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Release;
 		};
@@ -1923,7 +1512,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB06281440FE1B000689E4 /* CPHelperInstallTool.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Debug;
 		};
@@ -1931,7 +1519,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB06281440FE1B000689E4 /* CPHelperInstallTool.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Release;
 		};
@@ -1939,7 +1526,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB06291440FE1B000689E4 /* CPHelperTool.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Debug;
 		};
@@ -1947,20 +1533,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB06291440FE1B000689E4 /* CPHelperTool.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Release;
 		};
-		DD19C692144790E800608844 /* Debug */ = {
+		DD23F8711460E378000665ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD19C697144799B500608844 /* JSONKit.xcconfig */;
+			baseConfigurationReference = DD23F8731460E41C000665ED /* NSLogger.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
-		DD19C693144790E800608844 /* Release */ = {
+		DD23F8721460E378000665ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD19C697144799B500608844 /* JSONKit.xcconfig */;
+			baseConfigurationReference = DD23F8731460E41C000665ED /* NSLogger.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1969,7 +1554,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Debug;
 		};
@@ -1977,23 +1561,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DDFB062A1440FE1B000689E4 /* Plugins.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-			};
-			name = Release;
-		};
-		DDAC865F143C003500682538 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDFB06271440FE1B000689E4 /* Core.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-			};
-			name = Debug;
-		};
-		DDAC8660143C003500682538 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDFB06271440FE1B000689E4 /* Core.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 			};
 			name = Release;
 		};
@@ -2036,11 +1603,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DD19C691144790E800608844 /* Build configuration list for PBXNativeTarget "JSONKit" */ = {
+		DD23F8701460E378000665ED /* Build configuration list for PBXNativeTarget "NSLogger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DD19C692144790E800608844 /* Debug */,
-				DD19C693144790E800608844 /* Release */,
+				DD23F8711460E378000665ED /* Debug */,
+				DD23F8721460E378000665ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2050,15 +1617,6 @@
 			buildConfigurations = (
 				DDA8032B143BEE4900745EB8 /* Debug */,
 				DDA8032C143BEE4900745EB8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DDAC865E143C003500682538 /* Build configuration list for PBXNativeTarget "Core" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DDAC865F143C003500682538 /* Debug */,
-				DDAC8660143C003500682538 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

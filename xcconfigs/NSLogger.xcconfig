@@ -1,0 +1,30 @@
+//
+//  NSLogger.xcconfig
+//  ControlPlane
+//
+//  Created by David Jennes on 01/11/11.
+//  Copyright 2011. All rights reserved.
+//
+
+// Version
+CURRENT_PROJECT_VERSION = 1.0
+CURRENT_MARKETING_VERSION = 1.0
+
+// Packaging
+FRAMEWORK_VERSION = A
+//INFOPLIST_FILE = Resources/PluginsInfo.plist
+PRODUCT_NAME = NSLogger
+WRAPPER_EXTENSION = framework
+
+// Linking
+DYLIB_COMPATIBILITY_VERSION = 1
+DYLIB_CURRENT_VERSION = 1
+
+// Deployment
+INSTALL_PATH = @executable_path/../Frameworks
+
+// Warnings
+GCC_WARN_64_TO_32_BIT_CONVERSION = NO
+CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO
+CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO
+GCC_WARN_UNUSED_FUNCTION = NO

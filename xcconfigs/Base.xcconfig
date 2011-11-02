@@ -20,10 +20,8 @@ VALIDATE_PRODUCT = YES
 // Deployment
 MACOSX_DEPLOYMENT_TARGET = 10.6
 
-// Search paths
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$(SRCROOT)/Frameworks" "$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks" "$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Versions/A/Frameworks"
-
 // Compiler options
+CLANG_ENABLE_OBJC_ARC = YES
 GCC_C_LANGUAGE_STANDARD = gnu99
 GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES
 GCC_ENABLE_SSE3_EXTENSIONS = YES

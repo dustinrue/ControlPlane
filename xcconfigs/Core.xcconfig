@@ -11,9 +11,12 @@ CURRENT_PROJECT_VERSION = 2.0.0.alpha1
 CURRENT_MARKETING_VERSION = 2.0.0 Alpha 1
 
 // Packaging
-INFOPLIST_FILE = PlugIns/Core/Info.plist
+INFOPLIST_FILE = Resources/Info.plist
 PRODUCT_NAME = Core
 WRAPPER_EXTENSION = plugin
+
+// Search paths
+FRAMEWORK_SEARCH_PATHS = "/System/Library/PrivateFrameworks"
 
 // Deployment
 INSTALL_PATH = $(LOCAL_LIBRARY_DIR)/Bundles

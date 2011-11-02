@@ -22,3 +22,6 @@ DYLIB_CURRENT_VERSION = 1
 
 // Deployment
 INSTALL_PATH = @executable_path/../Frameworks
+
+// Compiler options
+GCC_SYMBOLS_PRIVATE_EXTERN = NO

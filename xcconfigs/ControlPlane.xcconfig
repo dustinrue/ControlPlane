@@ -14,6 +14,9 @@ CURRENT_MARKETING_VERSION = 2.0.0 Alpha 1
 INFOPLIST_FILE = Resources/Info.plist
 PRODUCT_NAME = ControlPlane
 
+// Search paths
+FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Frameworks"
+
 // Disable a warning for scripting bridge
 GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO
 

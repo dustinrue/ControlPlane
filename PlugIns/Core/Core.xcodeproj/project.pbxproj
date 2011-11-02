@@ -1,0 +1,758 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DDF52D881460B49800A42B09 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF52D851460B49800A42B09 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDF52D891460B49800A42B09 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52D861460B49800A42B09 /* JSONKit.m */; };
+		DDF52E3D1460B8EB00A42B09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDF52E381460B7AA00A42B09 /* Localizable.strings */; };
+		DDF52E3E1460B8F000A42B09 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDF52E3A1460B7AA00A42B09 /* oui.txt */; };
+		DDF52E3F1460B8F300A42B09 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DDF52E3B1460B7AA00A42B09 /* usb-vendors.txt */; };
+		DDF52E401460BAEE00A42B09 /* CLLocation+Geocoding.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DAE1460B5CB00A42B09 /* CLLocation+Geocoding.m */; };
+		DDF52E411460BAEE00A42B09 /* DB.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DB21460B5CB00A42B09 /* DB.m */; };
+		DDF52E421460BAEE00A42B09 /* AudioOutputRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52D9E1460B5CB00A42B09 /* AudioOutputRule.m */; };
+		DDF52E431460BAEE00A42B09 /* BluetoothConnectedRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DA21460B5CB00A42B09 /* BluetoothConnectedRule.m */; };
+		DDF52E441460BAEE00A42B09 /* BluetoothScannerRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DA61460B5CB00A42B09 /* BluetoothScannerRule.m */; };
+		DDF52E451460BAEE00A42B09 /* BonjourRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DAA1460B5CB00A42B09 /* BonjourRule.m */; };
+		DDF52E461460BAEE00A42B09 /* DisplayBrightnessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DB41460B5CB00A42B09 /* DisplayBrightnessRule.m */; };
+		DDF52E471460BAEE00A42B09 /* DisplayStateRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DB61460B5CB00A42B09 /* DisplayStateRule.m */; };
+		DDF52E481460BAEE00A42B09 /* FireWireRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DB81460B5CB00A42B09 /* FireWireRule.m */; };
+		DDF52E491460BAEE00A42B09 /* IPRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DBC1460B5CB00A42B09 /* IPRule.m */; };
+		DDF52E4A1460BAEE00A42B09 /* KeyboardBrightnessRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DBE1460B5CB00A42B09 /* KeyboardBrightnessRule.m */; };
+		DDF52E4B1460BAEE00A42B09 /* LightRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DC01460B5CB00A42B09 /* LightRule.m */; };
+		DDF52E4C1460BAEE00A42B09 /* LocationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DC21460B5CB00A42B09 /* LocationRule.m */; };
+		DDF52E4D1460BAEE00A42B09 /* MonitorRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DC61460B5CB00A42B09 /* MonitorRule.m */; };
+		DDF52E4E1460BAEE00A42B09 /* NetworkLinkRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DCA1460B5CB00A42B09 /* NetworkLinkRule.m */; };
+		DDF52E4F1460BAEE00A42B09 /* PowerSourceRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DD01460B5CB00A42B09 /* PowerSourceRule.m */; };
+		DDF52E501460BAEE00A42B09 /* RunningApplicationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DD21460B5CB00A42B09 /* RunningApplicationRule.m */; };
+		DDF52E511460BAEE00A42B09 /* SystemStateRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DD81460B5CB00A42B09 /* SystemStateRule.m */; };
+		DDF52E521460BAEE00A42B09 /* TimeOfDayRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DDC1460B5CB00A42B09 /* TimeOfDayRule.m */; };
+		DDF52E531460BAEE00A42B09 /* USBRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DDE1460B5CB00A42B09 /* USBRule.m */; };
+		DDF52E541460BAEE00A42B09 /* WLANBSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DE21460B5CB00A42B09 /* WLANBSSIDRule.m */; };
+		DDF52E551460BAEE00A42B09 /* WLANSSIDRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DE61460B5CB00A42B09 /* WLANSSIDRule.m */; };
+		DDF52E561460BAEE00A42B09 /* AudioSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DA01460B5CB00A42B09 /* AudioSource.m */; };
+		DDF52E571460BAEE00A42B09 /* BluetoothConnectedSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DA41460B5CB00A42B09 /* BluetoothConnectedSource.m */; };
+		DDF52E581460BAEE00A42B09 /* BluetoothScannerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DA81460B5CB00A42B09 /* BluetoothScannerSource.m */; };
+		DDF52E591460BAEE00A42B09 /* BonjourSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DAC1460B5CB00A42B09 /* BonjourSource.m */; };
+		DDF52E5A1460BAEE00A42B09 /* FireWireSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DBA1460B5CB00A42B09 /* FireWireSource.m */; };
+		DDF52E5B1460BAEE00A42B09 /* LocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DC41460B5CB00A42B09 /* LocationSource.m */; };
+		DDF52E5C1460BAEE00A42B09 /* MonitorSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DC81460B5CB00A42B09 /* MonitorSource.m */; };
+		DDF52E5D1460BAEE00A42B09 /* NetworkSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DCC1460B5CB00A42B09 /* NetworkSource.m */; };
+		DDF52E5E1460BAEE00A42B09 /* PowerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DCE1460B5CB00A42B09 /* PowerSource.m */; };
+		DDF52E5F1460BAEE00A42B09 /* RunningApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DD41460B5CB00A42B09 /* RunningApplicationSource.m */; };
+		DDF52E601460BAEE00A42B09 /* SensorsSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DD61460B5CB00A42B09 /* SensorsSource.m */; };
+		DDF52E611460BAEE00A42B09 /* SystemStateSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DDA1460B5CB00A42B09 /* SystemStateSource.m */; };
+		DDF52E621460BAEE00A42B09 /* USBSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DE01460B5CB00A42B09 /* USBSource.m */; };
+		DDF52E631460BAEE00A42B09 /* WLANSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DE41460B5CB00A42B09 /* WLANSource.m */; };
+		DDF52E641460BAEE00A42B09 /* CorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52DB01460B5CB00A42B09 /* CorePlugin.m */; };
+		DDF52E651460BB1400A42B09 /* libJSONKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52D6A1460B3C900A42B09 /* libJSONKit.a */; };
+		DDF52E7D1460BD3600A42B09 /* Apple80211.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E661460BBDC00A42B09 /* Apple80211.framework */; };
+		DDF52E7E1460BD3600A42B09 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E681460BBED00A42B09 /* AudioToolbox.framework */; };
+		DDF52E7F1460BD3600A42B09 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52D8F1460B54D00A42B09 /* Cocoa.framework */; };
+		DDF52E801460BD3600A42B09 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E6A1460BC0100A42B09 /* CoreAudio.framework */; };
+		DDF52E811460BD3600A42B09 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E6B1460BC0100A42B09 /* CoreLocation.framework */; };
+		DDF52E821460BD3600A42B09 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E6C1460BC0100A42B09 /* CoreWLAN.framework */; };
+		DDF52E831460BD3600A42B09 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E701460BC1300A42B09 /* IOBluetooth.framework */; };
+		DDF52E841460BD3600A42B09 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E711460BC1300A42B09 /* IOKit.framework */; };
+		DDF52E851460BD3600A42B09 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E741460BC3F00A42B09 /* ScriptingBridge.framework */; };
+		DDF52E861460BD3600A42B09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E751460BC3F00A42B09 /* Security.framework */; };
+		DDF52E871460BD3600A42B09 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E761460BC3F00A42B09 /* SystemConfiguration.framework */; };
+		DDF52E881460BD3600A42B09 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E771460BC3F00A42B09 /* WebKit.framework */; };
+		DDF52EB51460BE2000A42B09 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E971460BD5500A42B09 /* Plugins.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD23F8951460E9B1000665ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DD23F85F1460E378000665ED;
+			remoteInfo = NSLogger;
+		};
+		DDF52D9B1460B55900A42B09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52D531460B2FB00A42B09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDF52D691460B3C900A42B09;
+			remoteInfo = JSONKit;
+		};
+		DDF52E901460BD5500A42B09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA1204DA13D0E5C800CDA091;
+			remoteInfo = ControlPlane;
+		};
+		DDF52E921460BD5500A42B09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5B01D71412B6A700E19C50;
+			remoteInfo = CPHelperInstallTool;
+		};
+		DDF52E941460BD5500A42B09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5B01FB1412BB1700E19C50;
+			remoteInfo = CPHelperTool;
+		};
+		DDF52E961460BD5500A42B09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DDA80319143BEE4100745EB8;
+			remoteInfo = Plugins;
+		};
+		DDF52EAE1460BDFF00A42B09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DDA80318143BEE4100745EB8;
+			remoteInfo = Plugins;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DDF52D6A1460B3C900A42B09 /* libJSONKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJSONKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF52D7F1460B44E00A42B09 /* Core.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Core.xcconfig; path = ../../xcconfigs/Core.xcconfig; sourceTree = "<group>"; };
+		DDF52D801460B44E00A42B09 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../xcconfigs/Debug.xcconfig; sourceTree = "<group>"; };
+		DDF52D811460B44E00A42B09 /* JSONKit.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = JSONKit.xcconfig; path = ../../xcconfigs/JSONKit.xcconfig; sourceTree = "<group>"; };
+		DDF52D821460B44E00A42B09 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../xcconfigs/Release.xcconfig; sourceTree = "<group>"; };
+		DDF52D851460B49800A42B09 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		DDF52D861460B49800A42B09 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		DDF52D8E1460B54D00A42B09 /* Core.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Core.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF52D8F1460B54D00A42B09 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DDF52D9D1460B5CB00A42B09 /* AudioOutputRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputRule.h; path = Source/AudioOutputRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52D9E1460B5CB00A42B09 /* AudioOutputRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputRule.m; path = Source/AudioOutputRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52D9F1460B5CB00A42B09 /* AudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSource.h; path = Source/AudioSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DA01460B5CB00A42B09 /* AudioSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSource.m; path = Source/AudioSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DA11460B5CB00A42B09 /* BluetoothConnectedRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectedRule.h; path = Source/BluetoothConnectedRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DA21460B5CB00A42B09 /* BluetoothConnectedRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothConnectedRule.m; path = Source/BluetoothConnectedRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DA31460B5CB00A42B09 /* BluetoothConnectedSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothConnectedSource.h; path = Source/BluetoothConnectedSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DA41460B5CB00A42B09 /* BluetoothConnectedSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothConnectedSource.m; path = Source/BluetoothConnectedSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DA51460B5CB00A42B09 /* BluetoothScannerRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothScannerRule.h; path = Source/BluetoothScannerRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DA61460B5CB00A42B09 /* BluetoothScannerRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothScannerRule.m; path = Source/BluetoothScannerRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DA71460B5CB00A42B09 /* BluetoothScannerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothScannerSource.h; path = Source/BluetoothScannerSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DA81460B5CB00A42B09 /* BluetoothScannerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothScannerSource.m; path = Source/BluetoothScannerSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DA91460B5CB00A42B09 /* BonjourRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourRule.h; path = Source/BonjourRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DAA1460B5CB00A42B09 /* BonjourRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourRule.m; path = Source/BonjourRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DAB1460B5CB00A42B09 /* BonjourSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonjourSource.h; path = Source/BonjourSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DAC1460B5CB00A42B09 /* BonjourSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BonjourSource.m; path = Source/BonjourSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DAD1460B5CB00A42B09 /* CLLocation+Geocoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CLLocation+Geocoding.h"; path = "Source/CLLocation+Geocoding.h"; sourceTree = SOURCE_ROOT; };
+		DDF52DAE1460B5CB00A42B09 /* CLLocation+Geocoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CLLocation+Geocoding.m"; path = "Source/CLLocation+Geocoding.m"; sourceTree = SOURCE_ROOT; };
+		DDF52DAF1460B5CB00A42B09 /* CorePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CorePlugin.h; path = Source/CorePlugin.h; sourceTree = SOURCE_ROOT; };
+		DDF52DB01460B5CB00A42B09 /* CorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CorePlugin.m; path = Source/CorePlugin.m; sourceTree = SOURCE_ROOT; };
+		DDF52DB11460B5CB00A42B09 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = Source/DB.h; sourceTree = SOURCE_ROOT; };
+		DDF52DB21460B5CB00A42B09 /* DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DB.m; path = Source/DB.m; sourceTree = SOURCE_ROOT; };
+		DDF52DB31460B5CB00A42B09 /* DisplayBrightnessRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayBrightnessRule.h; path = Source/DisplayBrightnessRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DB41460B5CB00A42B09 /* DisplayBrightnessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayBrightnessRule.m; path = Source/DisplayBrightnessRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DB51460B5CB00A42B09 /* DisplayStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayStateRule.h; path = Source/DisplayStateRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DB61460B5CB00A42B09 /* DisplayStateRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayStateRule.m; path = Source/DisplayStateRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DB71460B5CB00A42B09 /* FireWireRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireWireRule.h; path = Source/FireWireRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DB81460B5CB00A42B09 /* FireWireRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireRule.m; path = Source/FireWireRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DB91460B5CB00A42B09 /* FireWireSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FireWireSource.h; path = Source/FireWireSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DBA1460B5CB00A42B09 /* FireWireSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FireWireSource.m; path = Source/FireWireSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DBB1460B5CB00A42B09 /* IPRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPRule.h; path = Source/IPRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DBC1460B5CB00A42B09 /* IPRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPRule.m; path = Source/IPRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DBD1460B5CB00A42B09 /* KeyboardBrightnessRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardBrightnessRule.h; path = Source/KeyboardBrightnessRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DBE1460B5CB00A42B09 /* KeyboardBrightnessRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardBrightnessRule.m; path = Source/KeyboardBrightnessRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DBF1460B5CB00A42B09 /* LightRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LightRule.h; path = Source/LightRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DC01460B5CB00A42B09 /* LightRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LightRule.m; path = Source/LightRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DC11460B5CB00A42B09 /* LocationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationRule.h; path = Source/LocationRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DC21460B5CB00A42B09 /* LocationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationRule.m; path = Source/LocationRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DC31460B5CB00A42B09 /* LocationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationSource.h; path = Source/LocationSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DC41460B5CB00A42B09 /* LocationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationSource.m; path = Source/LocationSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DC51460B5CB00A42B09 /* MonitorRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorRule.h; path = Source/MonitorRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DC61460B5CB00A42B09 /* MonitorRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorRule.m; path = Source/MonitorRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DC71460B5CB00A42B09 /* MonitorSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonitorSource.h; path = Source/MonitorSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DC81460B5CB00A42B09 /* MonitorSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MonitorSource.m; path = Source/MonitorSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DC91460B5CB00A42B09 /* NetworkLinkRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLinkRule.h; path = Source/NetworkLinkRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DCA1460B5CB00A42B09 /* NetworkLinkRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLinkRule.m; path = Source/NetworkLinkRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DCB1460B5CB00A42B09 /* NetworkSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSource.h; path = Source/NetworkSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DCC1460B5CB00A42B09 /* NetworkSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSource.m; path = Source/NetworkSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DCD1460B5CB00A42B09 /* PowerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerSource.h; path = Source/PowerSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DCE1460B5CB00A42B09 /* PowerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerSource.m; path = Source/PowerSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DCF1460B5CB00A42B09 /* PowerSourceRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PowerSourceRule.h; path = Source/PowerSourceRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DD01460B5CB00A42B09 /* PowerSourceRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PowerSourceRule.m; path = Source/PowerSourceRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DD11460B5CB00A42B09 /* RunningApplicationRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationRule.h; path = Source/RunningApplicationRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DD21460B5CB00A42B09 /* RunningApplicationRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationRule.m; path = Source/RunningApplicationRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DD31460B5CB00A42B09 /* RunningApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunningApplicationSource.h; path = Source/RunningApplicationSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DD41460B5CB00A42B09 /* RunningApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationSource.m; path = Source/RunningApplicationSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DD51460B5CB00A42B09 /* SensorsSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SensorsSource.h; path = Source/SensorsSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DD61460B5CB00A42B09 /* SensorsSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SensorsSource.m; path = Source/SensorsSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DD71460B5CB00A42B09 /* SystemStateRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemStateRule.h; path = Source/SystemStateRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DD81460B5CB00A42B09 /* SystemStateRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateRule.m; path = Source/SystemStateRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DD91460B5CB00A42B09 /* SystemStateSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemStateSource.h; path = Source/SystemStateSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DDA1460B5CB00A42B09 /* SystemStateSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SystemStateSource.m; path = Source/SystemStateSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DDB1460B5CB00A42B09 /* TimeOfDayRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeOfDayRule.h; path = Source/TimeOfDayRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DDC1460B5CB00A42B09 /* TimeOfDayRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeOfDayRule.m; path = Source/TimeOfDayRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DDD1460B5CB00A42B09 /* USBRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = USBRule.h; path = Source/USBRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DDE1460B5CB00A42B09 /* USBRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = USBRule.m; path = Source/USBRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DDF1460B5CB00A42B09 /* USBSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = USBSource.h; path = Source/USBSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DE01460B5CB00A42B09 /* USBSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = USBSource.m; path = Source/USBSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DE11460B5CB00A42B09 /* WLANBSSIDRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANBSSIDRule.h; path = Source/WLANBSSIDRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DE21460B5CB00A42B09 /* WLANBSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANBSSIDRule.m; path = Source/WLANBSSIDRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52DE31460B5CB00A42B09 /* WLANSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANSource.h; path = Source/WLANSource.h; sourceTree = SOURCE_ROOT; };
+		DDF52DE41460B5CB00A42B09 /* WLANSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSource.m; path = Source/WLANSource.m; sourceTree = SOURCE_ROOT; };
+		DDF52DE51460B5CB00A42B09 /* WLANSSIDRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLANSSIDRule.h; path = Source/WLANSSIDRule.h; sourceTree = SOURCE_ROOT; };
+		DDF52DE61460B5CB00A42B09 /* WLANSSIDRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WLANSSIDRule.m; path = Source/WLANSSIDRule.m; sourceTree = SOURCE_ROOT; };
+		DDF52E351460B73300A42B09 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = Source/Prefix.pch; sourceTree = SOURCE_ROOT; };
+		DDF52E391460B7AA00A42B09 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DDF52E3A1460B7AA00A42B09 /* oui.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.txt; sourceTree = "<group>"; };
+		DDF52E3B1460B7AA00A42B09 /* usb-vendors.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "usb-vendors.txt"; sourceTree = "<group>"; };
+		DDF52E3C1460B8D800A42B09 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDF52E661460BBDC00A42B09 /* Apple80211.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apple80211.framework; path = /System/Library/PrivateFrameworks/Apple80211.framework; sourceTree = "<absolute>"; };
+		DDF52E681460BBED00A42B09 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DDF52E6A1460BC0100A42B09 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		DDF52E6B1460BC0100A42B09 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		DDF52E6C1460BC0100A42B09 /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = System/Library/Frameworks/CoreWLAN.framework; sourceTree = SDKROOT; };
+		DDF52E701460BC1300A42B09 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
+		DDF52E711460BC1300A42B09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		DDF52E741460BC3F00A42B09 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
+		DDF52E751460BC3F00A42B09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		DDF52E761460BC3F00A42B09 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DDF52E771460BC3F00A42B09 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ControlPlane.xcodeproj; path = ../../ControlPlane.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDF52D671460B3C900A42B09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDF52D8B1460B54D00A42B09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDF52EB51460BE2000A42B09 /* Plugins.framework in Frameworks */,
+				DDF52E651460BB1400A42B09 /* libJSONKit.a in Frameworks */,
+				DDF52E7D1460BD3600A42B09 /* Apple80211.framework in Frameworks */,
+				DDF52E7E1460BD3600A42B09 /* AudioToolbox.framework in Frameworks */,
+				DDF52E7F1460BD3600A42B09 /* Cocoa.framework in Frameworks */,
+				DDF52E801460BD3600A42B09 /* CoreAudio.framework in Frameworks */,
+				DDF52E811460BD3600A42B09 /* CoreLocation.framework in Frameworks */,
+				DDF52E821460BD3600A42B09 /* CoreWLAN.framework in Frameworks */,
+				DDF52E831460BD3600A42B09 /* IOBluetooth.framework in Frameworks */,
+				DDF52E841460BD3600A42B09 /* IOKit.framework in Frameworks */,
+				DDF52E851460BD3600A42B09 /* ScriptingBridge.framework in Frameworks */,
+				DDF52E861460BD3600A42B09 /* Security.framework in Frameworks */,
+				DDF52E871460BD3600A42B09 /* SystemConfiguration.framework in Frameworks */,
+				DDF52E881460BD3600A42B09 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DDF52D511460B2FB00A42B09 = {
+			isa = PBXGroup;
+			children = (
+				DDF52D7E1460B43600A42B09 /* Configurations */,
+				DDF52D911460B54D00A42B09 /* Core */,
+				DDF52D6C1460B3C900A42B09 /* Frameworks */,
+				DDF52D831460B49800A42B09 /* JSONKit */,
+				DDF52E371460B7AA00A42B09 /* Resources */,
+				DDF52D6B1460B3C900A42B09 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DDF52D6B1460B3C900A42B09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52D6A1460B3C900A42B09 /* libJSONKit.a */,
+				DDF52D8E1460B54D00A42B09 /* Core.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDF52D6C1460B3C900A42B09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52D7D1460B41900A42B09 /* Apple Frameworks */,
+				DDF52D6F1460B3C900A42B09 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DDF52D6F1460B3C900A42B09 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		DDF52D7D1460B41900A42B09 /* Apple Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52E661460BBDC00A42B09 /* Apple80211.framework */,
+				DDF52E681460BBED00A42B09 /* AudioToolbox.framework */,
+				DDF52D8F1460B54D00A42B09 /* Cocoa.framework */,
+				DDF52E6A1460BC0100A42B09 /* CoreAudio.framework */,
+				DDF52E6B1460BC0100A42B09 /* CoreLocation.framework */,
+				DDF52E6C1460BC0100A42B09 /* CoreWLAN.framework */,
+				DDF52E701460BC1300A42B09 /* IOBluetooth.framework */,
+				DDF52E711460BC1300A42B09 /* IOKit.framework */,
+				DDF52E741460BC3F00A42B09 /* ScriptingBridge.framework */,
+				DDF52E751460BC3F00A42B09 /* Security.framework */,
+				DDF52E761460BC3F00A42B09 /* SystemConfiguration.framework */,
+				DDF52E771460BC3F00A42B09 /* WebKit.framework */,
+			);
+			name = "Apple Frameworks";
+			sourceTree = "<group>";
+		};
+		DDF52D7E1460B43600A42B09 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52D7F1460B44E00A42B09 /* Core.xcconfig */,
+				DDF52D801460B44E00A42B09 /* Debug.xcconfig */,
+				DDF52D811460B44E00A42B09 /* JSONKit.xcconfig */,
+				DDF52D821460B44E00A42B09 /* Release.xcconfig */,
+			);
+			name = Configurations;
+			sourceTree = "<group>";
+		};
+		DDF52D831460B49800A42B09 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52D851460B49800A42B09 /* JSONKit.h */,
+				DDF52D861460B49800A42B09 /* JSONKit.m */,
+			);
+			name = JSONKit;
+			path = "../../External Source/JSONKit";
+			sourceTree = "<group>";
+		};
+		DDF52D911460B54D00A42B09 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52E311460B5ED00A42B09 /* Actions */,
+				DDF52E341460B6FC00A42B09 /* Other Sources */,
+				DDF52E321460B64E00A42B09 /* Rules */,
+				DDF52E331460B68B00A42B09 /* Sources */,
+				DDF52DAF1460B5CB00A42B09 /* CorePlugin.h */,
+				DDF52DB01460B5CB00A42B09 /* CorePlugin.m */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		DDF52E311460B5ED00A42B09 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Actions;
+			sourceTree = "<group>";
+		};
+		DDF52E321460B64E00A42B09 /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52D9D1460B5CB00A42B09 /* AudioOutputRule.h */,
+				DDF52D9E1460B5CB00A42B09 /* AudioOutputRule.m */,
+				DDF52DA11460B5CB00A42B09 /* BluetoothConnectedRule.h */,
+				DDF52DA21460B5CB00A42B09 /* BluetoothConnectedRule.m */,
+				DDF52DA51460B5CB00A42B09 /* BluetoothScannerRule.h */,
+				DDF52DA61460B5CB00A42B09 /* BluetoothScannerRule.m */,
+				DDF52DA91460B5CB00A42B09 /* BonjourRule.h */,
+				DDF52DAA1460B5CB00A42B09 /* BonjourRule.m */,
+				DDF52DB31460B5CB00A42B09 /* DisplayBrightnessRule.h */,
+				DDF52DB41460B5CB00A42B09 /* DisplayBrightnessRule.m */,
+				DDF52DB51460B5CB00A42B09 /* DisplayStateRule.h */,
+				DDF52DB61460B5CB00A42B09 /* DisplayStateRule.m */,
+				DDF52DB71460B5CB00A42B09 /* FireWireRule.h */,
+				DDF52DB81460B5CB00A42B09 /* FireWireRule.m */,
+				DDF52DBB1460B5CB00A42B09 /* IPRule.h */,
+				DDF52DBC1460B5CB00A42B09 /* IPRule.m */,
+				DDF52DBD1460B5CB00A42B09 /* KeyboardBrightnessRule.h */,
+				DDF52DBE1460B5CB00A42B09 /* KeyboardBrightnessRule.m */,
+				DDF52DBF1460B5CB00A42B09 /* LightRule.h */,
+				DDF52DC01460B5CB00A42B09 /* LightRule.m */,
+				DDF52DC11460B5CB00A42B09 /* LocationRule.h */,
+				DDF52DC21460B5CB00A42B09 /* LocationRule.m */,
+				DDF52DC51460B5CB00A42B09 /* MonitorRule.h */,
+				DDF52DC61460B5CB00A42B09 /* MonitorRule.m */,
+				DDF52DC91460B5CB00A42B09 /* NetworkLinkRule.h */,
+				DDF52DCA1460B5CB00A42B09 /* NetworkLinkRule.m */,
+				DDF52DCF1460B5CB00A42B09 /* PowerSourceRule.h */,
+				DDF52DD01460B5CB00A42B09 /* PowerSourceRule.m */,
+				DDF52DD11460B5CB00A42B09 /* RunningApplicationRule.h */,
+				DDF52DD21460B5CB00A42B09 /* RunningApplicationRule.m */,
+				DDF52DD71460B5CB00A42B09 /* SystemStateRule.h */,
+				DDF52DD81460B5CB00A42B09 /* SystemStateRule.m */,
+				DDF52DDB1460B5CB00A42B09 /* TimeOfDayRule.h */,
+				DDF52DDC1460B5CB00A42B09 /* TimeOfDayRule.m */,
+				DDF52DDD1460B5CB00A42B09 /* USBRule.h */,
+				DDF52DDE1460B5CB00A42B09 /* USBRule.m */,
+				DDF52DE11460B5CB00A42B09 /* WLANBSSIDRule.h */,
+				DDF52DE21460B5CB00A42B09 /* WLANBSSIDRule.m */,
+				DDF52DE51460B5CB00A42B09 /* WLANSSIDRule.h */,
+				DDF52DE61460B5CB00A42B09 /* WLANSSIDRule.m */,
+			);
+			name = Rules;
+			sourceTree = "<group>";
+		};
+		DDF52E331460B68B00A42B09 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52D9F1460B5CB00A42B09 /* AudioSource.h */,
+				DDF52DA01460B5CB00A42B09 /* AudioSource.m */,
+				DDF52DA31460B5CB00A42B09 /* BluetoothConnectedSource.h */,
+				DDF52DA41460B5CB00A42B09 /* BluetoothConnectedSource.m */,
+				DDF52DA71460B5CB00A42B09 /* BluetoothScannerSource.h */,
+				DDF52DA81460B5CB00A42B09 /* BluetoothScannerSource.m */,
+				DDF52DAB1460B5CB00A42B09 /* BonjourSource.h */,
+				DDF52DAC1460B5CB00A42B09 /* BonjourSource.m */,
+				DDF52DB91460B5CB00A42B09 /* FireWireSource.h */,
+				DDF52DBA1460B5CB00A42B09 /* FireWireSource.m */,
+				DDF52DC31460B5CB00A42B09 /* LocationSource.h */,
+				DDF52DC41460B5CB00A42B09 /* LocationSource.m */,
+				DDF52DC71460B5CB00A42B09 /* MonitorSource.h */,
+				DDF52DC81460B5CB00A42B09 /* MonitorSource.m */,
+				DDF52DCB1460B5CB00A42B09 /* NetworkSource.h */,
+				DDF52DCC1460B5CB00A42B09 /* NetworkSource.m */,
+				DDF52DCD1460B5CB00A42B09 /* PowerSource.h */,
+				DDF52DCE1460B5CB00A42B09 /* PowerSource.m */,
+				DDF52DD31460B5CB00A42B09 /* RunningApplicationSource.h */,
+				DDF52DD41460B5CB00A42B09 /* RunningApplicationSource.m */,
+				DDF52DD51460B5CB00A42B09 /* SensorsSource.h */,
+				DDF52DD61460B5CB00A42B09 /* SensorsSource.m */,
+				DDF52DD91460B5CB00A42B09 /* SystemStateSource.h */,
+				DDF52DDA1460B5CB00A42B09 /* SystemStateSource.m */,
+				DDF52DDF1460B5CB00A42B09 /* USBSource.h */,
+				DDF52DE01460B5CB00A42B09 /* USBSource.m */,
+				DDF52DE31460B5CB00A42B09 /* WLANSource.h */,
+				DDF52DE41460B5CB00A42B09 /* WLANSource.m */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		DDF52E341460B6FC00A42B09 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52E351460B73300A42B09 /* Prefix.pch */,
+				DDF52DAD1460B5CB00A42B09 /* CLLocation+Geocoding.h */,
+				DDF52DAE1460B5CB00A42B09 /* CLLocation+Geocoding.m */,
+				DDF52DB11460B5CB00A42B09 /* DB.h */,
+				DDF52DB21460B5CB00A42B09 /* DB.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		DDF52E371460B7AA00A42B09 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52E3C1460B8D800A42B09 /* Info.plist */,
+				DDF52E381460B7AA00A42B09 /* Localizable.strings */,
+				DDF52E3A1460B7AA00A42B09 /* oui.txt */,
+				DDF52E3B1460B7AA00A42B09 /* usb-vendors.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DDF52E8A1460BD5400A42B09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDF52E911460BD5500A42B09 /* ControlPlane.app */,
+				DDF52E931460BD5500A42B09 /* CPHelperInstallTool */,
+				DDF52E951460BD5500A42B09 /* CPHelperTool */,
+				DD23F8961460E9B1000665ED /* NSLogger.framework */,
+				DDF52E971460BD5500A42B09 /* Plugins.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DDF52D681460B3C900A42B09 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDF52D881460B49800A42B09 /* JSONKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		DDF52D691460B3C900A42B09 /* JSONKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDF52D7B1460B3C900A42B09 /* Build configuration list for PBXNativeTarget "JSONKit" */;
+			buildPhases = (
+				DDF52D661460B3C900A42B09 /* Sources */,
+				DDF52D671460B3C900A42B09 /* Frameworks */,
+				DDF52D681460B3C900A42B09 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JSONKit;
+			productName = JSONKit;
+			productReference = DDF52D6A1460B3C900A42B09 /* libJSONKit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DDF52D8D1460B54D00A42B09 /* Core */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDF52D981460B54D00A42B09 /* Build configuration list for PBXNativeTarget "Core" */;
+			buildPhases = (
+				DDF52D8A1460B54D00A42B09 /* Sources */,
+				DDF52D8B1460B54D00A42B09 /* Frameworks */,
+				DDF52D8C1460B54D00A42B09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DDF52EAF1460BDFF00A42B09 /* PBXTargetDependency */,
+				DDF52D9C1460B55900A42B09 /* PBXTargetDependency */,
+			);
+			name = Core;
+			productName = Core;
+			productReference = DDF52D8E1460B54D00A42B09 /* Core.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDF52D531460B2FB00A42B09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = DDF52D561460B2FB00A42B09 /* Build configuration list for PBXProject "Core" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DDF52D511460B2FB00A42B09;
+			productRefGroup = DDF52D6B1460B3C900A42B09 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DDF52E8A1460BD5400A42B09 /* Products */;
+					ProjectRef = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				DDF52D8D1460B54D00A42B09 /* Core */,
+				DDF52D691460B3C900A42B09 /* JSONKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DD23F8961460E9B1000665ED /* NSLogger.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = NSLogger.framework;
+			remoteRef = DD23F8951460E9B1000665ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDF52E911460BD5500A42B09 /* ControlPlane.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ControlPlane.app;
+			remoteRef = DDF52E901460BD5500A42B09 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDF52E931460BD5500A42B09 /* CPHelperInstallTool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CPHelperInstallTool;
+			remoteRef = DDF52E921460BD5500A42B09 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDF52E951460BD5500A42B09 /* CPHelperTool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CPHelperTool;
+			remoteRef = DDF52E941460BD5500A42B09 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDF52E971460BD5500A42B09 /* Plugins.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Plugins.framework;
+			remoteRef = DDF52E961460BD5500A42B09 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DDF52D8C1460B54D00A42B09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDF52E3D1460B8EB00A42B09 /* Localizable.strings in Resources */,
+				DDF52E3E1460B8F000A42B09 /* oui.txt in Resources */,
+				DDF52E3F1460B8F300A42B09 /* usb-vendors.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDF52D661460B3C900A42B09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDF52D891460B49800A42B09 /* JSONKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDF52D8A1460B54D00A42B09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDF52E401460BAEE00A42B09 /* CLLocation+Geocoding.m in Sources */,
+				DDF52E411460BAEE00A42B09 /* DB.m in Sources */,
+				DDF52E421460BAEE00A42B09 /* AudioOutputRule.m in Sources */,
+				DDF52E431460BAEE00A42B09 /* BluetoothConnectedRule.m in Sources */,
+				DDF52E441460BAEE00A42B09 /* BluetoothScannerRule.m in Sources */,
+				DDF52E451460BAEE00A42B09 /* BonjourRule.m in Sources */,
+				DDF52E461460BAEE00A42B09 /* DisplayBrightnessRule.m in Sources */,
+				DDF52E471460BAEE00A42B09 /* DisplayStateRule.m in Sources */,
+				DDF52E481460BAEE00A42B09 /* FireWireRule.m in Sources */,
+				DDF52E491460BAEE00A42B09 /* IPRule.m in Sources */,
+				DDF52E4A1460BAEE00A42B09 /* KeyboardBrightnessRule.m in Sources */,
+				DDF52E4B1460BAEE00A42B09 /* LightRule.m in Sources */,
+				DDF52E4C1460BAEE00A42B09 /* LocationRule.m in Sources */,
+				DDF52E4D1460BAEE00A42B09 /* MonitorRule.m in Sources */,
+				DDF52E4E1460BAEE00A42B09 /* NetworkLinkRule.m in Sources */,
+				DDF52E4F1460BAEE00A42B09 /* PowerSourceRule.m in Sources */,
+				DDF52E501460BAEE00A42B09 /* RunningApplicationRule.m in Sources */,
+				DDF52E511460BAEE00A42B09 /* SystemStateRule.m in Sources */,
+				DDF52E521460BAEE00A42B09 /* TimeOfDayRule.m in Sources */,
+				DDF52E531460BAEE00A42B09 /* USBRule.m in Sources */,
+				DDF52E541460BAEE00A42B09 /* WLANBSSIDRule.m in Sources */,
+				DDF52E551460BAEE00A42B09 /* WLANSSIDRule.m in Sources */,
+				DDF52E561460BAEE00A42B09 /* AudioSource.m in Sources */,
+				DDF52E571460BAEE00A42B09 /* BluetoothConnectedSource.m in Sources */,
+				DDF52E581460BAEE00A42B09 /* BluetoothScannerSource.m in Sources */,
+				DDF52E591460BAEE00A42B09 /* BonjourSource.m in Sources */,
+				DDF52E5A1460BAEE00A42B09 /* FireWireSource.m in Sources */,
+				DDF52E5B1460BAEE00A42B09 /* LocationSource.m in Sources */,
+				DDF52E5C1460BAEE00A42B09 /* MonitorSource.m in Sources */,
+				DDF52E5D1460BAEE00A42B09 /* NetworkSource.m in Sources */,
+				DDF52E5E1460BAEE00A42B09 /* PowerSource.m in Sources */,
+				DDF52E5F1460BAEE00A42B09 /* RunningApplicationSource.m in Sources */,
+				DDF52E601460BAEE00A42B09 /* SensorsSource.m in Sources */,
+				DDF52E611460BAEE00A42B09 /* SystemStateSource.m in Sources */,
+				DDF52E621460BAEE00A42B09 /* USBSource.m in Sources */,
+				DDF52E631460BAEE00A42B09 /* WLANSource.m in Sources */,
+				DDF52E641460BAEE00A42B09 /* CorePlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DDF52D9C1460B55900A42B09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDF52D691460B3C900A42B09 /* JSONKit */;
+			targetProxy = DDF52D9B1460B55900A42B09 /* PBXContainerItemProxy */;
+		};
+		DDF52EAF1460BDFF00A42B09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Plugins;
+			targetProxy = DDF52EAE1460BDFF00A42B09 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DDF52E381460B7AA00A42B09 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDF52E391460B7AA00A42B09 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DDF52D581460B2FB00A42B09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDF52D801460B44E00A42B09 /* Debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DDF52D591460B2FB00A42B09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDF52D821460B44E00A42B09 /* Release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		DDF52D791460B3C900A42B09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDF52D811460B44E00A42B09 /* JSONKit.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DDF52D7A1460B3C900A42B09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDF52D811460B44E00A42B09 /* JSONKit.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		DDF52D991460B54D00A42B09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDF52D7F1460B44E00A42B09 /* Core.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DDF52D9A1460B54D00A42B09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDF52D7F1460B44E00A42B09 /* Core.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDF52D561460B2FB00A42B09 /* Build configuration list for PBXProject "Core" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDF52D581460B2FB00A42B09 /* Debug */,
+				DDF52D591460B2FB00A42B09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDF52D7B1460B3C900A42B09 /* Build configuration list for PBXNativeTarget "JSONKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDF52D791460B3C900A42B09 /* Debug */,
+				DDF52D7A1460B3C900A42B09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDF52D981460B54D00A42B09 /* Build configuration list for PBXNativeTarget "Core" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDF52D991460B54D00A42B09 /* Debug */,
+				DDF52D9A1460B54D00A42B09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDF52D531460B2FB00A42B09 /* Project object */;
+}
