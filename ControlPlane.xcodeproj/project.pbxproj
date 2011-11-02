@@ -93,6 +93,7 @@
 		DDA80343143BF14700745EB8 /* Source.h in Headers */ = {isa = PBXBuildFile; fileRef = DD68A9D9142623210059A730 /* Source.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD68A9DB142623210059A730 /* SourcesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDA80349143BF36100745EB8 /* Plugins.h in Headers */ = {isa = PBXBuildFile; fileRef = DDA80348143BF31800745EB8 /* Plugins.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDAC64F11461018000B5B279 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
 		DDAC864F143BFABA00682538 /* Plugins.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDA80319143BEE4100745EB8 /* Plugins.framework */; };
 		DDAC8650143BFC0F00682538 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA80319143BEE4100745EB8 /* Plugins.framework */; };
 		DDAC86C2143C107A00682538 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
@@ -180,6 +181,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DDAC64F11461018000B5B279 /* Growl.framework in Copy Frameworks */,
 				DDAC864F143BFABA00682538 /* Plugins.framework in Copy Frameworks */,
 				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
 			);
