@@ -8,6 +8,7 @@
 *.perspective
 *.perspectivev3
 *.pbxuser
+*.xcworkspace
 xcuserdata
 ControlPlane.xcodeproj/xcuserdata/dustin.xcuserdatad/xcdebugger/Breakpoints.xcbkptlist
 
