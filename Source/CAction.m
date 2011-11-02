@@ -143,39 +143,7 @@
 
 @end
 
-#pragma mark -
-
-#import "DefaultPrinterAction.h"
-#import "DefaultBrowserAction.h"
-#import "DesktopBackgroundAction.h"
-#import "DisplayBrightnessAction.h"
-#import "FirewallRuleAction.h"
-#import "IChatAction.h"
-#import "ITunesPlaylistAction.h"
-#import "LockKeychainAction.h"
-#import "MailIMAPServerAction.h"
-#import "MailSMTPServerAction.h"
-#import "MailIntervalAction.h"
-#import "MountAction.h"
-#import "MuteAction.h"
-#import "NetworkLocationAction.h"
-#import "OpenAction.h"
-#import "OpenURLAction.h"
-#import "QuitApplicationAction.h"
-#import "ScreenSaverPasswordAction.h"
-#import "ScreenSaverStartAction.h"
-#import "ScreenSaverTimeAction.h"
-#import "ShellScriptAction.h"
-#import "SpeakAction.h"
-#import "StartTimeMachineAction.h"
-#import "ToggleBluetoothAction.h"
-#import "ToggleFirewallAction.h"
-#import "ToggleInternetSharingAction.h"
-#import "ToggleTimeMachineAction.h"
-#import "ToggleWiFiAction.h"
-#import "UnmountAction.h"
-#import "VPNAction.h"
-
+#pragma mark -h"
 
 @implementation ActionSetController
 
@@ -184,40 +152,7 @@
 	if (!(self = [super init]))
 		return nil;
 
-	classes = [[NSArray alloc] initWithObjects:
-			   [DefaultPrinterAction class],
-			   [DefaultBrowserAction class],
-			   [DesktopBackgroundAction class],
-			   [DisplayBrightnessAction class],
-#ifdef DEBUG
-			   [FirewallRuleAction class],
-#endif
-			   [IChatAction class],
-			   [ITunesPlaylistAction class],
-			   [LockKeychainAction class],
-			   [MailIMAPServerAction class],
-			   [MailSMTPServerAction class],
-			   [MailIntervalAction class],
-			   [MountAction class],
-			   [MuteAction class],
-			   [NetworkLocationAction class],
-			   [OpenAction class],
-			   [OpenURLAction class],
-			   [QuitApplicationAction class],
-			   [ScreenSaverPasswordAction class],
-			   [ScreenSaverStartAction class],
-			   [ScreenSaverTimeAction class],
-			   [ShellScriptAction class],
-			   [SpeakAction class],
-			   [StartTimeMachineAction class],
-			   [ToggleBluetoothAction class],
-			   [ToggleFirewallAction class],
-			   [ToggleInternetSharingAction class],
-               [ToggleTimeMachineAction class],
-			   [ToggleWiFiAction class],
-			   [UnmountAction class],
-			   [VPNAction class],
-			nil];
+	classes = [NSArray new];
 	
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -225,9 +160,7 @@
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
 		NSLocalizedString(@"DisplayBrightness", @"Action type");
-#ifdef DEBUG
 		NSLocalizedString(@"FirewallRule", @"Action type");
-#endif
 		NSLocalizedString(@"iChat", @"Action type");
 		NSLocalizedString(@"iTunesPlaylist", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");

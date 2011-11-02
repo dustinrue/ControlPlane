@@ -20,6 +20,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_sources = [NSMutableDictionary new];
 	

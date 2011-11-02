@@ -32,6 +32,7 @@
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_actions = [NSMutableArray new];
 	m_actionsLock = [NSLock new];

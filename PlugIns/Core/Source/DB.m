@@ -6,7 +6,7 @@
 //
 
 #import "DB.h"
-#import "SynthesizeSingleton.h"
+#import <Plugins/SynthesizeSingleton.h>
 
 @interface DB (Private)
 
@@ -26,6 +26,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DB);
 	
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_ouiDB = [self readOUIDB];
 	m_usbVendorDB = [self readUSBVendorDB];

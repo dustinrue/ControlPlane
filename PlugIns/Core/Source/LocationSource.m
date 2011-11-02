@@ -15,6 +15,7 @@
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	self.location = nil;
 	m_manager = [CLLocationManager new];
@@ -53,10 +54,10 @@
 		return;
 	
 	// Log
-	CLLocationDegrees lat = newLocation.coordinate.latitude;
-	CLLocationDegrees lon = newLocation.coordinate.longitude;
-	CLLocationAccuracy acc = newLocation.horizontalAccuracy;
-	DLog(@"New location: (%f, %f) with accuracy %f", lat, lon, acc);
+	DLog(@"New location: (%f, %f) with accuracy %f",
+		 newLocation.coordinate.latitude,
+		 newLocation.coordinate.longitude,
+		 newLocation.horizontalAccuracy);
 	
 	// store it
 	self.location = newLocation;

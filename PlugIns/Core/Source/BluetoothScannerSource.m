@@ -33,6 +33,7 @@ const struct BSSIntervalsStruct BSSIntervals = {
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	self.devices = [NSDictionary new];
 	m_expiry = [NSMutableDictionary new];

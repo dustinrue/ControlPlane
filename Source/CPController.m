@@ -8,7 +8,7 @@
 #import "CAction.h"
 #import "CPController.h"
 #import "CPController+SleepThread.h"
-#import "NetworkLocationAction.h"
+//#import "NetworkLocationAction.h"
 #import <Plugins/Plugins.h>
 
 @interface CPController (Private)
@@ -163,7 +163,7 @@
 	CContext *ctxt = nil;
 
 	// Create contexts, populated from network locations
-	NSEnumerator *en = [[NetworkLocationAction limitedOptions] objectEnumerator];
+	NSEnumerator *en = nil;//[[NetworkLocationAction limitedOptions] objectEnumerator];
 	NSDictionary *dict;
 	NSMutableDictionary *lookup = [NSMutableDictionary dictionary];	// map location name -> (Context *)
 	int cnt = 0;
@@ -251,7 +251,7 @@
 	en = [lookup objectEnumerator];
 	cnt = 0;
 	while ((ctxt = [en nextObject])) {
-		CAction *act = [[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
+		CAction *act = nil;//[[[NetworkLocationAction alloc] initWithOption:[ctxt name]] autorelease];
 		NSMutableDictionary *act_dict = [act dictionary];
 		[act_dict setValue:[ctxt uuid] forKey:@"context"];
 		[act_dict setValue:NSLocalizedString(@"Set Network Location", @"") forKey:@"description"];

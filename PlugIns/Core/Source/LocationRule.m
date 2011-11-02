@@ -15,6 +15,7 @@
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_location = [[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0];
 	

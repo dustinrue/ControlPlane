@@ -6,7 +6,7 @@
 //  Copyright (c) 2011. All rights reserved.
 //
 
-#import "Rule.h"
+#import <Plugins/Rules.h>
 
 @interface BluetoothScannerRule : Rule<RuleProtocol> {
 	NSString *m_address;

@@ -32,6 +32,7 @@ enum {
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	self.displayBrightness = -1.0;
 	self.keyboardBrightness = -1.0;

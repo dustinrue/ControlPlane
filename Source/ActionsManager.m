@@ -27,6 +27,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_actionTypes = [NSMutableDictionary new];
 	m_executionLock = [NSLock new];

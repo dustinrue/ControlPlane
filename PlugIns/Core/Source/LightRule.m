@@ -14,6 +14,7 @@
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_above = YES;
 	m_treshold = -1.0;

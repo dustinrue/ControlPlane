@@ -26,6 +26,7 @@
 - (id) initWithName: (NSString *) name {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_contexts = [NSMutableDictionary new];
 	m_suggestedContext = nil;

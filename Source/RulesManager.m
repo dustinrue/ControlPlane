@@ -17,6 +17,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	m_ruleTypes = [NSMutableDictionary new];
 	

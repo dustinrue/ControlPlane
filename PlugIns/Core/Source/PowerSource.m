@@ -22,6 +22,7 @@ static void displayChange(void *context, io_service_t y, natural_t msgType, void
 - (id) init {
 	self = [super init];
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
+	if (!self) return nil;
 	
 	self.displayState = kDisplayOn;
 	self.powerSource = kPowerError;
