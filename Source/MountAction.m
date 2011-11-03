@@ -62,7 +62,7 @@
 	OSStatus error = FSMountServerVolumeSync((CFURLRef) url, NULL, NULL, NULL, &refNum, 0L);
 	
 	if (error) {
-		NSLog(@"Server %@ reported error %ld", path, (long) error);
+		LOG_Action(0, @"Server %@ reported error %ld", path, (long) error);
 		*errorString = NSLocalizedString(@"Couldn't mount that volume!", @"In MountAction");
 	}
 	

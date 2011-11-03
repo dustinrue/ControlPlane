@@ -23,7 +23,7 @@
 	NSString *classString = [NSString stringWithFormat:@"%@Action", type];
 	Class klass = NSClassFromString(classString);
 	if (!klass) {
-		NSLog(@"ERROR: No implementation class '%@'!", classString);
+		LOG_Action(0, @"ERROR: No implementation class '%@'!", classString);
 		return nil;
 	}
 	return klass;
@@ -33,7 +33,7 @@
 {
 	NSString *type = [dict valueForKey:@"type"];
 	if (!type) {
-		NSLog(@"ERROR: Action doesn't have a type!");
+		LOG_Action(0, @"ERROR: Action doesn't have a type!");
 		return nil;
 	}
 	CAction *obj = [[[CAction classForType:type] alloc] initWithDictionary:dict];

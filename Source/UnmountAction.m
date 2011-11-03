@@ -77,16 +77,11 @@
     
     NSString *retValue = [[[NSString alloc] initWithData:retValueData encoding:NSUTF8StringEncoding] autorelease];
     
-#ifdef DEBUG
-    NSLog(@"about to get terminationStatus");
-#endif
+    LOG_Action(0, @"about to get terminationStatus");
     int status = [diskutil terminationStatus];
     [diskutil release];
     
-    
-#ifdef DEBUG
-    NSLog(@"task ended with status %d",status);
-#endif
+    LOG_Action(0, @"task ended with status %d",status);
 
 	if (status != 0) {
 		*errorString = [[[NSString alloc] initWithFormat:@"%@ - %@", NSLocalizedString(@"Couldn't unmount that volume!", @"In UnmountAction"), retValue] autorelease];

@@ -81,7 +81,7 @@
 #pragma mark - Internal callbacks
 
 - (void) deviceConnected: (IOBluetoothUserNotification *) notification device: (IOBluetoothDevice *) device {
-	DLog(@"Got notified of '%@' connecting!", device.name);
+	LOG_Source(0, @"Got notified of '%@' connecting!", device.name);
 	NSString *address = [device getAddressString];
     
     // register for device disconnection
@@ -97,7 +97,7 @@
 }
 
 - (void) deviceDisconnected: (IOBluetoothUserNotification *) notification device: (IOBluetoothDevice *) device {
-	DLog(@"Got notified of '%@' disconnecting!", device.name);
+	LOG_Source(0, @"Got notified of '%@' disconnecting!", device.name);
 	NSString *address = [device getAddressString];
     
 	// remove device from connected list
@@ -130,7 +130,7 @@
 	NSString *name = [ouiDb valueForKey:oui];
 	if (!name)
 		name = @"Unknown";
-	DLog(@"Converted %@ to %@", oui, name);
+	LOG_Source(1, @"Converted %@ to %@", oui, name);
 	
 	return name;
 }

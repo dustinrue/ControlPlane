@@ -192,7 +192,7 @@ static ToolTip *sharedToolTip = nil;
 - (void)doUpdate:(id)sender
 {
 	NSEvent *theEvent = [NSApp currentEvent];
-	//NSLog(@"cell is %@", [[self cell] class]);
+	//LOG_View(0, @"cell is %@", [[self cell] class]);
 	NSPoint point = [[theEvent window] convertBaseToScreen:[theEvent locationInWindow]];
 
 	if ([theEvent type] == NSLeftMouseUp)

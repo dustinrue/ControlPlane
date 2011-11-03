@@ -100,14 +100,14 @@
 	
 	// are there audio properties
 	if (!AudioHardwareServiceHasProperty(kAudioObjectSystemObject, &property)) 
-		NSLog(@"Cannot find default output device!");
+		LOG_Action(0, @"Cannot find default output device!");
 	else {
 		// get the default output
 		size = sizeof(deviceID);
 		status = AudioHardwareServiceGetPropertyData(kAudioObjectSystemObject, &property, 0, NULL, &size, &deviceID);
 		
 		if (status)
-			NSLog(@"Cannot find default output device!");
+			LOG_Action(0, @"Cannot find default output device!");
 	}
 	
 	return deviceID;

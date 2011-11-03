@@ -40,12 +40,12 @@
 	// load nib
 	NSNib *nib = [[[NSNib alloc] initWithNibNamed:name bundle:nil] autorelease];
 	if (!nib) {
-		NSLog(@"%@ >> failed loading nib named '%@'!", [self class], name);
+		LOG_Source(0, @"%@ >> failed loading nib named '%@'!", [self class], name);
 		return nil;
 	}
 	NSArray *topLevelObjects = [NSArray array];
 	if (![nib instantiateNibWithOwner:self topLevelObjects:&topLevelObjects]) {
-		NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
+		LOG_Source(0, @"%@ >> failed instantiating nib (named '%@')!", [self class], name);
 		return nil;
 	}
 
@@ -58,7 +58,7 @@
 			panel = (NSPanel *) [obj retain];
 	}
 	if (!panel) {
-		NSLog(@"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
+		LOG_Source(0, @"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
 		return nil;
 	}
 
@@ -89,7 +89,7 @@
 {
     goingToSleep = YES;
 	if ([self isRunning]) {
-		DLog(@"Stopping %@ for sleep.", [self class]);
+		LOG_Source(0, @"Stopping %@ for sleep.", [self class]);
 		startAfterSleep = YES;
 		[self stop];
 	} else
@@ -100,7 +100,7 @@
 {
     goingToSleep = NO;
 	if (startAfterSleep) {
-		DLog(@"Starting %@ after sleep.", [self class]);
+		LOG_Source(0, @"Starting %@ after sleep.", [self class]);
 		[self start];
 	}
 }
@@ -346,12 +346,12 @@
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
 		
-        DLog(@"checking to see if %@ is enabled",[src name]);
+        LOG_Source(0, @"checking to see if %@ is enabled",[src name]);
 		if (enabled && ![src isRunning]) {
-			DLog(@"Starting %@ evidence source", [src name]);
+			LOG_Source(0, @"Starting %@ evidence source", [src name]);
 			[src start];
 		} else if (!enabled && [src isRunning]) {
-			DLog(@"Stopping %@ evidence source", [src name]);
+			LOG_Source(0, @"Stopping %@ evidence source", [src name]);
 			[src stop];
 		}
 	}

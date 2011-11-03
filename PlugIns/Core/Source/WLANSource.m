@@ -42,7 +42,7 @@
 	// be more than one interface, but we'll only use the first one
 	CWInterface *interface = [CWInterface interfaceWithName: [supportedInterfaces objectAtIndex: 0]];
 	if (!interface.power) {
-		DLog(@"Wi-Fi disabled, no scan done");
+		LOG_Source(0, @"Wi-Fi disabled, no scan done");
 		return;
 	}
 	
@@ -52,7 +52,7 @@
 	// depending on if we're already associated an the AlwaysScan preference,
 	// use the current connection info or perform a scan of APs.
 	if (currentSSID && ![NSUserDefaults.standardUserDefaults boolForKey: @"WiFiAlwaysScans"]) {
-		DLog(@"Already associated with an AP, using connection info");
+		LOG_Source(0, @"Already associated with an AP, using connection info");
 		results = [NSArray arrayWithObject: [NSDictionary dictionaryWithObjectsAndKeys:
 											 interface.ssid, @"SSID",
 											 interface.bssid, @"BSSID", nil]];
@@ -87,7 +87,7 @@
 		[results addObject: [NSDictionary dictionaryWithObjectsAndKeys:
 							 network.ssid, @"SSID",
 							 network.bssid, @"BSSID", nil]];
-		DLog(@"Found ssid %@ with bssid %@ and RSSI %@", network.ssid, network.bssid, network.rssi);
+		LOG_Source(0, @"Found ssid %@ with bssid %@ and RSSI %@", network.ssid, network.bssid, network.rssi);
 	}
 	
 	return results;

@@ -110,6 +110,10 @@
 		DDAC87DE143E6E8D00682538 /* Sources.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DD143E6E8C00682538 /* Sources.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDBE10BC146216FC008AF37E /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F85F1460E378000665ED /* NSLogger.framework */; };
+		DDBE10BF14621997008AF37E /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F85F1460E378000665ED /* NSLogger.framework */; };
+		DDBE10C014629419008AF37E /* NSLogger.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F85F1460E378000665ED /* NSLogger.framework */; };
+		DDBE10C114629455008AF37E /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F85F1460E378000665ED /* NSLogger.framework */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A363142BD65600341B75 /* KVOAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDD1A367142CC81200341B75 /* Context.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A366142CC80F00341B75 /* Context.m */; };
@@ -151,6 +155,20 @@
 			remoteGlobalIDString = DDA80318143BEE4100745EB8;
 			remoteInfo = Plugin;
 		};
+		DDBE10BA146216EE008AF37E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD23F85E1460E378000665ED;
+			remoteInfo = NSLogger;
+		};
+		DDBE10BD14621991008AF37E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD23F85E1460E378000665ED;
+			remoteInfo = NSLogger;
+		};
 		DDF52EA71460BDA800A42B09 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DDF52E9E1460BDA700A42B09 /* Core.xcodeproj */;
@@ -181,6 +199,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DDBE10C014629419008AF37E /* NSLogger.framework in Copy Frameworks */,
 				DDAC64F11461018000B5B279 /* Growl.framework in Copy Frameworks */,
 				DDAC864F143BFABA00682538 /* Plugins.framework in Copy Frameworks */,
 				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
@@ -475,6 +494,7 @@
 				DDAC86C2143C107A00682538 /* Cocoa.framework in Frameworks */,
 				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
 				DD23F88D1460E899000665ED /* IOKit.framework in Frameworks */,
+				DDBE10C114629455008AF37E /* NSLogger.framework in Frameworks */,
 				DDAC8650143BFC0F00682538 /* Plugins.framework in Frameworks */,
 				DD23F88B1460E70E000665ED /* Security.framework in Frameworks */,
 				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
@@ -492,6 +512,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDBE10BC146216FC008AF37E /* NSLogger.framework in Frameworks */,
 				DD23F8571460E2BD000665ED /* Cocoa.framework in Frameworks */,
 				DD23F8581460E2EC000665ED /* CoreFoundation.framework in Frameworks */,
 				DD23F8591460E2EC000665ED /* Security.framework in Frameworks */,
@@ -512,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD23F8901460E93A000665ED /* Cocoa.framework in Frameworks */,
+				DDBE10BF14621997008AF37E /* NSLogger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,6 +1067,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DDBE10BB146216EE008AF37E /* PBXTargetDependency */,
 			);
 			name = CPHelperTool;
 			productName = CPHelperTool;
@@ -1081,6 +1104,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DDBE10BE14621991008AF37E /* PBXTargetDependency */,
 			);
 			name = Plugins;
 			productName = CPPlugins;
@@ -1363,6 +1387,16 @@
 			isa = PBXTargetDependency;
 			target = DDA80318143BEE4100745EB8 /* Plugins */;
 			targetProxy = DDA80346143BF17D00745EB8 /* PBXContainerItemProxy */;
+		};
+		DDBE10BB146216EE008AF37E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD23F85E1460E378000665ED /* NSLogger */;
+			targetProxy = DDBE10BA146216EE008AF37E /* PBXContainerItemProxy */;
+		};
+		DDBE10BE14621991008AF37E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD23F85E1460E378000665ED /* NSLogger */;
+			targetProxy = DDBE10BD14621991008AF37E /* PBXContainerItemProxy */;
 		};
 		DDF52EAD1460BDCA00A42B09 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

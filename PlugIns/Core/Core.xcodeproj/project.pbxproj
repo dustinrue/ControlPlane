@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DDBE10C914629A97008AF37E /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8961460E9B1000665ED /* NSLogger.framework */; };
 		DDF52D881460B49800A42B09 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF52D851460B49800A42B09 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDF52D891460B49800A42B09 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52D861460B49800A42B09 /* JSONKit.m */; };
 		DDF52E3D1460B8EB00A42B09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDF52E381460B7AA00A42B09 /* Localizable.strings */; };
@@ -71,6 +72,13 @@
 			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = DD23F85F1460E378000665ED;
+			remoteInfo = NSLogger;
+		};
+		DDBE10C214629A90008AF37E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DD23F85E1460E378000665ED;
 			remoteInfo = NSLogger;
 		};
 		DDF52D9B1460B55900A42B09 /* PBXContainerItemProxy */ = {
@@ -232,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDBE10C914629A97008AF37E /* NSLogger.framework in Frameworks */,
 				DDF52EB51460BE2000A42B09 /* Plugins.framework in Frameworks */,
 				DDF52E651460BB1400A42B09 /* libJSONKit.a in Frameworks */,
 				DDF52E7D1460BD3600A42B09 /* Apple80211.framework in Frameworks */,
@@ -509,6 +518,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DDBE10C314629A90008AF37E /* PBXTargetDependency */,
 				DDF52EAF1460BDFF00A42B09 /* PBXTargetDependency */,
 				DDF52D9C1460B55900A42B09 /* PBXTargetDependency */,
 			);
@@ -656,6 +666,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		DDBE10C314629A90008AF37E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = NSLogger;
+			targetProxy = DDBE10C214629A90008AF37E /* PBXContainerItemProxy */;
+		};
 		DDF52D9C1460B55900A42B09 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDF52D691460B3C900A42B09 /* JSONKit */;

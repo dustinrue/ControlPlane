@@ -362,7 +362,7 @@
 {
 	NSDictionary *group = [self groupById:groupId];
 	if (!group) {
-		NSLog(@"Bad prefs group '%@' to switch to!", groupId);
+		LOG_Prefs(0, @"Bad prefs group '%@' to switch to!", groupId);
 		return;
 	}
 
@@ -440,7 +440,7 @@
 			break;
 	}
 	if (!group) {
-		NSLog(@"Oops! toolbar delegate is trying to use '%@' as an ID!", groupId);
+		LOG_Prefs(0, @"Oops! toolbar delegate is trying to use '%@' as an ID!", groupId);
 		return nil;
 	}
 
@@ -645,7 +645,7 @@
 		NSTextField *tf = (NSTextField *) newActionWindowParameterViewCurrentControl;
 		param = [tf stringValue];
 	} else {
-		NSLog(@"PANIC! Don't know how to get parameter!!!");
+		LOG_Prefs(0, @"PANIC! Don't know how to get parameter!!!");
 		return;
 	}
 
@@ -674,7 +674,7 @@
     LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst,
                                   NULL, NULL, (CFURLRef)[self appPath], NULL, NULL);
     CFRelease(loginItemList);
-    DLog(@"adding ControlPlane to startup items");
+    LOG_Prefs(0, @"adding ControlPlane to startup items");
 }
 
 - (void) disableStartAtLogin {
@@ -705,7 +705,7 @@
                 CFRelease(pathOfCurrentItem);
                 
                 if (startupItemFound) {
-                    DLog(@"removing ControlPlan from startup items");
+                    LOG_Prefs(0, @"removing ControlPlan from startup items");
                     LSSharedFileListItemRemove(loginItemList, itemToCheck);
                 }
             }
@@ -742,7 +742,7 @@
                 Boolean startupItemFound = CFEqual(pathOfCurrentItem,appPath);
                 CFRelease(pathOfCurrentItem);
                 
-                DLog(@"startupItemFound is %s", startupItemFound ? "true":"false");
+                LOG_Prefs(0, @"startupItemFound is %s", startupItemFound ? "true" : "false");
                 if (startupItemFound) {
                     CFRelease(loginItemList);
                     return TRUE;

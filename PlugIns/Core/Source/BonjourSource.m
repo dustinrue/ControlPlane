@@ -145,7 +145,7 @@
 
 - (void) netServiceBrowser: (NSNetServiceBrowser *) netServiceBrowser
 			  didNotSearch: (NSDictionary *) errorInfo {
-	DLog(@"failure:\n%@", errorInfo);
+	LOG_Source(0, @"Bonjour failure:\n%@", errorInfo);
 }
 
 @end

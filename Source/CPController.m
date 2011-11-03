@@ -172,7 +172,7 @@
 		[lookup setObject:ctxt forKey:[ctxt name]];
 		++cnt;
 	}
-	NSLog(@"Quickstart: Created %d contexts", cnt);
+	LOG_Prefs(0, @"Quickstart: Created %d contexts", cnt);
 
 	// Set "Automatic", or the first created context, as the default context
 	if (!(ctxt = [lookup objectForKey:@"Automatic"]))
@@ -223,7 +223,7 @@
 		[newRules addObject:rule];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newRules forKey:@"Rules"];
-	NSLog(@"Quickstart: Imported %ld rules from MarcoPolo 1.x", (long) [newRules count]);
+	LOG_Prefs(0, @"Quickstart: Imported %ld rules from MarcoPolo 1.x", (long) [newRules count]);
 	rulesImported = YES;
 
 	// Replicate actions
@@ -243,7 +243,7 @@
 		[newActions addObject:action];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
-	NSLog(@"Quickstart: Imported %ld actions from MarcoPolo 1.x", (long) [newActions count]);
+	LOG_Prefs(0, @"Quickstart: Imported %ld actions from MarcoPolo 1.x", (long) [newActions count]);
 	actionsImported = YES;
 
 	// Create NetworkLocation actions
@@ -259,7 +259,7 @@
 		++cnt;
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:newActions forKey:@"Actions"];
-	NSLog(@"Quickstart: Created %d new NetworkLocation actions", cnt);
+	LOG_Prefs(0, @"Quickstart: Created %d new NetworkLocation actions", cnt);
 	
 	[self importVersion1SettingsFinish:rulesImported withActions:actionsImported andIPActions:ipActionsFound];
 }
@@ -310,7 +310,7 @@
 	NSDictionary *oldPrefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName: oldDomain];
 	
 	if (oldPrefs) {
-		DLog(@"Importing settings from MarcoPolo 2.x");
+		LOG_Prefs(0, @"Importing settings from MarcoPolo 2.x");
 		[[NSUserDefaults standardUserDefaults] setPersistentDomain: oldPrefs forName: [[NSBundle mainBundle] bundleIdentifier]];
 		[[NSUserDefaults standardUserDefaults] removePersistentDomainForName: oldDomain];
 		[[NSUserDefaults standardUserDefaults] synchronize];
@@ -328,7 +328,7 @@
 	[GrowlApplicationBridge setGrowlDelegate: self];
 	
 	// Load all plugins
-//	[PluginsManager.sharedPluginsManager loadPlugins];
+	[PluginsManager.sharedPluginsManager loadPlugins];
 	
 	// test helpertool
 	[CAction helperToolPerformAction: @kCPHelperToolSetEnabledFWCommand
@@ -496,7 +496,7 @@
 
 - (void)contextsChanged:(NSNotification *)notification
 {
-	DLog(@"in contextChanged");
+	LOG_Context(0, @"Context changed");
 	
 	// Fill in 'Force context' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
@@ -746,7 +746,7 @@
 		@try {
 			[set addObject: [CAction actionFromDictionary: surrogateAction]];
 		} @catch (NSException *exception) {
-			DLog(@"ERROR: %@", @"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane");
+			LOG_Action(0, @"ERROR: %@", @"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane");
 		}
 	}
 	[self executeActionSet:set];
@@ -774,7 +774,7 @@
 		@try {
 			[set addObject: [CAction actionFromDictionary: action]];
 		} @catch (NSException *exception) {
-			DLog(@"ERROR: %@", @"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane");
+			LOG_Action(0, @"ERROR: %@", @"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane");
 		}
 	}
 
@@ -785,7 +785,7 @@
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
-	DLog(@"in performTranisitionFrom");
+	LOG_Context(0, @"Performing context transition");
 	
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
 	NSArray *leaving_walk = [walks objectAtIndex:0];
@@ -798,7 +798,7 @@
 	// Execute all the "Departure" actions
 	en = [leaving_walk objectEnumerator];
 	while ((ctxt = [en nextObject])) {
-		DLog(@"Depart from %@", [ctxt name]);
+		LOG_Context(0, @"Depart from %@", [ctxt name]);
 		[self triggerDepartureActions:[ctxt uuid]];
 	}
 
@@ -832,7 +832,7 @@
 	// Execute all the "Arrival" actions
 	en = [entering_walk objectEnumerator];
 	while ((ctxt = [en nextObject])) {
-		DLog(@"Arrive at %@", [ctxt name]);
+		LOG_Context(0, @"Arrive at %@", [ctxt name]);
 		[self triggerArrivalActions:[ctxt uuid]];
 	}
 
@@ -852,7 +852,7 @@
 	else
 		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
 	
-	DLog(@"going to %@", [ctxt name]);
+	LOG_Context(0, @"going to %@", [ctxt name]);
 	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
 		forKey:@"guessConfidence"];
 
@@ -912,9 +912,7 @@
 				uncon = [NSNumber numberWithDouble:1.0];
 			double mult = [[rule valueForKey:@"confidence"] doubleValue] * decay;
 			uncon = [NSNumber numberWithDouble:[uncon doubleValue] * (1.0 - mult)];
-#ifdef DEBUG
-			//NSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [ctxt name], depth, base_depth, mult, uncon);
-#endif
+			//LOG_Prefs(0, @"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [ctxt name], depth, base_depth, mult, uncon);
 			[guesses setObject:uncon forKey:uuid];
 		}
 	}
@@ -969,10 +967,10 @@
 
 	BOOL no_guess = NO;
 	if (!guess) {
-		DLog(@"No guess made.");
+		LOG_Context(0, @"No guess made.");
 		no_guess = YES;
 	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
-		DLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
+		LOG_Context(0, @"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 		no_guess = YES;
 	}
 
@@ -1010,7 +1008,7 @@
 			do_switch = NO;
 		
 		if (!do_switch)
-			DLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
+			LOG_Context(0, @"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 	}
 
 	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
@@ -1019,7 +1017,7 @@
 		return;
 
 	if ([guess isEqualToString:currentContextUUID]) {
-		DLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
+		LOG_Context(0, @"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
 		return;
 	}
 
@@ -1051,13 +1049,13 @@
 
 - (void)goingToSleep:(id)arg
 {
-	DLog(@"Stopping update thread for sleep.");
+	DLog(nil, 0, @"Stopping update thread for sleep.");
 	[updatingTimer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)wakeFromSleep:(id)arg
 {
-	DLog(@"Starting update thread after sleep.");
+	DLog(nil, 0, @"Starting update thread after sleep.");
 	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
 }
 

@@ -24,7 +24,7 @@
 	if (context)
 		[c forceSwitch: context];
 	else
-		NSLog(@"Context not found: '%@'", newContext);
+		LOG_Context(0, @"Context not found: '%@'", newContext);
 }
 
 // sticky property
