@@ -1,0 +1,241 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		36892BF0145EC96A0036932D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36892BEF145EC96A0036932D /* Foundation.framework */; };
+		36908F20145ECB090070379E /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36908F1F145ECB090070379E /* CrashReporter.framework */; };
+		36908F23145ECB2E0070379E /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36908F22145ECB2E0070379E /* BWQuincyManager.m */; };
+		36908F25145ECB370070379E /* BWQuincyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 36908F24145ECB370070379E /* BWQuincyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		36892BEC145EC96A0036932D /* libQuincyLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuincyLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		36892BEF145EC96A0036932D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		36908F1F145ECB090070379E /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../CrashReporter.framework; sourceTree = "<group>"; };
+		36908F22145ECB2E0070379E /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWQuincyManager.m; path = ../BWQuincyManager.m; sourceTree = "<group>"; };
+		36908F24145ECB370070379E /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWQuincyManager.h; path = ../BWQuincyManager.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		36892BE9145EC96A0036932D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36908F20145ECB090070379E /* CrashReporter.framework in Frameworks */,
+				36892BF0145EC96A0036932D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		36892BE1145EC96A0036932D = {
+			isa = PBXGroup;
+			children = (
+				36908F21145ECB220070379E /* Classes */,
+				36892BEE145EC96A0036932D /* Frameworks */,
+				36892BED145EC96A0036932D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		36892BED145EC96A0036932D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				36892BEC145EC96A0036932D /* libQuincyLib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		36892BEE145EC96A0036932D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				36908F1F145ECB090070379E /* CrashReporter.framework */,
+				36892BEF145EC96A0036932D /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		36908F21145ECB220070379E /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				36908F24145ECB370070379E /* BWQuincyManager.h */,
+				36908F22145ECB2E0070379E /* BWQuincyManager.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		36892BEA145EC96A0036932D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36908F25145ECB370070379E /* BWQuincyManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		36892BEB145EC96A0036932D /* QuincyLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 36892BF9145EC96B0036932D /* Build configuration list for PBXNativeTarget "QuincyLib" */;
+			buildPhases = (
+				36892BE8145EC96A0036932D /* Sources */,
+				36892BE9145EC96A0036932D /* Frameworks */,
+				36892BEA145EC96A0036932D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuincyLib;
+			productName = QuincyLib;
+			productReference = 36892BEC145EC96A0036932D /* libQuincyLib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		36892BE3145EC96A0036932D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "litl, LLC";
+			};
+			buildConfigurationList = 36892BE6145EC96A0036932D /* Build configuration list for PBXProject "QuincyLib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 36892BE1145EC96A0036932D;
+			productRefGroup = 36892BED145EC96A0036932D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				36892BEB145EC96A0036932D /* QuincyLib */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		36892BE8145EC96A0036932D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36908F23145ECB2E0070379E /* BWQuincyManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		36892BF7145EC96B0036932D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PUBLIC_HEADERS_FOLDER_PATH = /include/Quincy;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		36892BF8145EC96B0036932D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PUBLIC_HEADERS_FOLDER_PATH = /include/Quincy;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		36892BFA145EC96B0036932D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/QuincyLib.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../..\"",
+					"\"$(SRCROOT)/..\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		36892BFB145EC96B0036932D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/QuincyLib.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../..\"",
+					"\"$(SRCROOT)/..\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		36892BE6145EC96A0036932D /* Build configuration list for PBXProject "QuincyLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36892BF7145EC96B0036932D /* Debug */,
+				36892BF8145EC96B0036932D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		36892BF9145EC96B0036932D /* Build configuration list for PBXNativeTarget "QuincyLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36892BFA145EC96B0036932D /* Debug */,
+				36892BFB145EC96B0036932D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 36892BE3145EC96A0036932D /* Project object */;
+}
