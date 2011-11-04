@@ -430,20 +430,6 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 #pragma mark Private
 
 
-- (NSString *)_getOSVersionBuild {
-    size_t size = 0;    
-    NSString *osBuildVersion = nil;
-    
-	sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
-	char *answer = (char*)malloc(size);
-	int result = sysctlbyname("kern.osversion", answer, &size, NULL, 0);
-    if (result >= 0) {
-        osBuildVersion = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
-    }
-    
-    return osBuildVersion;   
-}
-
 - (NSString *)_getDevicePlatform {
 	size_t size = 0;
 	sysctlbyname("hw.machine", NULL, &size, NULL, 0);
