@@ -149,6 +149,8 @@ typedef enum CrashReportStatus {
     BOOL _autoSubmitCrashReport;
     BOOL _autoSubmitDeviceUDID;
 
+    BOOL _didCrashInLastSession;
+    
     NSString *_appIdentifier;
 
     NSString *_feedbackRequestID;
@@ -206,6 +208,9 @@ typedef enum CrashReportStatus {
 // if YES, the device UDID will be submitted as the user id, without the need to define it in the crashReportUserID delegate (meant for beta versions!)
 // if NO, the crashReportUserID delegate defines what to be sent as user id (default)
 @property (nonatomic, assign, getter=isAutoSubmitDeviceUDID) BOOL autoSubmitDeviceUDID;
+
+// will return if the last session crashed, to e.g. make sure a "rate my app" alert will not show up
+@property (nonatomic, readonly) BOOL didCrashInLastSession;
 
 // If you want to use HockeyApp instead of your own server, this is required
 @property (nonatomic, retain) NSString *appIdentifier;

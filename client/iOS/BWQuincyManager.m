@@ -86,6 +86,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 @synthesize autoSubmitCrashReport = _autoSubmitCrashReport;
 @synthesize autoSubmitDeviceUDID = _autoSubmitDeviceUDID;
 @synthesize languageStyle = _languageStyle;
+@synthesize didCrashInLastSession = _didCrashInLastSession;
 
 @synthesize appIdentifier = _appIdentifier;
 
@@ -125,6 +126,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
         _appIdentifier = nil;
         _sendingInProgress = NO;
         _languageStyle = nil;
+        _didCrashInLastSession = NO;
         
 		self.delegate = nil;
         self.feedbackActivated = NO;
@@ -167,6 +169,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 			
 			// Check if we previously crashed
 			if ([crashReporter hasPendingCrashReport]) {
+                _didCrashInLastSession = YES;
 				[self handleCrashReport];
             }
             
