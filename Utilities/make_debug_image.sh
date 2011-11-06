@@ -14,11 +14,10 @@ VERSION=`cat Info.plist | grep -A 1 'CFBundleShortVersionString' | \
 	tail -1 | sed "s/[<>]/|/g" | cut -d\| -f3`
 
 APPNAME=ControlPlane
-IMG=$APPNAME-$VERSION
+IMG=$APPNAME-$VERSION-DEBUG
 IMGTMP=Utilities/ControlPlane-Template
 CONFIGURATION=Debug
 APP=build/$CONFIGURATION/$APPNAME.app
-ICON=Resources/controlplane.icns
 
 if [ "$1" == "release" ]; then
         cd Utilities
@@ -27,7 +26,7 @@ if [ "$1" == "release" ]; then
         cd ..
 fi
 
-#xcodebuild -configuration "$CONFIGURATION" clean build
+xcodebuild -configuration "$CONFIGURATION" clean build
 if [ ! -d "$APP" ]; then
 	echo "Something failed in the build process!"
 	exit 1
@@ -53,6 +52,11 @@ echo "$ROOT/$APPNAME"
 rm -rf $ROOT/$APPNAME.app/Contents
 mkdir $ROOT/$APPNAME.app/Contents
 cp -R $APP/Contents/* $ROOT/$APPNAME.app/Contents/
+VERSION=`defaults read $ROOT/$APPNAME.app/Contents/Info.plist CFBundleVersion`
+defaults write $ROOT/$APPNAME.app/Contents/Info.plist CFBundleVersion $VERSION-DEBUG
+defaults write $ROOT/$APPNAME.app/Contents/Info.plist CFBundleShortVersionString $VERSION-DEBUG
+defaults delete $ROOT/$APPNAME.app/Contents/Info.plist SUFeedURL
+
 if [ -f "$ICON" ]; then
 	cp $ICON $ROOT/.VolumeIcon.icns
 	/Developer/Tools/SetFile -a C $ROOT
