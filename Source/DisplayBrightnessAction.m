@@ -77,16 +77,25 @@
 		DSLog(@"Cannot get list of displays (error %d)", err);
 		errorOccurred = YES;
 	}
+    else {
+#if DEBUG_MODE
+        DSLog(@"There are %d display[s] connected", numDisplays);
+#endif
+    }
 	
 	// loop through displays
 	for (CGDisplayCount i = 0; i < numDisplays; ++i) {
 		CGDirectDisplayID dspy = display[i];
+        
 		io_service_t service = CGDisplayIOServicePort(dspy);
 		
 		// set brightness
 		err = IODisplaySetFloatParameter(service, kNilOptions, kDisplayBrightness, (brightness / 100.0));
-		if (err != kIOReturnSuccess) {
-			DSLog(@"Failed to set brightness of display 0x%x (error %d)", (unsigned int)dspy, err);
+        if (err == kIOReturnUnsupported) {
+            DSLog(@"Failed to set brightness of display 0x%x because the system reported it wasn't a supported operation", (unsigned int)dspy);
+        }
+		else if (err != kIOReturnSuccess) {
+			DSLog(@"Failed to set brightness of display 0x%x for an unknown reason, error was: 0x%x", (unsigned int)dspy, err);
 			errorOccurred = YES;
 			continue;
 		}
