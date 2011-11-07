@@ -141,6 +141,12 @@ const CGFloat kDetailsHeight = 285;
 - (BOOL) hasPendingCrashReport {
 	BOOL returnValue = NO;
     
+    if (![[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"]) {
+        [[NSUserDefaults standardUserDefaults] setValue: [NSDate date]
+                                                 forKey: @"CrashReportSender.lastCrashDate"];
+        return returnValue;
+    }
+    
     NSArray* libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, TRUE);
     // Snow Leopard is having the log files in another location
     [self searchCrashLogFile:[[libraryDirectories lastObject] stringByAppendingPathComponent:@"Logs/DiagnosticReports"]];

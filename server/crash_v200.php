@@ -437,11 +437,11 @@ foreach ($crashes as $crash) {
 
     	$numrows = mysql_num_rows($result);
     	if ($numrows == 0) {
-            // version is not available, so add it with status VERSION_STATUS_AVAILABLE
+        // version is not available, so add it with status VERSION_STATUS_AVAILABLE
     		$query = "INSERT INTO ".$dbversiontable." (bundleidentifier, version, status, notify) values ('".$crash["bundleidentifier"]."', '".$crash["version"]."', ".VERSION_STATUS_UNKNOWN.", ".$notify_default_version.")";
     		$result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_ADD_VERSION));
     	} else {
-            $row = mysql_fetch_row($result);
+        $row = mysql_fetch_row($result);
     		$crash["version_status"] = $row[1];
     		$notify = $row[2];
     		mysql_free_result($result);
@@ -466,17 +466,25 @@ foreach ($crashes as $crash) {
         }
     
     	// extract the block which contains the data of the crashing thread
-      	preg_match('%Thread [0-9]+ Crashed:.*?\n(.*?)\n\n%is', $crash["logdata"], $matches);
+      	preg_match('%Last Exception Backtrace:\n(.*?)\n\n%is', $crash["logdata"], $matches);
         $crash_offset = parseblock($matches, $crash["applicationname"]);	
         if ($crash_offset == "") {
             $crash_offset = parseblock($matches, $crash["bundleidentifier"]);
         }
+
+        if ($crash_offset == "") {
+      	    preg_match('%Thread [0-9]+ Crashed:.*?\n(.*?)\n\n%is', $crash["logdata"], $matches);
+            $crash_offset = parseblock($matches, $crash["applicationname"]);	
+            if ($crash_offset == "") {
+                $crash_offset = parseblock($matches, $crash["bundleidentifier"]);
+            }
+        }
         if ($crash_offset == "") {
             preg_match('%Thread [0-9]+ Crashed:\n(.*?)\n\n%is', $crash["logdata"], $matches);
             $crash_offset = parseblock($matches, $crash["applicationname"]);
-        }
-        if ($crash_offset == "") {
-            $crash_offset = parseblock($matches, $crash["bundleidentifier"]);
+            if ($crash_offset == "") {
+                $crash_offset = parseblock($matches, $crash["bundleidentifier"]);
+            }
         }
 
     	// stores the group this crashlog is associated to, by default to none
