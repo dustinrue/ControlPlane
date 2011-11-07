@@ -80,6 +80,8 @@
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
+		DA1696F214677E7600661FC9 /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1696F114677E7600661FC9 /* ShellScriptEvidenceSource.m */; };
+		DA1696F6146783EE00661FC9 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA1696F5146783EE00661FC9 /* ShellScriptRule.xib */; };
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
 		DA4A629513E25C9D00CE976F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629413E25C9D00CE976F /* Credits.html */; };
 		DA5B01E61412B86400E19C50 /* CPHelperInstallTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */; };
@@ -330,6 +332,9 @@
 		DA146F7E143F3C4000906DBF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
 		DA146F7F143F3C4000906DBF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		DA1696F014677E7600661FC9 /* ShellScriptEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellScriptEvidenceSource.h; path = Source/ShellScriptEvidenceSource.h; sourceTree = "<group>"; };
+		DA1696F114677E7600661FC9 /* ShellScriptEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellScriptEvidenceSource.m; path = Source/ShellScriptEvidenceSource.m; sourceTree = "<group>"; };
+		DA1696F5146783EE00661FC9 /* ShellScriptRule.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShellScriptRule.xib; sourceTree = "<group>"; };
 		DA48F2E3140AD2FC00B000D3 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ControlPlane Help"; path = "Resources/ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
@@ -677,6 +682,8 @@
 				8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */,
 				8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */,
 				8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */,
+				DA1696F014677E7600661FC9 /* ShellScriptEvidenceSource.h */,
+				DA1696F114677E7600661FC9 /* ShellScriptEvidenceSource.m */,
 				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
 				DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */,
 				8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */,
@@ -830,6 +837,7 @@
 				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
 				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
 				DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */,
+				DA1696F5146783EE00661FC9 /* ShellScriptRule.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -986,6 +994,7 @@
 				DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */,
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
+				DA1696F6146783EE00661FC9 /* ShellScriptRule.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1108,6 +1117,7 @@
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
 				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
+				DA1696F214677E7600661FC9 /* ShellScriptEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -285,6 +285,7 @@
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
 #import "CoreWLANEvidenceSource.h"
+#import "ShellScriptEvidenceSource.h"
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 
@@ -311,6 +312,7 @@
 						[TimeOfDayEvidenceSource class],
 						[USBEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
+                        [ShellScriptEvidenceSource class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -329,6 +331,7 @@
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
+        NSLocalizedString(@"Shell Script", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources
