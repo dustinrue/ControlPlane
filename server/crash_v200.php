@@ -513,7 +513,9 @@ foreach ($crashes as $crash) {
 
                 if ($desc != "" && $appcrashtext != "") {
     				$desc = str_replace("'", "\'", $desc);
-                    if (strpos($desc, $appcrashtext) === false) {
+					$noAddressDesc = preg_replace('/0x[0-9a-f]+/', '', $desc);
+					$noAddressCrashText = preg_replace('/0x[0-9a-f]+/', '', $appcrashtext);
+                    if (strpos($noAddressDesc, $noAddressCrashText) === false) {
                         $appcrashtext = $desc."\n".$appcrashtext;
                         $query = "UPDATE ".$dbgrouptable." SET description='".$appcrashtext."' WHERE id=".$log_groupid;
                         $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
