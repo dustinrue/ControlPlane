@@ -861,7 +861,8 @@ sub symbolize_frames {
     # and for framework => arch
     my %frames_to_lookup = ();
     my %arch_map = ();
-    
+    my %base_map = ();
+ 
     for my $k (keys %$bt) {
         my $frame = $$bt{$k};
         my $lib = $$images{$$frame{bundle}};
