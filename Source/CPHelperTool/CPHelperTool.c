@@ -282,6 +282,11 @@ static OSStatus DoDisableFirewall (AuthorizationRef         auth,
 }
 
 #pragma mark -
+#pragma mark Toggle Monitor Sleep
+
+// Enable 
+
+#pragma mark -
 #pragma mark Tool Infrastructure
 
 // the list defined here must match (same order) the list in CPHelperToolCommon.c
@@ -295,6 +300,8 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     DoDisableIS,
     DoEnableFirewall,
     DoDisableFirewall,
+    DoEnableMonitorSleep,
+    DoDisableMonitorSleep,
 	NULL
 };
 
