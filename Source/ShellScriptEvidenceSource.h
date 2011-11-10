@@ -21,9 +21,8 @@
 */
 
 @interface ShellScriptEvidenceSource : EvidenceSource {
-
-
     
+    NSString *currentFileName;
 }
 
 
@@ -89,6 +88,13 @@
 
 - (void)doUpdate;
 - (void)clearCollectedData;
+
+/*!
+ @function browseForScript
+ */
+
+- (IBAction)browseForScript:(id)sender;
+@property (assign) IBOutlet NSString *currentFileName;
 
 
 

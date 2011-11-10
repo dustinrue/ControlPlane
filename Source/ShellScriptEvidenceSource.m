@@ -15,11 +15,14 @@
 
 @interface ShellScriptEvidenceSource (Private)
 
+- (void) fileBrowseSheetFinished:(NSWindow*)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 @end
 
 
 @implementation ShellScriptEvidenceSource
+@synthesize currentFileName;
+
 
 
 
@@ -30,6 +33,7 @@
     
     running = NO;
     [self setDataCollected: NO];
+    [self setCurrentFileName:@"Please browse for a shell script"];
     
 	return self;
 }
@@ -74,6 +78,23 @@
 
 - (void)clearCollectedData {
     
+}
+
+- (IBAction) browseForScript:(id) sendor {
+    NSOpenPanel *fileBrowser = [NSOpenPanel openPanel];
+    
+    [fileBrowser setCanChooseFiles:YES];
+    [fileBrowser setCanChooseDirectories:NO];
+    
+    if ([fileBrowser runModal] == NSOKButton) {
+        [self setCurrentFileName:[fileBrowser filename]];
+    }
+        
+ 
+}
+
+- (void) fileBrowseSheetFinished:(NSWindow*)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+        
 }
 
 
