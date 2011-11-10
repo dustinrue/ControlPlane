@@ -505,10 +505,11 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
              [self _getDevicePlatform],
              [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
              report.applicationInfo.applicationVersion,
-             crashLogString,
+             [crashLogString stringByReplacingOccurrencesOfString:@"]]>" withString:@"]]" @"]]><![CDATA[" @">" options:NSLiteralSearch range:NSMakeRange(0,description.length)],
              userid,
              contact,
-             description];
+			 [description stringByReplacingOccurrencesOfString:@"]]>" withString:@"]]" @"]]><![CDATA[" @">" options:NSLiteralSearch range:NSMakeRange(0,description.length)]];
+
             
             // store this crash report as user approved, so if it fails it will retry automatically
             [approvedCrashReports setObject:[NSNumber numberWithBool:YES] forKey:[_crashFiles objectAtIndex:i]];
