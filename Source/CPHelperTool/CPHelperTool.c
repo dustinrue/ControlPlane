@@ -284,7 +284,31 @@ static OSStatus DoDisableFirewall (AuthorizationRef         auth,
 #pragma mark -
 #pragma mark Toggle Monitor Sleep
 
-// Enable 
+// Set Monitor Sleep Time routine
+static OSStatus SetMonitorSleepTime (AuthorizationRef         auth,
+                                     const void *             userData,
+                                     CFDictionaryRef          request,
+                                     CFMutableDictionaryRef   response,
+                                     aslclient				  asl,
+                                     aslmsg					  aslMsg) {
+    
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    int parameter = (int) CFDictionaryGetValue(request, CFSTR("param"));
+	if (!isdigit(parameter))
+		return BASErrnoToOSStatus(EINVAL);
+    
+    sprintf(command, "/usr/bin/pmset displaysleep %d", parameter);
+    retValue = system(command);
+	
+	
+	return retValue;
+}
 
 #pragma mark -
 #pragma mark Tool Infrastructure
@@ -300,8 +324,7 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     DoDisableIS,
     DoEnableFirewall,
     DoDisableFirewall,
-    DoEnableMonitorSleep,
-    DoDisableMonitorSleep,
+    SetMonitorSleepTime,
 	NULL
 };
 

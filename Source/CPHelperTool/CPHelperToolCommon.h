@@ -29,15 +29,14 @@
 #define kCPHelperToolEnableFirewallCommand      "EnableFirewall"
 #define kCPHelperToolDisableFirewallCommand     "DisableFirewall"
 
-#define kCPHelperToolEnableMonitorSleepCommand  "EnableMonitorSleep"
-#define kCPHelperToolDisableMonitorSleepCommand "DisableMonitorSleep"
+#define kCPHelperToolSetMonitorSleepTimeCommand "SetMonitorSleepTime"
 
 // Rights
 #define kCPHelperToolToggleTMRightName          "com.dustinrue.ControlPlane.ToggleTM"
 #define kCPHelperToolRunBackupTMRightName       "com.dustinrue.ControlPlane.RunBackupTM"
 #define kCPHelperToolToggleISRightName          "com.dustinrue.ControlPlane.ToggleIS"
 #define kCPHelperToolToggleFWRightName          "com.dustinrue.ControlPlane.ToggleFW"
-#define kCPHelperToolToggleMonitorSleepName     "com.dustinrue.ControlPlane.ToggleMonitorSleep"
+#define kCPHelperToolSetMonitorSleepTimeName    "com.dustinrue.ControlPlane.SetMonitorSleepTime"
 
 // Commands array (keep in sync!)
 extern const BASCommandSpec kCPHelperToolCommandSet[];

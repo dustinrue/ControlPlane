@@ -64,16 +64,10 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
         "DisableFirewall",
         NULL
     },
-    {   kCPHelperToolEnableMonitorSleepCommand,
-        kCPHelperToolToggleMonitorSleepName,
+    {   kCPHelperToolSetMonitorSleepTimeCommand,
+        kCPHelperToolSetMonitorSleepTimeName,
         "allow",
-        "EnableMonitorSleep",
-        NULL
-    },
-    {   kCPHelperToolDisableMonitorSleepCommand,
-        kCPHelperToolToggleMonitorSleepName,
-        "allow",
-        "DisableMonitorSleep",
+        "SetMonitorSleepTime",
         NULL
     },
 	{	NULL,
