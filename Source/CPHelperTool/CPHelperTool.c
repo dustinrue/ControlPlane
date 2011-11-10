@@ -303,7 +303,7 @@ static OSStatus SetMonitorSleepTime (AuthorizationRef         auth,
 	if (!isdigit(parameter))
 		return BASErrnoToOSStatus(EINVAL);
     
-    sprintf(command, "/usr/bin/pmset displaysleep %d", parameter);
+    sprintf(command, "/usr/bin/pmset -a displaysleep %d", parameter);
     retValue = system(command);
 	
 	
