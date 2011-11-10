@@ -285,7 +285,7 @@ static OSStatus DoDisableFirewall (AuthorizationRef         auth,
 #pragma mark Toggle Monitor Sleep
 
 // Set Monitor Sleep Time routine
-static OSStatus SetMonitorSleepTime (AuthorizationRef         auth,
+static OSStatus SetDisplaySleepTime (AuthorizationRef         auth,
                                      const void *             userData,
                                      CFDictionaryRef          request,
                                      CFMutableDictionaryRef   response,
@@ -324,7 +324,7 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     DoDisableIS,
     DoEnableFirewall,
     DoDisableFirewall,
-    SetMonitorSleepTime,
+    SetDisplaySleepTime,
 	NULL
 };
 
