@@ -299,11 +299,14 @@ static OSStatus SetDisplaySleepTime (AuthorizationRef         auth,
 	char command[256];
 	int retValue = 0;
     
-    int parameter = (int) CFDictionaryGetValue(request, CFSTR("param"));
-	if (!isdigit(parameter))
+    CFNumberRef parameter = (CFNumberRef) CFDictionaryGetValue(request, CFSTR("param"));
+
+    int value = 0;
+    
+	if (!CFNumberGetValue(parameter, kCFNumberSInt32Type, &value))
 		return BASErrnoToOSStatus(EINVAL);
     
-    sprintf(command, "/usr/bin/pmset -a displaysleep %d", parameter);
+    sprintf(command, "/usr/bin/pmset -a displaysleep %i", value);
     retValue = system(command);
 	
 	
