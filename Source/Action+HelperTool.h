@@ -12,5 +12,6 @@
 @interface Action (HelperTool)
 
 - (BOOL) helperToolPerformAction: (NSString *) action;
+- (BOOL) helperToolPerformAction: (NSString *) action withParameter: (id) parameter;
 
 @end

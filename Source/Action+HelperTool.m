@@ -11,7 +11,10 @@
 
 @interface Action (HelperTool_Private)
 
-- (OSStatus) helperToolActualPerform: (NSString *) action withResponse: (CFDictionaryRef *) response andAuth: (AuthorizationRef) auth;
+- (OSStatus) helperToolActualPerform: (NSString *) action
+                                    withParameter: (id) parameter
+                                         response: (CFDictionaryRef *) response
+                                             auth: (AuthorizationRef) auth;
 - (void) helperToolInit: (AuthorizationRef *) auth;
 - (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth;
 - (void) helperToolAlert: (NSMutableDictionary *) parameters;
@@ -21,6 +24,10 @@
 @implementation Action (HelperTool)
 
 - (BOOL) helperToolPerformAction: (NSString *) action {
+    return [self helperToolPerformAction:action withParameter:nil];
+}
+
+- (BOOL) helperToolPerformAction: (NSString *) action withParameter: (id) parameter {
 	static int32_t versionCheck = 0;
 	
 	CFDictionaryRef response = NULL;
@@ -35,7 +42,7 @@
 		OSAtomicIncrement32(&versionCheck);
 		
 		// get version of helper tool
-		error = [self helperToolActualPerform: @kCPHelperToolGetVersionCommand withResponse: &response andAuth: auth];
+		error = [self helperToolActualPerform: @kCPHelperToolGetVersionCommand withParameter:nil response: &response auth: auth];
 		if (error) {
 			OSAtomicDecrement32(&versionCheck);
 			return NO;
@@ -55,14 +62,15 @@
 		[NSThread sleepForTimeInterval: 1];
 	
 	// perform actual action
-	error = [self helperToolActualPerform: (NSString *) action withResponse: &response andAuth: auth];
+	error = [self helperToolActualPerform: (NSString *) action withParameter: parameter response: &response auth: auth];
 	
 	return (error ? NO : YES);
 }
 
 - (OSStatus) helperToolActualPerform: (NSString *) action
-						withResponse: (CFDictionaryRef *) response
-							 andAuth: (AuthorizationRef) auth {
+                       withParameter: (id) parameter
+                            response: (CFDictionaryRef *) response
+                                auth: (AuthorizationRef) auth {
 	
 	NSString *bundleID;
 	NSDictionary *request;
@@ -72,7 +80,10 @@
 	// create request
 	bundleID = [[NSBundle mainBundle] bundleIdentifier];
 	assert(bundleID != NULL);
-	request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, nil];
+	if (parameter)
+		request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, parameter, @"param", nil];
+	else
+		request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, nil];
 	assert(request != NULL);
 	
 	// Execute it.
