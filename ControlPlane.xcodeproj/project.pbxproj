@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -204,6 +205,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlPlane_Prefix.pch; path = Source/ControlPlane_Prefix.pch; sourceTree = "<group>"; };
+		739492E0146B8018003C94DE /* DisplaySleepTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; name = DisplaySleepTimeAction.h; path = Source/DisplaySleepTimeAction.h; sourceTree = "<group>"; };
+		739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplaySleepTimeAction.m; path = Source/DisplaySleepTimeAction.m; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -782,6 +785,8 @@
 				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
 				DD827505141188880098FA6E /* DisplayBrightnessAction.h */,
 				DD827506141188880098FA6E /* DisplayBrightnessAction.m */,
+				739492E0146B8018003C94DE /* DisplaySleepTimeAction.h */,
+				739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */,
 				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
 				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
 				DD8274F71411748B0098FA6E /* LockKeychainAction.h */,
@@ -1108,6 +1113,7 @@
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
 				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
+				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

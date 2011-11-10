@@ -150,6 +150,7 @@
 #import "DefaultBrowserAction.h"
 #import "DesktopBackgroundAction.h"
 #import "DisplayBrightnessAction.h"
+#import "DisplaySleepTimeAction.h"
 #import "FirewallRuleAction.h"
 #import "IChatAction.h"
 #import "ITunesPlaylistAction.h"
@@ -190,6 +191,7 @@
 			   [DefaultBrowserAction class],
 			   [DesktopBackgroundAction class],
 			   [DisplayBrightnessAction class],
+               [DisplaySleepTimeAction class],
 #ifdef DEBUG_MODE
 			   [FirewallRuleAction class],
 #endif
