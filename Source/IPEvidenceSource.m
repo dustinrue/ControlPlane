@@ -164,8 +164,8 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 	NSString *param = [NSString stringWithFormat:@"%@,%@", ruleIP, ruleNetmask];
 	[dict setValue:param forKey:@"parameter"];
-//	if (![dict objectForKey:@"description"])
-//		[dict setValue:param forKey:@"description"];
+	if (![dict objectForKey:@"description"])
+		[dict setValue:param forKey:@"description"];
 
 	return dict;
 }
