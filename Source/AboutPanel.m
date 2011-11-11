@@ -19,12 +19,12 @@
 	// load nib
 	NSNib *nib = [[[NSNib alloc] initWithNibNamed:@"AboutPanel" bundle:nil] autorelease];
 	if (!nib) {
-		DLog(nil, 0, @"%@ >> failed loading nib!", [self class]);
+		LogError(nil, @"%@ >> failed loading nib!", [self class]);
 		return nil;
 	}
 	NSArray *topLevelObjects = [NSArray array];
 	if (![nib instantiateNibWithOwner:self topLevelObjects:&topLevelObjects]) {
-		DLog(nil, 0, @"%@ >> failed instantiating nib!", [self class]);
+		LogError(nil, @"%@ >> failed instantiating nib!", [self class]);
 		return nil;
 	}
 
@@ -37,7 +37,7 @@
 			panel = (NSPanel *) [obj retain];
 	}
 	if (!panel) {
-		DLog(nil, 0, @"%@ >> failed to find an NSPanel in nib!", [self class]);
+		LogError(nil, @"%@ >> failed to find an NSPanel in nib!", [self class]);
 		return nil;
 	}
 

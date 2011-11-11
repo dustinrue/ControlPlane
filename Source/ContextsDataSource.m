@@ -228,7 +228,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	CContext *ctxt;
 	while ((ctxt = [en nextObject])) {
 		if (![ctxt isRoot] && ![contexts objectForKey:[ctxt parentUUID]]) {
-			LOG_Context(0, @"%s correcting broken parent UUID for context '%@'", __PRETTY_FUNCTION__, [ctxt name]);
+			LogWarn_Context(@"correcting broken parent UUID for context '%@'", ctxt.name);
 			[ctxt setParentUUID:@""];
 		}
 	}

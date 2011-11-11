@@ -34,13 +34,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ViewsManager);
 - (void) registerViewType: (Class) type {
 	ZAssert([type conformsToProtocol: @protocol(ViewProtocol)], @"Unsupported View type");
 	
-	LOG_View(0, @"Registererd type: %@", NSStringFromClass(type));
+	LogInfo_View(@"Registererd type: %@", NSStringFromClass(type));
 	[m_viewTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
 - (void) unregisterViewType: (Class) type {
 	[m_viewTypes removeObjectForKey: NSStringFromClass(type)];
-	LOG_View(0, @"Registererd type: %@", NSStringFromClass(type));
+	LogInfo_View(@"Registererd type: %@", NSStringFromClass(type));
 }
 
 - (View *) viewObject: (id) object {

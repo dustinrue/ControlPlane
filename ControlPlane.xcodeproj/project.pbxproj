@@ -50,13 +50,13 @@
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in Copy Helper Tool */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DD01EF371443B543006672E0 /* RuleView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF351443B543006672E0 /* RuleView.h */; };
+		DD01EF371443B543006672E0 /* RuleView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF351443B543006672E0 /* RuleView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD01EF381443B543006672E0 /* RuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF361443B543006672E0 /* RuleView.m */; };
-		DD01EF3B1443B5B4006672E0 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF391443B5B4006672E0 /* View.h */; };
+		DD01EF3B1443B5B4006672E0 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF391443B5B4006672E0 /* View.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD01EF3C1443B5B4006672E0 /* View.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF3A1443B5B4006672E0 /* View.m */; };
-		DD01EF3F1443B62F006672E0 /* ActionView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF3D1443B62E006672E0 /* ActionView.h */; };
+		DD01EF3F1443B62F006672E0 /* ActionView.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF3D1443B62E006672E0 /* ActionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD01EF401443B62F006672E0 /* ActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF3E1443B62F006672E0 /* ActionView.m */; };
-		DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF411443B67A006672E0 /* ViewsManager.h */; };
+		DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF411443B67A006672E0 /* ViewsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD01EF441443B67A006672E0 /* ViewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD01EF421443B67A006672E0 /* ViewsManager.m */; };
 		DD01EF461443B6B6006672E0 /* Views.h in Headers */ = {isa = PBXBuildFile; fileRef = DD01EF451443B6B6006672E0 /* Views.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD23F8571460E2BD000665ED /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
@@ -110,6 +110,7 @@
 		DDAC87DE143E6E8D00682538 /* Sources.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAC87DD143E6E8C00682538 /* Sources.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDB1506B146DCEB400FA7835 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB1506A146DC42500FA7835 /* Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDBE10BC146216FC008AF37E /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F85F1460E378000665ED /* NSLogger.framework */; };
 		DDBE10BF14621997008AF37E /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F85F1460E378000665ED /* NSLogger.framework */; };
 		DDBE10C014629419008AF37E /* NSLogger.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F85F1460E378000665ED /* NSLogger.framework */; };
@@ -454,6 +455,7 @@
 		DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreLocationSource.m; path = Source/CoreLocationSource.m; sourceTree = "<group>"; };
 		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
 		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
+		DDB1506A146DC42500FA7835 /* Logging.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = Logging.h; path = Source/CPPlugins/Logging.h; sourceTree = SOURCE_ROOT; };
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		DDD1A362142BD65600341B75 /* KVOAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOAdditions.h; sourceTree = "<group>"; };
 		DDD1A363142BD65600341B75 /* KVOAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVOAdditions.m; sourceTree = "<group>"; };
@@ -892,6 +894,7 @@
 				DDA80348143BF31800745EB8 /* Plugins.h */,
 				DDA80333143BEFCB00745EB8 /* PluginsManager.h */,
 				DDA80334143BEFCB00745EB8 /* PluginsManager.m */,
+				DDB1506A146DC42500FA7835 /* Logging.h */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -999,12 +1002,13 @@
 				DDA80343143BF14700745EB8 /* Source.h in Headers */,
 				DDAC87DE143E6E8D00682538 /* Sources.h in Headers */,
 				DDA80344143BF14700745EB8 /* SourcesManager.h in Headers */,
+				DD01EF3F1443B62F006672E0 /* ActionView.h in Headers */,
 				DD01EF371443B543006672E0 /* RuleView.h in Headers */,
 				DD01EF3B1443B5B4006672E0 /* View.h in Headers */,
-				DD01EF3F1443B62F006672E0 /* ActionView.h in Headers */,
-				DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */,
 				DD01EF461443B6B6006672E0 /* Views.h in Headers */,
+				DD01EF431443B67A006672E0 /* ViewsManager.h in Headers */,
 				DDF52EB61460BEA500A42B09 /* SynthesizeSingleton.h in Headers */,
+				DDB1506B146DCEB400FA7835 /* Logging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1576,6 +1580,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DD23F8731460E41C000665ED /* NSLogger.xcconfig */;
 			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 			};
 			name = Debug;
 		};
@@ -1583,6 +1588,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DD23F8731460E41C000665ED /* NSLogger.xcconfig */;
 			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 			};
 			name = Release;
 		};

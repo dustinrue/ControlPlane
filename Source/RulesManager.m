@@ -29,13 +29,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(RulesManager);
 - (void) registerRuleType: (Class) type {
 	ZAssert([type conformsToProtocol: @protocol(RuleProtocol)], @"Unsupported Rule type");
 	
-	LOG_Rule(0, @"Registererd type: %@", NSStringFromClass(type));
+	LogInfo_Rule(@"Registererd type: %@", NSStringFromClass(type));
 	[m_ruleTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
 - (void) unregisterRuleType: (Class) type {
 	[m_ruleTypes removeObjectForKey: NSStringFromClass(type)];
-	LOG_Rule(0, @"Unregistererd type: %@", NSStringFromClass(type));
+	LogInfo_Rule(@"Unregistererd type: %@", NSStringFromClass(type));
 }
 
 - (Rule *) createRuleOfType: (NSString *) type {

@@ -36,7 +36,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	@synchronized(m_sources) {
 		Source *source = [type new];
 		[m_sources setObject: source forKey: source.name];
-		LOG_Source(0, @"Registererd source: %@", source.name);
+		LogInfo_Source(@"Registererd source: %@", source.name);
 	}
 }
 
@@ -49,7 +49,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 		ZAssert(source, @"Unknown source type");
 		
 		[m_sources removeObjectForKey: name];
-		LOG_Source(0, @"Unregistererd source: %@", name);
+		LogInfo_Source(@"Unregistererd source: %@", name);
 	}
 }
 

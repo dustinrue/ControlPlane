@@ -24,7 +24,7 @@
 	if (context)
 		[c forceSwitch: context];
 	else
-		LOG_Context(0, @"Context not found: '%@'", newContext);
+		LogError_Context(@"Context not found: '%@'", newContext);
 }
 
 // sticky property

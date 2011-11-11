@@ -45,13 +45,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 - (void) registerActionType: (Class) type {
 	ZAssert([type conformsToProtocol: @protocol(ActionProtocol)], @"Unsupported Action type");
 	
-	LOG_Action(0, @"Registererd type: %@", NSStringFromClass(type));
+	LogInfo_Action(@"Registererd type: %@", NSStringFromClass(type));
 	[m_actionTypes setObject: type forKey: NSStringFromClass(type)];
 }
 
 - (void) unregisterActionType: (Class) type {
 	[m_actionTypes removeObjectForKey: NSStringFromClass(type)];
-	LOG_Action(0, @"Unregistererd type: %@", NSStringFromClass(type));
+	LogInfo_Action(@"Unregistererd type: %@", NSStringFromClass(type));
 }
 
 - (Action *) createActionOfType: (NSString *) type {
@@ -76,7 +76,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ActionsManager);
 		
 		// finish up
 		if (!result)
-			LOG_Action(0, @""); // TODO: notify
+			LogInfo_Action(@""); // TODO: notify
 		self.actionsInProgress--;
 	}
 }

@@ -41,7 +41,7 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
 		NULL
 	},
 	{	kCPHelperToolSetDisplaySleepTimeCommand,
-		kCPHelperToolSetDisplaySleepTimeRightName,
+		kCPHelperToolSleepTimeRightName,
 		"allow",
 		"SetMonitorSleepTime",
 		NULL

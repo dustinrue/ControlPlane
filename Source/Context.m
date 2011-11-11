@@ -119,14 +119,14 @@
 
 - (void) activated {
 	@synchronized(m_actionsLock) {
-		LOG_Context(0, @"Activated context '%@', executing actions", self.name);
+		LogInfo_Context(@"Activated context '%@', executing actions", self.name);
 		[ActionsManager.sharedActionsManager executeActions: m_actions when: kWhenEntering];
 	}
 }
 
 - (void) deactivated {
 	@synchronized(m_actionsLock) {
-		LOG_Context(0, @"Deactivated context '%@', executing actions", self.name);
+		LogInfo_Context(@"Deactivated context '%@', executing actions", self.name);
 		[ActionsManager.sharedActionsManager executeActions: m_actions when: kWhenLeaving];
 	}
 }

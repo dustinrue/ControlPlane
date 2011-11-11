@@ -33,7 +33,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PluginsManager);
 	Plugin *plugin;
 	
 	// Load bundle
-	LOG_Plugin(0, @"Loading plugin at path: %@", path);
+	LogInfo_Plugin(@"Loading plugin at path: %@", path);
 	NSBundle *bundle = [NSBundle bundleWithPath: path];
 	ZAssert(bundle, @"No bundle at %@", path);
 	ZAssert([bundle load], @"Bundle %@ didn't load", bundle);
@@ -46,7 +46,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PluginsManager);
 	
 	// Create plugin
 	@try {
-		LOG_Plugin(0, @"Creating plugin class: %@", NSStringFromClass(class));
+		LogInfo_Plugin(@"Creating plugin class: %@", NSStringFromClass(class));
 		plugin = [class createPlugin: bundle];
 	} @catch (NSException *problem) {
 		ALog(@"createPlugin failed");

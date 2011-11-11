@@ -40,12 +40,12 @@
 	// load nib
 	NSNib *nib = [[[NSNib alloc] initWithNibNamed:name bundle:nil] autorelease];
 	if (!nib) {
-		LOG_Source(0, @"%@ >> failed loading nib named '%@'!", [self class], name);
+		LogError_Source(@"%@ >> failed loading nib named '%@'!", [self class], name);
 		return nil;
 	}
 	NSArray *topLevelObjects = [NSArray array];
 	if (![nib instantiateNibWithOwner:self topLevelObjects:&topLevelObjects]) {
-		LOG_Source(0, @"%@ >> failed instantiating nib (named '%@')!", [self class], name);
+		LogError_Source(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
 		return nil;
 	}
 
@@ -58,7 +58,7 @@
 			panel = (NSPanel *) [obj retain];
 	}
 	if (!panel) {
-		LOG_Source(0, @"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
+		LogError_Source(@"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
 		return nil;
 	}
 
@@ -89,7 +89,7 @@
 {
     goingToSleep = YES;
 	if ([self isRunning]) {
-		LOG_Source(0, @"Stopping %@ for sleep.", [self class]);
+		LogInfo_Source(@"Stopping %@ for sleep.", [self class]);
 		startAfterSleep = YES;
 		[self stop];
 	} else
@@ -100,7 +100,7 @@
 {
     goingToSleep = NO;
 	if (startAfterSleep) {
-		LOG_Source(0, @"Starting %@ after sleep.", [self class]);
+		LogInfo_Source(@"Starting %@ after sleep.", [self class]);
 		[self start];
 	}
 }
@@ -346,12 +346,12 @@
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
 		
-        LOG_Source(0, @"checking to see if %@ is enabled",[src name]);
+        LogVerbose_Source(@"checking to see if %@ is enabled", src.name);
 		if (enabled && ![src isRunning]) {
-			LOG_Source(0, @"Starting %@ evidence source", [src name]);
+			LogVerbose_Source(@"Starting %@ evidence source", src.name);
 			[src start];
 		} else if (!enabled && [src isRunning]) {
-			LOG_Source(0, @"Stopping %@ evidence source", [src name]);
+			LogVerbose_Source(@"Stopping %@ evidence source", src.name);
 			[src stop];
 		}
 	}
@@ -368,9 +368,7 @@
 		if (![src matchesRulesOfType:[rule objectForKey:@"type"]])
 			continue;
 		if (enabled && [src isRunning] && [src doesRuleMatch:rule]) {
-#if DEBUG_MODE
-            DSLog(@"checking EvidenceSource %@ for matching rules", src);
-#endif
+            LogVerbose_Source(@"checking EvidenceSource %@ for matching rules", src);
             return YES;
         }
 			
