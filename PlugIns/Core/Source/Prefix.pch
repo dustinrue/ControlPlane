@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'Core' target in the 'Core' project
+// Prefix header for all source files of the 'ControlPlane' target in the 'ControlPlane' project
 //
 
 // Imports
@@ -7,34 +7,22 @@
 #ifdef __OBJC__
 	#import <Cocoa/Cocoa.h>
 	#import <Foundation/Foundation.h>
-	#import <NSLogger/LoggerClient.h>
+	#import <Plugins/Logging.h>
 #endif
 
 // Debug and release logs
 
 #ifdef DEBUG
-	#define DLog(tag, level, ...) LogMessageF(__FILE__, __LINE__, __FUNCTION__, tag, level, __VA_ARGS__)
 	#define ALog(...) \
 		CFShow(CFSTR("Assert going to fail, connect NSLogger NOW!\n")); \
 		LoggerFlush(NULL, YES); \
 		[NSAssertionHandler.currentHandler handleFailureInFunction: [NSString stringWithCString: __PRETTY_FUNCTION__ encoding: NSUTF8StringEncoding] file: [NSString stringWithCString: __FILE__ encoding: NSUTF8StringEncoding] lineNumber: __LINE__ description: __VA_ARGS__]
-#else
-	#define DLog(...) do { } while (0)
-	#define ALog(...) LogMessageF(__FILE__, __LINE__, __FUNCTION__, @"assertion", 0, __VA_ARGS__)
+	#else
+		#define ALog(...) LogError(@"assertion", __VA_ARGS__)
 
-	#ifndef NS_BLOCK_ASSERTIONS
-		#define NS_BLOCK_ASSERTIONS
-	#endif
+		#ifndef NS_BLOCK_ASSERTIONS
+			#define NS_BLOCK_ASSERTIONS
+		#endif
 #endif
 
 #define ZAssert(condition, ...) do { if (!(condition)) { ALog(__VA_ARGS__); }} while(0)
-
-// Component logs
-
-#define LOG_Action(...)		DLog(@"action", __VA_ARGS__)
-#define LOG_Context(...)	DLog(@"context", __VA_ARGS__)
-#define LOG_Plugin(...)		DLog(@"plugin", __VA_ARGS__)
-#define LOG_Prefs(...)		DLog(@"preferences", __VA_ARGS__)
-#define LOG_Rule(...)		DLog(@"rule", __VA_ARGS__)
-#define LOG_Source(...)		DLog(@"source", __VA_ARGS__)
-#define LOG_View(...)		DLog(@"view", __VA_ARGS__)

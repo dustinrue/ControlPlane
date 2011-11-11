@@ -54,10 +54,10 @@
 		return;
 	
 	// Log
-	LOG_Source(0, @"New location: (%f, %f) with accuracy %f",
-			   newLocation.coordinate.latitude,
-			   newLocation.coordinate.longitude,
-			   newLocation.horizontalAccuracy);
+	LogInfo_Source(@"New location: (%f, %f) with accuracy %f",
+				   newLocation.coordinate.latitude,
+				   newLocation.coordinate.longitude,
+				   newLocation.horizontalAccuracy);
 	
 	// store it
 	self.location = newLocation;
@@ -75,14 +75,14 @@
 - (void) locationManager: (CLLocationManager *) manager didFailWithError: (NSError *) error {
 	switch (error.code) {
 		case kCLErrorDenied:
-			LOG_Source(0, @"Core Location denied!");
+			LogError_Source(@"Core Location denied!");
 			[self stop];
 			break;
 		case kCLErrorLocationUnknown:
-			LOG_Source(0, @"Core Location reported an error!");
+			LogError_Source(@"Core Location reported an error!");
 			break;
 		default:
-			LOG_Source(0, @"Core Location failed!");
+			LogError_Source(@"Core Location failed!");
 			break;
 	}
 }

@@ -81,7 +81,7 @@ const struct BSSIntervalsStruct BSSIntervals = {
 - (void) deviceInquiryDeviceFound: (IOBluetoothDeviceInquiry *) sender
 						   device: (IOBluetoothDevice *) device {
 	
-	LOG_Source(0, @"Device found");
+	LogInfo_Source(@"Device found");
 	NSString *address = [device getAddressString];
 	NSDate *expires = [NSDate dateWithTimeIntervalSinceNow: BSSIntervals.expiry];
 	
@@ -99,11 +99,11 @@ const struct BSSIntervalsStruct BSSIntervals = {
 						 error: (IOReturn) error
 					   aborted: (BOOL) aborted  {
     
-    LOG_Source(1, @"Inquiry finished with %x", error);
+    LogVerbose_Source(@"Inquiry finished with %x", error);
     
 	// error => invalidate data
 	if (error != kIOReturnSuccess) {
-		LOG_Source(0, @"Inquiry finished with error: %x", error);
+		LogInfo_Source(@"Inquiry finished with error: %x", error);
 		self.devices = [NSDictionary new];
 		return;
 	}
@@ -151,7 +151,7 @@ const struct BSSIntervalsStruct BSSIntervals = {
 	NSString *name = [ouiDb valueForKey:oui];
 	if (!name)
 		name = @"Unknown";
-	LOG_Source(1, @"Converted %@ to %@", oui, name);
+	LogVerbose_Source(@"Converted %@ to %@", oui, name);
 	
 	return name;
 }
