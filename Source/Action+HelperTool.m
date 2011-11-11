@@ -11,7 +11,10 @@
 
 @interface CAction (HelperTool_Private)
 
-+ (OSStatus) helperToolActualPerform: (NSString *) action withParameter: (id) parameter response: (CFDictionaryRef *) response auth: (AuthorizationRef) auth;
++ (OSStatus) helperToolActualPerform: (NSString *) action
+					   withParameter: (id) parameter
+							response: (CFDictionaryRef *) response
+								auth: (AuthorizationRef) auth;
 + (void) helperToolInit: (AuthorizationRef *) auth;
 + (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth;
 + (void) helperToolAlert: (NSMutableDictionary *) parameters;

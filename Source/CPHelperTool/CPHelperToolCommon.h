@@ -12,23 +12,23 @@
 #import "BetterAuthorizationLib.h"
 
 // Helper tool version
-#define kCPHelperToolVersionNumber			18
+#define kCPHelperToolVersionNumber				18
 
 // Commands
-#define kCPHelperToolGetVersionCommand		"GetVersion"
-#define kCPHelperToolGetVersionResponse		"Version"
+#define kCPHelperToolGetVersionCommand			"GetVersion"
+#define kCPHelperToolGetVersionResponse			"Version"
 
-#define kCPHelperToolSetEnabledFWCommand	"SetEnabledFW"
-
-#define kCPHelperToolSetEnabledISCommand	"SetEnabledIS"
-
-#define kCPHelperToolSetEnabledTMCommand	"SetEnabledTM"
-#define kCPHelperToolControlBackupTMCommand	"ControlBackupTM"
+#define kCPHelperToolSetEnabledFWCommand		"SetEnabledFW"
+#define kCPHelperToolSetEnabledISCommand		"SetEnabledIS"
+#define kCPHelperToolSetEnabledTMCommand		"SetEnabledTM"
+#define kCPHelperToolControlBackupTMCommand		"ControlBackupTM"
+#define kCPHelperToolSetDisplaySleepTimeCommand	"SetDisplaySleepTime"
 
 // Rights
 #define kCPHelperToolFireWallRightName			"com.dustinrue.ControlPlane.FireWall"
 #define kCPHelperToolInternetSharingRightName	"com.dustinrue.ControlPlane.InternetSharing"
 #define kCPHelperToolTimeMachineRightName		"com.dustinrue.ControlPlane.TimeMachine"
+#define kCPHelperToolSleepTimeRightName			"com.dustinrue.ControlPlane.SleepTime"
 
 // Commands array (keep in sync!)
 extern const BASCommandSpec kCPHelperToolCommandSet[];

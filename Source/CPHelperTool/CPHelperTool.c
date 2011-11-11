@@ -192,6 +192,35 @@ static OSStatus DoControlBackupTM(AuthorizationRef			auth,
 	return retValue;
 }
 
+#pragma mark - Toggle Monitor Sleep
+
+// Set Monitor Sleep Time routine
+static OSStatus DoSetDisplaySleepTime(AuthorizationRef			auth,
+									  const void *				userData,
+									  CFDictionaryRef			request,
+									  CFMutableDictionaryRef	response,
+									  aslclient					asl,
+									  aslmsg					aslMsg) {
+	
+	OSStatus retValue = noErr;
+	char command[256];
+	int value = 0;
+	
+	assert(auth != NULL);
+	assert(request != NULL);
+	assert(response != NULL);
+	
+	// check request parameter
+	CFNumberRef parameter = (CFNumberRef) CFDictionaryGetValue(request, CFSTR("param"));
+	if (parameter == NULL || CFGetTypeID(parameter) != CFNumberGetTypeID() || !CFNumberGetValue(parameter, kCFNumberSInt32Type, &value))
+		return BASErrnoToOSStatus(EINVAL);
+	
+	sprintf(command, "/usr/bin/pmset -a displaysleep %i", value);
+	retValue = system(command);
+	
+	return retValue;
+}
+
 #pragma mark - Tool Infrastructure
 
 // the list defined here must match (same order) the list in CPHelperToolCommon.c
@@ -201,6 +230,7 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
 	DoSetEnabledIS,
 	DoSetEnabledTM,
 	DoControlBackupTM,
+	DoSetDisplaySleepTime,
 	NULL
 };
 

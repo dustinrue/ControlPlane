@@ -22,12 +22,12 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
 		"SetEnabledFW",
 		NULL
 	},
-    {	kCPHelperToolSetEnabledISCommand,
+	{	kCPHelperToolSetEnabledISCommand,
 		kCPHelperToolInternetSharingRightName,
 		"allow",
 		"SetEnabledIS",
 		NULL
-    },
+	},
 	{	kCPHelperToolSetEnabledTMCommand,
 		kCPHelperToolTimeMachineRightName,
 		"allow",
@@ -38,6 +38,12 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
 		kCPHelperToolTimeMachineRightName,
 		"allow",
 		"ControlBackupTM",
+		NULL
+	},
+	{	kCPHelperToolSetDisplaySleepTimeCommand,
+		kCPHelperToolSetDisplaySleepTimeRightName,
+		"allow",
+		"SetMonitorSleepTime",
 		NULL
 	},
 	{	NULL,
