@@ -38,6 +38,8 @@
 	<string>http://groups.google.com/group/controlplane-support/topics</string>
 	<key>CPWebPageURL</key>
 	<string>http://controlplane.dustinrue.com/</string>
+	<key>CPCrashURL</key>
+	<string>http://crashreport.controlplaneapp.com</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>

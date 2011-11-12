@@ -323,7 +323,7 @@
 }
 
 - (void)awakeFromNib {
-	BWQuincyManager.sharedQuincyManager.submissionURL = @"http://localhost/crash_v200.php";
+	BWQuincyManager.sharedQuincyManager.submissionURL = [NSBundle.mainBundle.infoDictionary objectForKey: @"CPCrashURL"];
 	BWQuincyManager.sharedQuincyManager.companyName = [NSBundle.mainBundle.infoDictionary objectForKey: @"CFBundleName"];
 	BWQuincyManager.sharedQuincyManager.delegate = self;
 	
