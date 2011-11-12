@@ -12,7 +12,7 @@ CURRENT_MARKETING_VERSION = 2.0.0 Alpha 1
 
 // Packaging
 FRAMEWORK_VERSION = A
-INFOPLIST_FILE = Resources/PluginsInfo.plist
+INFOPLIST_FILE = Info.plist
 PRODUCT_NAME = Plugins
 WRAPPER_EXTENSION = framework
 
@@ -24,4 +24,5 @@ DYLIB_CURRENT_VERSION = 1
 INSTALL_PATH = @executable_path/../Frameworks
 
 // Compiler options
+GCC_PREFIX_HEADER = ../../Source/Prefix.pch
 GCC_SYMBOLS_PRIVATE_EXTERN = NO

@@ -27,6 +27,10 @@
 
 // Enable or disable DLogs depending on logging level
 
+#ifndef LOG_LEVEL
+	#define LOG_LEVEL WARN
+#endif
+
 #define ACTUAL_LOG(tag, level, ...)	LogMessageF(__FILE__, __LINE__, __FUNCTION__, tag, level, __VA_ARGS__)
 #define NOTHING_LOG					do { } while (0)
 

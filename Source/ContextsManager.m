@@ -8,7 +8,7 @@
 
 #import "ContextGroup.h"
 #import "ContextsManager.h"
-#import "SynthesizeSingleton.h"
+#import <Plugins/SynthesizeSingleton.h>
 
 @implementation ContextsManager
 

@@ -1,0 +1,571 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DDB15089146ECDF000FA7835 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15088146ECDF000FA7835 /* Cocoa.framework */; };
+		DDB150BB146ECF9400FA7835 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150B8146ECF9400FA7835 /* LoggerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150BC146ECF9400FA7835 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150B9146ECF9400FA7835 /* LoggerClient.m */; };
+		DDB150BD146ECF9400FA7835 /* LoggerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150BA146ECF9400FA7835 /* LoggerCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150C0146ED22700FA7835 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB150BE146ED21B00FA7835 /* SystemConfiguration.framework */; };
+		DDB150D3146ED2EA00FA7835 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15088146ECDF000FA7835 /* Cocoa.framework */; };
+		DDB150E2146ED30D00FA7835 /* Action.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150C4146ED2CB00FA7835 /* Action.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150E3146ED30D00FA7835 /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150C5146ED2CB00FA7835 /* Action.m */; };
+		DDB150E4146ED30D00FA7835 /* Actions.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150C6146ED2CB00FA7835 /* Actions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150E5146ED30D00FA7835 /* ActionsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150C7146ED2CB00FA7835 /* ActionsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150E6146ED30D00FA7835 /* ActionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150C8146ED2CB00FA7835 /* ActionsManager.m */; };
+		DDB150E9146ED32D00FA7835 /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15085146ECDF000FA7835 /* NSLogger.framework */; };
+		DDB150F5146ED3BF00FA7835 /* Plugin.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150EA146ED39100FA7835 /* Plugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150F6146ED3BF00FA7835 /* Plugins.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150EC146ED39100FA7835 /* Plugins.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150F7146ED3BF00FA7835 /* PluginsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150ED146ED39100FA7835 /* PluginsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB150F8146ED3C600FA7835 /* Plugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150EB146ED39100FA7835 /* Plugin.m */; };
+		DDB150F9146ED3C600FA7835 /* PluginsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150EE146ED39100FA7835 /* PluginsManager.m */; };
+		DDB150FF146ED3E300FA7835 /* Rule.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150FA146ED3E300FA7835 /* Rule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15100146ED3E300FA7835 /* Rule.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150FB146ED3E300FA7835 /* Rule.m */; };
+		DDB15101146ED3E300FA7835 /* Rules.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150FC146ED3E300FA7835 /* Rules.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15102146ED3E300FA7835 /* RulesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150FD146ED3E300FA7835 /* RulesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15103146ED3E300FA7835 /* RulesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150FE146ED3E300FA7835 /* RulesManager.m */; };
+		DDB1510A146ED44100FA7835 /* Source.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15105146ED44000FA7835 /* Source.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB1510B146ED44100FA7835 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15106146ED44000FA7835 /* Source.m */; };
+		DDB1510C146ED44100FA7835 /* Sources.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15107146ED44000FA7835 /* Sources.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB1510D146ED44100FA7835 /* SourcesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15108146ED44000FA7835 /* SourcesManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB1510E146ED44100FA7835 /* SourcesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15109146ED44000FA7835 /* SourcesManager.m */; };
+		DDB1511A146ED49100FA7835 /* ActionView.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15111146ED49100FA7835 /* ActionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB1511B146ED49100FA7835 /* ActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15112146ED49100FA7835 /* ActionView.m */; };
+		DDB1511C146ED49100FA7835 /* RuleView.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15113146ED49100FA7835 /* RuleView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB1511D146ED49100FA7835 /* RuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15114146ED49100FA7835 /* RuleView.m */; };
+		DDB1511E146ED49100FA7835 /* View.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15115146ED49100FA7835 /* View.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB1511F146ED49100FA7835 /* View.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15116146ED49100FA7835 /* View.m */; };
+		DDB15120146ED49100FA7835 /* Views.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15117146ED49100FA7835 /* Views.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15121146ED49100FA7835 /* ViewsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15118146ED49100FA7835 /* ViewsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15122146ED49100FA7835 /* ViewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15119146ED49100FA7835 /* ViewsManager.m */; };
+		DDB15156146EDFF800FA7835 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB1512A146ED65900FA7835 /* Logging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15163146EE1E500FA7835 /* CallbackSource.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB1515F146EE1E500FA7835 /* CallbackSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15164146EE1E500FA7835 /* CallbackSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15160146EE1E500FA7835 /* CallbackSource.m */; };
+		DDB15165146EE1E500FA7835 /* LoopingSource.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15161146EE1E500FA7835 /* LoopingSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15166146EE1E500FA7835 /* LoopingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15162146EE1E500FA7835 /* LoopingSource.m */; };
+		DDB151A0146EE74B00FA7835 /* SynthesizeSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB15157146EE14000FA7835 /* SynthesizeSingleton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DDB150E7146ED32900FA7835 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDB15076146ECC3900FA7835 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDB15084146ECDF000FA7835;
+			remoteInfo = NSLogger;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DDB15085146ECDF000FA7835 /* NSLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB15088146ECDF000FA7835 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DDB15090146ECDF000FA7835 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = "../../External Source/NSLogger/Info.plist"; sourceTree = "<group>"; };
+		DDB150B8146ECF9400FA7835 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "../../External Source/NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = SOURCE_ROOT; };
+		DDB150B9146ECF9400FA7835 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "../../External Source/NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = SOURCE_ROOT; };
+		DDB150BA146ECF9400FA7835 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "../../External Source/NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = SOURCE_ROOT; };
+		DDB150BE146ED21B00FA7835 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DDB150C4146ED2CB00FA7835 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = Source/Action.h; sourceTree = "<group>"; };
+		DDB150C5146ED2CB00FA7835 /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Action.m; path = Source/Action.m; sourceTree = "<group>"; };
+		DDB150C6146ED2CB00FA7835 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Actions.h; path = Source/Actions.h; sourceTree = "<group>"; };
+		DDB150C7146ED2CB00FA7835 /* ActionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionsManager.h; path = Source/ActionsManager.h; sourceTree = "<group>"; };
+		DDB150C8146ED2CB00FA7835 /* ActionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionsManager.m; path = Source/ActionsManager.m; sourceTree = "<group>"; };
+		DDB150E0146ED2EA00FA7835 /* Plugins.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Plugins.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB150EA146ED39100FA7835 /* Plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plugin.h; path = Source/Plugin.h; sourceTree = "<group>"; };
+		DDB150EB146ED39100FA7835 /* Plugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Plugin.m; path = Source/Plugin.m; sourceTree = "<group>"; };
+		DDB150EC146ED39100FA7835 /* Plugins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plugins.h; path = Source/Plugins.h; sourceTree = "<group>"; };
+		DDB150ED146ED39100FA7835 /* PluginsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginsManager.h; path = Source/PluginsManager.h; sourceTree = "<group>"; };
+		DDB150EE146ED39100FA7835 /* PluginsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluginsManager.m; path = Source/PluginsManager.m; sourceTree = "<group>"; };
+		DDB150FA146ED3E300FA7835 /* Rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rule.h; path = Source/Rule.h; sourceTree = "<group>"; };
+		DDB150FB146ED3E300FA7835 /* Rule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rule.m; path = Source/Rule.m; sourceTree = "<group>"; };
+		DDB150FC146ED3E300FA7835 /* Rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rules.h; path = Source/Rules.h; sourceTree = "<group>"; };
+		DDB150FD146ED3E300FA7835 /* RulesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RulesManager.h; path = Source/RulesManager.h; sourceTree = "<group>"; };
+		DDB150FE146ED3E300FA7835 /* RulesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RulesManager.m; path = Source/RulesManager.m; sourceTree = "<group>"; };
+		DDB15105146ED44000FA7835 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Source.h; path = Source/Source.h; sourceTree = "<group>"; };
+		DDB15106146ED44000FA7835 /* Source.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Source.m; path = Source/Source.m; sourceTree = "<group>"; };
+		DDB15107146ED44000FA7835 /* Sources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sources.h; path = Source/Sources.h; sourceTree = "<group>"; };
+		DDB15108146ED44000FA7835 /* SourcesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SourcesManager.h; path = Source/SourcesManager.h; sourceTree = "<group>"; };
+		DDB15109146ED44000FA7835 /* SourcesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SourcesManager.m; path = Source/SourcesManager.m; sourceTree = "<group>"; };
+		DDB15111146ED49100FA7835 /* ActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionView.h; path = Source/ActionView.h; sourceTree = "<group>"; };
+		DDB15112146ED49100FA7835 /* ActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionView.m; path = Source/ActionView.m; sourceTree = "<group>"; };
+		DDB15113146ED49100FA7835 /* RuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuleView.h; path = Source/RuleView.h; sourceTree = "<group>"; };
+		DDB15114146ED49100FA7835 /* RuleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuleView.m; path = Source/RuleView.m; sourceTree = "<group>"; };
+		DDB15115146ED49100FA7835 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = View.h; path = Source/View.h; sourceTree = "<group>"; };
+		DDB15116146ED49100FA7835 /* View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = View.m; path = Source/View.m; sourceTree = "<group>"; };
+		DDB15117146ED49100FA7835 /* Views.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Views.h; path = Source/Views.h; sourceTree = "<group>"; };
+		DDB15118146ED49100FA7835 /* ViewsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewsManager.h; path = Source/ViewsManager.h; sourceTree = "<group>"; };
+		DDB15119146ED49100FA7835 /* ViewsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewsManager.m; path = Source/ViewsManager.m; sourceTree = "<group>"; };
+		DDB15124146ED4CB00FA7835 /* PluginsInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PluginsInfo.plist; path = Resources/PluginsInfo.plist; sourceTree = "<group>"; };
+		DDB1512A146ED65900FA7835 /* Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Logging.h; path = Source/Logging.h; sourceTree = "<group>"; };
+		DDB1514D146EDE2000FA7835 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		DDB1514F146EDE2000FA7835 /* NSLogger.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NSLogger.xcconfig; sourceTree = "<group>"; };
+		DDB15150146EDE2000FA7835 /* Plugins.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Plugins.xcconfig; sourceTree = "<group>"; };
+		DDB15151146EDE2000FA7835 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		DDB15157146EE14000FA7835 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = Source/SynthesizeSingleton.h; sourceTree = "<group>"; };
+		DDB1515A146EE18A00FA7835 /* KVOAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KVOAdditions.h; path = "../../External Source/KVOAdditions/KVOAdditions.h"; sourceTree = "<group>"; };
+		DDB1515B146EE18A00FA7835 /* KVOAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KVOAdditions.m; path = "../../External Source/KVOAdditions/KVOAdditions.m"; sourceTree = "<group>"; };
+		DDB1515F146EE1E500FA7835 /* CallbackSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallbackSource.h; path = Source/CallbackSource.h; sourceTree = "<group>"; };
+		DDB15160146EE1E500FA7835 /* CallbackSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CallbackSource.m; path = Source/CallbackSource.m; sourceTree = "<group>"; };
+		DDB15161146EE1E500FA7835 /* LoopingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoopingSource.h; path = Source/LoopingSource.h; sourceTree = "<group>"; };
+		DDB15162146EE1E500FA7835 /* LoopingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoopingSource.m; path = Source/LoopingSource.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDB15081146ECDF000FA7835 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB15089146ECDF000FA7835 /* Cocoa.framework in Frameworks */,
+				DDB150C0146ED22700FA7835 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDB150D2146ED2EA00FA7835 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB150D3146ED2EA00FA7835 /* Cocoa.framework in Frameworks */,
+				DDB150E9146ED32D00FA7835 /* NSLogger.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DDB15074146ECC3900FA7835 = {
+			isa = PBXGroup;
+			children = (
+				DDB1508E146ECDF000FA7835 /* NSLogger */,
+				DDB150C2146ED29A00FA7835 /* Plugins */,
+				DDB15159146EE14600FA7835 /* Other Sources */,
+				DDB15147146EDE2000FA7835 /* Configurations */,
+				DDB15087146ECDF000FA7835 /* Frameworks */,
+				DDB15086146ECDF000FA7835 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DDB15086146ECDF000FA7835 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDB15085146ECDF000FA7835 /* NSLogger.framework */,
+				DDB150E0146ED2EA00FA7835 /* Plugins.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDB15087146ECDF000FA7835 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDB15088146ECDF000FA7835 /* Cocoa.framework */,
+				DDB150BE146ED21B00FA7835 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DDB1508E146ECDF000FA7835 /* NSLogger */ = {
+			isa = PBXGroup;
+			children = (
+				DDB150C1146ED28000FA7835 /* Source */,
+				DDB1508F146ECDF000FA7835 /* Resources */,
+			);
+			path = NSLogger;
+			sourceTree = "<group>";
+		};
+		DDB1508F146ECDF000FA7835 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DDB15090146ECDF000FA7835 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		DDB150C1146ED28000FA7835 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DDB150B8146ECF9400FA7835 /* LoggerClient.h */,
+				DDB150B9146ECF9400FA7835 /* LoggerClient.m */,
+				DDB150BA146ECF9400FA7835 /* LoggerCommon.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		DDB150C2146ED29A00FA7835 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				DDB150C3146ED2A500FA7835 /* Source */,
+				DDB15123146ED4BB00FA7835 /* Resources */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		DDB150C3146ED2A500FA7835 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DDB150CE146ED2D300FA7835 /* Actions */,
+				DDB1519F146EE73A00FA7835 /* Other */,
+				DDB150F4146ED39F00FA7835 /* Plugins */,
+				DDB15104146ED3ED00FA7835 /* Rules */,
+				DDB1510F146ED44A00FA7835 /* Sources */,
+				DDB15110146ED46F00FA7835 /* Views */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		DDB150CE146ED2D300FA7835 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				DDB150C4146ED2CB00FA7835 /* Action.h */,
+				DDB150C5146ED2CB00FA7835 /* Action.m */,
+				DDB150C6146ED2CB00FA7835 /* Actions.h */,
+				DDB150C7146ED2CB00FA7835 /* ActionsManager.h */,
+				DDB150C8146ED2CB00FA7835 /* ActionsManager.m */,
+			);
+			name = Actions;
+			sourceTree = "<group>";
+		};
+		DDB150F4146ED39F00FA7835 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				DDB150EA146ED39100FA7835 /* Plugin.h */,
+				DDB150EB146ED39100FA7835 /* Plugin.m */,
+				DDB150EC146ED39100FA7835 /* Plugins.h */,
+				DDB150ED146ED39100FA7835 /* PluginsManager.h */,
+				DDB150EE146ED39100FA7835 /* PluginsManager.m */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		DDB15104146ED3ED00FA7835 /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				DDB150FA146ED3E300FA7835 /* Rule.h */,
+				DDB150FB146ED3E300FA7835 /* Rule.m */,
+				DDB150FC146ED3E300FA7835 /* Rules.h */,
+				DDB150FD146ED3E300FA7835 /* RulesManager.h */,
+				DDB150FE146ED3E300FA7835 /* RulesManager.m */,
+			);
+			name = Rules;
+			sourceTree = "<group>";
+		};
+		DDB1510F146ED44A00FA7835 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DDB1515F146EE1E500FA7835 /* CallbackSource.h */,
+				DDB15160146EE1E500FA7835 /* CallbackSource.m */,
+				DDB15161146EE1E500FA7835 /* LoopingSource.h */,
+				DDB15162146EE1E500FA7835 /* LoopingSource.m */,
+				DDB15105146ED44000FA7835 /* Source.h */,
+				DDB15106146ED44000FA7835 /* Source.m */,
+				DDB15107146ED44000FA7835 /* Sources.h */,
+				DDB15108146ED44000FA7835 /* SourcesManager.h */,
+				DDB15109146ED44000FA7835 /* SourcesManager.m */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		DDB15110146ED46F00FA7835 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DDB15111146ED49100FA7835 /* ActionView.h */,
+				DDB15112146ED49100FA7835 /* ActionView.m */,
+				DDB15113146ED49100FA7835 /* RuleView.h */,
+				DDB15114146ED49100FA7835 /* RuleView.m */,
+				DDB15115146ED49100FA7835 /* View.h */,
+				DDB15116146ED49100FA7835 /* View.m */,
+				DDB15117146ED49100FA7835 /* Views.h */,
+				DDB15118146ED49100FA7835 /* ViewsManager.h */,
+				DDB15119146ED49100FA7835 /* ViewsManager.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		DDB15123146ED4BB00FA7835 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DDB15124146ED4CB00FA7835 /* PluginsInfo.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		DDB15147146EDE2000FA7835 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				DDB1514D146EDE2000FA7835 /* Debug.xcconfig */,
+				DDB1514F146EDE2000FA7835 /* NSLogger.xcconfig */,
+				DDB15150146EDE2000FA7835 /* Plugins.xcconfig */,
+				DDB15151146EDE2000FA7835 /* Release.xcconfig */,
+			);
+			name = Configurations;
+			path = ../../xcconfigs;
+			sourceTree = "<group>";
+		};
+		DDB15159146EE14600FA7835 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DDB1515E146EE19400FA7835 /* KVOAdditions */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		DDB1515E146EE19400FA7835 /* KVOAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				DDB1515A146EE18A00FA7835 /* KVOAdditions.h */,
+				DDB1515B146EE18A00FA7835 /* KVOAdditions.m */,
+			);
+			name = KVOAdditions;
+			sourceTree = "<group>";
+		};
+		DDB1519F146EE73A00FA7835 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				DDB1512A146ED65900FA7835 /* Logging.h */,
+				DDB15157146EE14000FA7835 /* SynthesizeSingleton.h */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DDB15082146ECDF000FA7835 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB150BB146ECF9400FA7835 /* LoggerClient.h in Headers */,
+				DDB150BD146ECF9400FA7835 /* LoggerCommon.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDB150D5146ED2EA00FA7835 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB150E2146ED30D00FA7835 /* Action.h in Headers */,
+				DDB150E4146ED30D00FA7835 /* Actions.h in Headers */,
+				DDB150E5146ED30D00FA7835 /* ActionsManager.h in Headers */,
+				DDB150F5146ED3BF00FA7835 /* Plugin.h in Headers */,
+				DDB150F6146ED3BF00FA7835 /* Plugins.h in Headers */,
+				DDB150F7146ED3BF00FA7835 /* PluginsManager.h in Headers */,
+				DDB150FF146ED3E300FA7835 /* Rule.h in Headers */,
+				DDB15101146ED3E300FA7835 /* Rules.h in Headers */,
+				DDB15102146ED3E300FA7835 /* RulesManager.h in Headers */,
+				DDB15163146EE1E500FA7835 /* CallbackSource.h in Headers */,
+				DDB15165146EE1E500FA7835 /* LoopingSource.h in Headers */,
+				DDB1510A146ED44100FA7835 /* Source.h in Headers */,
+				DDB1510C146ED44100FA7835 /* Sources.h in Headers */,
+				DDB1510D146ED44100FA7835 /* SourcesManager.h in Headers */,
+				DDB1511A146ED49100FA7835 /* ActionView.h in Headers */,
+				DDB1511C146ED49100FA7835 /* RuleView.h in Headers */,
+				DDB1511E146ED49100FA7835 /* View.h in Headers */,
+				DDB15120146ED49100FA7835 /* Views.h in Headers */,
+				DDB15121146ED49100FA7835 /* ViewsManager.h in Headers */,
+				DDB15156146EDFF800FA7835 /* Logging.h in Headers */,
+				DDB151A0146EE74B00FA7835 /* SynthesizeSingleton.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		DDB15084146ECDF000FA7835 /* NSLogger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDB1509A146ECDF000FA7835 /* Build configuration list for PBXNativeTarget "NSLogger" */;
+			buildPhases = (
+				DDB15080146ECDF000FA7835 /* Sources */,
+				DDB15081146ECDF000FA7835 /* Frameworks */,
+				DDB15082146ECDF000FA7835 /* Headers */,
+				DDB15083146ECDF000FA7835 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NSLogger;
+			productName = NSLogger;
+			productReference = DDB15085146ECDF000FA7835 /* NSLogger.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DDB150CF146ED2EA00FA7835 /* Plugins */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDB150DD146ED2EA00FA7835 /* Build configuration list for PBXNativeTarget "Plugins" */;
+			buildPhases = (
+				DDB150D0146ED2EA00FA7835 /* Sources */,
+				DDB150D2146ED2EA00FA7835 /* Frameworks */,
+				DDB150D5146ED2EA00FA7835 /* Headers */,
+				DDB150D8146ED2EA00FA7835 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DDB150E8146ED32900FA7835 /* PBXTargetDependency */,
+			);
+			name = Plugins;
+			productName = NSLogger;
+			productReference = DDB150E0146ED2EA00FA7835 /* Plugins.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDB15076146ECC3900FA7835 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = DDB15079146ECC3900FA7835 /* Build configuration list for PBXProject "Framework" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DDB15074146ECC3900FA7835;
+			productRefGroup = DDB15086146ECDF000FA7835 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DDB15084146ECDF000FA7835 /* NSLogger */,
+				DDB150CF146ED2EA00FA7835 /* Plugins */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DDB15083146ECDF000FA7835 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDB150D8146ED2EA00FA7835 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDB15080146ECDF000FA7835 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB150BC146ECF9400FA7835 /* LoggerClient.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDB150D0146ED2EA00FA7835 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB150E3146ED30D00FA7835 /* Action.m in Sources */,
+				DDB150E6146ED30D00FA7835 /* ActionsManager.m in Sources */,
+				DDB150F8146ED3C600FA7835 /* Plugin.m in Sources */,
+				DDB150F9146ED3C600FA7835 /* PluginsManager.m in Sources */,
+				DDB15100146ED3E300FA7835 /* Rule.m in Sources */,
+				DDB15103146ED3E300FA7835 /* RulesManager.m in Sources */,
+				DDB15164146EE1E500FA7835 /* CallbackSource.m in Sources */,
+				DDB15166146EE1E500FA7835 /* LoopingSource.m in Sources */,
+				DDB1510B146ED44100FA7835 /* Source.m in Sources */,
+				DDB1510E146ED44100FA7835 /* SourcesManager.m in Sources */,
+				DDB1511B146ED49100FA7835 /* ActionView.m in Sources */,
+				DDB1511D146ED49100FA7835 /* RuleView.m in Sources */,
+				DDB1511F146ED49100FA7835 /* View.m in Sources */,
+				DDB15122146ED49100FA7835 /* ViewsManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DDB150E8146ED32900FA7835 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDB15084146ECDF000FA7835 /* NSLogger */;
+			targetProxy = DDB150E7146ED32900FA7835 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		DDB1507B146ECC3900FA7835 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB1514D146EDE2000FA7835 /* Debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DDB1507C146ECC3900FA7835 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB15151146EDE2000FA7835 /* Release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		DDB15098146ECDF000FA7835 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB1514F146EDE2000FA7835 /* NSLogger.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DDB15099146ECDF000FA7835 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB1514F146EDE2000FA7835 /* NSLogger.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		DDB150DE146ED2EA00FA7835 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB15150146EDE2000FA7835 /* Plugins.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DDB150DF146ED2EA00FA7835 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB15150146EDE2000FA7835 /* Plugins.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDB15079146ECC3900FA7835 /* Build configuration list for PBXProject "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB1507B146ECC3900FA7835 /* Debug */,
+				DDB1507C146ECC3900FA7835 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDB1509A146ECDF000FA7835 /* Build configuration list for PBXNativeTarget "NSLogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB15098146ECDF000FA7835 /* Debug */,
+				DDB15099146ECDF000FA7835 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDB150DD146ED2EA00FA7835 /* Build configuration list for PBXNativeTarget "Plugins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB150DE146ED2EA00FA7835 /* Debug */,
+				DDB150DF146ED2EA00FA7835 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDB15076146ECC3900FA7835 /* Project object */;
+}

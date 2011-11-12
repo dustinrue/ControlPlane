@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DDBE10C914629A97008AF37E /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8961460E9B1000665ED /* NSLogger.framework */; };
+		DDB1518E146EE54400FA7835 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15184146EE4F500FA7835 /* Plugins.framework */; };
+		DDB151AA146EE8A200FA7835 /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15182146EE4F500FA7835 /* NSLogger.framework */; };
 		DDF52D881460B49800A42B09 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF52D851460B49800A42B09 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDF52D891460B49800A42B09 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF52D861460B49800A42B09 /* JSONKit.m */; };
 		DDF52E3D1460B8EB00A42B09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDF52E381460B7AA00A42B09 /* Localizable.strings */; };
@@ -63,30 +64,29 @@
 		DDF52E861460BD3600A42B09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E751460BC3F00A42B09 /* Security.framework */; };
 		DDF52E871460BD3600A42B09 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E761460BC3F00A42B09 /* SystemConfiguration.framework */; };
 		DDF52E881460BD3600A42B09 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E771460BC3F00A42B09 /* WebKit.framework */; };
-		DDF52EB51460BE2000A42B09 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF52E971460BD5500A42B09 /* Plugins.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		73A626D5146ED0DC007D84AE /* PBXContainerItemProxy */ = {
+		DDB15181146EE4F500FA7835 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DDA80318143BEE4100745EB8;
+			containerPortal = DDB1517C146EE4F500FA7835 /* Framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DDB15085146ECDF000FA7835;
+			remoteInfo = NSLogger;
+		};
+		DDB15183146EE4F500FA7835 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDB1517C146EE4F500FA7835 /* Framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DDB150E0146ED2EA00FA7835;
 			remoteInfo = Plugins;
 		};
-		DD23F8951460E9B1000665ED /* PBXContainerItemProxy */ = {
+		DDB15189146EE53400FA7835 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DD23F85F1460E378000665ED;
-			remoteInfo = NSLogger;
-		};
-		DDBE10C214629A90008AF37E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			containerPortal = DDB1517C146EE4F500FA7835 /* Framework.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = DD23F85E1460E378000665ED;
-			remoteInfo = NSLogger;
+			remoteGlobalIDString = DDB150CF146ED2EA00FA7835;
+			remoteInfo = Plugins;
 		};
 		DDF52D9B1460B55900A42B09 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -95,44 +95,10 @@
 			remoteGlobalIDString = DDF52D691460B3C900A42B09;
 			remoteInfo = JSONKit;
 		};
-		DDF52E901460BD5500A42B09 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DA1204DA13D0E5C800CDA091;
-			remoteInfo = ControlPlane;
-		};
-		DDF52E921460BD5500A42B09 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DA5B01D71412B6A700E19C50;
-			remoteInfo = CPHelperInstallTool;
-		};
-		DDF52E941460BD5500A42B09 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DA5B01FB1412BB1700E19C50;
-			remoteInfo = CPHelperTool;
-		};
-		DDF52E961460BD5500A42B09 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DDA80319143BEE4100745EB8;
-			remoteInfo = Plugins;
-		};
-		DDF52EAE1460BDFF00A42B09 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DDA80318143BEE4100745EB8;
-			remoteInfo = Plugins;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DDB1517C146EE4F500FA7835 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../Framework/Framework.xcodeproj; sourceTree = "<group>"; };
 		DDF52D6A1460B3C900A42B09 /* libJSONKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJSONKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF52D7F1460B44E00A42B09 /* Core.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Core.xcconfig; path = ../../xcconfigs/Core.xcconfig; sourceTree = "<group>"; };
 		DDF52D801460B44E00A42B09 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../xcconfigs/Debug.xcconfig; sourceTree = "<group>"; };
@@ -232,7 +198,6 @@
 		DDF52E751460BC3F00A42B09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DDF52E761460BC3F00A42B09 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DDF52E771460BC3F00A42B09 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ControlPlane.xcodeproj; path = ../../ControlPlane.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,9 +212,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDBE10C914629A97008AF37E /* NSLogger.framework in Frameworks */,
-				DDF52EB51460BE2000A42B09 /* Plugins.framework in Frameworks */,
 				DDF52E651460BB1400A42B09 /* libJSONKit.a in Frameworks */,
+				DDB151AA146EE8A200FA7835 /* NSLogger.framework in Frameworks */,
+				DDB1518E146EE54400FA7835 /* Plugins.framework in Frameworks */,
 				DDF52E7D1460BD3600A42B09 /* Apple80211.framework in Frameworks */,
 				DDF52E7E1460BD3600A42B09 /* AudioToolbox.framework in Frameworks */,
 				DDF52E7F1460BD3600A42B09 /* Cocoa.framework in Frameworks */,
@@ -268,6 +233,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DDB1517D146EE4F500FA7835 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDB15182146EE4F500FA7835 /* NSLogger.framework */,
+				DDB15184146EE4F500FA7835 /* Plugins.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DDF52D511460B2FB00A42B09 = {
 			isa = PBXGroup;
 			children = (
@@ -301,7 +275,7 @@
 		DDF52D6F1460B3C900A42B09 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */,
+				DDB1517C146EE4F500FA7835 /* Framework.xcodeproj */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -471,18 +445,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		DDF52E8A1460BD5400A42B09 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DDF52E911460BD5500A42B09 /* ControlPlane.app */,
-				DDF52E931460BD5500A42B09 /* CPHelperInstallTool */,
-				DDF52E951460BD5500A42B09 /* CPHelperTool */,
-				DD23F8961460E9B1000665ED /* NSLogger.framework */,
-				DDF52E971460BD5500A42B09 /* Plugins.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -508,7 +470,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				73A626D6146ED0DC007D84AE /* PBXTargetDependency */,
 			);
 			name = JSONKit;
 			productName = JSONKit;
@@ -526,8 +487,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DDBE10C314629A90008AF37E /* PBXTargetDependency */,
-				DDF52EAF1460BDFF00A42B09 /* PBXTargetDependency */,
+				DDB1518A146EE53400FA7835 /* PBXTargetDependency */,
 				DDF52D9C1460B55900A42B09 /* PBXTargetDependency */,
 			);
 			name = Core;
@@ -555,8 +515,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DDF52E8A1460BD5400A42B09 /* Products */;
-					ProjectRef = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+					ProductGroup = DDB1517D146EE4F500FA7835 /* Products */;
+					ProjectRef = DDB1517C146EE4F500FA7835 /* Framework.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -568,39 +528,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		DD23F8961460E9B1000665ED /* NSLogger.framework */ = {
+		DDB15182146EE4F500FA7835 /* NSLogger.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = NSLogger.framework;
-			remoteRef = DD23F8951460E9B1000665ED /* PBXContainerItemProxy */;
+			remoteRef = DDB15181146EE4F500FA7835 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DDF52E911460BD5500A42B09 /* ControlPlane.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ControlPlane.app;
-			remoteRef = DDF52E901460BD5500A42B09 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DDF52E931460BD5500A42B09 /* CPHelperInstallTool */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = CPHelperInstallTool;
-			remoteRef = DDF52E921460BD5500A42B09 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DDF52E951460BD5500A42B09 /* CPHelperTool */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = CPHelperTool;
-			remoteRef = DDF52E941460BD5500A42B09 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DDF52E971460BD5500A42B09 /* Plugins.framework */ = {
+		DDB15184146EE4F500FA7835 /* Plugins.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Plugins.framework;
-			remoteRef = DDF52E961460BD5500A42B09 /* PBXContainerItemProxy */;
+			remoteRef = DDB15183146EE4F500FA7835 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -674,25 +613,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		73A626D6146ED0DC007D84AE /* PBXTargetDependency */ = {
+		DDB1518A146EE53400FA7835 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Plugins;
-			targetProxy = 73A626D5146ED0DC007D84AE /* PBXContainerItemProxy */;
-		};
-		DDBE10C314629A90008AF37E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = NSLogger;
-			targetProxy = DDBE10C214629A90008AF37E /* PBXContainerItemProxy */;
+			targetProxy = DDB15189146EE53400FA7835 /* PBXContainerItemProxy */;
 		};
 		DDF52D9C1460B55900A42B09 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDF52D691460B3C900A42B09 /* JSONKit */;
 			targetProxy = DDF52D9B1460B55900A42B09 /* PBXContainerItemProxy */;
-		};
-		DDF52EAF1460BDFF00A42B09 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Plugins;
-			targetProxy = DDF52EAE1460BDFF00A42B09 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
