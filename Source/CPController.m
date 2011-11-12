@@ -323,6 +323,11 @@
 }
 
 - (void)awakeFromNib {
+	BWQuincyManager.sharedQuincyManager.submissionURL = @"http://localhost/crash_v200.php";
+	BWQuincyManager.sharedQuincyManager.companyName = [NSBundle.mainBundle.infoDictionary objectForKey: @"CFBundleName"];
+	BWQuincyManager.sharedQuincyManager.delegate = self;
+	
+	
 	// Init Growl
 	[GrowlApplicationBridge setGrowlDelegate: self];
 	
@@ -863,7 +868,7 @@
 {
 	BOOL oldValue = forcedContextIsSticky;
 	forcedContextIsSticky = !oldValue;
-
+	
 	[stickForcedContextMenuItem setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
 }
 
@@ -1090,6 +1095,14 @@
 
 	// Check that the running evidence sources match the defaults
 	[evidenceSources startOrStopAll];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma mark - QuincyKit delegates
+
+- (void) showMainApplicationWindow {
+	[prefsWindow makeFirstResponder: nil];
 }
 
 @end

@@ -73,6 +73,13 @@
 		DDB151CB146EEB9500FA7835 /* Plugins.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151C7146EEB7C00FA7835 /* Plugins.framework */; };
 		DDB151CC146EEBAE00FA7835 /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151C5146EEB7C00FA7835 /* NSLogger.framework */; };
 		DDB151E0146EEC1600FA7835 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151C7146EEB7C00FA7835 /* Plugins.framework */; };
+		DDB151FB146F02BF00FA7835 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151FA146F02BF00FA7835 /* Cocoa.framework */; };
+		DDB15211146F050C00FA7835 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DDB1520E146F050C00FA7835 /* BWQuincyMain.nib */; };
+		DDB15212146F050D00FA7835 /* BWQuincyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB1520F146F050C00FA7835 /* BWQuincyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB15213146F050D00FA7835 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15210146F050C00FA7835 /* BWQuincyManager.m */; };
+		DDB15217146F078300FA7835 /* Quincy.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DDB15216146F078300FA7835 /* Quincy.xcconfig */; };
+		DDB1521B146F090200FA7835 /* Quincy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151F9146F02BF00FA7835 /* Quincy.framework */; };
+		DDB1522F146F0F5100FA7835 /* Quincy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151F9146F02BF00FA7835 /* Quincy.framework */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDD1A364142BD65600341B75 /* KVOAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A363142BD65600341B75 /* KVOAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDD1A367142CC81200341B75 /* Context.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A366142CC80F00341B75 /* Context.m */; };
@@ -133,6 +140,13 @@
 			remoteGlobalIDString = DDB150E0146ED2EA00FA7835;
 			remoteInfo = Plugins;
 		};
+		DDB15218146F08D000FA7835 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDB151F8146F02BF00FA7835;
+			remoteInfo = QuincyKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -142,6 +156,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DDB1521B146F090200FA7835 /* Quincy.framework in Copy Frameworks */,
 				DDB151CA146EEB9500FA7835 /* NSLogger.framework in Copy Frameworks */,
 				DDB151CB146EEB9500FA7835 /* Plugins.framework in Copy Frameworks */,
 				DDAC64F11461018000B5B279 /* Growl.framework in Copy Frameworks */,
@@ -292,7 +307,6 @@
 		DA83A22213D13DF300074503 /* cp-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "cp-icon.icns"; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
-		DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = Source/SynthesizeSingleton.h; sourceTree = "<group>"; };
 		DD23F8471460E216000665ED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DD23F8491460E222000665ED /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		DD23F88C1460E898000665ED /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -362,6 +376,16 @@
 		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
 		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
 		DDB151BF146EEB7C00FA7835 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = "Plug-ins/Framework/Framework.xcodeproj"; sourceTree = "<group>"; };
+		DDB151F9146F02BF00FA7835 /* Quincy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quincy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB151FA146F02BF00FA7835 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DDB151FC146F02BF00FA7835 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DDB151FD146F02BF00FA7835 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DDB151FE146F02BF00FA7835 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DDB1520E146F050C00FA7835 /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BWQuincyMain.nib; path = "External Source/QuincyKit/client/Mac/BWQuincyMain.nib"; sourceTree = SOURCE_ROOT; };
+		DDB1520F146F050C00FA7835 /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWQuincyManager.h; path = "External Source/QuincyKit/client/Mac/BWQuincyManager.h"; sourceTree = SOURCE_ROOT; };
+		DDB15210146F050C00FA7835 /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWQuincyManager.m; path = "External Source/QuincyKit/client/Mac/BWQuincyManager.m"; sourceTree = SOURCE_ROOT; };
+		DDB15214146F05A600FA7835 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "External Source/QuincyKit/demo/Mac/Info.plist"; sourceTree = SOURCE_ROOT; };
+		DDB15216146F078300FA7835 /* Quincy.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Quincy.xcconfig; path = xcconfigs/Quincy.xcconfig; sourceTree = "<group>"; };
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		DDD1A362142BD65600341B75 /* KVOAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOAdditions.h; sourceTree = "<group>"; };
 		DDD1A363142BD65600341B75 /* KVOAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVOAdditions.m; sourceTree = "<group>"; };
@@ -395,6 +419,7 @@
 			files = (
 				DDB151CC146EEBAE00FA7835 /* NSLogger.framework in Frameworks */,
 				DDB151E0146EEC1600FA7835 /* Plugins.framework in Frameworks */,
+				DDB1522F146F0F5100FA7835 /* Quincy.framework in Frameworks */,
 				DDAC86C2143C107A00682538 /* Cocoa.framework in Frameworks */,
 				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
 				DD23F88D1460E899000665ED /* IOKit.framework in Frameworks */,
@@ -417,6 +442,14 @@
 				DD23F8571460E2BD000665ED /* Cocoa.framework in Frameworks */,
 				DD23F8581460E2EC000665ED /* CoreFoundation.framework in Frameworks */,
 				DD23F8591460E2EC000665ED /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDB151F5146F02BF00FA7835 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB151FB146F02BF00FA7835 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +485,9 @@
 				DDB151BF146EEB7C00FA7835 /* Framework.xcodeproj */,
 				8D80BB950B8B033400104A87 /* Growl.framework */,
 				8D20720E0B86AB0000D61A9E /* Sparkle.framework */,
+				DDB151FC146F02BF00FA7835 /* AppKit.framework */,
+				DDB151FD146F02BF00FA7835 /* CoreData.framework */,
+				DDB151FE146F02BF00FA7835 /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -473,6 +509,7 @@
 				DA1204DA13D0E5C800CDA091 /* ControlPlane.app */,
 				DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FB1412BB1700E19C50 /* CPHelperTool */,
+				DDB151F9146F02BF00FA7835 /* Quincy.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -497,9 +534,9 @@
 			isa = PBXGroup;
 			children = (
 				DDD1A361142BD65600341B75 /* KVOAdditions */,
+				DDB151FF146F02BF00FA7835 /* QuincyKit */,
 				29B97316FDCFA39411CA2CEA /* Main.m */,
 				32CA4F630368D1EE00C91783 /* Prefix.pch */,
-				DD23929B142A67D800FE7DC7 /* SynthesizeSingleton.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -537,6 +574,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DDB151FA146F02BF00FA7835 /* Cocoa.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Other Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */,
 			);
@@ -708,6 +746,33 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DDB151FF146F02BF00FA7835 /* QuincyKit */ = {
+			isa = PBXGroup;
+			children = (
+				DDB1520D146F04E600FA7835 /* Source */,
+				DDB1520C146F04E300FA7835 /* Resource */,
+			);
+			path = QuincyKit;
+			sourceTree = "<group>";
+		};
+		DDB1520C146F04E300FA7835 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				DDB15214146F05A600FA7835 /* Info.plist */,
+				DDB1520E146F050C00FA7835 /* BWQuincyMain.nib */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		DDB1520D146F04E600FA7835 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DDB1520F146F050C00FA7835 /* BWQuincyManager.h */,
+				DDB15210146F050C00FA7835 /* BWQuincyManager.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
 		DDD1A361142BD65600341B75 /* KVOAdditions */ = {
 			isa = PBXGroup;
 			children = (
@@ -738,6 +803,7 @@
 				DDFB06281440FE1B000689E4 /* CPHelperInstallTool.xcconfig */,
 				DDFB06291440FE1B000689E4 /* CPHelperTool.xcconfig */,
 				DDFB061C1440F7CF000689E4 /* Debug.xcconfig */,
+				DDB15216146F078300FA7835 /* Quincy.xcconfig */,
 				DDFB061D1440F7CF000689E4 /* Release.xcconfig */,
 			);
 			name = Configurations;
@@ -761,6 +827,17 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		DDB151F6146F02BF00FA7835 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB15212146F050D00FA7835 /* BWQuincyManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		8D1107260486CEB800E47090 /* ControlPlane */ = {
 			isa = PBXNativeTarget;
@@ -781,6 +858,7 @@
 				DDB151BD146EEB4200FA7835 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
+				DDB15219146F08D000FA7835 /* PBXTargetDependency */,
 			);
 			name = ControlPlane;
 			productInstallPath = "$(HOME)/Applications";
@@ -821,6 +899,24 @@
 			productName = CPHelperTool;
 			productReference = DA5B01FB1412BB1700E19C50 /* CPHelperTool */;
 			productType = "com.apple.product-type.tool";
+		};
+		DDB151F8146F02BF00FA7835 /* Quincy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDB15209146F02BF00FA7835 /* Build configuration list for PBXNativeTarget "Quincy" */;
+			buildPhases = (
+				DDB151F4146F02BF00FA7835 /* Sources */,
+				DDB151F5146F02BF00FA7835 /* Frameworks */,
+				DDB151F6146F02BF00FA7835 /* Headers */,
+				DDB151F7146F02BF00FA7835 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Quincy;
+			productName = QuincyKit;
+			productReference = DDB151F9146F02BF00FA7835 /* Quincy.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -881,6 +977,7 @@
 				8D1107260486CEB800E47090 /* ControlPlane */,
 				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FA1412BB1700E19C50 /* CPHelperTool */,
+				DDB151F8146F02BF00FA7835 /* Quincy */,
 			);
 		};
 /* End PBXProject section */
@@ -952,6 +1049,15 @@
 				DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */,
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDB151F7146F02BF00FA7835 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB15211146F050C00FA7835 /* BWQuincyMain.nib in Resources */,
+				DDB15217146F078300FA7835 /* Quincy.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1048,6 +1154,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDB151F4146F02BF00FA7835 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB15213146F050D00FA7835 /* BWQuincyManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1065,6 +1179,11 @@
 			isa = PBXTargetDependency;
 			name = Core;
 			targetProxy = DDB151BC146EEB4200FA7835 /* PBXContainerItemProxy */;
+		};
+		DDB15219146F08D000FA7835 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDB151F8146F02BF00FA7835 /* Quincy */;
+			targetProxy = DDB15218146F08D000FA7835 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1235,6 +1354,22 @@
 			};
 			name = Release;
 		};
+		DDB1520A146F02BF00FA7835 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB15216146F078300FA7835 /* Quincy.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = "External Source/QuincyKit/demo/Mac/Info.plist";
+			};
+			name = Debug;
+		};
+		DDB1520B146F02BF00FA7835 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDB15216146F078300FA7835 /* Quincy.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = "External Source/QuincyKit/demo/Mac/Info.plist";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1270,6 +1405,15 @@
 			buildConfigurations = (
 				DA5B02031412BB1800E19C50 /* Debug */,
 				DA5B02041412BB1800E19C50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDB15209146F02BF00FA7835 /* Build configuration list for PBXNativeTarget "Quincy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB1520A146F02BF00FA7835 /* Debug */,
+				DDB1520B146F02BF00FA7835 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
