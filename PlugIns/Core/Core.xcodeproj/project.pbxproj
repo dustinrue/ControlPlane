@@ -67,6 +67,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		73A626D5146ED0DC007D84AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DDA80318143BEE4100745EB8;
+			remoteInfo = Plugins;
+		};
 		DD23F8951460E9B1000665ED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DDF52E891460BD5400A42B09 /* ControlPlane.xcodeproj */;
@@ -501,6 +508,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				73A626D6146ED0DC007D84AE /* PBXTargetDependency */,
 			);
 			name = JSONKit;
 			productName = JSONKit;
@@ -666,6 +674,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		73A626D6146ED0DC007D84AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Plugins;
+			targetProxy = 73A626D5146ED0DC007D84AE /* PBXContainerItemProxy */;
+		};
 		DDBE10C314629A90008AF37E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = NSLogger;
