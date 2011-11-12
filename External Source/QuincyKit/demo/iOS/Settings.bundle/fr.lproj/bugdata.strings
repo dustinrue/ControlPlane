@@ -1,0 +1,21 @@
+﻿
+/* Settings title if collecting crash data is activated */
+"SettingsActivateCrashReporter" = "Collect crash data";
+
+/* Description text for automatic sending of crash data */
+"SettingsActivateCrashReporterDescription" = "If a crash happens, data which can help the developer to correct the problem will be collected automatically.";
+
+/* Settings title if crash data might be sent to the developer automatically */
+"SettingsAutoSendCrash" = "Rapport automatique";
+
+/* Description text for automatic sending of crash data */
+"SettingsAutoSendCrashDescription" = "Si une panne apparaît, les données seront envoyées automatiquement au développeur.";
+
+/* Allow the developer to contact the user via email */
+"SettingsAllowContact" = "Contact autorisé";
+
+/* Email address the developer might use */
+"SettingsContactEmail" = "Adresse électronique";
+
+/* Description text for email contact usage */
+"SettingsContactDescription" = "L'adresse mail ne sera utilisée que pour contacter l'utilisateur,en cas d'éclaircissements nécessaires sur le problème";

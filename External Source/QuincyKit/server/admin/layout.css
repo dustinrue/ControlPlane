@@ -1,0 +1,77 @@
+html, body {
+  font-family: 'helvetica neue', helvetica, arial, sans, sans-serif;
+}
+
+a {
+  color: #ff4c7b;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #128ab2;
+  text-decoration: underline;
+}
+
+td.message {
+  color: #990000;
+  text-decoration: none;
+    font-size:90%;
+}
+
+td {
+  vertical-align: top;
+}
+
+table, td, th {
+  border: 1px solid #ddd;
+}
+
+table, td {
+    border-top: 0;
+}
+
+table, form {
+    margin: 0;    
+}
+
+th {
+  background: #ddd;
+}
+
+a.redButton:hover {
+    background-color: #ff0000!important;
+    color: white!important;
+}
+
+a.redButton {
+    background-color: #cc0000!important;
+    color: white!important;
+}
+
+textarea.description {
+    width:250px;
+    height:70px;
+    padding:5px;
+    font-size:90%;
+    color:#000;
+    background:#fff;
+    font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+textarea.short {
+    width:160px;
+    height:100px;
+    padding:5px;
+    font-size:90%;
+    color:#000;
+    background:#fff;
+    font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+textarea.log {
+    width:470px;
+    height:120px;
+    padding:5px;
+    font-size:90%;
+    color:#000;
+    background:#fff;
+    font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
+}

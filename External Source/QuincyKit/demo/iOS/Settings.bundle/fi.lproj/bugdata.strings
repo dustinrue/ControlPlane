@@ -1,0 +1,21 @@
+﻿
+/* Settings title if collecting crash data is activated */
+"SettingsActivateCrashReporter" = "Collect crash data";
+
+/* Description text for automatic sending of crash data */
+"SettingsActivateCrashReporterDescription" = "If a crash happens, data which can help the developer to correct the problem will be collected automatically.";
+
+/* Settings title if crash data might be sent to the developer automatically */
+"SettingsAutoSendCrash" = "Automaatt. ilmoitus";
+
+/* Description text for automatic sending of crash data */
+"SettingsAutoSendCrashDescription" = "Jos ohjelma kaatuu, tiedot lähetetään kehittäjälle ilman luvan kysymistä käyttäjältä.";
+
+/* Allow the developer to contact the user via email */
+"SettingsAllowContact" = "Salli yhteyshenkilö";
+
+/* Email address the developer might use */
+"SettingsContactEmail" = "Sähköp. osoite";
+
+/* Description text for email contact usage */
+"SettingsContactDescription" = "Tätä sähköpostiosoitetta käytetään vain, jos kehittäjä tarvitsee lisää tietoja ongelmasta.";
