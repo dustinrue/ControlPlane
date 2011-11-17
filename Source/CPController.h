@@ -8,9 +8,10 @@
 #import <Growl/Growl.h>
 #import "ContextsDataSource.h"
 #import "EvidenceSource.h"
+#import "Quincy/BWQuincyManager.h"
 
 
-@interface CPController : NSObject <GrowlApplicationBridgeDelegate> {
+@interface CPController : NSObject <GrowlApplicationBridgeDelegate,BWQuincyManagerDelegate> {
 
 	IBOutlet NSMenu *sbMenu;
 	NSStatusItem *sbItem;
