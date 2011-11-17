@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7392C2D31474C07D00F3CDD5 /* AdiumAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 7392C2D21474C07D00F3CDD5 /* AdiumAction.m */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -205,7 +206,9 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlPlane_Prefix.pch; path = Source/ControlPlane_Prefix.pch; sourceTree = "<group>"; };
-		739492E0146B8018003C94DE /* DisplaySleepTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; name = DisplaySleepTimeAction.h; path = Source/DisplaySleepTimeAction.h; sourceTree = "<group>"; };
+		7392C2D11474C07D00F3CDD5 /* AdiumAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumAction.h; path = Source/AdiumAction.h; sourceTree = "<group>"; };
+		7392C2D21474C07D00F3CDD5 /* AdiumAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumAction.m; path = Source/AdiumAction.m; sourceTree = "<group>"; };
+		739492E0146B8018003C94DE /* DisplaySleepTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplaySleepTimeAction.h; path = Source/DisplaySleepTimeAction.h; sourceTree = "<group>"; };
 		739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplaySleepTimeAction.m; path = Source/DisplaySleepTimeAction.m; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
@@ -750,6 +753,8 @@
 		DD8274EB14114CFF0098FA6E /* Application Actions */ = {
 			isa = PBXGroup;
 			children = (
+				7392C2D11474C07D00F3CDD5 /* AdiumAction.h */,
+				7392C2D21474C07D00F3CDD5 /* AdiumAction.m */,
 				DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */,
 				DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */,
 				8D3453C10C18E5C1006011D0 /* IChatAction.h */,
@@ -1024,6 +1029,7 @@
 				"/System/Library/CoreServices/System Events.app",
 				/Applications/iTunes.app,
 				"/System/Library/CoreServices/Printer Setup Utility.app",
+				/Applications/Adium.app,
 			);
 			name = "Generate Script Bridge Headers";
 			outputPaths = (
@@ -1032,6 +1038,7 @@
 				"$(DERIVED_FILE_DIR)/System Events.h",
 				"$(DERIVED_FILE_DIR)/iTunes.h",
 				"$(DERIVED_FILE_DIR)/Printer Setup Utility.h",
+				"$(DERIVED_FILE_DIR)/Adium.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1114,6 +1121,7 @@
 				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
 				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
+				7392C2D31474C07D00F3CDD5 /* AdiumAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

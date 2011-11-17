@@ -146,6 +146,7 @@
 
 #pragma mark -
 
+#import "AdiumAction.h"
 #import "DefaultPrinterAction.h"
 #import "DefaultBrowserAction.h"
 #import "DesktopBackgroundAction.h"
@@ -187,6 +188,7 @@
 		return nil;
 
 	classes = [[NSArray alloc] initWithObjects:
+               [AdiumAction class],
 			   [DefaultPrinterAction class],
 			   [DefaultBrowserAction class],
 			   [DesktopBackgroundAction class],
@@ -224,6 +226,7 @@
 	
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
+        NSLocalizedString(@"AdiumStatus", @"Action type");
 		NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
