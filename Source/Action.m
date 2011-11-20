@@ -146,8 +146,8 @@
 
 #pragma mark -
 
-#import "DefaultPrinterAction.h"
 #import "DefaultBrowserAction.h"
+#import "DefaultPrinterAction.h"
 #import "DesktopBackgroundAction.h"
 #import "DisplayBrightnessAction.h"
 #import "DisplaySleepTimeAction.h"
@@ -187,8 +187,8 @@
 		return nil;
 
 	classes = [[NSArray alloc] initWithObjects:
-			   [DefaultPrinterAction class],
 			   [DefaultBrowserAction class],
+               [DefaultPrinterAction class],
 			   [DesktopBackgroundAction class],
 			   [DisplayBrightnessAction class],
                [DisplaySleepTimeAction class],
@@ -224,8 +224,8 @@
 	
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
-		NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
+        NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
 		NSLocalizedString(@"DisplayBrightness", @"Action type");
 #ifdef DEBUG_MODE
