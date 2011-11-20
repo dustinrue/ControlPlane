@@ -9,6 +9,7 @@
 #import "AdiumAction.h"
 #import <ScriptingBridge/SBApplication.h>
 #import "Adium.h"
+#import "DSLogger.h"
 
 @implementation AdiumAction
 
@@ -54,21 +55,35 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
+    // inspiration comes from:
+    // http://stackoverflow.com/questions/4416335/applescript-is-cool-can-i-do-the-same-thing-in-plain-objective-c
 	@try {
+        
 		AdiumApplication *adium = [SBApplication applicationWithBundleIdentifier: @"com.adiumX.adiumX"];
+        
+        // no sense in changing Adium if it isn't running
+        if (![adium isRunning])
+            return YES;
 		
-        AdiumStatus newStatus = [[AdiumStatus alloc] init];
-        
-        [newStatus setTitle:@"test"];
+        AdiumStatus *newStatus = [[[adium classForScriptingClass:@"status"] alloc] init];
+
+        // not entirely sure how this part works, but you basically need
+        // to add the newStatus scripting class to the SBApplication/AdiumApplication
+        // object in order for it to become useable 
+        [[adium statuses] addObject:newStatus];
+
         [newStatus setSaved:NO];
+        [newStatus setTitle:status];
         
+        [newStatus setStatusMessage:(AdiumRichText *)status];
+
 
         
         [adium setGlobalStatus:newStatus];
 		
 	} @catch (NSException *e) {
 		*errorString = NSLocalizedString(@"Couldn't set Adium status!", @"In AdiumAction");
-        NSLog(@"error was %@", e);
+        DSLog(@"error was %@", e);
 		return NO;
 	}
 	
