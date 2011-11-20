@@ -103,104 +103,12 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DAE5E3F91472EF8A00717A1F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3621472EF8900717A1F /* .gitignore */; };
-		DAE5E3FA1472EF8A00717A1F /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3661472EF8900717A1F /* BWQuincyManager.m */; };
-		DAE5E3FB1472EF8A00717A1F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5E3671472EF8900717A1F /* CrashReporter.framework */; };
-		DAE5E3FC1472EF8A00717A1F /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3681472EF8900717A1F /* LICENSE.txt */; };
-		DAE5E3FD1472EF8A00717A1F /* Quincy.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3691472EF8900717A1F /* Quincy.bundle */; };
-		DAE5E3FE1472EF8A00717A1F /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E36F1472EF8900717A1F /* BWQuincyMain.nib */; };
-		DAE5E3FF1472EF8A00717A1F /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3711472EF8900717A1F /* BWQuincyManager.m */; };
-		DAE5E4001472EF8A00717A1F /* QuincyDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3761472EF8900717A1F /* QuincyDemoAppDelegate.m */; };
-		DAE5E4011472EF8A00717A1F /* QuincyDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3781472EF8900717A1F /* QuincyDemoViewController.m */; };
-		DAE5E4021472EF8A00717A1F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3791472EF8900717A1F /* Info.plist */; };
-		DAE5E4031472EF8A00717A1F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E37A1472EF8900717A1F /* main.m */; };
-		DAE5E4041472EF8A00717A1F /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E37B1472EF8900717A1F /* MainWindow-iPad.xib */; };
-		DAE5E4051472EF8A00717A1F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E37C1472EF8900717A1F /* MainWindow.xib */; };
-		DAE5E4061472EF8A00717A1F /* QuincyDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3811472EF8900717A1F /* QuincyDemoViewController.xib */; };
-		DAE5E4071472EF8A00717A1F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3821472EF8900717A1F /* Settings.bundle */; };
-		DAE5E4081472EF8A00717A1F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3841472EF8900717A1F /* Info.plist */; };
-		DAE5E4091472EF8A00717A1F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3851472EF8900717A1F /* main.m */; };
-		DAE5E40A1472EF8A00717A1F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3861472EF8900717A1F /* MainMenu.xib */; };
-		DAE5E40B1472EF8A00717A1F /* QuincyDemo-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3881472EF8900717A1F /* QuincyDemo-Info.plist */; };
-		DAE5E40C1472EF8A00717A1F /* QuincyDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E38E1472EF8900717A1F /* QuincyDemoAppDelegate.m */; };
-		DAE5E40D1472EF8A00717A1F /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3921472EF8900717A1F /* LICENSE.txt */; };
-		DAE5E40E1472EF8A00717A1F /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3931472EF8900717A1F /* README.markdown */; };
-		DAE5E40F1472EF8A00717A1F /* actionapi.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3961472EF8900717A1F /* actionapi.php */; };
-		DAE5E4101472EF8A00717A1F /* app_name.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3971472EF8900717A1F /* app_name.php */; };
-		DAE5E4111472EF8A00717A1F /* app_versions.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3981472EF8900717A1F /* app_versions.php */; };
-		DAE5E4121472EF8A00717A1F /* ie.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E39A1472EF8900717A1F /* ie.css */; };
-		DAE5E4131472EF8A00717A1F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E39B1472EF8900717A1F /* LICENSE */; };
-		DAE5E4141472EF8A00717A1F /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E39F1472EF8900717A1F /* cross.png */; };
-		DAE5E4151472EF8A00717A1F /* key.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3A01472EF8900717A1F /* key.png */; };
-		DAE5E4161472EF8A00717A1F /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3A11472EF8900717A1F /* tick.png */; };
-		DAE5E4171472EF8A00717A1F /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3A21472EF8900717A1F /* readme.txt */; };
-		DAE5E4181472EF8A00717A1F /* screen.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3A31472EF8900717A1F /* screen.css */; };
-		DAE5E4191472EF8A00717A1F /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3A51472EF8900717A1F /* readme.txt */; };
-		DAE5E41A1472EF8A00717A1F /* screen.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3A61472EF8900717A1F /* screen.css */; };
-		DAE5E41B1472EF8A00717A1F /* doc.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3A91472EF8900717A1F /* doc.png */; };
-		DAE5E41C1472EF8A00717A1F /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3AA1472EF8900717A1F /* email.png */; };
-		DAE5E41D1472EF8A00717A1F /* external.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3AB1472EF8900717A1F /* external.png */; };
-		DAE5E41E1472EF8A00717A1F /* feed.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3AC1472EF8900717A1F /* feed.png */; };
-		DAE5E41F1472EF8A00717A1F /* im.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3AD1472EF8900717A1F /* im.png */; };
-		DAE5E4201472EF8A00717A1F /* pdf.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3AE1472EF8900717A1F /* pdf.png */; };
-		DAE5E4211472EF8A00717A1F /* visited.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3AF1472EF8900717A1F /* visited.png */; };
-		DAE5E4221472EF8A00717A1F /* xls.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B01472EF8900717A1F /* xls.png */; };
-		DAE5E4231472EF8A00717A1F /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B11472EF8900717A1F /* readme.txt */; };
-		DAE5E4241472EF8A00717A1F /* screen.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B21472EF8900717A1F /* screen.css */; };
-		DAE5E4251472EF8A00717A1F /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B41472EF8900717A1F /* readme.txt */; };
-		DAE5E4261472EF8A00717A1F /* screen.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B51472EF8900717A1F /* screen.css */; };
-		DAE5E4271472EF8A00717A1F /* print.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B61472EF8900717A1F /* print.css */; };
-		DAE5E4281472EF8A00717A1F /* screen.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B71472EF8900717A1F /* screen.css */; };
-		DAE5E4291472EF8A00717A1F /* forms.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3B91472EF8900717A1F /* forms.css */; };
-		DAE5E42A1472EF8A00717A1F /* grid.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3BA1472EF8900717A1F /* grid.css */; };
-		DAE5E42B1472EF8A00717A1F /* grid.png in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3BB1472EF8900717A1F /* grid.png */; };
-		DAE5E42C1472EF8A00717A1F /* ie.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3BC1472EF8900717A1F /* ie.css */; };
-		DAE5E42D1472EF8A00717A1F /* print.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3BD1472EF8900717A1F /* print.css */; };
-		DAE5E42E1472EF8A00717A1F /* reset.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3BE1472EF8900717A1F /* reset.css */; };
-		DAE5E42F1472EF8A00717A1F /* typography.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3BF1472EF8900717A1F /* typography.css */; };
-		DAE5E4301472EF8A00717A1F /* common.inc in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3C01472EF8900717A1F /* common.inc */; };
-		DAE5E4311472EF8A00717A1F /* crash_get.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C11472EF8900717A1F /* crash_get.php */; };
-		DAE5E4321472EF8A00717A1F /* crash_update.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C21472EF8900717A1F /* crash_update.php */; };
-		DAE5E4331472EF8A00717A1F /* crashes.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C31472EF8900717A1F /* crashes.php */; };
-		DAE5E4341472EF8A00717A1F /* jquery.jqplot.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C51472EF8900717A1F /* jquery.jqplot.css */; };
-		DAE5E4351472EF8A00717A1F /* layout.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C61472EF8900717A1F /* layout.css */; };
-		DAE5E4361472EF8A00717A1F /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C71472EF8900717A1F /* style.css */; };
-		DAE5E4371472EF8A00717A1F /* download.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C81472EF8900717A1F /* download.php */; };
-		DAE5E4381472EF8A00717A1F /* groups.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3C91472EF8900717A1F /* groups.php */; };
-		DAE5E4391472EF8A00717A1F /* htaccess.txt in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3CA1472EF8900717A1F /* htaccess.txt */; };
-		DAE5E43A1472EF8A00717A1F /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3CB1472EF8900717A1F /* index.html */; };
-		DAE5E43B1472EF8A00717A1F /* jqplot.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3CC1472EF8900717A1F /* jqplot.php */; };
-		DAE5E43C1472EF8A00717A1F /* excanvas.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3CE1472EF8900717A1F /* excanvas.min.js */; };
-		DAE5E43D1472EF8A00717A1F /* functions.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3CF1472EF8900717A1F /* functions.js */; };
-		DAE5E43E1472EF8A00717A1F /* jqplot.barRenderer.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D01472EF8900717A1F /* jqplot.barRenderer.min.js */; };
-		DAE5E43F1472EF8A00717A1F /* jqplot.canvasAxisTickRenderer.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D11472EF8900717A1F /* jqplot.canvasAxisTickRenderer.min.js */; };
-		DAE5E4401472EF8A00717A1F /* jqplot.canvasTextRenderer.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D21472EF8900717A1F /* jqplot.canvasTextRenderer.min.js */; };
-		DAE5E4411472EF8A00717A1F /* jqplot.categoryAxisRenderer.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D31472EF8900717A1F /* jqplot.categoryAxisRenderer.min.js */; };
-		DAE5E4421472EF8A00717A1F /* jqplot.dateAxisRenderer.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D41472EF8900717A1F /* jqplot.dateAxisRenderer.min.js */; };
-		DAE5E4431472EF8A00717A1F /* jqplot.highlighter.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D51472EF8900717A1F /* jqplot.highlighter.min.js */; };
-		DAE5E4441472EF8A00717A1F /* jqplot.pointLabels.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D61472EF8900717A1F /* jqplot.pointLabels.min.js */; };
-		DAE5E4451472EF8A00717A1F /* jquery.chromatable.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D71472EF8900717A1F /* jquery.chromatable.js */; };
-		DAE5E4461472EF8A00717A1F /* jquery.jqplot.min.js in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3D81472EF8900717A1F /* jquery.jqplot.min.js */; };
-		DAE5E4471472EF8A00717A1F /* layout.css in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3D91472EF8900717A1F /* layout.css */; };
-		DAE5E4481472EF8A00717A1F /* migrate.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3DA1472EF8900717A1F /* migrate.php */; };
-		DAE5E4491472EF8A00717A1F /* regroup.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3DB1472EF8900717A1F /* regroup.php */; };
-		DAE5E44A1472EF8A00717A1F /* symbolicate_todo.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3DC1472EF8900717A1F /* symbolicate_todo.php */; };
-		DAE5E44B1472EF8A00717A1F /* class.boxcar.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3DD1472EF8900717A1F /* class.boxcar.php */; };
-		DAE5E44C1472EF8A00717A1F /* config.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3DE1472EF8900717A1F /* config.php */; };
-		DAE5E44D1472EF8A00717A1F /* crash_v200.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3DF1472EF8900717A1F /* crash_v200.php */; };
-		DAE5E44E1472EF8A00717A1F /* database_schema.sql in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E01472EF8900717A1F /* database_schema.sql */; };
-		DAE5E44F1472EF8A00717A1F /* com.crashreportsender.symbolicator.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E21472EF8A00717A1F /* com.crashreportsender.symbolicator.plist */; };
-		DAE5E4501472EF8A00717A1F /* serverconfig.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E31472EF8A00717A1F /* serverconfig.php */; };
-		DAE5E4511472EF8A00717A1F /* symbolicate.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E41472EF8A00717A1F /* symbolicate.php */; };
-		DAE5E4521472EF8A00717A1F /* symbolicate.sh in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E51472EF8A00717A1F /* symbolicate.sh */; };
-		DAE5E4531472EF8A00717A1F /* symbolicatecrash.pl in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E61472EF8A00717A1F /* symbolicatecrash.pl */; };
-		DAE5E4541472EF8A00717A1F /* ProwlPHP.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E71472EF8A00717A1F /* ProwlPHP.php */; };
-		DAE5E4551472EF8A00717A1F /* quincykit_importer.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E81472EF8A00717A1F /* quincykit_importer.php */; };
-		DAE5E4561472EF8A00717A1F /* test_setup.php in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E3E91472EF8A00717A1F /* test_setup.php */; };
-		DAE5E48E1472F12C00717A1F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5E48D1472F12C00717A1F /* Cocoa.framework */; };
-		DAE5E49F1472F14300717A1F /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE5E3711472EF8900717A1F /* BWQuincyManager.m */; };
-		DAE5E4A01472F15A00717A1F /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DAE5E36F1472EF8900717A1F /* BWQuincyMain.nib */; };
-		DAE5E4A11472F17000717A1F /* BWQuincyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAE5E3701472EF8900717A1F /* BWQuincyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DACFB8CB14795536005FCC14 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DACFB8C814795536005FCC14 /* BWQuincyMain.nib */; };
+		DACFB8CC14795536005FCC14 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DACFB8CA14795536005FCC14 /* BWQuincyManager.m */; };
+		DACFB8D314795548005FCC14 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5E48D1472F12C00717A1F /* Cocoa.framework */; };
+		DACFB8E114795557005FCC14 /* BWQuincyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DACFB8C914795536005FCC14 /* BWQuincyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DACFB8E214795569005FCC14 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DACFB8CA14795536005FCC14 /* BWQuincyManager.m */; };
+		DACFB8E31479558C005FCC14 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DACFB8C814795536005FCC14 /* BWQuincyMain.nib */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
@@ -250,47 +158,12 @@
 			remoteGlobalIDString = DA5B01FA1412BB1700E19C50;
 			remoteInfo = CPHelperTool;
 		};
-		DAE5E4591472EF8B00717A1F /* PBXContainerItemProxy */ = {
+		DACFB8E414795646005FCC14 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DAE5E3891472EF8900717A1F /* QuincyDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DACFB8D114795548005FCC14;
 			remoteInfo = Quincy;
-		};
-		DAE5E45B1472EF8B00717A1F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAE5E3891472EF8900717A1F /* QuincyDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1EB61267102B779200B206A7;
-			remoteInfo = QuincyDemo;
-		};
-		DAE5E45E1472EF8B00717A1F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAE5E37D1472EF8900717A1F /* QuincyDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
-			remoteInfo = QuincyDemo;
-		};
-		DAE5E4621472EF8B00717A1F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAE5E38F1472EF8900717A1F /* QuincyDemoFatPPC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = Quincy;
-		};
-		DAE5E4641472EF8B00717A1F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAE5E38F1472EF8900717A1F /* QuincyDemoFatPPC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1EB61267102B779200B206A7;
-			remoteInfo = QuincyDemo;
-		};
-		DAE5E4671472EF8B00717A1F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAE5E36B1472EF8900717A1F /* QuincyLib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 36892BEC145EC96A0036932D;
-			remoteInfo = QuincyLib;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -500,116 +373,13 @@
 		DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
-		DAE5E3621472EF8900717A1F /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		DAE5E3651472EF8900717A1F /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
-		DAE5E3661472EF8900717A1F /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
-		DAE5E3671472EF8900717A1F /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
-		DAE5E3681472EF8900717A1F /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		DAE5E3691472EF8900717A1F /* Quincy.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Quincy.bundle; sourceTree = "<group>"; };
-		DAE5E36B1472EF8900717A1F /* QuincyLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = QuincyLib.xcodeproj; sourceTree = "<group>"; };
-		DAE5E36F1472EF8900717A1F /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = BWQuincyMain.nib; sourceTree = "<group>"; };
-		DAE5E3701472EF8900717A1F /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
-		DAE5E3711472EF8900717A1F /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
-		DAE5E3751472EF8900717A1F /* QuincyDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuincyDemoAppDelegate.h; sourceTree = "<group>"; };
-		DAE5E3761472EF8900717A1F /* QuincyDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuincyDemoAppDelegate.m; sourceTree = "<group>"; };
-		DAE5E3771472EF8900717A1F /* QuincyDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuincyDemoViewController.h; sourceTree = "<group>"; };
-		DAE5E3781472EF8900717A1F /* QuincyDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuincyDemoViewController.m; sourceTree = "<group>"; };
-		DAE5E3791472EF8900717A1F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DAE5E37A1472EF8900717A1F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DAE5E37B1472EF8900717A1F /* MainWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
-		DAE5E37C1472EF8900717A1F /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		DAE5E37D1472EF8900717A1F /* QuincyDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = QuincyDemo.xcodeproj; sourceTree = "<group>"; };
-		DAE5E3801472EF8900717A1F /* QuincyDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuincyDemo_Prefix.pch; sourceTree = "<group>"; };
-		DAE5E3811472EF8900717A1F /* QuincyDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuincyDemoViewController.xib; sourceTree = "<group>"; };
-		DAE5E3821472EF8900717A1F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		DAE5E3841472EF8900717A1F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DAE5E3851472EF8900717A1F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DAE5E3861472EF8900717A1F /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		DAE5E3871472EF8900717A1F /* Quincy_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quincy_Prefix.pch; sourceTree = "<group>"; };
-		DAE5E3881472EF8900717A1F /* QuincyDemo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "QuincyDemo-Info.plist"; sourceTree = "<group>"; };
-		DAE5E3891472EF8900717A1F /* QuincyDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = QuincyDemo.xcodeproj; sourceTree = "<group>"; };
-		DAE5E38C1472EF8900717A1F /* QuincyDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuincyDemo_Prefix.pch; sourceTree = "<group>"; };
-		DAE5E38D1472EF8900717A1F /* QuincyDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuincyDemoAppDelegate.h; sourceTree = "<group>"; };
-		DAE5E38E1472EF8900717A1F /* QuincyDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuincyDemoAppDelegate.m; sourceTree = "<group>"; };
-		DAE5E38F1472EF8900717A1F /* QuincyDemoFatPPC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = QuincyDemoFatPPC.xcodeproj; sourceTree = "<group>"; };
-		DAE5E3921472EF8900717A1F /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		DAE5E3931472EF8900717A1F /* README.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
-		DAE5E3961472EF8900717A1F /* actionapi.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = actionapi.php; sourceTree = "<group>"; };
-		DAE5E3971472EF8900717A1F /* app_name.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = app_name.php; sourceTree = "<group>"; };
-		DAE5E3981472EF8900717A1F /* app_versions.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = app_versions.php; sourceTree = "<group>"; };
-		DAE5E39A1472EF8900717A1F /* ie.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ie.css; sourceTree = "<group>"; };
-		DAE5E39B1472EF8900717A1F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		DAE5E39F1472EF8900717A1F /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
-		DAE5E3A01472EF8900717A1F /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = key.png; sourceTree = "<group>"; };
-		DAE5E3A11472EF8900717A1F /* tick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick.png; sourceTree = "<group>"; };
-		DAE5E3A21472EF8900717A1F /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		DAE5E3A31472EF8900717A1F /* screen.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = screen.css; sourceTree = "<group>"; };
-		DAE5E3A51472EF8900717A1F /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		DAE5E3A61472EF8900717A1F /* screen.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = screen.css; sourceTree = "<group>"; };
-		DAE5E3A91472EF8900717A1F /* doc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doc.png; sourceTree = "<group>"; };
-		DAE5E3AA1472EF8900717A1F /* email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email.png; sourceTree = "<group>"; };
-		DAE5E3AB1472EF8900717A1F /* external.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = external.png; sourceTree = "<group>"; };
-		DAE5E3AC1472EF8900717A1F /* feed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feed.png; sourceTree = "<group>"; };
-		DAE5E3AD1472EF8900717A1F /* im.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = im.png; sourceTree = "<group>"; };
-		DAE5E3AE1472EF8900717A1F /* pdf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pdf.png; sourceTree = "<group>"; };
-		DAE5E3AF1472EF8900717A1F /* visited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visited.png; sourceTree = "<group>"; };
-		DAE5E3B01472EF8900717A1F /* xls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xls.png; sourceTree = "<group>"; };
-		DAE5E3B11472EF8900717A1F /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		DAE5E3B21472EF8900717A1F /* screen.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = screen.css; sourceTree = "<group>"; };
-		DAE5E3B41472EF8900717A1F /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		DAE5E3B51472EF8900717A1F /* screen.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = screen.css; sourceTree = "<group>"; };
-		DAE5E3B61472EF8900717A1F /* print.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = print.css; sourceTree = "<group>"; };
-		DAE5E3B71472EF8900717A1F /* screen.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = screen.css; sourceTree = "<group>"; };
-		DAE5E3B91472EF8900717A1F /* forms.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = forms.css; sourceTree = "<group>"; };
-		DAE5E3BA1472EF8900717A1F /* grid.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = grid.css; sourceTree = "<group>"; };
-		DAE5E3BB1472EF8900717A1F /* grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid.png; sourceTree = "<group>"; };
-		DAE5E3BC1472EF8900717A1F /* ie.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ie.css; sourceTree = "<group>"; };
-		DAE5E3BD1472EF8900717A1F /* print.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = print.css; sourceTree = "<group>"; };
-		DAE5E3BE1472EF8900717A1F /* reset.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = reset.css; sourceTree = "<group>"; };
-		DAE5E3BF1472EF8900717A1F /* typography.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = typography.css; sourceTree = "<group>"; };
-		DAE5E3C01472EF8900717A1F /* common.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; path = common.inc; sourceTree = "<group>"; };
-		DAE5E3C11472EF8900717A1F /* crash_get.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crash_get.php; sourceTree = "<group>"; };
-		DAE5E3C21472EF8900717A1F /* crash_update.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crash_update.php; sourceTree = "<group>"; };
-		DAE5E3C31472EF8900717A1F /* crashes.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crashes.php; sourceTree = "<group>"; };
-		DAE5E3C51472EF8900717A1F /* jquery.jqplot.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = jquery.jqplot.css; sourceTree = "<group>"; };
-		DAE5E3C61472EF8900717A1F /* layout.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = layout.css; sourceTree = "<group>"; };
-		DAE5E3C71472EF8900717A1F /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
-		DAE5E3C81472EF8900717A1F /* download.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = download.php; sourceTree = "<group>"; };
-		DAE5E3C91472EF8900717A1F /* groups.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = groups.php; sourceTree = "<group>"; };
-		DAE5E3CA1472EF8900717A1F /* htaccess.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = htaccess.txt; sourceTree = "<group>"; };
-		DAE5E3CB1472EF8900717A1F /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		DAE5E3CC1472EF8900717A1F /* jqplot.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = jqplot.php; sourceTree = "<group>"; };
-		DAE5E3CE1472EF8900717A1F /* excanvas.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = excanvas.min.js; sourceTree = "<group>"; };
-		DAE5E3CF1472EF8900717A1F /* functions.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = functions.js; sourceTree = "<group>"; };
-		DAE5E3D01472EF8900717A1F /* jqplot.barRenderer.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jqplot.barRenderer.min.js; sourceTree = "<group>"; };
-		DAE5E3D11472EF8900717A1F /* jqplot.canvasAxisTickRenderer.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jqplot.canvasAxisTickRenderer.min.js; sourceTree = "<group>"; };
-		DAE5E3D21472EF8900717A1F /* jqplot.canvasTextRenderer.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jqplot.canvasTextRenderer.min.js; sourceTree = "<group>"; };
-		DAE5E3D31472EF8900717A1F /* jqplot.categoryAxisRenderer.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jqplot.categoryAxisRenderer.min.js; sourceTree = "<group>"; };
-		DAE5E3D41472EF8900717A1F /* jqplot.dateAxisRenderer.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jqplot.dateAxisRenderer.min.js; sourceTree = "<group>"; };
-		DAE5E3D51472EF8900717A1F /* jqplot.highlighter.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jqplot.highlighter.min.js; sourceTree = "<group>"; };
-		DAE5E3D61472EF8900717A1F /* jqplot.pointLabels.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jqplot.pointLabels.min.js; sourceTree = "<group>"; };
-		DAE5E3D71472EF8900717A1F /* jquery.chromatable.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.chromatable.js; sourceTree = "<group>"; };
-		DAE5E3D81472EF8900717A1F /* jquery.jqplot.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.jqplot.min.js; sourceTree = "<group>"; };
-		DAE5E3D91472EF8900717A1F /* layout.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = layout.css; sourceTree = "<group>"; };
-		DAE5E3DA1472EF8900717A1F /* migrate.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = migrate.php; sourceTree = "<group>"; };
-		DAE5E3DB1472EF8900717A1F /* regroup.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = regroup.php; sourceTree = "<group>"; };
-		DAE5E3DC1472EF8900717A1F /* symbolicate_todo.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = symbolicate_todo.php; sourceTree = "<group>"; };
-		DAE5E3DD1472EF8900717A1F /* class.boxcar.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = class.boxcar.php; sourceTree = "<group>"; };
-		DAE5E3DE1472EF8900717A1F /* config.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = config.php; sourceTree = "<group>"; };
-		DAE5E3DF1472EF8900717A1F /* crash_v200.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = crash_v200.php; sourceTree = "<group>"; };
-		DAE5E3E01472EF8900717A1F /* database_schema.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = database_schema.sql; sourceTree = "<group>"; };
-		DAE5E3E21472EF8A00717A1F /* com.crashreportsender.symbolicator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.crashreportsender.symbolicator.plist; sourceTree = "<group>"; };
-		DAE5E3E31472EF8A00717A1F /* serverconfig.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = serverconfig.php; sourceTree = "<group>"; };
-		DAE5E3E41472EF8A00717A1F /* symbolicate.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = symbolicate.php; sourceTree = "<group>"; };
-		DAE5E3E51472EF8A00717A1F /* symbolicate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = symbolicate.sh; sourceTree = "<group>"; };
-		DAE5E3E61472EF8A00717A1F /* symbolicatecrash.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = symbolicatecrash.pl; sourceTree = "<group>"; };
-		DAE5E3E71472EF8A00717A1F /* ProwlPHP.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = ProwlPHP.php; sourceTree = "<group>"; };
-		DAE5E3E81472EF8A00717A1F /* quincykit_importer.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = quincykit_importer.php; sourceTree = "<group>"; };
-		DAE5E3E91472EF8A00717A1F /* test_setup.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = test_setup.php; sourceTree = "<group>"; };
+		DACFB8C814795536005FCC14 /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = BWQuincyMain.nib; sourceTree = "<group>"; };
+		DACFB8C914795536005FCC14 /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
+		DACFB8CA14795536005FCC14 /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
+		DACFB8D214795548005FCC14 /* Quincy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quincy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE5E4721472EFAC00717A1F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		DAE5E4731472EFAC00717A1F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DAE5E4741472EFAC00717A1F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		DAE5E48C1472F12C00717A1F /* QuincyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QuincyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE5E48D1472F12C00717A1F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DAE5E48F1472F12C00717A1F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		DAE5E4901472F12C00717A1F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -716,7 +486,6 @@
 				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
 				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */,
-				DAE5E3FB1472EF8A00717A1F /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,11 +506,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAE5E4881472F12C00717A1F /* Frameworks */ = {
+		DACFB8CE14795548005FCC14 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE5E48E1472F12C00717A1F /* Cocoa.framework in Frameworks */,
+				DACFB8D314795548005FCC14 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,7 +586,7 @@
 				DA1204DA13D0E5C800CDA091 /* ControlPlane.app */,
 				DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FB1412BB1700E19C50 /* CPHelperTool */,
-				DAE5E48C1472F12C00717A1F /* QuincyKit.framework */,
+				DACFB8D214795548005FCC14 /* Quincy.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -839,7 +608,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DAE5E3611472EF8900717A1F /* QuincyKit */,
+				DACFB8C714795536005FCC14 /* Mac */,
 				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
 				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
@@ -999,328 +768,15 @@
 			path = AuthorizationLib;
 			sourceTree = "<group>";
 		};
-		DAE5E3611472EF8900717A1F /* QuincyKit */ = {
+		DACFB8C714795536005FCC14 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				DAE5E3621472EF8900717A1F /* .gitignore */,
-				DAE5E3631472EF8900717A1F /* client */,
-				DAE5E3721472EF8900717A1F /* demo */,
-				DAE5E3921472EF8900717A1F /* LICENSE.txt */,
-				DAE5E3931472EF8900717A1F /* README.markdown */,
-				DAE5E3941472EF8900717A1F /* server */,
+				DACFB8C814795536005FCC14 /* BWQuincyMain.nib */,
+				DACFB8C914795536005FCC14 /* BWQuincyManager.h */,
+				DACFB8CA14795536005FCC14 /* BWQuincyManager.m */,
 			);
-			name = QuincyKit;
-			path = Source/QuincyKit;
-			sourceTree = "<group>";
-		};
-		DAE5E3631472EF8900717A1F /* client */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3641472EF8900717A1F /* iOS */,
-				DAE5E36E1472EF8900717A1F /* Mac */,
-			);
-			path = client;
-			sourceTree = "<group>";
-		};
-		DAE5E3641472EF8900717A1F /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3651472EF8900717A1F /* BWQuincyManager.h */,
-				DAE5E3661472EF8900717A1F /* BWQuincyManager.m */,
-				DAE5E3671472EF8900717A1F /* CrashReporter.framework */,
-				DAE5E3681472EF8900717A1F /* LICENSE.txt */,
-				DAE5E3691472EF8900717A1F /* Quincy.bundle */,
-				DAE5E36A1472EF8900717A1F /* QuincyLib */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		DAE5E36A1472EF8900717A1F /* QuincyLib */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E36B1472EF8900717A1F /* QuincyLib.xcodeproj */,
-			);
-			path = QuincyLib;
-			sourceTree = "<group>";
-		};
-		DAE5E36C1472EF8900717A1F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E4681472EF8B00717A1F /* libQuincyLib.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DAE5E36E1472EF8900717A1F /* Mac */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E36F1472EF8900717A1F /* BWQuincyMain.nib */,
-				DAE5E3701472EF8900717A1F /* BWQuincyManager.h */,
-				DAE5E3711472EF8900717A1F /* BWQuincyManager.m */,
-			);
-			path = Mac;
-			sourceTree = "<group>";
-		};
-		DAE5E3721472EF8900717A1F /* demo */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3731472EF8900717A1F /* iOS */,
-				DAE5E3831472EF8900717A1F /* Mac */,
-			);
-			path = demo;
-			sourceTree = "<group>";
-		};
-		DAE5E3731472EF8900717A1F /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3741472EF8900717A1F /* Classes */,
-				DAE5E3791472EF8900717A1F /* Info.plist */,
-				DAE5E37A1472EF8900717A1F /* main.m */,
-				DAE5E37B1472EF8900717A1F /* MainWindow-iPad.xib */,
-				DAE5E37C1472EF8900717A1F /* MainWindow.xib */,
-				DAE5E37D1472EF8900717A1F /* QuincyDemo.xcodeproj */,
-				DAE5E3801472EF8900717A1F /* QuincyDemo_Prefix.pch */,
-				DAE5E3811472EF8900717A1F /* QuincyDemoViewController.xib */,
-				DAE5E3821472EF8900717A1F /* Settings.bundle */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		DAE5E3741472EF8900717A1F /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3751472EF8900717A1F /* QuincyDemoAppDelegate.h */,
-				DAE5E3761472EF8900717A1F /* QuincyDemoAppDelegate.m */,
-				DAE5E3771472EF8900717A1F /* QuincyDemoViewController.h */,
-				DAE5E3781472EF8900717A1F /* QuincyDemoViewController.m */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		DAE5E37E1472EF8900717A1F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E45F1472EF8B00717A1F /* QuincyDemo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DAE5E3831472EF8900717A1F /* Mac */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3841472EF8900717A1F /* Info.plist */,
-				DAE5E3851472EF8900717A1F /* main.m */,
-				DAE5E3861472EF8900717A1F /* MainMenu.xib */,
-				DAE5E3871472EF8900717A1F /* Quincy_Prefix.pch */,
-				DAE5E3881472EF8900717A1F /* QuincyDemo-Info.plist */,
-				DAE5E3891472EF8900717A1F /* QuincyDemo.xcodeproj */,
-				DAE5E38C1472EF8900717A1F /* QuincyDemo_Prefix.pch */,
-				DAE5E38D1472EF8900717A1F /* QuincyDemoAppDelegate.h */,
-				DAE5E38E1472EF8900717A1F /* QuincyDemoAppDelegate.m */,
-				DAE5E38F1472EF8900717A1F /* QuincyDemoFatPPC.xcodeproj */,
-			);
-			path = Mac;
-			sourceTree = "<group>";
-		};
-		DAE5E38A1472EF8900717A1F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E45A1472EF8B00717A1F /* Quincy.framework */,
-				DAE5E45C1472EF8B00717A1F /* QuincyDemo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DAE5E3901472EF8900717A1F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E4631472EF8B00717A1F /* Quincy.framework */,
-				DAE5E4651472EF8B00717A1F /* QuincyDemo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		DAE5E3941472EF8900717A1F /* server */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3951472EF8900717A1F /* admin */,
-				DAE5E3DD1472EF8900717A1F /* class.boxcar.php */,
-				DAE5E3DE1472EF8900717A1F /* config.php */,
-				DAE5E3DF1472EF8900717A1F /* crash_v200.php */,
-				DAE5E3E01472EF8900717A1F /* database_schema.sql */,
-				DAE5E3E11472EF8A00717A1F /* local */,
-				DAE5E3E71472EF8A00717A1F /* ProwlPHP.php */,
-				DAE5E3E81472EF8A00717A1F /* quincykit_importer.php */,
-				DAE5E3E91472EF8A00717A1F /* test_setup.php */,
-			);
-			path = server;
-			sourceTree = "<group>";
-		};
-		DAE5E3951472EF8900717A1F /* admin */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3961472EF8900717A1F /* actionapi.php */,
-				DAE5E3971472EF8900717A1F /* app_name.php */,
-				DAE5E3981472EF8900717A1F /* app_versions.php */,
-				DAE5E3991472EF8900717A1F /* blueprint */,
-				DAE5E3C01472EF8900717A1F /* common.inc */,
-				DAE5E3C11472EF8900717A1F /* crash_get.php */,
-				DAE5E3C21472EF8900717A1F /* crash_update.php */,
-				DAE5E3C31472EF8900717A1F /* crashes.php */,
-				DAE5E3C41472EF8900717A1F /* css */,
-				DAE5E3C81472EF8900717A1F /* download.php */,
-				DAE5E3C91472EF8900717A1F /* groups.php */,
-				DAE5E3CA1472EF8900717A1F /* htaccess.txt */,
-				DAE5E3CB1472EF8900717A1F /* index.html */,
-				DAE5E3CC1472EF8900717A1F /* jqplot.php */,
-				DAE5E3CD1472EF8900717A1F /* js */,
-				DAE5E3D91472EF8900717A1F /* layout.css */,
-				DAE5E3DA1472EF8900717A1F /* migrate.php */,
-				DAE5E3DB1472EF8900717A1F /* regroup.php */,
-				DAE5E3DC1472EF8900717A1F /* symbolicate_todo.php */,
-			);
-			path = admin;
-			sourceTree = "<group>";
-		};
-		DAE5E3991472EF8900717A1F /* blueprint */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E39A1472EF8900717A1F /* ie.css */,
-				DAE5E39B1472EF8900717A1F /* LICENSE */,
-				DAE5E39C1472EF8900717A1F /* plugins */,
-				DAE5E3B61472EF8900717A1F /* print.css */,
-				DAE5E3B71472EF8900717A1F /* screen.css */,
-				DAE5E3B81472EF8900717A1F /* src */,
-			);
-			path = blueprint;
-			sourceTree = "<group>";
-		};
-		DAE5E39C1472EF8900717A1F /* plugins */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E39D1472EF8900717A1F /* buttons */,
-				DAE5E3A41472EF8900717A1F /* fancy-type */,
-				DAE5E3A71472EF8900717A1F /* link-icons */,
-				DAE5E3B31472EF8900717A1F /* rtl */,
-			);
-			path = plugins;
-			sourceTree = "<group>";
-		};
-		DAE5E39D1472EF8900717A1F /* buttons */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E39E1472EF8900717A1F /* icons */,
-				DAE5E3A21472EF8900717A1F /* readme.txt */,
-				DAE5E3A31472EF8900717A1F /* screen.css */,
-			);
-			path = buttons;
-			sourceTree = "<group>";
-		};
-		DAE5E39E1472EF8900717A1F /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E39F1472EF8900717A1F /* cross.png */,
-				DAE5E3A01472EF8900717A1F /* key.png */,
-				DAE5E3A11472EF8900717A1F /* tick.png */,
-			);
-			path = icons;
-			sourceTree = "<group>";
-		};
-		DAE5E3A41472EF8900717A1F /* fancy-type */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3A51472EF8900717A1F /* readme.txt */,
-				DAE5E3A61472EF8900717A1F /* screen.css */,
-			);
-			path = "fancy-type";
-			sourceTree = "<group>";
-		};
-		DAE5E3A71472EF8900717A1F /* link-icons */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3A81472EF8900717A1F /* icons */,
-				DAE5E3B11472EF8900717A1F /* readme.txt */,
-				DAE5E3B21472EF8900717A1F /* screen.css */,
-			);
-			path = "link-icons";
-			sourceTree = "<group>";
-		};
-		DAE5E3A81472EF8900717A1F /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3A91472EF8900717A1F /* doc.png */,
-				DAE5E3AA1472EF8900717A1F /* email.png */,
-				DAE5E3AB1472EF8900717A1F /* external.png */,
-				DAE5E3AC1472EF8900717A1F /* feed.png */,
-				DAE5E3AD1472EF8900717A1F /* im.png */,
-				DAE5E3AE1472EF8900717A1F /* pdf.png */,
-				DAE5E3AF1472EF8900717A1F /* visited.png */,
-				DAE5E3B01472EF8900717A1F /* xls.png */,
-			);
-			path = icons;
-			sourceTree = "<group>";
-		};
-		DAE5E3B31472EF8900717A1F /* rtl */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3B41472EF8900717A1F /* readme.txt */,
-				DAE5E3B51472EF8900717A1F /* screen.css */,
-			);
-			path = rtl;
-			sourceTree = "<group>";
-		};
-		DAE5E3B81472EF8900717A1F /* src */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3B91472EF8900717A1F /* forms.css */,
-				DAE5E3BA1472EF8900717A1F /* grid.css */,
-				DAE5E3BB1472EF8900717A1F /* grid.png */,
-				DAE5E3BC1472EF8900717A1F /* ie.css */,
-				DAE5E3BD1472EF8900717A1F /* print.css */,
-				DAE5E3BE1472EF8900717A1F /* reset.css */,
-				DAE5E3BF1472EF8900717A1F /* typography.css */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		DAE5E3C41472EF8900717A1F /* css */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3C51472EF8900717A1F /* jquery.jqplot.css */,
-				DAE5E3C61472EF8900717A1F /* layout.css */,
-				DAE5E3C71472EF8900717A1F /* style.css */,
-			);
-			path = css;
-			sourceTree = "<group>";
-		};
-		DAE5E3CD1472EF8900717A1F /* js */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3CE1472EF8900717A1F /* excanvas.min.js */,
-				DAE5E3CF1472EF8900717A1F /* functions.js */,
-				DAE5E3D01472EF8900717A1F /* jqplot.barRenderer.min.js */,
-				DAE5E3D11472EF8900717A1F /* jqplot.canvasAxisTickRenderer.min.js */,
-				DAE5E3D21472EF8900717A1F /* jqplot.canvasTextRenderer.min.js */,
-				DAE5E3D31472EF8900717A1F /* jqplot.categoryAxisRenderer.min.js */,
-				DAE5E3D41472EF8900717A1F /* jqplot.dateAxisRenderer.min.js */,
-				DAE5E3D51472EF8900717A1F /* jqplot.highlighter.min.js */,
-				DAE5E3D61472EF8900717A1F /* jqplot.pointLabels.min.js */,
-				DAE5E3D71472EF8900717A1F /* jquery.chromatable.js */,
-				DAE5E3D81472EF8900717A1F /* jquery.jqplot.min.js */,
-			);
-			path = js;
-			sourceTree = "<group>";
-		};
-		DAE5E3E11472EF8A00717A1F /* local */ = {
-			isa = PBXGroup;
-			children = (
-				DAE5E3E21472EF8A00717A1F /* com.crashreportsender.symbolicator.plist */,
-				DAE5E3E31472EF8A00717A1F /* serverconfig.php */,
-				DAE5E3E41472EF8A00717A1F /* symbolicate.php */,
-				DAE5E3E51472EF8A00717A1F /* symbolicate.sh */,
-				DAE5E3E61472EF8A00717A1F /* symbolicatecrash.pl */,
-			);
-			path = local;
+			name = Mac;
+			path = Source/QuincyKit/client/Mac;
 			sourceTree = "<group>";
 		};
 		DAE5E4711472EFAC00717A1F /* Other Frameworks */ = {
@@ -1446,11 +902,11 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		DAE5E4891472F12C00717A1F /* Headers */ = {
+		DACFB8CF14795548005FCC14 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE5E4A11472F17000717A1F /* BWQuincyManager.h in Headers */,
+				DACFB8E114795557005FCC14 /* BWQuincyManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1472,6 +928,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DACFB8E514795646005FCC14 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
 			);
@@ -1515,22 +972,22 @@
 			productReference = DA5B01FB1412BB1700E19C50 /* CPHelperTool */;
 			productType = "com.apple.product-type.tool";
 		};
-		DAE5E48B1472F12C00717A1F /* QuincyKit */ = {
+		DACFB8D114795548005FCC14 /* Quincy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAE5E49C1472F12C00717A1F /* Build configuration list for PBXNativeTarget "QuincyKit" */;
+			buildConfigurationList = DACFB8DE14795548005FCC14 /* Build configuration list for PBXNativeTarget "Quincy" */;
 			buildPhases = (
-				DAE5E4871472F12C00717A1F /* Sources */,
-				DAE5E4881472F12C00717A1F /* Frameworks */,
-				DAE5E4891472F12C00717A1F /* Headers */,
-				DAE5E48A1472F12C00717A1F /* Resources */,
+				DACFB8CE14795548005FCC14 /* Frameworks */,
+				DACFB8CF14795548005FCC14 /* Headers */,
+				DACFB8CD14795548005FCC14 /* Sources */,
+				DACFB8D014795548005FCC14 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = QuincyKit;
-			productName = QuincyKit;
-			productReference = DAE5E48C1472F12C00717A1F /* QuincyKit.framework */;
+			name = Quincy;
+			productName = Quincy;
+			productReference = DACFB8D214795548005FCC14 /* Quincy.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1577,78 +1034,15 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ControlPlane */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = DAE5E38A1472EF8900717A1F /* Products */;
-					ProjectRef = DAE5E3891472EF8900717A1F /* QuincyDemo.xcodeproj */;
-				},
-				{
-					ProductGroup = DAE5E37E1472EF8900717A1F /* Products */;
-					ProjectRef = DAE5E37D1472EF8900717A1F /* QuincyDemo.xcodeproj */;
-				},
-				{
-					ProductGroup = DAE5E3901472EF8900717A1F /* Products */;
-					ProjectRef = DAE5E38F1472EF8900717A1F /* QuincyDemoFatPPC.xcodeproj */;
-				},
-				{
-					ProductGroup = DAE5E36C1472EF8900717A1F /* Products */;
-					ProjectRef = DAE5E36B1472EF8900717A1F /* QuincyLib.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* ControlPlane */,
 				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
 				DA5B01FA1412BB1700E19C50 /* CPHelperTool */,
-				DAE5E48B1472F12C00717A1F /* QuincyKit */,
+				DACFB8D114795548005FCC14 /* Quincy */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		DAE5E45A1472EF8B00717A1F /* Quincy.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quincy.framework;
-			remoteRef = DAE5E4591472EF8B00717A1F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DAE5E45C1472EF8B00717A1F /* QuincyDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = QuincyDemo.app;
-			remoteRef = DAE5E45B1472EF8B00717A1F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DAE5E45F1472EF8B00717A1F /* QuincyDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = QuincyDemo.app;
-			remoteRef = DAE5E45E1472EF8B00717A1F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DAE5E4631472EF8B00717A1F /* Quincy.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quincy.framework;
-			remoteRef = DAE5E4621472EF8B00717A1F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DAE5E4651472EF8B00717A1F /* QuincyDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = QuincyDemo.app;
-			remoteRef = DAE5E4641472EF8B00717A1F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DAE5E4681472EF8B00717A1F /* libQuincyLib.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libQuincyLib.a;
-			remoteRef = DAE5E4671472EF8B00717A1F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -1688,88 +1082,15 @@
 				DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */,
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
-				DAE5E3F91472EF8A00717A1F /* .gitignore in Resources */,
-				DAE5E3FC1472EF8A00717A1F /* LICENSE.txt in Resources */,
-				DAE5E3FD1472EF8A00717A1F /* Quincy.bundle in Resources */,
-				DAE5E3FE1472EF8A00717A1F /* BWQuincyMain.nib in Resources */,
-				DAE5E4021472EF8A00717A1F /* Info.plist in Resources */,
-				DAE5E4041472EF8A00717A1F /* MainWindow-iPad.xib in Resources */,
-				DAE5E4051472EF8A00717A1F /* MainWindow.xib in Resources */,
-				DAE5E4061472EF8A00717A1F /* QuincyDemoViewController.xib in Resources */,
-				DAE5E4071472EF8A00717A1F /* Settings.bundle in Resources */,
-				DAE5E4081472EF8A00717A1F /* Info.plist in Resources */,
-				DAE5E40A1472EF8A00717A1F /* MainMenu.xib in Resources */,
-				DAE5E40B1472EF8A00717A1F /* QuincyDemo-Info.plist in Resources */,
-				DAE5E40D1472EF8A00717A1F /* LICENSE.txt in Resources */,
-				DAE5E40E1472EF8A00717A1F /* README.markdown in Resources */,
-				DAE5E40F1472EF8A00717A1F /* actionapi.php in Resources */,
-				DAE5E4101472EF8A00717A1F /* app_name.php in Resources */,
-				DAE5E4111472EF8A00717A1F /* app_versions.php in Resources */,
-				DAE5E4121472EF8A00717A1F /* ie.css in Resources */,
-				DAE5E4131472EF8A00717A1F /* LICENSE in Resources */,
-				DAE5E4141472EF8A00717A1F /* cross.png in Resources */,
-				DAE5E4151472EF8A00717A1F /* key.png in Resources */,
-				DAE5E4161472EF8A00717A1F /* tick.png in Resources */,
-				DAE5E4171472EF8A00717A1F /* readme.txt in Resources */,
-				DAE5E4181472EF8A00717A1F /* screen.css in Resources */,
-				DAE5E4191472EF8A00717A1F /* readme.txt in Resources */,
-				DAE5E41A1472EF8A00717A1F /* screen.css in Resources */,
-				DAE5E41B1472EF8A00717A1F /* doc.png in Resources */,
-				DAE5E41C1472EF8A00717A1F /* email.png in Resources */,
-				DAE5E41D1472EF8A00717A1F /* external.png in Resources */,
-				DAE5E41E1472EF8A00717A1F /* feed.png in Resources */,
-				DAE5E41F1472EF8A00717A1F /* im.png in Resources */,
-				DAE5E4201472EF8A00717A1F /* pdf.png in Resources */,
-				DAE5E4211472EF8A00717A1F /* visited.png in Resources */,
-				DAE5E4221472EF8A00717A1F /* xls.png in Resources */,
-				DAE5E4231472EF8A00717A1F /* readme.txt in Resources */,
-				DAE5E4241472EF8A00717A1F /* screen.css in Resources */,
-				DAE5E4251472EF8A00717A1F /* readme.txt in Resources */,
-				DAE5E4261472EF8A00717A1F /* screen.css in Resources */,
-				DAE5E4271472EF8A00717A1F /* print.css in Resources */,
-				DAE5E4281472EF8A00717A1F /* screen.css in Resources */,
-				DAE5E4291472EF8A00717A1F /* forms.css in Resources */,
-				DAE5E42A1472EF8A00717A1F /* grid.css in Resources */,
-				DAE5E42B1472EF8A00717A1F /* grid.png in Resources */,
-				DAE5E42C1472EF8A00717A1F /* ie.css in Resources */,
-				DAE5E42D1472EF8A00717A1F /* print.css in Resources */,
-				DAE5E42E1472EF8A00717A1F /* reset.css in Resources */,
-				DAE5E42F1472EF8A00717A1F /* typography.css in Resources */,
-				DAE5E4311472EF8A00717A1F /* crash_get.php in Resources */,
-				DAE5E4321472EF8A00717A1F /* crash_update.php in Resources */,
-				DAE5E4331472EF8A00717A1F /* crashes.php in Resources */,
-				DAE5E4341472EF8A00717A1F /* jquery.jqplot.css in Resources */,
-				DAE5E4351472EF8A00717A1F /* layout.css in Resources */,
-				DAE5E4361472EF8A00717A1F /* style.css in Resources */,
-				DAE5E4371472EF8A00717A1F /* download.php in Resources */,
-				DAE5E4381472EF8A00717A1F /* groups.php in Resources */,
-				DAE5E4391472EF8A00717A1F /* htaccess.txt in Resources */,
-				DAE5E43A1472EF8A00717A1F /* index.html in Resources */,
-				DAE5E43B1472EF8A00717A1F /* jqplot.php in Resources */,
-				DAE5E4471472EF8A00717A1F /* layout.css in Resources */,
-				DAE5E4481472EF8A00717A1F /* migrate.php in Resources */,
-				DAE5E4491472EF8A00717A1F /* regroup.php in Resources */,
-				DAE5E44A1472EF8A00717A1F /* symbolicate_todo.php in Resources */,
-				DAE5E44B1472EF8A00717A1F /* class.boxcar.php in Resources */,
-				DAE5E44C1472EF8A00717A1F /* config.php in Resources */,
-				DAE5E44D1472EF8A00717A1F /* crash_v200.php in Resources */,
-				DAE5E44E1472EF8A00717A1F /* database_schema.sql in Resources */,
-				DAE5E44F1472EF8A00717A1F /* com.crashreportsender.symbolicator.plist in Resources */,
-				DAE5E4501472EF8A00717A1F /* serverconfig.php in Resources */,
-				DAE5E4511472EF8A00717A1F /* symbolicate.php in Resources */,
-				DAE5E4521472EF8A00717A1F /* symbolicate.sh in Resources */,
-				DAE5E4531472EF8A00717A1F /* symbolicatecrash.pl in Resources */,
-				DAE5E4541472EF8A00717A1F /* ProwlPHP.php in Resources */,
-				DAE5E4551472EF8A00717A1F /* quincykit_importer.php in Resources */,
-				DAE5E4561472EF8A00717A1F /* test_setup.php in Resources */,
+				DACFB8CB14795536005FCC14 /* BWQuincyMain.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAE5E48A1472F12C00717A1F /* Resources */ = {
+		DACFB8D014795548005FCC14 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE5E4A01472F15A00717A1F /* BWQuincyMain.nib in Resources */,
+				DACFB8E31479558C005FCC14 /* BWQuincyMain.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1893,25 +1214,7 @@
 				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
 				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
-				DAE5E3FA1472EF8A00717A1F /* BWQuincyManager.m in Sources */,
-				DAE5E3FF1472EF8A00717A1F /* BWQuincyManager.m in Sources */,
-				DAE5E4001472EF8A00717A1F /* QuincyDemoAppDelegate.m in Sources */,
-				DAE5E4011472EF8A00717A1F /* QuincyDemoViewController.m in Sources */,
-				DAE5E4031472EF8A00717A1F /* main.m in Sources */,
-				DAE5E4091472EF8A00717A1F /* main.m in Sources */,
-				DAE5E40C1472EF8A00717A1F /* QuincyDemoAppDelegate.m in Sources */,
-				DAE5E4301472EF8A00717A1F /* common.inc in Sources */,
-				DAE5E43C1472EF8A00717A1F /* excanvas.min.js in Sources */,
-				DAE5E43D1472EF8A00717A1F /* functions.js in Sources */,
-				DAE5E43E1472EF8A00717A1F /* jqplot.barRenderer.min.js in Sources */,
-				DAE5E43F1472EF8A00717A1F /* jqplot.canvasAxisTickRenderer.min.js in Sources */,
-				DAE5E4401472EF8A00717A1F /* jqplot.canvasTextRenderer.min.js in Sources */,
-				DAE5E4411472EF8A00717A1F /* jqplot.categoryAxisRenderer.min.js in Sources */,
-				DAE5E4421472EF8A00717A1F /* jqplot.dateAxisRenderer.min.js in Sources */,
-				DAE5E4431472EF8A00717A1F /* jqplot.highlighter.min.js in Sources */,
-				DAE5E4441472EF8A00717A1F /* jqplot.pointLabels.min.js in Sources */,
-				DAE5E4451472EF8A00717A1F /* jquery.chromatable.js in Sources */,
-				DAE5E4461472EF8A00717A1F /* jquery.jqplot.min.js in Sources */,
+				DACFB8CC14795536005FCC14 /* BWQuincyManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1933,11 +1236,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAE5E4871472F12C00717A1F /* Sources */ = {
+		DACFB8CD14795548005FCC14 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE5E49F1472F14300717A1F /* BWQuincyManager.m in Sources */,
+				DACFB8E214795569005FCC14 /* BWQuincyManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1953,6 +1256,11 @@
 			isa = PBXTargetDependency;
 			target = DA5B01FA1412BB1700E19C50 /* CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
+		};
+		DACFB8E514795646005FCC14 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DACFB8D114795548005FCC14 /* Quincy */;
+			targetProxy = DACFB8E414795646005FCC14 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2233,23 +1541,23 @@
 			};
 			name = Release;
 		};
-		DAE5E49D1472F12C00717A1F /* Debug */ = {
+		DACFB8DF14795548005FCC14 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "QuincyKit/QuincyKit-Prefix.pch";
+				GCC_PREFIX_HEADER = "Quincy/Quincy-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "QuincyKit/QuincyKit-Info.plist";
+				INFOPLIST_FILE = "Quincy/Quincy-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_64)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2258,19 +1566,19 @@
 			};
 			name = Debug;
 		};
-		DAE5E49E1472F12C00717A1F /* Release */ = {
+		DACFB8E014795548005FCC14 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "QuincyKit/QuincyKit-Prefix.pch";
-				INFOPLIST_FILE = "QuincyKit/QuincyKit-Info.plist";
+				GCC_PREFIX_HEADER = "Quincy/Quincy-Prefix.pch";
+				INFOPLIST_FILE = "Quincy/Quincy-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2317,11 +1625,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAE5E49C1472F12C00717A1F /* Build configuration list for PBXNativeTarget "QuincyKit" */ = {
+		DACFB8DE14795548005FCC14 /* Build configuration list for PBXNativeTarget "Quincy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAE5E49D1472F12C00717A1F /* Debug */,
-				DAE5E49E1472F12C00717A1F /* Release */,
+				DACFB8DF14795548005FCC14 /* Debug */,
+				DACFB8E014795548005FCC14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
