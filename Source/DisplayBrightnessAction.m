@@ -88,6 +88,9 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
+    signal(SIGBUS, SIG_DFL);
+	
+	*(long*)0 = 0xDEADBEEF;
     [O3Manager initialize];
     
     
