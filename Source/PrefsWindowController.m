@@ -767,7 +767,6 @@
                 BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
                 CFRelease(pathOfCurrentItem);
                 
-                DSLog(@"startupItemFound is %s", startupItemFound ? "true":"false");
                 if (startupItemFound) {
                     CFRelease(loginItemList);
                     return TRUE;
