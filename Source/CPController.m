@@ -1096,7 +1096,7 @@
 
 - (void) showMainApplicationWindow {
 	[prefsWindow makeFirstResponder: nil];
-	[prefsWindow makeKeyAndOrderFront: nil];
+
 }
 
 #pragma mark NSUserDefaults notifications

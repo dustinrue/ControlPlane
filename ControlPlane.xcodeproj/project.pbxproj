@@ -109,6 +109,9 @@
 		DACFB8E114795557005FCC14 /* BWQuincyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DACFB8C914795536005FCC14 /* BWQuincyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DACFB8E214795569005FCC14 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DACFB8CA14795536005FCC14 /* BWQuincyManager.m */; };
 		DACFB8E31479558C005FCC14 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DACFB8C814795536005FCC14 /* BWQuincyMain.nib */; };
+		DACFB8ED147958CB005FCC14 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DACFB8E7147958CB005FCC14 /* InfoPlist.strings */; };
+		DACFB8EE147958CB005FCC14 /* Quincy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACFB8E9147958CB005FCC14 /* Quincy-Info.plist */; };
+		DACFB8EF147958CB005FCC14 /* Quincy.m in Sources */ = {isa = PBXBuildFile; fileRef = DACFB8EC147958CB005FCC14 /* Quincy.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
@@ -377,6 +380,11 @@
 		DACFB8C914795536005FCC14 /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
 		DACFB8CA14795536005FCC14 /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
 		DACFB8D214795548005FCC14 /* Quincy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quincy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DACFB8E8147958CB005FCC14 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DACFB8E9147958CB005FCC14 /* Quincy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quincy-Info.plist"; sourceTree = "<group>"; };
+		DACFB8EA147958CB005FCC14 /* Quincy-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Quincy-Prefix.pch"; sourceTree = "<group>"; };
+		DACFB8EB147958CB005FCC14 /* Quincy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quincy.h; sourceTree = "<group>"; };
+		DACFB8EC147958CB005FCC14 /* Quincy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quincy.m; sourceTree = "<group>"; };
 		DAE5E4721472EFAC00717A1F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		DAE5E4731472EFAC00717A1F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DAE5E4741472EFAC00717A1F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -608,6 +616,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				DACFB8E6147958CB005FCC14 /* Quincy */,
 				DACFB8C714795536005FCC14 /* Mac */,
 				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
@@ -777,6 +786,19 @@
 			);
 			name = Mac;
 			path = Source/QuincyKit/client/Mac;
+			sourceTree = "<group>";
+		};
+		DACFB8E6147958CB005FCC14 /* Quincy */ = {
+			isa = PBXGroup;
+			children = (
+				DACFB8E7147958CB005FCC14 /* InfoPlist.strings */,
+				DACFB8E9147958CB005FCC14 /* Quincy-Info.plist */,
+				DACFB8EA147958CB005FCC14 /* Quincy-Prefix.pch */,
+				DACFB8EB147958CB005FCC14 /* Quincy.h */,
+				DACFB8EC147958CB005FCC14 /* Quincy.m */,
+			);
+			name = Quincy;
+			path = Source/Quincy;
 			sourceTree = "<group>";
 		};
 		DAE5E4711472EFAC00717A1F /* Other Frameworks */ = {
@@ -1083,6 +1105,8 @@
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
 				DACFB8CB14795536005FCC14 /* BWQuincyMain.nib in Resources */,
+				DACFB8ED147958CB005FCC14 /* InfoPlist.strings in Resources */,
+				DACFB8EE147958CB005FCC14 /* Quincy-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1215,6 +1239,7 @@
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
 				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
 				DACFB8CC14795536005FCC14 /* BWQuincyManager.m in Sources */,
+				DACFB8EF147958CB005FCC14 /* Quincy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1265,6 +1290,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		DACFB8E7147958CB005FCC14 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DACFB8E8147958CB005FCC14 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1552,12 +1585,12 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Quincy/Quincy-Prefix.pch";
+				GCC_PREFIX_HEADER = "Source/Quincy/Quincy-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Quincy/Quincy-Info.plist";
+				INFOPLIST_FILE = "Source/Quincy/Quincy-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_64)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1577,8 +1610,8 @@
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Quincy/Quincy-Prefix.pch";
-				INFOPLIST_FILE = "Quincy/Quincy-Info.plist";
+				GCC_PREFIX_HEADER = "Source/Quincy/Quincy-Prefix.pch";
+				INFOPLIST_FILE = "Source/Quincy/Quincy-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
