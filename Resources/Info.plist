@@ -39,7 +39,7 @@
 	<key>CPWebPageURL</key>
 	<string>http://controlplane.dustinrue.com/</string>
 	<key>CPCrashURL</key>
-	<string>http://crashreport.controlplaneapp.com</string>
+	<string>http://crashreport.controlplaneapp.com/crash_v200.php</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
