@@ -187,9 +187,9 @@
 								<string key="NSContents"/>
 								<string key="NSCellIdentifier">_NS:779</string>
 								<reference key="NSControlView" ref="204197076"/>
-								<double key="NSMaxValue">100</double>
+								<double key="NSMaxValue">1</double>
 								<double key="NSMinValue">0.0</double>
-								<double key="NSValue">50</double>
+								<double key="NSValue">0.59999999999999998</double>
 								<double key="NSAltIncValue">0.0</double>
 								<int key="NSNumberOfTickMarks">0</int>
 								<int key="NSTickMarkPosition">1</int>
