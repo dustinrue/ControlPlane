@@ -1575,12 +1575,12 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Quincy/Quincy-Prefix.pch";
+				GCC_PREFIX_HEADER = "Source/Quincy/Quincy-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Quincy/Quincy-Info.plist";
+				INFOPLIST_FILE = "Source/Quincy/Quincy-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_64)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1599,8 +1599,8 @@
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Quincy/Quincy-Prefix.pch";
-				INFOPLIST_FILE = "Quincy/Quincy-Info.plist";
+				GCC_PREFIX_HEADER = "Source/Quincy/Quincy-Prefix.pch";
+				INFOPLIST_FILE = "Source/Quincy/Quincy-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
