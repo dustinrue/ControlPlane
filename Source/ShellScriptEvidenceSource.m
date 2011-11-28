@@ -115,13 +115,13 @@
     
     
     if ([myTasks isEqualToArray:tmpRules]) {
-#if DEBUG_MODE
-        DSLog(@"rules list has changed");
-#endif
         [tmpRules release];
         return;
     }
     else {
+#if DEBUG_MODE
+        DSLog(@"rules list has changed");
+#endif
         [self stopAllTasks];
         myTasks = tmpRules;
     }
