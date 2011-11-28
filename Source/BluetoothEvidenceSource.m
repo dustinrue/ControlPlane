@@ -25,6 +25,9 @@
 
 @implementation BluetoothEvidenceSource
 
+@synthesize kIOErrorSet;
+@synthesize inquiryStatus;
+
 - (id)init
 {
 	if (!(self = [super init]))
@@ -50,7 +53,7 @@
 	return self;
 }
 
-@synthesize kIOErrorSet;
+
 
 - (void)dealloc
 {
@@ -174,7 +177,7 @@
     [self setKIOErrorSet:FALSE];
 }
 
-@synthesize inquiryStatus;
+
 
 
 
