@@ -17,6 +17,7 @@
 	IBOutlet NSPopUpButton *ruleContext;
 	IBOutlet NSSlider *ruleConfidenceSlider;
 	NSString *oldDescription;
+    NSMutableArray *rulesThatBelongToThisEvidenceSource;
 }
 
 - (id)initWithNibNamed:(NSString *)name;
@@ -56,6 +57,9 @@
 
 // Optionally implemented by descendant classes
 - (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
+
+// Returns the rules that belong to the calling evidence source
+- (NSArray *)myRules;
 
 @end
 

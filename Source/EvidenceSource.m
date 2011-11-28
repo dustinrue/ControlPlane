@@ -73,6 +73,8 @@
 								   name:@"NSWorkspaceDidWakeNotification"
 								 object:nil];
 
+    
+    
 	return self;
 }
 
@@ -225,7 +227,34 @@
 	}
 }
 
+
 #pragma mark -
+
+
+- (NSArray *)myRules {
+    // clear out existing rules if they exist
+    if ([rulesThatBelongToThisEvidenceSource count] > 0)
+        [rulesThatBelongToThisEvidenceSource removeAllObjects];
+
+    rulesThatBelongToThisEvidenceSource = [[NSMutableArray alloc] init];
+    NSMutableArray *tmp = [[[NSMutableArray alloc] init] autorelease];
+    [tmp addObjectsFromArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"]];
+    
+    NSDictionary *currentRule;
+
+    for (NSUInteger i = 0; i < [tmp count]; i++) {
+        currentRule = [tmp objectAtIndex:i];
+        NSString *currentType = [[[NSString alloc] initWithString:[currentRule valueForKey:@"type"]] autorelease];
+        DSLog(@"comparing %@ to %@", currentType, [[self typesOfRulesMatched] objectAtIndex:0]);
+        
+        if ([currentType isEqualToString:[[self typesOfRulesMatched] objectAtIndex:0]]) {
+            [rulesThatBelongToThisEvidenceSource addObject:currentRule];
+        }
+
+    }
+
+    return rulesThatBelongToThisEvidenceSource;
+}
 
 - (void)start
 {
@@ -285,6 +314,7 @@
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
 #import "CoreWLANEvidenceSource.h"
+#import "ShellScriptEvidenceSource.h"
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 
@@ -311,6 +341,7 @@
 						[TimeOfDayEvidenceSource class],
 						[USBEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
+                        [ShellScriptEvidenceSource class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -329,6 +360,7 @@
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
+        NSLocalizedString(@"Shell Script", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources
