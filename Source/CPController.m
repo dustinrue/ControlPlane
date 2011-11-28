@@ -592,6 +592,7 @@
 - (NSArray *)getRulesThatMatch
 {
 	NSArray *rules = [rulesController arrangedObjects];
+    DSLog(@"suddenly a wild NSArray is populated with %@", rules);
 	NSMutableArray *matching_rules = [NSMutableArray array];
 
 	NSEnumerator *rule_enum = [rules objectEnumerator];

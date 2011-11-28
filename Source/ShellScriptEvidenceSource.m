@@ -33,9 +33,13 @@
     
     running = NO;
     [self setDataCollected: NO];
-    [self setCurrentFileName:@"Please browse for a shell script"];
+
     
 	return self;
+}
+
+- (void)awakeFromNib {
+    [self setCurrentFileName:@"Please browse for a shell script"];
 }
 
 
