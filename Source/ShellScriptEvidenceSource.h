@@ -7,7 +7,7 @@
 // This evidence source allows the end user to create
 // their own custom evidence source using an external program,
 // or script.  Anything can be used so long as it returns 0
-// for false and 1 for true.
+// for success and 1 for failure.
 
 #import "EvidenceSource.h"
 
@@ -23,6 +23,15 @@
 @interface ShellScriptEvidenceSource : EvidenceSource {
     
     NSString *currentFileName;
+    NSArray *myTasks;
+    NSTimer *ruleUpdateTimer;
+    
+    // used to store timer objects for the spawned tasks
+    NSMutableDictionary *taskTimers;
+    
+    // used to store script results
+    NSMutableDictionary *scriptResults;
+
 }
 
 
@@ -94,6 +103,8 @@
  */
 
 - (IBAction)browseForScript:(id)sender;
+
+
 @property (assign) IBOutlet NSString *currentFileName;
 
 
