@@ -84,7 +84,7 @@
     [ruleUpdateTimer invalidate];
     [myTasks         release];
     [taskTimers      release];
- //   [ruleUpdateTimer release];
+
     [self setDataCollected: NO];
     running = NO;
 }
@@ -234,9 +234,17 @@
     NSMutableDictionary *dict = [super readFromPanel];
 	
 	// store values
+
+    // for now, silently limit the minimum value to 5 seconds
+    if ([scriptInterval doubleValue] < 5) {
+        [dict setValue: @"5"  forKey: @"scriptInterval"];
+    }
+    else {
+        [dict setValue: scriptInterval  forKey: @"scriptInterval"];
+    }
 	[dict setValue: currentFileName forKey: @"parameter"];
     [dict setValue: currentFileName forKey: @"description"];
-    [dict setValue: scriptInterval  forKey: @"scriptInterval"];
+
     [dict setValue: @"ShellScript"  forKey: @"type"];
     
     // things have probably changed so do an update
