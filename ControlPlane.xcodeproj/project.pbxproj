@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		733B363E146CD77900FE9A39 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733B363D146CD77900FE9A39 /* ShellScriptRule.xib */; };
+		7300D51C1484285300D1700A /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7300D51E1484285300D1700A /* ShellScriptEvidenceSource.m */; };
+		7300D5221484289A00D1700A /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7300D5241484289A00D1700A /* ShellScriptRule.xib */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -81,7 +82,6 @@
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
-		DA1696F214677E7600661FC9 /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1696F114677E7600661FC9 /* ShellScriptEvidenceSource.m */; };
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
 		DA4A629513E25C9D00CE976F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629413E25C9D00CE976F /* Credits.html */; };
 		DA5B01E61412B86400E19C50 /* CPHelperInstallTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */; };
@@ -206,7 +206,14 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlPlane_Prefix.pch; path = Source/ControlPlane_Prefix.pch; sourceTree = "<group>"; };
-		733B363D146CD77900FE9A39 /* ShellScriptRule.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShellScriptRule.xib; path = Resources/ShellScriptRule.xib; sourceTree = "<group>"; };
+		7300D51D1484285300D1700A /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = en; path = en.lproj/ShellScriptEvidenceSource.m; sourceTree = "<group>"; };
+		7300D5201484285A00D1700A /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = en; path = en.lproj/ShellScriptEvidenceSource.h; sourceTree = "<group>"; };
+		7300D5231484289A00D1700A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		7300D525148428AC00D1700A /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		7300D526148428AC00D1700A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		7300D527148428AC00D1700A /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		7300D528148428AC00D1700A /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
+		7300D529148428AC00D1700A /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -333,8 +340,6 @@
 		DA146F7E143F3C4000906DBF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
 		DA146F7F143F3C4000906DBF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
-		DA1696F014677E7600661FC9 /* ShellScriptEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellScriptEvidenceSource.h; path = Source/ShellScriptEvidenceSource.h; sourceTree = "<group>"; };
-		DA1696F114677E7600661FC9 /* ShellScriptEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellScriptEvidenceSource.m; path = Source/ShellScriptEvidenceSource.m; sourceTree = "<group>"; };
 		DA48F2E3140AD2FC00B000D3 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ControlPlane Help"; path = "Resources/ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
@@ -682,8 +687,8 @@
 				8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */,
 				8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */,
 				8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */,
-				DA1696F014677E7600661FC9 /* ShellScriptEvidenceSource.h */,
-				DA1696F114677E7600661FC9 /* ShellScriptEvidenceSource.m */,
+				7300D5211484285A00D1700A /* ShellScriptEvidenceSource.h */,
+				7300D51E1484285300D1700A /* ShellScriptEvidenceSource.m */,
 				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
 				DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */,
 				8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */,
@@ -828,7 +833,7 @@
 		DDFF422F14153F650047D311 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				733B363D146CD77900FE9A39 /* ShellScriptRule.xib */,
+				7300D5241484289A00D1700A /* ShellScriptRule.xib */,
 				8DC410FA0C64665E00393759 /* AboutPanel.xib */,
 				DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */,
 				DDA201461411C25A00DE570E /* GenericRule.xib */,
@@ -994,7 +999,7 @@
 				DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */,
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
-				733B363E146CD77900FE9A39 /* ShellScriptRule.xib in Resources */,
+				7300D5221484289A00D1700A /* ShellScriptRule.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1117,7 +1122,7 @@
 				DDAE0017141474DC00FDADE8 /* CPController+SleepThread.m in Sources */,
 				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
-				DA1696F214677E7600661FC9 /* ShellScriptEvidenceSource.m in Sources */,
+				7300D51C1484285300D1700A /* ShellScriptEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1155,6 +1160,38 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		7300D51E1484285300D1700A /* ShellScriptEvidenceSource.m */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7300D51D1484285300D1700A /* en */,
+			);
+			name = ShellScriptEvidenceSource.m;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		7300D5211484285A00D1700A /* ShellScriptEvidenceSource.h */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7300D5201484285A00D1700A /* en */,
+			);
+			name = ShellScriptEvidenceSource.h;
+			path = Source;
+			sourceTree = "<group>";
+		};
+		7300D5241484289A00D1700A /* ShellScriptRule.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7300D5231484289A00D1700A /* en */,
+				7300D525148428AC00D1700A /* fr */,
+				7300D526148428AC00D1700A /* de */,
+				7300D527148428AC00D1700A /* it */,
+				7300D528148428AC00D1700A /* pt-BR */,
+				7300D529148428AC00D1700A /* da-DK */,
+			);
+			name = ShellScriptRule.xib;
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
