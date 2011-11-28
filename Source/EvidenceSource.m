@@ -233,10 +233,8 @@
 
 - (NSArray *)myRules {
     // clear out existing rules if they exist
-    if ([rulesThatBelongToThisEvidenceSource count] > 0) {
-        [rulesThatBelongToThisEvidenceSource release];
-        
-    }
+    if ([rulesThatBelongToThisEvidenceSource count] > 0)
+        [rulesThatBelongToThisEvidenceSource removeAllObjects];
 
     rulesThatBelongToThisEvidenceSource = [[NSMutableArray alloc] init];
     NSMutableArray *tmp = [[[NSMutableArray alloc] init] autorelease];
