@@ -73,6 +73,8 @@
 								   name:@"NSWorkspaceDidWakeNotification"
 								 object:nil];
 
+    rulesThatBelongToThisEvidenceSource = [[NSMutableArray alloc] init];
+    
 	return self;
 }
 
@@ -225,7 +227,30 @@
 	}
 }
 
+
 #pragma mark -
+
+
+- (NSArray *)myRules {
+    
+    NSMutableArray *tmp = [[[NSMutableArray alloc] init] autorelease];
+    [tmp addObjectsFromArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"]];
+    
+    NSDictionary *currentRule;
+
+    for (NSUInteger i = 0; i < [tmp count]; i++) {
+        currentRule = [tmp objectAtIndex:i];
+        NSString *currentType = [[[NSString alloc] initWithString:[currentRule valueForKey:@"type"]] autorelease];
+        DSLog(@"comparing %@ to %@", currentType, [[self typesOfRulesMatched] objectAtIndex:0]);
+        
+        if ([currentType isEqualToString:[[self typesOfRulesMatched] objectAtIndex:0]]) {
+            [rulesThatBelongToThisEvidenceSource addObject:currentRule];
+        }
+
+    }
+
+    return rulesThatBelongToThisEvidenceSource;
+}
 
 - (void)start
 {
