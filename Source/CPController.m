@@ -326,6 +326,7 @@
 	// Init Growl
 	[GrowlApplicationBridge setGrowlDelegate: self];
     [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://crashreport.controlplaneapp.com/crash_v200.php"];
+    [[BWQuincyManager sharedQuincyManager] setCompanyName:@"ControlPlane developers"];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];
 	
 	// If there aren't any contexts defined, nor rules, nor actions, import settings
