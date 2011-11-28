@@ -299,6 +299,8 @@
 
 - (IBAction)runAbout:(id)sender
 {
+    // cause the app to crash, allowing you to test Quincy
+    // kill( getpid(), SIGABRT );
 	[NSApp activateIgnoringOtherApps:YES];
 #if 0
 	[NSApp orderFrontStandardAboutPanelWithOptions:
