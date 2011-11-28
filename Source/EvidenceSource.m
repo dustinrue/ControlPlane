@@ -73,7 +73,7 @@
 								   name:@"NSWorkspaceDidWakeNotification"
 								 object:nil];
 
-    rulesThatBelongToThisEvidenceSource = [[NSMutableArray alloc] init];
+    
     
 	return self;
 }
@@ -232,7 +232,13 @@
 
 
 - (NSArray *)myRules {
-    
+    // clear out existing rules if they exist
+    if ([rulesThatBelongToThisEvidenceSource count] > 0) {
+        [rulesThatBelongToThisEvidenceSource release];
+        
+    }
+
+    rulesThatBelongToThisEvidenceSource = [[NSMutableArray alloc] init];
     NSMutableArray *tmp = [[[NSMutableArray alloc] init] autorelease];
     [tmp addObjectsFromArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"]];
     
