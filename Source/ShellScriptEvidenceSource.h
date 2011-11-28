@@ -23,6 +23,7 @@
 @interface ShellScriptEvidenceSource : EvidenceSource {
     
     NSString *currentFileName;
+    NSString *scriptInterval;
     NSArray *myTasks;
     NSTimer *ruleUpdateTimer;
     
@@ -95,7 +96,7 @@
  */
 - (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
 
-- (void)doUpdate;
+- (void)getRuleList;
 - (void)clearCollectedData;
 
 /*!
@@ -106,6 +107,8 @@
 
 
 @property (assign) IBOutlet NSString *currentFileName;
+@property (assign) IBOutlet NSString *scriptInterval;
+
 
 
 

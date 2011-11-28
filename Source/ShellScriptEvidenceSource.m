@@ -19,15 +19,15 @@
 - (void) scriptTimer:(NSTimer *)theTimer;
 - (void) runScript:(NSString *)scriptName;
 - (void) doUpdate:(NSTimer *)theTimer;
-- (void) stopAllTimers;
+- (void) stopAllTasks;
+- (void) setDefaultValues;
 
 @end
 
 
 @implementation ShellScriptEvidenceSource
 @synthesize currentFileName;
-
-
+@synthesize scriptInterval;
 
 
 - (id)init {
@@ -36,20 +36,21 @@
         return nil;
     
     running    = NO;
-    
- 
-
-    
+    [self setDefaultValues];
 	return self;
 }
 
-- (void)awakeFromNib {
+- (void) setDefaultValues {
+    [self setScriptInterval:@"10"];
     [self setCurrentFileName:@"Please browse for a shell script"];
 }
 
 
 - (void)dealloc {
-
+#if DEBUG_MODE
+    DSLog(@"good by cruel world");
+#endif
+    
 	[super dealloc];
 }
 
@@ -57,6 +58,7 @@
     // will be used to store a timer object for each
     // rule that has been configured
     taskTimers = [[NSMutableDictionary alloc] init];
+    myTasks    = [[NSArray alloc] init];
     
 
     // ControlPlane doesn't provide a way to tell a evidence source
@@ -65,11 +67,11 @@
     // the list of rules that belong to this evidence sournce
     ruleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
                                                        target:self
-                                                     selector:@selector(doUpdate)
+                                                     selector:@selector(doUpdate:)
                                                      userInfo:nil
                                                       repeats:YES];
     // do an update immediate
-    [self doUpdate];
+    [self getRuleList];
     
     // setDataCollected to true now so that 
     // rules can be configured immediately
@@ -78,16 +80,16 @@
 }
 
 - (void)stop {        
-    [self stopAllTimers];
+    [self stopAllTasks];
     [ruleUpdateTimer invalidate];
     [myTasks         release];
     [taskTimers      release];
-    [ruleUpdateTimer release];
+ //   [ruleUpdateTimer release];
     [self setDataCollected: NO];
     running = NO;
 }
 
-- (void)stopAllTimers {
+- (void)stopAllTasks {
     for (NSDictionary *task in myTasks) {
 #if DEBUG_MODE
         DSLog(@"disabling timer for task %@",[task valueForKey:@"parameter"]);
@@ -98,11 +100,11 @@
 }
 
 - (void)doUpdate:(NSTimer *)theTimer {
-    [self doUpdate];
+    [self getRuleList];
 }
 
 
-- (void)doUpdate {
+- (void)getRuleList {
     
 #if DEBUG_MODE
     DSLog(@"doing update");
@@ -113,11 +115,14 @@
     
     
     if ([myTasks isEqualToArray:tmpRules]) {
+#if DEBUG_MODE
+        DSLog(@"rules list has changed");
+#endif
         [tmpRules release];
         return;
     }
     else {
-        [self stopAllTimers];
+        [self stopAllTasks];
         myTasks = tmpRules;
     }
     
@@ -132,10 +137,18 @@
         NSTimer *tmp;
         
 #if DEBUG_MODE
-        DSLog(@"going to perform %@ every 10 seconds", [currentTask valueForKey:@"parameter"]);
+        DSLog(@"going to perform %@ every %@ seconds", [currentTask valueForKey:@"parameter"], [currentTask valueForKey:@"scriptInterval"]);
 #endif
-        
-        tmp = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
+
+        NSTimeInterval interval = [[currentTask valueForKey:@"scriptInterval"] doubleValue];
+
+        // ensure interval is at least 5 seconds
+        // and isn't null
+        if (interval < 5) {
+            // refusing to do an interval of less than 5 seconds
+            continue;
+        }
+        tmp = [NSTimer scheduledTimerWithTimeInterval:interval
                                                target:self
                                              selector:@selector(scriptTimer:)
                                              userInfo:[currentTask valueForKey:@"parameter"]
@@ -149,6 +162,7 @@
     }
     scriptResults = [[NSMutableDictionary alloc] initWithCapacity:[myTasks count]];
     
+    // set that none of the tasks have a success result
     for (NSDictionary * aTask in myTasks) {
         [scriptResults setValue:(id)NO forKey:[aTask valueForKey:@"parameter"]];
     }
@@ -222,7 +236,10 @@
 	// store values
 	[dict setValue: currentFileName forKey: @"parameter"];
     [dict setValue: currentFileName forKey: @"description"];
-    [dict setValue: @"ShellScript" forKey: @"type"];
+    [dict setValue: scriptInterval  forKey: @"scriptInterval"];
+    [dict setValue: @"ShellScript"  forKey: @"type"];
+    
+    // things have probably changed so do an update
 	
 	return dict;
 }
@@ -230,9 +247,15 @@
 - (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type {
 	[super writeToPanel: dict usingType: type];
 	
-
+    
 	// show values
-    [self setCurrentFileName:[dict objectForKey:@"parameter"]];
+    if ([dict objectForKey:@"parameter"]) {
+        [self setCurrentFileName:[dict objectForKey:@"parameter"]];
+        [self setScriptInterval:[dict objectForKey:@"scriptInterval"]];
+    }
+    else {
+        [self setDefaultValues];
+    }
 
    
 }
@@ -255,9 +278,12 @@
  
 }
 
+/*
 - (void) fileBrowseSheetFinished:(NSWindow*)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
         
 }
+ */
+
 
 
 @end
