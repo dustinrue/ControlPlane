@@ -505,7 +505,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
              [self _getDevicePlatform],
              [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
              report.applicationInfo.applicationVersion,
-             [crashLogString stringByReplacingOccurrencesOfString:@"]]>" withString:@"]]" @"]]><![CDATA[" @">" options:NSLiteralSearch range:NSMakeRange(0,description.length)],
+             [crashLogString stringByReplacingOccurrencesOfString:@"]]>" withString:@"]]" @"]]><![CDATA[" @">" options:NSLiteralSearch range:NSMakeRange(0,crashLogString.length)],
              userid,
              contact,
 			 [description stringByReplacingOccurrencesOfString:@"]]>" withString:@"]]" @"]]><![CDATA[" @">" options:NSLiteralSearch range:NSMakeRange(0,description.length)]];
