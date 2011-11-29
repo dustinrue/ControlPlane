@@ -686,17 +686,12 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
         }
         
         if ([self isFeedbackActivated]) {
-            if (self.appIdentifier) {
-                // only proceed if the server did not report any problem
-                if (_serverResult == CrashReportStatusQueued) {
-                    // the report is still in the queue
-                    if (_feedbackRequestID) {
-                        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_checkForFeedbackStatus) object:nil];
-                        [self performSelector:@selector(_checkForFeedbackStatus) withObject:nil afterDelay:_feedbackDelayInterval];
-                    }
-                } else {
-                    // we do have a status, show it if needed
-                    [self showCrashStatusMessage];
+            // only proceed if the server did not report any problem
+            if ((self.appIdentifier) && (_serverResult == CrashReportStatusQueued)) {
+                // the report is still in the queue
+                if (_feedbackRequestID) {
+                    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_checkForFeedbackStatus) object:nil];
+                    [self performSelector:@selector(_checkForFeedbackStatus) withObject:nil afterDelay:_feedbackDelayInterval];
                 }
             } else {
                 [self showCrashStatusMessage];
