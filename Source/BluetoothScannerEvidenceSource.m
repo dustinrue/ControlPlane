@@ -15,11 +15,8 @@
 
 @interface BluetoothScannerEvidenceSource (Private)
 
-- (void)registerForNotifications:(NSTimer *)timer;
 - (void)holdTimerPoll:(NSTimer *)timer;
 - (void)cleanupTimerPoll:(NSTimer *)timer;
-- (void)deviceConnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device;
-- (void)deviceDisconnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device;
 
 @end
 
@@ -48,8 +45,6 @@
     timerCounter = 0;
     
     
-    [self setRegisteredForNotifications:FALSE];
-    
 	return self;
 }
 
@@ -74,25 +69,18 @@
     DSLog(@"In bluetooth start");
 #endif
     
-    // need to register for bluetooth connect notifications, but we need to delay it
-    // until everything is loaded or we'll dead lock, not sure why
-    
-#ifdef DEBUG_MODE
-    DSLog(@"setting 5 second timer to register for bluetooth connection notifications");
-#endif
-    registerForNotificationsTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5 target:self selector:@selector(registerForNotifications:) userInfo:nil repeats:NO]; 
-    
+        
     
 #ifdef DEBUG_MODE
     DSLog(@"setting 7 second timer to start bluetooth inquiry");
 #endif
-    /*
+    
      holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 7
-     target:self
-     selector:@selector(holdTimerPoll:)
-     userInfo:nil
-     repeats:NO];
-     */
+                                                  target:self
+                                                selector:@selector(holdTimerPoll:)
+                                                userInfo:nil
+                                                 repeats:NO];
+     
     // this timer will fire every 10 (seconds?) to clean up entries
     
 	cleanupTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
@@ -114,11 +102,10 @@
     DSLog(@"In stop");
 #endif
     
-	if (![self registeredForNotifications] && ![self inquiryStatus])
+	if (![self inquiryStatus])
 		return;
     
-    
-    [self unregisterForConnectionNotifications];
+
     
 #ifdef DEBUG_MODE
     DSLog(@"issuing cleanupTimer invalidate");
@@ -158,7 +145,6 @@
 #endif
         
         [inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
-        //[inq start];
     }
     [self setInquiryStatus:TRUE];
     
@@ -171,61 +157,9 @@
 #endif
         
         [inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
-        //[inq stop];
     }
     [self setInquiryStatus:FALSE];
     [self setKIOErrorSet:FALSE];
-}
-
-
-
-
-
-
-#pragma mark Device Connect Notification Control
-
-
-
-- (void) registerForConnectionNotifications {
-    
-    if (![self registeredForNotifications]) {
-#ifdef DEBUG_MODE
-        DSLog(@"registering for connection notifications");
-#endif
-        notf = [IOBluetoothDevice registerForConnectNotifications:self
-                                                         selector:@selector(deviceConnected:device:)];
-        [self setRegisteredForNotifications:TRUE];
-    }
-    
-}
-
-- (void) unregisterForConnectionNotifications {
-    
-    //  if ([self registeredForNotifications]) {
-#ifdef DEBUG_MODE
-    DSLog(@"unregistering for connection notifications");
-#endif
-    [notf unregister];
-    notf = nil;
-    
-    [self setRegisteredForNotifications:FALSE];
-    //  }
-}
-
-@synthesize registeredForNotifications;
-
-#pragma mark -
-
-- (void)registerForNotifications:(NSTimer *)timer {
-    
-#ifdef DEBUG_MODE
-    DSLog(@"registering for notifications");
-#endif
-    
-    
-    
-    [self registerForConnectionNotifications];
-    
 }
 
 
@@ -315,7 +249,7 @@
 
 - (NSString *)name
 {
-	return @"Bluetooth";
+	return @"BluetoothScanner";
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
@@ -328,7 +262,7 @@
     // ControlPlane will continue to fire the inquiryDidComplete selector
     // until bluetooth is disabled, the program is closed or the computer
     // goes through a sleep/wake cycle
-    if (![self registeredForNotifications] && ![self inquiryStatus]) 
+    if (![self inquiryStatus]) 
         return FALSE; 
     
 	[lock lock];
@@ -448,60 +382,14 @@
 		return;
 	}
     
-    // hack to make this stop running
-    if (!running)
-        [self unregisterForConnectionNotifications];
     
 	[sender clearFoundDevices];
     
-	IOReturn rc = [sender start];
-	if (rc != kIOReturnSuccess)
-		DSLog(@"-[inq start] returned 0x%x!", rc);
+//	IOReturn rc = [sender start];
+//	if (rc != kIOReturnSuccess)
+//		DSLog(@"-[inq start] returned 0x%x!", rc);
 }
 
-#pragma mark Paired device notifications
 
-- (void)deviceConnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
-{
-    // we're being notified that a device has connected
-#ifdef DEBUG_MODE
-	DSLog(@"Got notified of '%@' connecting!, %@", [device name], [device getAddressString]);
-#endif
-    
-    // tell the bluetooth API we want to know when this device goes away
-	[device registerForDisconnectNotification:self selector:@selector(deviceDisconnected:device:)];
-    
-    // do more 
-	[self deviceInquiryDeviceFound:nil device:device];
-}
-
-- (void)deviceDisconnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
-{
-#ifdef DEBUG_MODE
-	DSLog(@"Got notified of '%@' disconnecting!", [device name]);
-#endif
-    
-    
-    
-	[lock lock];
-	NSEnumerator *en = [devices objectEnumerator];
-	NSMutableDictionary *dev;
-	unsigned int index = 0;
-    
-    
-    
-	while ((dev = [en nextObject])) {
-		if ([[dev valueForKey:@"mac"] isEqualToString:[device getAddressString]])
-			break;
-		++index;
-	}
-    
-    
-	if (dev)
-		[devices removeObjectAtIndex:index];
-    
-    
-	[lock unlock];
-}
 
 @end
