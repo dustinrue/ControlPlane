@@ -323,7 +323,7 @@
 }
 
 - (void)awakeFromNib {
-	BWQuincyManager.sharedQuincyManager.submissionURL = [NSBundle.mainBundle.infoDictionary objectForKey: @"CPCrashURL"];
+	BWQuincyManager.sharedQuincyManager.submissionURL = [NSBundle.mainBundle.infoDictionary objectForKey: @"CPCrashReportURL"];
 	BWQuincyManager.sharedQuincyManager.companyName = [NSBundle.mainBundle.infoDictionary objectForKey: @"CFBundleName"];
 	BWQuincyManager.sharedQuincyManager.delegate = self;
 	

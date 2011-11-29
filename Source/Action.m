@@ -143,7 +143,7 @@
 
 @end
 
-#pragma mark -h"
+#pragma mark -
 
 @implementation ActionSetController
 
@@ -156,8 +156,8 @@
 	
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
-		NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
+        NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
 		NSLocalizedString(@"DisplayBrightness", @"Action type");
 		NSLocalizedString(@"FirewallRule", @"Action type");

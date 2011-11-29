@@ -3,11 +3,33 @@
 //	ControlPlane
 //
 //	Created by David Jennes on 02/09/11.
+//	Modifiedy by Dustin Rue on 19/11/11.
+//	inspired by http://dev.sabi.net/trac/dev/browser/trunk/LocationDo/brightness.m
+//
 //	Copyright 2011. All rights reserved.
 //
 
 #import "DisplayBrightnessAction.h"
 #import <IOKit/graphics/IOGraphicsLib.h>
+
+#pragma mark - Magic Bits!
+
+@interface O3Manager : NSObject
++ (void) initialize;
++ (id) engineOfClass: (NSString *) cls forDisplayID: (CGDirectDisplayID) fp12;
+@end
+	
+@protocol O3EngineWireProtocol
+@end
+	
+@protocol BrightnessEngineWireProtocol <O3EngineWireProtocol>
+- (float) brightness;
+- (BOOL) setBrightness: (float) fp8;
+- (void) bumpBrightnessUp;
+- (void) bumpBrightnessDown;
+@end
+
+#pragma mark - Action
 
 @interface DisplayBrightnessAction (Private)
 
@@ -63,12 +85,15 @@
 
 - (BOOL) execute: (NSString **) errorString {
 	const int kMaxDisplays = 16;
-	const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
+	//const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
 	
 	BOOL errorOccurred = NO;
 	CGDirectDisplayID display[kMaxDisplays];
 	CGDisplayCount numDisplays;
 	CGDisplayErr err;
+	
+	// initialize manager
+	[O3Manager initialize];
 	
 	// get list of displays
 	err = CGGetActiveDisplayList(kMaxDisplays, display, &numDisplays);
@@ -81,7 +106,7 @@
 	// loop through displays
 	for (CGDisplayCount i = 0; i < numDisplays; ++i) {
 		CGDirectDisplayID dspy = display[i];
-		io_service_t service = CGDisplayIOServicePort(dspy);
+		/*io_service_t service = CGDisplayIOServicePort(dspy);
 		
 		// set brightness
 		err = IODisplaySetFloatParameter(service, kNilOptions, kDisplayBrightness, (brightness / 100.0f));
@@ -93,7 +118,11 @@
 			
 			errorOccurred = YES;
 			continue;
-		}
+		}*/
+		
+		// set brightness
+		id<BrightnessEngineWireProtocol> engine = [O3Manager engineOfClass: @"BrightnessEngine" forDisplayID: dspy];
+		[engine setBrightness: brightness / 100.0f];
 	}
 	
 	if (errorOccurred) {

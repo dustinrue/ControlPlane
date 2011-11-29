@@ -34,7 +34,7 @@
 		8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9AE3A40BE0DA7E00D4D4E4 /* PopButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8DC410FB0C64665E00393759 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.xib */; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8DF5A4180BC2353D00CBEB4B /* CAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* CAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
 		DA4A629513E25C9D00CE976F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629413E25C9D00CE976F /* Credits.html */; };
@@ -55,6 +55,19 @@
 		DD23F8591460E2EC000665ED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8471460E216000665ED /* Security.framework */; };
 		DD23F88B1460E70E000665ED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8471460E216000665ED /* Security.framework */; };
 		DD23F88D1460E899000665ED /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F88C1460E898000665ED /* IOKit.framework */; };
+		DD2A78C114855A640010AFE0 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD2A78BF14855A640010AFE0 /* ShellScriptRule.xib */; };
+		DD2A78C814855AF80010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
+		DD2A78CA14855B050010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
+		DD2A78CC14855B120010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
+		DD2A78CE14855B1C0010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
+		DD2A78D014855B240010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
+		DD2A78D214855B430010AFE0 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD2A78BF14855A640010AFE0 /* ShellScriptRule.xib */; };
+		DD2A78D414855B4C0010AFE0 /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
+		DD2A78D614855B730010AFE0 /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
+		DD2A78D814855B7A0010AFE0 /* LightRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2015A1411C35700DE570E /* LightRule.xib */; };
+		DD2A78DA14855B800010AFE0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201641411C37300DE570E /* MainMenu.xib */; };
+		DD2A78DC14855B880010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
+		DD2A78DE14855B8D0010AFE0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
@@ -280,8 +293,8 @@
 		8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GenericEvidenceSource.m; path = Source/GenericEvidenceSource.m; sourceTree = "<group>"; };
 		8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScreenSaverTimeAction.h; path = Source/ScreenSaverTimeAction.h; sourceTree = "<group>"; };
 		8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ScreenSaverTimeAction.m; path = Source/ScreenSaverTimeAction.m; sourceTree = "<group>"; };
-		8DF5A4150BC2353D00CBEB4B /* CAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAction.h; path = Source/CAction.h; sourceTree = "<group>"; };
-		8DF5A4160BC2353D00CBEB4B /* CAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CAction.m; path = Source/CAction.m; sourceTree = "<group>"; };
+		8DF5A4150BC2353D00CBEB4B /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = Source/Action.h; sourceTree = "<group>"; };
+		8DF5A4160BC2353D00CBEB4B /* Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Action.m; path = Source/Action.m; sourceTree = "<group>"; };
 		8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultPrinterAction.h; path = Source/DefaultPrinterAction.h; sourceTree = "<group>"; };
 		8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultPrinterAction.m; path = Source/DefaultPrinterAction.m; sourceTree = "<group>"; };
 		8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QuitApplicationAction.h; path = Source/QuitApplicationAction.h; sourceTree = "<group>"; };
@@ -310,6 +323,20 @@
 		DD23F8471460E216000665ED /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DD23F8491460E222000665ED /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		DD23F88C1460E898000665ED /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		DD2A78C014855A640010AFE0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DD2A78C714855AF80010AFE0 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = Resources/de.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DD2A78C914855B050010AFE0 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "Resources/da-DK.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
+		DD2A78CB14855B120010AFE0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = Resources/fr.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DD2A78CD14855B1C0010AFE0 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = Resources/it.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DD2A78CF14855B240010AFE0 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "Resources/pt-BR.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
+		DD2A78D114855B430010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/MainMenu.xib"; sourceTree = "<group>"; };
+		DD2A78D314855B4C0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		DD2A78D514855B730010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/GenericRule.xib"; sourceTree = "<group>"; };
+		DD2A78D714855B7A0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/IPRule.xib"; sourceTree = "<group>"; };
+		DD2A78D914855B800010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/LightRule.xib"; sourceTree = "<group>"; };
+		DD2A78DB14855B880010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "Resources/pt-PT.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
+		DD2A78DD14855B8D0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/TimeOfDayRule.xib"; sourceTree = "<group>"; };
+		DD2A78DF14855B9B0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD3BAB8414163C6B000D5F88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DD4364BD145E13A500A716A1 /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DD4364BE145E13A500A716A1 /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
@@ -622,8 +649,8 @@
 			children = (
 				DD8274EB14114CFF0098FA6E /* Application Actions */,
 				DD8274ED14114D620098FA6E /* System Actions */,
-				8DF5A4150BC2353D00CBEB4B /* CAction.h */,
-				8DF5A4160BC2353D00CBEB4B /* CAction.m */,
+				8DF5A4150BC2353D00CBEB4B /* Action.h */,
+				8DF5A4160BC2353D00CBEB4B /* Action.m */,
 				DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */,
 				DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */,
 				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
@@ -818,6 +845,7 @@
 				DDA201501411C32F00DE570E /* IPRule.xib */,
 				DDA2015A1411C35700DE570E /* LightRule.xib */,
 				DDA201641411C37300DE570E /* MainMenu.xib */,
+				DD2A78BF14855A640010AFE0 /* ShellScriptRule.xib */,
 				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
 				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
 				DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */,
@@ -959,6 +987,7 @@
 				zh_TW,
 				"da-DK",
 				"pt-BR",
+				"pt-PT",
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ControlPlane */;
 			projectDirPath = "";
@@ -1049,6 +1078,19 @@
 				DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */,
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
+				DD2A78C114855A640010AFE0 /* ShellScriptRule.xib in Resources */,
+				DD2A78C814855AF80010AFE0 /* TimeOfDayRule.xib in Resources */,
+				DD2A78CA14855B050010AFE0 /* TimeOfDayRule.xib in Resources */,
+				DD2A78CC14855B120010AFE0 /* TimeOfDayRule.xib in Resources */,
+				DD2A78CE14855B1C0010AFE0 /* TimeOfDayRule.xib in Resources */,
+				DD2A78D014855B240010AFE0 /* TimeOfDayRule.xib in Resources */,
+				DD2A78D214855B430010AFE0 /* ShellScriptRule.xib in Resources */,
+				DD2A78D414855B4C0010AFE0 /* CPHelperToolAuthorizationPrompts.strings in Resources */,
+				DD2A78D614855B730010AFE0 /* IPRule.xib in Resources */,
+				DD2A78D814855B7A0010AFE0 /* LightRule.xib in Resources */,
+				DD2A78DA14855B800010AFE0 /* MainMenu.xib in Resources */,
+				DD2A78DC14855B880010AFE0 /* TimeOfDayRule.xib in Resources */,
+				DD2A78DE14855B8D0010AFE0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1117,7 +1159,7 @@
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
 				8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */,
 				8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */,
-				8DF5A4180BC2353D00CBEB4B /* CAction.m in Sources */,
+				8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */,
 				8D9AE3A60BE0DA7E00D4D4E4 /* PopButton.m in Sources */,
 				8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */,
 				8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */,
@@ -1188,6 +1230,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		DD2A78BF14855A640010AFE0 /* ShellScriptRule.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD2A78C014855A640010AFE0 /* en */,
+				DD2A78C714855AF80010AFE0 /* de */,
+				DD2A78C914855B050010AFE0 /* da-DK */,
+				DD2A78CB14855B120010AFE0 /* fr */,
+				DD2A78CD14855B1C0010AFE0 /* it */,
+				DD2A78CF14855B240010AFE0 /* pt-BR */,
+				DD2A78DB14855B880010AFE0 /* pt-PT */,
+			);
+			name = ShellScriptRule.xib;
+			sourceTree = "<group>";
+		};
 		DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1206,6 +1262,7 @@
 				DD44B5A414142D4D0016BF6B /* pt-BR */,
 				DD44B5A514142D4D0016BF6B /* it */,
 				DD44B5A614142D4D0016BF6B /* de */,
+				DD2A78DF14855B9B0010AFE0 /* pt-PT */,
 			);
 			name = CPHelperToolAuthorizationPrompts.strings;
 			path = Resources;
@@ -1220,6 +1277,7 @@
 				DDA2013F1411C11600DE570E /* de */,
 				DDA201401411C12800DE570E /* da-DK */,
 				DDA201411411C16700DE570E /* pt-BR */,
+				DD2A78D314855B4C0010AFE0 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			path = Resources;
@@ -1234,6 +1292,7 @@
 				DDA201491411C27000DE570E /* da-DK */,
 				DDA2014A1411C27000DE570E /* de */,
 				DDA2014B1411C27000DE570E /* pt-BR */,
+				DD2A78D514855B730010AFE0 /* pt-PT */,
 			);
 			name = GenericRule.xib;
 			path = Resources;
@@ -1248,6 +1307,7 @@
 				DDA201531411C33600DE570E /* da-DK */,
 				DDA201541411C33600DE570E /* it */,
 				DDA201551411C33600DE570E /* pt-BR */,
+				DD2A78D714855B7A0010AFE0 /* pt-PT */,
 			);
 			name = IPRule.xib;
 			path = Resources;
@@ -1262,6 +1322,7 @@
 				DDA2015D1411C35F00DE570E /* fr */,
 				DDA2015E1411C35F00DE570E /* pt-BR */,
 				DDA2015F1411C35F00DE570E /* da-DK */,
+				DD2A78D914855B800010AFE0 /* pt-PT */,
 			);
 			name = LightRule.xib;
 			path = Resources;
@@ -1276,6 +1337,7 @@
 				DDA201671411C37900DE570E /* de */,
 				DDA201681411C37900DE570E /* da-DK */,
 				DDA201691411C37900DE570E /* pt-BR */,
+				DD2A78D114855B430010AFE0 /* pt-PT */,
 			);
 			name = MainMenu.xib;
 			path = Resources;
@@ -1290,6 +1352,7 @@
 				DDA201711411C39400DE570E /* pt-BR */,
 				DDA201721411C39400DE570E /* de */,
 				DDA201731411C39400DE570E /* it */,
+				DD2A78DD14855B8D0010AFE0 /* pt-PT */,
 			);
 			name = TimeOfDayRule.xib;
 			path = Resources;
