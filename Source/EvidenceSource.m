@@ -339,11 +339,11 @@
 						[NetworkLinkEvidenceSource class],
 						[PowerEvidenceSource class],
 						[RunningApplicationEvidenceSource class],
+                        [ShellScriptEvidenceSource class],
 						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
 						[USBEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
-                        [ShellScriptEvidenceSource class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
@@ -359,11 +359,11 @@
 		NSLocalizedString(@"NetworkLink", @"Evidence source");
 		NSLocalizedString(@"Power", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
+        NSLocalizedString(@"Shell Script", @"Evidence source");
 		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
-        NSLocalizedString(@"Shell Script", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources
