@@ -14,6 +14,7 @@
 @interface BluetoothEvidenceSource : GenericEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *devices;
+    NSMutableArray *devicesRegisteredForDisconnectNotices;
 	IOBluetoothDeviceInquiry *inq;
 	IOBluetoothUserNotification *notf;
     BOOL kIOErrorSet;
@@ -21,9 +22,7 @@
     BOOL registeredForNotifications;
     int timerCounter;
 
-	NSTimer *holdTimer, *cleanupTimer, *registerForNotificationsTimer;
-
-
+    NSTimer *registerForNotificationsTimer;
 }
 
 - (id)init;
@@ -32,9 +31,6 @@
 - (void)start;
 - (void)stop;
 
-// DeviceInquiry control
-- (void) startInquiry;
-- (void) stopInquiry;
 @property (readwrite) BOOL inquiryStatus;
 @property (readwrite) BOOL kIOErrorSet;
 
@@ -50,11 +46,9 @@
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
 
-// IOBluetoothDeviceInquiryDelegate
 - (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender
-			  device:(IOBluetoothDevice *)device;
-- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender
-			error:(IOReturn)error
-		      aborted:(BOOL)aborted;
+                          device:(IOBluetoothDevice *)device;
+
+
 
 @end
