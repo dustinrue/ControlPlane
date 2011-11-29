@@ -305,7 +305,7 @@
         
 		NSString *desc = [NSString stringWithFormat:@"%@ [%@]", name, vendor];
 		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                        @"Bluetooth", @"type",
+                        @"BluetoothScanner", @"type",
                         [dev valueForKey:@"mac"], @"parameter",
                         desc, @"description", nil]];
 	}
