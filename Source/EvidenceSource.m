@@ -307,6 +307,7 @@
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
+   		NSLocalizedString(@"BluetoothScanner", @"Evidence source");
 		NSLocalizedString(@"Bonjour", @"Evidence source");
 		NSLocalizedString(@"CoreLocation", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
@@ -316,11 +317,11 @@
 		NSLocalizedString(@"NetworkLink", @"Evidence source");
 		NSLocalizedString(@"Power", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
+        NSLocalizedString(@"Shell Script", @"Evidence source");
 		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
-        NSLocalizedString(@"Shell Script", @"Evidence source");
 	}
 
 	// Instantiate all the evidence sources
