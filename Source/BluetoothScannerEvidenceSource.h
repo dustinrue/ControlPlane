@@ -15,13 +15,13 @@
 	NSLock *lock;
 	NSMutableArray *devices;
 	IOBluetoothDeviceInquiry *inq;
-	IOBluetoothUserNotification *notf;
+
     BOOL kIOErrorSet;
     BOOL inquiryStatus;
     BOOL registeredForNotifications;
     int timerCounter;
     
-	NSTimer *holdTimer, *cleanupTimer, *registerForNotificationsTimer;
+	NSTimer *holdTimer, *cleanupTimer;
     
     
 }
@@ -39,10 +39,7 @@
 @property (readwrite) BOOL kIOErrorSet;
 
 
-// Device Connection Notification control
-- (void) registerForConnectionNotifications;
-- (void) unregisterForConnectionNotifications;
-@property (readwrite) BOOL registeredForNotifications;
+
 
 
 - (NSString *)name;
