@@ -196,6 +196,9 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
 	BOOL match = NO;
+#ifdef DEBUG_MODE
+    DSLog(@"dev dictionary looks like %@",devices);
+#endif
     
     // TODO: fix this issue, we shouldn't be here if inquiryStatus
     // and registeredForNotifications are both false.  This indicates
