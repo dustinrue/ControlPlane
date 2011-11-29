@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */; };
-		732A58E3148430E80011019C /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 732A58E1148430E80011019C /* ShellScriptRule.xib */; };
 		732A58F21484336C0011019C /* Quincy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DA8064AB1479910E00267B5A /* Quincy.framework */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
@@ -112,6 +111,13 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
+		DABA59F31484651A00BDE8AF /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DABA59EB1484651A00BDE8AF /* ShellScriptRule.xib */; };
+		DABA59F41484651A00BDE8AF /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.xib */; };
+		DABA59F51484651A00BDE8AF /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
+		DABA59F61484651A00BDE8AF /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
+		DABA59F71484651A00BDE8AF /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
+		DABA59F81484651A00BDE8AF /* LightRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2015A1411C35700DE570E /* LightRule.xib */; };
+		DABA59F91484651A00BDE8AF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201641411C37300DE570E /* MainMenu.xib */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DAFC0E4514788ACB00DA6139 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */; };
@@ -226,12 +232,6 @@
 		32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlPlane_Prefix.pch; path = Source/ControlPlane_Prefix.pch; sourceTree = "<group>"; };
 		732A58DD1484300A0011019C /* ShellScriptEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellScriptEvidenceSource.h; path = Source/ShellScriptEvidenceSource.h; sourceTree = "<group>"; };
 		732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellScriptEvidenceSource.m; path = Source/ShellScriptEvidenceSource.m; sourceTree = "<group>"; };
-		732A58E2148430E80011019C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
-		732A58E41484311C0011019C /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "Resources/da-DK.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
-		732A58E51484311C0011019C /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = Resources/de.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
-		732A58E61484311C0011019C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = Resources/fr.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
-		732A58E71484311C0011019C /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = Resources/it.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
-		732A58E81484311C0011019C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "Resources/pt-BR.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		732A58E91484311C0011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
 		732A58EA1484311C0011019C /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		732A58EB1484311D0011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/GenericRule.xib"; sourceTree = "<group>"; };
@@ -240,7 +240,6 @@
 		732A58EE1484311D0011019C /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		732A58EF1484311D0011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/MainMenu.xib"; sourceTree = "<group>"; };
 		732A58F01484311D0011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/TimeOfDayRule.xib"; sourceTree = "<group>"; };
-		732A58F1148431380011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		739492E0146B8018003C94DE /* DisplaySleepTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplaySleepTimeAction.h; path = Source/DisplaySleepTimeAction.h; sourceTree = "<group>"; };
 		739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplaySleepTimeAction.m; path = Source/DisplaySleepTimeAction.m; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
@@ -333,7 +332,7 @@
 		8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ShellScriptAction.m; path = Source/ShellScriptAction.m; sourceTree = "<group>"; };
 		8DBB44950C530F7600064010 /* DSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DSLogger.h; path = Source/DSLogger.h; sourceTree = "<group>"; };
 		8DBB44960C530F7600064010 /* DSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DSLogger.m; path = Source/DSLogger.m; sourceTree = "<group>"; };
-		8DC410FA0C64665E00393759 /* AboutPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutPanel.xib; path = Resources/AboutPanel.xib; sourceTree = "<group>"; };
+		8DC410FA0C64665E00393759 /* AboutPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutPanel.xib; path = Resources/AboutPanel.xib; sourceTree = "<group>"; };
 		8DC4E7F80C178917007E7E41 /* MuteAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MuteAction.h; path = Source/MuteAction.h; sourceTree = "<group>"; };
 		8DC4E7F90C178917007E7E41 /* MuteAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MuteAction.m; path = Source/MuteAction.m; sourceTree = "<group>"; };
 		8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FirewallRuleAction.h; path = Source/FirewallRuleAction.h; sourceTree = "<group>"; };
@@ -405,6 +404,13 @@
 		DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
+		DABA59EC1484651A00BDE8AF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "Resources/da-DK.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
+		DABA59ED1484651A00BDE8AF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = Resources/de.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DABA59EE1484651A00BDE8AF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DABA59EF1484651A00BDE8AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = Resources/fr.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DABA59F01484651A00BDE8AF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = Resources/it.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
+		DABA59F11484651A00BDE8AF /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "Resources/pt-BR.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
+		DABA59F21484651A00BDE8AF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "Resources/pt-PT.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DAE893E514546897005FA13C /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
 		DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = /System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<absolute>"; };
@@ -927,7 +933,7 @@
 		DDFF422F14153F650047D311 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				732A58E1148430E80011019C /* ShellScriptRule.xib */,
+				DABA59EB1484651A00BDE8AF /* ShellScriptRule.xib */,
 				8DC410FA0C64665E00393759 /* AboutPanel.xib */,
 				DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */,
 				DDA201461411C25A00DE570E /* GenericRule.xib */,
@@ -1126,7 +1132,13 @@
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
 				DA8064A3147990FD00267B5A /* BWQuincyMain.nib in Resources */,
-				732A58E3148430E80011019C /* ShellScriptRule.xib in Resources */,
+				DABA59F31484651A00BDE8AF /* ShellScriptRule.xib in Resources */,
+				DABA59F41484651A00BDE8AF /* AboutPanel.xib in Resources */,
+				DABA59F51484651A00BDE8AF /* CoreLocationRule.xib in Resources */,
+				DABA59F61484651A00BDE8AF /* GenericRule.xib in Resources */,
+				DABA59F71484651A00BDE8AF /* IPRule.xib in Resources */,
+				DABA59F81484651A00BDE8AF /* LightRule.xib in Resources */,
+				DABA59F91484651A00BDE8AF /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1310,26 +1322,26 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		732A58E1148430E80011019C /* ShellScriptRule.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				732A58E2148430E80011019C /* en */,
-				732A58E41484311C0011019C /* da-DK */,
-				732A58E51484311C0011019C /* de */,
-				732A58E61484311C0011019C /* fr */,
-				732A58E71484311C0011019C /* it */,
-				732A58E81484311C0011019C /* pt-BR */,
-				732A58F1148431380011019C /* pt-PT */,
-			);
-			name = ShellScriptRule.xib;
-			sourceTree = "<group>";
-		};
 		DA8064B51479910E00267B5A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DA8064B61479910E00267B5A /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DABA59EB1484651A00BDE8AF /* ShellScriptRule.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DABA59EC1484651A00BDE8AF /* da-DK */,
+				DABA59ED1484651A00BDE8AF /* de */,
+				DABA59EE1484651A00BDE8AF /* en */,
+				DABA59EF1484651A00BDE8AF /* fr */,
+				DABA59F01484651A00BDE8AF /* it */,
+				DABA59F11484651A00BDE8AF /* pt-BR */,
+				DABA59F21484651A00BDE8AF /* pt-PT */,
+			);
+			name = ShellScriptRule.xib;
 			sourceTree = "<group>";
 		};
 		DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */ = {
