@@ -67,7 +67,7 @@
 				account.deliveryAccount = server;
 		
 	} @catch (NSException *e) {
-		*errorString = NSLocalizedString(@"Couldn't set IMAP server!", @"In MailIMAPServerAction");
+		*errorString = NSLocalizedString(@"Couldn't set SMTP server!", @"In MailSMTPServerAction");
 		return NO;
 	}
 	
