@@ -10,7 +10,6 @@
 		732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */; };
 		732A58F21484336C0011019C /* Quincy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DA8064AB1479910E00267B5A /* Quincy.framework */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
-		73A5091E14848A3E007D22B5 /* BluetoothScannerEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A5091D14848A3E007D22B5 /* BluetoothScannerEvidenceSource.m */; };
 		73A5092F14849405007D22B5 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A5092714849405007D22B5 /* ShellScriptRule.xib */; };
 		73A5093014849405007D22B5 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.xib */; };
 		73A5093114849405007D22B5 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
@@ -243,8 +242,6 @@
 		732A58F01484311D0011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/TimeOfDayRule.xib"; sourceTree = "<group>"; };
 		739492E0146B8018003C94DE /* DisplaySleepTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplaySleepTimeAction.h; path = Source/DisplaySleepTimeAction.h; sourceTree = "<group>"; };
 		739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplaySleepTimeAction.m; path = Source/DisplaySleepTimeAction.m; sourceTree = "<group>"; };
-		73A5091C14848A3E007D22B5 /* BluetoothScannerEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BluetoothScannerEvidenceSource.h; path = Source/BluetoothScannerEvidenceSource.h; sourceTree = "<group>"; };
-		73A5091D14848A3E007D22B5 /* BluetoothScannerEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BluetoothScannerEvidenceSource.m; path = Source/BluetoothScannerEvidenceSource.m; sourceTree = "<group>"; };
 		73A5092814849405007D22B5 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "Resources/da-DK.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		73A5092914849405007D22B5 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = Resources/de.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
 		73A5092A14849405007D22B5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
@@ -729,8 +726,6 @@
 				8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */,
 				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
-				73A5091C14848A3E007D22B5 /* BluetoothScannerEvidenceSource.h */,
-				73A5091D14848A3E007D22B5 /* BluetoothScannerEvidenceSource.m */,
 				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
 				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
 				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
@@ -1277,7 +1272,6 @@
 				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
 				DA8064A4147990FD00267B5A /* BWQuincyManager.m in Sources */,
 				732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */,
-				73A5091E14848A3E007D22B5 /* BluetoothScannerEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
