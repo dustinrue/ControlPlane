@@ -22,7 +22,11 @@
     BOOL registeredForNotifications;
     int timerCounter;
 
+    // Paired Bluetooth Devices
     NSTimer *registerForNotificationsTimer;
+    
+    // Bluetooth Scanner timers
+    NSTimer *holdTimer, *cleanupTimer;
 }
 
 - (id)init;
@@ -35,7 +39,7 @@
 @property (readwrite) BOOL kIOErrorSet;
 
 
-// Device Connection Notification control
+// Paired Bluetooth Device Connection Notification control
 - (void) registerForConnectionNotifications;
 - (void) unregisterForConnectionNotifications;
 @property (readwrite) BOOL registeredForNotifications;
@@ -46,9 +50,15 @@
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
 
+// Local 
 - (void)deviceInquiryDeviceFound:(IOBluetoothDeviceInquiry *)sender
                           device:(IOBluetoothDevice *)device;
 
-
+// Bluetooth device scanning routines
+- (void) startInquiry;
+- (void) stopInquiry;
+- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender
+                        error:(IOReturn)error
+                      aborted:(BOOL)aborted;
 
 @end
