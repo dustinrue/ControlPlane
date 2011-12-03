@@ -458,8 +458,8 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 	NSString *userid = @"";
 	NSString *contact = @"";
 	NSString *description = @"";
-	
-    if (self.autoSubmitDeviceUDID) {
+
+    if (self.autoSubmitDeviceUDID && [[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"]) {
         userid = [self deviceIdentifier];
     } else if (self.delegate != nil && [self.delegate respondsToSelector:@selector(crashReportUserID)]) {
 		userid = [self.delegate crashReportUserID] ?: @"";
