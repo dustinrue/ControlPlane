@@ -403,7 +403,7 @@ foreach ($crashes as $crash) {
     }
 
     // add the crash data to the database
-    if ($crash["logdata"] != "" && $crash["version"] != "" & $crash["applicationname"] != "" && $crash["bundleidentifier"] != "" && $acceptlog == true) {
+    if ($crash["logdata"] != "" && $crash["version"] != "" && $crash["applicationname"] != "" && $crash["bundleidentifier"] != "" && $acceptlog == true) {
         // check if we need to redirect this crash
         if ($hockeyappidentifier != '') {
             if (!isset($hockeyAppURL))
