@@ -442,8 +442,7 @@
 }
 
 - (void)setMenuBarImage:(NSImage *)imageName {
-    DSLog(@"setting menu bar image to %@", [imageName name]);
-    [imageName setName:@"noexist.png"];
+
     @try {
         [sbItem setImage:imageName];
     }
