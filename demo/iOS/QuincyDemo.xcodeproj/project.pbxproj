@@ -65,9 +65,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1E94B4F50F5F2592002D4D2C /* View Controller */,
 				1D3623240D0F684500981E51 /* QuincyDemoAppDelegate.h */,
 				1D3623250D0F684500981E51 /* QuincyDemoAppDelegate.m */,
+				28D7ACF60DDB3853001CB0EB /* QuincyDemoViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* QuincyDemoViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -90,15 +91,6 @@
 			);
 			name = iOS;
 			path = ../../client/iOS;
-			sourceTree = "<group>";
-		};
-		1E94B4F50F5F2592002D4D2C /* View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				28D7ACF60DDB3853001CB0EB /* QuincyDemoViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* QuincyDemoViewController.m */,
-			);
-			name = "View Controller";
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {

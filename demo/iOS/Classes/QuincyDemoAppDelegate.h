@@ -34,7 +34,7 @@
 
 @interface QuincyDemoAppDelegate : NSObject <UIApplicationDelegate, BWQuincyManagerDelegate> {
 	UIApplication *_application;
-
+  
 	IBOutlet UIWindow *window;
 	IBOutlet QuincyDemoViewController *viewController;
 }
