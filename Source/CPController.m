@@ -35,6 +35,8 @@
 
 - (void)forceSwitchAndToggleSticky:(id)sender;
 
+- (void)setMenuBarImage:(NSImage *)imageName;
+
 @end
 
 #pragma mark -
@@ -422,6 +424,11 @@
 	[NSApp unhide];
 }
 
+
+
+#pragma mark Menu Bar Wrangling
+
+
 - (void)setStatusTitle:(NSString *)title
 {
 	if (!sbItem)
@@ -439,6 +446,17 @@
 	[sbItem setAttributedTitle:[as autorelease]];
 }
 
+- (void)setMenuBarImage:(NSImage *)imageName {
+
+    @try {
+        [sbItem setImage:imageName];
+    }
+    @catch (NSException *exception) {
+        DSLog(@"failed to set the menubar icon to %@ with error %@", [imageName name], [exception reason]);
+        [self setStatusTitle:@"Failed to set icon"];
+    }
+}
+
 - (void)showInStatusBar:(id)sender
 {
 	if (sbItem) {
@@ -454,10 +472,10 @@
 
     // only show the icon if preferences say we should
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
-        [sbItem setImage:(guessIsConfident ? sbImageActive : sbImageInactive)];
+        [self setMenuBarImage:(guessIsConfident ? sbImageActive : sbImageInactive)];
     }
     else {
-        [sbItem setImage:NULL];
+        [self setMenuBarImage:NULL];
     }
 	
 	[sbItem setMenu:sbMenu];
@@ -589,10 +607,9 @@
     }
 
 	[updatingLock lock];
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_CONTEXT) {
-        [sbItem setImage:NULL];
-    }
-	//[sbItem setImage:imageActive];
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_CONTEXT)
+        [self setMenuBarImage:NULL];
+
 	[updatingLock unlockWithCondition:1];
 }
 
@@ -976,7 +993,7 @@
 	if (no_guess) {
 		guessIsConfident = NO;
         if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
-            [sbItem setImage:sbImageInactive];
+            [self setMenuBarImage:sbImageInactive];
 
 		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
 			return;
@@ -993,7 +1010,7 @@
 	guessIsConfident = YES;
     
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
-        [sbItem setImage:sbImageActive];
+        [self setMenuBarImage:sbImageActive];
 
 	BOOL do_switch = YES;
 

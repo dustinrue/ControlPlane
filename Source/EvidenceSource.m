@@ -307,7 +307,6 @@
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
-   		NSLocalizedString(@"BluetoothScanner", @"Evidence source");
 		NSLocalizedString(@"Bonjour", @"Evidence source");
 		NSLocalizedString(@"CoreLocation", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
