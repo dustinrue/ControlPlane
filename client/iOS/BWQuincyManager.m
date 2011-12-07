@@ -302,30 +302,30 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 }
 
 - (BOOL)hasPendingCrashReport {
-	if (_crashReportActivated) {
-		NSFileManager *fm = [NSFileManager defaultManager];
+  if (_crashReportActivated) {
+    NSFileManager *fm = [NSFileManager defaultManager];
 		
-		if ([_crashFiles count] == 0 && [fm fileExistsAtPath:_crashesDir]) {
-			NSString *file = nil;
+    if ([_crashFiles count] == 0 && [fm fileExistsAtPath:_crashesDir]) {
+      NSString *file = nil;
       NSError *error = NULL;
       
-			NSDirectoryEnumerator *dirEnum = [fm enumeratorAtPath: _crashesDir];
+      NSDirectoryEnumerator *dirEnum = [fm enumeratorAtPath: _crashesDir];
 			
-			while ((file = [dirEnum nextObject])) {
-				NSDictionary *fileAttributes = [fm attributesOfItemAtPath:[_crashesDir stringByAppendingPathComponent:file] error:&error];
-				if ([[fileAttributes objectForKey:NSFileSize] intValue] > 0) {
-					[_crashFiles addObject:file];
-				}
-			}
-		}
-		
-		if ([_crashFiles count] > 0) {
+      while ((file = [dirEnum nextObject])) {
+        NSDictionary *fileAttributes = [fm attributesOfItemAtPath:[_crashesDir stringByAppendingPathComponent:file] error:&error];
+        if ([[fileAttributes objectForKey:NSFileSize] intValue] > 0) {
+          [_crashFiles addObject:file];
+        }
+      }
+    }
+    
+    if ([_crashFiles count] > 0) {
       BWQuincyLog(@"Pending crash reports found.");
-			return YES;
-		} else
-			return NO;
-	} else
-		return NO;
+      return YES;
+    } else
+      return NO;
+  } else
+    return NO;
 }
 
 
@@ -392,9 +392,9 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
         if (self.delegate != nil && [self.delegate respondsToSelector:@selector(userDidChooseSendAlways)]) {
           [self.delegate userDidChooseSendAlways];
         }
-
-				[self _sendCrashReports];
-				break;
+        
+        [self _sendCrashReports];
+        break;
       }
       default:
         _sendingInProgress = NO;
@@ -668,13 +668,13 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[_responseData release];
-	_responseData = nil;
+  [_responseData release];
+  _responseData = nil;
   _urlConnection = nil;
 	
-	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
-		[self.delegate connectionClosed];
-	}
+  if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
+    [self.delegate connectionClosed];
+  }
   
   BWQuincyLog(@"ERROR: %@", [error localizedDescription]);
   
@@ -682,7 +682,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	if (_statusCode >= 200 && _statusCode < 400 && _responseData != nil && [_responseData length] > 0) {
+  if (_statusCode >= 200 && _statusCode < 400 && _responseData != nil && [_responseData length] > 0) {
     [self _cleanCrashReports];
     
     _feedbackRequestID = nil;
@@ -729,21 +729,21 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
         [self showCrashStatusMessage];
       }
     }
-	} else {
+  } else {
     if (_responseData == nil || [_responseData length] == 0) {
       BWQuincyLog(@"ERROR: Sending failed with an empty response!");
     } else {
       BWQuincyLog(@"ERROR: Sending failed with status code: %i", _statusCode);
     }
-	}
+  }
 	
-	[_responseData release];
-	_responseData = nil;
+  [_responseData release];
+  _responseData = nil;
   _urlConnection = nil;
 	
-	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
-		[self.delegate connectionClosed];
-	}
+  if (self.delegate != nil && [self.delegate respondsToSelector:@selector(connectionClosed)]) {
+    [self.delegate connectionClosed];
+  }
   
   _sendingInProgress = NO;
 }
