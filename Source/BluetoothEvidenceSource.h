@@ -57,8 +57,8 @@
 // Bluetooth device scanning routines
 - (void) startInquiry;
 - (void) stopInquiry;
-- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender
-                        error:(IOReturn)error
-                      aborted:(BOOL)aborted;
+- (void) deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender
+                         error:(IOReturn)error
+                       aborted:(BOOL)aborted;
 
 @end

@@ -40,6 +40,11 @@
 	lock = [[NSLock alloc] init];
 	devices = [[NSMutableArray alloc] init];
     devicesRegisteredForDisconnectNotices = [[NSMutableArray alloc] init];
+    
+    // IOBluetoothDeviceInquiry object, used with found devices
+	inq = [[IOBluetoothDeviceInquiry inquiryWithDelegate:self] retain];
+	[inq setUpdateNewDeviceNames:TRUE];
+	[inq setInquiryLength:6];
 
     [self setKIOErrorSet:FALSE];
     
@@ -360,7 +365,9 @@
 }
 
 
-- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender error:(IOReturn)error aborted:(BOOL)aborted  {
+- (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender 
+                        error:(IOReturn)error 
+                      aborted:(BOOL)aborted  {
     
 #ifdef DEBUG_MODE
     DSLog(@"in deviceInquiryComplete with goingToSleep == %s and error %x",goingToSleep ? "YES" : "NO", error);
