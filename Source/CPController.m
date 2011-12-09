@@ -447,7 +447,7 @@
         [sbItem setImage:imageName];
     }
     @catch (NSException *exception) {
-        DSLog(@"failed to set the menubar icon to %@ with error %@", [imageName name], [exception reason]);
+        DSLog(@"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", [imageName name], [exception reason]);
         [self setStatusTitle:@"Failed to set icon"];
     }
 }
