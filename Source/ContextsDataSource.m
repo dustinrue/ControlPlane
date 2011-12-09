@@ -6,6 +6,7 @@
 //
 
 #import "ContextsDataSource.h"
+#import "DSLogger.h"
 
 
 @implementation Context
@@ -166,7 +167,13 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	[self saveContexts:self];		// make sure they're saved
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"ContextsChangedNotification" object:self];
+    @try {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ContextsChangedNotification" object:self];    
+    }
+    @catch (NSException * exception) {
+        DSLog(@"unable to post ContextsChangedNotification because: %@", [exception reason]);
+    }
+	
 }
 
 #pragma mark -
