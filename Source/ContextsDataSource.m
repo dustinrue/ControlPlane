@@ -7,7 +7,6 @@
 
 #import "ContextsDataSource.h"
 
-
 @implementation CContext
 
 - (id)init
@@ -163,11 +162,15 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private
-- (void)postContextsChangedNotification
-{
-	[self saveContexts:self];		// make sure they're saved
+- (void) postContextsChangedNotification {
+	[self saveContexts: self];		// make sure they're saved
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"ContextsChangedNotification" object:self];
+	@try {
+		[NSNotificationCenter.defaultCenter postNotificationName: @"ContextsChangedNotification"
+														  object: self];    
+	} @catch (NSException *exception) {
+		LogError_Context(@"unable to post ContextsChangedNotification because: %@", exception.reason);
+	}
 }
 
 #pragma mark -

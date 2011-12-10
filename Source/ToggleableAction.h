@@ -5,7 +5,7 @@
 //  Created by David Symonds on 7/06/07.
 //
 
-#import "CAction.h"
+#import "Action.h"
 
 
 @interface ToggleableAction : CAction <ActionWithLimitedOptions> {

@@ -1,6 +1,6 @@
 
 #import "AboutPanel.h"
-#import "CAction.h"
+#import "Action.h"
 #import "PrefsWindowController.h"
 
 

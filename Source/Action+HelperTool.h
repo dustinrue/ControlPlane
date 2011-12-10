@@ -6,7 +6,7 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "CAction.h"
+#import "Action.h"
 #import "CPHelperToolCommon.h"
 
 @interface CAction (HelperTool)

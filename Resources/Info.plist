@@ -28,14 +28,14 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
+	<key>CPCrashReportURL</key>
+	<string>http://crashreport.controlplaneapp.com/crash_v200.php</string>
 	<key>CPDonationURL</key>
 	<string>http://controlplane.dustinrue.com/support-controlplane/</string>
 	<key>CPSupportURL</key>
 	<string>http://groups.google.com/group/controlplane-support/topics</string>
 	<key>CPWebPageURL</key>
 	<string>http://controlplane.dustinrue.com/</string>
-	<key>CPCrashReportURL</key>
-	<string>http://crashreport.controlplaneapp.com/crash_v200.php</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>

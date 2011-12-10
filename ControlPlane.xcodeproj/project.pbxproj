@@ -330,13 +330,13 @@
 		DD2A78CD14855B1C0010AFE0 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = Resources/it.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
 		DD2A78CF14855B240010AFE0 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "Resources/pt-BR.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		DD2A78D114855B430010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/MainMenu.xib"; sourceTree = "<group>"; };
-		DD2A78D314855B4C0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		DD2A78D314855B4C0010AFE0 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DD2A78D514855B730010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/GenericRule.xib"; sourceTree = "<group>"; };
 		DD2A78D714855B7A0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/IPRule.xib"; sourceTree = "<group>"; };
 		DD2A78D914855B800010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/LightRule.xib"; sourceTree = "<group>"; };
 		DD2A78DB14855B880010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "Resources/pt-PT.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		DD2A78DD14855B8D0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/TimeOfDayRule.xib"; sourceTree = "<group>"; };
-		DD2A78DF14855B9B0010AFE0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
+		DD2A78DF14855B9B0010AFE0 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD3BAB8414163C6B000D5F88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DD4364BD145E13A500A716A1 /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DD4364BE145E13A500A716A1 /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };

@@ -5,7 +5,7 @@
 //  Created by David Symonds on 1/02/07.
 //
 
-#import "CAction.h"
+#import "Action.h"
 #import "CPController.h"
 #import "CPController+SleepThread.h"
 //#import "NetworkLocationAction.h"
@@ -446,15 +446,13 @@
 	[sbItem setAttributedTitle:[as autorelease]];
 }
 
-- (void)setMenuBarImage:(NSImage *)imageName {
-
-    @try {
-        [sbItem setImage:imageName];
-    }
-    @catch (NSException *exception) {
-        DSLog(@"failed to set the menubar icon to %@ with error %@", [imageName name], [exception reason]);
-        [self setStatusTitle:@"Failed to set icon"];
-    }
+- (void) setMenuBarImage: (NSImage *) imageName {
+	@try {
+		sbItem.image = imageName;
+    } @catch (NSException *exception) {
+		LogError(nil, @"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", imageName.name, exception.reason);
+		[self setStatusTitle: @"Failed to set icon"];
+	}
 }
 
 - (void)showInStatusBar:(id)sender

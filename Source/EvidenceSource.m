@@ -238,7 +238,7 @@
     for (NSUInteger i = 0; i < [tmp count]; i++) {
         currentRule = [tmp objectAtIndex:i];
         NSString *currentType = [[[NSString alloc] initWithString:[currentRule valueForKey:@"type"]] autorelease];
-        DSLog(@"comparing %@ to %@", currentType, [[self typesOfRulesMatched] objectAtIndex:0]);
+        LogInfo_Rule(@"comparing %@ to %@", currentType, [[self typesOfRulesMatched] objectAtIndex:0]);
         
         if ([currentType isEqualToString:[[self typesOfRulesMatched] objectAtIndex:0]]) {
             [rulesThatBelongToThisEvidenceSource addObject:currentRule];
