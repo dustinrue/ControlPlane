@@ -517,7 +517,7 @@ foreach ($crashes as $crash) {
           $noAddressCrashText = preg_replace('/0x[0-9a-f]+/', '', $appcrashtext);
           if (strpos($noAddressDesc, $noAddressCrashText) === false) {
             $appcrashtext = $desc."\n".$appcrashtext;
-            $query = "UPDATE ".$dbgrouptable." SET description='".$appcrashtext."' WHERE id=".$log_groupid;
+            $query = "UPDATE ".$dbgrouptable." SET description='".mysql_real_escape_string($appcrashtext)."' WHERE id=".$log_groupid;
             $result = mysql_query($query) or die(xml_for_result('Error in SQL '.$query));
           }
         }
