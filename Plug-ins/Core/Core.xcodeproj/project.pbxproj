@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD4618B814940B3000D53AF0 /* ScriptSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4618B714940B3000D53AF0 /* ScriptSource.m */; };
+		DD4618BB1494189300D53AF0 /* ScriptRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4618BA1494189300D53AF0 /* ScriptRule.m */; };
 		DDB1518E146EE54400FA7835 /* Plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15184146EE4F500FA7835 /* Plugins.framework */; };
 		DDB151AA146EE8A200FA7835 /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15182146EE4F500FA7835 /* NSLogger.framework */; };
 		DDF52D881460B49800A42B09 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF52D851460B49800A42B09 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -98,6 +100,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD4618B614940B3000D53AF0 /* ScriptSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptSource.h; path = Source/ScriptSource.h; sourceTree = SOURCE_ROOT; };
+		DD4618B714940B3000D53AF0 /* ScriptSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScriptSource.m; path = Source/ScriptSource.m; sourceTree = SOURCE_ROOT; };
+		DD4618B91494189300D53AF0 /* ScriptRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptRule.h; path = Source/ScriptRule.h; sourceTree = SOURCE_ROOT; };
+		DD4618BA1494189300D53AF0 /* ScriptRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScriptRule.m; path = Source/ScriptRule.m; sourceTree = SOURCE_ROOT; };
 		DDB1517C146EE4F500FA7835 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../Framework/Framework.xcodeproj; sourceTree = "<group>"; };
 		DDF52D6A1460B3C900A42B09 /* libJSONKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJSONKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF52D7F1460B44E00A42B09 /* Core.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Core.xcconfig; path = ../../xcconfigs/Core.xcconfig; sourceTree = "<group>"; };
@@ -373,6 +379,8 @@
 				DDF52DD01460B5CB00A42B09 /* PowerSourceRule.m */,
 				DDF52DD11460B5CB00A42B09 /* RunningApplicationRule.h */,
 				DDF52DD21460B5CB00A42B09 /* RunningApplicationRule.m */,
+				DD4618B91494189300D53AF0 /* ScriptRule.h */,
+				DD4618BA1494189300D53AF0 /* ScriptRule.m */,
 				DDF52DD71460B5CB00A42B09 /* SystemStateRule.h */,
 				DDF52DD81460B5CB00A42B09 /* SystemStateRule.m */,
 				DDF52DDB1460B5CB00A42B09 /* TimeOfDayRule.h */,
@@ -410,6 +418,8 @@
 				DDF52DCE1460B5CB00A42B09 /* PowerSource.m */,
 				DDF52DD31460B5CB00A42B09 /* RunningApplicationSource.h */,
 				DDF52DD41460B5CB00A42B09 /* RunningApplicationSource.m */,
+				DD4618B614940B3000D53AF0 /* ScriptSource.h */,
+				DD4618B714940B3000D53AF0 /* ScriptSource.m */,
 				DDF52DD51460B5CB00A42B09 /* SensorsSource.h */,
 				DDF52DD61460B5CB00A42B09 /* SensorsSource.m */,
 				DDF52DD91460B5CB00A42B09 /* SystemStateSource.h */,
@@ -607,6 +617,8 @@
 				DDF52E621460BAEE00A42B09 /* USBSource.m in Sources */,
 				DDF52E631460BAEE00A42B09 /* WLANSource.m in Sources */,
 				DDF52E641460BAEE00A42B09 /* CorePlugin.m in Sources */,
+				DD4618B814940B3000D53AF0 /* ScriptSource.m in Sources */,
+				DD4618BB1494189300D53AF0 /* ScriptRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

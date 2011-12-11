@@ -25,6 +25,7 @@
 #import "NetworkLinkRule.h"
 #import "PowerSourceRule.h"
 #import "RunningApplicationRule.h"
+#import "ScriptRule.h"
 #import "SystemStateRule.h"
 #import "TimeOfDayRule.h"
 #import "USBRule.h"
@@ -48,6 +49,7 @@
 			NetworkLinkRule.class,
 			PowerSourceRule.class,
 			RunningApplicationRule.class,
+			ScriptRule.class,
 			SystemStateRule.class,
 			TimeOfDayRule.class,
 			USBRule.class,
@@ -66,6 +68,7 @@
 #import "NetworkSource.h"
 #import "PowerSource.h"
 #import "RunningApplicationSource.h"
+#import "ScriptSource.h"
 #import "SensorsSource.h"
 #import "SystemStateSource.h"
 #import "USBSource.h"
@@ -83,6 +86,7 @@
 			NetworkSource.class,
 			PowerSource.class,
 			RunningApplicationSource.class,
+			ScriptSource.class,
 			SensorsSource.class,
 			SystemStateSource.class,
 			USBSource.class,
