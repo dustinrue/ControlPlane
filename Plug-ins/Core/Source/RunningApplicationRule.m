@@ -41,15 +41,8 @@
 	return NSLocalizedString(@"The following application is running", @"RunningApplicationRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"RunningApplicationSource"];
-	
-	// currently a match?
-	[self applicationsChangedWithOld: nil andNew: ((RunningApplicationSource *) source).applications];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"RunningApplicationSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: RunningApplicationSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -57,7 +50,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
+	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: RunningApplicationSource.class];
 	NSString *name = [source.applications objectForKey: value];
 	
 	if (!name)
@@ -67,7 +60,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: @"RunningApplicationSource"];
+	RunningApplicationSource *source = (RunningApplicationSource *) [SourcesManager.sharedSourcesManager getSource: RunningApplicationSource.class];
 	
 	return source.applications.allKeys;
 }

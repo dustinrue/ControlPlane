@@ -41,15 +41,8 @@
 	return NSLocalizedString(@"Display is", @"DisplayStateRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"PowerSource"];
-	
-	// currently a match?
-	[self displayStateChangedWithOld: kDisplayOn andNew: ((PowerSource *) source).displayState];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"PowerSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: PowerSource.class];
 }
 
 - (void) loadData: (id) data {

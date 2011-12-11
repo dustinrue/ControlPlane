@@ -67,6 +67,10 @@
 	return NSLocalizedString(@"Time is", @"TimeOfDayRule");
 }
 
+- (NSArray *) observedSources {
+	return [NSArray new];
+}
+
 - (void) beingEnabled {
 	m_timer = [NSTimer scheduledTimerWithTimeInterval: 60.0
 											   target: self

@@ -45,15 +45,8 @@
 	return NSLocalizedString(@"Location is", @"LocationRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"LocationSource"];
-	
-	// currently a match?
-	[self locationChangedWithOld: nil andNew: ((LocationSource *) source).location];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"LocationSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: LocationSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -76,7 +69,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	LocationSource *source = (LocationSource *) [SourcesManager.sharedSourcesManager getSource: @"LocationSource"];
+	LocationSource *source = (LocationSource *) [SourcesManager.sharedSourcesManager getSource: LocationSource.class];
 	
 	CLLocation *location = source.location;
 	if (!location)

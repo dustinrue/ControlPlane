@@ -64,17 +64,8 @@
 	return NSLocalizedString(@"of the following are true", @"CombinedRule");
 }
 
-- (void) beingEnabled {
-	for (Rule *rule in self.rules)
-		[rule addObserver: self
-			   forKeyPath: @"match"
-				  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-				 selector: @selector(ruleMatchChangedWithOld:andNew:)];
-}
-
-- (void) beingDisabled {
-	for (Rule *rule in self.rules)
-		[rule removeObserver: self forKeyPath: @"match"];
+- (NSArray *) observedSources {
+	return [NSArray new];
 }
 
 - (void) loadData: (id) data {

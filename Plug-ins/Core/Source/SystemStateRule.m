@@ -41,15 +41,8 @@
 	return NSLocalizedString(@"System state is", @"SystemStateRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"SystemStateSource"];
-	
-	// currently a match?
-	[self stateChangedWithOld: kSystemNormal andNew: ((SystemStateSource *) source).state];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"SystemStateSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: SystemStateSource.class];
 }
 
 - (void) loadData: (id) data {

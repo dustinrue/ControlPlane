@@ -42,15 +42,8 @@
 	return NSLocalizedString(@"Audio output going to", @"AudioOutputRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"AudioSource"];
-	
-	// currently a match?
-	[self outputChangedWithOld: 0 andNew: ((AudioSource *) source).output];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"AudioSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: AudioSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -58,7 +51,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: @"AudioSource"];
+	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: AudioSource.class];
 	NSString *name = [source.devices objectForKey: value];
 	
 	if (name)
@@ -68,7 +61,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: @"AudioSource"];
+	AudioSource *source = (AudioSource *) [SourcesManager.sharedSourcesManager getSource: AudioSource.class];
 	NSMutableArray *result = [NSMutableArray new];
 	NSString *typeName = NSLocalizedString(@"output", @"AudioSource");
 	

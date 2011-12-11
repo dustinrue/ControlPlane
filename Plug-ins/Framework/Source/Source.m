@@ -9,6 +9,7 @@
 #import "KVOAdditions.h"
 #import "Rule.h"
 #import "Source.h"
+#import <objc/message.h>
 
 @interface Source (Private)
 
@@ -78,6 +79,19 @@
 	
 	ZAssert(self.listenersCount > 0, @"Source has no listeners!");
 	self.listenersCount--;
+}
+
+- (void) checkObserver: (Rule *) rule {
+	SEL sel = nil;
+	
+	for (NSString *key in ((id<SourceProtocol>) self).observableKeys) {
+		sel = NSSelectorFromString([NSString stringWithFormat: @"%@ChangedWithOld:andNew:", key]);
+		
+		if ([rule respondsToSelector: sel]) {
+			id val = objc_msgSend(self, NSSelectorFromString(key));
+			objc_msgSend(rule, sel, val, val);
+		}
+	}
 }
 
 @end

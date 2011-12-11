@@ -16,9 +16,9 @@
 + (SourcesManager *) sharedSourcesManager;
 - (void) registerSourceType: (Class) type;
 - (void) unregisterSourceType: (Class) type;
-- (Source *) getSource: (NSString *) name;
+- (Source *) getSource: (Class) type;
 
-- (Source *) registerRule: (Rule *) rule toSource: (NSString *) source;
-- (void) unregisterRule: (Rule *) rule fromSource: (NSString *) source;
+- (void) registerRule: (Rule *) rule toSource: (Class) source;
+- (void) unregisterRule: (Rule *) rule fromSource: (Class) source;
 
 @end

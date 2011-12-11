@@ -39,15 +39,8 @@
 	return NSLocalizedString(@"An attached monitor is named", @"MonitorRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"MonitorSource"];
-	
-	// currently a match?
-	[self devicesChangedWithOld: nil andNew: ((MonitorSource *) source).devices];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"MonitorSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: MonitorSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -55,7 +48,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	MonitorSource *source = (MonitorSource *) [SourcesManager.sharedSourcesManager getSource: @"MonitorSource"];
+	MonitorSource *source = (MonitorSource *) [SourcesManager.sharedSourcesManager getSource: MonitorSource.class];
 	NSString *name = [source.devices objectForKey: value];
 	
 	if (name)
@@ -65,7 +58,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	MonitorSource *source = (MonitorSource *) [SourcesManager.sharedSourcesManager getSource: @"MonitorSource"];
+	MonitorSource *source = (MonitorSource *) [SourcesManager.sharedSourcesManager getSource: MonitorSource.class];
 	
 	return source.devices.allKeys;
 }

@@ -7,6 +7,15 @@
 //
 
 #import "Rule.h"
+#import "Source.h"
+#import "SourcesManager.h"
+
+@interface Rule (Private)
+
+- (void) beingEnabled;
+- (void) beingDisabled;
+
+@end
 
 @implementation Rule
 
@@ -35,9 +44,9 @@
 - (void) setEnabled: (BOOL) enabled {
 	@synchronized(m_enabledLock) {
 		if (!m_enabled && enabled)
-			[(id<RuleProtocol>) self beingEnabled];
+			[self beingEnabled];
 		else if (m_enabled && !enabled)
-			[(id<RuleProtocol>) self beingDisabled];
+			[self beingDisabled];
 		
 		m_enabled = enabled;
 	}
@@ -94,6 +103,26 @@
 		m_negation = negation;
 		self.match = old;
 	}
+}
+
+#pragma mark - Private methods
+
+- (void) beingEnabled {
+	for (Class class in ((id<RuleProtocol>) self).observedSources) {
+		NSString *src = NSStringFromClass(class);
+		
+		// register with source
+		[SourcesManager.sharedSourcesManager registerRule: self toSource: src];
+		
+		// currently a match?
+		[[SourcesManager.sharedSourcesManager getSource: src] checkObserver: self];
+	}
+}
+
+- (void) beingDisabled {
+	for (Class class in ((id<RuleProtocol>) self).observedSources)
+		[SourcesManager.sharedSourcesManager unregisterRule: self
+												 fromSource: NSStringFromClass(class)];
 }
 
 @end

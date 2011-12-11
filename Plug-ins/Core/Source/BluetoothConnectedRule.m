@@ -41,15 +41,8 @@
 	return NSLocalizedString(@"Connected to", @"BluetoothConnectedRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"BluetoothConnectedSource"];
-	
-	// currently a match?
-	[self devicesChangedWithOld: nil andNew: ((BluetoothConnectedSource *) source).devices];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"AudioSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: BluetoothConnectedSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -57,7 +50,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	BluetoothConnectedSource *source = (BluetoothConnectedSource *) [SourcesManager.sharedSourcesManager getSource: @"BluetoothConnectedSource"];
+	BluetoothConnectedSource *source = (BluetoothConnectedSource *) [SourcesManager.sharedSourcesManager getSource: BluetoothConnectedSource.class];
 	
 	// get device data
 	NSDictionary *data = [source.devices objectForKey: value];
@@ -73,7 +66,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	BluetoothConnectedSource *source = (BluetoothConnectedSource *) [SourcesManager.sharedSourcesManager getSource: @"BluetoothConnectedSource"];
+	BluetoothConnectedSource *source = (BluetoothConnectedSource *) [SourcesManager.sharedSourcesManager getSource: BluetoothConnectedSource.class];
 	
 	return source.recentDevices.allKeys;
 }

@@ -53,15 +53,8 @@
 	return NSLocalizedString(@"Connected to", @"USBRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"USBSource"];
-	
-	// currently a match?
-	[self devicesChangedWithOld: nil andNew: ((USBSource *) source).devices];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"USBSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: USBSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -76,7 +69,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	USBSource *source = (USBSource *) [SourcesManager.sharedSourcesManager getSource: @"USBSource"];
+	USBSource *source = (USBSource *) [SourcesManager.sharedSourcesManager getSource: USBSource.class];
 	
 	return source.devices;
 }

@@ -53,15 +53,8 @@
 	return NSLocalizedString(@"In presence of", @"BonjourRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"BonjourSource"];
-	
-	// currently a match?
-	[self servicesChangedWithOld: nil andNew: ((BonjourSource *) source).services];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"BonjourSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: BonjourSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -77,7 +70,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	BonjourSource *source = (BonjourSource *) [SourcesManager.sharedSourcesManager getSource: @"BonjourSource"];
+	BonjourSource *source = (BonjourSource *) [SourcesManager.sharedSourcesManager getSource: BonjourSource.class];
 	
 	return source.services;
 }

@@ -41,15 +41,8 @@
 	return NSLocalizedString(@"In presence of", @"BluetoothScannerRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"BluetoothScannerSource"];
-	
-	// currently a match?
-	[self devicesChangedWithOld: nil andNew: ((BluetoothScannerSource *) source).devices];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"AudioSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: BluetoothScannerSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -57,7 +50,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	BluetoothScannerSource *source = (BluetoothScannerSource *) [SourcesManager.sharedSourcesManager getSource: @"BluetoothScannerSource"];
+	BluetoothScannerSource *source = (BluetoothScannerSource *) [SourcesManager.sharedSourcesManager getSource: BluetoothScannerSource.class];
 	
 	// get device data
 	NSDictionary *data = [source.devices objectForKey: value];
@@ -71,7 +64,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	BluetoothScannerSource *source = (BluetoothScannerSource *) [SourcesManager.sharedSourcesManager getSource: @"BluetoothScannerSource"];
+	BluetoothScannerSource *source = (BluetoothScannerSource *) [SourcesManager.sharedSourcesManager getSource: BluetoothScannerSource.class];
 	
 	return source.devices.allKeys;
 }

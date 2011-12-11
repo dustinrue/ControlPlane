@@ -41,15 +41,8 @@
 	return NSLocalizedString(@"Connected to", @"FireWireRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"FireWireSource"];
-	
-	// currently a match?
-	[self devicesChangedWithOld: nil andNew: ((FireWireSource *) source).devices];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"FireWireSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: FireWireSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -57,7 +50,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	FireWireSource *source = (FireWireSource *) [SourcesManager.sharedSourcesManager getSource: @"FireWireSource"];
+	FireWireSource *source = (FireWireSource *) [SourcesManager.sharedSourcesManager getSource: FireWireSource.class];
 	NSDictionary *item = [source.devices objectForKey: value];
 	
 	if (item)
@@ -69,7 +62,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	FireWireSource *source = (FireWireSource *) [SourcesManager.sharedSourcesManager getSource: @"FireWireSource"];
+	FireWireSource *source = (FireWireSource *) [SourcesManager.sharedSourcesManager getSource: FireWireSource.class];
 	
 	return source.devices.allKeys;
 }

@@ -8,11 +8,10 @@
 
 @protocol RuleProtocol <NSObject>
 
-- (void) beingEnabled;
-- (void) beingDisabled;
 - (void) loadData: (id) data;
 - (NSString *) describeValue: (id) value;
 
+@property (readonly) NSArray *observedSources;
 @property (readonly) NSString *name;
 @property (readonly) NSString *category;
 @property (readonly) NSArray *suggestedValues;

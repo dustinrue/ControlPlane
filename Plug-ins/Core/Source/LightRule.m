@@ -45,15 +45,8 @@
 	return NSLocalizedString(@"Ambient light level is", @"LightRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"SensorsSource"];
-	
-	// currently a match?
-	[self lightLevelChangedWithOld: -1.0 andNew: ((SensorsSource *) source).lightLevel];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"SensorsSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: SensorsSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -73,7 +66,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	SensorsSource *source = (SensorsSource *) [SourcesManager.sharedSourcesManager getSource: @"SensorsSource"];
+	SensorsSource *source = (SensorsSource *) [SourcesManager.sharedSourcesManager getSource: SensorsSource.class];
 	BOOL above = source.lightLevel >= 0.5;
 	
 	// convert to dictionary

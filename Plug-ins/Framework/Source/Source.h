@@ -29,5 +29,6 @@
 
 - (void) addObserver: (Rule *) rule;
 - (void) removeObserver: (Rule *) rule;
+- (void) checkObserver: (Rule *) rule;
 
 @end

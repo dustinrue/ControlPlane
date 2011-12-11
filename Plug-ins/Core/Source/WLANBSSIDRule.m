@@ -51,16 +51,8 @@
 	return NSLocalizedString(@"Connected to an access point with MAC address", @"WLANBSSIDRule");
 }
 
-- (void) beingEnabled {
-	[SourcesManager.sharedSourcesManager registerRule: self toSource: @"WLANSource"];
-	
-	// currently a match?
-	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: @"WLANSource"];
-	[self networksChangedWithOld: nil andNew: source.networks];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"WLANSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: WLANSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -74,7 +66,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: @"WLANSource"];
+	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: WLANSource.class];
 	
 	return source.networks;
 }

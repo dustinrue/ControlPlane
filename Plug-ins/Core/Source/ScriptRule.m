@@ -44,15 +44,8 @@
 	return NSLocalizedString(@"Script result is", @"ScriptRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"ScriptSource"];
-	
-	// currently a match?
-	[self resultsChangedWithOld: nil andNew: ((ScriptSource *) source).results];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"ScriptSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: ScriptSource.class];
 }
 
 - (void) loadData: (id) data {

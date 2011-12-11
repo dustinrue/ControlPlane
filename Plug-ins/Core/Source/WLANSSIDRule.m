@@ -51,15 +51,8 @@
 	return NSLocalizedString(@"Connected to a WiFi network named", @"WLANSSIDRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"WLANSource"];
-	
-	// currently a match?
-	[self networksChangedWithOld: nil andNew: ((WLANSource *) source).networks];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"WLANSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: WLANSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -71,7 +64,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: @"WLANSource"];
+	WLANSource *source = (WLANSource *) [SourcesManager.sharedSourcesManager getSource: WLANSource.class];
 	NSMutableArray *result = [NSMutableArray new];
 	
 	// loop through networks

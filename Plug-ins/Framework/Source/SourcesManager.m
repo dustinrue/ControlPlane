@@ -53,31 +53,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	}
 }
 
-- (Source *) getSource: (NSString *) name {
+- (Source *) getSource: (Class) type {
 	@synchronized(m_sources) {
-		return [m_sources objectForKey: name];
+		return [m_sources objectForKey: NSStringFromClass(type)];
 	}
 }
 
 #pragma mark - Rules registration
 
-- (Source *) registerRule: (Rule *) rule toSource: (NSString *) name {
+- (void) registerRule: (Rule *) rule toSource: (Class) type {
 	@synchronized(m_sources) {
 		// find it
-		Source *source = [self getSource: name];
-		ZAssert(source, @"Unknown source: %@", name);
+		Source *source = [self getSource: type];
+		ZAssert(source, @"Unknown source: %@", NSStringFromClass(type));
 		
 		// register
 		[source addObserver: rule];
-		return source;
 	}
 }
 
-- (void) unregisterRule: (Rule *) rule fromSource: (NSString *) name {
+- (void) unregisterRule: (Rule *) rule fromSource: (Class) type {
 	@synchronized(m_sources) {
 		// find it
-		Source *source = [self getSource: name];
-		ZAssert(source, @"Unknown source: %@", name);
+		Source *source = [self getSource: type];
+		ZAssert(source, @"Unknown source: %@", NSStringFromClass(type));
 		
 		// unregister
 		[source removeObserver: rule];

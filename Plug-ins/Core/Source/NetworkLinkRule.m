@@ -42,15 +42,8 @@
 	return NSLocalizedString(@"Network link on interface", @"NetworkLinkRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"NetworkSource"];
-	
-	// currently a match?
-	[self interfacesChangedWithOld: nil andNew: ((NetworkSource *) source).interfaces];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"NetworkSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: NetworkSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -59,7 +52,7 @@
 }
 
 - (NSString *) describeValue: (id) value {
-	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkSource"];
+	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: NetworkSource.class];
 	NSString *interface = [value objectForKey: @"name"];
 	
 	// get interface name
@@ -78,7 +71,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkSource"];
+	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: NetworkSource.class];
 	NSMutableArray *result = [NSMutableArray new];
 	
 	// loop through devices

@@ -63,15 +63,8 @@
 	return NSLocalizedString(@"IP settings are", @"IPRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"NetworkSource"];
-	
-	// currently a match?
-	[self addressesChangedWithOld: nil andNew: ((NetworkSource *) source).addresses];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"NetworkSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: NetworkSource.class];
 }
 
 - (void) loadData: (id) data {
@@ -87,7 +80,7 @@
 }
 
 - (NSArray *) suggestedValues {
-	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: @"NetworkSource"];
+	NetworkSource *source = (NetworkSource *) [SourcesManager.sharedSourcesManager getSource: NetworkSource.class];
 	NSString *address = nil;
 	
 	// do we have an ip?

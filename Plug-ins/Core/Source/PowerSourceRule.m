@@ -42,15 +42,8 @@
 	return NSLocalizedString(@"Being powered by", @"PowerSourceRule");
 }
 
-- (void) beingEnabled {
-	Source *source = [SourcesManager.sharedSourcesManager registerRule: self toSource: @"PowerSource"];
-	
-	// currently a match?
-	[self powerSourceChangedWithOld: kPowerError andNew: ((PowerSource *) source).powerSource];
-}
-
-- (void) beingDisabled {
-	[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: @"PowerSource"];
+- (NSArray *) observedSources {
+	return [NSArray arrayWithObject: PowerSource.class];
 }
 
 - (void) loadData: (id) data {
