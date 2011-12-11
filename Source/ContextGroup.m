@@ -57,14 +57,14 @@
 #pragma mark - Context switching
 
 - (void) confidenceChanged {
-	static NSUInteger treshold = 80;
 	Context *suggestion = nil;
 	
 	// find context with highest confidence
 	for (Context *context in m_contexts.allValues)
-		if (context.confidence > treshold)
-			if (!suggestion || context.confidence > suggestion.confidence)
-				suggestion = context;
+		if (context.match) {
+			suggestion = context;
+			break;
+		}
 	
 	// Do we have a new suggestion?
 	if (m_suggestedContext != suggestion) {

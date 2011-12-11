@@ -25,7 +25,6 @@
 
 @interface Rule : NSObject {
 @private
-	NSUInteger m_confidence;
 	BOOL m_enabled;
 	NSDictionary *m_data;
 	BOOL m_match;
@@ -35,7 +34,6 @@
 	NSRecursiveLock *m_matchLock;
 }
 
-@property (readwrite, assign) NSUInteger confidence;
 @property (readwrite, copy) NSDictionary *data;
 @property (readwrite, assign) BOOL enabled;
 @property (readwrite, assign) BOOL match;

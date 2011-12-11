@@ -11,7 +11,7 @@
 
 @interface Context : NSObject {
 	BOOL m_active;
-	NSUInteger m_confidence;
+	BOOL m_match;
 	NSString *m_name;
 	NSString *m_uuid;
 	NSMutableArray *m_actions;
@@ -26,7 +26,7 @@
 - (void) removeRule: (Rule *) rule;
 
 @property (readwrite, assign) BOOL active;
-@property (readwrite, assign) NSUInteger confidence;
+@property (readwrite, assign) BOOL match;
 @property (readwrite, copy) NSString *name;
 @property (readwrite, copy) NSString *uuid;
 @property (readonly) NSArray *actions;

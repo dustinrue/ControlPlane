@@ -10,7 +10,6 @@
 
 @implementation Rule
 
-@synthesize confidence = m_confidence;
 @synthesize match = m_match;
 
 - (id) init {
@@ -23,7 +22,6 @@
 	m_matchLock = [NSRecursiveLock new];
 	
 	self.enabled = NO;
-	self.confidence = 100;
 	self.match = NO;
 	self.negation = NO;
 	

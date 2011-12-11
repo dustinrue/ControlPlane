@@ -24,7 +24,7 @@
 
 @synthesize actions = m_actions;
 @synthesize active = m_active;
-@synthesize confidence = m_confidence;
+@synthesize match = m_match;
 @synthesize name = m_name;
 @synthesize rules = m_rules;
 @synthesize uuid = m_uuid;
@@ -38,7 +38,7 @@
 	m_actionsLock = [NSLock new];
 	m_rules = [NSMutableArray new];
 	self.active = NO;
-	self.confidence = 0;
+	self.match = NO;
 	self.name = nil;
 	self.uuid = [Context stringWithUUID];
 	
@@ -90,16 +90,13 @@
 	// recalculate our confidence level, using (a modified version of) Hooper's Rule
 	// namely: Ctot = 1 - ((1 - C1) * (1 - C2) * (1 - C3) * ... )
 	
-	double product = 1.0;
+	BOOL match = YES;
 	for (Rule *rule in self.rules)
-		if (rule.match)
-			product *= 1.0 - (rule.confidence / 100.0);
-	product = (1.0 - product);
-	NSUInteger confidence = (NSUInteger) (100 * product);
+		match &= rule.match;
 	
 	// store it
-	if (self.confidence != confidence)
-		self.confidence = confidence;
+	if (self.match != match)
+		self.match = match;
 }
 
 #pragma mark - Activation
