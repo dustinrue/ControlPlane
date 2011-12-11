@@ -83,10 +83,11 @@
 		location = [[CLLocation alloc] initWithLatitude: 0.0 longitude: 0.0];
 	
 	// location to dictionary
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithDouble: location.coordinate.latitude], @"latitude",
-			[NSNumber numberWithDouble: location.coordinate.longitude], @"longitude",
-			nil];
+	return [NSArray arrayWithObject:
+			[NSDictionary dictionaryWithObjectsAndKeys:
+			 [NSNumber numberWithDouble: location.coordinate.latitude], @"latitude",
+			 [NSNumber numberWithDouble: location.coordinate.longitude], @"longitude",
+			 nil]];
 }
 
 @end

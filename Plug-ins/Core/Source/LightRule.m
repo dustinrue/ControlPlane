@@ -77,10 +77,11 @@
 	BOOL above = source.lightLevel >= 0.5;
 	
 	// convert to dictionary
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithDouble: 0.5], @"treshold",
-			[NSNumber numberWithBool: above], @"above",
-			nil];
+	return [NSArray arrayWithObject:
+			[NSDictionary dictionaryWithObjectsAndKeys:
+			 [NSNumber numberWithDouble: 0.5], @"treshold",
+			 [NSNumber numberWithBool: above], @"above",
+			 nil]];
 }
 
 @end

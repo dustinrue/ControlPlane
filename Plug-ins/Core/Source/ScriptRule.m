@@ -71,11 +71,12 @@
 	NSArray *script = [NSArray arrayWithObject:
 					   [NSString stringWithFormat: @"%@myScript.sh", NSHomeDirectory()]];
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-			script, @"script",
-			[NSNumber numberWithDouble: 10.0], @"delay",
-			[NSNumber numberWithInt: 0], @"result",
-			nil];
+	return [NSArray arrayWithObject:
+			[NSDictionary dictionaryWithObjectsAndKeys:
+			 script, @"script",
+			 [NSNumber numberWithDouble: 10.0], @"delay",
+			 [NSNumber numberWithInt: 0], @"result",
+			 nil]];
 }
 
 @end

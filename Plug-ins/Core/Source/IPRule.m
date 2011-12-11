@@ -96,10 +96,11 @@
 	else
 		address = @"192.168.0.1";
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-			address, @"ip",
-			@"255.255.255.0", @"netmask",
-			nil];
+	return [NSArray arrayWithObject:
+			[NSDictionary dictionaryWithObjectsAndKeys:
+			 address, @"ip",
+			 @"255.255.255.0", @"netmask",
+			 nil]];
 }
 
 @end
