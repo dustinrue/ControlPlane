@@ -87,9 +87,6 @@
 	if (oldMatch == newMatch)
 		return;
 	
-	// recalculate our confidence level, using (a modified version of) Hooper's Rule
-	// namely: Ctot = 1 - ((1 - C1) * (1 - C2) * (1 - C3) * ... )
-	
 	BOOL match = YES;
 	for (Rule *rule in self.rules)
 		match &= rule.match;

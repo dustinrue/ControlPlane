@@ -24,7 +24,7 @@
 @end
 
 @interface Rule : NSObject {
-@private
+@protected
 	BOOL m_enabled;
 	NSDictionary *m_data;
 	BOOL m_match;

@@ -80,7 +80,6 @@
 	}
 }
 
-
 - (BOOL) negation {
 	return m_negation;
 }

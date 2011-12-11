@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD4618C11494EEEE00D53AF0 /* CombinedRule.h in Headers */ = {isa = PBXBuildFile; fileRef = DD4618BC149440E100D53AF0 /* CombinedRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD4618C21494EF1900D53AF0 /* CombinedRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4618BD149440E100D53AF0 /* CombinedRule.m */; };
 		DDB15089146ECDF000FA7835 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15088146ECDF000FA7835 /* Cocoa.framework */; };
 		DDB150BB146ECF9400FA7835 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150B8146ECF9400FA7835 /* LoggerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDB150BC146ECF9400FA7835 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150B9146ECF9400FA7835 /* LoggerClient.m */; };
@@ -62,6 +64,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD4618BC149440E100D53AF0 /* CombinedRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombinedRule.h; path = Source/CombinedRule.h; sourceTree = "<group>"; };
+		DD4618BD149440E100D53AF0 /* CombinedRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CombinedRule.m; path = Source/CombinedRule.m; sourceTree = "<group>"; };
 		DDB15085146ECDF000FA7835 /* NSLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB15088146ECDF000FA7835 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DDB15090146ECDF000FA7835 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = "../../External Source/NSLogger/Info.plist"; sourceTree = "<group>"; };
@@ -242,6 +246,8 @@
 		DDB15104146ED3ED00FA7835 /* Rules */ = {
 			isa = PBXGroup;
 			children = (
+				DD4618BC149440E100D53AF0 /* CombinedRule.h */,
+				DD4618BD149440E100D53AF0 /* CombinedRule.m */,
 				DDB150FA146ED3E300FA7835 /* Rule.h */,
 				DDB150FB146ED3E300FA7835 /* Rule.m */,
 				DDB150FC146ED3E300FA7835 /* Rules.h */,
@@ -366,6 +372,7 @@
 				DDB15121146ED49100FA7835 /* ViewsManager.h in Headers */,
 				DDB15156146EDFF800FA7835 /* Logging.h in Headers */,
 				DDB151A0146EE74B00FA7835 /* SynthesizeSingleton.h in Headers */,
+				DD4618C11494EEEE00D53AF0 /* CombinedRule.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +486,7 @@
 				DDB1511D146ED49100FA7835 /* RuleView.m in Sources */,
 				DDB1511F146ED49100FA7835 /* View.m in Sources */,
 				DDB15122146ED49100FA7835 /* ViewsManager.m in Sources */,
+				DD4618C21494EF1900D53AF0 /* CombinedRule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
