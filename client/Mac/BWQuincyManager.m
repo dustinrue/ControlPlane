@@ -65,15 +65,15 @@ const CGFloat kDetailsHeight = 285;
 }
 
 - (id) init {
-    if ((self = [super init])) {
+  if ((self = [super init])) {
 		_serverResult = CrashReportStatusFailureDatabaseNotAvailable;
 		_quincyUI = nil;
-        
+    
 		_submissionURL = nil;
-        _appIdentifier = nil;
-        
-        _crashFile = nil;
-        
+    _appIdentifier = nil;
+    
+    _crashFile = nil;
+    
 		self.delegate = nil;
 		self.companyName = @"";		
 	}
@@ -84,9 +84,9 @@ const CGFloat kDetailsHeight = 285;
 	_companyName = nil;
 	_delegate = nil;
 	_submissionURL = nil;
-    _appIdentifier = nil;
-    
-    [_crashFile release];
+  _appIdentifier = nil;
+  
+  [_crashFile release];
 	[_quincyUI release];
 	
 	[super dealloc];
@@ -95,7 +95,7 @@ const CGFloat kDetailsHeight = 285;
 - (void) searchCrashLogFile:(NSString *)path {
 	NSFileManager* fman = [NSFileManager defaultManager];
 	
-    NSError* error;
+  NSError* error;
 	NSMutableArray* filesWithModificationDate = [NSMutableArray array];
 	NSArray* crashLogFiles = [fman contentsOfDirectoryAtPath:path error:&error];
 	NSEnumerator* filesEnumerator = [crashLogFiles objectEnumerator];
@@ -118,21 +118,21 @@ const CGFloat kDetailsHeight = 285;
 #pragma mark -
 #pragma mark setter
 - (void)setSubmissionURL:(NSString *)anSubmissionURL {
-    if (_submissionURL != anSubmissionURL) {
-        [_submissionURL release];
-        _submissionURL = [anSubmissionURL copy];
-    }
-    
-    [self performSelector:@selector(startManager) withObject:nil afterDelay:0.1f];
+  if (_submissionURL != anSubmissionURL) {
+    [_submissionURL release];
+    _submissionURL = [anSubmissionURL copy];
+  }
+  
+  [self performSelector:@selector(startManager) withObject:nil afterDelay:0.1f];
 }
 
 - (void)setAppIdentifier:(NSString *)anAppIdentifier {    
-    if (_appIdentifier != anAppIdentifier) {
-        [_appIdentifier release];
-        _appIdentifier = [anAppIdentifier copy];
-    }
-    
-    [self setSubmissionURL:@"https://rink.hockeyapp.net/"];
+  if (_appIdentifier != anAppIdentifier) {
+    [_appIdentifier release];
+    _appIdentifier = [anAppIdentifier copy];
+  }
+  
+  [self setSubmissionURL:@"https://rink.hockeyapp.net/"];
 }
 
 #pragma mark -
@@ -140,41 +140,41 @@ const CGFloat kDetailsHeight = 285;
 
 - (BOOL) hasPendingCrashReport {
 	BOOL returnValue = NO;
+  
+  if (![[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"]) {
+    [[NSUserDefaults standardUserDefaults] setValue: [NSDate date]
+                                             forKey: @"CrashReportSender.lastCrashDate"];
+    return returnValue;
+  }
+  
+  NSArray* libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, TRUE);
+  // Snow Leopard is having the log files in another location
+  [self searchCrashLogFile:[[libraryDirectories lastObject] stringByAppendingPathComponent:@"Logs/DiagnosticReports"]];
+  if (_crashFile == nil) {
+    [self searchCrashLogFile:[[libraryDirectories lastObject] stringByAppendingPathComponent:@"Logs/CrashReporter"]];
+    if (_crashFile == nil) {
+      NSString *sandboxFolder = [NSString stringWithFormat:@"/Containers/%@/Data/Library", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
+      if ([[libraryDirectories lastObject] rangeOfString:sandboxFolder].location != NSNotFound) {
+        NSString *libFolderName = [[libraryDirectories lastObject] stringByReplacingOccurrencesOfString:sandboxFolder withString:@""];
+        [self searchCrashLogFile:[libFolderName stringByAppendingPathComponent:@"Logs/DiagnosticReports"]];
+      }
+    }
+  }
+  
+  if (_crashFile) {
+    NSError* error;
     
-    if (![[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"]) {
-        [[NSUserDefaults standardUserDefaults] setValue: [NSDate date]
-                                                 forKey: @"CrashReportSender.lastCrashDate"];
-        return returnValue;
+    NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"];
+    
+    NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileModificationDate];
+    
+    if (!lastCrashDate || (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending))) {
+      returnValue = YES;
     }
     
-    NSArray* libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, TRUE);
-    // Snow Leopard is having the log files in another location
-    [self searchCrashLogFile:[[libraryDirectories lastObject] stringByAppendingPathComponent:@"Logs/DiagnosticReports"]];
-    if (_crashFile == nil) {
-        [self searchCrashLogFile:[[libraryDirectories lastObject] stringByAppendingPathComponent:@"Logs/CrashReporter"]];
-        if (_crashFile == nil) {
-            NSString *sandboxFolder = [NSString stringWithFormat:@"/Containers/%@/Data/Library", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
-            if ([[libraryDirectories lastObject] rangeOfString:sandboxFolder].location != NSNotFound) {
-                NSString *libFolderName = [[libraryDirectories lastObject] stringByReplacingOccurrencesOfString:sandboxFolder withString:@""];
-                [self searchCrashLogFile:[libFolderName stringByAppendingPathComponent:@"Logs/DiagnosticReports"]];
-            }
-        }
-    }
-    
-    if (_crashFile) {
-        NSError* error;
-        
-        NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"];
-        
-        NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileModificationDate];
-        
-        if (!lastCrashDate || (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending))) {
-            returnValue = YES;
-        }
-        
-        [[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate
-                                                 forKey: @"CrashReportSender.lastCrashDate"];
-    }
+    [[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate
+                                             forKey: @"CrashReportSender.lastCrashDate"];
+  }
 	
 	return returnValue;
 }
@@ -185,90 +185,90 @@ const CGFloat kDetailsHeight = 285;
 }
 
 - (void) startManager {
-    if ([self hasPendingCrashReport]) {
-        
-        _quincyUI = [[BWQuincyUI alloc] init:self crashFile:_crashFile companyName:_companyName applicationName:[self applicationName]];
-        [_quincyUI askCrashReportDetails];
-    } else {
-        [self returnToMainApplication];
-    }
+  if ([self hasPendingCrashReport]) {
+    
+    _quincyUI = [[BWQuincyUI alloc] init:self crashFile:_crashFile companyName:_companyName applicationName:[self applicationName]];
+    [_quincyUI askCrashReportDetails];
+  } else {
+    [self returnToMainApplication];
+  }
 }
 
 - (NSString*) modelVersion {
-    NSString * modelString  = nil;
-    int        modelInfo[2] = { CTL_HW, HW_MODEL };
-    size_t     modelSize;
+  NSString * modelString  = nil;
+  int        modelInfo[2] = { CTL_HW, HW_MODEL };
+  size_t     modelSize;
 	
-    if (sysctl(modelInfo,
-               2,
-               NULL,
-               &modelSize,
-               NULL, 0) == 0) {
-        void * modelData = malloc(modelSize);
-        
-        if (modelData) {
-            if (sysctl(modelInfo,
-                       2,
-                       modelData,
-                       &modelSize,
-                       NULL, 0) == 0) {
-                modelString = [NSString stringWithUTF8String:modelData];
-            }
-            
-            free(modelData);
-        }
-    }
+  if (sysctl(modelInfo,
+             2,
+             NULL,
+             &modelSize,
+             NULL, 0) == 0) {
+    void * modelData = malloc(modelSize);
     
-    return modelString;
+    if (modelData) {
+      if (sysctl(modelInfo,
+                 2,
+                 modelData,
+                 &modelSize,
+                 NULL, 0) == 0) {
+        modelString = [NSString stringWithUTF8String:modelData];
+      }
+      
+      free(modelData);
+    }
+  }
+  
+  return modelString;
 }
 
 
 
 - (void) cancelReport {
-    [self returnToMainApplication];
+  [self returnToMainApplication];
 }
 
 
 - (void) sendReport:(NSString *)xml {
-    [self returnToMainApplication];
+  [self returnToMainApplication];
 	
-    [self _postXML:[NSString stringWithFormat:@"<crashes>%@</crashes>", xml]
-             toURL:[NSURL URLWithString:self.submissionURL]];
+  [self _postXML:[NSString stringWithFormat:@"<crashes>%@</crashes>", xml]
+           toURL:[NSURL URLWithString:self.submissionURL]];
 }
 
 - (void)_postXML:(NSString*)xml toURL:(NSURL*)url {
 	NSMutableURLRequest *request = nil;
-    NSString *boundary = @"----FOO";
-
-    if (self.appIdentifier) {
-        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
-                                                                            self.submissionURL,
-                                                                            [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                                                                            ]
-                                                       ]];
-    } else {
-        request = [NSMutableURLRequest requestWithURL:url];
-    }
+  NSString *boundary = @"----FOO";
+  
+  if (self.appIdentifier) {
+    request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/2/apps/%@/crashes",
+                                                                        self.submissionURL,
+                                                                        [self.appIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                                                        ]
+                                                   ]];
+  } else {
+    request = [NSMutableURLRequest requestWithURL:url];
+  }
 	
 	[request setValue:@"Quincy/Mac" forHTTPHeaderField:@"User-Agent"];
-    [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
+  [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
 	[request setTimeoutInterval: 15];
 	[request setHTTPMethod:@"POST"];
 	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
 	[request setValue:contentType forHTTPHeaderField:@"Content-type"];
 	
 	NSMutableData *postBody =  [NSMutableData data];	
-    [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    if (self.appIdentifier) {
-        [postBody appendData:[@"Content-Disposition: form-data; name=\"xml\"; filename=\"crash.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [postBody appendData:[[NSString stringWithFormat:@"Content-Type: text/xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-    } else {
-        [postBody appendData:[@"Content-Disposition: form-data; name=\"xmlstring\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+  [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+  if (self.appIdentifier) {
+    [postBody appendData:[@"Content-Disposition: form-data; name=\"xml\"; filename=\"crash.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[[NSString stringWithFormat:@"Content-Type: text/xml\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+  } else {
+    [postBody appendData:[@"Content-Disposition: form-data; name=\"xmlstring\"\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	}
 	[postBody appendData:[xml dataUsingEncoding:NSUTF8StringEncoding]];
-    [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+  [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
-    
+  
 	_serverResult = CrashReportStatusUnknown;
 	_statusCode = 200;
 	
@@ -278,7 +278,7 @@ const CGFloat kDetailsHeight = 285;
 	NSData *responseData = nil;
 	responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	_statusCode = [response statusCode];
-
+  
 	if (responseData != nil) {
 		if (_statusCode >= 200 && _statusCode < 400) {
 			NSXMLParser *parser = [[NSXMLParser alloc] initWithData:responseData];
@@ -382,14 +382,14 @@ const CGFloat kDetailsHeight = 285;
 		_applicationName = applicationName;
 		[self setShowComments: YES];
 		[self setShowDetails: NO];
-        
+    
 		NSRect windowFrame = [[self window] frame];
 		windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height - kDetailsHeight);
 		windowFrame.origin.y -= kDetailsHeight;
 		[[self window] setFrame: windowFrame
-						display: YES
-						animate: NO];
-
+                    display: YES
+                    animate: NO];
+    
 	}
 	return self;	
 }
@@ -407,48 +407,48 @@ const CGFloat kDetailsHeight = 285;
 		[self setShowComments: NO];
 		
 		windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height + kCommentsHeight);
-        windowFrame.origin.y -= kCommentsHeight;
+    windowFrame.origin.y -= kCommentsHeight;
 		[[self window] setFrame: windowFrame
-						display: YES
-						animate: YES];
+                    display: YES
+                    animate: YES];
 		
 		[self setShowComments: YES];
 	} else {
 		[self setShowComments: NO];
 		
 		windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height - kCommentsHeight);
-        windowFrame.origin.y += kCommentsHeight;
+    windowFrame.origin.y += kCommentsHeight;
 		[[self window] setFrame: windowFrame
-						display: YES
-						animate: YES];
+                    display: YES
+                    animate: YES];
 	}
 }
 
 
 - (IBAction) showDetails:(id)sender {
 	NSRect windowFrame = [[self window] frame];
-
+  
 	windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height + kDetailsHeight);
-    windowFrame.origin.y -= kDetailsHeight;
+  windowFrame.origin.y -= kDetailsHeight;
 	[[self window] setFrame: windowFrame
-					display: YES
-					animate: YES];
+                  display: YES
+                  animate: YES];
 	
 	[self setShowDetails:YES];
-
+  
 }
 
 
 - (IBAction) hideDetails:(id)sender {
 	NSRect windowFrame = [[self window] frame];
-
+  
 	[self setShowDetails:NO];
-
+  
 	windowFrame.size = NSMakeSize(windowFrame.size.width, windowFrame.size.height - kDetailsHeight);
-    windowFrame.origin.y += kDetailsHeight;
+  windowFrame.origin.y += kDetailsHeight;
 	[[self window] setFrame: windowFrame
-					display: YES
-					animate: YES];
+                  display: YES
+                  animate: YES];
 }
 
 
@@ -477,23 +477,23 @@ const CGFloat kDetailsHeight = 285;
 	if (Gestalt(gestaltSystemVersionBugFix, &versionBugFix) != noErr) versionBugFix = 0;
 	
 	_xml = [[NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><platform>%@</platform><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
-			[[_delegate applicationName] UTF8String],
-			[[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] UTF8String],
-			[NSString stringWithFormat:@"%i.%i.%i", versionMajor, versionMinor, versionBugFix],
-			[_delegate applicationVersion],
-			[_delegate applicationVersion],
-			[_delegate modelVersion],
-			userid,
-			contact,
-			notes,
-			_crashLogContent
-			] retain];
+           [[_delegate applicationName] UTF8String],
+           [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] UTF8String],
+           [NSString stringWithFormat:@"%i.%i.%i", versionMajor, versionMinor, versionBugFix],
+           [_delegate applicationVersion],
+           [_delegate applicationVersion],
+           [_delegate modelVersion],
+           userid,
+           contact,
+           notes,
+           _crashLogContent
+           ] retain];
 	
 	[self endCrashReporter];
 	[NSApp stopModal];
 	
 	if ( _delegate != nil && [_delegate respondsToSelector:@selector(sendReport:)])
-        [_delegate performSelector:@selector(sendReport:) withObject:_xml afterDelay:0.01];
+    [_delegate performSelector:@selector(sendReport:) withObject:_xml afterDelay:0.01];
 }
 
 
@@ -501,10 +501,10 @@ const CGFloat kDetailsHeight = 285;
 	NSError *error;
 	
 	[[self window] setTitle:[NSString stringWithFormat:NSLocalizedString(@"Problem Report for %@", @"Window title"), _applicationName]];
-
+  
 	[[descriptionTextField cell] setPlaceholderString:NSLocalizedString(@"Please describe any steps needed to trigger the problem", @"User description placeholder")];
 	[noteText setStringValue:NSLocalizedString(@"No personal information will be sent with this report.", @"Note text")];
-
+  
 	// get the crash log
 	NSString *crashLogs = [NSString stringWithContentsOfFile:_crashFile encoding:NSUTF8StringEncoding error:&error];
 	NSString *lastCrash = [[crashLogs componentsSeparatedByString: @"**********\n\n"] lastObject];
@@ -525,21 +525,21 @@ const CGFloat kDetailsHeight = 285;
 	
 	_consoleContent = [NSMutableString string];
 	
-    NSInteger i;
-    for(i = ((NSInteger)[applicationStrings count])-1; (i>=0 && i>((NSInteger)[applicationStrings count])-100); i--) {
+  NSInteger i;
+  for(i = ((NSInteger)[applicationStrings count])-1; (i>=0 && i>((NSInteger)[applicationStrings count])-100); i--) {
 		[_consoleContent appendString:[applicationStrings objectAtIndex:i]];
 		[_consoleContent appendString:@"\n"];
 	}
 	
-    // Now limit the content to CRASHREPORTSENDER_MAX_CONSOLE_SIZE (default: 50kByte)
-    if ([_consoleContent length] > CRASHREPORTSENDER_MAX_CONSOLE_SIZE)
-    {
-        _consoleContent = (NSMutableString *)[_consoleContent substringWithRange:NSMakeRange([_consoleContent length]-CRASHREPORTSENDER_MAX_CONSOLE_SIZE-1, CRASHREPORTSENDER_MAX_CONSOLE_SIZE)]; 
-    }
-        
+  // Now limit the content to CRASHREPORTSENDER_MAX_CONSOLE_SIZE (default: 50kByte)
+  if ([_consoleContent length] > CRASHREPORTSENDER_MAX_CONSOLE_SIZE)
+  {
+    _consoleContent = (NSMutableString *)[_consoleContent substringWithRange:NSMakeRange([_consoleContent length]-CRASHREPORTSENDER_MAX_CONSOLE_SIZE-1, CRASHREPORTSENDER_MAX_CONSOLE_SIZE)]; 
+  }
+  
 	[crashLogTextView setString:[NSString stringWithFormat:@"%@\n\n%@", _crashLogContent, _consoleContent]];
-
-
+  
+  
 	NSBeep();
 	[NSApp runModalForWindow:[self window]];
 }
@@ -576,14 +576,14 @@ const CGFloat kDetailsHeight = 285;
 
 - (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
 {
-    BOOL commandHandled = NO;
-    
-    if (commandSelector == @selector(insertNewline:)) {
-        [textView insertNewlineIgnoringFieldEditor:self];
-        commandHandled = YES;
-    }
-    
-    return commandHandled;
+  BOOL commandHandled = NO;
+  
+  if (commandSelector == @selector(insertNewline:)) {
+    [textView insertNewlineIgnoringFieldEditor:self];
+    commandHandled = YES;
+  }
+  
+  return commandHandled;
 }
 
 @end
