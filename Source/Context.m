@@ -67,12 +67,11 @@
 	ZAssert([self.rules containsObject: rule], @"Context already owns rule");
 	[m_rules addObject: rule];
 	
-	// observe if needed
-	if (self.active)
-		[rule addObserver: self
-			   forKeyPath: @"match"
-				  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-				 selector: @selector(ruleMatchChangedWithOld:andNew:)];
+	// start observing
+	[rule addObserver: self
+		   forKeyPath: @"match"
+			  options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+			 selector: @selector(ruleMatchChangedWithOld:andNew:)];
 }
 
 - (void) removeRule: (Rule *) rule {

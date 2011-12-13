@@ -108,21 +108,18 @@
 #pragma mark - Private methods
 
 - (void) beingEnabled {
-	for (Class class in ((id<RuleProtocol>) self).observedSources) {
-		NSString *src = NSStringFromClass(class);
-		
+	for (Class source in ((id<RuleProtocol>) self).observedSources) {
 		// register with source
-		[SourcesManager.sharedSourcesManager registerRule: self toSource: src];
+		[SourcesManager.sharedSourcesManager registerRule: self toSource: source];
 		
 		// currently a match?
-		[[SourcesManager.sharedSourcesManager getSource: src] checkObserver: self];
+		[[SourcesManager.sharedSourcesManager getSource: source] checkObserver: self];
 	}
 }
 
 - (void) beingDisabled {
-	for (Class class in ((id<RuleProtocol>) self).observedSources)
-		[SourcesManager.sharedSourcesManager unregisterRule: self
-												 fromSource: NSStringFromClass(class)];
+	for (Class source in ((id<RuleProtocol>) self).observedSources)
+		[SourcesManager.sharedSourcesManager unregisterRule: self fromSource: source];
 }
 
 @end

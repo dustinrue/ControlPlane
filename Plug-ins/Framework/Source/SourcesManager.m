@@ -35,27 +35,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SourcesManager);
 	// create it
 	@synchronized(m_sources) {
 		Source *source = [type new];
-		[m_sources setObject: source forKey: source.name];
+		[m_sources setObject: source forKey: type];
 		LogInfo_Source(@"Registererd source: %@", source.name);
 	}
 }
 
 - (void) unregisterSourceType: (Class) type {
-	NSString *name = NSStringFromClass(type);
+	ZAssert([m_sources objectForKey: type], @"Unknown source type");
 	
-	// Delete source if created
+	// remove it
 	@synchronized(m_sources) {
-		Source *source = [m_sources objectForKey: name];
-		ZAssert(source, @"Unknown source type");
-		
-		[m_sources removeObjectForKey: name];
-		LogInfo_Source(@"Unregistererd source: %@", name);
+		[m_sources removeObjectForKey: type];
+		LogInfo_Source(@"Unregistererd source: %@", NSStringFromClass(type));
 	}
 }
 
 - (Source *) getSource: (Class) type {
 	@synchronized(m_sources) {
-		return [m_sources objectForKey: NSStringFromClass(type)];
+		return [m_sources objectForKey: type];
 	}
 }
 
