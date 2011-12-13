@@ -42,12 +42,12 @@
 	[window addSubview:viewController.view];
 	[window makeKeyAndVisible];
   
-    // setSubmissionURL for self hosted Example: http://yourserver.com/crash_v200.php
-    // setAppIdentifier for HockeyApp Example: 6463991af4a2da3f9cb320533c83b156
-    //    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
-    //    [[BWQuincyManager sharedQuincyManager] setAppIdentifier:@"6463991af4a2da3f9cb320533c83b156"];
-
-    [[BWQuincyManager sharedQuincyManager] setDelegate:self];
+  // setSubmissionURL for self hosted Example: http://yourserver.com/crash_v200.php
+  // setAppIdentifier for HockeyApp Example: 6463991af4a2da3f9cb320533c83b156
+  //    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://yourserver.com/crash_v200.php"];
+  //    [[BWQuincyManager sharedQuincyManager] setAppIdentifier:@"6463991af4a2da3f9cb320533c83b156"];
+  
+  [[BWQuincyManager sharedQuincyManager] setDelegate:self];
 }
 
 

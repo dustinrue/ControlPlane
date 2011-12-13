@@ -12,7 +12,7 @@ $included = false;
 
 if (isset($body)) {
   $included = true;
-  error_log("We're being included");
+/*   error_log("We're being included"); */
 } else {
 
   if ($argc != 2 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
@@ -75,7 +75,7 @@ if ($included) {
 
 #Check to make sure we got a folder
 if (!is_dir($dir)) {
-  error_log($dir . " is not a folder\n");
+/*   error_log($dir . " is not a folder\n"); */
   exit(1);
 }
 
@@ -88,14 +88,14 @@ mysql_select_db($base) or die(xml_for_result(FAILURE_DATABASE_NOT_AVAILABLE));
 
 while (false !== ($file = $folder->read())) {
   if (is_dir($dir . '/' . $file)) continue;
-  error_log("Parsing " . $file . ": ");
+/*   error_log("Parsing " . $file . ": "); */
   
   $contents = file_get_contents($dir . '/' . $file);
 
   # Are we looking at an exception and not a crash?
   preg_match('/Exception:\s+(.*)/', $contents, $m);
   if (count($m) > 0) {
-    error_log("Exception report\n");
+/*     error_log("Exception report\n"); */
     continue;
   }
 
@@ -103,10 +103,10 @@ while (false !== ($file = $folder->read())) {
     # Is this crash report unusually large?
     preg_match('/Content-Length:\s+(\d*)/', $contents, $m);
     if (!count($m)) {
-      error_log("No Content Length, Skipping...\n");
+/*       error_log("No Content Length, Skipping...\n"); */
       continue;
     } else if ($m[1] > 1000000) {
-      error_log("Report too large, Skipping...\n");
+/*       error_log("Report too large, Skipping...\n"); */
       continue;
     }
   }
@@ -126,7 +126,7 @@ while (false !== ($file = $folder->read())) {
   if (!count($m)) {
     preg_match('/From: (.*)[\r\n]/', $contents, $m);
     if (!count($m)) {
-      error_log("No Contact, Skipping...\n");
+/*       error_log("No Contact, Skipping...\n"); */
       continue;
     }
   }
@@ -135,7 +135,7 @@ while (false !== ($file = $folder->read())) {
   # Bundle ID
   preg_match('/^Identifier:\s+(.*)/m', $contents, $m);
   if (!count($m)) {
-    error_log("No Bundle ID, Skipping...\n");
+/*     error_log("No Bundle ID, Skipping...\n"); */
     continue;
   }
   $crash['bundleidentifier'] = $m[1];
@@ -143,7 +143,7 @@ while (false !== ($file = $folder->read())) {
   # App name
   preg_match('/Process:\s+(.*) (\[\d+\])/', $contents, $m);
   if (!count($m)) {
-    error_log("No Application Name, Skipping...\n");
+/*     error_log("No Application Name, Skipping...\n"); */
     continue;
   }
   $crash['applicationname'] = $m[1];
@@ -151,7 +151,7 @@ while (false !== ($file = $folder->read())) {
   # App Version
   preg_match('/\nVersion:\s+(.*) \(.*\)/', $contents, $m);
   if (!count($m)) {
-    error_log("No Version, Skipping...\n");
+/*     error_log("No Version, Skipping...\n"); */
     continue;
   }
   $crash['version'] = $m[1];
@@ -159,7 +159,7 @@ while (false !== ($file = $folder->read())) {
   # OS Version
   preg_match('/OS Version:\s+[a-zA-Z\s]+ ([0-9\.]+)/', $contents, $m);
   if (!count($m)) {
-    error_log("No OS Version, Skipping...\n");
+/*     error_log("No OS Version, Skipping...\n"); */
     continue;
   }
   $crash['systemversion'] = $m[1];
@@ -180,7 +180,7 @@ while (false !== ($file = $folder->read())) {
   if (!$included) {
     preg_match('/Date: (.*)/', $contents, $m);
     if (!strtotime($m[1])) {
-      error_log("Bad Date, skipping\n");
+/*       error_log("Bad Date, skipping\n"); */
       continue;
     }
     $crash['date'] = date("Y-m-d H:i:s", strtotime($m[1]));
@@ -215,31 +215,33 @@ while (false !== ($file = $folder->read())) {
         print 'Bad UTF8 offset error!';
     }
     
-    error_log("Crash data is missing after pruning\n");
+/*     error_log("Crash data is missing after pruning\n"); */
     exit(1);
   }
   
 	// this stores the offset which we need for grouping
 	$crash_offset = "";
-	$appcrashtext = "";
+	$appcrashtext = $crash['description'];
 
   preg_match('/Crashed Thread:\s+Unknown/',$crash["logdata"], $m);
   if (count($m)) {
-    error_log("Crash Thread Unknown\n");
+/*     error_log("Crash Thread Unknown\n"); */
     continue;
   }
 
   preg_match('/Dyld Error Message:/',$crash["logdata"], $m);
   if (count($m)) {
-    error_log("Dyld Error Message, skipping\n");
+/*     error_log("Dyld Error Message, skipping\n"); */
     continue;
   }
 
+/*
 	preg_match('%Application Specific Information:.*?\n(.*?)\n\n%is', $crash["logdata"], $appcrashinfo);
 	if (is_array($appcrashinfo) && count($appcrashinfo) == 2) {
     $appcrashtext = str_replace("\\", "", $appcrashinfo[1]);
     $appcrashtext = str_replace("'", "\'", $appcrashtext);
   }
+*/
 
 
 	// extract the block which contains the data of the crashing thread
@@ -259,7 +261,7 @@ while (false !== ($file = $folder->read())) {
   }
 
   if ($crash_offset == "") {
-      error_log("Unable to locate crash offset, trying second approach: ");
+/*       error_log("Unable to locate crash offset, trying second approach: "); */
       preg_match('%Thread [0-9]+ Crashed(.*)%is', $crash["logdata"], $matches);
       $crash_offset = parseblock($matches, $crash["applicationname"]);
   }
@@ -276,10 +278,10 @@ while (false !== ($file = $folder->read())) {
   }
 
   if ($crash_offset == "" && $crash['version'] == '???') {
-    error_log("Unable to determine crash offset and version unknown\n");
+/*     error_log("Unable to determine crash offset and version unknown\n"); */
     continue;
   } else if ($crash_offset == "" ) {
-    error_log("Unable to determine crash offset\n");
+/*     error_log("Unable to determine crash offset\n"); */
     exit(1);
   }
 
@@ -325,10 +327,11 @@ while (false !== ($file = $folder->read())) {
       $query = "UPDATE ".$dbgrouptable." SET amount=amount+1, latesttimestamp = ".time()." WHERE id=".$log_groupid;
       $result = mysql_query($query) or die(xml_for_result(FAILURE_SQL_UPDATE_PATTERN_OCCURANCES));
 
-      if ($desc != "" && $appcrashtext != "") {
+      if ($desc != "" && $crash["description"] != "") {
         $desc = str_replace("'", "\'", $desc);
-        if (strpos($desc, $appcrashtext) === false) {
-          $appcrashtext = $desc."\n-----------------------\n".$appcrashtext;
+        if (strpos($desc, $crash["description"]) === false) {
+          $appcrashtext = $desc."\n-----------------------\n".$crash["description"];
+          
           $query = "UPDATE ".$dbgrouptable." SET description='".$appcrashtext."' WHERE id=".$log_groupid;
           $result = mysql_query($query) or die(end_with_result('Error in SQL '.$query));
         }
@@ -348,7 +351,7 @@ while (false !== ($file = $folder->read())) {
 
 //  print_r($crash);
 
-  error_log("done!\n");
+/*   error_log("done!\n"); */
 }
   
 

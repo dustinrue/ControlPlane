@@ -41,29 +41,29 @@
 
 - (IBAction) triggerExceptionCrash {
 	/* Trigger a crash */
-    NSArray *array = [NSArray array];
-    [array objectAtIndex:23];
+  NSArray *array = [NSArray array];
+  [array objectAtIndex:23];
 }
 
 
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+  [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+  // Release anything that's not essential, such as cached data
 }
 
 
 - (void)dealloc {
-    [super dealloc];
+  [super dealloc];
 }
 
 #pragma mark -
 #pragma mark Rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation { 
-    return (interfaceOrientation == UIInterfaceOrientationPortrait) || 
-    (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) ||
-    (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
-    (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+  return (interfaceOrientation == UIInterfaceOrientationPortrait) || 
+  (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) ||
+  (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
+  (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 @end
