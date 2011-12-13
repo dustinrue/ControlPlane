@@ -60,7 +60,7 @@ typedef enum QuincyKitAlertType {
 
 typedef enum CrashReportStatus {
   // The status of the crash is queued, need to check later (HockeyApp)
-	CrashReportStatusQueued = -80,
+  CrashReportStatusQueued = -80,
   
   // This app version is set to discontinued, no new crash reports accepted by the server
   CrashReportStatusFailureVersionDiscontinued = -30,
