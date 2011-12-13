@@ -99,6 +99,8 @@
 
 	// Sparkle (TODO: make update time configurable?)
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
+    
+    [appDefaults setValue:[NSNumber numberWithInt:1] forKey:@"SmoothSwitchCount"];
 
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 }
@@ -1026,7 +1028,7 @@
 	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
 	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
 		if (smoothCounter == 0) {
-			smoothCounter = 1;	// Make this customisable?
+			smoothCounter = [[NSUserDefaults standardUserDefaults] integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
 			do_switch = NO;
 		} else if (--smoothCounter > 0)
 			do_switch = NO;

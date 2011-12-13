@@ -21,7 +21,7 @@
 	NSString *currentContextUUID, *currentContextName;
 	NSString *guessConfidence;
 	BOOL guessIsConfident;
-	int smoothCounter;
+	NSInteger smoothCounter;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;
 	BOOL forcedContextIsSticky;
