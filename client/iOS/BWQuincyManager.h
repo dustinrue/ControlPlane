@@ -54,8 +54,8 @@ NSString *BWQuincyLocalize(NSString *stringToken);
 #define BWQuincyNetworkBecomeReachable @"NetworkDidBecomeReachable"
 
 typedef enum QuincyKitAlertType {
-	QuincyKitAlertTypeSend = 0,
-	QuincyKitAlertTypeFeedback = 1,
+  QuincyKitAlertTypeSend = 0,
+  QuincyKitAlertTypeFeedback = 1,
 } CrashAlertType;
 
 typedef enum CrashReportStatus {
