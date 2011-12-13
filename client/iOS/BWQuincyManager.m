@@ -92,8 +92,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 @synthesize appIdentifier = _appIdentifier;
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 40000
-+(BWQuincyManager *)sharedQuincyManager
-{   
++(BWQuincyManager *)sharedQuincyManager {
   static BWQuincyManager *sharedInstance = nil;
   static dispatch_once_t pred;
   
@@ -106,13 +105,13 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
 }
 #else
 + (BWQuincyManager *)sharedQuincyManager {
-	static BWQuincyManager *quincyManager = nil;
+  static BWQuincyManager *quincyManager = nil;
 	
-	if (quincyManager == nil) {
-		quincyManager = [[BWQuincyManager alloc] init];
-	}
+  if (quincyManager == nil) {
+    quincyManager = [[BWQuincyManager alloc] init];
+  }
 	
-	return quincyManager;
+  return quincyManager;
 }
 #endif
 
@@ -149,7 +148,7 @@ NSString *BWQuincyLocalize(NSString *stringToken) {
       _crashReportActivated = [[NSUserDefaults standardUserDefaults] boolForKey:kQuincyKitActivated];
     } else {
       _crashReportActivated = YES;
-	    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:kQuincyKitActivated];
+      [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:kQuincyKitActivated];
     }
     
     if (_crashReportActivated) {
