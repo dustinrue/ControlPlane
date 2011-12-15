@@ -81,7 +81,10 @@
 
 - (void)stop {        
     [self stopAllTasks];
-    [ruleUpdateTimer invalidate];
+	if (ruleUpdateTimer && [ruleUpdateTimer isValid]) {
+		[ruleUpdateTimer invalidate];
+		ruleUpdateTimer = nil;
+	}
     [myTasks         release];
     [taskTimers      release];
 
@@ -95,7 +98,8 @@
         DSLog(@"disabling timer for task %@",[task valueForKey:@"parameter"]);
 #endif
         NSTimer *tmp = [taskTimers objectForKey:[task valueForKey:@"parameter"]];
-        [tmp invalidate];
+		if (tmp && [tmp isValid])
+			[tmp invalidate];
     }
 }
 

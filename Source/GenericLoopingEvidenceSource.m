@@ -69,7 +69,7 @@
 	if (!running)
 		return;
 
-	if (loopTimer || [loopTimer isValid]) {
+	if (loopTimer && [loopTimer isValid]) {
 		[loopTimer invalidate];
 		loopTimer = nil;
 	}

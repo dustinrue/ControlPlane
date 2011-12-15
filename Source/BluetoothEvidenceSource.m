@@ -126,7 +126,7 @@
     for (IOBluetoothUserNotification *currentDevice in devicesRegisteredForDisconnectNotices) {
         [currentDevice unregister];
     }
-    if (cleanupTimer || [cleanupTimer isValid]) {
+    if (cleanupTimer && [cleanupTimer isValid]) {
 #ifdef DEBUG_MODE
         DSLog(@"invalidating cleanupTimer because we're going to sleep (from stop)");
 #endif
@@ -136,7 +136,7 @@
     
     
     
-	if (holdTimer || [holdTimer isValid]) {
+	if (holdTimer && [holdTimer isValid]) {
 		DSLog(@"stopping hold timer");
 		[holdTimer invalidate];		// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
 		holdTimer = nil;
@@ -399,7 +399,7 @@
 - (void)holdTimerPoll:(NSTimer *)timer
 {
     
-	if (holdTimer || [holdTimer isValid]) {
+	if (holdTimer && [holdTimer isValid]) {
 		[holdTimer invalidate];
 		holdTimer = nil;
 	}
@@ -416,7 +416,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"invalidating cleanupTimer because we're going to sleep (from cleanupTimerPoll)");
 #endif
-		if (cleanupTimer || [cleanupTimer isValid]) {
+		if (cleanupTimer && [cleanupTimer isValid]) {
 			[cleanupTimer invalidate];
 			cleanupTimer = nil;
 		}

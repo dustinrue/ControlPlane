@@ -238,8 +238,10 @@
 		scanTimer = nil;
 	}
 
-	if (scanTimer && [scanTimer isValid])
+	if (scanTimer && [scanTimer isValid]) {
 		[scanTimer invalidate];
+		scanTimer = nil;
+	}
 	[self runNextStage2Scan:nil];
 }
 

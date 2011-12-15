@@ -395,7 +395,7 @@
 								 repeats:YES];
 		[logBufferTimer fire];
 	} else {
-		if (logBufferTimer) {
+		if (logBufferTimer && [logBufferTimer isValid]) {
 			[logBufferTimer invalidate];
 			logBufferTimer = nil;
 		}
