@@ -73,7 +73,9 @@
 
 - (void) removeObserver: (Rule *) rule {
 	// remove script timer
-	[[m_scriptTimers objectForKey: rule] invalidate];
+	NSTimer *timer = [m_scriptTimers objectForKey: rule];
+	if (timer && timer.isValid)
+		[timer invalidate];
 	[m_scriptTimers removeObjectForKey: rule];
 	
 	[super removeObserver: rule];

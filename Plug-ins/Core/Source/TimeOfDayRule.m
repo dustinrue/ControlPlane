@@ -80,7 +80,8 @@
 }
 
 - (void) beingDisabled {
-	[m_timer invalidate];
+	if (m_timer && m_timer.isValid)
+		[m_timer invalidate];
 	m_timer = nil;
 }
 

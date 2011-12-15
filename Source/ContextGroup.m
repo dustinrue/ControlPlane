@@ -68,7 +68,8 @@
 	
 	// Do we have a new suggestion?
 	if (m_suggestedContext != suggestion) {
-		[m_suggestionTimer invalidate];
+		if (m_suggestionTimer && m_suggestionTimer.isValid)
+			[m_suggestionTimer invalidate];
 		m_suggestedContext = suggestion;
 		
 		m_suggestionTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
@@ -80,7 +81,12 @@
 }
 
 - (void) activateSuggestion {
-	m_suggestionTimer = nil;
+	// stop timer
+	if (m_suggestionTimer && m_suggestionTimer.isValid) {
+		[m_suggestionTimer invalidate];
+		m_suggestionTimer = nil;
+	}
+	
 	if (self.activeContext == m_suggestedContext)
 		return;
 	

@@ -8,6 +8,7 @@
 #import "IChatAction.h"
 #import <ScriptingBridge/SBApplication.h>
 #import "iChat.h"
+#import "DSLogger.h"
 
 @implementation IChatAction
 
@@ -60,6 +61,7 @@
 		iChat.statusMessage = status;
 		
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		*errorString = NSLocalizedString(@"Couldn't set iChat status!", @"In IChatAction");
 		return NO;
 	}

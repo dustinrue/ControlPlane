@@ -9,6 +9,7 @@
 #import "ITunesPlaylistAction.h"
 #import <ScriptingBridge/ScriptingBridge.h>
 #import "iTunes.h"
+#import "DSLogger.h"
 
 @implementation ITunesPlaylistAction
 
@@ -72,6 +73,7 @@
 		// play random track
 		[p playOnce: false];
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		*errorString = NSLocalizedString(@"Couldn't play playlist!", @"In ITunesPlaylistAction");
 		return NO;
 	}
@@ -105,6 +107,7 @@
 								item.name, @"option", item.name, @"description", nil]];
 		
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		options = [NSArray array];
 	}
 	

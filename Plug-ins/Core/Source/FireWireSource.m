@@ -30,6 +30,7 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 	ZAssert(self, @"Unable to init super '%@'", NSStringFromClass(super.class));
 	
 	self.devices = [NSDictionary new];
+	m_runLoopSource = 0;
 	
 	return self;
 }
@@ -63,9 +64,10 @@ static void cDevRemoved(void *ref, io_iterator_t iterator);
 }
 
 - (void) unregisterCallback {
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), m_runLoopSource, kCFRunLoopDefaultMode);
-	IONotificationPortDestroy(m_notificationPort);
+	CFRunLoopSourceInvalidate(m_runLoopSource);
+	m_runLoopSource = 0;
 	
+	IONotificationPortDestroy(m_notificationPort);
 	IOObjectRelease(m_addedIterator);
 	IOObjectRelease(m_removedIterator);
 }

@@ -55,19 +55,23 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-    
-    PrinterSetupUtilityApplication *PSUA = [SBApplication applicationWithBundleIdentifier: @"com.apple.print.PrintCenter"];
-    SBElementArray *availablePrinters = [PSUA printers];
-    
-    
-    if ([[availablePrinters objectWithName:printerQueue] name] != NULL) {
-        [PSUA setCurrentPrinter:[availablePrinters objectWithName:printerQueue]];
-    }
-    else {
-        *errorString = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Couldn't set default printer to", @""), printerQueue];
-        return NO;
-    }
-    
+	@try {
+		PrinterSetupUtilityApplication *PSUA = [SBApplication applicationWithBundleIdentifier: @"com.apple.print.PrintCenter"];
+		SBElementArray *availablePrinters = [PSUA printers];
+		
+		
+		if ([[availablePrinters objectWithName:printerQueue] name] != NULL) {
+			[PSUA setCurrentPrinter:[availablePrinters objectWithName:printerQueue]];
+		}
+		else {
+			*errorString = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Couldn't set default printer to", @""), printerQueue];
+			return NO;
+		}
+	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
+		*errorString = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Couldn't set default printer to", @""), printerQueue];
+		return NO;
+	}
 
 	return YES;
 }

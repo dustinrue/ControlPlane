@@ -578,8 +578,10 @@
 	// Check timer interval
 	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
 	if (fabs(intv - [updatingTimer timeInterval]) > 0.1) {
-		if ([updatingTimer isValid])
+		if (updatingTimer && updatingTimer.isValid) {
 			[updatingTimer invalidate];
+			updatingTimer = nil;
+		}
 		updatingTimer = [NSTimer scheduledTimerWithTimeInterval:intv
 								 target:self
 							       selector:@selector(doUpdate:)
@@ -595,7 +597,7 @@
 					       selector:@selector(hideFromStatusBar:)
 					       userInfo:nil
 						repeats:NO];
-	else if (!hide && sbHideTimer) {
+	else if (!hide && sbHideTimer && sbHideTimer.isValid) {
 		[sbHideTimer invalidate];
 		sbHideTimer = nil;
 	}

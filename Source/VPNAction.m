@@ -9,6 +9,7 @@
 #import "VPNAction.h"
 #import <ScriptingBridge/SBApplication.h>
 #import "System Events.h"
+#import "DSLogger.h"
 
 @implementation VPNAction
 
@@ -84,6 +85,7 @@
 				[SEvents disconnect: service];
 		}
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		*errorString = NSLocalizedString(@"Couldn't configure VPN!", @"In VPNAction");
 		return NO;
 	}

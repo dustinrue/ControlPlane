@@ -138,8 +138,10 @@
 		m_stage = kNetResolving;
 	
 	// resolve next
-	if (m_timer)
+	if (m_timer && m_timer.isValid) {
 		[m_timer invalidate];
+		m_timer = nil;
+	}
 	[self resolveNextService];
 }
 
