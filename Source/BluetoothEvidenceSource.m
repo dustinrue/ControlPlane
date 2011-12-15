@@ -49,7 +49,9 @@
     [self setKIOErrorSet:FALSE];
     
     timerCounter = 0;
-
+	cleanupTimer = nil;
+	holdTimer = nil;
+	registerForNotificationsTimer = nil;
     
     [self setRegisteredForNotifications:FALSE];
 
@@ -124,16 +126,20 @@
     for (IOBluetoothUserNotification *currentDevice in devicesRegisteredForDisconnectNotices) {
         [currentDevice unregister];
     }
-    if (cleanupTimer)
+    if (cleanupTimer || [cleanupTimer isValid]) {
+#ifdef DEBUG_MODE
+        DSLog(@"invalidating cleanupTimer because we're going to sleep (from stop)");
+#endif
         [cleanupTimer invalidate];	// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
+		cleanupTimer = nil;
+	}
     
     
     
-    
-	if (holdTimer) {
+	if (holdTimer || [holdTimer isValid]) {
 		DSLog(@"stopping hold timer");
 		[holdTimer invalidate];		// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
-		//holdTimer = nil;
+		holdTimer = nil;
 	}
     
 	[self stopInquiry];
@@ -282,6 +288,7 @@
 
 
 - (void)registerForNotifications:(NSTimer *)timer {
+	registerForNotificationsTimer = nil;
     
 #ifdef DEBUG_MODE
     DSLog(@"registering for notifications");
@@ -392,8 +399,10 @@
 - (void)holdTimerPoll:(NSTimer *)timer
 {
     
-	[holdTimer invalidate];
-	holdTimer = nil;
+	if (holdTimer || [holdTimer isValid]) {
+		[holdTimer invalidate];
+		holdTimer = nil;
+	}
     
     [self startInquiry];
     
@@ -405,9 +414,12 @@
     
     if (goingToSleep) {
 #ifdef DEBUG_MODE
-        DSLog(@"invalidating cleanupTimer because we're going to sleep");
+        DSLog(@"invalidating cleanupTimer because we're going to sleep (from cleanupTimerPoll)");
 #endif
-        [cleanupTimer invalidate];
+		if (cleanupTimer || [cleanupTimer isValid]) {
+			[cleanupTimer invalidate];
+			cleanupTimer = nil;
+		}
     }
 	// Go through list to remove all expired devices
 	[lock lock];
