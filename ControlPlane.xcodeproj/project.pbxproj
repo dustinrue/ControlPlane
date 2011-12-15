@@ -1642,10 +1642,10 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Source/Quincy/Quincy-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_64)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1662,9 +1662,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/Quincy/Quincy-Prefix.pch";
 				INFOPLIST_FILE = "Source/Quincy/Quincy-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
