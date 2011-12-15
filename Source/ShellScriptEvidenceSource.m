@@ -164,7 +164,7 @@
     
     // set that none of the tasks have a success result
     for (NSDictionary * aTask in myTasks) {
-        [scriptResults setValue:(id)NO forKey:[aTask valueForKey:@"parameter"]];
+        [scriptResults setValue: [NSNumber numberWithBool: NO] forKey:[aTask valueForKey:@"parameter"]];
     }
 }
 
@@ -208,7 +208,7 @@
 #if DEBUG_MODE
         DSLog(@"script reported fail");
 #endif
-        [scriptResults setValue:(id)NO forKey:[args objectAtIndex:0]];
+        [scriptResults setObject: [NSNumber numberWithBool: NO] forKey:[args objectAtIndex:0]];
         [task release];
         [args release];
     }
@@ -216,7 +216,7 @@
 #if DEBUG_MODE
         DSLog(@"script reported success");
 #endif
-        [scriptResults setValue:(id)YES forKey:[args objectAtIndex:0]];
+        [scriptResults setValue: [NSNumber numberWithBool: YES] forKey:[args objectAtIndex:0]];
         [task release];
         [args release];
     }
@@ -227,7 +227,7 @@
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-    return (BOOL)[scriptResults valueForKey:[rule valueForKey:@"parameter"]];
+    return [[scriptResults valueForKey:[rule valueForKey:@"parameter"]] boolValue];
 }
 
 - (NSMutableDictionary *)readFromPanel {
