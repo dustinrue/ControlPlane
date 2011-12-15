@@ -44,6 +44,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 
 	lock = [[NSLock alloc] init];
 	devices = [[NSMutableArray alloc] init];
+	runLoopSource = 0;
 
 	return self;
 }
@@ -234,7 +235,9 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	if (!running)
 		return;
 
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
+	CFRunLoopSourceInvalidate(runLoopSource);
+	runLoopSource = 0;
+	
 	IONotificationPortDestroy(notificationPort);
 	IOObjectRelease(addedIterator);
 	IOObjectRelease(removedIterator);
