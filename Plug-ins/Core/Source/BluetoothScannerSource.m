@@ -55,7 +55,7 @@ const struct BSSIntervalsStruct BSSIntervals = {
 }
 
 - (void) registerCallback {
-	m_cleanupTimer = [NSTimer scheduledTimerWithTimeInterval: BSSIntervals.scan
+	m_inquiryTimer = [NSTimer scheduledTimerWithTimeInterval: BSSIntervals.scan
 													  target: self
 													selector: @selector(checkData)
 													userInfo: nil
@@ -69,6 +69,19 @@ const struct BSSIntervalsStruct BSSIntervals = {
 }
 
 - (void) unregisterCallback {
+	// stop inquiry timer
+	if (m_inquiryTimer && m_inquiryTimer.isValid) {
+		[m_inquiryTimer invalidate];
+		m_inquiryTimer = nil;
+	}
+	
+	// stop cleanup timer
+	if (m_cleanupTimer && m_cleanupTimer.isValid) {
+		[m_cleanupTimer invalidate];
+		m_cleanupTimer = nil;
+	}
+	
+	// stop any running inquiry
 	[m_inquiry performSelectorOnMainThread: @selector(stop) withObject: nil waitUntilDone: YES];
 }
 
