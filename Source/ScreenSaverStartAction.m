@@ -8,7 +8,7 @@
 #import "ScreenSaverStartAction.h"
 #import <ScriptingBridge/SBApplication.h>
 #import "System Events.h"
-
+#import "DSLogger.h"
 
 @implementation ScreenSaverStartAction
 
@@ -31,6 +31,7 @@
 			[SEvents.currentScreenSaver stop];
 		
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed starting screen saver!", @"");
 		else

@@ -8,7 +8,7 @@
 #import "MailSMTPServerAction.h"
 #import <ScriptingBridge/SBApplication.h>
 #import "Mail.h"
-
+#import "DSLogger.h"
 
 @implementation MailSMTPServerAction
 
@@ -67,6 +67,7 @@
 				account.deliveryAccount = server;
 		
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		*errorString = NSLocalizedString(@"Couldn't set SMTP server!", @"In MailSMTPServerAction");
 		return NO;
 	}
@@ -99,6 +100,7 @@
 							 server.name, @"option", server.name, @"description", nil]];
 		
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		opts = [NSArray array];
 	}
 	

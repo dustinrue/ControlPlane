@@ -8,7 +8,7 @@
 #import "MailIMAPServerAction.h"
 #import <ScriptingBridge/SBApplication.h>
 #import "Mail.h"
-
+#import "DSLogger.h"
 
 @implementation MailIMAPServerAction
 
@@ -63,6 +63,7 @@
 			account.serverName = hostname;
 		
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		*errorString = NSLocalizedString(@"Couldn't set IMAP server!", @"In MailIMAPServerAction");
 		return NO;
 	}

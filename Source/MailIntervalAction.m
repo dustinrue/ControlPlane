@@ -9,6 +9,7 @@
 #import "MailIntervalAction.h"
 #import <ScriptingBridge/SBApplication.h>
 #import "Mail.h"
+#import "DSLogger.h"
 
 @implementation MailIntervalAction
 
@@ -78,6 +79,7 @@
 			Mail.fetchInterval = t;
 		}
 	} @catch (NSException *e) {
+		DSLog(@"Exception: %@", e);
 		*errorString = NSLocalizedString(@"Couldn't set mail check interval!", @"In MailIntervalAction");
 		return NO;
 	}
