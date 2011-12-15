@@ -69,8 +69,10 @@
 	if (!running)
 		return;
 
-	[loopTimer invalidate];
-	loopTimer = nil;
+	if (loopTimer || [loopTimer isValid]) {
+		[loopTimer invalidate];
+		loopTimer = nil;
+	}
 	
 	SEL selector = NSSelectorFromString(@"clearCollectedData");
 	if ([self respondsToSelector: selector])
