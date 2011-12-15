@@ -5,10 +5,10 @@
 //  Created by Mark Wallis on 14/11/07.
 //
 
-#import "CAction.h"
+#import "Action.h"
 
 
-@interface UnmountAction : CAction <ActionWithString> {
+@interface UnmountAction : Action <ActionWithString> {
 	NSString *path;
 }
 

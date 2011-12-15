@@ -346,6 +346,8 @@
 		DD44B5A414142D4D0016BF6B /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD44B5A514142D4D0016BF6B /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
+		DD7D24DC149A086400BE7C8B /* DisplaySleepTimeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplaySleepTimeAction.h; path = Source/DisplaySleepTimeAction.h; sourceTree = "<group>"; };
+		DD7D24DD149A086400BE7C8B /* DisplaySleepTimeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplaySleepTimeAction.m; path = Source/DisplaySleepTimeAction.m; sourceTree = "<group>"; };
 		DD8274E5141147BB0098FA6E /* controlplane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = controlplane.icns; sourceTree = "<group>"; };
 		DD8274EE141154780098FA6E /* MailIntervalAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MailIntervalAction.h; path = Source/MailIntervalAction.h; sourceTree = "<group>"; };
 		DD8274EF141154780098FA6E /* MailIntervalAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MailIntervalAction.m; path = Source/MailIntervalAction.m; sourceTree = "<group>"; };
@@ -719,6 +721,8 @@
 				8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */,
 				DD827505141188880098FA6E /* DisplayBrightnessAction.h */,
 				DD827506141188880098FA6E /* DisplayBrightnessAction.m */,
+				DD7D24DC149A086400BE7C8B /* DisplaySleepTimeAction.h */,
+				DD7D24DD149A086400BE7C8B /* DisplaySleepTimeAction.m */,
 				8DCB43550C4DBABD00E71D28 /* FirewallRuleAction.h */,
 				8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */,
 				DD8274F71411748B0098FA6E /* LockKeychainAction.h */,

@@ -5,10 +5,10 @@
 //  Created by David Symonds on 7/16/07.
 //
 
-#import "CAction.h"
+#import "Action.h"
 
 
-@interface ScreenSaverTimeAction : CAction <ActionWithLimitedOptions> {
+@interface ScreenSaverTimeAction : Action <ActionWithLimitedOptions> {
 	NSNumber *time;
 }
 

@@ -20,7 +20,7 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	BOOL result = [CAction helperToolPerformAction: @kCPHelperToolControlBackupTMCommand
+	BOOL result = [Action helperToolPerformAction: @kCPHelperToolControlBackupTMCommand
 									 withParameter: [NSNumber numberWithBool: turnOn]];
 	
 	if (!result) {

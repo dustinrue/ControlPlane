@@ -5,10 +5,10 @@
 //  Created by David Symonds on 10/08/07.
 //
 
-#import "CAction.h"
+#import "Action.h"
 
 
-@interface MailIMAPServerAction : CAction <ActionWithString> {
+@interface MailIMAPServerAction : Action <ActionWithString> {
 	NSString *hostname;
 }
 

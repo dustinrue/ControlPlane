@@ -5,10 +5,10 @@
 //  Created by David Symonds on 23/04/07.
 //
 
-#import "CAction.h"
+#import "Action.h"
 
 
-@interface ShellScriptAction : CAction <ActionWithFileParameter> {
+@interface ShellScriptAction : Action <ActionWithFileParameter> {
 	NSString *path;
 }
 

@@ -6,10 +6,10 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "CAction.h"
+#import "Action.h"
 
 
-@interface SpeakAction : CAction <ActionWithString> {
+@interface SpeakAction : Action <ActionWithString> {
 	NSString *text;
 	NSSpeechSynthesizer *synth;
 }

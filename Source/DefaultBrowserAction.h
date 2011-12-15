@@ -6,10 +6,10 @@
 //	Copyright 2011. All rights reserved.
 //
 
-#import "CAction.h"
+#import "Action.h"
 
 
-@interface DefaultBrowserAction : CAction <ActionWithLimitedOptions> {
+@interface DefaultBrowserAction : Action <ActionWithLimitedOptions> {
 	NSString *app;
 }
 
