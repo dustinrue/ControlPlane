@@ -30,6 +30,7 @@
 	
 	self.devices = [NSDictionary new];
 	m_notifications = nil;
+	m_disconnectNotifications = nil;
 	
 	return self;
 }
@@ -58,20 +59,33 @@
 - (void) registerCallback {
 	m_notifications = [IOBluetoothDevice registerForConnectNotifications: self
 																selector: @selector(deviceConnected:device:)];
+	
+	m_disconnectNotifications = [NSMutableArray new];
 }
 
 - (void) unregisterCallback {
 	[m_notifications unregister];
 	m_notifications = nil;
+	
+	// we don't care about disconnection events anymore
+	for (IOBluetoothUserNotification *notification in m_disconnectNotifications)
+		[notification unregister];
 }
 
 - (void) checkData {
 	NSMutableDictionary *devices = [NSMutableDictionary new];
+	IOBluetoothUserNotification *notification = nil;
 	
 	// get connected devices from recent list
-	for (IOBluetoothDevice *device in [IOBluetoothDevice recentDevices: 10])
-		if (device.isConnected)
+	for (IOBluetoothDevice *device in [IOBluetoothDevice recentDevices: 20])
+		if (device.isConnected && ![devices objectForKey: [device getAddressString]]) {
 			[devices setObject: [self deviceToDictionary: device] forKey: [device getAddressString]];
+			
+			// we want to know when the device disconnects
+			notification = [device registerForDisconnectNotification: self
+															selector: @selector(deviceDisconnected:device:)];
+			[m_disconnectNotifications addObject: notification];
+		}
 	
 	// store it
 	if (![devices isEqualToDictionary: self.devices])
@@ -83,9 +97,12 @@
 - (void) deviceConnected: (IOBluetoothUserNotification *) notification device: (IOBluetoothDevice *) device {
 	LogInfo_Source(@"Got notified of '%@' connecting!", device.name);
 	NSString *address = [device getAddressString];
+	IOBluetoothUserNotification *disconnect = nil;
     
     // register for device disconnection
-	[device registerForDisconnectNotification: self selector: @selector(deviceDisconnected:device:)];
+	disconnect = [device registerForDisconnectNotification: self
+												  selector: @selector(deviceDisconnected:device:)];
+	[m_disconnectNotifications addObject: disconnect];
     
     // add device to connected list
 	NSMutableDictionary *devices = [self.devices mutableCopy];
@@ -100,6 +117,9 @@
 	LogInfo_Source(@"Got notified of '%@' disconnecting!", device.name);
 	NSString *address = [device getAddressString];
     
+	// remove notification from disconnect list
+	[m_disconnectNotifications removeObject: notification];
+	
 	// remove device from connected list
 	NSMutableDictionary *devices = [self.devices mutableCopy];
 	ZAssert([devices objectForKey: address], @"Disconnected unknown device");

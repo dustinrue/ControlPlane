@@ -16,6 +16,7 @@
 	NSMutableArray *m_internalDevices;
 	
 	IOBluetoothUserNotification *m_notifications;
+	NSMutableArray *m_disconnectNotifications;
 }
 
 @property (readwrite, copy) NSDictionary *devices;
