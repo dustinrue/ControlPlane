@@ -320,18 +320,18 @@
 	NSMutableDictionary *dev;
 	unsigned int index = 0;
     
-    
-    
+    // find device in devices array
 	while ((dev = [en nextObject])) {
 		if ([[dev valueForKey:@"mac"] isEqualToString:[device getAddressString]])
 			break;
 		++index;
 	}
     
-    
 	if (dev)
 		[devices removeObjectAtIndex:index];
     
+	// remove from registered objects
+	[devicesRegisteredForDisconnectNotices removeObject: notification];
     
 	[lock unlock];
 }
