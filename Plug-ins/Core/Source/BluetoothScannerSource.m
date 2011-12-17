@@ -8,6 +8,7 @@
 
 #import "BluetoothScannerSource.h"
 #import "DB.h"
+#import <Plugins/NSTimer+Invalidation.h>
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
 #import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
 
@@ -69,17 +70,9 @@ const struct BSSIntervalsStruct BSSIntervals = {
 }
 
 - (void) unregisterCallback {
-	// stop inquiry timer
-	if (m_inquiryTimer && m_inquiryTimer.isValid) {
-		[m_inquiryTimer invalidate];
-		m_inquiryTimer = nil;
-	}
-	
-	// stop cleanup timer
-	if (m_cleanupTimer && m_cleanupTimer.isValid) {
-		[m_cleanupTimer invalidate];
-		m_cleanupTimer = nil;
-	}
+	// stop timers
+	m_inquiryTimer = [m_inquiryTimer checkAndInvalidate];
+	m_cleanupTimer = [m_cleanupTimer checkAndInvalidate];
 	
 	// stop any running inquiry
 	[m_inquiry performSelectorOnMainThread: @selector(stop) withObject: nil waitUntilDone: YES];

@@ -8,6 +8,7 @@
 
 #import "ScriptRule.h"
 #import "ScriptSource.h"
+#import <Plugins/NSTimer+Invalidation.h>
 
 @implementation ScriptSource
 
@@ -73,9 +74,7 @@
 
 - (void) removeObserver: (Rule *) rule {
 	// remove script timer
-	NSTimer *timer = [m_scriptTimers objectForKey: rule];
-	if (timer && timer.isValid)
-		[timer invalidate];
+	[[m_scriptTimers objectForKey: rule] checkAndInvalidate];
 	[m_scriptTimers removeObjectForKey: rule];
 	
 	[super removeObserver: rule];

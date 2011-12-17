@@ -10,6 +10,7 @@
 #import "ContextGroup.h"
 #import "KVOAdditions.h"
 #import <Plugins/Actions.h>
+#import <Plugins/NSTimer+Invalidation.h>
 
 @interface ContextGroup (Private)
 
@@ -68,8 +69,7 @@
 	
 	// Do we have a new suggestion?
 	if (m_suggestedContext != suggestion) {
-		if (m_suggestionTimer && m_suggestionTimer.isValid)
-			[m_suggestionTimer invalidate];
+		m_suggestionTimer = [m_suggestionTimer checkAndInvalidate];
 		m_suggestedContext = suggestion;
 		
 		m_suggestionTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
@@ -82,11 +82,9 @@
 
 - (void) activateSuggestion {
 	// stop timer
-	if (m_suggestionTimer && m_suggestionTimer.isValid) {
-		[m_suggestionTimer invalidate];
-		m_suggestionTimer = nil;
-	}
+	m_suggestionTimer = [m_suggestionTimer checkAndInvalidate];
 	
+	// already there?
 	if (self.activeContext == m_suggestedContext)
 		return;
 	

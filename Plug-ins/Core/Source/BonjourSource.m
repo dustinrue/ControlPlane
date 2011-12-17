@@ -7,6 +7,7 @@
 //
 
 #import "BonjourSource.h"
+#import <Plugins/NSTimer+Invalidation.h>
 
 @interface BonjourSource (Private)
 
@@ -78,7 +79,7 @@
 
 - (void) resolveNextService {
 	[m_browser stop];
-	m_timer = nil;
+	m_timer = [m_timer checkAndInvalidate];
 	
 	// check if anything left to do
 	if (m_unresolvedServices.count == 0) {
@@ -138,10 +139,7 @@
 		m_stage = kNetResolving;
 	
 	// resolve next
-	if (m_timer && m_timer.isValid) {
-		[m_timer invalidate];
-		m_timer = nil;
-	}
+	m_timer = [m_timer checkAndInvalidate];
 	[self resolveNextService];
 }
 

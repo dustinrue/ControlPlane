@@ -8,7 +8,7 @@
 #import "Action.h"
 #import "CPController.h"
 #import "CPController+SleepThread.h"
-//#import "NetworkLocationAction.h"
+#import <Plugins/NSTimer+Invalidation.h>
 #import <Plugins/Plugins.h>
 
 @interface CPController (Private)
@@ -124,6 +124,7 @@
 	sbImageInactive = [self prepareImageForMenubar:@"cp-icon-inactive"];
 	sbItem = nil;
 	sbHideTimer = nil;
+	updatingTimer = nil;
 
 	updatingSwitchingLock = [[NSLock alloc] init];
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
@@ -417,11 +418,11 @@
 
 	// Schedule a one-off timer (in 2s) to get initial data.
 	// Future recurring timers will be set automatically from there.
-	updatingTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2
-													 target:self
-												   selector:@selector(doUpdate:)
-												   userInfo:nil
-													repeats:NO];
+	updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
+													  target: self
+													selector: @selector(doUpdate:)
+													userInfo: nil
+													 repeats: NO] retain];
 	
 	[NSApp unhide];
 }
@@ -481,15 +482,15 @@
 	[sbItem setMenu:sbMenu];
 }
 
-- (void)hideFromStatusBar:(NSTimer *)theTimer
-{
+- (void)hideFromStatusBar:(NSTimer *)theTimer {
+	sbHideTimer = [sbHideTimer checkAndInvalidate];
+	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"])
 		return;
 
 	[[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
 	[sbItem release];
 	sbItem = nil;
-	sbHideTimer = nil;
 }
 
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
@@ -578,29 +579,25 @@
 	// Check timer interval
 	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
 	if (fabs(intv - [updatingTimer timeInterval]) > 0.1) {
-		if (updatingTimer && updatingTimer.isValid) {
-			[updatingTimer invalidate];
-			updatingTimer = nil;
-		}
-		updatingTimer = [NSTimer scheduledTimerWithTimeInterval:intv
-								 target:self
-							       selector:@selector(doUpdate:)
-							       userInfo:nil
-								repeats:YES];
+		updatingTimer = [updatingTimer checkAndInvalidate];
+		updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: intv
+														  target: self
+														selector: @selector(doUpdate:)
+														userInfo: nil
+														 repeats: YES] retain];
 	}
 
 	// Check status bar visibility
 	BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"];
 	if (sbItem && hide && !sbHideTimer)
-		sbHideTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)STATUS_BAR_LINGER
-						 target:self
-					       selector:@selector(hideFromStatusBar:)
-					       userInfo:nil
-						repeats:NO];
-	else if (!hide && sbHideTimer && sbHideTimer.isValid) {
-		[sbHideTimer invalidate];
-		sbHideTimer = nil;
-	}
+		sbHideTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)STATUS_BAR_LINGER
+														target: self
+													  selector: @selector(hideFromStatusBar:)
+													  userInfo: nil
+													   repeats: NO] retain];
+	else if (!hide)
+		sbHideTimer = [sbHideTimer checkAndInvalidate];
+	
 	if (!hide && !sbItem) {
 		[self showInStatusBar:self];
     }
@@ -1086,11 +1083,11 @@
 	// Set up status bar.
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"]) {
 		[self showInStatusBar:self];
-		sbHideTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)STATUS_BAR_LINGER
-						 target:self
-					       selector:@selector(hideFromStatusBar:)
-					       userInfo:nil
-						repeats:NO];
+		sbHideTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)STATUS_BAR_LINGER
+														target: self
+													  selector: @selector(hideFromStatusBar:)
+													  userInfo: nil
+													   repeats: NO] retain];
 	}
 
 	return YES;

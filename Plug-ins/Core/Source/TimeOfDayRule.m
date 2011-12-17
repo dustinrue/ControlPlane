@@ -7,6 +7,7 @@
 //
 
 #import "TimeOfDayRule.h"
+#import <Plugins/NSTimer+Invalidation.h>
 
 @interface TimeOfDayRule (Private)
 
@@ -80,9 +81,7 @@
 }
 
 - (void) beingDisabled {
-	if (m_timer && m_timer.isValid)
-		[m_timer invalidate];
-	m_timer = nil;
+	m_timer = [m_timer checkAndInvalidate];
 }
 
 - (void) loadData: (id) data {
