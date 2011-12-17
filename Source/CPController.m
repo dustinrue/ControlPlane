@@ -814,6 +814,8 @@
 	Context *ctxt;
 
 	[updatingSwitchingLock lock];
+    
+    
 
 	// Execute all the "Departure" actions
 	en = [leaving_walk objectEnumerator];
@@ -825,6 +827,15 @@
 	// Update current context
 	[self setValue:toUUID forKey:@"currentContextUUID"];
 	NSString *ctxt_path = [contextsDataSource pathFromRootTo:toUUID];
+    
+    // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
+    // Allows you to test QuinyKit
+    if ([ctxt_path isEqualToString:@"Developer Crash"]) {
+#if DEBUG_MODE
+        kill( getpid(), SIGABRT );
+#endif
+    }
+    
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
