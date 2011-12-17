@@ -3,7 +3,7 @@
 #import "Action.h"
 #import "DSLogger.h"
 #import "PrefsWindowController.h"
-
+#import "NSTimer+Invalidation.h"
 
 // This is here to avoid IB's problem with unknown base classes
 @interface ActionTypeHelpTransformer : NSValueTransformer {}
@@ -388,18 +388,14 @@
 	}
 
 	if ([groupId isEqualToString:@"Advanced"]) {
-		logBufferTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 0.5
-								  target:self
-								selector:@selector(updateLogBuffer:)
-								userInfo:nil
-								 repeats:YES];
+		logBufferTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 0.5
+														   target: self
+														 selector: @selector(updateLogBuffer:)
+														 userInfo: nil
+														  repeats: YES] retain];
 		[logBufferTimer fire];
-	} else {
-		if (logBufferTimer && [logBufferTimer isValid]) {
-			[logBufferTimer invalidate];
-			logBufferTimer = nil;
-		}
-	}
+	} else
+		logBufferTimer = [logBufferTimer checkAndInvalidate];
 
 	currentPrefsView = [group objectForKey:@"view"];
 

@@ -7,7 +7,7 @@
 
 #import "BonjourEvidenceSource.h"
 #import "DSLogger.h"
-
+#import "NSTimer+Invalidation.h"
 
 @interface BonjourEvidenceSource (Private)
 
@@ -27,7 +27,8 @@
 		return nil;
 
 	lock = [[NSLock alloc] init];
-
+	
+	scanTimer = nil;
 	stage = 0;
 	browser = [[NSNetServiceBrowser alloc] init];
 	[browser setDelegate:self];
@@ -188,11 +189,11 @@
 #ifdef DEBUG_MODE
 	//NSLog(@"Sent probe for hosts offering service %@", service);
 #endif
-	scanTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 1
-					 target:self
-				       selector:@selector(runNextStage2Scan:)
-				       userInfo:nil
-					repeats:NO];
+	scanTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
+												  target: self
+												selector: @selector(runNextStage2Scan:)
+												userInfo: nil
+												 repeats: NO] retain];
 }
 
 #pragma mark NSNetServiceBrowser delegate methods
@@ -237,11 +238,8 @@
 		[hitsInProgress removeAllObjects];
 		scanTimer = nil;
 	}
-
-	if (scanTimer && [scanTimer isValid]) {
-		[scanTimer invalidate];
-		scanTimer = nil;
-	}
+	
+	scanTimer = [scanTimer checkAndInvalidate];
 	[self runNextStage2Scan:nil];
 }
 

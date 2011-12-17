@@ -7,7 +7,7 @@
 
 #import "DSLogger.h"
 #import "LoopingEvidenceSource.h"
-
+#import "NSTimer+Invalidation.h"
 
 @implementation LoopingEvidenceSource
 
@@ -55,11 +55,11 @@
 	if (running)
 		return;
 
-	loopTimer = [NSTimer scheduledTimerWithTimeInterval:loopInterval
-						     target:self
-						   selector:@selector(loopTimerPoll:)
-						   userInfo:nil
-						    repeats:YES];
+	loopTimer = [[NSTimer scheduledTimerWithTimeInterval: loopInterval
+												  target: self
+												selector: @selector(loopTimerPoll:)
+												userInfo: nil
+												 repeats: YES] retain];
 	[self loopTimerPoll:loopTimer];
 
 	running = YES;
@@ -70,10 +70,7 @@
 	if (!running)
 		return;
 	
-	if (loopTimer && [loopTimer isValid]) {
-		[loopTimer invalidate];
-		loopTimer = nil;
-	}
+	loopTimer = [loopTimer checkAndInvalidate];
 	
 	SEL selector = NSSelectorFromString(@"clearCollectedData");
 	if ([self respondsToSelector: selector])

@@ -11,7 +11,7 @@
 
 #import "ShellScriptEvidenceSource.h"
 #import "DSLogger.h"
-
+#import "NSTimer+Invalidation.h"
 
 @interface ShellScriptEvidenceSource (Private)
 
@@ -35,8 +35,10 @@
     if (!self)
         return nil;
     
-    running    = NO;
+    running = NO;
+	ruleUpdateTimer = nil;
     [self setDefaultValues];
+	
 	return self;
 }
 
@@ -65,11 +67,11 @@
     // that the rules for that evidence source has changed
     // ControlPlane sets a timer here to periodically update
     // the list of rules that belong to this evidence sournce
-    ruleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
-                                                       target:self
-                                                     selector:@selector(doUpdate:)
-                                                     userInfo:nil
-                                                      repeats:YES];
+    ruleUpdateTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 10
+														target: self
+													  selector: @selector(doUpdate:)
+													  userInfo: nil
+													   repeats: YES] retain];
     // do an update immediate
     [self getRuleList];
     
@@ -81,10 +83,7 @@
 
 - (void)stop {        
     [self stopAllTasks];
-	if (ruleUpdateTimer && [ruleUpdateTimer isValid]) {
-		[ruleUpdateTimer invalidate];
-		ruleUpdateTimer = nil;
-	}
+	ruleUpdateTimer = [ruleUpdateTimer checkAndInvalidate];
     [myTasks         release];
     [taskTimers      release];
 

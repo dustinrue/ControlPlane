@@ -9,6 +9,7 @@
 #import "BluetoothEvidenceSource.h"
 #import "DB.h"
 #import "DSLogger.h"
+#import "NSTimer+Invalidation.h"
 
 #define EXPIRY_INTERVAL		((NSTimeInterval) 60)
 
@@ -103,7 +104,11 @@
 #ifdef DEBUG_MODE
     DSLog(@"setting 5 second timer to register for bluetooth connection notifications");
 #endif
-    registerForNotificationsTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 5 target:self selector:@selector(registerForNotifications:) userInfo:nil repeats:NO]; 
+    registerForNotificationsTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 5
+																	  target: self
+																	selector: @selector(registerForNotifications:)
+																	userInfo: nil
+																	 repeats: NO] retain];
 
     // we now mark the evidence source as running
 	running = YES;
@@ -288,7 +293,7 @@
 
 
 - (void)registerForNotifications:(NSTimer *)timer {
-	registerForNotificationsTimer = nil;
+	registerForNotificationsTimer = [registerForNotificationsTimer checkAndInvalidate];
     
 #ifdef DEBUG_MODE
     DSLog(@"registering for notifications");
