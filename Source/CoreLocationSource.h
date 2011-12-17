@@ -13,6 +13,7 @@
 @interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
 	CLLocation *current, *selectedRule;
+	NSDate *startDate;
 	
 	// for custom panel
 	IBOutlet WebView *webView;

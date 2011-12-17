@@ -15,6 +15,7 @@
 - (void) updateMap;
 + (BOOL) geocodeAddress: (inout NSString **) address toLocation: (out CLLocation **) location;
 + (BOOL) geocodeLocation: (in CLLocation *) location toAddress: (out NSString **) address;
+- (BOOL) isValidLocation: (CLLocation *) newLocation withOldLocation:(CLLocation *) oldLocation;
 + (BOOL) convertText: (in NSString *) text toLocation: (out CLLocation **) location;
 + (NSString *) convertLocationToText: (in CLLocation *) location;
 
@@ -29,10 +30,12 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     if (!self)
         return nil;
     
-	locationManager = [[CLLocationManager alloc] init];
+	locationManager = [CLLocationManager new];
 	locationManager.delegate = self;
+	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 	current = nil;
 	selectedRule = nil;
+	startDate = [[NSDate date] retain];
 	
 	// for custom panel
 	scriptObject = nil;
@@ -45,7 +48,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 
 - (void)awakeFromNib {
 	[webView setFrameLoadDelegate: self];
-	[[webView mainFrame] loadHTMLString:@"" baseURL:NULL];
+	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
 }
 
 - (void) dealloc {
@@ -64,6 +67,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	[locationManager startUpdatingLocation];
 	[self setDataCollected: YES];
+	[self updateMap];
 	
 	running = YES;
 }
@@ -74,6 +78,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	[locationManager stopUpdatingLocation];
 	[self setDataCollected: NO];
+	current = nil;
 	
 	running = NO;
 }
@@ -223,10 +228,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	 didUpdateToLocation: (CLLocation *) newLocation
 			fromLocation: (CLLocation *) oldLocation {
 	
-	// Ignore updates where nothing we care about changed
-	if (newLocation.coordinate.longitude == oldLocation.coordinate.longitude &&
-		newLocation.coordinate.latitude == oldLocation.coordinate.latitude &&
-		newLocation.horizontalAccuracy == oldLocation.horizontalAccuracy)
+	// Ignore invalid updates
+	if ([self isValidLocation: newLocation withOldLocation: oldLocation])
 		return;
 	
 	// location
@@ -322,6 +325,29 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		return NO;
 	
 	*address = [[results objectAtIndex: 0] objectForKey: @"formatted_address"];
+	return YES;
+}
+
+- (BOOL) isValidLocation: (CLLocation *) newLocation withOldLocation:(CLLocation *) oldLocation {
+	// Filter out nil locations
+	if (!newLocation)
+		return NO;
+	
+	// Filter out points by invalid accuracy
+	if (newLocation.horizontalAccuracy < 0)
+		return NO;
+	
+	// Filter out points that are out of order
+	NSTimeInterval secondsSinceLastPoint = [newLocation.timestamp timeIntervalSinceDate: oldLocation.timestamp];
+	if (secondsSinceLastPoint < 0)
+		return NO;
+
+	// Filter out points created before the manager was initialized
+	NSTimeInterval secondsSinceManagerStarted = [newLocation.timestamp timeIntervalSinceDate: startDate];
+	if (secondsSinceManagerStarted < 0)
+		return NO;
+	
+	// The newLocation is good to use
 	return YES;
 }
 
