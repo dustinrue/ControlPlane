@@ -395,11 +395,6 @@
 		DA8064A1147990FD00267B5A /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
 		DA8064A2147990FD00267B5A /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
 		DA8064AB1479910E00267B5A /* Quincy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quincy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA8064B41479910E00267B5A /* Quincy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Quincy-Info.plist"; sourceTree = "<group>"; };
-		DA8064B61479910E00267B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		DA8064B81479910E00267B5A /* Quincy-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quincy-Prefix.pch"; sourceTree = "<group>"; };
-		DA8064B91479910E00267B5A /* Quincy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quincy.h; sourceTree = "<group>"; };
-		DA8064BA1479910E00267B5A /* Quincy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Quincy.m; sourceTree = "<group>"; };
 		DA812E81140681D2006869F7 /* AppleScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleScript.h; path = Source/AppleScript.h; sourceTree = "<group>"; };
 		DA812E82140681D2006869F7 /* AppleScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppleScript.m; path = Source/AppleScript.m; sourceTree = "<group>"; };
 		DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreWLANEvidenceSource.h; path = Source/CoreWLANEvidenceSource.h; sourceTree = "<group>"; };
@@ -640,7 +635,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DA8064B21479910E00267B5A /* Quincy */,
 				DA80649F147990FD00267B5A /* Mac */,
 				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
@@ -811,26 +805,6 @@
 			);
 			name = Mac;
 			path = Source/QuincyKit/client/Mac;
-			sourceTree = "<group>";
-		};
-		DA8064B21479910E00267B5A /* Quincy */ = {
-			isa = PBXGroup;
-			children = (
-				DA8064B91479910E00267B5A /* Quincy.h */,
-				DA8064BA1479910E00267B5A /* Quincy.m */,
-				DA8064B31479910E00267B5A /* Supporting Files */,
-			);
-			path = Quincy;
-			sourceTree = "<group>";
-		};
-		DA8064B31479910E00267B5A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				DA8064B41479910E00267B5A /* Quincy-Info.plist */,
-				DA8064B51479910E00267B5A /* InfoPlist.strings */,
-				DA8064B81479910E00267B5A /* Quincy-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		DAFC0E4014788A6000DA6139 /* Apple Private Frameworks */ = {
@@ -1340,14 +1314,6 @@
 				73A5092E14849405007D22B5 /* pt-PT */,
 			);
 			name = ShellScriptRule.xib;
-			sourceTree = "<group>";
-		};
-		DA8064B51479910E00267B5A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DA8064B61479910E00267B5A /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */ = {
