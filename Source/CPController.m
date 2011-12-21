@@ -447,6 +447,11 @@
 
 - (void)setMenuBarImage:(NSImage *)imageName {
 
+    // if the menu bar item has been hidden sbItem will have been released
+    // and we should not attempt to update the image
+    if (!sbItem)
+        return;
+    
     @try {
         [sbItem setImage:imageName];
     }
