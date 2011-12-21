@@ -121,14 +121,23 @@
     DSLog(@"In stop");
 #endif
     
-	if (![self registeredForNotifications])
-		return;
+
     
     
     [self unregisterForConnectionNotifications];
     
     // we registered for disconnect notifications, unregister now
     for (IOBluetoothUserNotification *currentDevice in devicesRegisteredForDisconnectNotices) {
+        // remove from registered objects
+        
+        // current device has already been unregistered
+        if (!currentDevice)
+            return;
+        
+        // remove the device notification entry
+        [devicesRegisteredForDisconnectNotices removeObject: currentDevice];
+        
+        // unregister for disconnect notifications
         [currentDevice unregister];
     }
     if (cleanupTimer && [cleanupTimer isValid]) {
@@ -278,16 +287,19 @@
 }
 
 - (void) unregisterForConnectionNotifications {
+    if (![self registeredForNotifications])
+		return;
     
-  //  if ([self registeredForNotifications]) {
+
 #ifdef DEBUG_MODE
-        DSLog(@"unregistering for connection notifications");
+    DSLog(@"unregistering for connection notifications");
 #endif
+    if (notf) {
         [notf unregister];
         notf = nil;
+    }
 
-        [self setRegisteredForNotifications:FALSE];
-  //  }
+    [self setRegisteredForNotifications:FALSE];
 }
 
 
