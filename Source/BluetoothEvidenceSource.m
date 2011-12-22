@@ -84,11 +84,11 @@
     DSLog(@"setting 7 second timer to start bluetooth inquiry");
 #endif
     
-    holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 7
+    holdTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
                                                  target:self
                                                selector:@selector(holdTimerPoll:)
                                                userInfo:nil
-                                                repeats:NO];
+                                                repeats:YES];
     
     // this timer will fire every 10 (seconds?) to clean up entries
     
@@ -392,6 +392,7 @@
 - (void)deviceInquiryComplete:(IOBluetoothDeviceInquiry *)sender 
                         error:(IOReturn)error 
                       aborted:(BOOL)aborted  {
+    [self setInquiryStatus:FALSE];
     
 #ifdef DEBUG_MODE
     DSLog(@"in deviceInquiryComplete with goingToSleep == %s and error %x",goingToSleep ? "YES" : "NO", error);
@@ -415,10 +416,9 @@
 
 - (void)holdTimerPoll:(NSTimer *)timer
 {
-    
 	if (holdTimer && [holdTimer isValid]) {
-		[holdTimer invalidate];
-		holdTimer = nil;
+	//	[holdTimer invalidate];
+	//	holdTimer = nil;
 	}
     
     [self startInquiry];
@@ -453,8 +453,6 @@
 	[lock unlock];
     
     if ([self kIOErrorSet]) {
-        //[inq performSelectorOnMainThread:@selector(stop) withObject:nil waitUntilDone:YES];
-        //[inq performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
         [self stopInquiry];
         [self startInquiry];
     }
