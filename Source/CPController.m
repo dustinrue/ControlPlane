@@ -1038,7 +1038,7 @@
     
 
 
-	NSString *perc = [numberFormatter stringFromNumber:[NSDecimalNumber numberWithDouble:guessConf]];
+	NSString *perc = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:guessConf]];
 	NSString *guessConfidenceString = [NSString stringWithFormat:
 		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
 		perc];
