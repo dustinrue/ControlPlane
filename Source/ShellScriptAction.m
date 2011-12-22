@@ -54,11 +54,40 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
+    NSString *app, *fileType;
+    
+	if (![[NSWorkspace sharedWorkspace] getInfoForFile:path application:&app type:&fileType]) {
+		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
+		return NO;
+	}
+    
 	// Split on "|", add "--" to the start so that the shell won't try to parse arguments
 	NSMutableArray *args = [[[path componentsSeparatedByString:@"|"] mutableCopy] autorelease];
 	[args insertObject:@"--" atIndex:0];
-
-	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:args];
+    
+    NSTask *task = nil;
+    
+    if ([[fileType uppercaseString] isEqualToString:@"SH"]) {
+		task = [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:args];
+	}
+    else if ([[fileType uppercaseString] isEqualToString:@"SCPT"]) {
+		task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
+	}
+    else if ([[fileType uppercaseString] isEqualToString:@"PL"]) {
+		task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/perl" arguments:args];
+	}
+    else if ([[fileType uppercaseString] isEqualToString:@"PY"]) {
+		task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/python" arguments:args];
+	}
+    else if ([[fileType uppercaseString] isEqualToString:@"PHP"]) {
+		task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/php" arguments:args];
+	}
+    else if ([[fileType uppercaseString] isEqualToString:@"EXPECT"]) {
+		task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/expect" arguments:args];
+	}
+    else if ([[fileType uppercaseString] isEqualToString:@"TCL"]) {
+		task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/tclsh" arguments:args];
+	}
 	[task waitUntilExit];
 	
 	if ([task terminationStatus] != 0) {
