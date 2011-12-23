@@ -84,6 +84,10 @@
             // next ControlPlane will determine if the shabang line includes
             // any arguments and deals with that appropriately
             NSMutableArray *shaBangArgs = [[[currentLine componentsSeparatedByString:@" "] mutableCopy] autorelease ];
+            
+            // if shaBangArgs is bigger than 1 then the user
+            // must be sending args to the interpreter, deal with 
+            // that case here
             if([shaBangArgs count] > 1) {
                 interpreter = [shaBangArgs objectAtIndex:0];
                 [shaBangArgs removeObjectAtIndex:0];
@@ -100,8 +104,6 @@
            
         }
     }
-    
-    NSTask *task = nil;
     
     // backup routine to try using the file extension if it exists
     if ([interpreter isEqualToString:@""]) {
@@ -128,11 +130,16 @@
         }
     }
     
-    DSLog(@"args looks like %@", args);
-    
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    assert(fileManager != nil);
     
+    if(!fileManager) {
+        DSLog(@"Failed to execute '%@'", path);
+		*errorString = NSLocalizedString(@"Failed executing shell script!", @"");
+		return NO;
+    }
+        
+    // ensure that the discovered interpreter is valid
+    // and is executable
     [fileManager isExecutableFileAtPath:interpreter];
     if ([interpreter isEqualToString:@""] || ![fileManager isExecutableFileAtPath:interpreter]) {
         // can't determine how to run the script
@@ -141,10 +148,8 @@
 		return NO;
     }
     
-    
-
-        
-    task = [NSTask launchedTaskWithLaunchPath:interpreter arguments:args];
+    // seems like everything is in order, launch the task
+    NSTask *task = [NSTask launchedTaskWithLaunchPath:interpreter arguments:args];
 	[task waitUntilExit];
 	
 	if ([task terminationStatus] != 0) {
