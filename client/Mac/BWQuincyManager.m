@@ -261,7 +261,7 @@ const CGFloat kDetailsHeight = 285;
 	if (Gestalt(gestaltSystemVersionMinor, &versionMinor) != noErr)  versionMinor= 0;
 	if (Gestalt(gestaltSystemVersionBugFix, &versionBugFix) != noErr) versionBugFix = 0;
 	
-	NSString* xml = [[NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><platform>%@</platform><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
+	NSString* xml = [NSString stringWithFormat:@"<crash><applicationname>%s</applicationname><bundleidentifier>%s</bundleidentifier><systemversion>%@</systemversion><senderversion>%@</senderversion><version>%@</version><platform>%@</platform><userid>%@</userid><contact>%@</contact><description><![CDATA[%@]]></description><log><![CDATA[%@]]></log></crash>",
              [[self applicationName] UTF8String],
              [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"] UTF8String],
              [NSString stringWithFormat:@"%i.%i.%i", versionMajor, versionMinor, versionBugFix],
@@ -272,7 +272,7 @@ const CGFloat kDetailsHeight = 285;
              contact,
              notes,
              crashContent
-             ] retain];
+             ];
 
     
     [self returnToMainApplication];
