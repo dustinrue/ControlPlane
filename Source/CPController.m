@@ -414,7 +414,7 @@
 						   withObject:nil];
 
 	// Start up evidence sources that should be started
-	[evidenceSources startOrStopAll];
+	//[evidenceSources startOrStopAll];
 
 	// Schedule a one-off timer (in 2s) to get initial data.
 	// Future recurring timers will be set automatically from there.
@@ -625,8 +625,8 @@
 	NSEnumerator *rule_enum = [rules objectEnumerator];
 	NSDictionary *rule;
 	while (rule = [rule_enum nextObject]) {
-		if ([evidenceSources ruleMatches:rule])
-			[matching_rules addObject:rule];
+//		if ([evidenceSources ruleMatches:rule])
+//			[matching_rules addObject:rule];
 	}
 
 	return matching_rules;
@@ -1164,7 +1164,7 @@
 #endif
 
 	// Check that the running evidence sources match the defaults
-	[evidenceSources startOrStopAll];
+	//[evidenceSources startOrStopAll];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
