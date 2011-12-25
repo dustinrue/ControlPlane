@@ -55,7 +55,7 @@ mkdir $ROOT/$APPNAME.app/Contents
 cp -R $APP/Contents/* $ROOT/$APPNAME.app/Contents/
 defaults write $ROOT/$APPNAME.app/Contents/Info.plist CFBundleVersion ${theDate}
 defaults write $ROOT/$APPNAME.app/Contents/Info.plist CFBundleShortVersionString ${theDate}
-defaults delete $ROOT/$APPNAME.app/Contents/Info.plist SUFeedURL
+defaults write $ROOT/$APPNAME.app/Contents/Info.plist SUFeedURL "http://localhost/"
 
 if [ -f "$ICON" ]; then
 	cp $ICON $ROOT/.VolumeIcon.icns

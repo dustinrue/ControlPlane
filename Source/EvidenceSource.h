@@ -1,0 +1,79 @@
+//
+//  EvidenceSource.h
+//  ControlPlane
+//
+//  Created by David Symonds on 29/03/07.
+//
+
+
+@interface EvidenceSource : NSObject {
+	BOOL running;
+	BOOL dataCollected;
+	BOOL startAfterSleep;
+    BOOL goingToSleep;
+
+	// Sheet hooks
+	NSPanel *panel;
+	IBOutlet NSPopUpButton *ruleContext;
+	IBOutlet NSSlider *ruleConfidenceSlider;
+	NSString *oldDescription;
+    NSMutableArray *rulesThatBelongToThisEvidenceSource;
+}
+
+- (id)initWithNibNamed:(NSString *)name;
+- (void)dealloc;
+- (void)goingToSleep:(id)arg;
+- (void)wakeFromSleep:(id)arg;
+- (BOOL)matchesRulesOfType:(NSString *)type;
+
+- (BOOL)dataCollected;
+- (void)setDataCollected:(BOOL)collected;
+- (BOOL)isRunning;
+
+- (void)setThreadNameFromClassName;
+
+- (void)setContextMenu:(NSMenu *)menu;
+- (void)runPanelAsSheetOfWindow:(NSWindow *)window withParameter:(NSDictionary *)parameter
+		 callbackObject:(NSObject *)callbackObject selector:(SEL)selector;
+- (IBAction)closeSheetWithOK:(id)sender;
+- (IBAction)closeSheetWithCancel:(id)sender;
+
+// Need to be extended by descendant classes
+// (need to add handling of 'parameter', and optionally 'type' and 'description' keys)
+// Some rules:
+//	- parameter *must* be filled in
+//	- description *must not* be filled in if [super readFromPanel] does it
+//	- type *may* be filled in; it will default to the first "supported" rule type
+- (NSMutableDictionary *)readFromPanel;
+- (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;
+
+// To be implemented by descendant classes:
+- (void)start;
+- (void)stop;
+
+// To be implemented by descendant classes:
+- (NSString *)name;
+- (BOOL)doesRuleMatch:(NSDictionary *)rule;
+
+// Optionally implemented by descendant classes
+- (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
+
+// Returns the rules that belong to the calling evidence source
+- (NSArray *)myRules;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+@interface EvidenceSourceSetController : NSObject {
+	IBOutlet NSWindowController *prefsWindowController;
+	NSArray *sources;	// dictionary of EvidenceSource descendants (key is its name)
+	NSArray *ruleTypes;
+}
+
+- (EvidenceSource *)sourceWithName:(NSString *)name;
+- (void)startOrStopAll;
+- (BOOL)ruleMatches:(NSDictionary *)rule;
+- (NSEnumerator *)sourceEnumerator;
+
+@end

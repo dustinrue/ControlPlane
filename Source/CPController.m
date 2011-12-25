@@ -450,9 +450,14 @@
 }
 
 - (void) setMenuBarImage: (NSImage *) imageName {
+	// if the menu bar item has been hidden sbItem will have been released
+	// and we should not attempt to update the image
+	if (!sbItem)
+		return;
+    
 	@try {
 		sbItem.image = imageName;
-    } @catch (NSException *exception) {
+	} @catch (NSException *exception) {
 		LogError(nil, @"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", imageName.name, exception.reason);
 		[self setStatusTitle: @"Failed to set icon"];
 	}
@@ -821,6 +826,15 @@
 	// Update current context
 	[self setValue:toUUID forKey:@"currentContextUUID"];
 	NSString *ctxt_path = [contextsDataSource pathFromRootTo:toUUID];
+    
+    // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
+    // Allows you to test QuinyKit
+    if ([ctxt_path isEqualToString:@"Developer Crash"]) {
+#if DEBUG_MODE
+        kill( getpid(), SIGABRT );
+#endif
+    }
+    
 	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
 	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
@@ -896,48 +910,79 @@
 
 #pragma mark Thread stuff
 
+// this method is the meat of ControlPlane, it is the engine that 
+// determines if matching rules add up to the required confidence level
+// and initiates a switch from one context to another
 - (void)doUpdateForReal
 {
-	NSArray *contexts = [contextsDataSource arrayOfUUIDs];
+    // Array of the UUIDs of all configured contexts, might look like this if UUIDs were simple text:
+    // Top Level
+    // Top Level 2
+    //   Sub context of Top Level 2
+    //     Sub context of sub context of Top Level 2
+	NSArray *allConfiguredContexts = [contextsDataSource arrayOfUUIDs];
 	
 	// Maps a guessed context to an "unconfidence" value, which is
 	// equal to (1 - confidence). We step through all the rules that are "hits",
 	// and multiply this running unconfidence value by (1 - rule.confidence).
-	NSMutableDictionary *guesses = [NSMutableDictionary dictionaryWithCapacity:[contexts count]];
+	NSMutableDictionary *guesses = [NSMutableDictionary dictionaryWithCapacity:[allConfiguredContexts count]];
 	NSArray *rule_hits = [self getRulesThatMatch];
+	NSEnumerator *ruleHitsEnumerator = [rule_hits objectEnumerator];
+	NSDictionary *currentRule;
+    
 
-	NSEnumerator *en = [rule_hits objectEnumerator];
-	NSDictionary *rule;
-	while (rule = [en nextObject]) {
+	while (currentRule = [ruleHitsEnumerator nextObject]) {
 		// Rules apply to the stated context, as well as any subcontexts. We very slightly decay the amount
 		// credited (proportional to the depth below the stated context), so that we don't guess a more
 		// detailed context than is warranted.
-		NSArray *ctxts = [contextsDataSource orderedTraversalRootedAt:[rule valueForKey:@"context"]];
-		if ([ctxts count] == 0)
+        
+        // get currentContextTree based on the current rule
+        // Might look like
+        // Sub context of Top Level 2
+        //   Sub context of sub context of Top Level 2
+		NSArray *currentContextTree = [contextsDataSource orderedTraversalRootedAt:[currentRule valueForKey:@"context"]];
+        
+        LogInfo_Context(@"currentContextTree looks like %@", currentContextTree);
+		if ([currentContextTree count] == 0)
 			continue;	// Oops, something got busted along the way
-		NSEnumerator *enc = [ctxts objectEnumerator];
-		CContext *ctxt;
-		int base_depth = [[[ctxts objectAtIndex:0] valueForKey:@"depth"] intValue];
-		while ((ctxt = [enc nextObject])) {
-			NSString *uuid = [ctxt uuid];
-			int depth = [[ctxt valueForKey:@"depth"] intValue];
+        
+        
+		NSEnumerator *currentContextTreeEnumerator = [currentContextTree objectEnumerator];
+		CContext *currentContext;
+		int base_depth = [[[currentContextTree objectAtIndex:0] valueForKey:@"depth"] intValue];
+        
+        
+		while ((currentContext = [currentContextTreeEnumerator nextObject])) {
+			NSString *uuidOfCurrentContext = [currentContext uuid];
+			int depth = [[currentContext valueForKey:@"depth"] intValue];
 			double decay = 1.0 - (0.03 * (depth - base_depth));
 
-			NSNumber *uncon = [guesses objectForKey:uuid];
-			if (!uncon)
-				uncon = [NSNumber numberWithDouble:1.0];
-			double mult = [[rule valueForKey:@"confidence"] doubleValue] * decay;
-			uncon = [NSNumber numberWithDouble:[uncon doubleValue] * (1.0 - mult)];
-			//LOG_Prefs(0, @"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [ctxt name], depth, base_depth, mult, uncon);
-			[guesses setObject:uncon forKey:uuid];
+            // seed unconfidenceValue with what we've calcuated so far
+            // this effectively
+			NSNumber *unconfidenceValue = [guesses objectForKey:uuidOfCurrentContext];
+            
+			
+            // if the unconfidenceValue isn't set initilialize it to a sane default
+            if (!unconfidenceValue)
+				unconfidenceValue = [NSNumber numberWithDouble:1.0];
+            
+            
+            // account for the amount of confidence this matching rule affects the guess
+			double mult = [[currentRule valueForKey:@"confidence"] doubleValue] * decay;
+			unconfidenceValue = [NSNumber numberWithDouble:[unconfidenceValue doubleValue] * (1.0 - mult)];
+			LogInfo_Rule(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
+
+			[guesses setObject:unconfidenceValue forKey:uuidOfCurrentContext];
 		}
 	}
+    LogInfo_Context(@"guesses looks like %@", guesses);
 
-	// Guess context with lowest unconfidence
-	en = [guesses keyEnumerator];
+    
+	// Finds the context with the highest confidence rating
+	ruleHitsEnumerator = [guesses keyEnumerator];
 	NSString *uuid, *guess = nil;
 	double guessConf = 0.0;
-	while ((uuid = [en nextObject])) {
+	while ((uuid = [ruleHitsEnumerator nextObject])) {
 		double uncon = [[guesses objectForKey:uuid] doubleValue];
 		double con = 1.0 - uncon;
 		if ((con > guessConf) || !guess) {
@@ -946,40 +991,49 @@
 		}
 	}
 
-	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
-	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
-	[nf setNumberStyle:NSNumberFormatterPercentStyle];
+    
+    // Update the values seen in the GUI
 
-	// Set all context confidences
-	en = [contexts objectEnumerator];
-	while ((uuid = [en nextObject])) {
+	NSNumberFormatter *numberFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+
+    
+    
+
+	ruleHitsEnumerator = [allConfiguredContexts objectEnumerator];
+	while ((uuid = [ruleHitsEnumerator nextObject])) {
 		CContext *ctxt = [contextsDataSource contextByUUID:uuid];
 		NSString *newConfString = @"";
 		NSNumber *unconf = [guesses objectForKey:uuid];
 		if (unconf) {
 			double con = 1.0 - [unconf doubleValue];
-			newConfString = [nf stringFromNumber:[NSNumber numberWithDouble:con]];
+			newConfString = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:con]];
 		}
 		[ctxt setValue:newConfString forKey:@"confidence"];
 	}
 #if 1
 	// XXX: hackish -- but will be enough until 3.0
+    // don't force data update if we're editing a context name
 	NSOutlineView *olv = [contextsDataSource valueForKey:@"outlineView"];
-	if (![olv currentEditor])	// don't force data update if we're editing a context name
+	if (![olv currentEditor])	
 #endif
 		[contextsDataSource triggerOutlineViewReloadData:nil];
 
-	//---------------------------------------------------------------
-	NSString *perc = [nf stringFromNumber:[NSDecimalNumber numberWithDouble:guessConf]];
+	
+    
+
+
+	NSString *perc = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:guessConf]];
 	NSString *guessConfidenceString = [NSString stringWithFormat:
 		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
 		perc];
-	//BOOL do_title = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"];
+    
+    // This covers the case where the show context in menu bar option has been changed
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
 		[self setStatusTitle:nil];
-	
+    
 	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
-
 	BOOL no_guess = NO;
 	if (!guess) {
 		LogInfo_Context(@"No guess made.");

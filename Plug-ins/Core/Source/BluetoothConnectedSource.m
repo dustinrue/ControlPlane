@@ -69,7 +69,8 @@
 	
 	// we don't care about disconnection events anymore
 	for (IOBluetoothUserNotification *notification in m_disconnectNotifications)
-		[notification unregister];
+		if (notification)
+			[notification unregister];
 }
 
 - (void) checkData {
