@@ -400,8 +400,6 @@
 		DDAC86C1143C107A00682538 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CPController+SleepThread.h"; path = "Source/CPController+SleepThread.h"; sourceTree = "<group>"; };
 		DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CPController+SleepThread.m"; path = "Source/CPController+SleepThread.m"; sourceTree = "<group>"; };
-		DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreLocationSource.h; path = Source/CoreLocationSource.h; sourceTree = "<group>"; };
-		DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreLocationSource.m; path = Source/CoreLocationSource.m; sourceTree = "<group>"; };
 		DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Action+HelperTool.h"; path = "Source/Action+HelperTool.h"; sourceTree = "<group>"; };
 		DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Action+HelperTool.m"; path = "Source/Action+HelperTool.m"; sourceTree = "<group>"; };
 		DDB151BF146EEB7C00FA7835 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = "Plug-ins/Framework/Framework.xcodeproj"; sourceTree = "<group>"; };
@@ -628,22 +626,12 @@
 		8DAD148E0BBCA40700F93914 /* Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */,
 				8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */,
 				8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */,
 				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
 				8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */,
 			);
 			name = "Evidence Sources";
-			sourceTree = "<group>";
-		};
-		8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */ = {
-			isa = PBXGroup;
-			children = (
-				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
-				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
-			);
-			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
 		};
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
