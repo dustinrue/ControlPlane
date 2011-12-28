@@ -73,7 +73,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	[locationManager startUpdatingLocation];
 	[self setDataCollected: YES];
-	[self updateMap];
+	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 	
 	running = YES;
 }
@@ -117,7 +117,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// show values
 	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
-	[self updateMap];
+	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 }
 
 - (NSString *) name {
@@ -146,7 +146,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// show values
 	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
-	[self updateMap];
+	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 }
 
 #pragma mark -
@@ -164,7 +164,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		
 		[self setValue: [CoreLocationSource convertLocationToText: loc] forKey: @"coordinates"];
 		[self setValue: *newValue forKey: @"address"];
-		[self updateMap];
+		[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 	}
 	
 	return result;
@@ -184,7 +184,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		
 		[self setValue: *newValue forKey: @"coordinates"];
 		[self setValue: add forKey: @"address"];
-		[self updateMap];
+		[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 	}
 	
 	return result;
