@@ -21,6 +21,7 @@
 	NSString *address;
 	NSString *coordinates;
 	NSString *accuracy;
+	NSString *htmlTemplate;
 }
 
 - (id) init;
