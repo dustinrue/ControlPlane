@@ -42,11 +42,17 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	address = @"";
 	coordinates = @"0.0, 0.0";
 	accuracy = @"0 m";
+	htmlTemplate = @"";
 	
     return self;
 }
 
 - (void)awakeFromNib {
+	// pre-load html template
+	NSString *htmlPath = [NSBundle.mainBundle pathForResource:@"CoreLocationMap" ofType:@"html"];
+	htmlTemplate = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
+	
+	// show empty page
 	[webView setFrameLoadDelegate: self];
 	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
 }
@@ -67,7 +73,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	[locationManager startUpdatingLocation];
 	[self setDataCollected: YES];
-	[self updateMap];
+	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 	
 	running = YES;
 }
@@ -111,7 +117,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// show values
 	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
-	[self updateMap];
+	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 }
 
 - (NSString *) name {
@@ -140,7 +146,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// show values
 	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
-	[self updateMap];
+	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 }
 
 #pragma mark -
@@ -158,7 +164,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		
 		[self setValue: [CoreLocationSource convertLocationToText: loc] forKey: @"coordinates"];
 		[self setValue: *newValue forKey: @"address"];
-		[self updateMap];
+		[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 	}
 	
 	return result;
@@ -178,7 +184,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 		
 		[self setValue: *newValue forKey: @"coordinates"];
 		[self setValue: add forKey: @"address"];
-		[self updateMap];
+		[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 	}
 	
 	return result;
@@ -260,21 +266,16 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 #pragma mark Helper functions
 
 - (void) updateMap {
-	NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"CoreLocationMap" ofType:@"html"];
-	
-	// Load the HTML file
-	NSString *htmlString = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
-	
 	// Get coordinates and replace placeholders with these
-	htmlString = [NSString stringWithFormat: htmlString,
-				  (current ? current.coordinate.latitude : 0.0),
-				  (current ? current.coordinate.longitude : 0.0),
-				  (selectedRule ? selectedRule.coordinate.latitude : 0.0),
-				  (selectedRule ? selectedRule.coordinate.longitude : 0.0),
-				  (current ? current.horizontalAccuracy : 0.0)];
+	NSString *htmlString = [NSString stringWithFormat: htmlTemplate,
+							(current ? current.coordinate.latitude : 0.0),
+							(current ? current.coordinate.longitude : 0.0),
+							(selectedRule ? selectedRule.coordinate.latitude : 0.0),
+							(selectedRule ? selectedRule.coordinate.longitude : 0.0),
+							(current ? current.horizontalAccuracy : 0.0)];
 	
 	// Load the HTML in the WebView
-	[[webView mainFrame] loadHTMLString: htmlString baseURL: nil];
+	[webView.mainFrame loadHTMLString: htmlString baseURL: nil];
 }
 
 + (BOOL) geocodeAddress: (NSString **) address toLocation: (CLLocation **) location {
