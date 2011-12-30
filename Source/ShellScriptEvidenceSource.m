@@ -44,15 +44,11 @@
 
 - (void) setDefaultValues {
     [self setScriptInterval:@"10"];
-    [self setCurrentFileName:@"Please browse for a shell script"];
+    [self setCurrentFileName:NSLocalizedString(@"Please browse for a shell script...",@"")];
 }
 
 
 - (void)dealloc {
-#if DEBUG_MODE
-    DSLog(@"good by cruel world");
-#endif
-    
 	[super dealloc];
 }
 
@@ -63,16 +59,7 @@
     myTasks    = [[NSArray alloc] init];
     
 
-    // ControlPlane doesn't provide a way to tell a evidence source
-    // that the rules for that evidence source has changed
-    // ControlPlane sets a timer here to periodically update
-    // the list of rules that belong to this evidence sournce
-    ruleUpdateTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 10
-														target: self
-													  selector: @selector(doUpdate:)
-													  userInfo: nil
-													   repeats: YES] retain];
-    // do an update immediate
+    // do an update immediately
     [self getRuleList];
     
     // setDataCollected to true now so that 
@@ -83,7 +70,6 @@
 
 - (void)stop {        
     [self stopAllTasks];
-	ruleUpdateTimer = [ruleUpdateTimer checkAndInvalidate];
     [myTasks         release];
     [taskTimers      release];
 
@@ -102,23 +88,22 @@
     }
 }
 
-- (void)doUpdate:(NSTimer *)theTimer {
-    [self getRuleList];
-}
-
 
 - (void)getRuleList {
     
 #if DEBUG_MODE
     DSLog(@"doing update");
 #endif
-
+    
+    
     // create an array of the currently configured rules
     NSArray *tmpRules = [[NSArray alloc] initWithArray:[self myRules]];
     
     
+    // compare the tasks ControlPlane knows about to the currently configured rules
     if ([myTasks isEqualToArray:tmpRules]) {
         [tmpRules release];
+
         return;
     }
     else {
@@ -126,16 +111,19 @@
         DSLog(@"rules list has changed");
 #endif
         [self stopAllTasks];
-        myTasks = tmpRules;
+        myTasks = [[tmpRules copy] retain];
+        [tmpRules release];
     }
-    
+
     
 #if DEBUG_MODE
     DSLog(@"my rules returned %@", myTasks);
 #endif
     
     
-    
+    // loop through all of the tasks and start them on a timer
+    // based on how they were configured by the user, but the timer must
+    // be >= 5 seconds
     for (NSDictionary *currentTask in myTasks) {
         NSTimer *tmp;
         
@@ -146,7 +134,9 @@
         NSTimeInterval interval = [[currentTask valueForKey:@"scriptInterval"] doubleValue];
 
         // ensure interval is at least 5 seconds
-        // and isn't null
+        // and isn't null.  Right now this could only happen if the user
+        // manually edited the configuration file because the interface
+        // will never set it lower than 5
         if (interval < 5) {
             // refusing to do an interval of less than 5 seconds
             continue;
@@ -163,6 +153,8 @@
     if ([scriptResults count] > 0) {
         [scriptResults release];
     }
+    
+
     scriptResults = [[NSMutableDictionary alloc] initWithCapacity:[myTasks count]];
     
     // set that none of the tasks have a success result
@@ -249,8 +241,6 @@
     [dict setValue: currentFileName forKey: @"description"];
 
     [dict setValue: @"ShellScript"  forKey: @"type"];
-    
-    // things have probably changed so do an update
 	
 	return dict;
 }
@@ -289,12 +279,15 @@
  
 }
 
-/*
-- (void) fileBrowseSheetFinished:(NSWindow*)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-        
+// being asked if we are running, this usually means this source
+// has just been enabled or the rules have changed
+// If this evidence source is running it wants to immediately
+// fetch rules so the tasks can be started
+- (BOOL)isRunning {
+    if (running) 
+        [self getRuleList];
+	return running;
 }
- */
-
 
 
 @end
