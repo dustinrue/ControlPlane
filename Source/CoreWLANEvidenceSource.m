@@ -69,7 +69,14 @@
     
     // get a list of supported Wi-Fi interfaces.  It is unlikely, but still possible, for there to
     // be more than one interface, yet this assumes there is just one
-    self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
+    @try {
+        self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
+    }
+    @catch (NSException *exception) {
+        DSLog(NSLocalizedString(@"This Mac doesn't appear to have WiFi or your WiFi card has failed",@"The Mac does not have a Wifi/AirPort card or it has failed"));
+    }
+
+    
     
     // first see if Wi-Fi is even turned on
     if (! self.currentInterface.power) {
