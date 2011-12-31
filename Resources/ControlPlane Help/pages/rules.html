@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
 <html>
 <head>
-	<title>Setting up ControlPlane's rules</title>
+	<title>Configuring Rules</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="rules">
 	<meta name="description" content="Learn how to set up ControlPlane's rules.">
@@ -19,44 +19,35 @@
 			<img class="icon" src="../gfx/icon.png" alt="ControlPlane Icon" />
 		</div>
 		<div id="pagetitle">
-			<h1>Setting up ControlPlane's rules</h1>
+			<h1>Configuring Rules</h1>
 		</div>
-		<p><b>Rules</b> in ControlPlane are how ControlPlane determines your
-		context from different sources of evidence.
-		Different <i>types</i> of rules for different types of
-		evidence, but they are all combined mathematically to arrive at
-		a final conclusion.
+                <p><img src="../gfx/rulesscreen.png"></p>
+		<p><b>Rules</b> are how ControlPlane determines your
+		context.  Rules can be created for any evidence source that you have enabled.
 		</p>
-		<p>It is important to remember that evidence sources can
-		generate different types of evidence, and that each type is
-		matched by a different type of rule. For example, the WiFi
-		evidence source generates <em>SSID</em> evidence (the SSID, or
-		name, of the access point) as well as <em>MAC</em> evidence
-		(the unique identifier for that piece of network hardware).
+                <p>Once an evidence source has been enabled ControlPlane will start collecting
+                data for that data source and if appropriate, allow you to create rules.</p>
+
+                <p><img src="../gfx/addrule.png"></p>
+
+                <p>To add a rule simply choose what type of rule you wish to create
+                and then configuration the available parameters.</p>
+
+                <p><img src="../gfx/addiprule.png">
 		</p>
-		<p>Each rule has the following properties:
+
+                <p>The above example would create a new rule looking for 192.168.1.21 
+                as an assigned IP address and apply the given confidence 
+                towards the 'Automatic' context if an interface is assigned that IP.  
+                Remember that a context can consist of many rules and rules can even overlap 
+                with other contexts.  For the best results try to create rules that are highly
+                indicative of where you are or what you are doing.  For example, if you are 
+                assigned an IP of 192.168.1.x at work and at home, it probably isn't a good rule
+                to use.  Try to find some other evidence source that more definitively places
+                your laptop at a given location.
 		</p>
-		<ul>
-		<li>A <i>type</i>, specifying the type of evidence it matches,</li>
-		<li>A <i>parameter</i> to determine what it matches,</li>
-		<li>A <i>context</i> that it indicates,</li>
-		<li>A <i>confidence</i> (0-100%), and</li>
-		<li>A <i>description</i> (optional) for human readability.</li>
-		</ul>
-		<p>For example, a rule might be:
-		</p>
-		<p style="text-align: center;">
-		&lt; type=Bluetooth, parameter=00-00-6C-33-7A-2F, context=Home,
-		confidence=80% &gt;
-		</p>
-		<p>This tells ControlPlane that the presence of a <i>Bluetooth</i>
-		device with a MAC of <i>00-00-6C-33-7A-2F</i> means that we are
-		at the <i>Home</i> context, and that we can be <i>80%</i>
-		confident of this. Ordinarily, you won't have to explicitly
-		set the parameter, but it's sometimes useful to be able to
-		tweak it.
-		</p>
-		<p>ControlPlane frequently evaluates all its rules, and finds the
+
+		<p>Again, ControlPlane frequently evaluates all its rules, and finds the
 		subset of rules that match. It combines all these rules to get
 		a confidence for each context, and decides on the highest
 		confidence context. If the confidence for that context is
@@ -72,7 +63,8 @@
 
 		<h2 class="seealso">See also</h2>
 		<p class="seealso">
-			<a href="actions.html">Setting up ControlPlane's actions</a><br />
+                        <a href="evidencesources.html">About Evidence Sources</a><br/>
+			<a href="actions.html">Configuring Actions</a><br />
 			<a href="maths.html">The maths behind ControlPlane</a><br />
 		</p>
 	</div>

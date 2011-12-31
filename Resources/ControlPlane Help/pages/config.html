@@ -76,6 +76,15 @@
 		context changes by this length of time.
 		</p>
 
+                <h2>Restore previous context when ControlPlane starts</h2>
+                <p>If option is checked, ControlPlane will assume it is in the same 
+                context when it starts as it was in when it was shutdown.  This will
+                prevent ControlPlane from running any actions for that context again.  
+                Unchecking this option will force ControlPlane to start from an unknown
+                context at start time.  Unchecking this option is useful if you want to 
+                rerun your actions after a reboot, particularly useful on a Mac that isn't 
+                mobile.</p>
+
 		<h2>Default Context</h2>
 		<p>Sometimes ControlPlane doesn't have enough evidence to make a
 		confident enough guess as to your correct context. You can

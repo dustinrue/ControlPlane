@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
 <html>
 <head>
-	<title>Setting up ControlPlane's actions</title>
+	<title>Configuring Actions</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="actions triggers">
 	<meta name="description" content="Learn how to set up ControlPlane's actions.">
@@ -18,23 +18,13 @@
 			<img class="icon" src="../gfx/icon.png" alt="ControlPlane Icon" />
 		</div>
 		<div id="pagetitle">
-			<h1>Setting up ControlPlane's actions</h1>
+			<h1>Configuring Actions</h1>
 		</div>
 		<p><i>Actions</i> are triggered when ControlPlane decides to
-		change your context.
+		change your context. They can be performed when you arrive at 
+                a context, leave a context or both and individual actions can
+                be delayed for a period of time.
 		</p>
-		<p>Each action has the following properties:
-		</p>
-		<ul>
-		<li>A <i>type</i>,</li>
-		<li>A <i>parameter</i> for the type of action,</li>
-		<li>A <i>context</i> that it should be triggered for,</li>
-		<li><i>When</i> it should be triggered (upon Arrival or Departure),</li>
-		<li>A <i>delay</i> between changing context and triggering the action,</li>
-		<li>Whether it is <i>enabled</i>, and</li>
-		<li>A <i>description</i> for human readability.</li>
-		</ul>
-
 		<p>Most actions will be Arrival actions; that is, they will be
 		triggered when ControlPlane switches <em>to</em> that context.
 		The alternative is a Departure action, which is triggered when
@@ -63,13 +53,6 @@
         <h2><em>DisplayBrightness</em> action</h2>
         <p>Change display brightness to defined level.  Level is defined by a percentage</p>
         
-
-        <!--
-		<h2><em>FirewallRule</em> actions</h2>
-		<p>Actions of type <em>FirewallRule</em> can enable or disable
-		the network firewall for various services.
-		</p>
-         -->
 
 		<h2><em>iChat</em> actions</h2>
 		<p>Actions of type <em>iChat</em> change your iChat status
@@ -186,7 +169,7 @@
 
 		<h2 class="seealso">See also</h2>
 		<p class="seealso">
-			<a href="rules.html">Setting up ControlPlane's rules</a><br />
+			<a href="rules.html">Configuring Rules</a><br />
 			<a href="tips.html">Tips and tricks</a><br />
 		</p>
 	</div>
