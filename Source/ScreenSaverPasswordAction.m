@@ -29,14 +29,6 @@
 	success = CFPreferencesSynchronize(CFSTR("com.apple.screensaver"),
 				 kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
 
-	// Notify login process
-	// not sure this does or why it must be called...anyone? (DBR)
-	if (success) {
-		CFMessagePortRef port = CFMessagePortCreateRemote(NULL, CFSTR("com.apple.loginwindow.notify"));
-		success = (CFMessagePortSendRequest(port, 500, 0, 0, 0, 0, 0) == kCFMessagePortSuccess);
-		CFRelease(port);
-	}
-
 	if (!success) {
 		*errorString = NSLocalizedString(@"Failed toggling screen saver password!", @"");
 		return NO;
