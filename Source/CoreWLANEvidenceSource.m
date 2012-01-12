@@ -80,6 +80,7 @@
     
     // first see if Wi-Fi is even turned on
     if (! self.currentInterface.power) {
+        [self clearCollectedData];
 #ifdef DEBUG_MODE
         DSLog(@"wifi disabled, no scan done");
 #endif
