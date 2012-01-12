@@ -502,7 +502,7 @@
     if (!useGrowl)
         return;
 	
-	float pri = 0;
+	signed int pri = 0;
 
 	if ([title isEqualToString:@"Failure"])
 		pri = 1;
