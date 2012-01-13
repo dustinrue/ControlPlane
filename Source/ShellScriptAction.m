@@ -85,16 +85,26 @@
     // try to find the interpreter in file
 	if (fileLines.count > 0) {
 		NSString *firstLine = [fileLines objectAtIndex: 0];
+		firstLine = [firstLine stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		
 		if ([firstLine rangeOfString: @"#!"].location != NSNotFound) {
 			// split shebang and it's parameters
 			NSMutableArray *shebangArgs = [[[firstLine componentsSeparatedByString: @" "] mutableCopy] autorelease];
+			[shebangArgs removeObject: @""];
 			
-			// extract interpreter (strip leading #!)
+			// extract interpreter
 			interpreter = [[shebangArgs objectAtIndex: 0] substringFromIndex: 2];
+			[shebangArgs removeObjectAtIndex: 0];
+			
+			// it's possible that there was a space between #! and the interpreter
+			if (interpreter.length == 0) {
+				interpreter = [shebangArgs objectAtIndex: 0];
+				[shebangArgs removeObjectAtIndex: 0];
+			}
+			DSLog(@"Using interpreter from shebang: %@", interpreter);
 			
 			// extract args
 			if (shebangArgs.count > 1) {
-				[shebangArgs removeObjectAtIndex: 0];
 				[shebangArgs addObjectsFromArray: args];
 				args = shebangArgs;
 			}
