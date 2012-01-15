@@ -10,7 +10,8 @@
 
 @interface ShellScriptAction (Private)
 
-- (NSString *) interpreterFromExtension: (NSString *) extension;
+- (NSMutableArray *) interpreterFromFile: (NSString *) file;
+- (NSString *) interpreterFromExtension: (NSString *) file;
 
 @end
 
@@ -65,65 +66,28 @@
 	NSMutableArray *args = [[[path componentsSeparatedByString:@"|"] mutableCopy] autorelease];
 	[args insertObject:@"--" atIndex:0];
 	NSString *scriptPath = [args objectAtIndex: 1];
-	
-	// Get the file type of the script
-    NSString *app, *fileType;
-	if (![NSWorkspace.sharedWorkspace getInfoForFile: scriptPath application: &app type: &fileType]) {
-		*errorString = [NSString stringWithFormat: NSLocalizedString(@"Failed opening '%@'.", @""), path];
-		return NO;
-	}
     
-    // ControlPlane is going to attempt to peek inside the script to figure
-    // out what interpreter needs to be called, if that fails
-    // it'll attempt to determine the interpreter using the script's extension
-    NSError *readFileError;
-    NSString *fileContents = [NSString stringWithContentsOfFile: scriptPath
-													   encoding: NSUTF8StringEncoding
-														  error: &readFileError];
-	NSArray *fileLines = [fileContents componentsSeparatedByString:@"\n"];
-    
-    // try to find the interpreter in file
-	if (fileLines.count > 0) {
-		NSString *firstLine = [fileLines objectAtIndex: 0];
-		firstLine = [firstLine stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    // ControlPlane is going to attempt to peek inside the script to figure out
+	// what interpreter needs to be called
+    NSMutableArray *shebangArgs = [self interpreterFromFile: scriptPath];
+	if (shebangArgs) {
+		// get interpreter
+		interpreter = [shebangArgs objectAtIndex: 0];
+		[shebangArgs removeObjectAtIndex: 0];
 		
-		if ([firstLine rangeOfString: @"#!"].location != NSNotFound) {
-			// split shebang and it's parameters
-			NSMutableArray *shebangArgs = [[[firstLine componentsSeparatedByString: @" "] mutableCopy] autorelease];
-			[shebangArgs removeObject: @""];
-			
-			// extract interpreter
-			interpreter = [[shebangArgs objectAtIndex: 0] substringFromIndex: 2];
-			[shebangArgs removeObjectAtIndex: 0];
-			
-			// it's possible that there was a space between #! and the interpreter
-			if (interpreter.length == 0) {
-				interpreter = [shebangArgs objectAtIndex: 0];
-				[shebangArgs removeObjectAtIndex: 0];
-			}
-			DSLog(@"Using interpreter from shebang: %@", interpreter);
-			
-			// extract args
-			if (shebangArgs.count > 1) {
-				[shebangArgs addObjectsFromArray: args];
-				args = shebangArgs;
-			}
+		// and it's parameters
+		if (shebangArgs.count > 0) {
+			[shebangArgs addObjectsFromArray: args];
+			args = shebangArgs;
 		}
 	}
     
     // backup routine to try using the file extension if it exists
-    if ([interpreter isEqualToString:@""])
-		interpreter = [self interpreterFromExtension: fileType];
+    if ([interpreter isEqualToString: @""])
+		interpreter = [self interpreterFromExtension: scriptPath];
     
-    NSFileManager *fileManager = NSFileManager.defaultManager;
-    if (!fileManager) {
-        DSLog(@"Failed to execute '%@'", path);
-		*errorString = NSLocalizedString(@"Failed executing shell script!", @"");
-		return NO;
-    }
-        
     // ensure that the discovered interpreter is valid and executable
-    if ([interpreter isEqualToString: @""] || ![fileManager isExecutableFileAtPath:interpreter]) {
+    if ([interpreter isEqualToString: @""] || ![NSFileManager.defaultManager isExecutableFileAtPath:interpreter]) {
         // can't determine how to run the script
         DSLog(@"Failed to execute '%@' because ControlPlane cannot determine how to do so.  Please use '#!/bin/bash' or similar in the script or rename the script with a file extension", path);
         *errorString = NSLocalizedString(@"Unable to determine interpreter for shell script!", @"");
@@ -160,25 +124,71 @@
 #pragma mark - Private methods
 
 /**
- * Try to find a correct interpreter for known file types
+ * Try to parse the shebang line inside the file
+ * @return Returns array with interpereter and it's parameters (or nil)
  */
-- (NSString *) interpreterFromExtension: (NSString *) extension {
-	extension = extension.lowercaseString;
+- (NSMutableArray *) interpreterFromFile: (NSString *) file {
+	NSError *readFileError;
+	
+	// get lines
+    NSString *fileContents = [NSString stringWithContentsOfFile: file
+													   encoding: NSUTF8StringEncoding
+														  error: &readFileError];
+	NSArray *fileLines = [fileContents componentsSeparatedByString:@"\n"];
+	
+	// get the shebang line
+	if (fileLines.count == 0)
+		return nil;
+	NSString *firstLine = [fileLines objectAtIndex: 0];
+	firstLine = [firstLine stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	
+	// check first line
+	if ([firstLine rangeOfString: @"#!"].location == NSNotFound)
+		return nil;
+	
+	// split shebang and it's parameters
+	NSMutableArray *args = [[[firstLine componentsSeparatedByString: @" "] mutableCopy] autorelease];
+	[args removeObject: @""];
+	
+	// remove shebang characterss #!
+	if ([[args objectAtIndex: 0] length] > 2)
+		[args replaceObjectAtIndex: 0
+						withObject: [[args objectAtIndex: 0] substringFromIndex: 2]];
+	// or there might have been a space between #! and the interpreter
+	// so the first item in args is just '#!'
+	else
+		[args removeObjectAtIndex: 0];
+	
+	return args;
+}
+
+/**
+ * Try to find a correct interpreter based on the file's extension
+ * @return Returns the interpreter (or by default /bin/bash)
+ */
+- (NSString *) interpreterFromExtension: (NSString *) file {
+    NSString *app, *extension;
 	NSString *result = @"/bin/bash";
 	
+	// Get the file type of the script
+	if (![NSWorkspace.sharedWorkspace getInfoForFile: file application: &app type: &extension])
+		return result;
+	extension = extension.lowercaseString;
+	
+	// check type
 	if ([extension isEqualToString: @"sh"])
 		result = @"/bin/bash";
-	else if ([extension isEqualToString:@"scpt"])
+	else if ([extension isEqualToString: @"scpt"])
 		result = @"/usr/bin/osascript";
-	else if ([extension isEqualToString:@"pl"])
+	else if ([extension isEqualToString: @"pl"])
 		result = @"/usr/bin/perl";
-	else if ([extension isEqualToString:@"py"])
+	else if ([extension isEqualToString: @"py"])
 		result = @"/usr/bin/python";
-	else if ([extension isEqualToString:@"php"])
+	else if ([extension isEqualToString: @"php"])
 		result = @"/usr/bin/php";
-	else if ([extension isEqualToString:@"expect"])
+	else if ([extension isEqualToString: @"expect"])
 		result = @"/usr/bin/expect";
-	else if ([extension isEqualToString:@"tcl"])
+	else if ([extension isEqualToString: @"tcl"])
 		result = @"/usr/bin/tclsh";
 	
 	return result;
