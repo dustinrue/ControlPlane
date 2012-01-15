@@ -7,6 +7,7 @@
 
 #import "DSLogger.h"
 #import "ShellScriptAction.h"
+#import "NSString+ShellScriptHelper.h"
 
 @interface ShellScriptAction (Private)
 
@@ -69,7 +70,8 @@
     
     // ControlPlane is going to attempt to peek inside the script to figure out
 	// what interpreter needs to be called
-    NSMutableArray *shebangArgs = [self interpreterFromFile: scriptPath];
+    
+    NSMutableArray *shebangArgs = [scriptPath interpreterFromFile];
 	if (shebangArgs) {
 		// get interpreter
 		interpreter = [shebangArgs objectAtIndex: 0];
@@ -86,7 +88,7 @@
     
     // backup routine to try using the file extension if it exists
     if ([interpreter isEqualToString: @""]) {
-		interpreter = [self interpreterFromExtension: scriptPath];
+		interpreter = [scriptPath interpreterFromExtension];
 		DSLog(@"Interpreter from extension: %@", interpreter);
 	}
     
@@ -123,79 +125,6 @@
 	[path release];
 	path = [file copy];
 	return self;
-}
-
-#pragma mark - Private methods
-
-/**
- * Try to parse the shebang line inside the file
- * @return Returns array with interpereter and it's parameters (or nil)
- */
-- (NSMutableArray *) interpreterFromFile: (NSString *) file {
-	NSError *readFileError;
-	
-	// get lines
-    NSString *fileContents = [NSString stringWithContentsOfFile: file
-													   encoding: NSUTF8StringEncoding
-														  error: &readFileError];
-	NSArray *fileLines = [fileContents componentsSeparatedByString:@"\n"];
-	
-	// get the shebang line
-	if (fileLines.count == 0)
-		return nil;
-	NSString *firstLine = [fileLines objectAtIndex: 0];
-	firstLine = [firstLine stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
-	// check first line
-	if ([firstLine rangeOfString: @"#!"].location == NSNotFound)
-		return nil;
-	
-	// split shebang and it's parameters
-	NSMutableArray *args = [[[firstLine componentsSeparatedByString: @" "] mutableCopy] autorelease];
-	[args removeObject: @""];
-	
-	// remove shebang characterss #!
-	if ([[args objectAtIndex: 0] length] > 2)
-		[args replaceObjectAtIndex: 0
-						withObject: [[args objectAtIndex: 0] substringFromIndex: 2]];
-	// or there might have been a space between #! and the interpreter
-	// so the first item in args is just '#!'
-	else
-		[args removeObjectAtIndex: 0];
-	
-	return args;
-}
-
-/**
- * Try to find a correct interpreter based on the file's extension
- * @return Returns the interpreter (or by default /bin/bash)
- */
-- (NSString *) interpreterFromExtension: (NSString *) file {
-    NSString *app, *extension;
-	NSString *result = @"/bin/bash";
-	
-	// Get the file type of the script
-	if (![NSWorkspace.sharedWorkspace getInfoForFile: file application: &app type: &extension])
-		return result;
-	extension = extension.lowercaseString;
-	
-	// check type
-	if ([extension isEqualToString: @"sh"])
-		result = @"/bin/bash";
-	else if ([extension isEqualToString: @"scpt"])
-		result = @"/usr/bin/osascript";
-	else if ([extension isEqualToString: @"pl"])
-		result = @"/usr/bin/perl";
-	else if ([extension isEqualToString: @"py"])
-		result = @"/usr/bin/python";
-	else if ([extension isEqualToString: @"php"])
-		result = @"/usr/bin/php";
-	else if ([extension isEqualToString: @"expect"])
-		result = @"/usr/bin/expect";
-	else if ([extension isEqualToString: @"tcl"])
-		result = @"/usr/bin/tclsh";
-	
-	return result;
 }
 
 @end
