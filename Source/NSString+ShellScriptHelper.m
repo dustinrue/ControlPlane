@@ -22,16 +22,29 @@
 	// get the shebang line
 	if (fileLines.count == 0)
 		return nil;
+    
 	NSString *firstLine = [fileLines objectAtIndex: 0];
 	firstLine = [firstLine stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
-	// check first line
-	if ([firstLine rangeOfString: @"#!"].location == NSNotFound)
-		return nil;
-	
-	// split shebang and it's parameters
-	NSMutableArray *args = [[[firstLine componentsSeparatedByString: @" "] mutableCopy] autorelease];
-	[args removeObject: @""];
+	// check first line while handling a special case where the first line is :
+	if ([firstLine rangeOfString: @"#!"].location == NSNotFound && ![firstLine isEqualToString:@":"]) 
+        return nil;
+    
+
+
+    NSMutableArray *args = nil;
+    
+    // TRIVIA, first check if the file starts with a colon.  Apparently
+    // using a colon at the top of a script is allowed under POSIX.  This a bit of a hack.
+    if ([firstLine isEqualToString:@":"]) {
+        args = [NSMutableArray arrayWithObject:@"#!/bin/sh"];
+    }
+    else {
+        // split shebang and it's parameters
+        args = [[[firstLine componentsSeparatedByString: @" "] mutableCopy] autorelease];
+        [args removeObject: @""];
+    }
+
 	
 	// remove shebang characterss #!
 	if ([[args objectAtIndex: 0] length] > 2)
