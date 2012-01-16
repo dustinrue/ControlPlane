@@ -12,6 +12,7 @@
 #import "ShellScriptEvidenceSource.h"
 #import "DSLogger.h"
 #import "NSTimer+Invalidation.h"
+#import "NSString+ShellScriptHelper.h"
 
 @interface ShellScriptEvidenceSource (Private)
 
@@ -182,7 +183,43 @@
     NSTask *task = [[NSTask alloc] init];
     
     [task setArguments:args];
-    [task setLaunchPath:@"/bin/sh"];
+    
+    NSString *interpreter = nil;
+    
+    NSMutableArray *shebangArgs = [scriptName interpreterFromFile];
+	if ([shebangArgs count] > 0) {
+		// get interpreter
+		interpreter = [shebangArgs objectAtIndex: 0];
+		[shebangArgs removeObjectAtIndex: 0];
+		
+		// and it's parameters
+		if (shebangArgs.count > 0) {
+			[shebangArgs addObjectsFromArray: args];
+            [args removeAllObjects];
+            [args addObjectsFromArray:shebangArgs];
+		}
+
+		
+	}
+    
+    // backup routine to try using the file extension if it exists
+    if ([interpreter isEqualToString: @""]) {
+		interpreter = [scriptName interpreterFromExtension];
+	}
+    
+    // ensure that the discovered interpreter is valid and executable
+    if ([interpreter isEqualToString: @""] || ![NSFileManager.defaultManager isExecutableFileAtPath:interpreter]) {
+        // can't determine how to run the script
+        DSLog(@"Failed to execute '%@' because ControlPlane cannot determine how to do so.  Please use '#!/bin/bash' or similar in the script or rename the script with a file extension", scriptName);
+        
+        [task release];
+        [args release];
+        // we bail
+        return;
+        
+    }
+    
+    [task setLaunchPath:interpreter];
     [task setCurrentDirectoryPath:NSHomeDirectory()];
     
     // set error, input and output to dev null or NSTask will never
