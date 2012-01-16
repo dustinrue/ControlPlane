@@ -188,7 +188,7 @@
     NSString *interpreter = nil;
     
     NSMutableArray *shebangArgs = [scriptName interpreterFromFile];
-	if ([shebangArgs count] > 0) {
+	if (shebangArgs && [shebangArgs count] > 0) {
 		// get interpreter
 		interpreter = [shebangArgs objectAtIndex: 0];
 		[shebangArgs removeObjectAtIndex: 0];

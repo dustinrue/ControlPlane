@@ -72,7 +72,7 @@
 	// what interpreter needs to be called
     
     NSMutableArray *shebangArgs = [scriptPath interpreterFromFile];
-	if ([shebangArgs count] > 0) {
+	if (shebangArgs && [shebangArgs count] > 0) {
 		// get interpreter
 		interpreter = [shebangArgs objectAtIndex: 0];
 		[shebangArgs removeObjectAtIndex: 0];
