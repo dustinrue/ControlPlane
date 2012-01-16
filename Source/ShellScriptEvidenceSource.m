@@ -3,11 +3,12 @@
 //  ControlPlane
 //
 //  Created by Dustin Rue 8/5/2011.
+//  Updated 1/15/2012
 //
-// This evidence source allows the end user to create
-// their own custom evidence source using an external program,
-// or script.  Anything can be used so long as it returns 0
-// for success and 1 for failure.
+//  This evidence source allows the end user to create
+//  their own custom evidence source using an external program,
+//  or script.  Anything can be used so long as it returns 0
+//  for success and 1 for failure.
 
 #import "ShellScriptEvidenceSource.h"
 #import "DSLogger.h"
