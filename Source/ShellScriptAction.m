@@ -83,13 +83,11 @@
 			args = shebangArgs;
 		}
 		
-		DSLog(@"Interpreter from shebang: %@", interpreter);
 	}
     
     // backup routine to try using the file extension if it exists
     if ([interpreter isEqualToString: @""]) {
 		interpreter = [scriptPath interpreterFromExtension];
-		DSLog(@"Interpreter from extension: %@", interpreter);
 	}
     
     // ensure that the discovered interpreter is valid and executable
