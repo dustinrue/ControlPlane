@@ -173,6 +173,7 @@
 #import "ToggleBluetoothAction.h"
 #import "ToggleFirewallAction.h"
 #import "ToggleInternetSharingAction.h"
+#import "TogglePrinterSharingAction.h"
 #import "ToggleTimeMachineAction.h"
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
@@ -216,6 +217,7 @@
 			   [ToggleBluetoothAction class],
                [ToggleFirewallAction class],
                [ToggleInternetSharingAction class],
+               [TogglePrinterSharingAction class],
                [ToggleTimeMachineAction class],
 			   [ToggleWiFiAction class],
 			   [UnmountAction class],
