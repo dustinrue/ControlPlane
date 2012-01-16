@@ -314,6 +314,49 @@ static OSStatus SetDisplaySleepTime (AuthorizationRef         auth,
 }
 
 #pragma mark -
+#pragma mark Printer Sharing Routines
+
+static OSStatus DoEnablePrinterSharing (AuthorizationRef         auth,
+                                        const void *             userData,
+                                        CFDictionaryRef          request,
+                                        CFMutableDictionaryRef   response,
+                                        aslclient				  asl,
+                                        aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/usr/sbin/cupsctl --share-printers");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
+static OSStatus DoDisablePrinterSharing (AuthorizationRef         auth,
+                                         const void *             userData,
+                                         CFDictionaryRef          request,
+                                         CFMutableDictionaryRef   response,
+                                         aslclient				  asl,
+                                         aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/usr/sbin/cupsctl --no-share-printers");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
+#pragma mark -
 #pragma mark Tool Infrastructure
 
 // the list defined here must match (same order) the list in CPHelperToolCommon.c
@@ -328,6 +371,8 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     DoEnableFirewall,
     DoDisableFirewall,
     SetDisplaySleepTime,
+    DoEnablePrinterSharing,
+    DoDisablePrinterSharing,
 	NULL
 };
 

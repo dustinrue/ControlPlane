@@ -70,6 +70,18 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
         "SetMonitorSleepTime",
         NULL
     },
+    {   kCPHelperToolEnablePrinterSharingCommand,
+        kCPHelperToolTogglePrinterSharingRightName,
+        "allow",
+        "EnablePrinterSharing",
+        NULL
+    },
+    {   kCPHelperToolDisablePrinterSharingCommand,
+        kCPHelperToolTogglePrinterSharingRightName,
+        "allow",
+        "DisablePrinterSharing",
+        NULL
+    },
 	{	NULL,
 		NULL,
 		NULL,
