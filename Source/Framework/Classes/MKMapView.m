@@ -667,4 +667,9 @@
     return [NSArray array];
 }
 
+- (NSUInteger)webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo
+{
+    return WebDragDestinationActionNone;
+}
+
 @end
