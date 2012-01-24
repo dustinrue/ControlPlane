@@ -120,6 +120,7 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
+		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
 		DAFC0E4514788ACB00DA6139 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */; };
@@ -381,7 +382,7 @@
 		DA461C0A14C33E3B0019594A /* NSString+ShellScriptHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+ShellScriptHelper.h"; path = "Source/NSString+ShellScriptHelper.h"; sourceTree = "<group>"; };
 		DA461C0B14C33E3B0019594A /* NSString+ShellScriptHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+ShellScriptHelper.m"; path = "Source/NSString+ShellScriptHelper.m"; sourceTree = "<group>"; };
 		DA48F2E3140AD2FC00B000D3 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
-		DA49AF6A14C3E0AB00D03D6A /* TogglePrinterSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; name = TogglePrinterSharingAction.h; path = Source/TogglePrinterSharingAction.h; sourceTree = "<group>"; };
+		DA49AF6A14C3E0AB00D03D6A /* TogglePrinterSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TogglePrinterSharingAction.h; path = Source/TogglePrinterSharingAction.h; sourceTree = "<group>"; };
 		DA49AF6B14C3E0AB00D03D6A /* TogglePrinterSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TogglePrinterSharingAction.m; path = Source/TogglePrinterSharingAction.m; sourceTree = "<group>"; };
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ControlPlane Help"; path = "Resources/ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
@@ -413,6 +414,8 @@
 		DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
+		DAC45F1E14CDEC170007F5EF /* TimeMachineDestinationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeMachineDestinationAction.h; path = Source/TimeMachineDestinationAction.h; sourceTree = "<group>"; };
+		DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeMachineDestinationAction.m; path = Source/TimeMachineDestinationAction.m; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DAE893E514546897005FA13C /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
 		DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = /System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<absolute>"; };
@@ -866,6 +869,8 @@
 				8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */,
 				DD8274FC14117C570098FA6E /* SpeakAction.h */,
 				DD8274FD14117C580098FA6E /* SpeakAction.m */,
+				DAC45F1E14CDEC170007F5EF /* TimeMachineDestinationAction.h */,
+				DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */,
 			);
 			name = "Application Actions";
 			sourceTree = "<group>";
@@ -1169,6 +1174,7 @@
 				"/System/Library/CoreServices/System Events.app",
 				/Applications/iTunes.app,
 				"/System/Library/CoreServices/Printer Setup Utility.app",
+				/Applications/Tedium.app,
 			);
 			name = "Generate Script Bridge Headers";
 			outputPaths = (
@@ -1177,6 +1183,7 @@
 				"$(DERIVED_FILE_DIR)/System Events.h",
 				"$(DERIVED_FILE_DIR)/iTunes.h",
 				"$(DERIVED_FILE_DIR)/Printer Setup Utility.h",
+				"$(DERIVED_FILE_DIR)/Tedium.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1264,6 +1271,7 @@
 				DD7D2539149C338300BE7C8B /* NSTimer+Invalidation.m in Sources */,
 				DA461C0C14C33E3C0019594A /* NSString+ShellScriptHelper.m in Sources */,
 				DA49AF6C14C3E0AB00D03D6A /* TogglePrinterSharingAction.m in Sources */,
+				DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -170,6 +170,7 @@
 #import "ShellScriptAction.h"
 #import "SpeakAction.h"
 #import "StartTimeMachineAction.h"
+#import "TimeMachineDestinationAction.h"
 #import "ToggleBluetoothAction.h"
 #import "ToggleFirewallAction.h"
 #import "ToggleInternetSharingAction.h"
@@ -214,6 +215,7 @@
 			   [ShellScriptAction class],
 			   [SpeakAction class],
 			   [StartTimeMachineAction class],
+               [TimeMachineDestinationAction class],
 			   [ToggleBluetoothAction class],
                [ToggleFirewallAction class],
                [ToggleInternetSharingAction class],
@@ -251,6 +253,7 @@
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"Speak", @"Action type");
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
+        NSLocalizedString(@"TimeMachineDestination", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
         NSLocalizedString(@"ToggleFirewall", @"Action type");
         NSLocalizedString(@"ToggleInternetSharing", @"Action type");
