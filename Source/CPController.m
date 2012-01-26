@@ -507,6 +507,8 @@
 	if ([title isEqualToString:@"Failure"])
 		pri = 1;
 
+    //Log the growl message, maybe it'll help track down the crash issues
+    DSLog(@"%@/%@", title, message);
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:message
 						   notificationName:title
@@ -514,6 +516,8 @@
 								   priority:pri
 								   isSticky:NO
 							   clickContext:nil];
+
+
 }
 
 - (void)contextsChanged:(NSNotification *)notification
@@ -677,6 +681,7 @@
 	}
 	
 	[self decreaseActionsInProgress];
+
 	[pool release];
 }
 
