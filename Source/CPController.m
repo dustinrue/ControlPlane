@@ -11,6 +11,7 @@
 #import "CPController+SleepThread.h"
 #import "NetworkLocationAction.h"
 #import "NSTimer+Invalidation.h"
+#import <libkern/OSAtomic.h>
 
 @interface CPController (Private)
 
@@ -498,17 +499,24 @@
 
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
 {
+    static int32_t alreadyHere = 0;
+    
     BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
     if (!useGrowl)
         return;
+    
+    while (alreadyHere) {
+        [NSThread sleepForTimeInterval:0.5];
+    }
+    OSAtomicIncrement32(&alreadyHere);
+    
+
 	
 	signed int pri = 0;
 
 	if ([title isEqualToString:@"Failure"])
 		pri = 1;
 
-    //Log the growl message, maybe it'll help track down the crash issues
-    DSLog(@"%@/%@", title, message);
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:message
 						   notificationName:title
@@ -516,7 +524,7 @@
 								   priority:pri
 								   isSticky:NO
 							   clickContext:nil];
-
+    OSAtomicDecrement32(&alreadyHere);
 
 }
 
