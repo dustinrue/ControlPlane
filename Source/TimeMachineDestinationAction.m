@@ -20,7 +20,8 @@
 	if (!(self = [super init]))
 		return nil;
     
-    destinationVolumePath = [[NSString alloc] init];
+  	static NSDictionary *destinationVolumePath;
+
 	return self;
 }
 
@@ -85,8 +86,23 @@
 + (NSArray *) limitedOptions {
     NSMutableArray *opts = nil;
 	
+    TimeMachineDestinationActionSingleton *tmdah = [TimeMachineDestinationActionSingleton sharedSingleton];
 
-	@try {
+
+    // CP is going to now issue a notification to Tedium to see if it responds
+    // with a list of configured destinations
+
+    
+    [tmdah registerForNotifications];
+    
+    for (int i = 0; i < 3 && [[tmdah tediumResponse] count] < 1; i++ ) {
+        [tmdah sendAllDestinationsRequest];
+        [NSThread sleepForTimeInterval:0.3];
+
+    }
+    [NSThread  sleepForTimeInterval:10];
+    DSLog(@"got %@", [tmdah tediumResponse]);
+    @try {
 		TediumApplication *Tedium = [SBApplication applicationWithBundleIdentifier: @"com.dustinrue.Tedium"];
         
         NSString *error;
@@ -96,7 +112,8 @@
         NSDictionary *destinations = [NSPropertyListSerialization propertyListFromData:theData mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&error];
 
         opts = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
-		for (NSDictionary *destination in destinations) {
+		for (NSDictionary *destination in [[tmdah tediumResponse] objectForKey:@"destinations"]) {
+            DSLog(@"destination is %@", destination);
 			[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 							 [destination valueForKey:@"destinationVolumePath"], @"option", 
                              [destination valueForKey:@"destinationVolumePath"], @"description", nil]];
@@ -107,8 +124,15 @@
 		opts = [NSArray array];
 	}
 	
-
+    DSLog(@"leaving limitedOptions");
 	return opts;
+}
+             
+ - (void) didReceiveNotificationResponse:(NSNotification *) notification {
+     DSLog(@"huh %@", [notification userInfo]);
+     TimeMachineDestinationActionSingleton *tmdas = [TimeMachineDestinationActionSingleton sharedSingleton];
+     [tmdas setTediumResponse:[notification userInfo]];
+
 }
 
 - (id)initWithOption:(NSString *)option
@@ -121,3 +145,64 @@
 }
 
 @end
+
+@implementation TimeMachineDestinationActionSingleton
+
+static TimeMachineDestinationActionSingleton *_timeMachineDestinationActionSingleton = nil;
+
+@synthesize tediumResponse;
+
++ (id) sharedSingleton {
+    @synchronized([TimeMachineDestinationActionSingleton class]) {
+        if (!_timeMachineDestinationActionSingleton)
+            _timeMachineDestinationActionSingleton = [[self alloc] init];
+        
+        return _timeMachineDestinationActionSingleton;
+    }
+    
+    
+    return self;
+}
+
++ (id) alloc {
+    @synchronized([TimeMachineDestinationActionSingleton class]) {
+        NSAssert(_timeMachineDestinationActionSingleton == nil, @"Attempted to allocate a second instance of TimeMachineDestinationActionSingleton");
+        _timeMachineDestinationActionSingleton = [super alloc];
+        return _timeMachineDestinationActionSingleton;
+    }
+    
+    return nil;
+}
+
+- (id) init {
+    self = [super init];
+    NSLog(@"%@", tediumResponse);
+    if (self != nil) {
+        tediumResponse = [[NSDictionary alloc] init];
+        tediumNotifications = [NSDistributedNotificationCenter defaultCenter];
+    }
+    
+    return self;
+}
+
+- (void) registerForNotifications {
+    [tediumNotifications addObserver:self selector:@selector(didReceiveNotification:) name:@"com.dustinrue.Tedium.allDestinationsResponse" object:nil];
+}
+
+- (void) didReceiveNotification:(NSNotification *) notification {
+    DSLog(@"got response %@",[notification userInfo]);
+
+    [self setTediumResponse:[notification userInfo]];
+}
+
+- (void) sendAllDestinationsRequest {
+    DSLog(@"sending notification");
+
+    [tediumNotifications postNotificationName:@"com.dustinrue.Tedium.allDestinationsRequest" object:nil userInfo:nil deliverImmediately:YES];
+}
+
+@end
+
+
+
+

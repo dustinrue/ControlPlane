@@ -12,10 +12,10 @@
 
 
 @interface TimeMachineDestinationAction : Action <ActionWithLimitedOptions> {
-   	NSString *destinationVolumePath;
+    NSDictionary *destinationVolumePath;
 }
 
-@property (retain) NSString *destinationVolumePath;
+@property (retain) NSDictionary *destinationVolumePath;
 
 - (id) initWithDictionary: (NSDictionary *) dict;
 - (void) dealloc;
@@ -28,5 +28,24 @@
 
 + (NSArray *) limitedOptions;
 - (id) initWithOption: (NSString *) option;
+
+- (void) didReceiveNotificationResponse:(NSNotification *) notification;
+
+@end
+
+@interface TimeMachineDestinationActionSingleton : NSObject {
+    //@private
+    NSDictionary *tediumResponse;
+    NSDistributedNotificationCenter *tediumNotifications;
+}
+
+@property (retain) NSDictionary *tediumResponse;
+
++ (id) sharedSingleton;
+- (void) registerForNotifications;
+- (void) didReceiveNotification:(NSNotification *) notification;
+- (void) sendAllDestinationsRequest;
+- (void) getAllDestinations;
+- (void) checkStatus;
 
 @end
