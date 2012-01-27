@@ -499,6 +499,12 @@
 
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
 {
+    
+    // because actions are performed on their own thread, it's possible
+    // for doGrowl to be called by each simultaneously especially in the 
+    // case that an action fails, need to provide some order here to prevent 
+    // the title/message from being clobbered
+    
     static int32_t alreadyHere = 0;
     
     BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
