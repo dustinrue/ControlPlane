@@ -43,9 +43,12 @@
 
 + (id) sharedSingleton;
 - (void) registerForNotifications;
+- (void) deRegisterForNotifications;
 - (void) didReceiveNotification:(NSNotification *) notification;
 - (void) sendAllDestinationsRequest;
 - (void) getAllDestinations;
-- (void) checkStatus;
+- (void) doGetAllDestinations;
+- (void) setDestination:(NSString *)newDestination;
+
 
 @end

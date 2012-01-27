@@ -8,7 +8,6 @@
 
 #import "TimeMachineDestinationAction.h"
 #import <ScriptingBridge/SBApplication.h>
-#import "Tedium.h"
 #import "DSLogger.h"
 
 @implementation TimeMachineDestinationAction
@@ -20,7 +19,7 @@
 	if (!(self = [super init]))
 		return nil;
     
-  	static NSDictionary *destinationVolumePath;
+  	NSDictionary *destinationVolumePath;
 
 	return self;
 }
@@ -46,6 +45,7 @@
 {
 	NSMutableDictionary *dict = [super dictionary];
     
+    DSLog(@"%@",dict);
 	[dict setObject:[[destinationVolumePath copy] autorelease] forKey:@"parameter"];
     
 	return dict;
@@ -59,9 +59,7 @@
 
 - (BOOL) execute: (NSString **) errorString {
 	@try {
-		TediumApplication *Tedium = [SBApplication applicationWithBundleIdentifier: @"com.dustinrue.Tedium"];
 		
-        [Tedium setDestination:destinationVolumePath];
 		
 	} @catch (NSException *e) {
 		DSLog(@"Exception: %@", e);
@@ -92,17 +90,12 @@
     // CP is going to now issue a notification to Tedium to see if it responds
     // with a list of configured destinations
 
-    
-    [tmdah registerForNotifications];
-    
-    for (int i = 0; i < 3 && [[tmdah tediumResponse] count] < 1; i++ ) {
-        [tmdah sendAllDestinationsRequest];
-        [NSThread sleepForTimeInterval:0.3];
+    [tmdah getAllDestinations];
+    //[NSThread sleepForTimeInterval:2];
 
-    }
-    [NSThread  sleepForTimeInterval:10];
-    DSLog(@"got %@", [tmdah tediumResponse]);
+    DSLog(@"tmdah came back with %@", [tmdah tediumResponse]);
     @try {
+/*
 		TediumApplication *Tedium = [SBApplication applicationWithBundleIdentifier: @"com.dustinrue.Tedium"];
         
         NSString *error;
@@ -110,8 +103,9 @@
         NSString *destinationsFromTedium = [Tedium allDestinations];
         NSData *theData = [destinationsFromTedium dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *destinations = [NSPropertyListSerialization propertyListFromData:theData mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&error];
-
-        opts = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
+*/
+        opts = [[NSMutableArray alloc] initWithCapacity:[[tmdah tediumResponse] count]];
+ 
 		for (NSDictionary *destination in [[tmdah tediumResponse] objectForKey:@"destinations"]) {
             DSLog(@"destination is %@", destination);
 			[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -186,13 +180,18 @@ static TimeMachineDestinationActionSingleton *_timeMachineDestinationActionSingl
 }
 
 - (void) registerForNotifications {
+    DSLog(@"registering for notifications");
     [tediumNotifications addObserver:self selector:@selector(didReceiveNotification:) name:@"com.dustinrue.Tedium.allDestinationsResponse" object:nil];
 }
 
-- (void) didReceiveNotification:(NSNotification *) notification {
-    DSLog(@"got response %@",[notification userInfo]);
+- (void) deRegisterForNotifications {
+    [tediumNotifications removeObserver:self name:@"com.dustinrue.Tedium.allDestinationsResponse" object:nil];
+}
 
+- (void) didReceiveNotification:(NSNotification *) notification {
     [self setTediumResponse:[notification userInfo]];
+    DSLog(@"got response %@",[self tediumResponse]);
+    [self deRegisterForNotifications];
 }
 
 - (void) sendAllDestinationsRequest {
@@ -200,6 +199,24 @@ static TimeMachineDestinationActionSingleton *_timeMachineDestinationActionSingl
 
     [tediumNotifications postNotificationName:@"com.dustinrue.Tedium.allDestinationsRequest" object:nil userInfo:nil deliverImmediately:YES];
 }
+
+- (void) getAllDestinations {
+    [NSThread detachNewThreadSelector:@selector(doGetAllDestinations) toTarget:self withObject:nil];
+    
+}
+
+- (void) doGetAllDestinations {
+    DSLog(@"doing the things");
+    [self registerForNotifications];
+    [self sendAllDestinationsRequest];
+}
+
+- (void) setDestination:(NSString *)newDestination {
+    NSDictionary *args = [[[NSDictionary alloc] initWithObjectsAndKeys:newDestination, @"destinationVolumeName", nil] autorelease];
+    [tediumNotifications postNotificationName:@"com.dustinrue.Tedium.setDestination" object:nil userInfo:args deliverImmediately:YES];
+}
+                                                                                                                     
+                                                                                                        
 
 @end
 

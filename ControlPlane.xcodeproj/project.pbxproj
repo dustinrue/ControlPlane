@@ -1174,7 +1174,6 @@
 				"/System/Library/CoreServices/System Events.app",
 				/Applications/iTunes.app,
 				"/System/Library/CoreServices/Printer Setup Utility.app",
-				/Applications/Tedium.app,
 			);
 			name = "Generate Script Bridge Headers";
 			outputPaths = (
@@ -1183,7 +1182,6 @@
 				"$(DERIVED_FILE_DIR)/System Events.h",
 				"$(DERIVED_FILE_DIR)/iTunes.h",
 				"$(DERIVED_FILE_DIR)/Printer Setup Utility.h",
-				"$(DERIVED_FILE_DIR)/Tedium.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

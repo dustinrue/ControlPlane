@@ -657,6 +657,7 @@
 	NSString *param, *desc = nil;
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSDictionary *sel = [[newActionLimitedOptionsController selectedObjects] lastObject];
+        DSLog(@"doAddAction sees %@",sel);
 		param = [sel valueForKey:@"option"];
 		desc = [sel valueForKey:@"description"];
 	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
