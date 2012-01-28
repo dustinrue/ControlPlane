@@ -32,25 +32,3 @@
 - (void) didReceiveNotificationResponse:(NSNotification *) notification;
 
 @end
-
-@interface TimeMachineDestinationActionSingleton : NSObject {
-    //@private
-    NSDictionary *tediumResponse;
-    NSDistributedNotificationCenter *tediumNotifications;
-    NSThread *backgroundThread;
-}
-
-@property (retain) NSDictionary *tediumResponse;
-
-+ (id) sharedSingleton;
-- (void) registerForNotifications;
-- (void) deRegisterForNotifications;
-- (void) didReceiveNotification:(NSNotification *) notification;
-- (void) sendAllDestinationsRequest;
-- (void) getAllDestinations;
-- (void) doGetAllDestinations;
-- (void) setDestination:(NSString *)newDestination;
-- (void) startNewRunLoop;
-
-
-@end
