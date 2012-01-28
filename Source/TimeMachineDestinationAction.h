@@ -29,6 +29,5 @@
 + (NSArray *) limitedOptions;
 - (id) initWithOption: (NSString *) option;
 
-- (void) didReceiveNotificationResponse:(NSNotification *) notification;
 
 @end

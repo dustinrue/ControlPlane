@@ -7,7 +7,6 @@
 //
 
 #import "TimeMachineDestinationAction.h"
-#import <ScriptingBridge/SBApplication.h>
 #import "DSLogger.h"
 
 @implementation TimeMachineDestinationAction
@@ -19,7 +18,6 @@
 	if (!(self = [super init]))
 		return nil;
     
-  	NSDictionary *destinationVolumePath;
 
 	return self;
 }
@@ -82,53 +80,36 @@
 }
 
 + (NSArray *) limitedOptions {
-    NSMutableArray *opts = nil;
-	
     
-    TimeMachineDestinationActionSingleton *tmdah = [TimeMachineDestinationActionSingleton sharedSingleton];
-
-
-    // CP is going to now issue a notification to Tedium to see if it responds
-    // with a list of configured destinations
-
-    [tmdah getAllDestinations];
-    [NSThread sleepForTimeInterval:2];
-
-    DSLog(@"tmdah came back with %@", [tmdah tediumResponse]);
+	NSMutableArray *opts = nil;
+    
     @try {
-/*
-		TediumApplication *Tedium = [SBApplication applicationWithBundleIdentifier: @"com.dustinrue.Tedium"];
+        NSString *script =
+		@"tell application \"Tedium\"\n"
+		"  get destinationVolumeName of every destination\n"
+		"end tell\n";
         
-        NSString *error;
-        NSPropertyListFormat format;
-        NSString *destinationsFromTedium = [Tedium allDestinations];
-        NSData *theData = [destinationsFromTedium dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *destinations = [NSPropertyListSerialization propertyListFromData:theData mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&error];
-*/
-        opts = [[NSMutableArray alloc] initWithCapacity:[[tmdah tediumResponse] count]];
- 
-		for (NSDictionary *destination in [[tmdah tediumResponse] objectForKey:@"destinations"]) {
+        NSArray *list = [[[self new] autorelease] executeAppleScriptReturningListOfStrings:script];
+        if (!list)		// failure
+            return [NSArray array];
+        NSLog(@"list is %@", list);
+        opts = [NSMutableArray arrayWithCapacity:[list count]];
+    
+		for (NSString *destination in list) {
             DSLog(@"destination is %@", destination);
 			[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							 [destination valueForKey:@"destinationVolumePath"], @"option", 
-                             [destination valueForKey:@"destinationVolumePath"], @"description", nil]];
+							 destination, @"option", 
+                             destination, @"description", nil]];
         }
 		
 	} @catch (NSException *e) {
 		DSLog(@"Exception: %@", e);
 		opts = [NSArray array];
 	}
-	
-    DSLog(@"leaving limitedOptions");
+
 	return opts;
 }
              
- - (void) didReceiveNotificationResponse:(NSNotification *) notification {
-     DSLog(@"huh %@", [notification userInfo]);
-     TimeMachineDestinationActionSingleton *tmdas = [TimeMachineDestinationActionSingleton sharedSingleton];
-     [tmdas setTediumResponse:[notification userInfo]];
-
-}
 
 - (id)initWithOption:(NSString *)option
 {
