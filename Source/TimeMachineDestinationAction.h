@@ -12,10 +12,10 @@
 
 
 @interface TimeMachineDestinationAction : Action <ActionWithLimitedOptions> {
-    NSDictionary *destinationVolumePath;
+    NSString *destinationVolumePath;
 }
 
-@property (retain) NSDictionary *destinationVolumePath;
+@property (retain) NSString *destinationVolumePath;
 
 - (id) initWithDictionary: (NSDictionary *) dict;
 - (void) dealloc;

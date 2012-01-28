@@ -18,13 +18,12 @@
 	if (!(self = [super init]))
 		return nil;
     
-
+	destinationVolumePath = [[NSString alloc] init];
 	return self;
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict
 {
-    DSLog(@"%@",dict);
 	if (!(self = [super initWithDictionary:dict]))
 		return nil;
     
@@ -43,7 +42,6 @@
 {
 	NSMutableDictionary *dict = [super dictionary];
     
-    DSLog(@"%@",dict);
 	[dict setObject:[[destinationVolumePath copy] autorelease] forKey:@"parameter"];
     
 	return dict;
@@ -56,14 +54,17 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	@try {
-		
-		
-	} @catch (NSException *e) {
-		DSLog(@"Exception: %@", e);
-		*errorString = NSLocalizedString(@"Couldn't set Time Machine backup destination!", @"In TimeMachineDestinationAction");
-		return NO;
-	}
+
+    NSString *script = [NSString stringWithFormat:
+                            @"tell application \"Tedium\"\n"
+                            "    set current destination to \"%@\"\n"
+                            "end tell\n", destinationVolumePath];
+        
+    if (![self executeAppleScript:script]) {
+        *errorString = NSLocalizedString(@"Couldn't set Time Machine Backup Destination!", @"In TimeMachineDestinationAction");
+        return NO;
+    }
+
 	
 	return YES;
 }
@@ -92,7 +93,7 @@
         NSArray *list = [[[self new] autorelease] executeAppleScriptReturningListOfStrings:script];
         if (!list)		// failure
             return [NSArray array];
-        NSLog(@"list is %@", list);
+
         opts = [NSMutableArray arrayWithCapacity:[list count]];
     
 		for (NSString *destination in list) {
@@ -107,6 +108,7 @@
 		opts = [NSArray array];
 	}
 
+    NSLog(@"returning %@", opts);
 	return opts;
 }
              
@@ -114,9 +116,8 @@
 - (id)initWithOption:(NSString *)option
 {
 	self = [super init];
-	
+	[destinationVolumePath autorelease];
 	destinationVolumePath = [option copy];
-
 	return self;
 }
 
