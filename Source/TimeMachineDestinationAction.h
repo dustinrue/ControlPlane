@@ -8,14 +8,11 @@
 
 #import "Action.h"
 
-
-
-
 @interface TimeMachineDestinationAction : Action <ActionWithLimitedOptions> {
-    NSDictionary *destinationVolumePath;
+    NSString *destinationVolumePath;
 }
 
-@property (retain) NSDictionary *destinationVolumePath;
+@property (retain) NSString *destinationVolumePath;
 
 - (id) initWithDictionary: (NSDictionary *) dict;
 - (void) dealloc;
@@ -27,28 +24,14 @@
 + (NSString *) creationHelpText;
 
 + (NSArray *) limitedOptions;
-- (id) initWithOption: (NSString *) option;
-
-- (void) didReceiveNotificationResponse:(NSNotification *) notification;
 
 @end
 
-@interface TimeMachineDestinationActionSingleton : NSObject {
-    //@private
-    NSDictionary *tediumResponse;
-    NSDistributedNotificationCenter *tediumNotifications;
-}
+// Protocol implemented by the Tedium DO
 
-@property (retain) NSDictionary *tediumResponse;
+@protocol DOTediumApp <NSObject>
 
-+ (id) sharedSingleton;
-- (void) registerForNotifications;
-- (void) deRegisterForNotifications;
-- (void) didReceiveNotification:(NSNotification *) notification;
-- (void) sendAllDestinationsRequest;
-- (void) getAllDestinations;
-- (void) doGetAllDestinations;
-- (void) setDestination:(NSString *)newDestination;
-
+@property (nonatomic, readwrite, retain) NSString *currentDestination;
+@property (nonatomic, readonly) NSArray *allDestinations;
 
 @end
