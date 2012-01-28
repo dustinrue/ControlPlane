@@ -37,6 +37,7 @@
     //@private
     NSDictionary *tediumResponse;
     NSDistributedNotificationCenter *tediumNotifications;
+    NSThread *backgroundThread;
 }
 
 @property (retain) NSDictionary *tediumResponse;
@@ -49,6 +50,7 @@
 - (void) getAllDestinations;
 - (void) doGetAllDestinations;
 - (void) setDestination:(NSString *)newDestination;
+- (void) startNewRunLoop;
 
 
 @end

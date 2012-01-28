@@ -84,6 +84,7 @@
 + (NSArray *) limitedOptions {
     NSMutableArray *opts = nil;
 	
+    
     TimeMachineDestinationActionSingleton *tmdah = [TimeMachineDestinationActionSingleton sharedSingleton];
 
 
@@ -91,7 +92,7 @@
     // with a list of configured destinations
 
     [tmdah getAllDestinations];
-    //[NSThread sleepForTimeInterval:2];
+    [NSThread sleepForTimeInterval:2];
 
     DSLog(@"tmdah came back with %@", [tmdah tediumResponse]);
     @try {
@@ -181,7 +182,7 @@ static TimeMachineDestinationActionSingleton *_timeMachineDestinationActionSingl
 
 - (void) registerForNotifications {
     DSLog(@"registering for notifications");
-    [tediumNotifications addObserver:self selector:@selector(didReceiveNotification:) name:@"com.dustinrue.Tedium.allDestinationsResponse" object:nil];
+    [tediumNotifications addObserver:self selector:@selector(didReceiveNotification:) name:@"com.dustinrue.Tedium.allDestinationsResponse" object:nil suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 }
 
 - (void) deRegisterForNotifications {
@@ -201,12 +202,44 @@ static TimeMachineDestinationActionSingleton *_timeMachineDestinationActionSingl
 }
 
 - (void) getAllDestinations {
-    [NSThread detachNewThreadSelector:@selector(doGetAllDestinations) toTarget:self withObject:nil];
+    // we're still on the main run loop, but this needs to be able to send and
+    // receive a response while the runloop we're on waits for a response, this is
+    // impossible because the run loop seems to be "blocked"
     
+    // Let's create a new run loop to run this stuff on
+    DSLog(@"starting run loop routine");
+    self->backgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(startNewRunLoop) object:nil];
+    [self->backgroundThread start];
+    [self performSelector:@selector(doGetAllDestinations) onThread:self->backgroundThread withObject:nil waitUntilDone:YES];
+
+}
+
+- (void) startNewRunLoop {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    DSLog(@"new run loop!");
+    // A runloop with no sources returns immediately from runMode:beforeDate:
+    // That will wake up the loop and chew CPU. Add a dummy source to prevent
+    // it.
+    
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    
+    NSMachPort *dummyPort = [[NSMachPort alloc] init];
+    [runLoop addPort:dummyPort forMode:NSDefaultRunLoopMode];
+    [dummyPort release];
+    [pool release];
+    
+    while (1) 
+    {
+        NSAutoreleasePool *loopPool = [[NSAutoreleasePool alloc] init];
+        [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        [loopPool drain];
+    }
 }
 
 - (void) doGetAllDestinations {
     DSLog(@"doing the things");
+    
     [self registerForNotifications];
     [self sendAllDestinationsRequest];
 }
