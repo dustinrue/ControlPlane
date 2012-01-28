@@ -8,8 +8,6 @@
 @interface Action : NSObject {
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
-    
-    NSAppleEventDescriptor *appleScriptResult_;
 }
 
 + (NSString *)typeForClass:(Class)klass;
@@ -29,10 +27,6 @@
 - (BOOL)execute:(NSString **)errorString;
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
-
-// Helpers
-- (BOOL)executeAppleScript:(NSString *)script;		// returns YES on success, NO on failure
-- (NSArray *)executeAppleScriptReturningListOfStrings:(NSString *)script;
 
 @end
 
