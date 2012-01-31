@@ -499,23 +499,24 @@
 
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
 {
-    
+    /*
     // because actions are performed on their own thread, it's possible
     // for doGrowl to be called by each simultaneously especially in the 
     // case that an action fails, need to provide some order here to prevent 
     // the title/message from being clobbered
     
     static int32_t alreadyHere = 0;
-    
+    */
     BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
     if (!useGrowl)
         return;
     
+    /*
     while (alreadyHere) {
         [NSThread sleepForTimeInterval:0.5];
     }
     OSAtomicIncrement32(&alreadyHere);
-    
+    */
 
 	
 	signed int pri = 0;
@@ -530,7 +531,7 @@
 								   priority:pri
 								   isSticky:NO
 							   clickContext:nil];
-    OSAtomicDecrement32(&alreadyHere);
+    //OSAtomicDecrement32(&alreadyHere);
 
 }
 
@@ -657,7 +658,7 @@
 
 	NSString *errorString;
 	if (![action execute:&errorString])
-		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title") withMessage:errorString];
+		[self doGrowl:[[[NSString stringWithFormat:NSLocalizedString(@"Failure", @"Growl message title")] copy] autorelease] withMessage:[[errorString copy] autorelease]];
 	
 	[self decreaseActionsInProgress];
 	[pool release];
@@ -683,7 +684,7 @@
 		growlTitle = NSLocalizedString(@"Performing Actions", @"Growl message title");
 		growlMessage = [NSString stringWithFormat:@"* %@", [actions componentsJoinedByString:@"\n* "]];
 	}
-	[self doGrowl:growlTitle withMessage:growlMessage];
+	[self doGrowl:[[growlTitle copy] autorelease] withMessage:[[growlMessage copy] autorelease]];
 
 	NSEnumerator *en = [actions objectEnumerator];
 	Action *action;
@@ -860,10 +861,10 @@
 #endif
     }
     
-	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
-	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
-								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
-			ctxt_path, guessConfidence]];
+	[self doGrowl:[[[NSString stringWithFormat:NSLocalizedString(@"Changing Context", @"Growl message title")] copy] autorelease]
+	  withMessage:[[[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
+								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, guessConfidence] copy] autorelease]];
+    
 	[self setValue:ctxt_path forKey:@"currentContextName"];
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
         [self setStatusTitle:ctxt_path];
