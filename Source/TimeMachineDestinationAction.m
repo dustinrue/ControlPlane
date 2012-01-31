@@ -61,7 +61,7 @@
                             "end tell\n", destinationVolumePath];
         
     if (![self executeAppleScript:script]) {
-        *errorString = NSLocalizedString(@"Couldn't set Time Machine Backup Destination!", @"In TimeMachineDestinationAction");
+        *errorString = NSLocalizedString(@"Unable to set set Time Machine backup destination!", @"In TimeMachineDestinationAction");
         return NO;
     }
 
@@ -82,7 +82,7 @@
 
 + (NSArray *) limitedOptions {
     NSString* TediumPath = [[NSWorkspace sharedWorkspace] 
-                            absolutePathForAppBundleWithIdentifier:@"com.dustinrue.Tedum"];
+                            absolutePathForAppBundleWithIdentifier:@"com.dustinrue.Tedium"];
     if (!TediumPath) {
         [[[self new] autorelease] performSelectorOnMainThread:@selector(tediumNotInstalledAlert) withObject:self waitUntilDone:YES];
         return nil;
