@@ -13,9 +13,9 @@
 
 - (NSString *) description {
 	if (turnOn)
-		return NSLocalizedString(@"Enabling Printer Sharing.", @"Act of turning on or enabling Printer Sharing backup system is being performed");
+		return NSLocalizedString(@"Enabling Printer Sharing.", @"Act of turning on or enabling Printer Sharing is being performed");
 	else
-		return NSLocalizedString(@"Disabling Printer Sharing.", @"Act of turning off or disabling Printer Sharing backup system is being performed");
+		return NSLocalizedString(@"Disabling Printer Sharing.", @"Act of turning off or disabling Printer Sharing is being performed");
 }
 
 - (BOOL) execute: (NSString **) errorString {
@@ -25,17 +25,17 @@
 	
 	if (!result) {
 		if (turnOn)
-			*errorString = NSLocalizedString(@"Failed enabling Printer Sharing.", @"Act of turning on or enabling Printer Sharing backup system failed");
+			*errorString = NSLocalizedString(@"Failed enabling Printer Sharing.", @"Act of turning on or enabling Printer Sharing failed");
 		else
-			*errorString = NSLocalizedString(@"Failed disabling Printer Sharing.", @"Act of turning off or disabling Printer Sharing backup system failed");
+			*errorString = NSLocalizedString(@"Failed disabling Printer Sharing.", @"Act of turning off or disabling Printer Sharing failed");
 	}
 	
 	return result;
 }
 
 + (NSString *) helpText {
-	return NSLocalizedString(@"The parameter for ToggleTimeMachine actions is either \"1\" "
-                             "or \"0\", depending on whether you want to enable or disable Printer Sharing "
+	return NSLocalizedString(@"The parameter for TogglePrinterSharing actions is either \"1\" "
+                             "or \"0\", depending on whether you want Printer Sharing "
                              "turned on or off.", @"");
 }
 
