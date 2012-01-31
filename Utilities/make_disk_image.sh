@@ -22,8 +22,8 @@ APP=build/$CONFIGURATION/$APPNAME.app
 
 if [ "$1" == "release" ]; then
         cd Utilities
-#        ./update-oui.sh
-#        ./update-usb-data.sh
+        ./update-oui.sh
+        ./update-usb-data.sh
         cd ..
 fi
 
