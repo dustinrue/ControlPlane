@@ -82,7 +82,7 @@
 
 + (NSArray *) limitedOptions {
     NSString* TediumPath = [[NSWorkspace sharedWorkspace] 
-                            absolutePathForAppBundleWithIdentifier:@"com.dustinrue.Tedium"];
+                            absolutePathForAppBundleWithIdentifier:@"com.dustinrue.Tedum"];
     if (!TediumPath) {
         [[[self new] autorelease] performSelectorOnMainThread:@selector(tediumNotInstalledAlert) withObject:self waitUntilDone:YES];
         return nil;
@@ -131,13 +131,13 @@
     NSAlert *alert = [[NSAlert alloc] init];
 
     [alert setMessageText:NSLocalizedString(@"This feature requires Tedium",@"Tedium is not installed")];
-    [alert setInformativeText:NSLocalizedString(@"To switch Time Machine backup destinations, you need to have Tedium installed.  Tedium is available at %@ and is free!",@"")];
+    [alert setInformativeText:NSLocalizedString(@"To switch Time Machine backup destinations, you need to have Tedium installed.  Click 'Get Tedium' to visit the Tedium website",@"")];
     
-    [alert addButtonWithTitle:@"Download Tedium"];
-    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:NSLocalizedString(@"Get Tedium",@"Get Tedium")];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK","Dismiss the alert without doing anything, but not a cancel")];
 
     if ([alert runModal] == NSAlertFirstButtonReturn) {
-        NSURL *downloadURL = [NSURL URLWithString:@"http://www.tediumapp.com/"];
+        NSURL *downloadURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"TediumURL"]];
         [[NSWorkspace sharedWorkspace] openURL:downloadURL];
     }
     [alert release];
