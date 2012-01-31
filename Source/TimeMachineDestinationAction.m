@@ -102,7 +102,6 @@
         opts = [NSMutableArray arrayWithCapacity:[list count]];
     
 		for (NSString *destination in list) {
-            DSLog(@"destination is %@", destination);
 			[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 							 destination, @"option", 
                              destination, @"description", nil]];
@@ -113,7 +112,7 @@
 		opts = [NSArray array];
 	}
 
-    NSLog(@"returning %@", opts);
+
 	return opts;
 }
              
