@@ -9,8 +9,6 @@
 #import "Action.h"
 
 
-
-
 @interface TimeMachineDestinationAction : Action <ActionWithLimitedOptions> {
     NSString *destinationVolumePath;
 }
@@ -28,6 +26,8 @@
 
 + (NSArray *) limitedOptions;
 - (id) initWithOption: (NSString *) option;
+
+- (void) tediumNotInstalledAlert;
 
 
 @end
