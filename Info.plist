@@ -31,11 +31,11 @@
 	<key>CPCrashReportURL</key>
 	<string>http://crashreport.controlplaneapp.com/crash_v200.php</string>
 	<key>CPDonationURL</key>
-	<string>http://controlplane.dustinrue.com/support-controlplane/</string>
+	<string>http://www.controlplaneapp.com/support-controlplane/</string>
 	<key>CPSupportURL</key>
 	<string>http://groups.google.com/group/controlplane-support/topics</string>
 	<key>CPWebPageURL</key>
-	<string>http://controlplane.dustinrue.com/</string>
+	<string>http://www.controlplaneapp.com/</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>
@@ -65,10 +65,12 @@
 	<key>OSAScriptingDefinition</key>
 	<string>ControlPlane.sdef</string>
 	<key>SUFeedURL</key>
-	<string>http://controlplane.dustinrue.com/appcast.xml</string>
+	<string>http://www.controlplaneapp.com/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
+	<key>TediumURL</key>
+	<string>http://www.tediumapp.com/get-tedium/</string>
 </dict>
 </plist>
