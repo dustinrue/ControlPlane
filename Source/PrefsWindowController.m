@@ -590,6 +590,10 @@
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSArrayController *loC = newActionLimitedOptionsController;
 		[loC removeObjects:[loC arrangedObjects]];
+        NSArray *returnedOptions = [klass limitedOptions];
+        if (!returnedOptions) {
+            return;
+        }
 		[loC addObjects:[klass limitedOptions]];
 		[loC selectNext:self];
 
