@@ -448,17 +448,18 @@
 
 - (void)setMenuBarImage:(NSImage *)imageName {
 
-    // originally we just returned from here, but if the image is changing
-    // it seems like a reasonable time to show the image
-    if (sbItem == nil)
-        [self showInStatusBar:self];
+    // if the menu bar item has been hidden sbItem will have been released
+    // and we should not attempt to update the image
+    if (!sbItem)
+        return;
     
-    // make double sure sbItem is still what it should be
-    // this has been a common crash point
-    if ([sbItem class] == [NSStatusItem class]) 
-      [sbItem setImage:imageName];
-    else
-        DSLog(@"sbItem isn't nil, bit it isn't an NSStatusItem either, it's now %@",[sbItem class]);
+    @try {
+        [sbItem setImage:imageName];
+    }
+    @catch (NSException *exception) {
+        DSLog(@"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", [imageName name], [exception reason]);
+        [self setStatusTitle:@"Failed to set icon"];
+    }
 }
 
 - (void)showInStatusBar:(id)sender
