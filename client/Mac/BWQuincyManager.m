@@ -136,16 +136,39 @@ const CGFloat kDetailsHeight = 285;
   [self setSubmissionURL:@"https://rink.hockeyapp.net/"];
 }
 
+- (void)storeLastCrashDate:(NSDate *) date {
+  [[NSUserDefaults standardUserDefaults] setValue:date forKey:@"CrashReportSender.lastCrashDate"];
+  [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSDate *)loadLastCrashDate {
+  NSDate *date = [[NSUserDefaults standardUserDefaults] valueForKey:@"CrashReportSender.lastCrashDate"];
+  return date ?: [NSDate distantPast];
+}
+
+- (void)storeAppVersion:(NSString *) version {
+  [[NSUserDefaults standardUserDefaults] setValue:version forKey:@"CrashReportSender.appVersion"];
+  [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)loadAppVersion {
+  NSString *appVersion = [[NSUserDefaults standardUserDefaults] valueForKey:@"CrashReportSender.appVersion"];
+  return appVersion ?: nil;
+}
+
 #pragma mark -
 #pragma mark GetCrashData
 
 - (BOOL) hasPendingCrashReport {
 	BOOL returnValue = NO;
   
-  if (![[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"]) {
-    [[NSUserDefaults standardUserDefaults] setValue: [NSDate date]
-                                             forKey: @"CrashReportSender.lastCrashDate"];
-    return returnValue;
+  NSString *appVersion = [self loadAppVersion];
+  NSDate *lastCrashDate = [self loadLastCrashDate];
+
+  if (!appVersion || ![appVersion isEqualToString:[self applicationVersion]] || [lastCrashDate isEqualToDate:[NSDate distantPast]]) {
+    [self storeAppVersion:[self applicationVersion]];
+    [self storeLastCrashDate:[NSDate date]];
+    return NO;
   }
   
   NSArray* libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, TRUE);
@@ -165,16 +188,12 @@ const CGFloat kDetailsHeight = 285;
   if (_crashFile) {
     NSError* error;
     
-    NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"CrashReportSender.lastCrashDate"];
-    
     NSDate *crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileModificationDate];
-    
-    if (!lastCrashDate || (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending))) {
+    unsigned long long crashLogFileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_crashFile error:&error] fileSize];
+    if ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending && crashLogFileSize > 0) {
+      [self storeLastCrashDate:crashLogModificationDate];
       returnValue = YES;
     }
-    
-    [[NSUserDefaults standardUserDefaults] setValue: crashLogModificationDate
-                                             forKey: @"CrashReportSender.lastCrashDate"];
   }
 	
 	return returnValue;
