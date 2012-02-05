@@ -186,31 +186,26 @@ const CGFloat kDetailsHeight = 285;
 }
 
 - (void) startManager {
-  if ([self hasPendingCrashReport])
-  {
-      if (!self.autoSubmitCrashReport) {
-          _quincyUI = [[BWQuincyUI alloc] init:self crashFile:_crashFile companyName:_companyName applicationName:[self applicationName]];
-          [_quincyUI askCrashReportDetails];
+  if ([self hasPendingCrashReport]) {
+    if (!self.autoSubmitCrashReport) {
+      _quincyUI = [[BWQuincyUI alloc] init:self crashFile:_crashFile companyName:_companyName applicationName:[self applicationName]];
+      [_quincyUI askCrashReportDetails];
+    } else {
+      NSError* error = nil;
+      NSString *crashLogs = [NSString stringWithContentsOfFile:_crashFile encoding:NSUTF8StringEncoding error:&error];
+      if (!error) {
+        NSString *lastCrash = [[crashLogs componentsSeparatedByString: @"**********\n\n"] lastObject];
+        
+        NSString* description = @"";
+        
+        if (_delegate && [_delegate respondsToSelector:@selector(crashReportDescription)]) {
+          description = [_delegate crashReportDescription];
+        }
+              
+        [self sendReportCrash:lastCrash description:description];
       }
-      else
-      {
-          NSError* error = nil;
-          NSString *crashLogs = [NSString stringWithContentsOfFile:_crashFile encoding:NSUTF8StringEncoding error:&error];
-          if (!error)
-          {
-              NSString *lastCrash = [[crashLogs componentsSeparatedByString: @"**********\n\n"] lastObject];
-              
-              NSString* description = @"";
-              
-              if (_delegate && [_delegate respondsToSelector:@selector(crashReportDescription)]) {
-                  description = [_delegate crashReportDescription];
-              }
-              
-              [self sendReportCrash:lastCrash description:description];
-          }
-      }
-  }
-  else {
+    }
+  } else {
     [self returnToMainApplication];
   }
 }
@@ -253,7 +248,7 @@ const CGFloat kDetailsHeight = 285;
 - (void) sendReportCrash:(NSString*)crashContent
              description:(NSString*)notes
 {
-    NSString *userid = @"";
+  NSString *userid = @"";
 	NSString *contact = @"";
 		
 	SInt32 versionMajor, versionMinor, versionBugFix;
@@ -504,14 +499,12 @@ const CGFloat kDetailsHeight = 285;
 		[_delegate cancelReport];
 }
 
-- (void) _sendReportAfterDelay
-{
-    if ( _delegate != nil && [_delegate respondsToSelector:@selector(sendReport:)])
-    {
-        NSString *notes = [NSString stringWithFormat:@"Comments:\n%@\n\nConsole:\n%@", [descriptionTextField stringValue], _consoleContent];
-        
-        [_delegate sendReportCrash:_crashLogContent description:notes];
-    }
+- (void) _sendReportAfterDelay {
+  if ( _delegate != nil && [_delegate respondsToSelector:@selector(sendReport:)]) {
+    NSString *notes = [NSString stringWithFormat:@"Comments:\n%@\n\nConsole:\n%@", [descriptionTextField stringValue], _consoleContent];
+    
+    [_delegate sendReportCrash:_crashLogContent description:notes];
+  }
 }
 
 - (IBAction) submitReport:(id)sender {
@@ -546,8 +539,7 @@ const CGFloat kDetailsHeight = 285;
 	NSMutableArray* applicationStrings = [NSMutableArray array];
 	
 	NSString* searchString = [[_delegate applicationName] stringByAppendingString:@"["];
-	while ( (currentObject = [theEnum nextObject]) )
-	{
+	while ( (currentObject = [theEnum nextObject]) ) {
 		if ([currentObject rangeOfString:searchString].location != NSNotFound)
 			[applicationStrings addObject: currentObject];
 	}
@@ -561,8 +553,7 @@ const CGFloat kDetailsHeight = 285;
 	}
 	
   // Now limit the content to CRASHREPORTSENDER_MAX_CONSOLE_SIZE (default: 50kByte)
-  if ([_consoleContent length] > CRASHREPORTSENDER_MAX_CONSOLE_SIZE)
-  {
+  if ([_consoleContent length] > CRASHREPORTSENDER_MAX_CONSOLE_SIZE) {
     _consoleContent = (NSMutableString *)[_consoleContent substringWithRange:NSMakeRange([_consoleContent length]-CRASHREPORTSENDER_MAX_CONSOLE_SIZE-1, CRASHREPORTSENDER_MAX_CONSOLE_SIZE)]; 
   }
   
@@ -603,8 +594,7 @@ const CGFloat kDetailsHeight = 285;
 
 #pragma mark NSTextField Delegate
 
-- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
-{
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
   BOOL commandHandled = NO;
   
   if (commandSelector == @selector(insertNewline:)) {
