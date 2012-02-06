@@ -13,11 +13,13 @@
 #import "NSTimer+Invalidation.h"
 #import <libkern/OSAtomic.h>
 
-@interface CPController (Private)
+@interface CPController (Private) 
 
 - (void)setStatusTitle:(NSString *)title;
 - (void)showInStatusBar:(id)sender;
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
+- (void)doHideFromStatusBar:(BOOL)forced;
+
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
 - (void)contextsChanged:(NSNotification *)notification;
 
@@ -129,6 +131,7 @@
 	updatingTimer = nil;
 
 	updatingSwitchingLock = [[NSLock alloc] init];
+    menuBarLocker = [[NSLock alloc] init];
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
 	smoothCounter = 0;
@@ -431,10 +434,19 @@
 
 - (void)setStatusTitle:(NSString *)title
 {
-	if (!sbItem)
+    [menuBarLocker lock];
+    DSLog(@"setStatusTitle");
+	if (!sbItem) {
+        DSLog(@"bailing because sbItem is null");
+        DSLog(@"unlocking in setStatusTitle");
+        [menuBarLocker unlock];
 		return;
+    }
 	if (!title) {
 		[sbItem setTitle:nil];
+        DSLog(@"bailing because title is null");
+        DSLog(@"unlocking in setStatusTitle");
+        [menuBarLocker unlock];
 		return;
 	}
 
@@ -444,14 +456,21 @@
 							  forKey:NSFontAttributeName];
 	NSAttributedString *as = [[NSAttributedString alloc] initWithString:title attributes:attrs];
 	[sbItem setAttributedTitle:[as autorelease]];
+    DSLog(@"unlocking in setStatusTitle");
+    [menuBarLocker unlock];
 }
 
 - (void)setMenuBarImage:(NSImage *)imageName {
-
+    DSLog(@"locking in setMenuBarImage");
+    [menuBarLocker lock];
     // if the menu bar item has been hidden sbItem will have been released
     // and we should not attempt to update the image
-    if (!sbItem)
+    if (!sbItem) {
+        DSLog(@"unlocking in setMenuBarImage");
+        [menuBarLocker unlock];
         return;
+    }
+
     
     @try {
         [sbItem setImage:imageName];
@@ -460,20 +479,25 @@
         DSLog(@"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", [imageName name], [exception reason]);
         [self setStatusTitle:@"Failed to set icon"];
     }
+    DSLog(@"unlocking in setMenuBarImage");
+    [menuBarLocker unlock];
 }
 
 - (void)showInStatusBar:(id)sender
 {
+    DSLog(@"locking in showInStatusBar");
+    [menuBarLocker lock];
 	if (sbItem) {
 		// Already there? Rebuild it anyway.
-		[[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
-		[sbItem release];
+       	sbHideTimer = [sbHideTimer checkAndInvalidate];
+        [self doHideFromStatusBar:YES];
 	}
 
 	sbItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 	[sbItem retain];
 	[sbItem setHighlightMode:YES];
-    
+    DSLog(@"unlocking in showInStatusBar");
+    [menuBarLocker unlock];
 
     // only show the icon if preferences say we should
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
@@ -482,19 +506,38 @@
     else {
         [self setMenuBarImage:NULL];
     }
+    
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+        [self setStatusTitle:currentContextName];
+    }
 	
 	[sbItem setMenu:sbMenu];
+
 }
 
 - (void)hideFromStatusBar:(NSTimer *)theTimer {
+    DSLog(@"locking in hideFromStatusBar");
+    [menuBarLocker lock];
+    
 	sbHideTimer = [sbHideTimer checkAndInvalidate];
 	
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"])
-		return;
+    [self doHideFromStatusBar:NO];
+    
+    DSLog(@"unlocking in hideFromStatusBar");
+    [menuBarLocker unlock];
+}
 
-	[[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
-	[sbItem release];
-	sbItem = nil;
+
+- (void)doHideFromStatusBar:(BOOL)forced {
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"] && !forced)
+		return;
+    
+    if (sbItem) {
+        [[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
+        [sbItem release];
+        sbItem = nil;
+    }
 }
 
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
