@@ -104,6 +104,11 @@ typedef enum CrashReportStatus {
 
 @optional
 
+// Return the description the crashreport should contain, empty by default. The string will automatically be wrapped into <[DATA[ ]]>, so make sure you don't do that in your string.
+-(NSString *) crashReportDescription;
+
+@optional
+
 // Return the userid the crashreport should contain, empty by default
 -(NSString *) crashReportUserID;
 
@@ -127,6 +132,7 @@ typedef enum CrashReportStatus {
 	NSString			*_submissionURL;
 	NSString			*_companyName;
     NSString			*_appIdentifier;
+    BOOL                _autoSubmitCrashReport;
 
 	NSString			*_crashFile;
 	
@@ -146,6 +152,10 @@ typedef enum CrashReportStatus {
 // delegate is required
 @property (nonatomic, assign) id <BWQuincyManagerDelegate> delegate;
 
+// if YES, the crash report will be submitted without asking the user
+// if NO, the user will be asked if the crash report can be submitted (default)
+@property (nonatomic, assign, getter=isAutoSubmitCrashReport) BOOL autoSubmitCrashReport;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // settings
 
@@ -154,7 +164,8 @@ typedef enum CrashReportStatus {
 
 
 - (void) cancelReport;
-- (void) sendReport:(NSString *)xml;
+- (void) sendReportCrash:(NSString*)crashContent
+             description:(NSString*)description;
 
 - (NSString *) applicationName;
 - (NSString *) applicationVersionString;
