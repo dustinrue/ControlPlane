@@ -235,7 +235,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 			fromLocation: (CLLocation *) oldLocation {
 	
 	// Ignore invalid updates
-	if ([self isValidLocation: newLocation withOldLocation: oldLocation])
+	if (![self isValidLocation: newLocation withOldLocation: oldLocation])
 		return;
 	
 	// location
