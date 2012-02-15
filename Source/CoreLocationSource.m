@@ -131,7 +131,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// match if distance is smaller than accuracy
 	if (ruleLocation && current)
-		return [selectedRule distanceFromLocation: ruleLocation] <= current.horizontalAccuracy;
+		return [ruleLocation distanceFromLocation: current] <= current.horizontalAccuracy;
 	else
 		return 0;
 }
