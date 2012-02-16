@@ -28,6 +28,12 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
 		"SetEnabledIS",
 		NULL
 	},
+	{	kCPHelperToolSetEnabledPSCommand,
+		kCPHelperToolPrinterSharingRightName,
+		"allow",
+		"SetEnabledIS",
+		NULL
+	},
 	{	kCPHelperToolSetEnabledTMCommand,
 		kCPHelperToolTimeMachineRightName,
 		"allow",

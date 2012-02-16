@@ -11,6 +11,8 @@
 		DD010A8A149C40A100FBCBEF /* NSTimer+Invalidation.m in Sources */ = {isa = PBXBuildFile; fileRef = DD010A88149C40A100FBCBEF /* NSTimer+Invalidation.m */; };
 		DD4618C11494EEEE00D53AF0 /* CombinedRule.h in Headers */ = {isa = PBXBuildFile; fileRef = DD4618BC149440E100D53AF0 /* CombinedRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD4618C21494EF1900D53AF0 /* CombinedRule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4618BD149440E100D53AF0 /* CombinedRule.m */; };
+		DDAD406314EC745C005C5019 /* NSString+ShellScriptHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = DDAD406114EC745C005C5019 /* NSString+ShellScriptHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDAD406414EC745C005C5019 /* NSString+ShellScriptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAD406214EC745C005C5019 /* NSString+ShellScriptHelper.m */; };
 		DDB15089146ECDF000FA7835 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB15088146ECDF000FA7835 /* Cocoa.framework */; };
 		DDB150BB146ECF9400FA7835 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB150B8146ECF9400FA7835 /* LoggerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDB150BC146ECF9400FA7835 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB150B9146ECF9400FA7835 /* LoggerClient.m */; };
@@ -70,6 +72,8 @@
 		DD010A88149C40A100FBCBEF /* NSTimer+Invalidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+Invalidation.m"; path = "Source/NSTimer+Invalidation.m"; sourceTree = "<group>"; };
 		DD4618BC149440E100D53AF0 /* CombinedRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombinedRule.h; path = Source/CombinedRule.h; sourceTree = "<group>"; };
 		DD4618BD149440E100D53AF0 /* CombinedRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CombinedRule.m; path = Source/CombinedRule.m; sourceTree = "<group>"; };
+		DDAD406114EC745C005C5019 /* NSString+ShellScriptHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+ShellScriptHelper.h"; path = "Source/NSString+ShellScriptHelper.h"; sourceTree = "<group>"; };
+		DDAD406214EC745C005C5019 /* NSString+ShellScriptHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+ShellScriptHelper.m"; path = "Source/NSString+ShellScriptHelper.m"; sourceTree = "<group>"; };
 		DDB15085146ECDF000FA7835 /* NSLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB15088146ECDF000FA7835 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DDB15090146ECDF000FA7835 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = "../../External Source/NSLogger/Info.plist"; sourceTree = "<group>"; };
@@ -334,6 +338,8 @@
 			isa = PBXGroup;
 			children = (
 				DDB1512A146ED65900FA7835 /* Logging.h */,
+				DDAD406114EC745C005C5019 /* NSString+ShellScriptHelper.h */,
+				DDAD406214EC745C005C5019 /* NSString+ShellScriptHelper.m */,
 				DD010A87149C40A100FBCBEF /* NSTimer+Invalidation.h */,
 				DD010A88149C40A100FBCBEF /* NSTimer+Invalidation.m */,
 				DDB15157146EE14000FA7835 /* SynthesizeSingleton.h */,
@@ -380,6 +386,7 @@
 				DDB151A0146EE74B00FA7835 /* SynthesizeSingleton.h in Headers */,
 				DD4618C11494EEEE00D53AF0 /* CombinedRule.h in Headers */,
 				DD010A89149C40A100FBCBEF /* NSTimer+Invalidation.h in Headers */,
+				DDAD406314EC745C005C5019 /* NSString+ShellScriptHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +502,7 @@
 				DDB15122146ED49100FA7835 /* ViewsManager.m in Sources */,
 				DD4618C21494EF1900D53AF0 /* CombinedRule.m in Sources */,
 				DD010A8A149C40A100FBCBEF /* NSTimer+Invalidation.m in Sources */,
+				DDAD406414EC745C005C5019 /* NSString+ShellScriptHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

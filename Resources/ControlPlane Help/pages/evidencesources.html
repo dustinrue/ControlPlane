@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/sgml/loosedtd.html">
+<html>
+<head>
+	<title>About Evidence Sources</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="rules">
+	<meta name="description" content="Learn about ControlPlane's Evidence Sources.">
+	<link media="all" rel="stylesheet" href="../css/topicPage.css" />
+</head>
+<body>
+	<div id="mainbox">
+		<div id="caticon">
+			<img class="icon" src="../gfx/icon.png" alt="ControlPlane Icon" />
+		</div>
+		<div id="pagetitle">
+			<h1>About Evidence Sources</h1>
+		</div>
+		<p><b>Evidence Sources</b> are ways ControlPlane can determine where you
+                are or what you are doing.  You enable Evidence Sources so that you can then
+                create rules that define when to transition to a configured context.
+                
+		</p>
+                <p>ControlPlane current supports the following evidence sources:</p>
+
+                <ul>
+                  <li><b>AudioOutput</b>: Monitors which audio output device is in use. Could be 
+                    headphones, internal speakers or whatever else is available on the system</li>
+                  <li><b>Bluetooth</b>: Connected and/or nearby bluetooth devices</li>
+                  <li><b>Bonjour</b>: Services and devices located on your local network</li>
+                  <li><b>CoreLocation</b>: Your current location</li>
+                  <li><b>FireWire</b>: Connected FireWire devices</li>
+                  <li><b>IP</b>: Current assigned IP addresses (IPV4 only)</li>
+                  <li><b>Light</b>: How bright is your location, provided by the ambient light sensor</li>
+                  <li><b>Monitor</b>: Attached monitors</li>
+                  <li><b>NetworkLink</b>: Status of a network link, either up or down</li>
+                  <li><b>Power</b>: Monitors the source of power, battery or mains</li>
+                  <li><b>RunningApplication</b>: Monitor running applications</li>
+                  <li><b>ShellScript</b>: Allows you to write your own evidence source based on
+                    any script</li>
+                  <li><b>Sleep/Wake</b>: Allows ControlPlane to react to sleep and wake events</li>
+                  <li><b>TimeOfDay</b>: Match a given time</li>
+                  <li><b>USB</b>: Monitor attached USB devices</li>
+                  <li><b>WiFi</b>: Connected or nearby WiFi access points</li>
+                </ul>
+<!--
+		<p style="text-align: center;">
+			<img src="../gfx/RELATEDSCREENSHOT.png" alt="SOMETHING demo" />
+		</p>
+-->
+
+		<h2 class="seealso">See also</h2>
+		<p class="seealso">
+			<a href="rules.html">Configuring Rules</a><br />
+			<a href="maths.html">The maths behind ControlPlane</a><br />
+		</p>
+	</div>
+</body>
+</html>

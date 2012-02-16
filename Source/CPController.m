@@ -10,12 +10,14 @@
 #import "CPController+SleepThread.h"
 #import <Plugins/NSTimer+Invalidation.h>
 #import <Plugins/Plugins.h>
+#import <libkern/OSAtomic.h>
 
 @interface CPController (Private)
 
 - (void)setStatusTitle:(NSString *)title;
 - (void)showInStatusBar:(id)sender;
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
+- (void)doHideFromStatusBar:(BOOL)forced;
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
 - (void)contextsChanged:(NSNotification *)notification;
 
@@ -127,6 +129,7 @@
 	updatingTimer = nil;
 
 	updatingSwitchingLock = [[NSLock alloc] init];
+    menuBarLocker = [[NSLock alloc] init];
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
 	smoothCounter = 0;
@@ -434,47 +437,56 @@
 
 - (void)setStatusTitle:(NSString *)title
 {
-	if (!sbItem)
-		return;
-	if (!title) {
-		[sbItem setTitle:nil];
-		return;
+	@synchronized(menuBarLocker) {
+		LogVerbose(nil, @"setStatusTitle");
+		if (!sbItem) {
+			LogVerbose(nil, @"bailing because sbItem is null");
+			return;
+		}
+		if (!title) {
+			[sbItem setTitle:nil];
+			LogVerbose(nil, @"bailing because title is null");
+			return;
+		}
+		
+		// Smaller font
+		NSFont *font = [NSFont menuBarFontOfSize:10.0];
+		NSDictionary *attrs = [NSDictionary dictionaryWithObject:font
+								  forKey:NSFontAttributeName];
+		NSAttributedString *as = [[NSAttributedString alloc] initWithString:title attributes:attrs];
+		[sbItem setAttributedTitle:[as autorelease]];
 	}
-
-	// Smaller font
-	NSFont *font = [NSFont menuBarFontOfSize:10.0];
-	NSDictionary *attrs = [NSDictionary dictionaryWithObject:font
-							  forKey:NSFontAttributeName];
-	NSAttributedString *as = [[NSAttributedString alloc] initWithString:title attributes:attrs];
-	[sbItem setAttributedTitle:[as autorelease]];
 }
 
-- (void) setMenuBarImage: (NSImage *) imageName {
-	// if the menu bar item has been hidden sbItem will have been released
-	// and we should not attempt to update the image
-	if (!sbItem)
-		return;
-    
-	@try {
-		sbItem.image = imageName;
-	} @catch (NSException *exception) {
-		LogError(nil, @"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", imageName.name, exception.reason);
-		[self setStatusTitle: @"Failed to set icon"];
+- (void)setMenuBarImage:(NSImage *)imageName {
+    @synchronized(menuBarLocker) {
+		// if the menu bar item has been hidden sbItem will have been released
+		// and we should not attempt to update the image
+		if (!sbItem)
+			return;
+		
+		@try {
+			[sbItem setImage:imageName];
+		} @catch (NSException *exception) {
+			LogError(nil, @"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", imageName.name, exception.reason);
+			[self setStatusTitle:@"Failed to set icon"];
+		}
 	}
 }
 
 - (void)showInStatusBar:(id)sender
 {
-	if (sbItem) {
-		// Already there? Rebuild it anyway.
-		[[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
-		[sbItem release];
-	}
+    @synchronized(menuBarLocker) {
+		if (sbItem) {
+			// Already there? Rebuild it anyway.
+			sbHideTimer = [sbHideTimer checkAndInvalidate];
+			[self doHideFromStatusBar:YES];
+		}
 
-	sbItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-	[sbItem retain];
-	[sbItem setHighlightMode:YES];
-    
+		sbItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+		[sbItem retain];
+		[sbItem setHighlightMode:YES];
+	}
 
     // only show the icon if preferences say we should
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
@@ -483,28 +495,57 @@
     else {
         [self setMenuBarImage:NULL];
     }
+    
+    if ([NSUserDefaults.standardUserDefaults floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+        [self setStatusTitle:currentContextName];
+    }
 	
 	[sbItem setMenu:sbMenu];
 }
 
 - (void)hideFromStatusBar:(NSTimer *)theTimer {
-	sbHideTimer = [sbHideTimer checkAndInvalidate];
-	
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"])
-		return;
+	@synchronized(menuBarLocker) {
+		sbHideTimer = [sbHideTimer checkAndInvalidate];
+		
+		[self doHideFromStatusBar:NO];
+	}
+}
 
-	[[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
-	[sbItem release];
-	sbItem = nil;
+
+- (void)doHideFromStatusBar:(BOOL)forced {
+    if (![NSUserDefaults.standardUserDefaults boolForKey:@"HideStatusBarIcon"] && !forced)
+		return;
+    
+    if (sbItem) {
+        [NSStatusBar.systemStatusBar removeStatusItem:sbItem];
+        [sbItem release];
+        sbItem = nil;
+    }
 }
 
 - (void)doGrowl:(NSString *)title withMessage:(NSString *)message
 {
+    /*
+    // because actions are performed on their own thread, it's possible
+    // for doGrowl to be called by each simultaneously especially in the 
+    // case that an action fails, need to provide some order here to prevent 
+    // the title/message from being clobbered
+    
+    static int32_t alreadyHere = 0;
+    */
     BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
     if (!useGrowl)
         return;
+    
+    /*
+    while (alreadyHere) {
+        [NSThread sleepForTimeInterval:0.5];
+    }
+    OSAtomicIncrement32(&alreadyHere);
+    */
+
 	
-	float pri = 0;
+	NSInteger pri = 0;
 
 	if ([title isEqualToString:@"Failure"])
 		pri = 1;
@@ -516,6 +557,8 @@
 								   priority:(int) pri
 								   isSticky:NO
 							   clickContext:nil];
+    //OSAtomicDecrement32(&alreadyHere);
+
 }
 
 - (void)contextsChanged:(NSNotification *)notification
@@ -640,7 +683,7 @@
 
 	NSString *errorString;
 	if (![action execute:&errorString])
-		[self doGrowl:NSLocalizedString(@"Failure", @"Growl message title") withMessage:errorString];
+		[self doGrowl:[[[NSString stringWithFormat:NSLocalizedString(@"Failure", @"Growl message title")] copy] autorelease] withMessage:[[errorString copy] autorelease]];
 	
 	[self decreaseActionsInProgress];
 	[pool release];
@@ -666,7 +709,7 @@
 		growlTitle = NSLocalizedString(@"Performing Actions", @"Growl message title");
 		growlMessage = [NSString stringWithFormat:@"* %@", [actions componentsJoinedByString:@"\n* "]];
 	}
-	[self doGrowl:growlTitle withMessage:growlMessage];
+	[self doGrowl:[[growlTitle copy] autorelease] withMessage:[[growlMessage copy] autorelease]];
 
 	NSEnumerator *en = [actions objectEnumerator];
 	CAction *action;
@@ -835,10 +878,10 @@
 #endif
     }
     
-	[self doGrowl:NSLocalizedString(@"Changing Context", @"Growl message title")
-	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
-								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),
-			ctxt_path, guessConfidence]];
+	[self doGrowl:[[[NSString stringWithFormat:NSLocalizedString(@"Changing Context", @"Growl message title")] copy] autorelease]
+	  withMessage:[[[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
+								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, guessConfidence] copy] autorelease]];
+    
 	[self setValue:ctxt_path forKey:@"currentContextName"];
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
         [self setStatusTitle:ctxt_path];

@@ -12,6 +12,7 @@
 @interface LocationSource : CallbackSource<CallbackSourceProtocol, CLLocationManagerDelegate> {
 	CLLocation *m_location;
 	CLLocationManager *m_manager;
+	NSDate *m_start;
 }
 
 @property (readwrite, copy) CLLocation *location;

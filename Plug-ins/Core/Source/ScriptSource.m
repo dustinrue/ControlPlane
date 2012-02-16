@@ -8,6 +8,7 @@
 
 #import "ScriptRule.h"
 #import "ScriptSource.h"
+#import <Plugins/NSString+ShellScriptHelper.h>
 #import <Plugins/NSTimer+Invalidation.h>
 
 @implementation ScriptSource
@@ -25,8 +26,30 @@
 }
 
 - (void) executeScript: (ScriptRule *) rule {
-	// launch script
-	NSTask *task = [NSTask launchedTaskWithLaunchPath: @"/bin/sh" arguments: rule.script];
+	NSArray *arguments;
+	NSString *scriptPath = [rule.script objectAtIndex: 1];
+    NSString *interpreter = [scriptPath findInterpreterWithArguments: rule.script intoArguments: &arguments];
+	
+    // ensure that the discovered interpreter is valid and executable
+    if ([interpreter isEqualToString: @""] || ![NSFileManager.defaultManager isExecutableFileAtPath: interpreter]) {
+        LogError_Source(@"Failed to execute '%@' because ControlPlane cannot determine how to do so.  Please use '#!/bin/bash' or similar in the script or rename the script with a file extension", scriptPath);
+		return;
+    }
+	
+	// create task
+	NSTask *task = [NSTask new];
+	[task setLaunchPath: interpreter];
+	[task setArguments: arguments];
+	[task setCurrentDirectoryPath:NSHomeDirectory()];
+	
+	// set error, input and output to dev null or NSTask will never notice that the script has ended.
+	NSFileHandle *devnull = [NSFileHandle fileHandleForWritingAtPath: @"/dev/null"];
+	[task setStandardError: devnull];
+	[task setStandardInput: devnull];
+	[task setStandardOutput: devnull];
+	
+	// launch task
+	[task launch];
 	[task waitUntilExit];
 	
 	// store result

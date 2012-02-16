@@ -111,6 +111,33 @@ static OSStatus DoSetEnabledIS(AuthorizationRef			auth,
 	return retValue;
 }
 
+#pragma mark - Printer Sharing
+
+static OSStatus DoSetEnabledPS(AuthorizationRef			auth,
+							   const void *				userData,
+							   CFDictionaryRef			request,
+							   CFMutableDictionaryRef	response,
+							   aslclient				asl,
+							   aslmsg					aslMsg) {
+	
+	OSStatus retValue = noErr;
+	char command[256];
+	
+	assert(auth != NULL);
+	assert(request != NULL);
+	assert(response != NULL);
+	
+	// check request parameter
+	CFBooleanRef parameter = (CFBooleanRef) CFDictionaryGetValue(request, CFSTR("param"));
+	if (parameter == NULL || CFGetTypeID(parameter) != CFBooleanGetTypeID())
+		return BASErrnoToOSStatus(EINVAL);
+	
+	sprintf(command, "/usr/sbin/cupsctl --%s", parameter == kCFBooleanTrue ? "share-printers" : "no-share-printers");
+	retValue = system(command);
+	
+	return retValue;
+}
+
 #pragma mark - Time Machine
 
 // Enables or disables time machine
@@ -228,6 +255,7 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
 	DoGetVersion,
 	DoSetEnabledFW,
 	DoSetEnabledIS,
+	DoSetEnabledPS,
 	DoSetEnabledTM,
 	DoControlBackupTM,
 	DoSetDisplaySleepTime,

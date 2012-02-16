@@ -6,7 +6,14 @@
 //
 
 #import "ShellScriptAction.h"
+#import "NSString+ShellScriptHelper.h"
 
+@interface ShellScriptAction (Private)
+
+- (NSMutableArray *) interpreterFromFile: (NSString *) file;
+- (NSString *) interpreterFromExtension: (NSString *) file;
+
+@end
 
 @implementation ShellScriptAction
 
@@ -53,94 +60,37 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-    NSString *app, *fileType;
-    
-	if (![[NSWorkspace sharedWorkspace] getInfoForFile:path application:&app type:&fileType]) {
-		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
-		return NO;
-	}
-    
+    NSString *interpreter = @"";
+	
     // Split on "|", add "--" to the start so that the shell won't try to parse arguments
 	NSMutableArray *args = [[[path componentsSeparatedByString:@"|"] mutableCopy] autorelease];
 	[args insertObject:@"--" atIndex:0];
+	NSString *scriptPath = [args objectAtIndex: 1];
     
+    // ControlPlane is going to attempt to peek inside the script to figure out
+	// what interpreter needs to be called
     
-    // ControlPlane is going to attempt to peek inside the script to figure
-    // out what interpreter needs to be called, if that fails
-    // it'll attempt to determine the interpreter using the script's extension
-    NSError *readFileError;
-    
-    NSString *fileContents = [NSString stringWithContentsOfFile:[args objectAtIndex:1] encoding:NSUTF8StringEncoding error:&readFileError];
-
-    NSString *interpreter = @"";
-    
-    // find the interpreter 
-    NSRange anNsRange;
-    for (NSString *currentLine in [fileContents componentsSeparatedByString:@"\n"]) {
-        anNsRange = [currentLine rangeOfString:@"#!"];
-        if (anNsRange.location != NSNotFound) {
-            
-            // next ControlPlane will determine if the shabang line includes
-            // any arguments and deals with that appropriately
-            NSMutableArray *shaBangArgs = [[[currentLine componentsSeparatedByString:@" "] mutableCopy] autorelease ];
-            
-            // if shaBangArgs is bigger than 1 then the user
-            // must be sending args to the interpreter, deal with 
-            // that case here
-            if([shaBangArgs count] > 1) {
-                interpreter = [shaBangArgs objectAtIndex:0];
-                [shaBangArgs removeObjectAtIndex:0];
-                [shaBangArgs addObjectsFromArray:args];
-                [args removeAllObjects];
-                [args addObjectsFromArray:shaBangArgs];
-            }
-            else {
-                interpreter = currentLine;
-            }
-            
-            // strip the leading #!
-            interpreter = [interpreter substringFromIndex:2];
-           
-        }
-    }
+    NSMutableArray *shebangArgs = [scriptPath interpreterFromFile];
+	if (shebangArgs && [shebangArgs count] > 0) {
+		// get interpreter
+		interpreter = [shebangArgs objectAtIndex: 0];
+		[shebangArgs removeObjectAtIndex: 0];
+		
+		// and it's parameters
+		if (shebangArgs.count > 0) {
+			[shebangArgs addObjectsFromArray: args];
+			args = shebangArgs;
+		}
+		
+	}
     
     // backup routine to try using the file extension if it exists
-    if ([interpreter isEqualToString:@""]) {
-        if ([[fileType uppercaseString] isEqualToString:@"SH"]) {
-            interpreter = @"/bin/bash";
-        }
-        else if ([[fileType uppercaseString] isEqualToString:@"SCPT"]) {
-            interpreter = @"/usr/bin/osascript";
-        }
-        else if ([[fileType uppercaseString] isEqualToString:@"PL"]) {
-            interpreter = @"/usr/bin/perl";
-        }
-        else if ([[fileType uppercaseString] isEqualToString:@"PY"]) {
-            interpreter = @"/usr/bin/python";
-        }
-        else if ([[fileType uppercaseString] isEqualToString:@"PHP"]) {
-            interpreter = @"/usr/bin/php";
-        }
-        else if ([[fileType uppercaseString] isEqualToString:@"EXPECT"]) {
-            interpreter = @"/usr/bin/expect";
-        }
-        else if ([[fileType uppercaseString] isEqualToString:@"TCL"]) {
-            interpreter = @"/usr/bin/tclsh";
-        }
-    }
+    if ([interpreter isEqualToString: @""]) {
+		interpreter = [scriptPath interpreterFromExtension];
+	}
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    if(!fileManager) {
-        DSLog(@"Failed to execute '%@'", path);
-		*errorString = NSLocalizedString(@"Failed executing shell script!", @"");
-		return NO;
-    }
-        
-    // ensure that the discovered interpreter is valid
-    // and is executable
-    [fileManager isExecutableFileAtPath:interpreter];
-    if ([interpreter isEqualToString:@""] || ![fileManager isExecutableFileAtPath:interpreter]) {
+    // ensure that the discovered interpreter is valid and executable
+    if ([interpreter isEqualToString: @""] || ![NSFileManager.defaultManager isExecutableFileAtPath:interpreter]) {
         // can't determine how to run the script
         DSLog(@"Failed to execute '%@' because ControlPlane cannot determine how to do so.  Please use '#!/bin/bash' or similar in the script or rename the script with a file extension", path);
         *errorString = NSLocalizedString(@"Unable to determine interpreter for shell script!", @"");
@@ -151,7 +101,7 @@
     NSTask *task = [NSTask launchedTaskWithLaunchPath:interpreter arguments:args];
 	[task waitUntilExit];
 	
-	if ([task terminationStatus] != 0) {
+	if (task.terminationStatus != 0) {
 		DLog(@"Failed to execute '%@'", path);
 		*errorString = NSLocalizedString(@"Failed executing shell script!", @"");
 		return NO;

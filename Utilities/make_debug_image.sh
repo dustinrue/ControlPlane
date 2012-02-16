@@ -55,8 +55,7 @@ cp -R $APP/Contents/* $ROOT/$APPNAME.app/Contents/
 VERSION=`defaults read $ROOT/$APPNAME.app/Contents/Info.plist CFBundleVersion`
 defaults write $ROOT/$APPNAME.app/Contents/Info.plist CFBundleVersion $VERSION-DEBUG
 defaults write $ROOT/$APPNAME.app/Contents/Info.plist CFBundleShortVersionString $VERSION-DEBUG
-defaults delete $ROOT/$APPNAME.app/Contents/Info.plist SUFeedURL
-
+defaults write $ROOT/$APPNAME.app/Contents/Info.plist SUFeedURL "http://localhost/"
 if [ -f "$ICON" ]; then
 	cp $ICON $ROOT/.VolumeIcon.icns
 	/Developer/Tools/SetFile -a C $ROOT

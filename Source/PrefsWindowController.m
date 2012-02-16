@@ -573,6 +573,10 @@
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSArrayController *loC = newActionLimitedOptionsController;
 		[loC removeObjects:[loC arrangedObjects]];
+        NSArray *returnedOptions = [klass limitedOptions];
+        if (!returnedOptions) {
+            return;
+        }
 		[loC addObjects:[klass limitedOptions]];
 		[loC selectNext:self];
 
@@ -640,6 +644,7 @@
 	NSString *param, *desc = nil;
 	if ([klass conformsToProtocol:@protocol(ActionWithLimitedOptions)]) {
 		NSDictionary *sel = [[newActionLimitedOptionsController selectedObjects] lastObject];
+        LogInfo_Preferences(@"doAddAction sees %@",sel);
 		param = [sel valueForKey:@"option"];
 		desc = [sel valueForKey:@"description"];
 	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {

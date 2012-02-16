@@ -30,6 +30,7 @@
 	NSTimer *updatingTimer;
 	NSThread *updatingThread;
 	NSLock *updatingSwitchingLock;
+    NSLock *menuBarLocker;
 	NSConditionLock *updatingLock;
 	BOOL timeToDie;
 

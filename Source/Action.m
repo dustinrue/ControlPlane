@@ -141,6 +141,60 @@
 	return @"<Sorry, help text coming soon!>";
 }
 
+- (void)executeAppleScriptForReal:(NSString *)script
+{
+	appleScriptResult_ = nil;
+    
+	NSAppleScript *as = [[[NSAppleScript alloc] initWithSource:script] autorelease];
+	if (!as) {
+		NSLog(@"AppleScript failed to construct! Script was:\n%@", script);
+		return;
+	}
+	NSDictionary *errorDict;
+	if (![as compileAndReturnError:&errorDict]) {
+		NSLog(@"AppleScript failed to compile! Script was:\n%@\nError dictionary: %@", script, errorDict);
+		return;
+	}
+	appleScriptResult_ = [as executeAndReturnError:&errorDict];
+	if (!appleScriptResult_)
+		NSLog(@"AppleScript failed to execute! Script was:\n%@\nError dictionary: %@", script, errorDict);
+}
+
+- (BOOL)executeAppleScript:(NSString *)script
+{
+	// NSAppleScript is not thread-safe, so this needs to happen on the main thread. Ick.
+	[self performSelectorOnMainThread:@selector(executeAppleScriptForReal:)
+                           withObject:script
+                        waitUntilDone:YES];
+	return (appleScriptResult_ ? YES : NO);
+}
+
+- (NSArray *)executeAppleScriptReturningListOfStrings:(NSString *)script
+{
+	if (![self executeAppleScript:script])
+		return nil;
+	if ([appleScriptResult_ descriptorType] != typeAEList)
+		return nil;
+    
+	NSInteger count = [appleScriptResult_ numberOfItems];
+	NSMutableArray *list = [NSMutableArray arrayWithCapacity: (NSUInteger) count];
+	for (NSInteger i = 1; i <= count; ++i) {		// Careful -- AppleScript lists are 1-based
+		NSAppleEventDescriptor *elt = [appleScriptResult_ descriptorAtIndex:i];
+		if (!elt) {
+			NSLog(@"Oops -- couldn't get descriptor at index %ld", i);
+			continue;
+		}
+		NSString *val = [elt stringValue];
+		if (!val) {
+			NSLog(@"Oops -- couldn't turn descriptor at index %ld into string", i);
+			continue;
+		}
+		[list addObject:val];
+	}
+    
+	return list;
+}
+
 @end
 
 #pragma mark -
@@ -179,6 +233,7 @@
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"Speak", @"Action type");
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
+        NSLocalizedString(@"TimeMachineDestination", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
 		NSLocalizedString(@"ToggleFirewall", @"Action type");
 		NSLocalizedString(@"ToggleInternetSharing", @"Action type");

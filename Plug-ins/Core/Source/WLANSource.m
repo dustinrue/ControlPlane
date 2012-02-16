@@ -37,13 +37,20 @@
 - (void) checkData {
 	NSArray *supportedInterfaces = CWInterface.supportedInterfaces;
 	NSArray *results = nil;
+	CWInterface *interface = nil;
 
 	// get a list of supported Wi-Fi interfaces.  It is highly unlikely, but still possible, for there to
 	// be more than one interface, but we'll only use the first one
-	CWInterface *interface = [CWInterface interfaceWithName: [supportedInterfaces objectAtIndex: 0]];
-	if (!interface.power) {
-		LogInfo_Source(@"Wi-Fi disabled, no scan done");
-		return;
+	@try {
+		interface = [CWInterface interfaceWithName: [supportedInterfaces objectAtIndex: 0]];
+	} @catch (NSException *exception) {
+		LogError_Source(@"The Mac does not have a Wifi/AirPort card or it has failed");
+	} @finally {
+		if (!interface.power) {
+			LogInfo_Source(@"Wi-Fi disabled, no scan done");
+			self.networks = [NSArray new];
+			return;
+		}
 	}
 	
 	// see if we are currently connected to an AP

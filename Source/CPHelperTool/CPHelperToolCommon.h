@@ -12,7 +12,7 @@
 #import "BetterAuthorizationLib.h"
 
 // Helper tool version
-#define kCPHelperToolVersionNumber				18
+#define kCPHelperToolVersionNumber				30
 
 // Commands
 #define kCPHelperToolGetVersionCommand			"GetVersion"
@@ -20,6 +20,7 @@
 
 #define kCPHelperToolSetEnabledFWCommand		"SetEnabledFW"
 #define kCPHelperToolSetEnabledISCommand		"SetEnabledIS"
+#define kCPHelperToolSetEnabledPSCommand		"SetEnabledPS"
 #define kCPHelperToolSetEnabledTMCommand		"SetEnabledTM"
 #define kCPHelperToolControlBackupTMCommand		"ControlBackupTM"
 #define kCPHelperToolSetDisplaySleepTimeCommand	"SetDisplaySleepTime"
@@ -27,6 +28,7 @@
 // Rights
 #define kCPHelperToolFireWallRightName			"com.dustinrue.ControlPlane.FireWall"
 #define kCPHelperToolInternetSharingRightName	"com.dustinrue.ControlPlane.InternetSharing"
+#define kCPHelperToolPrinterSharingRightName	"com.dustinrue.ControlPlane.PrinterSharing"
 #define kCPHelperToolTimeMachineRightName		"com.dustinrue.ControlPlane.TimeMachine"
 #define kCPHelperToolSleepTimeRightName			"com.dustinrue.ControlPlane.SleepTime"
 

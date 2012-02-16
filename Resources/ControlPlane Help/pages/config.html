@@ -8,12 +8,6 @@
 	<link media="all" rel="stylesheet" href="../css/topicPage.css" />
 </head>
 <body>
-	<div id="banner">
-		<div id="machelp">
-			<a class="bread" href="help:anchor='access' bookID=ControlPlane Help">ControlPlane Help</a>
-			<!-- The above links back to the index page -->
-		</div>
-	</div>
 	<div id="mainbox">
 		<div id="caticon">
 			<img class="icon" src="../gfx/icon.png" alt="ControlPlane Icon" />
@@ -75,6 +69,15 @@
 		five seconds, so using switch smoothing will delay legitimate
 		context changes by this length of time.
 		</p>
+
+                <h2>Restore previous context when ControlPlane starts</h2>
+                <p>If option is checked, ControlPlane will assume it is in the same 
+                context when it starts as it was in when it was shutdown.  This will
+                prevent ControlPlane from running any actions for that context again.  
+                Unchecking this option will force ControlPlane to start from an unknown
+                context at start time.  Unchecking this option is useful if you want to 
+                rerun your actions after a reboot, particularly useful on a Mac that isn't 
+                mobile.</p>
 
 		<h2>Default Context</h2>
 		<p>Sometimes ControlPlane doesn't have enough evidence to make a

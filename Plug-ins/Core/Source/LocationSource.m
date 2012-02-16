@@ -18,10 +18,36 @@
 	if (!self) return nil;
 	
 	self.location = nil;
+	m_start = nil;
 	m_manager = [CLLocationManager new];
 	m_manager.delegate = self;
 	
 	return self;
+}
+
+- (BOOL) isValidLocation: (CLLocation *) newLocation withOldLocation:(CLLocation *) oldLocation {
+	// Filter out nil locations
+	if (!newLocation || !oldLocation)
+		return NO;
+	
+	// Filter out points by invalid accuracy
+	if (newLocation.horizontalAccuracy < 0)
+		return NO;
+	
+	// Filter out points created before the manager was initialized
+	NSTimeInterval secondsSinceManagerStarted = [newLocation.timestamp timeIntervalSinceDate: m_start];
+	if (secondsSinceManagerStarted < 0)
+		return NO;
+	
+	// Filter out points that are out of order
+	if (oldLocation) {
+		NSTimeInterval secondsSinceLastPoint = [newLocation.timestamp timeIntervalSinceDate: oldLocation.timestamp];
+		if (secondsSinceLastPoint < 0)
+			return NO;
+	}
+	
+	// The newLocation is good to use
+	return YES;
 }
 
 #pragma mark - Required implementation of 'CallbackSource' class
@@ -31,26 +57,21 @@
 }
 
 - (void) registerCallback {
+	m_start = [NSDate date];
 	[m_manager startUpdatingLocation];
 }
 
 - (void) unregisterCallback {
 	[m_manager stopUpdatingLocation];
+	m_start = nil;
 }
 
 - (void) checkData {
 	CLLocation *oldLocation = self.location;
 	CLLocation *newLocation = [m_manager location];
 	
-	// No new location
-	if (!newLocation)
-		return;
-	
 	// Ignore updates where nothing we care about changed
-	if (oldLocation &&
-		oldLocation.coordinate.longitude == newLocation.coordinate.longitude &&
-		oldLocation.coordinate.latitude == newLocation.coordinate.latitude &&
-		oldLocation.horizontalAccuracy == newLocation.horizontalAccuracy)
+	if (![self isValidLocation: newLocation withOldLocation: oldLocation])
 		return;
 	
 	// Log
