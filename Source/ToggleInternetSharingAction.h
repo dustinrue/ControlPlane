@@ -14,3 +14,4 @@
     + (NSString *) helpText;
     + (NSString *) creationHelpText;
 @end
+
