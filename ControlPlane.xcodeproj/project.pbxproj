@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -89,6 +89,7 @@
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
+		DA4411A514EE03C9005E7B3B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4411A414EE03C9005E7B3B /* MapKit.framework */; };
 		DA461C0C14C33E3C0019594A /* NSString+ShellScriptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA461C0B14C33E3B0019594A /* NSString+ShellScriptHelper.m */; };
 		DA49AF6C14C3E0AB00D03D6A /* TogglePrinterSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA49AF6B14C3E0AB00D03D6A /* TogglePrinterSharingAction.m */; };
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
@@ -115,6 +116,7 @@
 		DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22013D13C8300074503 /* cp-icon-inactive.icns */; };
 		DA83A22313D13DF300074503 /* cp-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22213D13DF300074503 /* cp-icon.icns */; };
 		DA83A22713D1430000074503 /* usb-vendors.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA83A22613D1430000074503 /* usb-vendors.txt */; };
+		DA87D18014EE0E8300E46DFF /* MapKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DA4411A414EE03C9005E7B3B /* MapKit.framework */; };
 		DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */; };
 		DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */; };
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
@@ -192,6 +194,7 @@
 				732A58F21484336C0011019C /* Quincy.framework in Copy Frameworks */,
 				8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */,
 				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
+				DA87D18014EE0E8300E46DFF /* MapKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +382,7 @@
 		DA146F7E143F3C4000906DBF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
 		DA146F7F143F3C4000906DBF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		DA4411A414EE03C9005E7B3B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = Frameworks/MapKit.framework; sourceTree = "<group>"; };
 		DA461C0A14C33E3B0019594A /* NSString+ShellScriptHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+ShellScriptHelper.h"; path = "Source/NSString+ShellScriptHelper.h"; sourceTree = "<group>"; };
 		DA461C0B14C33E3B0019594A /* NSString+ShellScriptHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+ShellScriptHelper.m"; path = "Source/NSString+ShellScriptHelper.m"; sourceTree = "<group>"; };
 		DA48F2E3140AD2FC00B000D3 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
@@ -522,6 +526,7 @@
 				8D2072110B86AB0000D61A9E /* Sparkle.framework in Frameworks */,
 				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */,
+				DA4411A514EE03C9005E7B3B /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,6 +592,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA4411A414EE03C9005E7B3B /* MapKit.framework */,
 				8D80BB950B8B033400104A87 /* Growl.framework */,
 				8D20720E0B86AB0000D61A9E /* Sparkle.framework */,
 			);
@@ -1039,7 +1045,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ControlPlane" */;
 			compatibilityVersion = "Xcode 3.0";
@@ -1463,6 +1469,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 			};
@@ -1474,6 +1481,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -1483,8 +1491,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1538,8 +1546,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1619,7 +1627,7 @@
 		DA8064BD1479910E00267B5A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1633,7 +1641,7 @@
 				);
 				INFOPLIST_FILE = "Source/Quincy/Quincy-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_64)";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = framework;
@@ -1643,8 +1651,7 @@
 		DA8064BE1479910E00267B5A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;

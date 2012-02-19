@@ -1,0 +1,67 @@
+@-webkit-keyframes grow {
+    0% {
+        -webkit-transform:scale(1.0);
+        opacity:0.8;
+    }
+    50% {
+        -webkit-transform:scale(0.90);
+        opacity:1.0;
+    }
+    100% {
+        -webkit-transform:scale(1.0);
+        opacity:0.8;
+    }
+}
+
+.growAnimation {
+    -webkit-animation-name: grow;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 1.25s;
+    -webkit-transform: rotatex(0deg);
+    -webkit-transform-origin: middle middle;
+    -webkit-animation-transition-timing-function: ease-in;
+}
+
+@-webkit-keyframes drop {
+ 0% {
+   -webkit-transform: translateY(-100px);
+ }
+ 100% {
+   -webkit-transform: translateX(0%);
+ }
+}
+
+.dropAnimation
+{
+    -webkit-animation-name: drop;
+    -webkit-animation-duration: 0.30s;
+    -webkit-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in;
+}
+
+@-webkit-keyframes annotationCalloutPulse {
+ 0% {
+   opacity: 1.0;
+   -webkit-transform: scale(0.75);
+ }
+ 33% {
+   opacity: 0.95;
+   -webkit-transform: scale(1.08);
+ }
+ 66% {
+   opacity: 0.95;
+   -webkit-transform: scale(0.92);
+ }
+ 100% {
+   opacity: 1.0;
+   -webkit-transform: scale(1.0);
+ }
+}
+
+.annotationCalloutPulseAnimation {
+ -webkit-animation-name: annotationCalloutPulse;
+ -webkit-animation-duration: 0.40s;
+ -webkit-iteration-count: 1;
+ -webkit-animation-timing-function: ease-in-ease-out;
+}

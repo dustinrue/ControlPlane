@@ -36,7 +36,11 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	current = nil;
 	selectedRule = nil;
 	startDate = [[NSDate date] retain];
+    
+    mapAnnotations = [[NSMutableArray alloc] init];
+    mapOverlays = [[NSMutableArray alloc] init];
 	
+
 	// for custom panel
 	scriptObject = nil;
 	address = @"";
@@ -47,14 +51,28 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     return self;
 }
 
-- (void)awakeFromNib {
-	// pre-load html template
-	NSString *htmlPath = [NSBundle.mainBundle pathForResource:@"CoreLocationMap" ofType:@"html"];
-	htmlTemplate = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
-	
+- (void)awakeFromNib {	
+    [mapView setShowsUserLocation: NO];
+    [mapView setDelegate: self];
+    
+
+    
+    MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] init];
+    reverseGeocoder.delegate = self;
+    [reverseGeocoder start];
+    
+    MKGeocoder *geocoderNoCoord = [[MKGeocoder alloc] init];
+    geocoderNoCoord.delegate = self;
+    //[geocoderNoCoord start];
+    
+    MKGeocoder *geocoderCoord = [[MKGeocoder alloc] init];
+    geocoderCoord.delegate = self;
+    [geocoderCoord start];
+    
 	// show empty page
 	[webView setFrameLoadDelegate: self];
 	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
+
 }
 
 - (void) dealloc {
@@ -105,19 +123,41 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	NSString *add = @"";
 	
 	// do we already have settings?
-	if ([dict objectForKey:@"parameter"])
+	if ([dict objectForKey:@"parameter"]) {
 		[CoreLocationSource convertText: [dict objectForKey:@"parameter"] toLocation: &selectedRule];
-	else
+        [mapView setShowsUserLocation:NO];
+        
+        [mapView setCenterCoordinate:selectedRule.coordinate];
+        MKCoordinateRegion theRegion;
+        theRegion.center = [mapView centerCoordinate];
+        MKCoordinateSpan theSpan = {0.0015,0.0015};
+        theRegion.span = theSpan;
+        
+        [mapView setRegion:theRegion animated:NO];
+        
+        MKPointAnnotation *pin = [[[MKPointAnnotation alloc] init] autorelease];
+        pin.coordinate = [mapView centerCoordinate];
+        pin.title = @"";
+        [mapView addAnnotation:pin];
+        
+    }
+	else {
+        [mapView setShowsUserLocation:YES];
+        MKCoordinateRegion theRegion;
+        theRegion.center = [mapView centerCoordinate];
+        MKCoordinateSpan theSpan = {0.0015,0.0015};
+        theRegion.span = theSpan;
+        
+        
+        [mapView setRegion:theRegion animated:NO];
+
+		[self setValue: add forKey: @"address"];
 		selectedRule = [current copy];
+    }
 	
 	// get corresponding address
 	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
 		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
-	
-	// show values
-	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
-	[self setValue: add forKey: @"address"];
-	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
 }
 
 - (NSString *) name {
@@ -142,8 +182,15 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	selectedRule = [current copy];
 	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
 		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
-	
-	// show values
+
+    
+    MKCoordinateRegion theRegion;
+    theRegion.center = [current coordinate];
+    MKCoordinateSpan theSpan = {0.001,0.001};
+    theRegion.span = theSpan;
+
+    [mapView setRegion:theRegion animated:YES];
+    // show values
 	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
 	[self setValue: add forKey: @"address"];
 	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
@@ -373,4 +420,47 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	return [NSString stringWithFormat: @"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
 }
 
+#pragma mark -
+#pragma mark MKMapKit delegates
+- (MKOverlayView *)mapView:(MKMapView *)aMapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    DSLog(@"hi");
+    MKCircleView *circleView = [[[MKCircleView alloc] initWithCircle:overlay] autorelease];
+    return circleView;
+    
+    MKPolygonView *polygonView = [[[MKPolygonView alloc] initWithPolygon:overlay] autorelease];
+    return polygonView;
+}
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
+    
+}
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error {
+    
+}
+
+- (void)geocoder:(MKGeocoder *)geocoder didFindCoordinate:(CLLocationCoordinate2D)coordinate {
+    
+}
+
+- (void)geocoder:(MKGeocoder *)geocoder didFailWithError:(NSError *)error {
+
+}
+
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView {
+    DSLog(@"got map finished loading");
+}
+
+- (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error {
+    DSLog(@"got map failed to load");
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)aMapView viewForAnnotation:(id <MKAnnotation>)annotation {
+
+    MKPinAnnotationView *view = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pinmarker"] autorelease];
+    view.draggable = YES;
+
+    return view;
+}
 @end

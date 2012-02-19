@@ -1,0 +1,985 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+
+<style type="text/css">
+
+
+</style>
+
+<script type="text/javascript">  
+
+document.getElementsByClassName = function(cl) {
+    var retnode = [];
+    var myclass = new RegExp('\\b'+cl+'\\b');
+    var elem = this.getElementsByTagName('*');
+    for (var i = 0; i < elem.length; i++) {
+        var classes = elem[i].className;
+        if (myclass.test(classes)) retnode.push(elem[i]);
+    }
+    return retnode;
+};
+
+window.onwebkitanimationend =  function(event) {
+    var e = event ? event : window.event;
+    var currentTarget = e.currentTarget;
+	if (e.animationName == "annotationCalloutPulse")
+	{
+	    annotationCallouts = document.getElementsByClassName("annotationCalloutWrapper annotationCalloutPulseAnimation");
+	    for (index in annotationCallouts)
+	    {
+	        var annotationCallout = annotationCallouts[index];
+	        annotationCallout.className = "annotationCalloutWrapper";
+	    }
+	};
+};
+
+  // Start New API
+  var map;
+  var userLocationMarker = null;
+  var overlays = new Array();
+  var annotations = new Array();
+  
+  UserLocationOverlay.prototype = new google.maps.OverlayView();
+
+  function UserLocationOverlay() {
+    // We define a property to hold the image's div. We'll 
+    // actually create this div upon receipt of the onAdd() 
+    // method so we'll leave it null for now.
+    this.div_ = null;
+    this.radius_ = 0;
+    this.center_ = new google.maps.LatLng(0,0);
+  }
+  
+  UserLocationOverlay.prototype.setCenter = function(center) {
+      this.center_ = center;
+  }
+  
+  UserLocationOverlay.prototype.setRadius = function(radius) {
+      this.radius_ = radius;
+  }
+  
+  UserLocationOverlay.prototype.onAdd = function() {
+
+    // Note: an overlay's receipt of onAdd() indicates that
+    // the map's panes are now available for attaching
+    // the overlay to the map via the DOM.
+
+    // Create the DIV and set some basic attributes.
+    var div = document.createElement('DIV');
+    div.style.borderStyle = "none";
+    div.style.borderWidth = "0px";
+    div.style.position = "absolute";
+    
+    var innerUserLocationDiv = document.createElement('DIV');
+    div.className = "userLocation";
+    
+    div.appendChild(innerUserLocationDiv);
+    
+    var beaconDiv = document.createElement('DIV');
+    beaconDiv.className = "beacon growAnimation";
+    var beacon2Div = document.createElement('DIV');
+    var dotDiv = document.createElement('DIV');
+    dotDiv.className = "dot";
+    
+    innerUserLocationDiv.appendChild(beaconDiv);
+    innerUserLocationDiv.appendChild(dotDiv);
+
+    // Set the overlay's div_ property to this DIV
+    this.div_ = div;
+
+    // We add an overlay to a map via one of the map's panes.
+    // We'll add this overlay to the overlayImage pane.
+    var panes = this.getPanes();
+    panes.overlayImage.appendChild(div);
+  }
+  
+  UserLocationOverlay.prototype.draw = function() {
+
+    // Size and position the overlay. We use a southwest and northeast
+    // position of the overlay to peg it to the correct position and size.
+    // We need to retrieve the projection from this overlay to do this.
+    var overlayProjection = this.getProjection();
+
+    // Retrieve the southwest and northeast coordinates of this overlay
+    // in latlngs and convert them to pixels coordinates.
+    // We'll use these coordinates to resize the DIV.
+    // get bounds by faking a circle
+    var circle = new google.maps.Circle();
+    circle.setRadius(this.radius_);
+    circle.setCenter(this.center_);
+    var bounds = circle.getBounds();
+    var sw = overlayProjection.fromLatLngToDivPixel(bounds.getSouthWest());
+    var ne = overlayProjection.fromLatLngToDivPixel(bounds.getNorthEast());
+
+    // Resize the image's DIV to fit the indicated dimensions.
+    var div = this.div_;
+    div.style.left = sw.x + 'px';
+    div.style.top = ne.y + 'px';
+    div.style.width = (ne.x - sw.x) + 'px';
+    div.style.height = (sw.y - ne.y) + 'px';
+  } 
+
+  UserLocationOverlay.prototype.onRemove = function() {
+    this.div_.parentNode.removeChild(this.div_);
+    this.div_ = null;
+  }
+  
+  // Annotation
+  
+  AnnotationOverlay.prototype = new google.maps.OverlayView();
+
+  function AnnotationOverlay() {
+    // We define a property to hold the image's div. We'll 
+    // actually create this div upon receipt of the onAdd() 
+    // method so we'll leave it null for now.
+    this.div_ = null;
+    this.imageUrl_ = null;
+    this.imageTag_ = null;
+    this.marker_ = null;
+    this.calloutWrapper_ = null;
+    this.calloutCanvas_ = null;
+    this.calloutText_ = null;
+    this.set('position', new google.maps.LatLng(0,0));
+    this.marker_ = new google.maps.Marker();
+    var markerImage = new google.maps.MarkerImage('TransparentPixel.png', new google.maps.Size(1, 1), null, null, null);
+    this.marker_.setIcon(markerImage);
+    this.marker_.bindTo('map', this);
+    this.marker_.bindTo('position', this);
+    var me = this;
+    // Figure out a better way to call draw when position has changed.
+    google.maps.event.addListener(this.marker_, 'position_changed', function() {
+      me.draw();
+    });
+    
+    this.createCallout(); 
+  }
+  
+  AnnotationOverlay.prototype.getMarker = function()
+  {
+      return this.marker_;
+  }
+  
+  AnnotationOverlay.prototype.setImageUrl = function(url) {
+      this.imageUrl_ = url;
+      if (this.imageTag_)
+      {
+          this.imageTag_.src = url;
+      }
+  }
+  
+  AnnotationOverlay.prototype.getImageUrl = function() {
+      return this.imageUrl_;
+  }
+  
+  AnnotationOverlay.prototype.setOptions = function(options) {
+      //google.maps.OverlayView.prototype.setOptions(this, options);
+      var marker = this.marker_;
+      var annotation = this;
+      for (option in options)
+      {
+          var value = options[option];
+          if (option == "imageUrl")
+          {
+              annotation.setImageUrl(value);
+          }
+          else if (option == "position")
+          {
+              annotation.set('position', value);
+          }
+          else if (option == "draggable")
+          {
+              marker.setOptions({"draggable": value});
+              marker.setOptions({"optimized": false});
+              marker.setClickable(true);
+          }
+          else if (option == "title")
+          {
+              annotation.setCalloutText(value);
+          }
+          else if (option == "zIndex")
+          {
+              if (annotation.div_)
+                annotation.div_.style.zIndex = value;
+              if (annotation.imageTag_)
+                annotation.imageTag_.style.zIndex = value;
+              marker.setOptions({"zIndex": value});
+              if (annotation.calloutWrapper_)
+                annotation.calloutWrapper_.style.zIndex = value;
+          }
+      }
+  }
+  
+  AnnotationOverlay.prototype.updateMarker = function() {
+      var imageHeight =  this.imageTag_.offsetHeight;
+      var imageWidth = this.imageTag_.offsetWidth;
+      var markerImage = new google.maps.MarkerImage('TransparentPixel.png', new google.maps.Size(imageWidth, imageHeight), null, null, null);
+      this.marker_.setIcon(markerImage);
+      //this.marker_.setOptions({"draggable": true});
+  }
+  
+  AnnotationOverlay.prototype.createCallout = function() {
+        /* Creates something that looks like this:
+        <div id="myCallout" class="annotationCalloutWrapper">
+     	    <canvas id="myCalloutCanvas" class="annotationCallout"></canvas>
+     	    <div class="annotationCalloutLeftPad"></div>
+     	    <div class="annotationCalloutTextWrapper">
+     	        <span id="myCalloutText" class="annotationCalloutText">asfd</span>
+     	    </div>
+     	    <div class="annotationCalloutRightPad"></div>
+     	</div>
+     	*/
+      var calloutWrapperDiv = document.createElement('DIV');
+      calloutWrapperDiv.className = "annotationCalloutWrapper";
+      //calloutWrapperDiv.setAttribute('id','myCallout');
+      
+      var canvasElement = document.createElement("CANVAS");
+      canvasElement.className = "annotationCallout";
+      //canvasElement.setAttribute('id','myCalloutCanvas');
+      
+      var calloutTextWrapperDiv = document.createElement("DIV");
+      calloutTextWrapperDiv.className = "annotationCalloutTextWrapper";
+      
+      var calloutTextSpan = document.createElement("SPAN");
+      calloutTextSpan.className = "annotationCalloutText";
+      //calloutTextSpan.setAttribute('id','myCalloutText');
+      
+      calloutTextWrapperDiv.appendChild(calloutTextSpan);
+      
+      calloutWrapperDiv.appendChild(canvasElement);
+      calloutWrapperDiv.appendChild(calloutTextWrapperDiv);
+      
+      this.calloutWrapper_ = calloutWrapperDiv;
+      this.calloutCanvas_ = canvasElement;
+      this.calloutText_ = calloutTextSpan;
+  }
+  
+  AnnotationOverlay.prototype.drawCallout = function() {
+
+      // get the canvas element using the DOM
+      var canvas = this.calloutCanvas_;
+       // use getContext to use the canvas for drawing
+      var ctx = canvas.getContext('2d');
+
+      var width = canvas.offsetWidth;
+      var height = canvas.offsetHeight;
+      // Reset the coordinate space.
+      canvas.width = width;
+      canvas.height = height;
+      var offset = 0.5
+      
+      var radius = 5.0;
+      var TIP_HEIGHT = 13;
+      var TIP_WIDTH = 27;
+      var MARGIN = 4.0;
+      var minx = MARGIN + offset;
+      var midx = Math.round((width-MARGIN)/2) + offset;
+      var maxx = width - 2*MARGIN + offset;
+      var miny = MARGIN + offset;
+      var midy = MARGIN + Math.round((height-2*MARGIN)/2.0) - Math.round(TIP_HEIGHT/2) + offset;
+      var maxy = height - 2*MARGIN -TIP_HEIGHT + offset;
+
+      var tipTopLeftX = midx - Math.round(TIP_WIDTH/2);
+      var tipTopLeftY = maxy;
+      var tipTopRightX = midx + Math.round(TIP_WIDTH/2);
+      var tipTopRightY = maxy;
+      var tipBottomX = midx;
+      var tipBottomY = maxy + TIP_HEIGHT;
+
+      ctx.beginPath();
+      ctx.moveTo(minx, midy); // left edge
+      ctx.arc(minx+radius, miny+radius, radius, Math.PI, (3/2)*Math.PI, false);  // top left corner to top edge
+      ctx.arc(maxx-radius, miny+radius, radius,(3/2)*Math.PI, 0, false);  // top right corner, to right edge
+      ctx.arc(maxx-radius, maxy-radius, radius, 0, (1/2)*Math.PI, false);   // bottom right corner, to bottom edge
+      ctx.lineTo(tipTopRightX, tipTopRightY);  // down to tip
+      ctx.lineTo(tipBottomX, tipBottomY);  // down to tip
+      ctx.lineTo(tipTopLeftX, tipTopLeftY);  // back up to bottom edge-ish.
+      ctx.arc(minx+radius, maxy-radius, radius, (1/2)*Math.PI, Math.PI, false); // bottom left corner, to left edge
+      ctx.closePath();
+
+
+      
+      // Prep to draw shadow (WebKit doesn't support drawing shadows on gradients, so a hack is needed.)
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 3;
+      ctx.shadowColor = 'rgba(0,0,0,0.4);';
+      ctx.fill();
+      // Clear the path to draw the real stuff.
+      {
+          ctx.save();
+          ctx.globalCompositeOperation = 'copy';
+          ctx.fillStyle = 'rgba(0,0,0,0)';
+          ctx.fill();
+          ctx.restore();
+      }
+      // Draw real fill
+      var lingrad = ctx.createLinearGradient(0,0,0,maxy);    
+      lingrad.addColorStop(0, 'rgba(130,130,130,0.62);');
+      lingrad.addColorStop(0.55 , 'rgba(55,55,55,0.62);'); 
+      lingrad.addColorStop(0.5501 , 'rgba(20,20,20,0.62);'); 
+      lingrad.addColorStop(1, 'rgba(10,10,10,0.62);'); 
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#555'; //'rgba(0.9,0.9,0.9,1.0)';
+      ctx.stroke();
+      ctx.fillStyle = lingrad;
+      ctx.fill();
+      
+      minx = minx+1;
+      maxx = maxx-1;
+      miny = miny+1;
+      maxy = maxy-1;
+
+      tipTopLeftY = tipTopLeftY - 1;
+      tipTopRightY = tipTopRightY - 1;
+      tipBottomY = tipBottomY - 1;
+      
+      ctx.beginPath();
+      ctx.moveTo(minx, midy); // left edge
+      ctx.arc(minx+radius, miny+radius, radius, Math.PI, (3/2)*Math.PI, false);  // top left corner to top edge
+      ctx.arc(maxx-radius, miny+radius, radius,(3/2)*Math.PI, 0, false);  // top right corner, to right edge
+      ctx.arc(maxx-radius, maxy-radius, radius, 0, (1/2)*Math.PI, false);   // bottom right corner, to bottom edge
+      ctx.lineTo(tipTopRightX, tipTopRightY);  // down to tip
+      ctx.lineTo(tipBottomX, tipBottomY);  // down to tip
+      ctx.lineTo(tipTopLeftX, tipTopLeftY);  // back up to bottom edge-ish.
+      ctx.arc(minx+radius, maxy-radius, radius, (1/2)*Math.PI, Math.PI, false); // bottom left corner, to left edge
+      ctx.closePath();
+      
+      
+      var lingrad = ctx.createLinearGradient(0,0,0,height);   
+      lingrad.addColorStop(0, 'rgba(250,250,250,0.95);');
+      lingrad.addColorStop(0.3 , 'rgba(130,130,130,0.1);'); 
+      lingrad.addColorStop(0.75, 'rgba(150,150,150,0.1);');
+      lingrad.addColorStop(1, 'rgba(210,210,210,0.2);'); 
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = lingrad;
+      ctx.stroke();			
+      
+      // draw text.
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 16px Lucida Grande";
+      var text = this.calloutText_.innerHTML;
+      var ellipsisText = "...";
+      var ellipsisTextSize = ctx.measureText(ellipsisText);
+      var maxWidth = 250;
+      var textSize = ctx.measureText(text);
+      var truncated = false;
+      newText = text;
+      if (textSize.width > maxWidth)
+      {
+      	while(textSize.width + ellipsisTextSize.width > maxWidth)
+      	{
+      		newText = newText.substring(0, newText.length-1);
+              textSize = ctx.measureText(newText);
+      	}
+      	truncated = true;
+	  }
+  	  if (truncated){
+        newText =  newText + ellipsisText;
+  	  }
+      ctx.shadowBlur = 1;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = -1;
+      ctx.shadowColor = 'rgba(0,0,0,1);';
+      
+      var leftOffset = this.calloutText_.offsetLeft;
+      ctx.fillText(newText, leftOffset, 30);
+  }
+  
+  AnnotationOverlay.prototype.setCalloutText = function (newText) {
+      this.calloutText_.innerHTML = newText;
+      this.drawCallout();
+  }
+  
+  AnnotationOverlay.prototype.pulseCallout = function () {
+      this.calloutWrapper_.className = "annotationCalloutWrapper annotationCalloutPulseAnimation";
+  }
+  
+  AnnotationOverlay.prototype.placeCallout = function () {
+      if (this.div_ == null)
+        return;
+        
+      if (this.calloutWrapper_ ==  null)
+        return;
+        
+      var annotationCalloutElementWidth = this.calloutWrapper_.offsetWidth;
+	  var annotationCalloutElementHeight = this.calloutWrapper_.offsetHeight;
+	  var annotationElementCenterX = this.div_.offsetLeft + (this.div_.offsetWidth/2);
+	  var annotationElementTop = this.div_.offsetTop;
+	    
+	  this.calloutWrapper_.style.left = (annotationElementCenterX - (annotationCalloutElementWidth/2) ) + 2 + "px";
+	  this.calloutWrapper_.style.top = (annotationElementTop - annotationCalloutElementHeight) + 5 + "px";
+  }
+  
+  AnnotationOverlay.prototype.setCalloutHidden = function (isHidden) {
+        if (isHidden)
+        {
+            this.calloutWrapper_.style.display = "none";
+        }
+        else
+        {
+            this.calloutWrapper_.style.display = "block";
+            this.drawCallout();
+            this.placeCallout();
+            this.pulseCallout();
+        }
+  }
+  
+  AnnotationOverlay.prototype.onAdd = function() {
+     
+    // Note: an overlay's receipt of onAdd() indicates that
+    // the map's panes are now available for attaching
+    // the overlay to the map via the DOM.
+    var me = this;
+    
+
+
+    // Create the DIV and set some basic attributes.
+    var div = document.createElement('DIV');
+    div.className = "dropAnimation";
+    div.style.borderStyle = "none";
+    div.style.borderWidth = "0px";
+    div.style.position = "absolute";
+    
+    var imageTag = document.createElement('IMG');
+    imageTag.addEventListener(
+        'error',
+        function(event) {
+            AnnotationOverlay.prototype.draw.call(me);
+        },
+        false
+    );
+    
+    imageTag.addEventListener(
+        'load',
+        function(event) {
+            AnnotationOverlay.prototype.updateMarker.call(me);
+            AnnotationOverlay.prototype.draw.call(me);
+        },
+        false
+    );
+    this.imageTag_ = imageTag;
+
+    div.appendChild(imageTag);
+    // Set the overlay's div_ property to this DIV
+    this.div_ = div;
+
+    // We add an overlay to a map via one of the map's panes.
+    // We'll add this overlay to the overlayImage pane.
+    var panes = this.getPanes();
+    panes.overlayImage.appendChild(div);
+    panes.overlayImage.appendChild(this.calloutWrapper_);
+
+    
+    // set the image in case it's been set before we got here
+    this.setImageUrl(this.imageUrl_);
+  }
+  
+  AnnotationOverlay.prototype.draw = function() {
+    if (!this.div_)
+        return;
+    // Size and position the overlay. We use a southwest and northeast
+    // position of the overlay to peg it to the correct position and size.
+    // We need to retrieve the projection from this overlay to do this.
+    var overlayProjection = this.getProjection();
+
+    // Retrieve the southwest and northeast coordinates of this overlay
+    // in latlngs and convert them to pixels coordinates.
+    // We'll use these coordinates to resize the DIV.
+    // get bounds by faking a circle
+
+    var pxPoint = overlayProjection.fromLatLngToDivPixel(this.get('position'));
+    var imageWidth = this.imageTag_.offsetWidth;
+    var imageHeight = this.imageTag_.offsetHeight;
+    
+    // Resize the image's DIV to fit the indicated dimensions.
+    var div = this.div_;
+    div.style.left = pxPoint.x - imageWidth/2.0 + 'px';
+    div.style.top = pxPoint.y - imageHeight + 'px';
+    div.style.width = imageWidth + 'px';
+    div.style.height = imageHeight + 'px';
+    this.placeCallout();
+    this.drawCallout();
+  } 
+
+  AnnotationOverlay.prototype.onRemove = function() {
+    this.calloutWrapper_.parentNode.removeChild(this.calloutWrapper_);
+    this.div_.parentNode.removeChild(this.div_);
+    this.div_ = null;
+  }
+  
+  
+  function getMapType()
+  {
+      var mapType = google.maps.MapTypeId.ROADMAP;
+      switch (map.mapTypeId)
+      {
+        case google.maps.MapTypeId.ROADMAP:
+            mapType = 0;
+            break;
+        case google.maps.MapTypeId.SATELLITE:
+            mapType = 1;
+            break;
+        case google.maps.MapTypeId.HYBRID:
+            mapType = 2;
+            break;
+        default:
+            mapType = 0;
+      }
+      return mapType;
+  }
+  
+  function setMapType(mapType)
+  {
+      if (mapType == 0)
+        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+      else if (mapType == 1)
+        map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+      else if (mapType == 2)
+        map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+      return 0;
+  }
+  
+  function getCenterCoordinate()
+  {
+      var latlong = map.getCenter();
+      return JSON.stringify({"latitude":latlong.lat(), "longitude":latlong.lng()});
+  }
+  
+  function setCenterCoordinateAnimated(lat, lng, animated)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      if (animated == true)
+        map.panTo(latlng);
+      else
+        map.setCenter(latlng);  
+  }
+  
+  function getRegion()
+  {
+      var latlongBounds = map.getBounds();
+      var centerLatitude = latlongBounds.getCenter().lat();
+      var centerLongitude = latlongBounds.getCenter().lng();
+      var latitudeDelta = latlongBounds.toSpan().lat();
+      var longitudeDelta = latlongBounds.toSpan().lng();
+      var value = {"center": {"latitude": centerLatitude, "longitude": centerLongitude},
+        "latitudeDelta": latitudeDelta,
+        "longitudeDelta": longitudeDelta};
+      return JSON.stringify(value);
+  }
+  
+  function setRegionAnimated(centerLatitude, centerLongitude, latitudeDelta, longitudeDelta, animated)
+  {
+      var sw = new google.maps.LatLng(centerLatitude - latitudeDelta/2.0 , centerLongitude - longitudeDelta/2.0);
+      var ne = new google.maps.LatLng(centerLatitude + latitudeDelta/2.0 , centerLongitude + longitudeDelta/2.0);
+      var center = new google.maps.LatLng(centerLatitude, centerLongitude);
+      var bounds = new google.maps.LatLngBounds(sw, ne);
+      if (animated == true)
+        map.panToBounds(bounds);
+      else
+        map.fitBounds(bounds);
+  }
+  
+  // User Location Functions
+  
+  function createUserLocationMarker() {
+    userLocationMarker = new UserLocationOverlay();
+  }
+  
+  function setUserLocationLatitudeLongitude(lat, lng)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      userLocationMarker.setCenter(latlng);
+  }
+  
+  function setUserLocationRadius(meters)
+  {
+      userLocationMarker.setRadius(meters);
+  }
+  
+  function setUserLocationVisible(visible)
+  {
+      userLocationMarker.setMap(visible ? map : null);
+  }
+  
+  function isUserLocationVisible()
+  {
+      if (userLocationMarker == null)
+        return false;
+      var region = map.getBounds();
+      return (region.contains(userLocationMarker.getCenter()));
+  }
+  
+  // Overlay Functions
+  
+  function addOverlay(anOverlay)
+  {
+      if (overlays.indexOf(anOverlay) != -1)
+        return false;
+    
+      anOverlay.setMap(map);
+      overlays.push(anOverlay);
+      return true;
+  }
+  
+  function setOverlayOption(anOverlay, optionName, optionValue)
+  {
+      var option  = new Object();
+      option[optionName] = optionValue;// {optionName.toString(): optionValue};
+      
+      if (anOverlay && anOverlay.setOptions)
+      {
+          anOverlay.setOptions(option);
+      }
+      return JSON.stringify(option);
+  }
+  
+  function removeOverlay(anOverlay)
+  {
+      if (overlays.indexOf(anOverlay) == -1)
+        return;
+      anOverlay.setMap(null);
+      overlays.filter(function(element, index, array) { return element != anOverlay  });
+  }
+  
+  
+  // Annotations Functions
+  
+  function addAnnotation(anAnnotation)
+  {
+      if (annotations.indexOf(anAnnotation) != -1)
+        return false;
+    
+      anAnnotation.setMap(map);
+      annotations.push(anAnnotation);
+      if (anAnnotation.getMarker)
+      {
+          var marker = anAnnotation.getMarker();
+          google.maps.event.addListener(marker, 'click', function() {
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectSelected(anAnnotation);
+          });
+          google.maps.event.addListener(marker, 'rightclick', function() {
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectRightClick(anAnnotation);
+          });
+          google.maps.event.addListener(marker, 'dragstart', function() {
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectDragStart(anAnnotation);
+          });
+          google.maps.event.addListener(marker, 'drag', function() {
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectDrag(anAnnotation);
+          });
+          google.maps.event.addListener(marker, 'dragend', function() {
+            if (window.MKMapView) 
+              window.MKMapView.annotationScriptObjectDragEnd(anAnnotation);
+          });
+      }
+      return true;
+  }
+  
+  function removeAnnotation(anAnnotation)
+  {
+      if (annotations.indexOf(anAnnotation) == -1)
+        return;
+      anAnnotation.setMap(null);
+      annotations.filter(function(element, index, array) { return element != anAnnotation  });
+  }
+  
+  function coordinateForAnnotation(anAnnotation)
+  {
+      if (!anAnnotation || annotations.indexOf(anAnnotation) == -1)
+        return JSON.stringify({"latitude": 0, "longitude":0});
+        
+      var latlong = anAnnotation.get('position');
+      return JSON.stringify({"latitude":latlong.lat(), "longitude":latlong.lng()});
+  }
+  
+  function setAnnotationCalloutHidden(anAnnotation, isHidden)
+  {
+      if (annotations.indexOf(anAnnotation) == -1)
+        return;
+      
+      anAnnotation.setCalloutHidden(isHidden);
+  }
+  
+  function setAnnotationCalloutText(anAnnotation, text)
+  {
+      if (annotations.indexOf(anAnnotation) == -1)
+        return;
+      
+      anAnnotation.setCalloutText(text);
+  }
+  
+  // Converting Map Coordinates
+  
+  function convertCoordinate(lat, lng)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      
+      // Start hack to get access to MapCanvasProjection
+      var helper = new google.maps.OverlayView();
+      helper.setMap(map);
+      helper.draw = function () { 
+          if (!this.ready) { 
+              this.ready = true; 
+              google.maps.event.trigger(this, 'ready'); 
+          } 
+      };
+      var mapCanvasProjection = helper.getProjection();
+      // End hack to get to MapCanvasProjection
+            
+      var point = mapCanvasProjection.fromLatLngToContainerPixel(latlng);
+      helper.setMap(null);
+      return JSON.stringify({"x":point.x, "y":point.y});
+  }
+  
+  // Javascript and CSS addons
+  
+  function addJavascriptTag(url)
+  {
+      var scriptElement = document.createElement('SCRIPT');
+      scriptElement.type = "text/javascript";
+      scriptElement.src = url;
+      var head = document.getElementsByTagName("head")[0];
+      head.appendChild(scriptElement);   
+  }
+  
+  function addStylesheetTag(url)
+  {
+      var linkElement = document.createElement('LINK');
+      linkElement.type = "text/css";
+      linkElement.href = url;
+      linkElement.rel = "stylesheet";
+      var head = document.getElementsByTagName("head")[0];
+      head.appendChild(linkElement);
+      return url;
+  }
+  
+  // Easy Geocoding
+  
+  function showAddress(address)
+  {
+      var geocoder = new google.maps.Geocoder();
+
+      geocoder.geocode({'address': address}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0])
+                {
+                    var result = results[0];
+                    var latLng = result.geometry.location;
+                    if (!latLng)
+                        return;
+                    setCenterCoordinateAnimated(latLng.lat(), latLng.lng(), true);
+                    if(window.MKMapView) {window.MKMapView.webviewReportingRegionChange();}
+                }
+            }
+          });
+  }
+  
+  // Reverse Geocoding
+  
+  function reverseGeocode(lat, lng)
+  {
+      var latlng = new google.maps.LatLng(lat, lng);
+      var geocoder = new google.maps.Geocoder();
+      var MKReverseGeocoder = window.MKReverseGeocoder;
+      geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0])
+                    MKReverseGeocoder.didSucceedWithAddress(JSON.stringify(results[0]));
+                else
+                    MKReverseGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+                //alert(JSON.stringify(results[0]));
+            }
+            else if (status == google.maps.GeocoderStatus.ZERO_RESULTS)
+            {
+                MKReverseGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+            }
+	    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT)
+	    {
+		MKReverseGeocoder.didReachQueryLimit();
+	    }
+            else {
+                alert("error");
+                MKReverseGeocoder.didFailWithError("MKErrorDomain");
+            }
+          });
+    return MKReverseGeocoder;
+  }
+  
+  // Geocoding
+  
+  function geocode(address, lat, lng)
+  {
+      var latlng = null;
+      if (lat != null)
+      {
+          latlng = new google.maps.LatLng(lat, lng);
+      }
+
+      var geocoder = new google.maps.Geocoder();
+      var MKGeocoder = window.MKGeocoder;
+      var request = latlng ? {'address': address, 'latLng': latlng} : {'address': address};
+     
+      geocoder.geocode(request, 
+        function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0])
+                    MKGeocoder.didSucceedWithResult(JSON.stringify(results[0]));
+                else
+                    MKGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+                //alert(JSON.stringify(results[0]));
+            }
+            else if (status == google.maps.GeocoderStatus.ZERO_RESULTS)
+            {
+                MKGeocoder.didFailWithError("MKErrorPlacemarkNotFound");
+            } 
+	    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT)
+	    {
+		MKReverseGeocoder.didReachQueryLimit();
+	    }
+            else {
+                alert("error");
+                MKGeocoder.didFailWithError("MKErrorDomain");
+            }
+        }
+      );
+      return MKGeocoder;
+  }
+  
+  // End New API
+  
+  function initialize() {
+    // Start asynchronous load of CSS
+    addStylesheetTag("Animations.css");
+    addStylesheetTag("Stylesheet.css");
+      
+    map = null;
+    try {
+        var latlng = new google.maps.LatLng(49.85770356304121, -97.1528089768459);
+        var myOptions = {
+          zoom: 13,
+          center: latlng,
+          disableDefaultUI: true,
+          navigationControl: false,
+          scrollwheel: false,
+          navigationControlOptions: {
+              style: google.maps.NavigationControlStyle.SMALL,
+              position: google.maps.ControlPosition.TOP_LEFT
+          },
+          scaleControl: false,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        
+        var regionChangeFunction = function(){ 
+            if(window.MKMapView) {
+                window.MKMapView.webviewReportingRegionChange();
+            }
+        };
+        
+        var clickFunction = function(mouseEvent){ 
+            if(window.MKMapView) {
+                var jsonLatLong = JSON.stringify({"latitude":mouseEvent.latLng.lat(), "longitude":mouseEvent.latLng.lng()});
+                window.MKMapView.webviewReportingClick(jsonLatLong);
+            }
+        };
+        
+        google.maps.event.addListener(map, 'drag', regionChangeFunction);
+        google.maps.event.addListener(map, 'zoom_changed', regionChangeFunction);
+        google.maps.event.addListener(map, 'click', clickFunction);
+                
+        createUserLocationMarker();
+    } 
+    catch(err)
+    {
+        if(window.MKMapView) 
+        {
+            window.MKMapView.webviewReportingLoadFailure();
+        }
+    }
+
+    
+    if (map == null)
+    {
+        var mapView = document.getElementById("map_canvas");
+        mapView.innerHTML = "<div class='mapKitLoadError'><div class='mapKitLoadErrorCenter'><div class='mapKitLoadErrorMessage'>Error Loading MapView, an internet connection is required. <br/><button onclick='window.MKMapView.webviewReportingReloadGmaps()'>Retry</button></div></div></div>";
+    }
+    
+
+    
+
+    //setUserLocationRadius(222);
+    //setUserLocationLatitudeLongitude(49.8708880903330, -97.1528089768459);
+    //setUserLocationVisible(true);
+    /*
+    var anOverlay = new google.maps.Circle();
+    var ne = new google.maps.LatLng(49.84770356304121, -97.1528089768459);
+    var radius = 400;
+    var options = {"strokeWeight": 3.0, "fillColor": "#ff0000", "fillOpacity": 0.3,
+        "strokeColor": "#ff0000", "strokeOpacity": 1.0};
+    var moreOptions = {"radius": radius, "center": ne};
+    var colorOptions = {"strokeColor": "#ff0000"};
+    //addOverlay(anOverlay);
+    //anOverlay.setOptions(options);
+    anOverlay.setOptions(moreOptions);
+    anOverlay.setOptions(colorOptions);
+    
+    var polygonOverlay = new google.maps.Polygon();
+    var p1 = new google.maps.LatLng(49.83770356304121, -97.1628089768459);
+    var p2 = new google.maps.LatLng(49.86770356304121, -97.1628089768459);
+    var p3 = new google.maps.LatLng(49.86770356304121, -97.2028089768459);
+    var p4 = new google.maps.LatLng(49.85070356304121, -97.1758089768459);
+    var p5 = new google.maps.LatLng(49.85470356304121, -97.1758089768459);
+    var p6 = new google.maps.LatLng(49.85470356304121, -97.1828089768459);
+
+    polygonOverlay.setOptions({"paths": [[p1, p2, p3], [p4,p5,p6]]});
+    //polygonOverlay.setMap(map);
+    
+    var marker = new AnnotationOverlay();
+    var markerImage = new google.maps.MarkerImage('file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Debug/DemoApp.app/Contents/Resources/MarkerTest.png', null, null, null, null);
+    //var markerOptions = {"draggable": true, "icon": markerImage, "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459)};
+    var markerOptions = {"draggable": false, "imageUrl": 'file://localhost/Users/rfillion/Projects/centrix.ca/MapKit/Source/build/Release/MapKit.framework/Resources/MKPinAnnotationColorRed.png', "position": new google.maps.LatLng(49.83770356304121, -97.1628089768459), "title": "1"};
+    
+    setOverlayOption(marker, "draggable", markerOptions["draggable"]);
+    setOverlayOption(marker, "title", "asdf");
+    setOverlayOption(marker, "imageUrl", markerOptions["imageUrl"]);
+    setOverlayOption(marker, "position", markerOptions["position"]);
+    
+    //marker.setOptions(markerOptions); 
+    addAnnotation(marker);
+    //marker.setCalloutText("My Title");
+    marker.setCalloutHidden(true); 
+
+    //marker.setOptions(markerOptions); */
+    //reverseGeocode(49.8578255,-97.16531639999999);
+    //showAddress("255 Provencher Blvd Winnipeg MB")
+  }
+
+</script>
+</head>
+<body onload="initialize()">
+    <div id="MKMapViewTopLayer">
+    </div>
+        
+    <div id="map_canvas" style="top:0px; left:0px; width:100%; height:100%">
+        Loading MapKit...
+    <button>test</button>
+    </div>
+    <div class="zoomControls">
+        <div class="zoom" onClick="map.setZoom(map.getZoom()+1);">
+    		<div class="in"></div>
+    		<div class="out"></div>
+    		<div class="in2"></div>
+    	</div>
+
+    	<div class="zoom" onClick="map.setZoom(map.getZoom()-1);">
+    		<div class="out"></div>
+    	</div>
+    </div>
+
+</body>
+</html>

@@ -9,11 +9,13 @@
 #import "EvidenceSource.h"
 #import <CoreLocation/CoreLocation.h>
 #import <WebKit/WebKit.h>
+#import <MapKit/MapKit.h>
 
-@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate> {
+@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate,MKMapViewDelegate,MKGeocoderDelegate,MKReverseGeocoderDelegate> {
 	CLLocationManager *locationManager;
 	CLLocation *current, *selectedRule;
 	NSDate *startDate;
+    IBOutlet MKMapView *mapView;
 	
 	// for custom panel
 	IBOutlet WebView *webView;
@@ -22,6 +24,9 @@
 	NSString *coordinates;
 	NSString *accuracy;
 	NSString *htmlTemplate;
+    
+    NSMutableArray *mapAnnotations;
+    NSMutableArray *mapOverlays;
 }
 
 - (id) init;
