@@ -125,7 +125,7 @@
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
-		DAFC0E4514788ACB00DA6139 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */; };
+		DAFC0E4514788ACB00DA6139 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DAFC0E4614788B0500DA6139 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
