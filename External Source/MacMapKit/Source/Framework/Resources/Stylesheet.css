@@ -1,0 +1,181 @@
+body {
+    margin: 0px;
+    border: 1px solid rgba(129, 133, 141, 1.0);
+    -webkit-user-select: none;
+}
+
+div#MKMapViewTopLayer {
+    z-index:65565; 
+    position: absolute;
+    top:0px; 
+    left: 0px; 
+    width:100%; 
+    height:100%; 
+    pointer-events: none;
+}
+
+.beacon{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid rgba(100,140,221,0.9);
+    border-radius: 5000px;
+    -webkit-box-sizing: border-box;
+    background: rgba(15,95,245,0.1);
+}
+    
+.dot {
+    position: absolute;
+    background: -webkit-gradient(radial, 35% 25%, 1, 35% 25%, 4, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0.0))),
+                -webkit-gradient(linear, 0% 0%, 45% 90%, from(rgb(10,120,189)), to(rgb(59,165,255)), color-stop(0.5, rgb(41,99,255)),color-stop(0.75, rgb(61,130,255)));
+    -webkit-box-shadow: 0px 0px 3px rgba(70,130,255,0.85),
+                        inset 0px 1px 1px rgba(240,240,240,0.6);
+    border: 1px solid rgba(2,75,145,0.95);
+    width: 16px;
+    height: 16px;
+    border-radius:20px;
+    -webkit-box-sizing: border-box;
+    top:50%; 
+    margin-top:-8px;
+    left: 50%;
+    margin-left: -8px;
+}
+
+
+.zoomControls {
+    position:absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 9999;
+}
+.zoom{
+	height: 24px;
+	width: 24px;
+	background: -webkit-gradient(linear, left top, left bottom, from(hsla(0,0%,40%,1)), to(hsla(0,0%,32%,1)), color-stop(0.5, hsla(0,0%,34%,1)), color-stop(0.5, hsla(0,0%,32%,1)));
+	border-radius:4px;
+	margin: 4px;
+	position: relative;
+	border: 1px solid #212121;
+	-webkit-box-shadow:0px 0px 3px hsla(0,0%,100%,1);
+	-webkit-box-shadow: inset 0px 1px hsla(0,0%,100%,0.35);
+}
+.zoom:active {
+	background: -webkit-gradient(linear, left bottom, left top, from(hsla(0,0%,34%,1)), to(hsla(0,0%,30%,1)), color-stop(0.5, hsla(0,0%,29%,1)), color-stop(0.5, hsla(0,0%,21%,1)));
+	-webkit-box-shadow:0px 0px 1px rgba(30,30,30,0.9);
+	border: 1px solid #000;
+}
+.out{
+	height: 4px;
+	width: 14px;
+	background-color: #eee;
+	position: absolute;
+	top:50%;
+	margin-top:-3px;
+	left: 50%;
+    margin-left: -7px;
+    border-top: 1px solid #333;
+}
+
+.in{
+	height: 14px;
+	width: 4px;
+	background-color: #eee;
+	position: absolute;
+	top:50%;
+	margin-top:-8px;
+	left: 50%;
+    margin-left: -2px;
+    border-top: 1px solid #333;
+}
+.in2{
+	height: 14px;
+	width: 4px;
+	background-color: #eee;
+	position: absolute;
+	top:50%;
+	margin-top:-7px;
+	left: 50%;
+    margin-left: -2px;
+}
+
+/* Annotation Callout */
+
+span.annotationCalloutText 
+{
+    display:inline-block;
+    padding-top:10;
+    padding-left:0;
+    padding-right: 0;
+    z-index:100; 
+    color: rgba(0,1,0,0); 
+    max-width:250px;
+    font-size:16px; 
+    font-family: Lucida Grande; 
+    font-weight:bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+div.annotationCalloutTextWrapper
+{
+    display: inline; height:100%; float:left;
+    margin-left: 21px;
+    margin-right: 21px;
+    /*border: 1px solid blue;*/
+}
+
+canvas.annotationCallout
+{
+    height:100%; 
+    width:100%; 
+    left:0px; 
+    top:0px; 
+    position:absolute; 
+}
+div.annotationCalloutWrapper
+{
+    z-index:99; 
+    position:absolute; 
+    left:299px; 
+    top:158px;
+    height:64px;
+	width: auto;
+    display: none;
+}
+
+/* End Annotation Callout */
+
+/* Error Styling */
+
+div.mapKitLoadError
+{
+	height:100%;
+	width: 100%;
+	background-color: #ccc;
+	position: relative; 
+	overflow: hidden;
+	display: table;
+}
+
+div.mapKitLoadErrorCenter
+{
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	display: table-cell; 
+	vertical-align: middle;
+}
+
+div.mapKitLoadErrorMessage
+{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	width: 100%;
+	color: #333;
+	font-family: "Lucida Grande";
+	font-size: 12pt;
+	text-shadow: 0px 1px 1px #FFF;
+	vertical-align: middle;
+}
+
+/* End Error Styling */

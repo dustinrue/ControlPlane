@@ -1,0 +1,22 @@
+MapKit for Mac
+-------------
+MapKit for Mac is a framework for displaying maps in a Cocoa application that is API-compatible with Apple's [MapKit framework for iOS](http://developer.apple.com/library/ios/#documentation/MapKit/Reference/MapKit_Framework_Reference/_index.html).
+
+It Works
+--------
+MapKit for Mac implements nearly 100% of MK* functionality. It's been tested on Snow Leopard and Lion, and is currently in use by thousands of [Sidekick](http://oomphalot.com/sidekick) users.
+
+What's Provided
+---------------
+There's currently a framework, an IBPlugin for XCode3 users, and a small demo application.
+
+
+Documentation
+---------------
+Because the framework is API compatible with Apple's, you can use [their documentation](http://developer.apple.com/library/ios/#documentation/MapKit/Reference/MapKit_Framework_Reference/_index.html) as a reference.
+
+
+Licensing
+----------
+MapKit for Mac is distributed under the BSD license. However, MapKit for Mac uses Google services to provide map data. Use of specific classes of this framework (and their associated interfaces) binds you to the Google Maps/Google Earth API terms of service. You can find these terms of service at [http://code.google.com/apis/maps/terms.html](http://code.google.com/apis/maps/terms.html).
+
