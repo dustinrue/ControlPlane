@@ -52,18 +52,6 @@
 		DD23F88B1460E70E000665ED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F8471460E216000665ED /* Security.framework */; };
 		DD23F88D1460E899000665ED /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD23F88C1460E898000665ED /* IOKit.framework */; };
 		DD2A78C114855A640010AFE0 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD2A78BF14855A640010AFE0 /* ShellScriptRule.xib */; };
-		DD2A78C814855AF80010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
-		DD2A78CA14855B050010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
-		DD2A78CC14855B120010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
-		DD2A78CE14855B1C0010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
-		DD2A78D014855B240010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
-		DD2A78D214855B430010AFE0 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD2A78BF14855A640010AFE0 /* ShellScriptRule.xib */; };
-		DD2A78D414855B4C0010AFE0 /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
-		DD2A78D614855B730010AFE0 /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
-		DD2A78D814855B7A0010AFE0 /* LightRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2015A1411C35700DE570E /* LightRule.xib */; };
-		DD2A78DA14855B800010AFE0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201641411C37300DE570E /* MainMenu.xib */; };
-		DD2A78DC14855B880010AFE0 /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
-		DD2A78DE14855B8D0010AFE0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DD334A3714A7B073000F960A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC86C1143C107A00682538 /* Cocoa.framework */; };
 		DD334A5214A7B0F5000F960A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD334A4714A7B0C1000F960A /* Sparkle.framework */; };
 		DD334A5314A7B1F7000F960A /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DD334A4714A7B0C1000F960A /* Sparkle.framework */; };
@@ -88,7 +76,6 @@
 		DDB15211146F050C00FA7835 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DDB1520E146F050C00FA7835 /* BWQuincyMain.nib */; };
 		DDB15212146F050D00FA7835 /* BWQuincyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB1520F146F050C00FA7835 /* BWQuincyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDB15213146F050D00FA7835 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB15210146F050C00FA7835 /* BWQuincyManager.m */; };
-		DDB15217146F078300FA7835 /* Quincy.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DDB15216146F078300FA7835 /* Quincy.xcconfig */; };
 		DDB1521B146F090200FA7835 /* Quincy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151F9146F02BF00FA7835 /* Quincy.framework */; };
 		DDB1522F146F0F5100FA7835 /* Quincy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB151F9146F02BF00FA7835 /* Quincy.framework */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
@@ -974,7 +961,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ControlPlane" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1139,18 +1126,6 @@
 				DDFF423114156B0A0047D311 /* location.png in Resources */,
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
 				DD2A78C114855A640010AFE0 /* ShellScriptRule.xib in Resources */,
-				DD2A78C814855AF80010AFE0 /* TimeOfDayRule.xib in Resources */,
-				DD2A78CA14855B050010AFE0 /* TimeOfDayRule.xib in Resources */,
-				DD2A78CC14855B120010AFE0 /* TimeOfDayRule.xib in Resources */,
-				DD2A78CE14855B1C0010AFE0 /* TimeOfDayRule.xib in Resources */,
-				DD2A78D014855B240010AFE0 /* TimeOfDayRule.xib in Resources */,
-				DD2A78D214855B430010AFE0 /* ShellScriptRule.xib in Resources */,
-				DD2A78D414855B4C0010AFE0 /* CPHelperToolAuthorizationPrompts.strings in Resources */,
-				DD2A78D614855B730010AFE0 /* IPRule.xib in Resources */,
-				DD2A78D814855B7A0010AFE0 /* LightRule.xib in Resources */,
-				DD2A78DA14855B800010AFE0 /* MainMenu.xib in Resources */,
-				DD2A78DC14855B880010AFE0 /* TimeOfDayRule.xib in Resources */,
-				DD2A78DE14855B8D0010AFE0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1159,7 +1134,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDB15211146F050C00FA7835 /* BWQuincyMain.nib in Resources */,
-				DDB15217146F078300FA7835 /* Quincy.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

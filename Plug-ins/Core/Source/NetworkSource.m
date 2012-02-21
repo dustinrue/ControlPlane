@@ -62,7 +62,7 @@ static void storeChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *i
 	m_runLoop = SCDynamicStoreCreateRunLoopSource(NULL, m_store, 0);
 	
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), m_runLoop, kCFRunLoopCommonModes);
-	SCDynamicStoreSetNotificationKeys(m_store, (__bridge_retained CFArrayRef) keys, NULL);
+	SCDynamicStoreSetNotificationKeys(m_store, (__bridge CFArrayRef) keys, NULL);
 }
 
 - (void) unregisterCallback {
