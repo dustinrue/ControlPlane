@@ -436,7 +436,7 @@
 		DDB15076146ECC3900FA7835 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = DDB15079146ECC3900FA7835 /* Build configuration list for PBXProject "Framework" */;
 			compatibilityVersion = "Xcode 3.2";
