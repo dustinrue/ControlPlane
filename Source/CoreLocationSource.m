@@ -39,7 +39,6 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     
     mapAnnotations = [[NSMutableArray alloc] init];
     mapOverlays = [[NSMutableArray alloc] init];
-	
 
 	// for custom panel
 	scriptObject = nil;
@@ -52,26 +51,14 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (void)awakeFromNib {	
-    [mapView setShowsUserLocation: NO];
-    [mapView setDelegate: self];
-    
 
-    
     MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] init];
     reverseGeocoder.delegate = self;
     [reverseGeocoder start];
     
-    MKGeocoder *geocoderNoCoord = [[MKGeocoder alloc] init];
-    geocoderNoCoord.delegate = self;
-    //[geocoderNoCoord start];
-    
     MKGeocoder *geocoderCoord = [[MKGeocoder alloc] init];
     geocoderCoord.delegate = self;
     [geocoderCoord start];
-    
-	// show empty page
-	[webView setFrameLoadDelegate: self];
-	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
 
 }
 
@@ -79,7 +66,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	[locationManager stopUpdatingLocation];
 	[locationManager release];
 	
-	[current release];
+    [mapView release];
 	[selectedRule release];
 	
 	[super dealloc];
@@ -89,9 +76,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	if (running)
 		return;
 	
-	[locationManager startUpdatingLocation];
 	[self setDataCollected: YES];
-	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
+    [mapView setShowsUserLocation:YES];
 	
 	running = YES;
 }
@@ -100,8 +86,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	if (!running)
 		return;
 	
-	[locationManager stopUpdatingLocation];
 	[self setDataCollected: NO];
+    [mapView setShowsUserLocation:NO];
 	current = nil;
 	
 	running = NO;
@@ -150,8 +136,10 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         
         
         [mapView setRegion:theRegion animated:NO];
+        
 
-		[self setValue: add forKey: @"address"];
+		[self setValue: [NSString stringWithFormat:@"%f,%f", [mapView centerCoordinate].latitude, [mapView centerCoordinate].longitude] forKey: @"coordinates"];
+
 		selectedRule = [current copy];
     }
 	
@@ -168,10 +156,11 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// get coordinates of rule
 	CLLocation *ruleLocation = nil;
 	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
-	
+
+    DSLog(@"I'm at %f/%f %@", [mapView centerCoordinate].latitude,[mapView centerCoordinate].longitude, mapView);
 	// match if distance is smaller than accuracy
-	if (ruleLocation && current)
-		return [ruleLocation distanceFromLocation: current] <= current.horizontalAccuracy;
+	if (ruleLocation && [[[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude longitude:[mapView centerCoordinate].longitude] autorelease])
+		return [ruleLocation distanceFromLocation: [[[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude longitude:[mapView centerCoordinate].longitude] autorelease]] <= current.horizontalAccuracy;
 	else
 		return 0;
 }
@@ -433,6 +422,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
+    DSLog(@"\n\n\n\ngot something from reverseGeocoder %@", placemark);
+    
     
 }
 
