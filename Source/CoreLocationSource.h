@@ -14,9 +14,8 @@
 #define kLatSpan 0.0015
 #define kLonSpan 0.0015
 
-@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate,MKMapViewDelegate,MKGeocoderDelegate,MKReverseGeocoderDelegate> {
-	CLLocationManager *locationManager;
-	CLLocation *current, *selectedRule;
+@interface CoreLocationSource : EvidenceSource <MKMapViewDelegate,MKGeocoderDelegate,MKReverseGeocoderDelegate> {
+	CLLocation *selectedRule;
 	NSDate *startDate;
     IBOutlet MKMapView *mapView;
 	
@@ -45,7 +44,5 @@
 - (BOOL) doesRuleMatch: (NSDictionary *) rule;
 
 - (IBAction) showCoreLocation: (id) sender;
-- (BOOL) validateAddress: (inout NSString **) newValue error: (out NSError **) outError;
-- (BOOL) validateCoordinates: (inout NSString **) newValue error: (out NSError **) outError;
 
 @end

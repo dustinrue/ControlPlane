@@ -12,10 +12,6 @@
 
 @interface CoreLocationSource (Private)
 
-- (void) updateMap;
-+ (BOOL) geocodeAddress: (inout NSString **) address toLocation: (out CLLocation **) location;
-+ (BOOL) geocodeLocation: (in CLLocation *) location toAddress: (out NSString **) address;
-- (BOOL) isValidLocation: (CLLocation *) newLocation withOldLocation:(CLLocation *) oldLocation;
 + (BOOL) convertText: (in NSString *) text toLocation: (out CLLocation **) location;
 + (NSString *) convertLocationToText: (in CLLocation *) location;
 
@@ -23,17 +19,12 @@
 
 @implementation CoreLocationSource
 
-static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api/geocode/json?";
 
 - (id) init {
     self = [super initWithNibNamed:@"CoreLocationRule"];
     if (!self)
         return nil;
-    
-	locationManager = [CLLocationManager new];
-	locationManager.delegate = self;
-	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-	current = nil;
+
 	selectedRule = nil;
 	startDate = [[NSDate date] retain];
     
@@ -50,15 +41,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     return self;
 }
 
-- (void)awakeFromNib {	
-
-
-
-}
-
 - (void) dealloc {
-	[locationManager stopUpdatingLocation];
-	[locationManager release];
 	
     [mapView release];
 	[selectedRule release];
@@ -83,7 +66,6 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	[self setDataCollected: NO];
     [mapView setShowsUserLocation:NO];
-	current = nil;
 	
 	running = NO;
 }
@@ -101,12 +83,18 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 
 - (void) writeToPanel: (NSDictionary *) dict usingType: (NSString *) type {
 	[super writeToPanel: dict usingType: type];
-	NSString *add = @"";
-	
+
+    NSString *addressForPanel  = @"";
+    NSString *coordsForPanel   = @"0.0, 0.0";
+    NSNumber *accuracyForPanel = [NSNumber numberWithFloat:0.0];
+    
+    [self setValue:addressForPanel forKey:@"address"];
+    [self setValue:coordsForPanel forKey:@"coordinates"];
+    [self setValue:[NSString stringWithFormat:@"%dm", [accuracyForPanel integerValue]] forKey:@"accuracy"];
+    
 	// do we already have settings?
 	if ([dict objectForKey:@"parameter"]) {
 		[CoreLocationSource convertText: [dict objectForKey:@"parameter"] toLocation: &selectedRule];
-        //[mapView setShowsUserLocation:NO];
         
         [mapView setCenterCoordinate:selectedRule.coordinate];
         MKCoordinateRegion theRegion;
@@ -120,10 +108,13 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         pin.coordinate = [mapView centerCoordinate];
         pin.title = @"";
         [mapView addAnnotation:pin];
+        reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:selectedRule.coordinate];
+        [reverseGeocoder setDelegate:self];
+        [reverseGeocoder start];
         
+        coordsForPanel = [NSString stringWithFormat:@"%f,%f",selectedRule.coordinate.latitude, selectedRule.coordinate.longitude];
     }
 	else {
-        //[mapView setShowsUserLocation:YES];
         MKCoordinateRegion theRegion;
         theRegion.center = [mapView userLocation].coordinate;
         
@@ -134,19 +125,19 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         [mapView setRegion:theRegion animated:NO];
         
 
-		[self setValue: [NSString stringWithFormat:@"%f,%f", [mapView centerCoordinate].latitude, [mapView centerCoordinate].longitude] forKey: @"coordinates"];
+		coordsForPanel = [NSString stringWithFormat:@"%f,%f", [mapView centerCoordinate].latitude, [mapView centerCoordinate].longitude];
         
 
         reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:[mapView centerCoordinate]];
         [reverseGeocoder setDelegate:self];
         [reverseGeocoder start];
+        accuracyForPanel = [NSNumber numberWithFloat:[mapView userLocation].location.horizontalAccuracy];
+        [self setValue:[NSString stringWithFormat:@"%dm", [accuracyForPanel integerValue]] forKey:@"accuracy"];
         
-		selectedRule = [current copy];
     }
 	
-	// get corresponding address
-	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
-		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
+    [self setValue:coordsForPanel forKey:@"coordinates"];
+
 }
 
 - (NSString *) name {
@@ -156,239 +147,41 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 - (BOOL) doesRuleMatch: (NSDictionary *) rule {
 	// get coordinates of rule
 	CLLocation *ruleLocation = nil;
-    //DSLog(@"the reverse geocoder is %@", ([reverseGeocoder querying]) ? @"quering":@"not querying");
+    
 	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
 
-    DSLog(@"I'm at %f/%f %@", [mapView centerCoordinate].latitude,[mapView centerCoordinate].longitude, mapView);
+    CLLocation *currentLocation = [[[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude longitude:[mapView centerCoordinate].longitude] autorelease];
 	// match if distance is smaller than accuracy
-	if (ruleLocation && [[[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude longitude:[mapView centerCoordinate].longitude] autorelease])
-		return [ruleLocation distanceFromLocation: [[[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude longitude:[mapView centerCoordinate].longitude] autorelease]] <= current.horizontalAccuracy;
+	if (ruleLocation && currentLocation)
+		return [ruleLocation distanceFromLocation: currentLocation] <= currentLocation.horizontalAccuracy;
 	else
 		return 0;
 }
 
 - (IBAction) showCoreLocation: (id) sender {
-	NSString *add = nil;
-	
-	selectedRule = [current copy];
-	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
-		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
-
     
-    MKCoordinateRegion theRegion;
-    theRegion.center = [current coordinate];
+    NSString *coordsForPanel = @"0.0, 0.0";
+	MKCoordinateRegion theRegion;
+    theRegion.center = [mapView userLocation].coordinate;
+    
     MKCoordinateSpan theSpan = {kLatSpan,kLonSpan};
     theRegion.span = theSpan;
-
-    [mapView setRegion:theRegion animated:YES];
-    // show values
-	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
-	[self setValue: add forKey: @"address"];
-	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
+    
+    
+    [mapView setRegion:theRegion animated:NO];
+    
+    
+    coordsForPanel = [NSString stringWithFormat:@"%f,%f", [mapView centerCoordinate].latitude, [mapView centerCoordinate].longitude];
+    
+    
+    reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:[mapView centerCoordinate]];
+    [reverseGeocoder setDelegate:self];
+    [reverseGeocoder start];
+    [self setValue:coordsForPanel forKey:@"coordinates"];
 }
 
-#pragma mark -
-#pragma mark UI Validation
 
-- (BOOL) validateAddress: (inout NSString **) newValue error: (out NSError **) outError {
-	CLLocation *loc = nil;
-	
-	// check address
-	BOOL result = [CoreLocationSource geocodeAddress: newValue toLocation: &loc];
-	
-	// if correct, set coordinates
-	if (result) {
-		selectedRule = loc;
-		
-		[self setValue: [CoreLocationSource convertLocationToText: loc] forKey: @"coordinates"];
-		[self setValue: *newValue forKey: @"address"];
-		[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
-	}
-	
-	return result;
-}
 
-- (BOOL) validateCoordinates: (inout NSString **) newValue error: (out NSError **) outError {
-	CLLocation *loc = nil;
-	NSString *add = nil;
-	
-	// check coordinates
-	BOOL result = [CoreLocationSource convertText: *newValue toLocation: &loc];
-	
-	// if correct, set address
-	if (result) {
-		selectedRule = loc;
-		[CoreLocationSource geocodeLocation: loc toAddress: &add];
-		
-		[self setValue: *newValue forKey: @"coordinates"];
-		[self setValue: add forKey: @"address"];
-		[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
-	}
-	
-	return result;
-}
-
-#pragma mark -
-#pragma mark JavaScript stuff
-
-- (void) updateSelectedWithLatitude: (NSNumber *) latitude andLongitude: (NSNumber *) longitude {
-	NSString *add = nil;
-	
-	selectedRule = [[CLLocation alloc] initWithLatitude: [latitude doubleValue] longitude: [longitude doubleValue]];
-	if (![CoreLocationSource geocodeLocation: selectedRule toAddress: &add])
-		add = NSLocalizedString(@"Unknown address", @"CoreLocation");
-	
-	// show values
-	[self setValue: [CoreLocationSource convertLocationToText: selectedRule] forKey: @"coordinates"];
-	[self setValue: add forKey: @"address"];
-}
-
-- (void) webView: (WebView *) sender didFinishLoadForFrame: (WebFrame *) frame {
-	if (frame == [frame findFrameNamed:@"_top"]) {
-		scriptObject = [sender windowScriptObject];
-		[scriptObject setValue: self forKey:@"cocoa"];
-	}
-}
-
-+ (BOOL) isSelectorExcludedFromWebScript: (SEL) selector {
-	if (selector == @selector(updateSelectedWithLatitude:andLongitude:)) {
-		return NO;
-	}
-	
-	return YES;
-}
-
-+ (NSString *) webScriptNameForSelector: (SEL) sel {
-	if (sel == @selector(updateSelectedWithLatitude:andLongitude:))
-		return @"updateSelected";
-	
-	return nil;
-}
-
-#pragma mark -
-#pragma mark CoreLocation callbacks
-
-- (void) locationManager: (CLLocationManager *) manager
-	 didUpdateToLocation: (CLLocation *) newLocation
-			fromLocation: (CLLocation *) oldLocation {
-	
-	// Ignore invalid updates
-	if (![self isValidLocation: newLocation withOldLocation: oldLocation])
-		return;
-	
-	// location
-	current = [newLocation copy];
-	CLLocationDegrees lat = current.coordinate.latitude;
-	CLLocationDegrees lon = current.coordinate.longitude;
-	CLLocationAccuracy acc = current.horizontalAccuracy;
-	DSLog(@"New location: (%f, %f) with accuracy %f", lat, lon, acc);
-	
-	// store
-	[self setValue: [NSString stringWithFormat: @"%d m", (int) acc] forKey: @"accuracy"];
-}
-
-- (void) locationManager: (CLLocationManager *) manager didFailWithError: (NSError *) error {
-	DSLog(@"Location manager failed with error: %@", [error localizedDescription]);
-	
-	switch (error.code) {
-		case kCLErrorDenied:
-			DSLog(@"Core Location denied!");
-			[self stop];
-			break;
-		default:
-			break;
-	}
-}
-
-#pragma mark -
-#pragma mark Helper functions
-
-- (void) updateMap {
-	// Get coordinates and replace placeholders with these
-	NSString *htmlString = [NSString stringWithFormat: htmlTemplate,
-							(current ? current.coordinate.latitude : 0.0),
-							(current ? current.coordinate.longitude : 0.0),
-							(selectedRule ? selectedRule.coordinate.latitude : 0.0),
-							(selectedRule ? selectedRule.coordinate.longitude : 0.0),
-							(current ? current.horizontalAccuracy : 0.0)];
-	
-	// Load the HTML in the WebView
-	[webView.mainFrame loadHTMLString: htmlString baseURL: nil];
-}
-
-+ (BOOL) geocodeAddress: (NSString **) address toLocation: (CLLocation **) location {
-	NSString *param = [*address stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-	NSString *url = [NSString stringWithFormat: @"%@address=%@&sensor=false", kGoogleAPIPrefix, param];
-	DSLog(@"%@", url);
-	
-	// fetch and parse response
-	NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString: url]];
-	if (!jsonData)
-		return NO;
-	NSDictionary *data = [[JSONDecoder decoder] objectWithData: jsonData];
-	
-	// check response status
-	if (![[data objectForKey: @"status"] isEqualToString: @"OK"])
-		return NO;
-	
-	// check number of results
-	if ([[data objectForKey: @"results"] count] == 0)
-		return NO;
-	NSDictionary *result = [[data objectForKey: @"results"] objectAtIndex: 0];
-	
-	*address = [[result objectForKey: @"formatted_address"] copy];
-	double lat = [[[[result objectForKey: @"geometry"] objectForKey: @"location"] objectForKey: @"lat"] doubleValue];
-	double lon = [[[[result objectForKey: @"geometry"] objectForKey: @"location"] objectForKey: @"lng"] doubleValue];
-	*location = [[CLLocation alloc] initWithLatitude: lat longitude: lon];
-	
-	return YES;
-}
-
-+ (BOOL) geocodeLocation: (CLLocation *) location toAddress: (NSString **) address {
-	NSString *url = [NSString stringWithFormat: @"%@latlng=%f,%f&sensor=false",
-					 kGoogleAPIPrefix, location.coordinate.latitude, location.coordinate.longitude];
-	
-	// fetch and parse response
-	NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString: url]];
-	if (!jsonData)
-		return NO;
-	NSDictionary *data = [[JSONDecoder decoder] objectWithData: jsonData];
-	
-	// check response status
-	if (![[data objectForKey: @"status"] isEqualToString: @"OK"])
-		return NO;
-	
-	// check number of results
-	NSArray *results = [data objectForKey: @"results"];
-	if ([results count] == 0)
-		return NO;
-	
-	*address = [[results objectAtIndex: 0] objectForKey: @"formatted_address"];
-	return YES;
-}
-
-- (BOOL) isValidLocation: (CLLocation *) newLocation withOldLocation:(CLLocation *) oldLocation {
-	// Filter out nil locations
-	if (!newLocation)
-		return NO;
-	
-	// Filter out points by invalid accuracy
-	if (newLocation.horizontalAccuracy < 0)
-		return NO;
-	
-	// Filter out points that are out of order
-	NSTimeInterval secondsSinceLastPoint = [newLocation.timestamp timeIntervalSinceDate: oldLocation.timestamp];
-	if (secondsSinceLastPoint < 0)
-		return NO;
-
-	// Filter out points created before the manager was initialized
-	NSTimeInterval secondsSinceManagerStarted = [newLocation.timestamp timeIntervalSinceDate: startDate];
-	if (secondsSinceManagerStarted < 0)
-		return NO;
-	
-	// The newLocation is good to use
-	return YES;
-}
 
 + (BOOL) convertText: (in NSString *) text toLocation: (out CLLocation **) location {
 	double lat = 0.0, lon = 0.0;
@@ -413,21 +206,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 
 #pragma mark -
 #pragma mark MKMapKit delegates
-- (MKOverlayView *)mapView:(MKMapView *)aMapView viewForOverlay:(id <MKOverlay>)overlay
-{
-    DSLog(@"hi");
-    MKCircleView *circleView = [[[MKCircleView alloc] initWithCircle:overlay] autorelease];
-    return circleView;
-    
-    MKPolygonView *polygonView = [[[MKPolygonView alloc] initWithPolygon:overlay] autorelease];
-    return polygonView;
-}
-
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
-    DSLog(@"\n\n\n\ngot something from reverseGeocoder %@", placemark);
-    
-    NSDictionary *addressData = [placemark addressDictionary];
-    //[self setValue:[addressData valueForKey:@"thoroughfare"] forKey:@"address"];
+    [self setValue:[NSString stringWithFormat:@"%@, %@, %@, %@",[placemark thoroughfare], [placemark locality],[placemark administrativeArea], [placemark countryCode]] forKey:@"address"];
     
 }
 
@@ -445,7 +225,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView {
-    DSLog(@"got map finished loading");
+    //DSLog(@"got map finished loading");
 }
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error {
