@@ -11,6 +11,9 @@
 #import <WebKit/WebKit.h>
 #import <MapKit/MapKit.h>
 
+#define kLatSpan 0.0015
+#define kLonSpan 0.0015
+
 @interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate,MKMapViewDelegate,MKGeocoderDelegate,MKReverseGeocoderDelegate> {
 	CLLocationManager *locationManager;
 	CLLocation *current, *selectedRule;
@@ -27,6 +30,8 @@
     
     NSMutableArray *mapAnnotations;
     NSMutableArray *mapOverlays;
+    
+    MKReverseGeocoder *reverseGeocoder;
 }
 
 - (id) init;

@@ -52,13 +52,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 
 - (void)awakeFromNib {	
 
-    MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] init];
-    reverseGeocoder.delegate = self;
-    [reverseGeocoder start];
-    
-    MKGeocoder *geocoderCoord = [[MKGeocoder alloc] init];
-    geocoderCoord.delegate = self;
-    [geocoderCoord start];
+
 
 }
 
@@ -78,6 +72,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	[self setDataCollected: YES];
     [mapView setShowsUserLocation:YES];
+    [mapView setDelegate:self];
 	
 	running = YES;
 }
@@ -111,12 +106,12 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// do we already have settings?
 	if ([dict objectForKey:@"parameter"]) {
 		[CoreLocationSource convertText: [dict objectForKey:@"parameter"] toLocation: &selectedRule];
-        [mapView setShowsUserLocation:NO];
+        //[mapView setShowsUserLocation:NO];
         
         [mapView setCenterCoordinate:selectedRule.coordinate];
         MKCoordinateRegion theRegion;
         theRegion.center = [mapView centerCoordinate];
-        MKCoordinateSpan theSpan = {0.0015,0.0015};
+        MKCoordinateSpan theSpan = {kLatSpan,kLonSpan};
         theRegion.span = theSpan;
         
         [mapView setRegion:theRegion animated:NO];
@@ -128,10 +123,11 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         
     }
 	else {
-        [mapView setShowsUserLocation:YES];
+        //[mapView setShowsUserLocation:YES];
         MKCoordinateRegion theRegion;
-        theRegion.center = [mapView centerCoordinate];
-        MKCoordinateSpan theSpan = {0.0015,0.0015};
+        theRegion.center = [mapView userLocation].coordinate;
+        
+        MKCoordinateSpan theSpan = {kLatSpan,kLonSpan};
         theRegion.span = theSpan;
         
         
@@ -139,7 +135,12 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         
 
 		[self setValue: [NSString stringWithFormat:@"%f,%f", [mapView centerCoordinate].latitude, [mapView centerCoordinate].longitude] forKey: @"coordinates"];
+        
 
+        reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:[mapView centerCoordinate]];
+        [reverseGeocoder setDelegate:self];
+        [reverseGeocoder start];
+        
 		selectedRule = [current copy];
     }
 	
@@ -155,6 +156,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 - (BOOL) doesRuleMatch: (NSDictionary *) rule {
 	// get coordinates of rule
 	CLLocation *ruleLocation = nil;
+    //DSLog(@"the reverse geocoder is %@", ([reverseGeocoder querying]) ? @"quering":@"not querying");
 	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
 
     DSLog(@"I'm at %f/%f %@", [mapView centerCoordinate].latitude,[mapView centerCoordinate].longitude, mapView);
@@ -175,7 +177,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     
     MKCoordinateRegion theRegion;
     theRegion.center = [current coordinate];
-    MKCoordinateSpan theSpan = {0.001,0.001};
+    MKCoordinateSpan theSpan = {kLatSpan,kLonSpan};
     theRegion.span = theSpan;
 
     [mapView setRegion:theRegion animated:YES];
@@ -424,10 +426,13 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
     DSLog(@"\n\n\n\ngot something from reverseGeocoder %@", placemark);
     
+    NSDictionary *addressData = [placemark addressDictionary];
+    //[self setValue:[addressData valueForKey:@"thoroughfare"] forKey:@"address"];
     
 }
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error {
+    DSLog(@"there was an error %@", error);
     
 }
 
