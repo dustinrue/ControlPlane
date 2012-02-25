@@ -18,6 +18,9 @@
 	CLLocation *selectedRule;
 	NSDate *startDate;
     IBOutlet MKMapView *mapView;
+    
+    CLLocation *currentLocation;
+    NSNumber *currentAccuracy;
 	
 	// for custom panel
 	IBOutlet WebView *webView;
@@ -32,6 +35,9 @@
     
     MKReverseGeocoder *reverseGeocoder;
 }
+
+@property (readwrite, retain) CLLocation *currentLocation;
+@property (readwrite, assign) NSNumber *currentAccuracy;
 
 - (id) init;
 - (void) dealloc;

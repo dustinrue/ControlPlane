@@ -19,6 +19,8 @@
 
 @implementation CoreLocationSource
 
+@synthesize currentLocation;
+@synthesize currentAccuracy;
 
 - (id) init {
     self = [super initWithNibNamed:@"CoreLocationRule"];
@@ -150,7 +152,6 @@
     
 	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
 
-    CLLocation *currentLocation = [[[CLLocation alloc] initWithLatitude:[mapView centerCoordinate].latitude longitude:[mapView centerCoordinate].longitude] autorelease];
 	// match if distance is smaller than accuracy
 	if (ruleLocation && currentLocation)
 		return [ruleLocation distanceFromLocation: currentLocation] <= currentLocation.horizontalAccuracy;
@@ -194,7 +195,7 @@
 	// get values
 	lat = [[comp objectAtIndex: 0] doubleValue];
 	lon = [[comp objectAtIndex: 1] doubleValue];
-    DSLog(@"lat/long of the rule is %f/%f", lat,lon);
+    
 	*location = [[CLLocation alloc] initWithLatitude: lat longitude: lon];
 	
 	return YES;
@@ -238,5 +239,10 @@
     view.draggable = YES;
 
     return view;
+}
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    DSLog(@"new location %@", userLocation.location.timestamp);
+    [self setCurrentLocation:[[[CLLocation alloc] initWithCoordinate:userLocation.coordinate altitude:userLocation.location.altitude horizontalAccuracy:userLocation.location.horizontalAccuracy verticalAccuracy:userLocation.location.verticalAccuracy timestamp:userLocation.location.timestamp] autorelease]];
 }
 @end
