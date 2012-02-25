@@ -75,12 +75,22 @@
 - (NSMutableDictionary *) readFromPanel {
 	NSMutableDictionary *dict = [super readFromPanel];
 	
+    [mapAnnotations removeAllObjects];
 	// store values
 	[dict setValue: coordinates forKey: @"parameter"];
 	if (![dict objectForKey: @"description"])
 		[dict setValue: address forKey: @"description"];
 	
 	return dict;
+}
+
+- (void) closeSheetWithCancel:(id)sender {
+    [super closeSheetWithCancel:sender];
+
+    for (id annotation in mapAnnotations) 
+        [mapView removeAnnotation:annotation];
+    
+    [mapAnnotations removeAllObjects];
 }
 
 - (void) writeToPanel: (NSDictionary *) dict usingType: (NSString *) type {
@@ -110,6 +120,9 @@
         pin.coordinate = [mapView centerCoordinate];
         pin.title = @"";
         [mapView addAnnotation:pin];
+        
+        [mapAnnotations addObject:pin];
+        
         reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:selectedRule.coordinate];
         [reverseGeocoder setDelegate:self];
         [reverseGeocoder start];
