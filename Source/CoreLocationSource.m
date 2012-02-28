@@ -3,7 +3,8 @@
 //	ControlPlane
 //
 //	Created by David Jennes on 03/09/11.
-//	Copyright 2011. All rights reserved.
+//  Modified by Dustin Rue to use MKMapKit 24/02/12
+//	Copyright 2012. All rights reserved.
 //
 
 #import "CoreLocationSource.h"
