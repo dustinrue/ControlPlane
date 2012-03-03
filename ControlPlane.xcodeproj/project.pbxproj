@@ -97,6 +97,7 @@
 		DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
+		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; };
 		DA8064A3147990FD00267B5A /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DA8064A0147990FD00267B5A /* BWQuincyMain.nib */; };
 		DA8064A4147990FD00267B5A /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8064A2147990FD00267B5A /* BWQuincyManager.m */; };
 		DA8064BF1479911B00267B5A /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8064A2147990FD00267B5A /* BWQuincyManager.m */; };
@@ -396,6 +397,8 @@
 		DA6D184A1154581000347E93 /* LmuTracker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LmuTracker.c; path = Source/LmuTracker/LmuTracker.c; sourceTree = "<group>"; };
 		DA6D184C1154581700347E93 /* LmuTrackerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LmuTrackerCommon.h; path = Source/LmuTracker/LmuTrackerCommon.h; sourceTree = "<group>"; };
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
+		DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPBonjourResolver.h; path = Source/CPBonjourResolver.h; sourceTree = "<group>"; };
+		DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPBonjourResolver.m; path = Source/CPBonjourResolver.m; sourceTree = "<group>"; };
 		DA8064A0147990FD00267B5A /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = BWQuincyMain.nib; sourceTree = "<group>"; };
 		DA8064A1147990FD00267B5A /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
 		DA8064A2147990FD00267B5A /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
@@ -717,6 +720,8 @@
 			isa = PBXGroup;
 			children = (
 				8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */,
+				DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */,
+				DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */,
 				8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */,
 				8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */,
 				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
@@ -1264,6 +1269,7 @@
 				DA461C0C14C33E3C0019594A /* NSString+ShellScriptHelper.m in Sources */,
 				DA49AF6C14C3E0AB00D03D6A /* TogglePrinterSharingAction.m in Sources */,
 				DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */,
+				DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,7 @@
 #import "BonjourEvidenceSource.h"
 #import "DSLogger.h"
 #import "NSTimer+Invalidation.h"
+#import "CPBonjourResolver.h"
 
 @interface BonjourEvidenceSource (Private)
 
@@ -30,8 +31,9 @@
 	
 	scanTimer = nil;
 	stage = 0;
-	browser = [[NSNetServiceBrowser alloc] init];
-	[browser setDelegate:self];
+	topLevelNetworkBrowser = [[CPBonjourResolver alloc] init];
+    cpBonjourResolvers  = [[NSMutableArray alloc] init];
+	
 	services = [[NSMutableArray alloc] init];
 
 	hits = [[NSMutableArray alloc] init];
@@ -43,7 +45,7 @@
 - (void)dealloc
 {
 	[lock release];
-	[browser release];
+	[topLevelNetworkBrowser release];
 	[services release];
 
 	[hits release];
@@ -56,10 +58,11 @@
 {
 	if (running)
 		return;
-
+    [super start];
+    
 	[self considerScanning:self];
 
-	[super start];
+	
 }
 
 - (void)stop
@@ -67,14 +70,22 @@
 	if (!running)
 		return;
 
-	[browser stop];
+	[topLevelNetworkBrowser stop];
+    
+    for (CPBonjourResolver *goingAway in cpBonjourResolvers) {
+        [goingAway stop];
+        [goingAway release];
+    }
+    
+    //[topLevelNetworkBrowser release];
 
 	[super stop];
 }
 
 - (void)doUpdate
 {
-	[self considerScanning:nil];
+   
+	NSLog(@"I know about %@", services);
 }
 
 - (void)clearCollectedData
@@ -92,8 +103,9 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	BOOL match = NO;
 
+	BOOL match = NO;
+    
 	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@"/"];
 	if ([comp count] != 2)
 		return NO;	// corrupted rule
@@ -122,19 +134,16 @@
 - (NSArray *)getSuggestions
 {
 	[lock lock];
-	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[hits count]];
-
-	NSEnumerator *en = [hits objectEnumerator];
-	NSDictionary *hit;
-	while ((hit = [en nextObject])) {
-		NSString *host = [hit valueForKey:@"host"], *service = [hit valueForKey:@"service"];
-		NSString *desc = [NSString stringWithFormat:@"%@ on %@", service, host];
-		NSString *param = [NSString stringWithFormat:@"%@/%@", host, service];
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[services count]];
+    for (NSNetService *aService in services) {
+		NSString *desc = [NSString stringWithFormat:@"%@ on %@", [aService type], [aService hostName]];
+		NSString *param = [NSString stringWithFormat:@"%@/%@", [aService hostName], [aService type]];
 		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			@"Bonjour", @"type",
-			param, @"parameter",
-			desc, @"description", nil]];
-	}
+                        @"Bonjour", @"type",
+                        param, @"parameter",
+                        desc, @"description", nil]];
+    }
+
 	[lock unlock];
 
 	return arr;
@@ -143,21 +152,15 @@
 // Triggers stage 1 scanning (probing for services); pass self as arg if this is the initial scan
 - (void)considerScanning:(id)arg
 {
-	if (!running && (arg != self))
+	if (!running)
 		return;
 
-	[lock lock];
-	if (stage != 0) {
-		[lock unlock];
-		return;
-	}
-	stage = 1;
-	[lock unlock];
-
+    [cpBonjourResolvers removeAllObjects];
 	[services removeAllObjects];
 
 	// This finds all service types
-	[browser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
+    [topLevelNetworkBrowser setDelegate:self];
+	[topLevelNetworkBrowser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
 }
 
 // Forces an end to stage 2 scanning
@@ -175,7 +178,7 @@
 
 - (void)runNextStage2Scan:(id)arg
 {
-	[browser stop];
+	[topLevelNetworkBrowser stop];
 	scanTimer = nil;
 
 	// Send off scan for the next service we heard about during stage 1
@@ -184,7 +187,7 @@
 		return;
 	}
 	NSString *service = [services objectAtIndex:0];
-	[browser searchForServicesOfType:service inDomain:@""];
+	[topLevelNetworkBrowser searchForServicesOfType:service inDomain:@""];
 	[services removeObjectAtIndex:0];
 #ifdef DEBUG_MODE
 	//NSLog(@"Sent probe for hosts offering service %@", service);
@@ -196,73 +199,41 @@
 												 repeats: NO] retain];
 }
 
-#pragma mark NSNetServiceBrowser delegate methods
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-	   didFindService:(NSNetService *)netService
-	       moreComing:(BOOL)moreServicesComing
-{
-	if (stage == 1) {
-		// Sample data here would be:
-		//	name:	_growl
-		//	type:	_tcp.local.
-		//	domain:	.
-		NSString *service = [NSString stringWithFormat:@"%@.%@", [netService name], [netService type]];
-		if ([service hasSuffix:@".local."])
-			service = [service substringToIndex:([service length] - 6)];
-#ifdef DEBUG_MODE
-		//NSLog(@"Heard about service [%@]", service);
-#endif
-		[services addObject:service];
-	} else if (stage == 2) {
-		// Sample data here would be:
-		//	name:	Serenity
-		//	type:	_growl._tcp.
-		//	domain:	local.
-		NSDictionary *hit = [NSDictionary dictionaryWithObjectsAndKeys:
-			[netService name], @"host",
-			[netService type], @"service",
-			nil];
-#ifdef DEBUG_MODE
-		//NSLog(@"Found: %@", hit);
-#endif
-		[hitsInProgress addObject:hit];
-	}
-
-	if (moreServicesComing)
-		return;
-
-	[netServiceBrowser stop];
-	if (stage == 1) {
-		stage = 2;
-		[hitsInProgress removeAllObjects];
-		scanTimer = nil;
-	}
-	
-	scanTimer = [scanTimer checkAndInvalidate];
-	[self runNextStage2Scan:nil];
+- (void) foundItemsDidChange:(id)sender {
+    
+    // if the sender is our top level network browser then ControlPlane
+    // needs to take all of the found services and create new instances
+    // of CPBonjourResolver for each one.  This 
+    if (sender == topLevelNetworkBrowser) {
+        
+        for (NSNetService *aService in [sender foundItems]) {
+            CPBonjourResolver *tmp = [[[CPBonjourResolver alloc] init] retain];
+            [cpBonjourResolvers addObject:tmp];
+            [tmp setDelegate:self];
+            [tmp searchForServicesOfType:[NSString stringWithFormat:@"%@.%@", [aService name],[CPBonjourResolver stripLocal:[aService type]]] inDomain:@"local."];
+            //[tmp searchForServicesOfType:[NSString stringWithFormat:@"_adisk._tcp.", [aService name],[CPBonjourResolver stripLocal:[aService type]]] inDomain:@"local."];
+            
+        }
+    }
+    else {
+        for (NSNetService *aService in [sender foundItems]) {
+            //NSLog(@"found %@ on %@", [aService type], [aService hostName]);
+            CPBonjourResolver *tmp = [[[CPBonjourResolver alloc] init] retain];
+            [tmp setDelegate:self];
+            [tmp doResolveForService:aService];
+            
+        }
+    }
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-	 didRemoveService:(NSNetService *)netService
-	       moreComing:(BOOL)moreServicesComing
-{
-#ifdef DEBUG_MODE
-	//NSLog(@"%s called.", __PRETTY_FUNCTION__);
-#endif
+- (void) resolvedServiceArrived:(id)sender {
+    dataCollected = YES;
+    [services addObject:sender];
 }
 
-- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser
-{
-#ifdef DEBUG_MODE
-	//NSLog(@"%s called.", __PRETTY_FUNCTION__);
-#endif
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-	     didNotSearch:(NSDictionary *)errorInfo
-{
-	DSLog(@"failure:\n%@", errorInfo);
+- (void) serviceRemoved:(NSNetService *)removedService {
+    [services removeObject:removedService];
 }
 
 @end

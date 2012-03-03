@@ -6,14 +6,16 @@
 //
 
 #import "GenericLoopingEvidenceSource.h"
+#import "CPBonjourResolver.h"
 
 
-@interface BonjourEvidenceSource : GenericLoopingEvidenceSource<NSNetServiceBrowserDelegate> {
+@interface BonjourEvidenceSource : GenericLoopingEvidenceSource<CPBonjourResolverDelegate> {
 	NSLock *lock;
 
 	// TODO: do we need an NSLock to protect this stuff?
 	int stage;	// 0 = idle, 1 = searching for services, 2 = enumerating those services
-	NSNetServiceBrowser *browser;
+	CPBonjourResolver *topLevelNetworkBrowser;
+    NSMutableArray *cpBonjourResolvers;
 	NSMutableArray *services;
 	NSTimer *scanTimer;
 
