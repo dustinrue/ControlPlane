@@ -17,6 +17,8 @@
 	CPBonjourResolver *topLevelNetworkBrowser;
     NSMutableArray *cpBonjourResolvers;
 	NSMutableArray *services;
+    NSMutableArray *servicesBeingResolved;
+    
 	NSTimer *scanTimer;
 
 	NSMutableArray *hits;

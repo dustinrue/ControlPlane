@@ -33,6 +33,7 @@
 	stage = 0;
 	topLevelNetworkBrowser = [[CPBonjourResolver alloc] init];
     cpBonjourResolvers  = [[NSMutableArray alloc] init];
+    servicesBeingResolved = [[NSMutableArray alloc] init];
 	
 	services = [[NSMutableArray alloc] init];
 
@@ -47,6 +48,8 @@
 	[lock release];
 	[topLevelNetworkBrowser release];
 	[services release];
+    [cpBonjourResolvers release];
+    [servicesBeingResolved release];
 
 	[hits release];
 	[hitsInProgress release];
@@ -72,10 +75,34 @@
 
 	[topLevelNetworkBrowser stop];
     
+    [services removeAllObjects];
+    
     for (CPBonjourResolver *goingAway in cpBonjourResolvers) {
+        
         [goingAway stop];
-        [goingAway release];
+        
+        while ([goingAway retainCount] > 1) {
+            [goingAway release];
+        }
+        
+        
     }
+    [cpBonjourResolvers removeAllObjects];
+    
+    for (CPBonjourResolver *aService in servicesBeingResolved) {
+        
+        [aService stop];
+        while ([aService retainCount] > 1) {
+            [aService release];
+        }
+
+        
+    }
+    [servicesBeingResolved removeAllObjects];
+
+
+    
+    //[services removeAllObjects];
     
     //[topLevelNetworkBrowser release];
 
@@ -112,15 +139,14 @@
 	NSString *host = [comp objectAtIndex:0], *service = [comp objectAtIndex:1];
 
 	[lock lock];
-	NSEnumerator *en = [hits objectEnumerator];
-	NSDictionary *hit;
-	while ((hit = [en nextObject])) {
-		if ([[hit valueForKey:@"host"] isEqualToString:host] &&
-		    [[hit valueForKey:@"service"] isEqualToString:service]) {
-			match = YES;
-			break;
-		}
-	}
+	for (NSNetService *aService in services) {
+        if ([[aService name] isEqualToString:host] &&
+            [[aService type] isEqualToString:service]) {
+            match = YES;
+            break;
+        }
+    }
+
 	[lock unlock];
 
 	return match;
@@ -136,8 +162,8 @@
 	[lock lock];
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[services count]];
     for (NSNetService *aService in services) {
-		NSString *desc = [NSString stringWithFormat:@"%@ on %@", [aService type], [aService hostName]];
-		NSString *param = [NSString stringWithFormat:@"%@/%@", [aService hostName], [aService type]];
+		NSString *desc = [NSString stringWithFormat:@"%@ on %@", [aService type], [CPBonjourResolver stripLocal:[aService name]]];
+		NSString *param = [NSString stringWithFormat:@"%@/%@", [aService name], [aService type]];
 		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                         @"Bonjour", @"type",
                         param, @"parameter",
@@ -156,6 +182,7 @@
 		return;
 
     [cpBonjourResolvers removeAllObjects];
+    NSLog(@"service has %@ objects", [services count]);
 	[services removeAllObjects];
 
 	// This finds all service types
@@ -176,28 +203,6 @@
 	[lock unlock];
 }
 
-- (void)runNextStage2Scan:(id)arg
-{
-	[topLevelNetworkBrowser stop];
-	scanTimer = nil;
-
-	// Send off scan for the next service we heard about during stage 1
-	if ([services count] == 0) {
-		[self finishScanning:nil];
-		return;
-	}
-	NSString *service = [services objectAtIndex:0];
-	[topLevelNetworkBrowser searchForServicesOfType:service inDomain:@""];
-	[services removeObjectAtIndex:0];
-#ifdef DEBUG_MODE
-	//NSLog(@"Sent probe for hosts offering service %@", service);
-#endif
-	scanTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
-												  target: self
-												selector: @selector(runNextStage2Scan:)
-												userInfo: nil
-												 repeats: NO] retain];
-}
 
 
 - (void) foundItemsDidChange:(id)sender {
@@ -212,16 +217,15 @@
             [cpBonjourResolvers addObject:tmp];
             [tmp setDelegate:self];
             [tmp searchForServicesOfType:[NSString stringWithFormat:@"%@.%@", [aService name],[CPBonjourResolver stripLocal:[aService type]]] inDomain:@"local."];
-            //[tmp searchForServicesOfType:[NSString stringWithFormat:@"_adisk._tcp.", [aService name],[CPBonjourResolver stripLocal:[aService type]]] inDomain:@"local."];
             
         }
     }
     else {
         for (NSNetService *aService in [sender foundItems]) {
-            //NSLog(@"found %@ on %@", [aService type], [aService hostName]);
             CPBonjourResolver *tmp = [[[CPBonjourResolver alloc] init] retain];
             [tmp setDelegate:self];
             [tmp doResolveForService:aService];
+            [servicesBeingResolved addObject:tmp];
             
         }
     }
@@ -234,6 +238,7 @@
 
 - (void) serviceRemoved:(NSNetService *)removedService {
     [services removeObject:removedService];
+    [removedService release];
 }
 
 @end

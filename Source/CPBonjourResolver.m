@@ -29,19 +29,19 @@
 
 - (void) dealloc {
     [networkBrowser release];
+    [foundItems release];
     [super dealloc];
 }
 
 
 - (void) searchForServicesOfType:(NSString *)serviceType inDomain:(NSString *) searchDomain {
-    //NSLog(@"new networkBrowser (%@) in search of %@%@", self,serviceType, searchDomain);
     [networkBrowser setDelegate:self];
     [networkBrowser searchForServicesOfType:serviceType inDomain:searchDomain];
 }
 
 - (void) stop {
-    NSLog(@"stopping %@", self);
     [networkBrowser stop];
+    [foundItems removeAllObjects];
 }
 
 - (void) doResolveForService:(NSNetService *)service {
@@ -57,8 +57,11 @@
          didRemoveService:(NSNetService *)netService
                moreComing:(BOOL)moreServicesComing {
 
-	NSLog(@"%s service was %@ on %@.", __PRETTY_FUNCTION__, [netService name], [netService hostName]);
-    [[self delegate] serviceRemoved:netService];
+	//NSLog(@"%s service was %@ on %@.", __PRETTY_FUNCTION__, [netService name], [netService hostName]);
+    if ([[self delegate] respondsToSelector:@selector(serviceRemoved:)])
+        [[self delegate] serviceRemoved:netService];
+    else
+        NSLog(@"your your compliant with with CPBonjourResolverDelegate so you missed hearing about this service that went away");
     
 }
 
@@ -85,22 +88,16 @@
     }
 }
 
-- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
-
-- (void)netServiceWillResolve:(NSNetService *)sender {
-    //NSLog(@"%s", __PRETTY_FUNCTION__);    
-}
-
 
 - (void)netServiceDidResolveAddress:(NSNetService *)sender {
 //    if([[self delegate] respondsToSelector:@selector(foundItemsDidChange:)]) {
 //        [[self delegate] foundItemsDidChange:self];
 //    }
 //        NSLog(@"%s service %@ on %@", __PRETTY_FUNCTION__, [sender type], [sender hostName]);
-    [[self delegate] resolvedServiceArrived:sender];
+    if ([[self delegate] respondsToSelector:@selector(resolvedServiceArrived:)])
+        [[self delegate] resolvedServiceArrived:sender];
+    else
+        NSLog(@"your your compliant with with CPBonjourResolverDelegate so you missed on this hot new service I found");
 }
 
 
@@ -114,10 +111,6 @@
     
     return incoming;
     
-}
-
-- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)aNetServiceBrowser {
-         //NSLog(@"%s %@", __PRETTY_FUNCTION__, aNetServiceBrowser);   
 }
 
 
