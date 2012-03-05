@@ -21,6 +21,7 @@
     if (!self)
         return self;
     
+    NSLog(@"new instance of CPBonjourResolver");
     networkBrowser = [[NSNetServiceBrowser alloc] init];
     foundItems = [[NSMutableArray alloc] init];
     
@@ -57,11 +58,10 @@
          didRemoveService:(NSNetService *)netService
                moreComing:(BOOL)moreServicesComing {
 
-	//NSLog(@"%s service was %@ on %@.", __PRETTY_FUNCTION__, [netService name], [netService hostName]);
     if ([[self delegate] respondsToSelector:@selector(serviceRemoved:)])
         [[self delegate] serviceRemoved:netService];
     else
-        NSLog(@"your your compliant with with CPBonjourResolverDelegate so you missed hearing about this service that went away");
+        NSLog(@"you're not compliant with CPBonjourResolverDelegate so you missed hearing about this service that went away");
     
 }
 
@@ -97,7 +97,7 @@
     if ([[self delegate] respondsToSelector:@selector(resolvedServiceArrived:)])
         [[self delegate] resolvedServiceArrived:sender];
     else
-        NSLog(@"your your compliant with with CPBonjourResolverDelegate so you missed on this hot new service I found");
+        NSLog(@"you're not compliant with CPBonjourResolverDelegate so you missed on this hot new service I found");
 }
 
 
