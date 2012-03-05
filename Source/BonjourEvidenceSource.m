@@ -73,6 +73,7 @@
 		return;
 
     [self clearCollectedData];
+    [topLevelNetworkBrowser stop];
 	
 	[super stop];
 }
