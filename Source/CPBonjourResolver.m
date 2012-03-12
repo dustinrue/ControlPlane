@@ -20,8 +20,7 @@
     
     if (!self)
         return self;
-    
-    NSLog(@"new instance of CPBonjourResolver");
+
     networkBrowser = [[NSNetServiceBrowser alloc] init];
     foundItems = [[NSMutableArray alloc] init];
     
@@ -58,8 +57,8 @@
          didRemoveService:(NSNetService *)netService
                moreComing:(BOOL)moreServicesComing {
 
-    if ([[self delegate] respondsToSelector:@selector(serviceRemoved:)])
-        [[self delegate] serviceRemoved:netService];
+    if ([[self delegate] respondsToSelector:@selector(netServiceBrowser:removedService:)])
+        [[self delegate] netServiceBrowser:self removedService:netService];
     else
         NSLog(@"you're not compliant with CPBonjourResolverDelegate so you missed hearing about this service that went away");
     
@@ -84,7 +83,6 @@
     
     if (!moreServicesComing && [[self delegate] respondsToSelector:@selector(foundItemsDidChange:)]) {
         [[self delegate] foundItemsDidChange:self];
-        
     }
 }
 
@@ -105,15 +103,6 @@
         NSLog(@"%s because %@", __PRETTY_FUNCTION__, errorDict);
 }
 
-+ (NSString *) stripLocal:(NSString *) incoming {
-    if ([incoming hasSuffix:@".local."])
-        return[incoming substringToIndex:([incoming length] - 6)];
-    
-    return incoming;
-    
-}
-
-
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing {
             NSLog(@"%s", __PRETTY_FUNCTION__);
@@ -127,5 +116,13 @@
 }
 
 
-
+#pragma mark -
+#pragma mark Utility methods
++ (NSString *) stripLocal:(NSString *) incoming {
+    if ([incoming hasSuffix:@".local."])
+        return[incoming substringToIndex:([incoming length] - 6)];
+    
+    return incoming;
+    
+}
 @end

@@ -11,7 +11,7 @@
 
 - (void) foundItemsDidChange:(id)sender;
 - (void) resolvedServiceArrived:(id)sender;
-- (void) serviceRemoved:(NSNetService *)removedService;
+- (void) netServiceBrowser:(id)netServiceBrowser removedService:(NSNetService *)removedService;
 
 @end
 

@@ -204,7 +204,14 @@
     [services addObject:sender];
 }
 
-- (void) serviceRemoved:(NSNetService *)removedService {
+- (void) netServiceBrowser:(id)netServiceBrowser removedService:(NSNetService *)removedService {
+    if (netServiceBrowser == topLevelNetworkBrowser) {
+        [cpBonjourResolvers removeObject:netServiceBrowser];
+    }
+    else {
+        [servicesBeingResolved removeObject:netServiceBrowser];
+    }
+    NSLog(@"%@ is removing %@",netServiceBrowser, [removedService name]);
     [services removeObject:removedService];
 }
 
