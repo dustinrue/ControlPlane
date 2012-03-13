@@ -9,12 +9,10 @@
 #import "DSLogger.h"
 #import "NSTimer+Invalidation.h"
 #import "CPBonjourResolver.h"
-#import "DSLogger.h"
 
 @interface BonjourEvidenceSource (Private)
 
 - (void)considerScanning:(id)arg;
-- (void)runNextStage2Scan:(id)arg;
 
 @end
 
@@ -54,6 +52,8 @@
 
 	[super dealloc];
 }
+
+
 
 - (void)start {
 	if (running)

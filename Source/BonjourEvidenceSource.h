@@ -31,7 +31,6 @@
 - (void)start;
 - (void)stop;
 
-- (void)doUpdate;
 - (void)clearCollectedData;
 
 - (NSString *)name;
