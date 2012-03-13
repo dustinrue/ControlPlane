@@ -9,6 +9,7 @@
 #import "DSLogger.h"
 #import "NSTimer+Invalidation.h"
 #import "CPBonjourResolver.h"
+#import "DSLogger.h"
 
 @interface BonjourEvidenceSource (Private)
 
@@ -21,8 +22,7 @@
 
 @implementation BonjourEvidenceSource
 
-- (id)init
-{
+- (id)init {
 	if (!(self = [super init]))
 		return nil;
 
@@ -42,8 +42,7 @@
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[lock release];
 	[topLevelNetworkBrowser release];
 	[services release];
@@ -56,36 +55,29 @@
 	[super dealloc];
 }
 
-- (void)start
-{
+- (void)start {
 	if (running)
 		return;
-    [super start];
+    //[super start];
     
+    running = YES;
 	[self considerScanning:self];
 
 	
 }
 
-- (void)stop
-{
+- (void)stop {
 	if (!running)
 		return;
 
+
     [self clearCollectedData];
     [topLevelNetworkBrowser stop];
-	
-	[super stop];
+	running = NO;
+	//[super stop];
 }
 
-- (void)doUpdate
-{
-   
-	NSLog(@"I know about %@", services);
-}
-
-- (void)clearCollectedData
-{
+- (void)clearCollectedData {
 	[lock lock];
     [services removeAllObjects];
     
@@ -108,14 +100,15 @@
 	[lock unlock];
 }
 
-- (NSString *)name
-{
+- (NSString *)name {
 	return @"Bonjour";
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule
-{
-
+- (BOOL)doesRuleMatch:(NSDictionary *)rule {
+#if DEBUG_MODE
+    NSLog(@"I know about %@", services);
+#endif
+    
 	BOOL match = NO;
     
 	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@"/"];
@@ -137,13 +130,11 @@
 	return match;
 }
 
-- (NSString *)getSuggestionLeadText:(NSString *)type
-{
+- (NSString *)getSuggestionLeadText:(NSString *)type {
 	return NSLocalizedString(@"The presence of", @"In rule-adding dialog");
 }
 
-- (NSArray *)getSuggestions
-{
+- (NSArray *)getSuggestions {
 	[lock lock];
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[services count]];
     for (NSNetService *aService in services) {
@@ -161,8 +152,7 @@
 }
 
 // Triggers stage 1 scanning (probing for services); pass self as arg if this is the initial scan
-- (void)considerScanning:(id)arg
-{
+- (void)considerScanning:(id)arg {
 	if (!running)
 		return;
 

@@ -5,11 +5,11 @@
 //  Created by David Symonds on 27/08/07.
 //
 
-#import "GenericLoopingEvidenceSource.h"
+#import "GenericEvidenceSource.h"
 #import "CPBonjourResolver.h"
 
 
-@interface BonjourEvidenceSource : GenericLoopingEvidenceSource<CPBonjourResolverDelegate> {
+@interface BonjourEvidenceSource : GenericEvidenceSource<CPBonjourResolverDelegate> {
 	NSLock *lock;
 
 	// TODO: do we need an NSLock to protect this stuff?
