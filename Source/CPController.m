@@ -435,17 +435,13 @@
 - (void)setStatusTitle:(NSString *)title
 {
     [menuBarLocker lock];
-    DSLog(@"setStatusTitle");
+
 	if (!sbItem) {
-        DSLog(@"bailing because sbItem is null");
-        DSLog(@"unlocking in setStatusTitle");
         [menuBarLocker unlock];
 		return;
     }
 	if (!title) {
 		[sbItem setTitle:nil];
-        DSLog(@"bailing because title is null");
-        DSLog(@"unlocking in setStatusTitle");
         [menuBarLocker unlock];
 		return;
 	}
@@ -456,17 +452,17 @@
 							  forKey:NSFontAttributeName];
 	NSAttributedString *as = [[NSAttributedString alloc] initWithString:title attributes:attrs];
 	[sbItem setAttributedTitle:[as autorelease]];
-    DSLog(@"unlocking in setStatusTitle");
+
     [menuBarLocker unlock];
 }
 
 - (void)setMenuBarImage:(NSImage *)imageName {
-    DSLog(@"locking in setMenuBarImage");
+
     [menuBarLocker lock];
     // if the menu bar item has been hidden sbItem will have been released
     // and we should not attempt to update the image
     if (!sbItem) {
-        DSLog(@"unlocking in setMenuBarImage");
+
         [menuBarLocker unlock];
         return;
     }
@@ -479,13 +475,13 @@
         DSLog(@"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", [imageName name], [exception reason]);
         [self setStatusTitle:@"Failed to set icon"];
     }
-    DSLog(@"unlocking in setMenuBarImage");
+
     [menuBarLocker unlock];
 }
 
 - (void)showInStatusBar:(id)sender
 {
-    DSLog(@"locking in showInStatusBar");
+
     [menuBarLocker lock];
 	if (sbItem) {
 		// Already there? Rebuild it anyway.
@@ -496,7 +492,7 @@
 	sbItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 	[sbItem retain];
 	[sbItem setHighlightMode:YES];
-    DSLog(@"unlocking in showInStatusBar");
+
     [menuBarLocker unlock];
 
     // only show the icon if preferences say we should
@@ -516,14 +512,14 @@
 }
 
 - (void)hideFromStatusBar:(NSTimer *)theTimer {
-    DSLog(@"locking in hideFromStatusBar");
+
     [menuBarLocker lock];
     
 	sbHideTimer = [sbHideTimer checkAndInvalidate];
 	
     [self doHideFromStatusBar:NO];
     
-    DSLog(@"unlocking in hideFromStatusBar");
+
     [menuBarLocker unlock];
 }
 
@@ -882,8 +878,6 @@
 	Context *ctxt;
 
 	[updatingSwitchingLock lock];
-    
-    
 
 	// Execute all the "Departure" actions
 	en = [leaving_walk objectEnumerator];
@@ -895,6 +889,13 @@
 	// Update current context
 	[self setValue:toUUID forKey:@"currentContextUUID"];
 	NSString *ctxt_path = [contextsDataSource pathFromRootTo:toUUID];
+    
+    NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *notificationName = [NSString stringWithFormat:@"%@.ContextChanged",notificationObject];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:ctxt_path, @"context", nil];
+                              
+    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
+                              [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
     
     // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
     // Allows you to test QuinyKit
