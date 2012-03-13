@@ -88,9 +88,18 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
+
+    // get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+    
+    if (major == 10 && minor > 7) {
+        *errorString = NSLocalizedString(@"DislplayBrightness is currently not supported on this version of OS X", @"");
+            return NO;
+    }
+        
     [O3Manager initialize];
-    
-    
 	const int kMaxDisplays = 16;
 	//const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
 	

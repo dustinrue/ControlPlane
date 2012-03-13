@@ -242,6 +242,11 @@
 	if (!(self = [super init]))
 		return nil;
 
+    // get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+    
 	classes = [[NSArray alloc] initWithObjects:
 			   [DefaultBrowserAction class],
                [DefaultPrinterAction class],
@@ -316,6 +321,14 @@
 		NSLocalizedString(@"Unmount", @"Action type");
 		NSLocalizedString(@"VPN", @"Action type");
 	}
+    
+    // hack to remove the DisplayBrightnessAction on ML
+    if (major == 10 && minor > 7) {
+        NSMutableArray *tmp = [classes mutableCopy];
+        [tmp removeObject:[DisplayBrightnessAction class]];
+        classes = tmp;
+    }
+
 
 	return self;
 }
