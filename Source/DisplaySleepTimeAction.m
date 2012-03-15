@@ -126,4 +126,8 @@
     
 	return self;
 }
+
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Display Sleep Time", @"");
+}
 @end

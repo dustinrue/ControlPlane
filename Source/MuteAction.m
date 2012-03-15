@@ -113,4 +113,8 @@
 	return deviceID;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Mute", @"");
+}
+
 @end

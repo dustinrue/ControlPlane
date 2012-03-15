@@ -44,4 +44,8 @@
 	return NSLocalizedString(@"Set Internet Sharing", @"Will be followed by 'on' or 'off'");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Toggle Internet Sharing", @"");
+}
+
 @end

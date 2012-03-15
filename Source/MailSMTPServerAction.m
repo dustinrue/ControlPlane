@@ -115,4 +115,8 @@
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Change Mail SMTP Server", @"");
+}
+
 @end

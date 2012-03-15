@@ -65,4 +65,8 @@
 		nil];
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Start Screen Saver Now", @"");
+}
+
 @end

@@ -93,4 +93,8 @@
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Open File or Application", @"");
+}
+
 @end

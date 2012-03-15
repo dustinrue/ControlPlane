@@ -127,4 +127,8 @@
 	return arr;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Change New Mail Check Interval", @"");
+}
+
 @end

@@ -43,6 +43,9 @@
 	return NSLocalizedString(@"Set Printer Sharing", @"Will be followed by 'on' or 'off'");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Toggle Printer Sharing", @"");
+}
 
 
 @end

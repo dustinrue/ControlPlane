@@ -56,4 +56,8 @@
 			nil];
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Lock Keychain", @"");
+}
+
 @end

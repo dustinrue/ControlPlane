@@ -79,4 +79,8 @@
 	return NSLocalizedString(@"Set iChat status message to", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"iChat Status", @"");
+}
+
 @end

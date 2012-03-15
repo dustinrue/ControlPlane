@@ -67,4 +67,8 @@
 		nil];
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Screen Saver Password", @"");
+}
+
 @end

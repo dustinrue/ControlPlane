@@ -85,4 +85,8 @@
 	return NSLocalizedString(@"Quit application with this name:", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Quit Application", @"");
+}
+
 @end

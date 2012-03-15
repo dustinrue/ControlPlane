@@ -110,4 +110,8 @@
 	return NSLocalizedString(@"Unmount a volume with mount location", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Unmount disk/share", @"");
+}
+
 @end

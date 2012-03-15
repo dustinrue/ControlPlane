@@ -88,4 +88,8 @@
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Desktop Background", @"");
+}
+
 @end

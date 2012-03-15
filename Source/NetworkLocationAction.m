@@ -160,4 +160,8 @@
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Network Location", @"");
+}
+
 @end

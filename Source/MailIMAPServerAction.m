@@ -82,4 +82,8 @@
 	return NSLocalizedString(@"Set Mail's IMAP server hostname to", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Change Mail IMAP Server", @"");
+}
+
 @end

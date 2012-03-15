@@ -125,4 +125,8 @@
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Run Shell Script", @"");
+}
+
 @end

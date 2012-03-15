@@ -80,4 +80,8 @@
 	return NSLocalizedString(@"Mount a volume with address", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Mount", @"");
+}
+
 @end

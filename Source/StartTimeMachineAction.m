@@ -53,4 +53,8 @@
 			nil];
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Start Time Machine Backup", @"");
+}
+
 @end

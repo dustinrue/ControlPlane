@@ -142,4 +142,8 @@
     [alert release];
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Change Time Machine Destination", @"");
+}
+
 @end

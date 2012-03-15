@@ -46,4 +46,8 @@
 	return NSLocalizedString(@"Turn Firewall", @"Will be followed by 'on' or 'off'");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Toggle Firewall", @"");
+}
+
 @end

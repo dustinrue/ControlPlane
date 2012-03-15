@@ -107,4 +107,8 @@
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Default Printer", @"");
+}
+
 @end

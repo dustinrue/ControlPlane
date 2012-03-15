@@ -131,4 +131,8 @@
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Screen Saver Time" , @"");
+}
+
 @end

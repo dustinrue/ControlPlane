@@ -142,6 +142,10 @@
 	return @"<Sorry, help text coming soon!>";
 }
 
++ (NSString *)friendlyName {
+    return @"Not implemented";
+}
+
 - (void)executeAppleScriptForReal:(NSString *)script
 {
 	appleScriptResult_ = nil;
@@ -356,11 +360,12 @@
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
 	Class klass = [classes objectAtIndex:index];
-	NSString *type = [Action typeForClass:klass];
-	NSString *localisedType = NSLocalizedString(type, @"Action type");
 
-	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add %@ Action...", @"Menu item"),
-		localisedType];
+    NSString *friendlyName = [[classes objectAtIndex:index] friendlyName];
+	//NSString *localisedType = NSLocalizedString(type, @"Action type");
+
+	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add '%@' Action...", @"Menu item"),
+		friendlyName];
 	[item setTitle:title];
 
 	[item setTarget:prefsWindowController];

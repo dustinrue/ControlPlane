@@ -43,4 +43,8 @@
 	return NSLocalizedString(@"Set Time Machine", @"Will be followed by 'on' or 'off'");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Toggle Time Machine", @"");
+}
+
 @end

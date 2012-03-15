@@ -68,4 +68,8 @@
 	return NSLocalizedString(@"Speak text:", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Speak Phrase", @"");
+}
+
 @end

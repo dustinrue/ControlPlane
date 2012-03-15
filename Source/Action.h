@@ -29,6 +29,7 @@
 - (BOOL)execute:(NSString **)errorString;
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
++ (NSString *)friendlyName;
 
 // Helpers
 - (BOOL)executeAppleScript:(NSString *)script;		// returns YES on success, NO on failure

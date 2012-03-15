@@ -184,4 +184,8 @@ static NSLock *sharedLock = nil;
 	return self;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Firewall Rule", @"");
+}
+
 @end

@@ -161,4 +161,8 @@
 	return NSLocalizedString(@"Set display brightness to (percent):", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Display Brightness", @"");
+}
+
 @end

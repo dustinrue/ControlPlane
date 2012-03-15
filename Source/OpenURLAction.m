@@ -65,4 +65,7 @@
 	return NSLocalizedString(@"Open URL (in a browser)", @"");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Open URL", @"");
+}
 @end

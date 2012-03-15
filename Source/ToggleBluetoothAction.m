@@ -77,4 +77,7 @@ void IOBluetoothPreferenceSetControllerPowerState(int);
 	return NSLocalizedString(@"Turn Bluetooth", @"Will be followed by 'on' or 'off'");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Toggle Bluetooth", @"");
+}
 @end

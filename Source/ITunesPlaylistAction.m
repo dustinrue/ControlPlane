@@ -114,4 +114,8 @@
 	return options;
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Play iTunes Playlist", @"");
+}
+
 @end

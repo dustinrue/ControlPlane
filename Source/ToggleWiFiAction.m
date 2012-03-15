@@ -53,4 +53,8 @@
 	return NSLocalizedString(@"Turn WiFi", @"Will be followed by 'on' or 'off'");
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Toggle WiFi", @"");
+}
+
 @end

@@ -112,4 +112,8 @@
 	return [[NSFileManager defaultManager] displayNameAtPath: path];
 }
 
++ (NSString *) friendlyName {
+    return NSLocalizedString(@"Default Browser", @"");
+}
+
 @end
