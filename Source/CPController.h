@@ -8,7 +8,7 @@
 #import <Growl/Growl.h>
 #import "ContextsDataSource.h"
 #import "EvidenceSource.h"
-#import "Quincy/BWQuincyManager.h"
+#import "BWQuincyManager.h"
 
 
 @interface CPController : NSObject <GrowlApplicationBridgeDelegate,BWQuincyManagerDelegate> {
