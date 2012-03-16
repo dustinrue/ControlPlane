@@ -523,13 +523,14 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
 {
 	EvidenceSource *src = [sources objectAtIndex:rowIndex];
+    NSString *friendlyName = [[sources objectAtIndex:rowIndex] friendlyName];
 	NSString *col_id = [aTableColumn identifier];
 
 	if ([col_id isEqualToString:@"enabled"]) {
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		return [[NSUserDefaults standardUserDefaults] valueForKey:key];
 	} else if ([col_id isEqualToString:@"name"]) {
-		return NSLocalizedString([src name], @"Evidence source");
+		return NSLocalizedString(friendlyName, @"Evidence source");
 	}
 
 	// Shouldn't get here!
