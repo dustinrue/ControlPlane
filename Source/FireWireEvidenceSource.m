@@ -310,4 +310,8 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	return arr;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Attached FireWire Device", @"");
+}
+
 @end

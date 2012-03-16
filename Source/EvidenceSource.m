@@ -283,6 +283,10 @@
 	return NO;
 }
 
++ (NSString *) friendlyName {
+    return @"Not implemented";
+}
+
 @end
 
 #pragma mark -
@@ -462,9 +466,10 @@
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
 	EvidenceSource *src = [sources objectAtIndex:index];
-	NSString *localisedName = NSLocalizedString([src name], @"Evidence source");
+    NSString *friendlyName = [[sources objectAtIndex:index] friendlyName];
+	//NSString *localisedName = NSLocalizedString([src name], @"Evidence source");
 
-	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add %@ Rule...", @"Menu item"), localisedName];
+	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add '%@' Rule...", @"Menu item"), friendlyName];
 	[item setTitle:title];
 
 	if ([[src typesOfRulesMatched] count] > 1) {

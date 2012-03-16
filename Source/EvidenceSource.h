@@ -61,6 +61,9 @@
 // Returns the rules that belong to the calling evidence source
 - (NSArray *)myRules;
 
+// Returns a friendly name to be used in the drop down menu
+- (NSString *) friendlyName;
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////

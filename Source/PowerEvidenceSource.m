@@ -125,4 +125,8 @@ static void sourceChange(void *info)
 		nil];
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Power Source", @"");
+}
+
 @end

@@ -138,4 +138,7 @@
 	return arr;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Attached Monitor", @"");
+}
 @end

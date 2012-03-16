@@ -226,4 +226,8 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	return arr;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Active Network Adapter", @"");
+}
+
 @end

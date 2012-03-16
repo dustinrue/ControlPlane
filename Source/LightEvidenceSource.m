@@ -176,4 +176,8 @@
 	return ((level > 0 && nowLevel > level) || (level < 0 && nowLevel < -level));
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Light Sensor", @"");
+}
+
 @end

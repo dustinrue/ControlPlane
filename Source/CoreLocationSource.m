@@ -259,4 +259,9 @@
     DSLog(@"new location %@", userLocation.location.timestamp);
     [self setCurrentLocation:[[[CLLocation alloc] initWithCoordinate:userLocation.coordinate altitude:userLocation.location.altitude horizontalAccuracy:userLocation.location.horizontalAccuracy verticalAccuracy:userLocation.location.verticalAccuracy timestamp:userLocation.location.timestamp] autorelease]];
 }
+
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Current Location", @"");
+}
+
 @end

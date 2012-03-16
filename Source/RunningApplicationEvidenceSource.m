@@ -146,4 +146,8 @@
 	return array;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Running Application", @"");
+}
+
 @end

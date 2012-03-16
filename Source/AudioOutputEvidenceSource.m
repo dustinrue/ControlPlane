@@ -144,4 +144,8 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	running = NO;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Audio Output", @"");
+}
+
 @end

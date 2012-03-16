@@ -338,5 +338,9 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     return ([ipAddress isEqualToString:@"255.255.255.255"]);
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Assigned IP Address", @"");
+}
+
 
 @end

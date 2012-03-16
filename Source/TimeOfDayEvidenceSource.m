@@ -180,4 +180,8 @@
 	return YES;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Time Of Day", @"");
+}
+
 @end

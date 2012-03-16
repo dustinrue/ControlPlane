@@ -95,4 +95,8 @@
 	systemWakingUp = NO;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Sleep/Wake Event", @"");
+}
+
 @end

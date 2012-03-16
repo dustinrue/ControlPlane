@@ -226,6 +226,9 @@
 	return arr;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Nearby WiFi Network", @"");
+}
 
 
 @end

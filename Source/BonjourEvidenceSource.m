@@ -205,4 +205,8 @@
     [services removeObject:removedService];
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Bonjour", @"");
+}
+
 @end

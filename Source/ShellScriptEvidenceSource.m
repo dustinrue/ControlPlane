@@ -327,5 +327,8 @@
 	return running;
 }
 
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Shell Script", @"");
+}
 
 @end

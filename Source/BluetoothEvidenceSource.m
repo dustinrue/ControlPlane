@@ -513,4 +513,8 @@
 	[self setDataCollected:[devices count] > 0];
 	[lock unlock];
 }
+
+- (NSString *) friendlyName {
+    return NSLocalizedString(@"Bluetooth", @"");
+}
 @end
