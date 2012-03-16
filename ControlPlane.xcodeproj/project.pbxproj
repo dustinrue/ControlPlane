@@ -46,7 +46,6 @@
 		8D73CB8D0C46FD5200DF839E /* MonitorEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */; };
 		8D73CBB30C46FEC800DF839E /* PowerEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */; };
 		8D73CC140C470FE000DF839E /* RunningApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */; };
-		8D73CC700C47125300DF839E /* WiFiEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */; };
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
 		8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
 		8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
@@ -258,8 +257,6 @@
 		8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RunningApplicationEvidenceSource.m; path = Source/RunningApplicationEvidenceSource.m; sourceTree = "<group>"; };
 		8D3453C10C18E5C1006011D0 /* IChatAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IChatAction.h; path = Source/IChatAction.h; sourceTree = "<group>"; };
 		8D3453C20C18E5C1006011D0 /* IChatAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = IChatAction.m; path = Source/IChatAction.m; sourceTree = "<group>"; };
-		8D35A30A0BBB9CFD006ACBB0 /* WiFiEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WiFiEvidenceSource.h; path = Source/WiFiEvidenceSource.h; sourceTree = "<group>"; };
-		8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = WiFiEvidenceSource.m; path = Source/WiFiEvidenceSource.m; sourceTree = "<group>"; };
 		8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = USBEvidenceSource.h; path = Source/USBEvidenceSource.h; sourceTree = "<group>"; };
 		8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = USBEvidenceSource.m; path = Source/USBEvidenceSource.m; sourceTree = "<group>"; };
 		8D38B6690C49D50200290F47 /* SliderWithValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SliderWithValue.h; path = Source/SliderWithValue.h; sourceTree = "<group>"; };
@@ -751,8 +748,6 @@
 				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
 				8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */,
 				8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */,
-				8D35A30A0BBB9CFD006ACBB0 /* WiFiEvidenceSource.h */,
-				8D35A30B0BBB9CFD006ACBB0 /* WiFiEvidenceSource.m */,
 			);
 			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
@@ -1190,7 +1185,6 @@
 				8D73CB8D0C46FD5200DF839E /* MonitorEvidenceSource.m in Sources */,
 				8D73CBB30C46FEC800DF839E /* PowerEvidenceSource.m in Sources */,
 				8D73CC140C470FE000DF839E /* RunningApplicationEvidenceSource.m in Sources */,
-				8D73CC700C47125300DF839E /* WiFiEvidenceSource.m in Sources */,
 				8D91F17D0C47148200D9FC0F /* USBEvidenceSource.m in Sources */,
 				8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */,
 				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
