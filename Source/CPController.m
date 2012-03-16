@@ -41,6 +41,14 @@
 
 - (void)setMenuBarImage:(NSImage *)imageName;
 
+// ScreenSaver monitoring
+- (void) setScreenSaverActive:(NSNotification *) notification;
+- (void) setScreenSaverInActive:(NSNotification *) notification;
+
+// Screen lock monitoring
+- (void) setScreenLockActve:(NSNotification *) notification;
+- (void) setScreenLockInActive:(NSNotification *) notification;
+
 @end
 
 #pragma mark -
@@ -52,6 +60,8 @@
 #define CP_DISPLAY_CONTEXT 1
 #define CP_DISPLAY_BOTH 2
 
+@synthesize screenSaverRunning;
+@synthesize screenLockStatus;
 
 + (void)initialize
 {
@@ -375,6 +385,33 @@
 														   selector:@selector(wakeFromSleep:)
 															   name:@"NSWorkspaceDidWakeNotification"
 															 object:nil];
+    
+    // Monitor screensaver status
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenSaverInActive:)
+                                                            name:@"com.apple.screensaver.didstop"
+                                                          object:nil];
+    
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenSaverActive:) 
+                                                            name:@"com.apple.screensaver.didstart"
+                                                          object:nil];
+    
+    // Monitor screen lock status
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenLockActive:)
+                                                            name:@"com.apple.screenIsLocked"
+                                                          object:nil];
+    
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenLockInActive:)
+                                                            name:@"com.apple.screenIsUnlocked"
+                                                          object:nil];
+    
+    // set default screen saver and screen lock status
+    [self setScreenLockStatus:NO];
+    [self setScreenSaverRunning:NO];
+    
 	// Set up status bar.
 	[self showInStatusBar:self];
 
@@ -1165,6 +1202,11 @@
 			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 #endif
 	}
+    
+    if ([self screenLockStatus] || [self screenSaverRunning]) {
+        DSLog(@"not switching because the the screen saver is running or the screen is locked");
+        do_switch = NO;
+    }
 
 	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
 
@@ -1213,6 +1255,31 @@
 {
 	DSLog(@"Starting update thread after sleep.");
 	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+}
+
+#pragma mark -
+#pragma mark Screen Saver Monitoring
+- (void) setScreenSaverActive {
+    [self setScreenSaverRunning:YES];
+    DSLog(@"Screen saver is running");
+}
+- (void) setScreenSaverInActive {
+    [self setScreenSaverRunning:NO];
+    DSLog(@"Screen saver is not running");
+}
+
+#pragma mark -
+#pragma mark Screen Lock Monitoring
+
+- (void) setScreenLockActive:(NSNotification *) notification {
+    [self setScreenLockStatus:YES];
+    DSLog(@"screen lock becoming active");
+    
+}
+
+- (void) setScreenLockInActive:(NSNotification *) notification {
+    [self setScreenLockStatus:NO];
+    DSLog(@"screen lock becoming inactive");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////

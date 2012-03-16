@@ -39,7 +39,13 @@
 	IBOutlet NSArrayController *rulesController;
 	IBOutlet NSArrayController *actionsController;
 	IBOutlet NSWindow *prefsWindow;
+    
+    BOOL screenSaverRunning;
+    BOOL screenLockStatus;
 }
+
+@property (readwrite) BOOL screenSaverRunning;
+@property (readwrite) BOOL screenLockStatus;
 
 - (NSString *) currentContextName;
 - (ContextsDataSource *) contextsDataSource;
