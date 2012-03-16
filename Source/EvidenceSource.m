@@ -283,7 +283,7 @@
 	return NO;
 }
 
-+ (NSString *) friendlyName {
+- (NSString *) friendlyName {
     return @"Not implemented";
 }
 
