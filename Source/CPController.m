@@ -61,7 +61,7 @@
 #define CP_DISPLAY_BOTH 2
 
 @synthesize screenSaverRunning;
-@synthesize screenLockStatus;
+@synthesize screenLocked;
 
 + (void)initialize
 {
@@ -409,7 +409,7 @@
                                                           object:nil];
     
     // set default screen saver and screen lock status
-    [self setScreenLockStatus:NO];
+    [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
     
 	// Set up status bar.
@@ -1203,7 +1203,7 @@
 #endif
 	}
     
-    if ([self screenLockStatus] || [self screenSaverRunning]) {
+    if ([self screenLocked] || [self screenSaverRunning]) {
         DSLog(@"not switching because the the screen saver is running or the screen is locked");
         do_switch = NO;
     }
@@ -1272,13 +1272,13 @@
 #pragma mark Screen Lock Monitoring
 
 - (void) setScreenLockActive:(NSNotification *) notification {
-    [self setScreenLockStatus:YES];
+    [self setScreenLocked:YES];
     DSLog(@"screen lock becoming active");
     
 }
 
 - (void) setScreenLockInActive:(NSNotification *) notification {
-    [self setScreenLockStatus:NO];
+    [self setScreenLocked:NO];
     DSLog(@"screen lock becoming inactive");
 }
 

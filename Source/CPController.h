@@ -41,11 +41,11 @@
 	IBOutlet NSWindow *prefsWindow;
     
     BOOL screenSaverRunning;
-    BOOL screenLockStatus;
+    BOOL screenLocked;
 }
 
 @property (readwrite) BOOL screenSaverRunning;
-@property (readwrite) BOOL screenLockStatus;
+@property (readwrite) BOOL screenLocked;
 
 - (NSString *) currentContextName;
 - (ContextsDataSource *) contextsDataSource;
