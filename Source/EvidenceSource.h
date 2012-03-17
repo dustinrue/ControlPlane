@@ -18,12 +18,20 @@
 	IBOutlet NSSlider *ruleConfidenceSlider;
 	NSString *oldDescription;
     NSMutableArray *rulesThatBelongToThisEvidenceSource;
+    
+    BOOL screenIsLocked;
 }
+
+@property (readwrite) BOOL screenIsLocked;
 
 - (id)initWithNibNamed:(NSString *)name;
 - (void)dealloc;
 - (void)goingToSleep:(id)arg;
 - (void)wakeFromSleep:(id)arg;
+- (void) screenSaverDidBecomeInActive:(NSNotification *) notification;
+- (void) screenSaverDidBecomeActive:(NSNotification *) notification;
+- (void) screenDidUnlock:(NSNotification *) notification;
+- (void) screenDidLock:(NSNotification *) notification;
 - (BOOL)matchesRulesOfType:(NSString *)type;
 
 - (BOOL)dataCollected;

@@ -21,6 +21,8 @@
 
 @implementation EvidenceSource
 
+@synthesize screenIsLocked;
+
 - (id)initWithNibNamed:(NSString *)name
 {
 	if ([[self class] isEqualTo:[EvidenceSource class]]) {
@@ -35,6 +37,7 @@
 	dataCollected = NO;
 	startAfterSleep = NO;
     goingToSleep = NO;
+    screenIsLocked = NO;
 
 	oldDescription = nil;
 
@@ -73,7 +76,29 @@
 								   name:@"NSWorkspaceDidWakeNotification"
 								 object:nil];
 
+    // Monitor screensaver status
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(screenSaverDidBecomeInActive:)
+                                                            name:@"com.apple.screensaver.didstop"
+                                                          object:nil];
     
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(screenSaverDidBecomeActive:) 
+                                                            name:@"com.apple.screensaver.didstart"
+                                                          object:nil];
+    
+    
+    
+    // Monitor screen lock status
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(screenDidUnlock:)
+                                                            name:@"com.apple.screenIsUnlocked"
+                                                          object:nil];
+    
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(screenDidLock:)
+                                                            name:@"com.apple.screenIsLocked"
+                                                          object:nil];
     
 	return self;
 }
@@ -286,6 +311,24 @@
 - (NSString *) friendlyName {
     return @"Not implemented";
 }
+
+- (void) screenSaverDidBecomeInActive:(NSNotification *)notification {
+    
+}
+
+- (void) screenSaverDidBecomeActive:(NSNotification *)notification {
+    
+}
+
+- (void) screenDidUnlock:(NSNotification *)notification {
+    [self setScreenIsLocked:NO];
+}
+
+- (void) screenDidLock:(NSNotification *)notification {
+    [self setScreenIsLocked:YES];
+}
+
+
 
 @end
 

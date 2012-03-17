@@ -397,6 +397,8 @@
                                                             name:@"com.apple.screensaver.didstart"
                                                           object:nil];
     
+
+    
     // Monitor screen lock status
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self
                                                         selector:@selector(setScreenLockActive:)
@@ -1069,7 +1071,7 @@
 			double decay = 1.0 - (0.03 * (depth - base_depth));
 
             // seed unconfidenceValue with what we've calcuated so far
-            // this effectively
+
 			NSNumber *unconfidenceValue = [guesses objectForKey:uuidOfCurrentContext];
             
 			
@@ -1203,6 +1205,11 @@
 #endif
 	}
     
+    // if the screen is locked or the screen saver is running
+    // we should wait.  This prevents any surprises from occuring in the background
+    // when the system is woke up.  It also attempts to prevent a situation
+    // where someone wants to disable the screen saver password when entering
+    // a context
     if ([self screenLocked] || [self screenSaverRunning]) {
         DSLog(@"not switching because the the screen saver is running or the screen is locked");
         do_switch = NO;

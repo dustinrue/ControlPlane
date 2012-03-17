@@ -86,17 +86,35 @@
 	systemGoingToSleep = NO;
 	systemWakingUp = YES;
 	
-	[self performSelector: @selector(wakeFinished) withObject: nil afterDelay: 30.0];
+    if (![self screenIsLocked]) 
+        [self performSelector: @selector(wakeFinished) withObject: nil afterDelay: 30.0];
+    else
+        DSLog(@"system is still locked, waiting until unlocked");
 	
 	[self doRealUpdate];
 }
 
 - (void) wakeFinished {
-	systemWakingUp = NO;
+    if (![self screenIsLocked]) {
+        systemWakingUp = NO;
+    }
+    else {
+        DSLog(@"screen is still locked, waiting until unlock");
+    }
 }
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Sleep/Wake Event", @"");
+}
+
+- (void) screenDidUnlock:(NSNotification *)notification {
+    [super screenDidUnlock:nil];
+    if (systemWakingUp)
+        [self performSelector: @selector(wakeFinished) withObject: nil afterDelay: 30.0];
+}
+
+- (void) screenDidLock:(NSNotification *)notification {
+    [super screenDidLock:nil];
 }
 
 @end
