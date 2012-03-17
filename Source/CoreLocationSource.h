@@ -3,25 +3,17 @@
 //	ControlPlane
 //
 //	Created by David Jennes on 03/09/11.
-//  Modified by Dustin Rue to use MKMapKit 24/02/12
-//	Copyright 2012. All rights reserved.
+//  Copyright 2011. All rights reserved.
 //
 
 #import "EvidenceSource.h"
 #import <CoreLocation/CoreLocation.h>
 #import <WebKit/WebKit.h>
-#import <MapKit/MapKit.h>
 
-#define kLatSpan 0.0015
-#define kLonSpan 0.0015
-
-@interface CoreLocationSource : EvidenceSource <MKMapViewDelegate,MKGeocoderDelegate,MKReverseGeocoderDelegate> {
-	CLLocation *selectedRule;
+@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate> {
+	CLLocationManager *locationManager;
+	CLLocation *current, *selectedRule;
 	NSDate *startDate;
-    IBOutlet MKMapView *mapView;
-    
-    CLLocation *currentLocation;
-    NSNumber *currentAccuracy;
 	
 	// for custom panel
 	IBOutlet WebView *webView;
@@ -30,15 +22,7 @@
 	NSString *coordinates;
 	NSString *accuracy;
 	NSString *htmlTemplate;
-    
-    NSMutableArray *mapAnnotations;
-    NSMutableArray *mapOverlays;
-    
-    MKReverseGeocoder *reverseGeocoder;
 }
-
-@property (readwrite, retain) CLLocation *currentLocation;
-@property (readwrite, assign) NSNumber *currentAccuracy;
 
 - (id) init;
 - (void) dealloc;
@@ -51,5 +35,7 @@
 - (BOOL) doesRuleMatch: (NSDictionary *) rule;
 
 - (IBAction) showCoreLocation: (id) sender;
+- (BOOL) validateAddress: (inout NSString **) newValue error: (out NSError **) outError;
+- (BOOL) validateCoordinates: (inout NSString **) newValue error: (out NSError **) outError;
 
 @end
