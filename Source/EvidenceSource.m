@@ -381,9 +381,7 @@
 						[AudioOutputEvidenceSource class],
 						[BluetoothEvidenceSource class],
                         [BonjourEvidenceSource class],	
-#ifdef DEBUG_MODE
 						[CoreLocationSource class],
-#endif
 						[LightEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
 						[PowerEvidenceSource class],
@@ -397,9 +395,7 @@
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
 		NSLocalizedString(@"Bonjour", @"Evidence source");
-#ifdef DEBUG_MODE
 		NSLocalizedString(@"CoreLocation", @"Evidence source");
-#endif
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
 		NSLocalizedString(@"Light", @"Evidence source");

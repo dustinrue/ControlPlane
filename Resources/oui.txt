@@ -12704,6 +12704,7 @@
 04-88-8C	Eifelwerk Butler Systeme GmbH
 04-8A-15	Avaya, Inc
 04-94-A1	CATCH THE WIND INC
+04-98-F3	ALPS Electric Co,. Ltd.
 04-9F-81	Simena, LLC
 04-A3-F3	Emicon
 04-A8-2A	Nokia Corporation
@@ -13207,6 +13208,7 @@
 20-6F-EC	Braemac CA LLC
 20-76-00	Actiontec Electronics, Inc
 20-7C-8F	Quanta Microsystems,Inc.
+20-9B-A5	JIAXING GLEAD Electronics Co.,Ltd
 20-A2-E7	Lee-Dickens Ltd
 20-AA-25	IP-NET LLC
 20-AA-4B	Cisco-Linksys, LLC
@@ -13604,6 +13606,7 @@
 40-66-7A	mediola - connected living AG
 40-6A-AB	RIM
 40-6C-8F	Apple, Inc.
+40-70-4A	Power Idea Technology Limited
 40-7B-1B	Mettle Networks Inc.
 40-83-DE	Motorola
 40-84-93	Clavister AB
@@ -13816,6 +13819,7 @@
 50-87-B8	Nuvyyo Inc
 50-8A-42	Uptmate Technology Co., LTD
 50-8A-CB	SHENZHEN MAXMADE TECHNOLOGY CO., LTD.
+50-8C-77	DIRMEIER Systems
 50-93-4F	Gradual Tecnologia Ltda.
 50-97-72	Westinghouse Digital
 50-A6-E3	David Clark Company
@@ -13992,6 +13996,7 @@
 60-6C-66	Intel Corporate
 60-76-88	Velodyne
 60-83-B2	GkWare e.K.
+60-84-3B	Soladigm, Inc.
 60-86-45	Avery Weigh-Tronix, LLC
 60-89-3C	Thermo Fisher Scientific P.O.A.
 60-89-B1	Key Digital Systems
@@ -14004,6 +14009,7 @@
 60-A1-0A	Samsung Electronics Co.,Ltd
 60-B3-C4	Elber Srl
 60-B6-06	Phorus
+60-B9-82	RO.VE.R. Laboratories S.p.A.
 60-C5-47	Apple, Inc.
 60-C9-80	Trymus
 60-D0-A9	Samsung Electronics Co.,Ltd
@@ -14197,6 +14203,7 @@
 70-1A-ED	ADVAS CO., LTD.
 70-2B-1D	E-Domus International Limited
 70-2F-97	Aava Mobile Oy
+70-30-18	Avaya, Inc
 70-31-87	ACX GmbH
 70-32-D5	Athena Wireless Communications Inc
 70-38-EE	Avaya Inc
@@ -14304,6 +14311,7 @@
 78-1D-BA	HUAWEI TECHNOLOGIES CO.,LTD
 78-1D-FD	Jabil Inc
 78-22-3D	Affirmed Networks
+78-25-44	Omnima Limited
 78-25-AD	SAMSUNG ELECTRONICS CO., LTD.
 78-2B-CB	Dell Inc
 78-2E-EF	Nokia Corporation
@@ -14888,6 +14896,7 @@ A0-F4-50	HTC Corporation
 A4-01-30	ABIsystems Co., LTD
 A4-0C-C3	Cisco Systems
 A4-13-4E	Luxul 
+A4-18-75	Cisco Systems
 A4-1B-C0	Fastec Imaging Corporation
 A4-21-8A	Nortel Networks
 A4-24-B3	FlatFrog Laboratories AB
@@ -14896,7 +14905,9 @@ A4-33-D1	Fibrlink Communications Co.,Ltd.
 A4-38-FC	Plastic Logic
 A4-46-FA	AmTRAN Video Corporation
 A4-4B-15	Sun Cupid Technology (HK) LTD
+A4-4C-11	Cisco Systems
 A4-50-55	busware.de
+A4-52-6F	ADB Broadband Italia
 A4-56-1B	MCOT Corporation
 A4-56-30	Cisco Systems
 A4-5A-1C	smart-electronic GmbH
@@ -15000,6 +15011,7 @@ AC-40-EA	C&T Solution Inc.
 AC-44-F2	Revolabs Inc
 AC-47-23	Genelec
 AC-4A-FE	Hisense Broadband Multimedia Technology Co.,Ltd.
+AC-4B-C8	Juniper Networks
 AC-4F-FC	SVS-VISTEK GmbH
 AC-51-35	MPI TECH
 AC-51-EE	Cambridge Communication Systems Ltd
@@ -15110,6 +15122,7 @@ B4-52-53	Seagate Technology
 B4-55-70	Borea
 B4-58-61	CRemote, LLC
 B4-5C-A4	Thing-talk Wireless Communication Technologies Corporation Limited
+B4-62-38	Exablox
 B4-67-E9	Qingdao GoerTek Technology Co., Ltd.
 B4-74-9F	askey computer corp
 B4-82-55	Research Products Corporation
@@ -15345,6 +15358,7 @@ C4-E1-7C	U2S co.
 C4-EE-AE	VSS Monitoring
 C4-EE-F5	Oclaro, Inc.
 C4-F4-64	Spica international
+C4-F5-7C	Brocade Communications Systems, Inc.
 C4-FC-E4	DishTV NZ Ltd
 C8-02-A6	Beijing Newmine Technology
 C8-07-18	TDSi
@@ -15387,6 +15401,7 @@ C8-94-D2	Jiangsu Datang
 C8-97-9F	Nokia Corporation
 C8-9C-1D	Cisco Systems
 C8-9C-DC	ELITEGROUP COMPUTER SYSTEM CO., LTD.
+C8-9F-42	VDII Innovation AB
 C8-A1-B6	Shenzhen Longway Technologies Co., Ltd
 C8-A1-BA	Neul Ltd
 C8-A6-20	Nebula, Inc
@@ -15394,6 +15409,7 @@ C8-A7-0A	Verizon Business
 C8-A7-29	SYStronics Co., Ltd.
 C8-AA-21	Motorola Mobility, Inc.
 C8-AA-CC	PRIVATE
+C8-AE-9C	Shanghai TYD Elecronic Technology Co. Ltd
 C8-AF-40	marco Systemanalyse und Entwicklung GmbH
 C8-BB-D3	Embrane
 C8-BC-C8	Apple, Inc.
@@ -16070,6 +16086,7 @@ FC-44-63	Universal Audio
 FC-45-5F	JIANGXI SHANSHUI OPTOELECTRONIC TECHNOLOGY CO.,LTD
 FC-48-EF	HUAWEI TECHNOLOGIES CO.,LTD
 FC-4D-D4	Universal Global Scientific Industrial Co., Ltd.
+FC-50-90	SIMEX Sp. z o.o.
 FC-5B-24	Weibel Scientific A/S
 FC-5B-26	MikroBits
 FC-61-98	NEC Personal Products, Ltd
@@ -16082,6 +16099,7 @@ FC-83-29	Trei technics
 FC-8E-7E	Pace plc
 FC-8F-C4	Intelligent Technology Inc.
 FC-94-6C	UBIVELOX
+FC-94-E3	Technicolor USA Inc.
 FC-A1-3E	Samsung Electronics
 FC-A8-41	Avaya, Inc
 FC-AF-6A	Conemtech AB
