@@ -23,7 +23,6 @@
 1088|EIZO NANAO CORPORATION
 1102|Alps Electric Co., Ltd.
 1105|Texas Instruments
-1111|Silicon Integrated Systems Corp.
 1112|KYE Systems Corp.
 1115|Renesas Electronics Corp.
 1118|Microsoft Corporation
@@ -46,6 +45,7 @@
 1193|Canon Inc.
 1200|Nikon Corporation
 1201|Pan International
+1204|Cypress Semiconductor
 1205|ROHM Co., Ltd.
 1207|Compal Electronics, Inc.
 1208|Seiko Epson Corp.
@@ -68,6 +68,7 @@
 1276|SUNPLUS TECHNOLOGY CO., LTD.
 1278|PFU Limited
 1281|Fujikura/DDK
+1282|Acer, Inc.
 1287|Hosiden Corporation
 1293|Belkin Corporation
 1300|FCI Electronics
@@ -190,7 +191,6 @@
 2313|Audio-Technica Corp.
 2316|Silicon Motion, Inc. - Taiwan
 2334|Garmin International
-2338|Dymo Corporation
 2352|Toshiba Corporation
 2363|Plextor LLC
 2366|J.S.T. Mfg. Co., Ltd.
@@ -229,7 +229,6 @@
 2846|Electronic Warfare Associates, Inc. (EWA)
 2849|Yokogawa Electric Corporation
 2851|Pan-Asia Electronics Co., Ltd.
-2876|Olivetti S.p.A
 2894|Musical Electronics Ltd.
 2900|Sinbon Electronics Co., Ltd.
 2922|Maxim Integrated Products
@@ -378,7 +377,6 @@
 5145|ABILITY ENTERPRISE CO., LTD.
 5153|Sensor Technologies America, Inc.
 5161|Vega Technologies Industrial (Austria) Co.
-5177|Wind River Systems Inc.
 5180|Altek Corporation
 5242|Formosa21 Inc.
 5255|DSP Group, Ltd.
@@ -484,7 +482,6 @@
 7054|Amlogic, Inc.
 7055|Super Talent Technology, Inc.
 7065|Shenzhen Yuanchuan Electronic
-7108|Ford Motor Co.
 7118|Contac Cable Industrial Limited
 7119|Sunplus Innovation Technology Inc.
 7158|Orient Semiconductor Electronics, Ltd.
@@ -493,9 +490,9 @@
 7217|LS Mtron
 7275|Philips & Lite-ON Digital Solutions Corporation
 7287|Kaetat Industrial Co., Ltd.
-7291|Shenzhen Luxshare Precision Industry Co., Ltd.
 7310|ASTRON INTERNATIONAL CORP.
 7320|ALPINE ELECTRONICS, INC.
+7344|LEGRAND FRANCE
 7347|Aces Electronics Co., Ltd.
 7348|OPEX CORPORATION
 7358|Texas Instruments - Stellaris
@@ -511,10 +508,10 @@
 7543|Yueqing Changling Electronic Instrument Corp., Ltd.
 7545|Shenzhen My-Power Technology Co., Ltd.
 7552|PLDA
+7557|NINGBO SHUNSHENG COMMUNICATION APPARATUS CO., LTD.
 7584|Parade Technologies, Inc.
 7614|S.R.N. Corporation
 7628|Document Capture Technologies, Inc.
-7640|BUFFALO KOKUYO SUPPLY INC.
 7647|GDA Technologies, Inc.
 7666|Telecommunication Metrology Center of MII
 7688|Inventure, Inc.
@@ -568,7 +565,6 @@
 8566|TMC/Allion Test Labs
 8627|Dongguan Teconn Electronics Technology Co., Ltd.
 8629|SHENZHEN JASON ELECTRONICS CO., LTD.
-8659|Compupack Technology Co., Ltd.
 8681|Jiafuh Metal & Plastic (ShenZhen) Co., Ltd.
 8695|Wuerth-Elektronik eiSos GmbH & Co. KG
 8709|3eYamaichi Electronics Co., Ltd.
@@ -610,9 +606,6 @@
 9300|Velosti Technology Limited
 9301|Anton/Bauer, Inc.
 9335|UbiVelox
-9339|Digibras Industria do Brasil S.A
-9340|Fullconn Industry Inc.
-9341|JARGY CO. LTD.
 9352|SuperD Co., Ltd.
 9353|Irvine Sensors Corporation
 9354|TeLink Semiconductor (Shanghai) Co., Ltd.
