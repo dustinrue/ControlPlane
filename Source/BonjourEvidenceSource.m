@@ -105,7 +105,7 @@
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-#if DEBUG_MODE
+#ifdef DEBUG_MODE
     NSLog(@"I know about %@", services);
 #endif
     
@@ -201,7 +201,7 @@
     else {
         [servicesBeingResolved removeObject:netServiceBrowser];
     }
-    NSLog(@"%@ is removing %@",netServiceBrowser, [removedService name]);
+    DSLog(@"%@ is removing %@",netServiceBrowser, [removedService name]);
     [services removeObject:removedService];
 }
 

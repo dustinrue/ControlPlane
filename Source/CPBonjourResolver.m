@@ -7,6 +7,7 @@
 //
 
 #import "CPBonjourResolver.h"
+#import "DSLogger.h"
 
 @implementation CPBonjourResolver 
 
@@ -60,19 +61,19 @@
     if ([[self delegate] respondsToSelector:@selector(netServiceBrowser:removedService:)])
         [[self delegate] netServiceBrowser:self removedService:netService];
     else
-        NSLog(@"you're not compliant with CPBonjourResolverDelegate so you missed hearing about this service that went away");
+        DSLog(@"you're not compliant with CPBonjourResolverDelegate so you missed hearing about this service that went away");
     
 }
 
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser {
 #ifdef DEBUG_MODE
-	NSLog(@"%s called.", __PRETTY_FUNCTION__);
+	DSLog(@"");
 #endif
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
              didNotSearch:(NSDictionary *)errorInfo {
-	NSLog(@"failure:\n%@", errorInfo);
+	DSLog(@"Failed to perform search:\n%@", errorInfo);
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
@@ -88,31 +89,31 @@
 
 
 - (void)netServiceDidResolveAddress:(NSNetService *)sender {
-//    if([[self delegate] respondsToSelector:@selector(foundItemsDidChange:)]) {
-//        [[self delegate] foundItemsDidChange:self];
-//    }
-//        NSLog(@"%s service %@ on %@", __PRETTY_FUNCTION__, [sender type], [sender hostName]);
     if ([[self delegate] respondsToSelector:@selector(resolvedServiceArrived:)])
         [[self delegate] resolvedServiceArrived:sender];
     else
-        NSLog(@"you're not compliant with CPBonjourResolverDelegate so you missed on this hot new service I found");
+        DSLog(@"you're not compliant with CPBonjourResolverDelegate so you missed on this hot new service I found");
 }
 
 
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
-        NSLog(@"%s because %@", __PRETTY_FUNCTION__, errorDict);
+        DSLog(@"failed to resolve netService: %@", errorDict);
 }
 
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing {
-            NSLog(@"%s", __PRETTY_FUNCTION__);
+#ifdef DEBUG_MODE
+    DSLog(@"");
+#endif
 }
     
 
 
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveDomain:(NSString *)domainString moreComing:(BOOL)moreComin {
-            NSLog(@"%s", __PRETTY_FUNCTION__);
+#ifdef DEBUG_MODE
+    DSLog(@"");
+#endif
 }
 
 
