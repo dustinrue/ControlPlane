@@ -48,10 +48,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (void)awakeFromNib {
-	// pre-load html template
-	NSString *htmlPath = [NSBundle.mainBundle pathForResource:@"CoreLocationMap" ofType:@"html"];
-	htmlTemplate = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
-	
+
 	// show empty page
 	[webView setFrameLoadDelegate: self];
 	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
@@ -267,13 +264,17 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 
 - (void) updateMap {
 	// Get coordinates and replace placeholders with these
+    NSString *htmlPath = [NSBundle.mainBundle pathForResource:@"CoreLocationMap" ofType:@"html"];
+	htmlTemplate = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
+    
+    NSLog(@"htmlTemplate %@", htmlTemplate);
 	NSString *htmlString = [NSString stringWithFormat: htmlTemplate,
 							(current ? current.coordinate.latitude : 0.0),
 							(current ? current.coordinate.longitude : 0.0),
 							(selectedRule ? selectedRule.coordinate.latitude : 0.0),
 							(selectedRule ? selectedRule.coordinate.longitude : 0.0),
 							(current ? current.horizontalAccuracy : 0.0)];
-	
+	NSLog(@"htmlString is %@", htmlString);
 	// Load the HTML in the WebView
 	[webView.mainFrame loadHTMLString: htmlString baseURL: nil];
 }
