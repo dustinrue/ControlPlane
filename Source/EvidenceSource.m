@@ -373,24 +373,24 @@
 		return nil;
     
 	NSArray *classes = [NSArray arrayWithObjects:
+                        [NetworkLinkEvidenceSource class],
+                        [IPEvidenceSource class],
+                        [FireWireEvidenceSource class],
+                        [MonitorEvidenceSource class],
+                        [USBEvidenceSource class],
 						[AudioOutputEvidenceSource class],
 						[BluetoothEvidenceSource class],
-						[BonjourEvidenceSource class],
+                        [BonjourEvidenceSource class],	
 #ifdef DEBUG_MODE
 						[CoreLocationSource class],
 #endif
-						[FireWireEvidenceSource class],
-						[IPEvidenceSource class],
 						[LightEvidenceSource class],
-						[MonitorEvidenceSource class],
-						[NetworkLinkEvidenceSource class],
+						[WiFiEvidenceSourceCoreWLAN class],
 						[PowerEvidenceSource class],
 						[RunningApplicationEvidenceSource class],
                         [ShellScriptEvidenceSource class],
 						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
-						[USBEvidenceSource class],
-						[WiFiEvidenceSourceCoreWLAN class],
 						nil];
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
