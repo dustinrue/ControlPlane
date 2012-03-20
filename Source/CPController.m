@@ -1266,11 +1266,11 @@
 
 #pragma mark -
 #pragma mark Screen Saver Monitoring
-- (void) setScreenSaverActive {
+- (void) setScreenSaverActive:(NSNotification *) notification {
     [self setScreenSaverRunning:YES];
     DSLog(@"Screen saver is running");
 }
-- (void) setScreenSaverInActive {
+- (void) setScreenSaverInActive:(NSNotification *) notification {
     [self setScreenSaverRunning:NO];
     DSLog(@"Screen saver is not running");
 }
