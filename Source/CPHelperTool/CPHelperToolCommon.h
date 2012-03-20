@@ -34,6 +34,15 @@
 #define kCPHelperToolEnablePrinterSharingCommand    "EnablePrinterSharing"
 #define kCPHelperToolDisablePrinterSharingCommand   "DisablePrinterSharing"
 
+
+// file sharing
+#define kCPHelperToolGetFileSharingConfigCommand    "GetFileSharingConfig"
+#define kCPHelperToolEnableFileSharingCommand       "EnableFileSharing"
+#define kCPHelperToolDisableFileSharingCommand      "DisableFileSharing"
+#define kCPHelperToolOverridesFilePath              "/private/var/db/launchd.db/com.apple.launchd/overrides.plist"
+#define kCPHelperToolFileSharingStatusKey           "Disabled"
+#define kCPHelperToolFilesharingConfigResponse      "sharingStatus"
+
 // Rights
 #define kCPHelperToolToggleTMRightName              "com.dustinrue.ControlPlane.ToggleTM"
 #define kCPHelperToolRunBackupTMRightName           "com.dustinrue.ControlPlane.RunBackupTM"
@@ -41,6 +50,11 @@
 #define kCPHelperToolToggleFWRightName              "com.dustinrue.ControlPlane.ToggleFW"
 #define kCPHelperToolSetDisplaySleepTimeRightName   "com.dustinrue.ControlPlane.SetDisplaySleepTime"
 #define kCPHelperToolTogglePrinterSharingRightName  "com.dustinrue.ControlPlane.TogglePrinterSharing"
+#define kCPHelperToolFileSharingRightName           "com.dustinrue.ControlPlaneFileSharingRightName"
+
+
+// Misc
+
 
 // Commands array (keep in sync!)
 extern const BASCommandSpec kCPHelperToolCommandSet[];

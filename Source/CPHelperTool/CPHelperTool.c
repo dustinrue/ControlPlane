@@ -11,6 +11,7 @@
 #import <stdio.h>
 #import <unistd.h>
 #import <CoreServices/CoreServices.h>
+#import <syslog.h>
 
 #import "AuthorizationLib/BetterAuthorizationSampleLib.h"
 #import "CPHelperToolCommon.h"
@@ -356,6 +357,106 @@ static OSStatus DoDisablePrinterSharing (AuthorizationRef         auth,
 	return retValue;
 }
 
+static OSStatus DoGetFileSharingConfig (AuthorizationRef          auth,
+                                         const void *             userData,
+                                         CFDictionaryRef          request,
+                                         CFMutableDictionaryRef   response,
+                                         aslclient				  asl,
+                                         aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+    
+    CFPropertyListRef   overridesList;
+    CFStringRef         errorString;
+    CFDataRef           resourceData;
+    Boolean             status;
+    SInt32              errorCode;
+	int                 failed = 0;
+    
+    CFStringRef statusFor = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    CFURLRef overridesFilePath = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,
+                                                               CFSTR(kCPHelperToolOverridesFilePath),
+                                                               kCFURLPOSIXPathStyle,
+                                                               false);
+    
+    status = CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, overridesFilePath, &resourceData, NULL, NULL, &errorCode);
+    
+    
+    if (!status) {
+        failed = 1;
+    }
+    
+    overridesList = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, resourceData, kCFPropertyListImmutable, &errorString);
+    
+    if (!overridesList) {
+        failed = 1;
+    }
+    
+    if (CFPropertyListIsValid(overridesList, kCFPropertyListXMLFormat_v1_0)) {
+        failed = 1;
+    }
+    
+    
+    if (CFDictionaryContainsKey((CFDictionaryRef)overridesList, statusFor)) {
+        
+        CFPropertyListRef smbdStatusDict = CFDictionaryGetValue(overridesList, statusFor);
+        
+        CFBooleanRef smbdStatus = CFDictionaryGetValue(smbdStatusDict, CFSTR(kCPHelperToolFileSharingStatusKey));
+        
+        CFDictionaryAddValue(response, CFSTR(kCPHelperToolFilesharingConfigResponse), smbdStatus);
+    }
+    else {
+        failed = 1;
+    }
+    
+    CFRelease(overridesFilePath);
+    if (overridesList) CFRelease(overridesList);
+    
+	return failed;
+}
+
+static OSStatus DoEnableFileSharing (AuthorizationRef         auth,
+                                         const void *             userData,
+                                         CFDictionaryRef          request,
+                                         CFMutableDictionaryRef   response,
+                                         aslclient				  asl,
+                                         aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/usr/sbin/cupsctl --no-share-printers");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
+static OSStatus DoDisableFileSharing (AuthorizationRef         auth,
+                                      const void *             userData,
+                                      CFDictionaryRef          request,
+                                      CFMutableDictionaryRef   response,
+                                      aslclient                asl,
+                                      aslmsg                   aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/usr/sbin/cupsctl --no-share-printers");
+    retValue = system(command);
+	
+	
+	return retValue;
+}
+
 #pragma mark -
 #pragma mark Tool Infrastructure
 
@@ -373,6 +474,9 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     SetDisplaySleepTime,
     DoEnablePrinterSharing,
     DoDisablePrinterSharing,
+    DoGetFileSharingConfig,
+    DoEnableFileSharing,
+    DoDisableFileSharing,
 	NULL
 };
 

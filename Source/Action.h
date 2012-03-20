@@ -9,6 +9,12 @@
 	NSString *type, *context, *when;
 	NSNumber *delay, *enabled;
     
+    // terrible hack so that an action can
+    // have response data from the helper tool
+    // but because the helpertool is a category
+    // action, it can't define its own ivars
+    CFDictionaryRef response;
+    
     NSAppleEventDescriptor *appleScriptResult_;
 }
 

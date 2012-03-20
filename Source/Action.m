@@ -230,6 +230,7 @@
 #import "StartTimeMachineAction.h"
 #import "TimeMachineDestinationAction.h"
 #import "ToggleBluetoothAction.h"
+#import "ToggleFileSharingAction.h"
 #import "ToggleFirewallAction.h"
 #import "ToggleInternetSharingAction.h"
 #import "TogglePrinterSharingAction.h"
@@ -280,6 +281,7 @@
 			   [StartTimeMachineAction class],
                [TimeMachineDestinationAction class],
 			   [ToggleBluetoothAction class],
+               [ToggleFileSharingAction class],
                [ToggleFirewallAction class],
                [ToggleInternetSharingAction class],
                [TogglePrinterSharingAction class],
@@ -318,6 +320,7 @@
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
         NSLocalizedString(@"TimeMachineDestination", @"Action type");
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
+        NSLocalizedString(@"ToggleFileSharing", @"Action type");
         NSLocalizedString(@"ToggleFirewall", @"Action type");
         NSLocalizedString(@"ToggleInternetSharing", @"Action type");
         NSLocalizedString(@"TimeMachineAction",@"Action type");

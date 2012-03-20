@@ -86,6 +86,7 @@
 		DA49AF6C14C3E0AB00D03D6A /* TogglePrinterSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA49AF6B14C3E0AB00D03D6A /* TogglePrinterSharingAction.m */; };
 		DA4A629313E2546800CE976F /* ControlPlane Help in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629213E2546800CE976F /* ControlPlane Help */; };
 		DA4A629513E25C9D00CE976F /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4A629413E25C9D00CE976F /* Credits.html */; };
+		DA571B71151587B80074CE22 /* ToggleFileSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA571B70151587B80074CE22 /* ToggleFileSharingAction.m */; };
 		DA5B01E61412B86400E19C50 /* CPHelperInstallTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */; };
 		DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
 		DA5B01F61412BB0D00E19C50 /* BetterAuthorizationSampleLibInstallTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */; };
@@ -369,6 +370,8 @@
 		DA49AF6B14C3E0AB00D03D6A /* TogglePrinterSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TogglePrinterSharingAction.m; path = Source/TogglePrinterSharingAction.m; sourceTree = "<group>"; };
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ControlPlane Help"; path = "Resources/ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
+		DA571B6F151587B80074CE22 /* ToggleFileSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFileSharingAction.h; path = Source/ToggleFileSharingAction.h; sourceTree = "<group>"; };
+		DA571B70151587B80074CE22 /* ToggleFileSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFileSharingAction.m; path = Source/ToggleFileSharingAction.m; sourceTree = "<group>"; };
 		DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperInstallTool; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterAuthorizationSampleLib.h; sourceTree = "<group>"; };
 		DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLib.c; sourceTree = "<group>"; };
@@ -912,6 +915,8 @@
 				DAE893E514546897005FA13C /* ToggleFirewallAction.m */,
 				DA922E9B144FC95200920B40 /* ToggleInternetSharingAction.h */,
 				DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */,
+				DA571B6F151587B80074CE22 /* ToggleFileSharingAction.h */,
+				DA571B70151587B80074CE22 /* ToggleFileSharingAction.m */,
 				DA49AF6A14C3E0AB00D03D6A /* TogglePrinterSharingAction.h */,
 				DA49AF6B14C3E0AB00D03D6A /* TogglePrinterSharingAction.m */,
 				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
@@ -1228,6 +1233,7 @@
 				DA49AF6C14C3E0AB00D03D6A /* TogglePrinterSharingAction.m in Sources */,
 				DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */,
 				DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */,
+				DA571B71151587B80074CE22 /* ToggleFileSharingAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,7 +30,7 @@
 - (BOOL) helperToolPerformAction: (NSString *) action withParameter: (id) parameter {
 	static int32_t versionCheck = 0;
 	
-	CFDictionaryRef response = NULL;
+	response = NULL;
 	AuthorizationRef auth = NULL;
 	OSStatus error = noErr;
 	

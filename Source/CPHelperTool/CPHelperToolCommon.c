@@ -82,6 +82,24 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
         "DisablePrinterSharing",
         NULL
     },
+    {   kCPHelperToolGetFileSharingConfigCommand,
+        kCPHelperToolFileSharingRightName,
+        "allow",
+        "GetFileSharingConfig",
+        NULL
+    },
+    {   kCPHelperToolEnableFileSharingCommand,
+        kCPHelperToolFileSharingRightName,
+        "allow",
+        "EnableFileSharing",
+        NULL
+    },
+    { kCPHelperToolDisableFileSharingCommand,
+        kCPHelperToolFileSharingRightName,
+        "allow",
+        "DisableFileSharing",
+        NULL
+    },
 	{	NULL,
 		NULL,
 		NULL,
