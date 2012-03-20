@@ -428,9 +428,16 @@ static OSStatus DoEnableFileSharing (AuthorizationRef         auth,
 	assert(response != NULL);
 	
 	char command[256];
+    char param[256];
 	int retValue = 0;
     
-    sprintf(command, "/usr/sbin/cupsctl --no-share-printers");
+    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    if (CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+        return BASErrnoToOSStatus(EINVAL);
+    
+
+    sprintf(command, "launchctl load -F /System/Library/LaunchDaemons/%s.plist", param);
     retValue = system(command);
 	
 	
@@ -448,9 +455,16 @@ static OSStatus DoDisableFileSharing (AuthorizationRef         auth,
 	assert(response != NULL);
 	
 	char command[256];
+    char param[256];
 	int retValue = 0;
     
-    sprintf(command, "/usr/sbin/cupsctl --no-share-printers");
+    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    if (CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+        return BASErrnoToOSStatus(EINVAL);
+    
+    
+    sprintf(command, "launchctl unload -F /System/Library/LaunchDaemons/%s.plist", param);
     retValue = system(command);
 	
 	

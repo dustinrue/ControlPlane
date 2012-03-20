@@ -42,6 +42,8 @@
 #define kCPHelperToolOverridesFilePath              "/private/var/db/launchd.db/com.apple.launchd/overrides.plist"
 #define kCPHelperToolFileSharingStatusKey           "Disabled"
 #define kCPHelperToolFilesharingConfigResponse      "sharingStatus"
+#define kCPHelperToolAFPSericeName                  "com.apple.AppleFileServer"
+#define kCPHelperToolSMBDServiceName                "com.apple.smbd"
 
 // Rights
 #define kCPHelperToolToggleTMRightName              "com.dustinrue.ControlPlane.ToggleTM"

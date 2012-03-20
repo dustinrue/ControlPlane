@@ -30,7 +30,7 @@
 - (BOOL) helperToolPerformAction: (NSString *) action withParameter: (id) parameter {
 	static int32_t versionCheck = 0;
 	
-	response = NULL;
+	helperToolResponse = NULL;
 	AuthorizationRef auth = NULL;
 	OSStatus error = noErr;
 	
@@ -42,14 +42,14 @@
 		OSAtomicIncrement32(&versionCheck);
 		
 		// get version of helper tool
-		error = [self helperToolActualPerform: @kCPHelperToolGetVersionCommand withParameter:nil response: &response auth: auth];
+		error = [self helperToolActualPerform: @kCPHelperToolGetVersionCommand withParameter:nil response: &helperToolResponse auth: auth];
 		if (error) {
 			OSAtomicDecrement32(&versionCheck);
 			return NO;
 		}
 		
 		// check version and update if needed
-		NSNumber *version = [(NSDictionary *) response objectForKey: @kCPHelperToolGetVersionResponse];
+		NSNumber *version = [(NSDictionary *) helperToolResponse objectForKey: @kCPHelperToolGetVersionResponse];
 		if ([version intValue] < kCPHelperToolVersionNumber)
 			[self helperToolFix: kBASFailNeedsUpdate withAuth: auth];
 		
@@ -62,7 +62,7 @@
 		[NSThread sleepForTimeInterval: 1];
 	
 	// perform actual action
-	error = [self helperToolActualPerform: (NSString *) action withParameter: parameter response: &response auth: auth];
+	error = [self helperToolActualPerform: (NSString *) action withParameter: parameter response: &helperToolResponse auth: auth];
 	
 	return (error ? NO : YES);
 }

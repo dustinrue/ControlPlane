@@ -13,7 +13,7 @@
     // have response data from the helper tool
     // but because the helpertool is a category
     // action, it can't define its own ivars
-    CFDictionaryRef response;
+    CFDictionaryRef helperToolResponse;
     
     NSAppleEventDescriptor *appleScriptResult_;
 }

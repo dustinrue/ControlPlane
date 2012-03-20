@@ -8,6 +8,7 @@
 
 #import "ToggleFileSharingAction.h"
 #import "Action+HelperTool.h"
+#import "DSLogger.h"
 
 @implementation ToggleFileSharingAction
 
@@ -20,38 +21,79 @@
 
 - (BOOL) execute: (NSString **) errorString {
     
-    BOOL failed = NO;
+    BOOL afpStatusFailed = NO;
+    BOOL smbdStatusFailed = NO;
     
-    failed = [self helperToolPerformAction:@kCPHelperToolGetFileSharingConfigCommand withParameter:@"com.apple.AppleFileServer"];
+    // the overrides file for launchd specifies what items are "Disabled"
+    // so if the value is true, then the item is disabled, false for enabled
+    // we assume that the items are disabled by default in case
+    // the helper tool simply fails to get the actual state
+    BOOL afpIsDisabled = YES;
+    BOOL smbdIsDisabled = YES;
     
-    if (failed)
-        NSLog(@"failed to get AFP status");
+    // the response from the helper tool is a CFDictionaryRef
+    // and we need to convert it later
+    NSDictionary *statusDict = nil;
     
-    NSLog(@"%@", response);
     
-    failed = [self helperToolPerformAction:@kCPHelperToolGetFileSharingConfigCommand withParameter:@"com.apple.smbd"];
+    // before we toggle (especially on) we need to know which sharing types are enabled. 
+    // We check here, though we're only interested in SMB and AFP, not FTP which exists
+    // on pre-Lion systems
     
-    if (failed)
-        NSLog(@"failed to get smbd status");
+    // helpertool returns 1 for fail 0 for success
+    if ([self helperToolPerformAction:@kCPHelperToolGetFileSharingConfigCommand withParameter:@kCPHelperToolAFPSericeName]) {
+        DSLog(@"CPHelperTool failed to get AFP status");
+        afpStatusFailed = YES;
+    }
+    else {
+        statusDict = (__bridge NSDictionary*) helperToolResponse;
+        afpIsDisabled = [[statusDict valueForKey:@"sharingStatus"] boolValue];
+        
+        if (!afpIsDisabled && turnOn) {
+            DSLog(@"enabling AFP file sharing services");
+            if ([self helperToolPerformAction:@kCPHelperToolEnableFileSharingCommand withParameter:@kCPHelperToolAFPSericeName]) 
+                afpStatusFailed = YES;
+        }
+        else if (!afpIsDisabled && !turnOn) {
+            DSLog(@"disabling AFP file sharing services");
+            if ([self helperToolPerformAction:@kCPHelperToolDisableFileSharingCommand withParameter:@kCPHelperToolAFPSericeName]) 
+                afpStatusFailed = YES;
+        }
+    }
     
-    NSLog(@"%@", response);
-    /*
-	NSString *command = turnOn ? @kCPHelperToolEnableFileSharingCommand : @kCPHelperToolDisableFileSharingCommand;
     
-    command = @kCPHelperToolGetFileSharingConfigCommand;
-	
-	BOOL result = [self helperToolPerformAction: command];
-	
-	if (!result) {
+    if ([self helperToolPerformAction:@kCPHelperToolGetFileSharingConfigCommand withParameter:@kCPHelperToolSMBDServiceName]) {
+        DSLog(@"CPHelperTool failed to get smbd status");
+    }
+    else {
+        statusDict = (__bridge NSDictionary *) helperToolResponse;
+        smbdIsDisabled = [[statusDict valueForKey:@"sharingStatus"] boolValue];
+        
+        if (!smbdIsDisabled && turnOn) {
+            DSLog(@"enabling SMBD file sharing services");
+            if ([self helperToolPerformAction:@kCPHelperToolEnableFileSharingCommand withParameter:@kCPHelperToolSMBDServiceName]) {
+                smbdStatusFailed = YES;
+            }
+        }
+        else if (!smbdIsDisabled && !turnOn) {
+            DSLog(@"disabling SMBD file sharing services");
+            if ([self helperToolPerformAction:@kCPHelperToolDisableFileSharingCommand withParameter:@kCPHelperToolSMBDServiceName])
+                smbdStatusFailed = YES;
+                
+        }
+    }
+    
+    
+	if (afpStatusFailed || smbdStatusFailed) {
 		if (turnOn)
-			*errorString = NSLocalizedString(@"Failed enabling File Sharing.", @"Act of turning on or enabling File Sharing failed");
+			*errorString = NSLocalizedString(@"Failed enabling File Sharing.", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed disabling File Sharing.", @"Act of turning off or disabling File Sharing failed");
 	}
 
-    NSLog(@"response is %@", response);
-    */
-	return failed;
+
+    
+	return afpStatusFailed & smbdStatusFailed;
 }
 
 + (NSString *) helpText {
