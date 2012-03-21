@@ -1,3 +1,4 @@
+
 /*
 	File:       BetterAuthorizationSampleLib.c
 

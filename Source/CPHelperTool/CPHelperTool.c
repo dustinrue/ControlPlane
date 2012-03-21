@@ -404,6 +404,8 @@ static OSStatus DoGetFileSharingConfig (AuthorizationRef          auth,
         CFPropertyListRef smbdStatusDict = CFDictionaryGetValue(overridesList, statusFor);
         
         CFBooleanRef smbdStatus = CFDictionaryGetValue(smbdStatusDict, CFSTR(kCPHelperToolFileSharingStatusKey));
+        char thingy[256];
+        CFStringGetCString(statusFor, thingy, 255, kCFStringEncodingUTF8);
         
         CFDictionaryAddValue(response, CFSTR(kCPHelperToolFilesharingConfigResponse), smbdStatus);
     }
@@ -433,11 +435,11 @@ static OSStatus DoEnableFileSharing (AuthorizationRef         auth,
     
     CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
     
-    if (CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
         return BASErrnoToOSStatus(EINVAL);
     
 
-    sprintf(command, "launchctl load -F /System/Library/LaunchDaemons/%s.plist", param);
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/%s.plist", param);
     retValue = system(command);
 	
 	
@@ -460,14 +462,12 @@ static OSStatus DoDisableFileSharing (AuthorizationRef         auth,
     
     CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
     
-    if (CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
         return BASErrnoToOSStatus(EINVAL);
     
-    
-    sprintf(command, "launchctl unload -F /System/Library/LaunchDaemons/%s.plist", param);
+    sprintf(command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/%s.plist", param);
     retValue = system(command);
-	
-	
+
 	return retValue;
 }
 
