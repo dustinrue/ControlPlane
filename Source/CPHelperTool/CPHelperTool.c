@@ -357,69 +357,7 @@ static OSStatus DoDisablePrinterSharing (AuthorizationRef         auth,
 	return retValue;
 }
 
-static OSStatus DoGetFileSharingConfig (AuthorizationRef          auth,
-                                         const void *             userData,
-                                         CFDictionaryRef          request,
-                                         CFMutableDictionaryRef   response,
-                                         aslclient				  asl,
-                                         aslmsg					  aslMsg) {
-    assert(auth     != NULL);
-	assert(request  != NULL);
-	assert(response != NULL);
-    
-    CFPropertyListRef   overridesList;
-    CFStringRef         errorString;
-    CFDataRef           resourceData;
-    Boolean             status;
-    SInt32              errorCode;
-	int                 failed = 0;
-    
-    CFStringRef statusFor = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
-    
-    CFURLRef overridesFilePath = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,
-                                                               CFSTR(kCPHelperToolOverridesFilePath),
-                                                               kCFURLPOSIXPathStyle,
-                                                               false);
-    
-    status = CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, overridesFilePath, &resourceData, NULL, NULL, &errorCode);
-    
-    
-    if (!status) {
-        failed = 1;
-    }
-    
-    overridesList = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, resourceData, kCFPropertyListImmutable, &errorString);
-    
-    if (!overridesList) {
-        failed = 1;
-    }
-    
-    if (CFPropertyListIsValid(overridesList, kCFPropertyListXMLFormat_v1_0)) {
-        failed = 1;
-    }
-    
-    
-    if (CFDictionaryContainsKey((CFDictionaryRef)overridesList, statusFor)) {
-        
-        CFPropertyListRef smbdStatusDict = CFDictionaryGetValue(overridesList, statusFor);
-        
-        CFBooleanRef smbdStatus = CFDictionaryGetValue(smbdStatusDict, CFSTR(kCPHelperToolFileSharingStatusKey));
-        char thingy[256];
-        CFStringGetCString(statusFor, thingy, 255, kCFStringEncodingUTF8);
-        
-        CFDictionaryAddValue(response, CFSTR(kCPHelperToolFilesharingConfigResponse), smbdStatus);
-    }
-    else {
-        failed = 1;
-    }
-    
-    CFRelease(overridesFilePath);
-    if (overridesList) CFRelease(overridesList);
-    
-	return failed;
-}
-
-static OSStatus DoEnableFileSharing (AuthorizationRef         auth,
+static OSStatus DoEnableAFPFileSharing (AuthorizationRef         auth,
                                          const void *             userData,
                                          CFDictionaryRef          request,
                                          CFMutableDictionaryRef   response,
@@ -442,11 +380,10 @@ static OSStatus DoEnableFileSharing (AuthorizationRef         auth,
     sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/%s.plist", param);
     retValue = system(command);
 	
-	
 	return retValue;
 }
 
-static OSStatus DoDisableFileSharing (AuthorizationRef         auth,
+static OSStatus DoDisableAFPFileSharing (AuthorizationRef         auth,
                                       const void *             userData,
                                       CFDictionaryRef          request,
                                       CFMutableDictionaryRef   response,
@@ -471,6 +408,65 @@ static OSStatus DoDisableFileSharing (AuthorizationRef         auth,
 	return retValue;
 }
 
+static OSStatus DoEnableSMBFileSharing (AuthorizationRef         auth,
+                                        const void *             userData,
+                                        CFDictionaryRef          request,
+                                        CFMutableDictionaryRef   response,
+                                        aslclient				  asl,
+                                        aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+	int retValue = 0;
+    
+    sprintf(command, "/usr/bin/defaults write %s 'EnabledServices' -array 'disk'", kCPHelperToolSMBPrefsFilePath);
+    
+    retValue = system(command);
+    
+    if (!retValue) {
+        
+        sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
+        retValue = system(command);
+    }
+    
+	
+	
+	return retValue;
+}
+
+static OSStatus DoDisableSMBFileSharing (AuthorizationRef         auth,
+                                         const void *             userData,
+                                         CFDictionaryRef          request,
+                                         CFMutableDictionaryRef   response,
+                                         aslclient                asl,
+                                         aslmsg                   aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    char param[256];
+	int retValue = 0;
+    
+    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+        return BASErrnoToOSStatus(EINVAL);
+    
+    sprintf(command, "/usr/bin/defaults delete %s 'EnabledServices'", kCPHelperToolSMBPrefsFilePath);
+    retValue = system(command);
+    
+
+    if (!retValue) {
+        sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
+        retValue = system(command);
+    }
+    
+	return retValue;
+}
+
 #pragma mark -
 #pragma mark Tool Infrastructure
 
@@ -488,9 +484,10 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     SetDisplaySleepTime,
     DoEnablePrinterSharing,
     DoDisablePrinterSharing,
-    DoGetFileSharingConfig,
-    DoEnableFileSharing,
-    DoDisableFileSharing,
+    DoEnableAFPFileSharing,
+    DoDisableAFPFileSharing,
+    DoEnableSMBFileSharing,
+    DoDisableSMBFileSharing,
 	NULL
 };
 

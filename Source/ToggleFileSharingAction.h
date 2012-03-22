@@ -6,9 +6,20 @@
 //  Copyright (c) 2012. All rights reserved.
 //
 
-#import "ToggleableAction.h"
+#import "Action.h"
 
-@interface ToggleFileSharingAction : ToggleableAction
+enum FileSharingOptions {
+    kCPAFPEnable,
+    kCPSMBEnable,
+    kCPAFPAndSMBEnable,
+    kCPAFPDisable,
+    kCPSMBDisable,
+    kCPAFPAndSMBDisable
+};
+
+@interface ToggleFileSharingAction : Action <ActionWithLimitedOptions> {
+    NSNumber *turnOn;
+}
 
 - (NSString *) description;
 - (BOOL) execute: (NSString **) errorString;

@@ -36,13 +36,17 @@
 
 
 // file sharing
-#define kCPHelperToolGetFileSharingConfigCommand    "GetFileSharingConfig"
-#define kCPHelperToolEnableFileSharingCommand       "EnableFileSharing"
-#define kCPHelperToolDisableFileSharingCommand      "DisableFileSharing"
-#define kCPHelperToolOverridesFilePath              "/private/var/db/launchd.db/com.apple.launchd/overrides.plist"
+#define kCPHelperToolEnableAFPFileSharingCommand    "EnableAFPFileSharing"
+#define kCPHelperToolDisableAFPFileSharingCommand   "DisableAFPFileSharing"
+#define kCPHelperToolEnableSMBFileSharingCommand    "EnableSMBFileSharing"
+#define kCPHelperToolDisableSMBFileSharingCommand   "DisableSMBFileSharing"
+
+#define kCPHelperToolSMBPrefsFilePath               "/Library/Preferences/SystemConfiguration/com.apple.smb.server"
+#define kCPHelperToolSMBSyncToolFilePath            "/usr/libexec/samba/smb-sync-preferences"
+
 #define kCPHelperToolFileSharingStatusKey           "Disabled"
 #define kCPHelperToolFilesharingConfigResponse      "sharingStatus"
-#define kCPHelperToolAFPSericeName                  "com.apple.AppleFileServer"
+#define kCPHelperToolAFPServiceName                  "com.apple.AppleFileServer"
 #define kCPHelperToolSMBDServiceName                "com.apple.smbd"
 
 // Rights
