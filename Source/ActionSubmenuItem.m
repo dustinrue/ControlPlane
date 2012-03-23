@@ -13,7 +13,6 @@
 
 @synthesize items;
 @synthesize target;
-@synthesize representedObject;
 
 - (id) init {
     self = [super init];

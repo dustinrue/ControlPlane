@@ -11,12 +11,10 @@
 @interface ActionSubmenuItem : NSObject <NSMenuDelegate> {
     NSMutableArray *items;
     id target;
-    id representedObject;
 }
 
 @property (readwrite, retain) NSMutableArray *items;
 @property (readwrite, assign) id target;
-@property (readwrite, assign) id representedObject;
 
 - (void) addObject:(id) object;
 
