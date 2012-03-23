@@ -164,4 +164,8 @@
     return NSLocalizedString(@"Network Location", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Networking", @"");
+}
+
 @end

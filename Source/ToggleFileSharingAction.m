@@ -104,7 +104,10 @@
 
     return self;
 }
-          
+       
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Networking", @"");
+}
 
 
 @end

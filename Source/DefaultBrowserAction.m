@@ -116,4 +116,8 @@
     return NSLocalizedString(@"Default Browser", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Web", @"");
+}
+
 @end

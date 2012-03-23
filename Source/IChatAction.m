@@ -83,4 +83,8 @@
     return NSLocalizedString(@"iChat Status", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Applications", @"");
+}
+
 @end

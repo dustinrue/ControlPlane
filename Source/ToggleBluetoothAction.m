@@ -80,4 +80,8 @@ void IOBluetoothPreferenceSetControllerPowerState(int);
 + (NSString *) friendlyName {
     return NSLocalizedString(@"Toggle Bluetooth", @"");
 }
+
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
 @end

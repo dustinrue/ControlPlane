@@ -165,4 +165,8 @@
     return NSLocalizedString(@"Display Brightness", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
+
 @end

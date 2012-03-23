@@ -92,4 +92,8 @@
     return NSLocalizedString(@"Desktop Background", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
+
 @end

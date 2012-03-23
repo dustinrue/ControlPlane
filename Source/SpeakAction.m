@@ -72,4 +72,8 @@
     return NSLocalizedString(@"Speak Phrase", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Misc", @"");
+}
+
 @end

@@ -86,4 +86,8 @@
     return NSLocalizedString(@"Change Mail IMAP Server", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Mail", @"");
+}
+
 @end

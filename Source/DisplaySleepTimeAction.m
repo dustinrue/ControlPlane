@@ -130,4 +130,8 @@
 + (NSString *) friendlyName {
     return NSLocalizedString(@"Display Sleep Time", @"");
 }
+
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
 @end

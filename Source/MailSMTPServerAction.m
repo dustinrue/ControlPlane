@@ -119,4 +119,8 @@
     return NSLocalizedString(@"Change Mail SMTP Server", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Mail", @"");
+}
+
 @end

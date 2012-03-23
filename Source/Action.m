@@ -8,6 +8,7 @@
 #import "Action.h"
 #import "DSLogger.h"
 #import "PrefsWindowController.h"
+#import "ActionSubmenuItem.h"
 
 @implementation Action
 
@@ -146,6 +147,10 @@
     return @"Not implemented";
 }
 
++ (NSString *)menuCategory {
+    return @"";
+}
+
 - (void)executeAppleScriptForReal:(NSString *)script
 {
 	appleScriptResult_ = nil;
@@ -258,9 +263,6 @@
 			   [DesktopBackgroundAction class],
 			   [DisplayBrightnessAction class],
                [DisplaySleepTimeAction class],
-#ifdef DEBUG_MODE
-			   [FirewallRuleAction class],
-#endif
 			   [IChatAction class],
 			   [ITunesPlaylistAction class],
 			   [LockKeychainAction class],
@@ -297,9 +299,6 @@
         NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
 		NSLocalizedString(@"DisplayBrightness", @"Action type");
-#ifdef DEBUG_MODE
-		NSLocalizedString(@"FirewallRule", @"Action type");
-#endif
 		NSLocalizedString(@"iChat", @"Action type");
 		NSLocalizedString(@"iTunesPlaylist", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");
@@ -335,15 +334,53 @@
         [tmp removeObject:[DisplayBrightnessAction class]];
         classes = tmp;
     }
+    
+    
+    // build a list of menu categories
+    NSMutableDictionary *menuCategoryBuilder = [NSMutableDictionary dictionary];
+    NSMutableDictionary *tmpDict = nil;
+    ActionSubmenuItem *tmp = nil;
 
-
+    
+    for (id currentClass in classes) {
+        
+        // if the object exists then we've seen this category before
+        // and we simply want to add the class to the object we just found
+        if ([menuCategoryBuilder objectForKey:[currentClass menuCategory]]) {
+            tmp = [menuCategoryBuilder objectForKey:[currentClass menuCategory]];
+            tmpDict = [NSMutableDictionary dictionaryWithCapacity:3];
+            [tmpDict setObject:currentClass forKey:@"class"];
+            
+            [tmpDict setObject:[currentClass class] forKey:@"representedObject"];
+            [tmp setTarget:prefsWindowController];
+            [tmp addObject:tmpDict];
+            
+        }
+        else {
+            tmp = [[ActionSubmenuItem alloc] init];
+            tmpDict = [NSMutableDictionary dictionaryWithCapacity:3];
+            [tmpDict setObject:currentClass forKey:@"class"];
+            //[tmpDict setObject:prefsWindowController forKey:@"target"];
+            [tmpDict setObject:[currentClass class] forKey:@"representedObject"];
+            [tmp setTarget:prefsWindowController];
+            [tmp addObject:tmpDict];
+            
+            [menuCategoryBuilder setObject:tmp forKey:[currentClass menuCategory]];
+            
+            [tmp release];
+        }
+    }
+    
+    NSLog(@"looks like %@", menuCategoryBuilder);
+    
+    menuCategories = [menuCategoryBuilder copy];
 	return self;
 }
 
 - (void)dealloc
 {
 	[classes release];
-
+    [menuCategories release];
 	[super dealloc];
 }
 
@@ -362,18 +399,38 @@
 
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
-	Class klass = [classes objectAtIndex:index];
+	//Class klass = [classes objectAtIndex:index];
+    
 
+    NSArray *menuCategoryList = [menuCategories allKeys];
+    menuCategoryList = [menuCategoryList sortedArrayUsingSelector:@selector(compare:)];
+    
     NSString *friendlyName = [[classes objectAtIndex:index] friendlyName];
-	//NSString *localisedType = NSLocalizedString(type, @"Action type");
+    NSString *categoryName = [menuCategoryList objectAtIndex:index];
+    //NSString *localisedType = NSLocalizedString(type, @"Action type");
+    
+    NSMenu *newSubMenu = [[[NSMenu alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Actions", @""), friendlyName]] retain];
+    
+    [newSubMenu setDelegate:[menuCategories objectForKey:categoryName]];
+    
+    
+    //NSString *title = [NSString stringWithFormat:NSLocalizedString(@"'%@' Actions...", @"Menu item"),
+    //friendlyName];
+    //[item setTitle:title];
+    
+    [item setSubmenu:newSubMenu];
+    [item setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Actions", @""), categoryName]];
+    [item setRepresentedObject:[classes objectAtIndex:index]];
+    
+    
+    
 
-	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add '%@' Action...", @"Menu item"),
-		friendlyName];
-	[item setTitle:title];
+    //DSLog(@"menu category %@", [[classes objectAtIndex:index] menuCategory]);
+    
 
-	[item setTarget:prefsWindowController];
-	[item setAction:@selector(addAction:)];
-	[item setRepresentedObject:klass];
+	//[item setTarget:prefsWindowController];
+	//[item setAction:@selector(addAction:)];
+	//[item setRepresentedObject:klass];
 
 	return YES;
 }
@@ -386,7 +443,7 @@
 
 - (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu
 {
-	return [classes count];
+    return [menuCategories count];
 }
 
 @end

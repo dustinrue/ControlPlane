@@ -68,4 +68,8 @@
 + (NSString *) friendlyName {
     return NSLocalizedString(@"Open URL", @"");
 }
+
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Web", @"");
+}
 @end

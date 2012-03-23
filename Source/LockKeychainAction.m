@@ -60,4 +60,8 @@
     return NSLocalizedString(@"Lock Keychain", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Keychain", @"");
+}
+
 @end

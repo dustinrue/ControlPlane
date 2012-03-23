@@ -118,4 +118,8 @@
     return NSLocalizedString(@"Play iTunes Playlist", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Sound and Music", @"");
+}
+
 @end

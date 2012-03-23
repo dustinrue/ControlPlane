@@ -57,4 +57,8 @@
     return NSLocalizedString(@"Toggle WiFi", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Networking", @"");
+}
+
 @end

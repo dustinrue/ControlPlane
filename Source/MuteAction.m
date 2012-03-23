@@ -117,4 +117,8 @@
     return NSLocalizedString(@"Mute", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Sound and Music", @"");
+}
+
 @end

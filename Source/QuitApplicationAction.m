@@ -89,4 +89,8 @@
     return NSLocalizedString(@"Quit Application", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Applications", @"");
+}
+
 @end

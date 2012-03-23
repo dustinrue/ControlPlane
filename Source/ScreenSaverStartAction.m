@@ -69,4 +69,8 @@
     return NSLocalizedString(@"Start Screen Saver Now", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
+
 @end

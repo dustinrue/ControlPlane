@@ -47,5 +47,9 @@
     return NSLocalizedString(@"Toggle Printer Sharing", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
+
 
 @end

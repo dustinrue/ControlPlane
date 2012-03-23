@@ -111,4 +111,8 @@
     return NSLocalizedString(@"Default Printer", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
+
 @end

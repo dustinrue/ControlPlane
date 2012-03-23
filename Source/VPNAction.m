@@ -136,4 +136,8 @@
     return NSLocalizedString(@"VPN", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Networking", @"");
+}
+
 @end

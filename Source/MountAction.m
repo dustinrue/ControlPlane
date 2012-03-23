@@ -84,4 +84,8 @@
     return NSLocalizedString(@"Mount", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Finder", @"");
+}
+
 @end

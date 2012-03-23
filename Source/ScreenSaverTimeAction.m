@@ -135,4 +135,8 @@
     return NSLocalizedString(@"Screen Saver Time" , @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
+
 @end

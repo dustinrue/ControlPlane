@@ -50,4 +50,8 @@
     return NSLocalizedString(@"Toggle Firewall", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Networking", @"");
+}
+
 @end

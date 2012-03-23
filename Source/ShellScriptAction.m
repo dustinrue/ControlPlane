@@ -129,4 +129,8 @@
     return NSLocalizedString(@"Run Shell Script", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System", @"");
+}
+
 @end

@@ -47,4 +47,8 @@
     return NSLocalizedString(@"Toggle Time Machine", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Time Machine", @"");
+}
+
 @end

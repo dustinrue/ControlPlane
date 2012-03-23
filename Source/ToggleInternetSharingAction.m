@@ -48,4 +48,8 @@
     return NSLocalizedString(@"Toggle Internet Sharing", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Networking", @"");
+}
+
 @end

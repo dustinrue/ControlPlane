@@ -57,4 +57,8 @@
     return NSLocalizedString(@"Start Time Machine Backup", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Time Machine", @"");
+}
+
 @end

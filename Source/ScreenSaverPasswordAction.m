@@ -71,4 +71,8 @@
     return NSLocalizedString(@"Screen Saver Password", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"System Preferences", @"");
+}
+
 @end

@@ -114,4 +114,8 @@
     return NSLocalizedString(@"Unmount disk/share", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Finder", @"");
+}
+
 @end

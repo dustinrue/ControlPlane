@@ -97,4 +97,8 @@
     return NSLocalizedString(@"Open File or Application", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Applications", @"");
+}
+
 @end

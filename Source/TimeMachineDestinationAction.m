@@ -146,4 +146,8 @@
     return NSLocalizedString(@"Change Time Machine Destination", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Time Machine", @"");
+}
+
 @end

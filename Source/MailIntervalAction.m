@@ -131,4 +131,8 @@
     return NSLocalizedString(@"Change New Mail Check Interval", @"");
 }
 
++ (NSString *)menuCategory {
+    return NSLocalizedString(@"Mail", @"");
+}
+
 @end

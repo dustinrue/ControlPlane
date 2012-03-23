@@ -36,6 +36,7 @@
 + (NSString *)helpText;
 + (NSString *)creationHelpText;
 + (NSString *)friendlyName;
++ (NSString *)menuCategory;
 
 // Helpers
 - (BOOL)executeAppleScript:(NSString *)script;		// returns YES on success, NO on failure
@@ -61,6 +62,7 @@
 @interface ActionSetController : NSObject {
 	IBOutlet NSWindowController *prefsWindowController;
 	NSArray *classes;	// array of class objects
+    NSDictionary *menuCategories;
 }
 
 - (NSArray *)types;
