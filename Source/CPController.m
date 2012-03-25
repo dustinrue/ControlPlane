@@ -1305,6 +1305,8 @@
     [self setScreenSaverRunning:NO];
     [self executeActionSet:screensaverActionDepartureQueue];
     [self executeActionSet:screensaverActionArrivalQueue];
+    [screensaverActionArrivalQueue removeAllObjects];
+    [screensaverActionDepartureQueue removeAllObjects];
     DSLog(@"Screen saver is not running");
 }
 
@@ -1321,6 +1323,8 @@
     [self setScreenLocked:NO];
     [self executeActionSet:screenLockActionDepartureQueue];
     [self executeActionSet:screenLockActionArrivalQueue];
+    [screenLockActionDepartureQueue removeAllObjects];
+    [screenLockActionArrivalQueue removeAllObjects];
     DSLog(@"screen lock becoming inactive");
 }
 
