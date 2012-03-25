@@ -38,6 +38,12 @@
 + (NSString *)friendlyName;
 + (NSString *)menuCategory;
 
+// Actions should override these if they need to wait until
+// after the screen saver has quit, the screen has been unlocked
+// or both.
++ (BOOL) shouldWaitForScreensaverExit;
++ (BOOL) shouldWaitForScreenUnlock;
+
 // Helpers
 - (BOOL)executeAppleScript:(NSString *)script;		// returns YES on success, NO on failure
 - (NSArray *)executeAppleScriptReturningListOfStrings:(NSString *)script;

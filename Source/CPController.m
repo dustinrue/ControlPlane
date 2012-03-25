@@ -49,6 +49,9 @@
 - (void) setScreenLockActve:(NSNotification *) notification;
 - (void) setScreenLockInActive:(NSNotification *) notification;
 
+// Action Queue
+- (void) addActionToQueue:(id) action;
+
 @end
 
 #pragma mark -
@@ -462,6 +465,11 @@
 													selector: @selector(doUpdate:)
 													userInfo: nil
 													 repeats: NO] retain];
+    
+    screensaverActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+    screensaverActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+    screenLockActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+    screenLockActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
 	
 	[NSApp unhide];
 }
@@ -677,6 +685,22 @@
 
 - (void)doUpdate:(NSTimer *)theTimer
 {
+    
+    // cover any situations where there are queued items
+    // but the screen is not locked and the screen saver is not running
+    
+    if (!screenLocked && (([screenLockActionArrivalQueue count] > 0) || ([screenLockActionDepartureQueue count] > 0))) {
+        [self executeActionSet:screenLockActionDepartureQueue];
+        [self executeActionSet:screenLockActionArrivalQueue];
+    }
+    
+    if (!screenSaverRunning && (([screensaverActionArrivalQueue count] > 0) ||
+                                ([screensaverActionDepartureQueue count] > 0))) {
+        [self executeActionSet:screensaverActionDepartureQueue];
+        [self executeActionSet:screensaverActionArrivalQueue];
+    }
+    
+    
 	// Check timer interval
 	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
 	if (fabs(intv - [updatingTimer timeInterval]) > 0.1) {
@@ -849,7 +873,15 @@
 				max_delay = [aDelay doubleValue];
 		}
 
-		[actionsToRun addObject:action];
+        if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
+            [screenLockActionDepartureQueue addObject:[Action actionFromDictionary:action]];
+        }
+        else if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
+            [screensaverActionDepartureQueue addObject:[Action actionFromDictionary:action]];
+        }
+        else {
+            [actionsToRun addObject:action];
+        }
 
 	}
 
@@ -892,7 +924,16 @@
 			continue;
         
         @try {
-            [set addObject:[Action actionFromDictionary:action]];
+            if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
+                [screenLockActionArrivalQueue addObject:[Action actionFromDictionary:action]];
+            }
+            else if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
+                [screensaverActionArrivalQueue addObject:[Action actionFromDictionary:action]];
+            }
+            else {
+                [set addObject:[Action actionFromDictionary:action]];
+            }
+            
         }
         @catch (NSException *exception) {
             DSLog(@"ERROR: %@",NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
@@ -1204,16 +1245,6 @@
 			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 #endif
 	}
-    
-    // if the screen is locked or the screen saver is running
-    // we should wait.  This prevents any surprises from occuring in the background
-    // when the system is woke up.  It also attempts to prevent a situation
-    // where someone wants to disable the screen saver password when entering
-    // a context
-    if ([self screenLocked] || [self screenSaverRunning]) {
-        DSLog(@"not switching because the the screen saver is running or the screen is locked");
-        do_switch = NO;
-    }
 
 	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
 
@@ -1272,6 +1303,8 @@
 }
 - (void) setScreenSaverInActive:(NSNotification *) notification {
     [self setScreenSaverRunning:NO];
+    [self executeActionSet:screensaverActionDepartureQueue];
+    [self executeActionSet:screensaverActionArrivalQueue];
     DSLog(@"Screen saver is not running");
 }
 
@@ -1286,6 +1319,8 @@
 
 - (void) setScreenLockInActive:(NSNotification *) notification {
     [self setScreenLocked:NO];
+    [self executeActionSet:screenLockActionDepartureQueue];
+    [self executeActionSet:screenLockActionArrivalQueue];
     DSLog(@"screen lock becoming inactive");
 }
 

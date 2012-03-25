@@ -147,6 +147,14 @@
     return @"Not implemented";
 }
 
++ (BOOL) shouldWaitForScreensaverExit {
+    return NO;
+}
+
++ (BOOL) shouldWaitForScreenUnlock {
+    return NO;
+}
+
 + (NSString *)menuCategory {
     return @"";
 }
@@ -350,7 +358,6 @@
             tmp = [menuCategoryBuilder objectForKey:[currentClass menuCategory]];
             tmpDict = [NSMutableDictionary dictionaryWithCapacity:3];
             [tmpDict setObject:currentClass forKey:@"class"];
-            
             [tmpDict setObject:[currentClass class] forKey:@"representedObject"];
             [tmp setTarget:prefsWindowController];
             [tmp addObject:tmpDict];
@@ -360,7 +367,6 @@
             tmp = [[ActionSubmenuItem alloc] init];
             tmpDict = [NSMutableDictionary dictionaryWithCapacity:3];
             [tmpDict setObject:currentClass forKey:@"class"];
-            //[tmpDict setObject:prefsWindowController forKey:@"target"];
             [tmpDict setObject:[currentClass class] forKey:@"representedObject"];
             [tmp setTarget:prefsWindowController];
             [tmp addObject:tmpDict];

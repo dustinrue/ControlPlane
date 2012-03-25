@@ -75,4 +75,12 @@
     return NSLocalizedString(@"System Preferences", @"");
 }
 
++ (BOOL) shouldWaitForScreensaverExit {
+    return YES;
+}
+
++ (BOOL) shouldWaitForScreenUnlock {
+    return YES;
+}
+
 @end
