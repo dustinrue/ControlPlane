@@ -1285,6 +1285,17 @@
 
 - (void)goingToSleep:(id)arg
 {
+    // clear the queued actions on sleep
+    // in case the machine woke up but the screen saver
+    // was never exited or the screen was never unlocked
+    // but then the machine went back to sleep
+    
+    // this might cause an issue with anyone who does an 
+    // immediate action (not delayed at all) at sleep
+    [screensaverActionArrivalQueue removeAllObjects];
+    [screensaverActionDepartureQueue removeAllObjects];
+    [screenLockActionDepartureQueue removeAllObjects];
+    [screenLockActionArrivalQueue removeAllObjects];
 	DSLog(@"Stopping update thread for sleep.");
 	[updatingTimer setFireDate:[NSDate distantFuture]];
 }
