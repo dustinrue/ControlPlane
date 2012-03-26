@@ -37,3 +37,5 @@ Backup[ ]of[ ]*.key/
 Backup[ ]of[ ]*.numbers/
 oui.txt
 usb-vendors.txt
+Resources/oui.txt
+Resources/usb-vendors.txt
