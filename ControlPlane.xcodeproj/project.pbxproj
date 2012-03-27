@@ -114,6 +114,8 @@
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
+		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
+		DAC67302152235F500F1C7A1 /* ToggleRemoteLoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC67301152235F500F1C7A1 /* ToggleRemoteLoginAction.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF2F820150EE5960040DDC7 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */; };
 		DAF2F821150EE5960040DDC7 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF2F81D150EE5960040DDC7 /* BWQuincyManager.m */; };
@@ -415,6 +417,10 @@
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
 		DAC45F1E14CDEC170007F5EF /* TimeMachineDestinationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeMachineDestinationAction.h; path = Source/TimeMachineDestinationAction.h; sourceTree = "<group>"; };
 		DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeMachineDestinationAction.m; path = Source/TimeMachineDestinationAction.m; sourceTree = "<group>"; };
+		DAC672FC152235E800F1C7A1 /* ToggleWebSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleWebSharingAction.h; path = Source/ToggleWebSharingAction.h; sourceTree = "<group>"; };
+		DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleWebSharingAction.m; path = Source/ToggleWebSharingAction.m; sourceTree = "<group>"; };
+		DAC67300152235F500F1C7A1 /* ToggleRemoteLoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleRemoteLoginAction.h; sourceTree = "<group>"; };
+		DAC67301152235F500F1C7A1 /* ToggleRemoteLoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleRemoteLoginAction.m; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DAE893E514546897005FA13C /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
 		DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = BWQuincyMain.nib; sourceTree = "<group>"; };
@@ -937,6 +943,8 @@
 				DA4ED9C31520055100E6A8CE /* ToggleNaturalScrollingAction.m */,
 				DA49AF6A14C3E0AB00D03D6A /* TogglePrinterSharingAction.h */,
 				DA49AF6B14C3E0AB00D03D6A /* TogglePrinterSharingAction.m */,
+				DAC67300152235F500F1C7A1 /* ToggleRemoteLoginAction.h */,
+				DAC67301152235F500F1C7A1 /* ToggleRemoteLoginAction.m */,
 				DA2B437F152161C800E94A1D /* ToggleTFTPAction.h */,
 				DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */,
 				DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */,
@@ -947,6 +955,8 @@
 				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
+				DAC672FC152235E800F1C7A1 /* ToggleWebSharingAction.h */,
+				DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */,
 			);
 			name = "System Actions";
 			sourceTree = "<group>";
@@ -1258,6 +1268,8 @@
 				DA4ED9C41520055100E6A8CE /* ToggleNaturalScrollingAction.m in Sources */,
 				DA2B4381152161C800E94A1D /* ToggleTFTPAction.m in Sources */,
 				DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */,
+				DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */,
+				DAC67302152235F500F1C7A1 /* ToggleRemoteLoginAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

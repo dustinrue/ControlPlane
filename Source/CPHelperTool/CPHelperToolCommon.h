@@ -54,8 +54,16 @@
 
 #define kCPHelperToolFileSharingStatusKey           "Disabled"
 #define kCPHelperToolFilesharingConfigResponse      "sharingStatus"
-#define kCPHelperToolAFPServiceName                  "com.apple.AppleFileServer"
+#define kCPHelperToolAFPServiceName                 "com.apple.AppleFileServer"
 #define kCPHelperToolSMBDServiceName                "com.apple.smbd"
+
+// Web Sharing
+#define kCPHelperToolEnableWebSharingCommand        "EnableWebSharing"
+#define kCPHelperToolDisableWebSharingCommand       "DisableWebSharing"
+
+// Remote Login (ssh)
+#define kCPHelperToolEnableRemoteLoginCommand       "EnableRemoteLogin"
+#define kCPHelperToolDisableRemoteLoginCommand      "DisableRemoteLogin"
 
 // Rights
 #define kCPHelperToolToggleTMRightName              "com.dustinrue.ControlPlane.ToggleTM"
@@ -67,6 +75,8 @@
 #define kCPHelperToolFileSharingRightName           "com.dustinrue.ControlPlane.FileSharingRightName"
 #define kCPHelperToolTFTPRightName                  "com.dustinrue.ControlPlane.TFTPRightName"
 #define kCPHelperToolFTPRightName                   "com.dustinrue.ControlPlane.FTPRightName"
+#define kCPHelperToolWebSharingRightName            "com.dustinrue.ControlPlane.WebSharingRightName"
+#define kCPHelperToolRemoteLoginRightName           "com.dustinrue.ControlPlane.RemoteLoginRightName"
 
 
 // Misc

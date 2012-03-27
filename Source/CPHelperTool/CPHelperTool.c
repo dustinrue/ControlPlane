@@ -553,6 +553,86 @@ static OSStatus DoDisableFTP (AuthorizationRef         auth,
 	return retValue;
 }
 
+static OSStatus DoEnableWebSharing (AuthorizationRef         auth,
+                              const void *             userData,
+                              CFDictionaryRef          request,
+                              CFMutableDictionaryRef   response,
+                              aslclient				  asl,
+                              aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    
+	int retValue = 0;
+    
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/org.apache.httpd.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
+static OSStatus DoDisableWebSharing (AuthorizationRef         auth,
+                              const void *             userData,
+                              CFDictionaryRef          request,
+                              CFMutableDictionaryRef   response,
+                              aslclient				  asl,
+                              aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    
+	int retValue = 0;
+    
+    sprintf(command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/org.apache.httpd.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
+static OSStatus DoEnableRemoteLogin (AuthorizationRef         auth,
+                              const void *             userData,
+                              CFDictionaryRef          request,
+                              CFMutableDictionaryRef   response,
+                              aslclient				  asl,
+                              aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    
+	int retValue = 0;
+    
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/ssh.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
+static OSStatus DoDisableRemoteLogin (AuthorizationRef         auth,
+                              const void *             userData,
+                              CFDictionaryRef          request,
+                              CFMutableDictionaryRef   response,
+                              aslclient				  asl,
+                              aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    
+	int retValue = 0;
+    
+    sprintf(command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/ssh.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
 
 #pragma mark -
 #pragma mark Tool Infrastructure
@@ -579,6 +659,10 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     DoDisableTFTP,
     DoEnableFTP,
     DoDisableFTP,
+    DoEnableWebSharing,
+    DoDisableWebSharing,
+    DoEnableRemoteLogin,
+    DoDisableRemoteLogin,
 	NULL
 };
 

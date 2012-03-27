@@ -130,6 +130,30 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
         "DisableFTPCommand",
         NULL
     },
+    {   kCPHelperToolEnableWebSharingCommand,
+        kCPHelperToolWebSharingRightName,
+        "allow",
+        "EnableWebSharing",
+        NULL
+    },
+    {   kCPHelperToolDisableWebSharingCommand,
+        kCPHelperToolWebSharingRightName,
+        "allow",
+        "DisableWebSharing",
+        NULL
+    },
+    {   kCPHelperToolEnableRemoteLoginCommand,
+        kCPHelperToolRemoteLoginRightName,
+        "allow",
+        "EnableRemoteLogin",
+        NULL
+    },
+    {   kCPHelperToolDisableRemoteLoginCommand,
+        kCPHelperToolRemoteLoginRightName,
+        "allow",
+        "DisableRemoteLogin",
+        NULL
+    },
 	{	NULL,
 		NULL,
 		NULL,

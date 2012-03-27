@@ -253,8 +253,10 @@
 #endif
 
 #import "TogglePrinterSharingAction.h"
+#import "ToggleRemoteLoginAction.h"
 #import "ToggleTFTPAction.h"
 #import "ToggleTimeMachineAction.h"
+#import "ToggleWebSharingAction.h"
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
 #import "VPNAction.h"
@@ -306,8 +308,10 @@
                [ToggleNaturalScrollingAction class],
 #endif
                [TogglePrinterSharingAction class],
+               [ToggleRemoteLoginAction class],
                [ToggleTFTPAction class],
                [ToggleTimeMachineAction class],
+               [ToggleWebSharingAction class],
 			   [ToggleWiFiAction class],
 			   [UnmountAction class],
 			   [VPNAction class],
