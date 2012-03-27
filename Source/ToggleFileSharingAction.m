@@ -106,7 +106,7 @@
 }
        
 + (NSString *)menuCategory {
-    return NSLocalizedString(@"Networking", @"");
+    return NSLocalizedString(@"Sharing", @"");
 }
 
 

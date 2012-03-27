@@ -481,15 +481,9 @@ static OSStatus DoEnableTFTP (AuthorizationRef         auth,
 	assert(response != NULL);
 	
 	char command[256];
-    char param[256];
 	int retValue = 0;
     
-    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
-    
-    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
-        return BASErrnoToOSStatus(EINVAL);
-    
-    
+
     sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/tftp.plist");
     retValue = system(command);
 	
@@ -508,16 +502,11 @@ static OSStatus DoDisableTFTP (AuthorizationRef         auth,
 	assert(response != NULL);
 	
 	char command[256];
-    char param[256];
 	int retValue = 0;
     
-    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
-    
-    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
-        return BASErrnoToOSStatus(EINVAL);
     
     
-    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/tftp.plist");
+    sprintf(command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/tftp.plist");
     retValue = system(command);
 	
 	return retValue;
@@ -535,15 +524,9 @@ static OSStatus DoEnableFTP (AuthorizationRef         auth,
 	assert(response != NULL);
 	
 	char command[256];
-    char param[256];
+
 	int retValue = 0;
-    
-    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
-    
-    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
-        return BASErrnoToOSStatus(EINVAL);
-    
-    
+        
     sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/ftp.plist");
     retValue = system(command);
 	
@@ -561,16 +544,10 @@ static OSStatus DoDisableFTP (AuthorizationRef         auth,
 	assert(response != NULL);
 	
 	char command[256];
-    char param[256];
+
 	int retValue = 0;
     
-    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
-    
-    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
-        return BASErrnoToOSStatus(EINVAL);
-    
-    
-    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/ftp.plist");
+    sprintf(command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/ftp.plist");
     retValue = system(command);
 	
 	return retValue;

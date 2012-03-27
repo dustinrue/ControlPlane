@@ -245,6 +245,7 @@
 #import "ToggleBluetoothAction.h"
 #import "ToggleFileSharingAction.h"
 #import "ToggleFirewallAction.h"
+#import "ToggleFTPAction.h"
 #import "ToggleInternetSharingAction.h"
 
 #ifdef DEBUG_MODE
@@ -252,6 +253,7 @@
 #endif
 
 #import "TogglePrinterSharingAction.h"
+#import "ToggleTFTPAction.h"
 #import "ToggleTimeMachineAction.h"
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
@@ -298,11 +300,13 @@
 			   [ToggleBluetoothAction class],
                [ToggleFileSharingAction class],
                [ToggleFirewallAction class],
+               [ToggleFTPAction class],
                [ToggleInternetSharingAction class],
 #ifdef DEBUG_MODE
                [ToggleNaturalScrollingAction class],
 #endif
                [TogglePrinterSharingAction class],
+               [ToggleTFTPAction class],
                [ToggleTimeMachineAction class],
 			   [ToggleWiFiAction class],
 			   [UnmountAction class],
