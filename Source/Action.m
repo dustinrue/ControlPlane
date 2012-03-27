@@ -246,6 +246,11 @@
 #import "ToggleFileSharingAction.h"
 #import "ToggleFirewallAction.h"
 #import "ToggleInternetSharingAction.h"
+
+#ifdef DEBUG_MODE
+#import "ToggleNaturalScrollingAction.h"
+#endif
+
 #import "TogglePrinterSharingAction.h"
 #import "ToggleTimeMachineAction.h"
 #import "ToggleWiFiAction.h"
@@ -294,6 +299,9 @@
                [ToggleFileSharingAction class],
                [ToggleFirewallAction class],
                [ToggleInternetSharingAction class],
+#ifdef DEBUG_MODE
+               [ToggleNaturalScrollingAction class],
+#endif
                [TogglePrinterSharingAction class],
                [ToggleTimeMachineAction class],
 			   [ToggleWiFiAction class],
@@ -329,7 +337,10 @@
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
         NSLocalizedString(@"ToggleFileSharing", @"Action type");
         NSLocalizedString(@"ToggleFirewall", @"Action type");
+#ifdef DEBUG_MODE
         NSLocalizedString(@"ToggleInternetSharing", @"Action type");
+#endif
+        NSLocalizedString(@"ToggleNaturalScrolling", @"Action type");
         NSLocalizedString(@"TimeMachineAction",@"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
 		NSLocalizedString(@"Unmount", @"Action type");

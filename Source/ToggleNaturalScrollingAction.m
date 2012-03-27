@@ -18,12 +18,17 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-    NSNumber *val = [NSNumber numberWithBool:turnOn];
-	CFPreferencesSetAppValue(CFSTR("com.apple.swipescrolldirection"), (CFPropertyListRef) val,
-                          CFSTR(".GlobalPreferences"));
-	BOOL success = CFPreferencesAppSynchronize(CFSTR(".GlobalPreferences"));
     
-
+    NSMutableDictionary *globalSettings = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:NSGlobalDomain] mutableCopy];
+    
+    [globalSettings setValue:[NSNumber numberWithBool:turnOn] forKey:@"com.apple.swipescrolldirection"];
+    
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:globalSettings forName:NSGlobalDomain];
+    BOOL success = [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [globalSettings release];
+    
+    
 	if (!success) {
 		if (turnOn)
 			*errorString = NSLocalizedString(@"Failed enabling Natural Scrolling.", @"Act of turning on or enabling Natural Scrolling failed");
@@ -31,7 +36,8 @@
 			*errorString = NSLocalizedString(@"Failed disabling Natural Scrolling.", @"Act of turning off or disabling Natural Scrolling failed");
 	}
 
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"SwipeScrollDirectionDidChangeNotification" object:nil];
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"SwipeScrollDirectionDidChangeNotification" object:nil userInfo:nil];
+    
 	return success;
 }
 
