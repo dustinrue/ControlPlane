@@ -48,7 +48,7 @@
 }
 
 + (NSString *)menuCategory {
-    return NSLocalizedString(@"System Preferences", @"");
+    return NSLocalizedString(@"Sharing", @"");
 }
 
 
