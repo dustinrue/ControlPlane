@@ -106,6 +106,30 @@ const BASCommandSpec kCPHelperToolCommandSet[] = {
         "DisableSMBFileSharing",
         NULL
     },
+    {   kCPHelperToolEnableTFTPCommand,
+        kCPHelperToolTFTPRightName,
+        "allow",
+        "EnableTFTPCommand",
+        NULL
+    },
+    {   kCPHelperToolDisableTFTPCommand,
+        kCPHelperToolTFTPRightName,
+        "allow",
+        "DisableTFTPCommand",
+        NULL
+    },
+    {   kCPHelperToolEnableFTPCommand,
+        kCPHelperToolFTPRightName,
+        "allow",
+        "EnableFTPCommand",
+        NULL
+    },
+    {   kCPHelperToolDisableFTPCommand,
+        kCPHelperToolFTPRightName,
+        "allow",
+        "DisableFTPCommand",
+        NULL
+    },
 	{	NULL,
 		NULL,
 		NULL,

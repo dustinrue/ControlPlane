@@ -377,7 +377,7 @@ static OSStatus DoEnableAFPFileSharing (AuthorizationRef         auth,
         return BASErrnoToOSStatus(EINVAL);
     
 
-    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/%s.plist", param);
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/%s.plist", kCPHelperToolAFPServiceName);
     retValue = system(command);
 	
 	return retValue;
@@ -402,7 +402,7 @@ static OSStatus DoDisableAFPFileSharing (AuthorizationRef         auth,
     if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
         return BASErrnoToOSStatus(EINVAL);
     
-    sprintf(command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/%s.plist", param);
+    sprintf(command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/%s.plist", kCPHelperToolAFPServiceName);
     retValue = system(command);
 
 	return retValue;
@@ -467,6 +467,116 @@ static OSStatus DoDisableSMBFileSharing (AuthorizationRef         auth,
 	return retValue;
 }
 
+
+
+
+static OSStatus DoEnableTFTP (AuthorizationRef         auth,
+                              const void *             userData,
+                              CFDictionaryRef          request,
+                              CFMutableDictionaryRef   response,
+                              aslclient				  asl,
+                              aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    char param[256];
+	int retValue = 0;
+    
+    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+        return BASErrnoToOSStatus(EINVAL);
+    
+    
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/tftp.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
+
+static OSStatus DoDisableTFTP (AuthorizationRef         auth,
+                               const void *             userData,
+                               CFDictionaryRef          request,
+                               CFMutableDictionaryRef   response,
+                               aslclient				  asl,
+                               aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    char param[256];
+	int retValue = 0;
+    
+    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+        return BASErrnoToOSStatus(EINVAL);
+    
+    
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/tftp.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
+
+static OSStatus DoEnableFTP (AuthorizationRef         auth,
+                                        const void *             userData,
+                                        CFDictionaryRef          request,
+                                        CFMutableDictionaryRef   response,
+                                        aslclient				  asl,
+                                        aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    char param[256];
+	int retValue = 0;
+    
+    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+        return BASErrnoToOSStatus(EINVAL);
+    
+    
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/ftp.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
+static OSStatus DoDisableFTP (AuthorizationRef         auth,
+                                        const void *             userData,
+                                        CFDictionaryRef          request,
+                                        CFMutableDictionaryRef   response,
+                                        aslclient				  asl,
+                                        aslmsg					  aslMsg) {
+    assert(auth     != NULL);
+	assert(request  != NULL);
+	assert(response != NULL);
+	
+	char command[256];
+    char param[256];
+	int retValue = 0;
+    
+    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
+    
+    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
+        return BASErrnoToOSStatus(EINVAL);
+    
+    
+    sprintf(command, "/bin/launchctl load -F /System/Library/LaunchDaemons/ftp.plist");
+    retValue = system(command);
+	
+	return retValue;
+}
+
+
 #pragma mark -
 #pragma mark Tool Infrastructure
 
@@ -488,6 +598,10 @@ static const BASCommandProc kCPHelperToolCommandProcs[] = {
     DoDisableAFPFileSharing,
     DoEnableSMBFileSharing,
     DoDisableSMBFileSharing,
+    DoEnableTFTP,
+    DoDisableTFTP,
+    DoEnableFTP,
+    DoDisableFTP,
 	NULL
 };
 

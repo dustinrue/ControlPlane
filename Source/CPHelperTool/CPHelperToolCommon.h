@@ -34,6 +34,14 @@
 #define kCPHelperToolEnablePrinterSharingCommand    "EnablePrinterSharing"
 #define kCPHelperToolDisablePrinterSharingCommand   "DisablePrinterSharing"
 
+// TFTP commands
+#define kCPHelperToolEnableTFTPCommand              "EnableTFTPCommand"
+#define kCPHelperToolDisableTFTPCommand             "DisableTFTPCommand"
+
+// FTP commands
+#define kCPHelperToolEnableFTPCommand               "EnableFTPCommand"
+#define kCPHelperToolDisableFTPCommand              "DisableFTPCommand"
+
 
 // file sharing
 #define kCPHelperToolEnableAFPFileSharingCommand    "EnableAFPFileSharing"
@@ -56,7 +64,9 @@
 #define kCPHelperToolToggleFWRightName              "com.dustinrue.ControlPlane.ToggleFW"
 #define kCPHelperToolSetDisplaySleepTimeRightName   "com.dustinrue.ControlPlane.SetDisplaySleepTime"
 #define kCPHelperToolTogglePrinterSharingRightName  "com.dustinrue.ControlPlane.TogglePrinterSharing"
-#define kCPHelperToolFileSharingRightName           "com.dustinrue.ControlPlaneFileSharingRightName"
+#define kCPHelperToolFileSharingRightName           "com.dustinrue.ControlPlane.FileSharingRightName"
+#define kCPHelperToolTFTPRightName                  "com.dustinrue.ControlPlane.TFTPRightName"
+#define kCPHelperToolFTPRightName                   "com.dustinrue.ControlPlane.FTPRightName"
 
 
 // Misc
