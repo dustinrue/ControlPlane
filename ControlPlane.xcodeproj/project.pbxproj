@@ -400,9 +400,6 @@
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPBonjourResolver.h; path = Source/CPBonjourResolver.h; sourceTree = "<group>"; };
 		DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPBonjourResolver.m; path = Source/CPBonjourResolver.m; sourceTree = "<group>"; };
-		DA8064A0147990FD00267B5A /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = BWQuincyMain.nib; sourceTree = "<group>"; };
-		DA8064A1147990FD00267B5A /* BWQuincyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyManager.h; sourceTree = "<group>"; };
-		DA8064A2147990FD00267B5A /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
 		DA812E81140681D2006869F7 /* AppleScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleScript.h; path = Source/AppleScript.h; sourceTree = "<group>"; };
 		DA812E82140681D2006869F7 /* AppleScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppleScript.m; path = Source/AppleScript.m; sourceTree = "<group>"; };
 		DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreWLANEvidenceSource.h; path = Source/CoreWLANEvidenceSource.h; sourceTree = "<group>"; };
@@ -649,7 +646,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DA80649F147990FD00267B5A /* Mac */,
 				DD5BD2071416149B007BA88C /* JNI LmuTracker */,
 				DD5BD20C141614CA007BA88C /* JSONKit */,
 				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
@@ -810,17 +806,6 @@
 				DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */,
 			);
 			path = AuthorizationLib;
-			sourceTree = "<group>";
-		};
-		DA80649F147990FD00267B5A /* Mac */ = {
-			isa = PBXGroup;
-			children = (
-				DA8064A0147990FD00267B5A /* BWQuincyMain.nib */,
-				DA8064A1147990FD00267B5A /* BWQuincyManager.h */,
-				DA8064A2147990FD00267B5A /* BWQuincyManager.m */,
-			);
-			name = Mac;
-			path = Source/QuincyKit/client/Mac;
 			sourceTree = "<group>";
 		};
 		DAF2F819150EE5960040DDC7 /* External Source */ = {

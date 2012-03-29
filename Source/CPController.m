@@ -978,7 +978,7 @@
                               [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
     
     // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
-    // Allows you to test QuinyKit
+    // Allows you to test QuincyKit
     if ([ctxt_path isEqualToString:@"Developer Crash"]) {
 #if DEBUG_MODE
         kill( getpid(), SIGABRT );
