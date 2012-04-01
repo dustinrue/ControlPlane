@@ -970,6 +970,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "ControlPlane" */;
 			buildPhases = (
+				7374BAE51528B83B00BEEFE0 /* Get out.txt and usb-vendors.txt if they don't exist */,
 				8D1107290486CEB800E47090 /* Resources */,
 				DD7CD9B0140EDBA90037463E /* Generate Script Bridge Headers */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -1125,6 +1126,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7374BAE51528B83B00BEEFE0 /* Get out.txt and usb-vendors.txt if they don't exist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Get out.txt and usb-vendors.txt if they don't exist";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -f ${PROJECT_DIR}/Resources/out.txt || ! -f ${PROJECT_DIR}/Resources/usb-vendors.txt ]; then\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-oui.sh\n    . ./update-usb-data.sh\nfi";
+		};
 		8DEF43B20BAA072400F87273 /* Index Help */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
