@@ -37,124 +37,172 @@
 		</p>
         
         
-        <h2><em>DefaultBrowser</em> action</h2>
+        <h2><em>Default Browser</em> action</h2>
         <p>Changes default browser based on a list of installed browsers</p>
         
         
-        <h2><em>DesktopBackground</em> action</h2>
+        <h2><em>Desktop Background</em> action</h2>
         <p>Changes the desktop background.</p>
         
         
-        <h2><em>DisplayBrightness</em> action</h2>
+        <h2><em>Display Brightness</em> action</h2>
         <p>Change display brightness to defined level.  Level is defined by a percentage</p>
+
+
+        <h2><em>Display Sleep Time</em> action</h2>
+        <p>Change the timeout for when the display will go to sleep</p>
         
 
-		<h2><em>iChat</em> actions</h2>
-		<p>Actions of type <em>iChat</em> change your iChat status
-		message.
-		</p>
+	<h2><em>iChat Status</em> actions</h2>
+	<p>Actions of type <em>iChat</em> change your iChat status
+	message.
+	</p>
         
-        <h2><em>iTunesPlaylist</em> action</h2>
+        <h2><em>Play iTunes Playlist</em> action</h2>
         <p>Select an iTunes play list to play</p>
         
         
-        <h2><em>LockKeychain</em> action</h2>
+        <h2><em>Lock Keychain</em> action</h2>
         <p>Lock or unlock the key chain</p>
         
         
         
-        <h2><em>MailIMAPServer</em> Action</h2>
+        <h2><em>Change Mail IMAP Server</em> Action</h2>
         <p>Changes the IMAP server of an email account in Mail.app</p>
 
-		<h2><em>MailSMTPServer</em> actions</h2>
-		<p>Actions of type <em>MailSMTPServer</em> change the default
-		SMTP server of your <tt>Mail.app</tt> accounts.
-		</p>
+	<h2><em>Change Mail SMTP Server</em> actions</h2>
+	<p>Actions of type <em>MailSMTPServer</em> change the default
+	SMTP server of your <tt>Mail.app</tt> accounts.
+	</p>
         
-        <h2><em>MailInterval</em> action</h2>
+        <h2><em>Change New Mail Check Interval</em> action</h2>
         <p>Change how often Mail.app checks for new messages</p>
         
         
 
-		<h2><em>Mount</em> actions</h2>
-		<p>Actions of type <em>Mount</em> attempt to mount a network
-		volume (afp://, smb://, etc.).
-		</p>
+	<h2><em>Mount</em> actions</h2>
+	<p>Actions of type <em>Mount</em> attempt to mount a network
+	volume (afp://, smb://, etc.).
+	</p>
         
 
-		<h2><em>Mute</em> actions</h2>
-		<p>Actions of type <em>Mute</em> will mute or unmute your
-		system audio.
-		</p>
+	<h2><em>Mute</em> actions</h2>
+	<p>Actions of type <em>Mute</em> will mute or unmute your
+	system audio.
+	</p>
 
-		<h2><em>NetworkLocation</em> actions</h2>
-		<p>Actions of type <em>NetworkLocation</em> will change your
-		current Mac OS X Network Location.
-		</p>
+	<h2><em>Network Location</em> actions</h2>
+	<p>Actions of type <em>NetworkLocation</em> will change your
+	current Mac OS X Network Location.
+	</p>
 
-		<h2><em>Open</em> actions</h2>
-		<p>Actions of type <em>Open</em> are the most general actions.
-		Upon triggering, ControlPlane will open that file: if it
-		is an application, it will be launched; if it is an
-		AppleScript, it will be executed; otherwise, it will be opened
-		with that file's default application. This is roughly
-		equivalent to double-clicking on that file in Finder.
-		</p>
+	<h2><em>Open</em> actions</h2>
+	<p>Actions of type <em>Open</em> are the most general actions.
+	Upon triggering, ControlPlane will open that file: if it
+	is an application, it will be launched; if it is an
+	AppleScript, it will be executed; otherwise, it will be opened
+	with that file's default application. This is roughly
+	equivalent to double-clicking on that file in Finder.<br/><br/>
+
+        Although Open will still run AppleScript files for backwards compatibility,
+        AppleScripts and shell scripts should use the ShellScript action now instead.
+	</p>
         
         
-        <h2><em>OpenURL</em> action</h2>
+        <h2><em>Open URL</em> action</h2>
         <p>Open the given URL</p>
         
+
+        <h2><em>Quit Application</em> action</h2>
+        <p>Enter the name of the app you wish to close.  For example, if you wish to close
+        Adium you would enter Adium.app.  To get the name of an app you wish to close, start
+        Activity Monitor and find the Process Name of the app you wish to quit.  Enter
+        the value into ControlPlane.</p>
         
 
-		<h2><em>ScreenSaverPassword</em> actions</h2>
-		<p>Actions of type <em>ScreenSaverPassword</em> either enable
-		or disable your screen saver's password.
-		</p>
+	<h2><em>Screen Saver Password</em> actions</h2>
+	<p>Actions of type <em>ScreenSaverPassword</em> either enable
+	or disable your screen saver's password.
+	</p>
         
-        <h2><em>ScreenSaverStart</em> action</h2>
+        <h2><em>Start Screen Saver Now</em> action</h2>
         <p>Starts the screen saver</p>
 
-		<h2><em>ScreenSaverTime</em> actions</h2>
-		<p>Actions of type <em>ScreenSaverTime</em> can change the
-		idle time before your screen saver activates.
-		</p>
+	<h2><em>Screen Saver Time</em> actions</h2>
+	<p>Actions of type <em>ScreenSaverTime</em> can change the
+	idle time before your screen saver activates.
+	</p>
 
-		<h2><em>ShellScript</em> actions</h2>
-		<p>Actions of type <em>ShellScript</em> allow you to execute
-		arbitrary shell scripts using <tt>/bin/sh</tt>. Arguments may
-		be passed to the script by using a pipe character ("|") as a
-		separator in the parameter. (e.g. <tt>/path/to/script.sh|argument1|argument2</tt>)
-		</p>
+	<h2><em>ShellScript</em> actions</h2>
+	<p>Actions of type <em>ShellScript</em> allow you to execute
+	arbitrary shell scripts using <tt>/bin/sh</tt>. Arguments may
+	be passed to the script by using a pipe character ("|") as a
+	separator in the parameter. (e.g. <tt>/path/to/script.sh|argument1|argument2</tt>)
+	</p>
 
         
         <h2><em>Speak</em> action</h2>
         <p>Speak the entered text</p>
         
         
-        <h2><em>StartTimeMachine</em> action</h2>
+        <h2><em>Start Time Machine</em> action</h2>
         <p>Allows you to start a new Time Machine backup or stop an already running backup</p>
         
+      
+        <h2><em>Time Machine Destination</em> action</h2>
+        <p>This action requires that you have Tedium installed (available at
+        <a href="http://www.tediumapp.com/">http://www.tediumapp.com/</a>. This action
+        will allow you to automatically change your Time Machine destination disk.</p>
+        
 
-		<h2><em>ToggleBluetooth</em> and <em>ToggleWiFi</em> actions</h2>
-		<p>Actions of type <em>ToggleBluetooth</em> or
-		<em>ToggleWiFi</em> allow you to control the power state of
-		your computer's built-in Bluetooth and WiFi controllers.
-		</p>
+	<h2><em>Toggle Bluetooth</em> and <em>Toggle WiFi</em> actions</h2>
+	<p>Actions of type <em>ToggleBluetooth</em> or
+	<em>ToggleWiFi</em> allow you to control the power state of
+	your computer's built-in Bluetooth and WiFi controllers.
+	</p>
+
+
+        <h2><em>Toggle Firewall</em> action</h2>
+        <p>Toggle the firewall on or off.  This will globally enable or disable
+        any rules you have configured, it does not allow you to modify firewall rules</p>
+
+        <h2><em>Toggle FTP Sharing</em> action</h2>
+        <p>Allows you to toggle FTP sharing, even under Lion!</p>
         
+
+        <h2><em>Toggle Internet Sharing</em> action</h2>
+        <p>Toggles internet connection sharing on or off.  Internet sharing must be configured
+        in System Preferences for this to work properly, meaning you must define what connection
+        is to be shared, etc.  Toggle Internet Sharing will then toggle whether or not sharing is enabled</p>
+
+        <h2><em>Toggle Natural Scrolling</em> action</h2>
+        <p>Toggle Natural Scrolling in OS X Lion, not available in Snow Leopard</p>
+
+        <h2><em>Toggle Printer Sharing</em> action</h2>
+        <p>Toggle Printer Sharing</p>
+
+        <h2><em>Toggle Remote Login</em> action</h2>
+        <p>Allows you to toggle OS X's ssh service (Remote Login)</p>
+
+        <h2><em>Toggle TFTP Sharing</em> action</h2>
+        <p>Allows you to enable/disable OS X's TFTP server</p>
+
         
-        <h2><em>ToggleTimeMachine</em> action</h2>
+        <h2><em>Toggle Time Machine</em> action</h2>
         <p>Toggles Time Machine on or off.  This action requires additional privileges and when first invoked will ask you to install a helper application.  Simply click install to install the helper application.</p>
         
         <p>Under Lion this will enable/disable hourly backups to external drives and Time Capsules but leaves local backups enabled (MobileBackups).  Under Snow Leopard this action simply enables or disables Time Machine.  NOTE: Under Snow Leopard, the Time Machine icon may not faithfully display Time Machine's actual status.</p>
+
+        <h2><em>Toggle Web Sharing</em> action</h2>
+        <p>Allows you to toggle Web Sharing</p>
         
         <h2><em>Unmount</em> action</h2>
         <p>Unmounts a given disk</p>
 
-		<h2><em>VPN</em> actions</h2>
-		<p>Actions of type <em>VPN</em> can establish or disconnect
-		from your default PPTP, L2TP VPN or Cisco IPSec.
-		</p>
+	<h2><em>VPN</em> actions</h2>
+	<p>Actions of type <em>VPN</em> can establish or disconnect
+	from your default PPTP, L2TP VPN or Cisco IPSec.
+	</p>
 
 <!--
 		<p style="text-align: center;">
