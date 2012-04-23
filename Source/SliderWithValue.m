@@ -8,7 +8,6 @@
 
 #import "SliderWithValue.h"
 
-
 @implementation ToolTipTextField
 
 - (void)drawRect:(NSRect)aRect
@@ -28,6 +27,7 @@ static ToolTip *sharedToolTip = nil;
 @interface ToolTip (Private)
 
 - (void)setString:(NSString *)string atPoint:(NSPoint)point;
+
 
 @end
 
@@ -106,9 +106,19 @@ static ToolTip *sharedToolTip = nil;
 	[window setContentSize:NSMakeSize(size.width + 20, size.height + 1)];
 }
 
+
 @end
 
 #pragma mark -
+
+static NSTimer *hideToolTipTimer;
+
+@interface SliderCellWithValue (Private)
+
+- (void) hideToolTip:(NSTimer *)theTimer;
+- (void) doHideToolTip;
+
+@end
 
 @implementation SliderCellWithValue
 
@@ -161,8 +171,30 @@ static ToolTip *sharedToolTip = nil;
 		p1.x += bump;
 		p1.y += bump;
 		[ToolTip setString:[[self class] toolTipTextForValue:[self doubleValue]] atPoint:p1];
-	} else if (!draw && sharedToolTip)
-		[ToolTip releaseToolTip];
+        if (!hideToolTipTimer) {
+            NSLog(@"tooltip is %@", hideToolTipTimer);
+            hideToolTipTimer = [[NSTimer scheduledTimerWithTimeInterval: 5
+                                                                 target: self
+                                                               selector: @selector(hideToolTip:)
+                                                               userInfo: nil
+                                                                repeats: NO] retain];
+        }
+	} else if (!draw && sharedToolTip) {
+        [self doHideToolTip];
+    }
+		
+}
+
+- (void) hideToolTip:(NSTimer *)theTimer {
+    [self doHideToolTip];
+    hideToolTipTimer = nil;
+}
+
+- (void) doHideToolTip {
+    if (sharedToolTip) {
+        [ToolTip releaseToolTip];
+    }
+    
 }
 
 @end
