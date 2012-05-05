@@ -91,7 +91,7 @@
 #ifdef DEBUG_MODE
 		NSLog(@"%@ >> unsuccessfully polled light sensor using 10.5+ method", [self class]);
 #endif
-		mach_error("I/O Kit error:", kr); 
+		mach_error("I/O Kit error, this computer doesn't have light sensors and you should disable the light evidence source:", kr); 
 	}    
 
 	//kern_return_t kr = IOConnectMethodScalarIScalarO(ioPort, 0, 0, 2, &leftLight, &rightLight);
