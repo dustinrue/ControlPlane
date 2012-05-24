@@ -247,11 +247,7 @@
 #import "ToggleFirewallAction.h"
 #import "ToggleFTPAction.h"
 #import "ToggleInternetSharingAction.h"
-
-//#ifdef DEBUG_MODE
 #import "ToggleNaturalScrollingAction.h"
-//#endif
-
 #import "TogglePrinterSharingAction.h"
 #import "ToggleRemoteLoginAction.h"
 #import "ToggleTFTPAction.h"
@@ -304,9 +300,7 @@
                [ToggleFirewallAction class],
                [ToggleFTPAction class],
                [ToggleInternetSharingAction class],
-//#ifdef DEBUG_MODE
                [ToggleNaturalScrollingAction class],
-//#endif
                [TogglePrinterSharingAction class],
                [ToggleRemoteLoginAction class],
                [ToggleTFTPAction class],
@@ -345,9 +339,7 @@
 		NSLocalizedString(@"ToggleBluetooth", @"Action type");
         NSLocalizedString(@"ToggleFileSharing", @"Action type");
         NSLocalizedString(@"ToggleFirewall", @"Action type");
-//#ifdef DEBUG_MODE
         NSLocalizedString(@"ToggleInternetSharing", @"Action type");
-//#endif
         NSLocalizedString(@"ToggleNaturalScrolling", @"Action type");
         NSLocalizedString(@"TimeMachineAction",@"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
@@ -359,6 +351,12 @@
     if (major == 10 && minor > 7) {
         NSMutableArray *tmp = [classes mutableCopy];
         [tmp removeObject:[DisplayBrightnessAction class]];
+        classes = tmp;
+    }
+    
+    if (major == 10 && minor < 7) {
+        NSMutableArray *tmp = [classes mutableCopy];
+        [tmp removeObject:[ToggleNaturalScrollingAction class]];
         classes = tmp;
     }
     
