@@ -370,6 +370,14 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	return YES;
 }
 
+- (void)wakeFromSleep:(id)arg {
+    [locationManager startUpdatingLocation];
+}
+
+- (void) goingToSleep:(id)arg {
+    [locationManager stopUpdatingLocation];
+}
+
 + (NSString *) convertLocationToText: (in CLLocation *) location {
 	return [NSString stringWithFormat: @"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
 }
