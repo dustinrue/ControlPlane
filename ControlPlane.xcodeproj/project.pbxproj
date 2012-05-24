@@ -83,6 +83,7 @@
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA2B4381152161C800E94A1D /* ToggleTFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */; };
 		DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4384152161D900E94A1D /* ToggleFTPAction.m */; };
+		DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */ = {isa = PBXBuildFile; fileRef = DA312CA2156DD42E009C1389 /* BWQuincyUI.m */; };
 		DA41954D151C17F000FF7BA0 /* ActionSubmenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DA41954C151C17F000FF7BA0 /* ActionSubmenuItem.m */; };
 		DA4411A514EE03C9005E7B3B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4411A414EE03C9005E7B3B /* MapKit.framework */; };
 		DA461C0C14C33E3C0019594A /* NSString+ShellScriptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA461C0B14C33E3B0019594A /* NSString+ShellScriptHelper.m */; };
@@ -373,6 +374,8 @@
 		DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTFTPAction.m; path = Source/ToggleTFTPAction.m; sourceTree = "<group>"; };
 		DA2B4383152161D900E94A1D /* ToggleFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFTPAction.h; path = Source/ToggleFTPAction.h; sourceTree = "<group>"; };
 		DA2B4384152161D900E94A1D /* ToggleFTPAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFTPAction.m; path = Source/ToggleFTPAction.m; sourceTree = "<group>"; };
+		DA312CA1156DD42E009C1389 /* BWQuincyUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWQuincyUI.h; sourceTree = "<group>"; };
+		DA312CA2156DD42E009C1389 /* BWQuincyUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyUI.m; sourceTree = "<group>"; };
 		DA41954B151C17EF00FF7BA0 /* ActionSubmenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSubmenuItem.h; path = Source/ActionSubmenuItem.h; sourceTree = "<group>"; };
 		DA41954C151C17F000FF7BA0 /* ActionSubmenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionSubmenuItem.m; path = Source/ActionSubmenuItem.m; sourceTree = "<group>"; };
 		DA4411A414EE03C9005E7B3B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = Frameworks/MapKit.framework; sourceTree = "<group>"; };
@@ -826,6 +829,8 @@
 				DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */,
 				DAF2F81C150EE5960040DDC7 /* BWQuincyManager.h */,
 				DAF2F81D150EE5960040DDC7 /* BWQuincyManager.m */,
+				DA312CA1156DD42E009C1389 /* BWQuincyUI.h */,
+				DA312CA2156DD42E009C1389 /* BWQuincyUI.m */,
 				DAF2F81E150EE5960040DDC7 /* Quincy-Info.plist */,
 				DAF2F81F150EE5960040DDC7 /* Quincy-Prefix.pch */,
 			);
@@ -1274,6 +1279,7 @@
 				DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */,
 				DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */,
 				DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */,
+				DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
