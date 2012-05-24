@@ -311,7 +311,7 @@
     [fileBrowser setCanChooseDirectories:NO];
     
     if ([fileBrowser runModal] == NSOKButton) {
-        [self setCurrentFileName:[fileBrowser filename]];
+        [self setCurrentFileName:[[fileBrowser URL] path]];
     }
         
  
