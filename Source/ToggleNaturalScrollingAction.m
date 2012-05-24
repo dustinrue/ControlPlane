@@ -7,6 +7,14 @@
 //
 
 #import "ToggleNaturalScrollingAction.h"
+#include <ApplicationServices/ApplicationServices.h>
+
+
+
+typedef int CGSConnection;
+extern CGSConnection _CGSDefaultConnection(void);
+extern void CGSSetSwipeScrollDirection(const CGSConnection cid, BOOL dir);
+
 
 @implementation ToggleNaturalScrollingAction
 
@@ -20,6 +28,9 @@
 - (BOOL) execute: (NSString **) errorString {
     
     NSMutableDictionary *globalSettings = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:NSGlobalDomain] mutableCopy];
+    
+    const CGSConnection cid = _CGSDefaultConnection();
+    CGSSetSwipeScrollDirection(cid, turnOn);  // YES == natural, NO = unnatural
     
     [globalSettings setValue:[NSNumber numberWithBool:turnOn] forKey:@"com.apple.swipescrolldirection"];
     
