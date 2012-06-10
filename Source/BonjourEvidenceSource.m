@@ -8,6 +8,7 @@
 #import "BonjourEvidenceSource.h"
 #import "DSLogger.h"
 #import "NSTimer+Invalidation.h"
+#import "NSMutableArray+Merge.h"
 #import "CPBonjourResolver.h"
 
 @interface BonjourEvidenceSource (Private)
@@ -170,13 +171,17 @@
     // needs to take all of the found services and create new instances
     // of CPBonjourResolver for each one.
     if (sender == topLevelNetworkBrowser) {
-        [self clearCollectedData];
+        //[self clearCollectedData];
+        NSMutableArray *newCpBonjourResolvers = [[NSMutableArray alloc] init];
         for (NSNetService *aService in [sender foundItems]) {
             CPBonjourResolver *tmp = [[[CPBonjourResolver alloc] init] retain];
-            [cpBonjourResolvers addObject:tmp];
+            [newCpBonjourResolvers addObject:tmp];
             [tmp setDelegate:self];
             [tmp searchForServicesOfType:[NSString stringWithFormat:@"%@.%@", [aService name],[CPBonjourResolver stripLocal:[aService type]]] inDomain:@"local."];
         }
+        
+        [cpBonjourResolvers mergeWith:newCpBonjourResolvers];
+        [newCpBonjourResolvers release];
     }
     else {
         for (NSNetService *aService in [sender foundItems]) {

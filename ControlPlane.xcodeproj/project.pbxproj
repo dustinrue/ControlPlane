@@ -118,6 +118,7 @@
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
+		DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF2F820150EE5960040DDC7 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */; };
 		DAF2F821150EE5960040DDC7 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF2F81D150EE5960040DDC7 /* BWQuincyManager.m */; };
@@ -423,6 +424,8 @@
 		DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeMachineDestinationAction.m; path = Source/TimeMachineDestinationAction.m; sourceTree = "<group>"; };
 		DAC672FC152235E800F1C7A1 /* ToggleWebSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleWebSharingAction.h; path = Source/ToggleWebSharingAction.h; sourceTree = "<group>"; };
 		DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleWebSharingAction.m; path = Source/ToggleWebSharingAction.m; sourceTree = "<group>"; };
+		DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Merge.h"; path = "Source/NSMutableArray+Merge.h"; sourceTree = "<group>"; };
+		DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Merge.m"; path = "Source/NSMutableArray+Merge.m"; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DAE893E514546897005FA13C /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
 		DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = BWQuincyMain.nib; sourceTree = "<group>"; };
@@ -562,8 +565,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8DAD148E0BBCA40700F93914 /* Evidence Sources */,
 				8DF5A4130BC2350000CBEB4B /* Actions */,
+				8DAD148E0BBCA40700F93914 /* Evidence Sources */,
 				8D0164850C02AB08004AD8DB /* UI Utilities */,
 				8D3BFF3C0C61BE4500B9B910 /* AboutPanel.h */,
 				8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */,
@@ -571,20 +574,22 @@
 				DA812E82140681D2006869F7 /* AppleScript.m */,
 				8D8155CD0C3A304E00228463 /* ContextsDataSource.h */,
 				8D8155CE0C3A304E00228463 /* ContextsDataSource.m */,
+				DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */,
+				DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */,
+				8D90E51D0B71C4C9007D39FD /* CPController.h */,
+				8D90E51E0B71C4C9007D39FD /* CPController.m */,
 				8D8C9E320BBB89320074D5B3 /* DB.h */,
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
 				8DBB44950C530F7600064010 /* DSLogger.h */,
 				8DBB44960C530F7600064010 /* DSLogger.m */,
-				8D90E51D0B71C4C9007D39FD /* CPController.h */,
-				8D90E51E0B71C4C9007D39FD /* CPController.m */,
-				DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */,
-				DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */,
-				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
-				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
-				DD7D2537149C338200BE7C8B /* NSTimer+Invalidation.h */,
-				DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */,
 				DA461C0A14C33E3B0019594A /* NSString+ShellScriptHelper.h */,
 				DA461C0B14C33E3B0019594A /* NSString+ShellScriptHelper.m */,
+				DD7D2537149C338200BE7C8B /* NSTimer+Invalidation.h */,
+				DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */,
+				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
+				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
+				DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */,
+				DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1280,6 +1285,7 @@
 				DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */,
 				DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */,
 				DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */,
+				DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

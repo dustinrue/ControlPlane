@@ -9,6 +9,7 @@
 
 #import <CoreWLAN/CoreWLAN.h>
 #import "CoreWLANEvidenceSource.h"
+#import "NSMutableArray+Merge.h"
 #import "DSLogger.h"
 
 
@@ -142,10 +143,16 @@
     }
     
 	[lock lock];
-	[apList setArray:all_aps];
+	//[apList setArray:all_aps];
+    
+    // merge the results rather than simply replacing
+    // the apList array with new results
+    if ([apList mergeWith:all_aps] ) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    }
 	[self setDataCollected:[apList count] > 0];
 #ifdef DEBUG_MODE
-	DSLog(@"%@ >> %@", [self class], apList);
+	//DSLog(@"%@ >> %@", [self class], apList);
 #endif
 	[lock unlock];
 }

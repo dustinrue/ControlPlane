@@ -52,6 +52,10 @@
 // Action Queue
 - (void) addActionToQueue:(id) action;
 
+
+// Evidence source monitoring
+- (void) evidenceSourceDataDidChange:(NSNotification *) notification;
+
 @end
 
 #pragma mark -
@@ -367,6 +371,14 @@
 		[NSApp activateIgnoringOtherApps:YES];
 		[prefsWindow makeKeyAndOrderFront:self];
 	}
+    
+    
+    // Register for notifications from evidence sources that their data has changed
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(evidenceSourceDataDidChange:) 
+                                                 name:@"evidenceSourceDataDidChange"
+                                               object:nil];
+    
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(contextsChanged:)
@@ -1382,6 +1394,12 @@
 
 	// Check that the running evidence sources match the defaults
 	[evidenceSources startOrStopAll];
+}
+
+#pragma mark -
+#pragma mark Evidence source change handling
+- (void) evidenceSourceDataDidChange:(NSNotification *)notification {
+    // we should update immediately here
 }
 
 @end
