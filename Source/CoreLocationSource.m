@@ -371,11 +371,13 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (void)wakeFromSleep:(id)arg {
-    [locationManager startUpdatingLocation];
+    if (running)
+        [locationManager startUpdatingLocation];
 }
 
 - (void) goingToSleep:(id)arg {
-    [locationManager stopUpdatingLocation];
+    if (running)
+        [locationManager stopUpdatingLocation];
 }
 
 + (NSString *) convertLocationToText: (in CLLocation *) location {
