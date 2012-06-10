@@ -6,6 +6,7 @@
 //
 
 #import "ToggleBluetoothAction.h"
+#import <IOBluetooth/objc/IOBluetoothHostController.h>
 
 // requires IOBluetooth.framework
 int IOBluetoothPreferenceGetControllerPowerState(void);
@@ -32,8 +33,9 @@ void IOBluetoothPreferenceSetControllerPowerState(int);
 - (BOOL)execute:(NSString **)errorString
 {
 	int state = (turnOn ? 1 : 0);
-
-	[self performSelectorOnMainThread:@selector(setPowerState) withObject:nil waitUntilDone:YES];
+    int i = 0;
+    IOBluetoothHostController *hostController = [IOBluetoothHostController defaultController];
+	
     
     // IOBluetoothPreferenceGetControllerPowerState but 
     // there definitely needs to be some amount of time between
@@ -49,19 +51,34 @@ void IOBluetoothPreferenceSetControllerPowerState(int);
     // this tip. This will still cause an error should the bluetooth controller take more than
 	// the mentioned 5 seconds to switch, generating a delayed error notification (Growl)
 
-    [NSThread sleepForTimeInterval:5];
-
-    setState = IOBluetoothPreferenceGetControllerPowerState();
-
+    
+    // It's been reported more than once that BT will fail to enable or disable under certain
+    // circumstances.  In an attempt to make this a bit more reliable while simulaneously putting
+    // in the least amount of effort, ControlPlane simply tries to get the Bluetooth
+    // host controller into the desired state a few times.
+    
+    
+    setState = -1;
+    
+    // try 5 times to change the bluetooth controller state
+    while (state != setState && i < 5) {
+        [self performSelectorOnMainThread:@selector(setPowerState) withObject:nil waitUntilDone:YES];
+        [NSThread sleepForTimeInterval:2];
+        setState = hostController.powerState;
+        i++;
+    }
+    
+    
 	if (state != setState) {
-		if (turnOn)
+		if (turnOn) 
 			*errorString = NSLocalizedString(@"Failed turning Bluetooth on.", @"");
 		else
 			*errorString = NSLocalizedString(@"Failed turning Bluetooth off.", @"");
 		return NO;
 	}
 
-
+    
+    NSLog(@"Successfully toggled bluetooth after %d %@", i, (i > 1) ? @"tries":@"try");
 	return YES;
 }
 
