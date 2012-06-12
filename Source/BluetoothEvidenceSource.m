@@ -192,8 +192,10 @@
     if (![self registeredForNotifications]) 
         return FALSE; 
     
-	[lock lock];
-	NSEnumerator *en = [devices objectEnumerator];
+    NSArray *tmp = [devices copy];
+    
+	//[lock lock];
+	NSEnumerator *en = [tmp objectEnumerator];
 	NSDictionary *dev;
 	NSString *mac = [rule objectForKey:@"parameter"];
 	while ((dev = [en nextObject])) {
@@ -202,8 +204,9 @@
 			break;
 		}
 	}
-	[lock unlock];
+	//[lock unlock];
     
+    [tmp release];
 	return match;
 }
 

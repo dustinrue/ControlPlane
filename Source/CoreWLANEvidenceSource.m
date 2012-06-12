@@ -181,8 +181,9 @@
 	NSString *key = [rule valueForKey:@"type"];
 	NSString *param = [rule valueForKey:@"parameter"];
     
-	[lock lock];
-	NSEnumerator *en = [apList objectEnumerator];
+	//[lock lock];
+    NSArray *tmp = [apList copy];
+	NSEnumerator *en = [tmp objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [en nextObject])) {
 		NSString *x = [dict valueForKey:key];
@@ -194,8 +195,9 @@
 			break;
 		}
 	}
-	[lock unlock];
+	//[lock unlock];
     
+    [tmp release];
 	return match;
 }
 
