@@ -175,7 +175,7 @@
         NSMutableArray *newCpBonjourResolvers = [[NSMutableArray alloc] init];
         for (NSNetService *aService in [sender foundItems]) {
             CPBonjourResolver *tmp = [[[CPBonjourResolver alloc] init] retain];
-            [newCpBonjourResolvers addObject:tmp];
+            [newCpBonjourResolvers addObject:[tmp autorelease]];
             [tmp setDelegate:self];
             [tmp searchForServicesOfType:[NSString stringWithFormat:@"%@.%@", [aService name],[CPBonjourResolver stripLocal:[aService type]]] inDomain:@"local."];
         }
@@ -188,7 +188,7 @@
             CPBonjourResolver *tmp = [[[CPBonjourResolver alloc] init] retain];
             [tmp setDelegate:self];
             [tmp doResolveForService:aService];
-            [servicesBeingResolved addObject:tmp];
+            [servicesBeingResolved addObject:[tmp autorelease]];
             
         }
     }
