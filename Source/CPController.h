@@ -43,6 +43,8 @@
     BOOL screenSaverRunning;
     BOOL screenLocked;
     
+    BOOL goingToSleep;
+    
     // used to maintain a queue of actions that need
     // to be performed after the screen saver quits AND/OR
     // the screen is unlocked
@@ -54,6 +56,7 @@
 
 @property (readwrite) BOOL screenSaverRunning;
 @property (readwrite) BOOL screenLocked;
+@property (readwrite) BOOL goingToSleep;
 
 - (NSString *) currentContextName;
 - (ContextsDataSource *) contextsDataSource;

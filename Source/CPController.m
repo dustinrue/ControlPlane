@@ -69,6 +69,7 @@
 
 @synthesize screenSaverRunning;
 @synthesize screenLocked;
+@synthesize goingToSleep;
 
 + (void)initialize
 {
@@ -157,6 +158,8 @@
 	[self setValue:@"" forKey:@"currentContextUUID"];
 	[self setValue:@"?" forKey:@"currentContextName"];
 	[self setValue:@"?" forKey:@"guessConfidence"];
+    
+    [self setGoingToSleep:NO];
 
 	forcedContextIsSticky = NO;
 	
@@ -1304,6 +1307,7 @@
     
     // this might cause an issue with anyone who does an 
     // immediate action (not delayed at all) at sleep
+    [self setGoingToSleep:YES];
     [screensaverActionArrivalQueue removeAllObjects];
     [screensaverActionDepartureQueue removeAllObjects];
     [screenLockActionDepartureQueue removeAllObjects];
@@ -1314,6 +1318,7 @@
 
 - (void)wakeFromSleep:(id)arg
 {
+    [self setGoingToSleep:NO];
 	DSLog(@"Starting update thread after sleep.");
 	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
 }
@@ -1393,7 +1398,8 @@
 #endif
 
 	// Check that the running evidence sources match the defaults
-	[evidenceSources startOrStopAll];
+    if (!goingToSleep)
+        [evidenceSources startOrStopAll];
 }
 
 #pragma mark -
