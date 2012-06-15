@@ -58,8 +58,15 @@
 
 		// Get the product name; should be something like "DELL 1907FP", in the current locale
 		NSDictionary *subdict = [dict objectForKey:(NSString *) CFSTR(kDisplayProductName)];
-		if (subdict && ([subdict count] > 0))
-			display_name = [[subdict allValues] objectAtIndex:0];
+
+        @try {
+            if (subdict && ([subdict count] > 0))
+                display_name = [[subdict allValues] objectAtIndex:0];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"failed to get monitor type/name");
+        }
+		
 
 		// Our unique identifier: product ID (built-in LCDs don't have serial numbers)
 		NSNumber *display_serial = [dict objectForKey:(NSString *) CFSTR(kDisplayProductID)];
