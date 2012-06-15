@@ -43,11 +43,6 @@
 
 - (void) stop {
     [networkBrowser stop];
-    
-    for (NSNetService *tmp in foundItems) {
-        //[tmp stop];
-        //[tmp release];
-    }
     [foundItems removeAllObjects];
 }
 
