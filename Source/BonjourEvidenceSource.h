@@ -32,6 +32,9 @@
     // and what host
 	NSMutableArray *services;
     
+    // service level browsers by their type
+    NSMutableDictionary *servicesByType;
+    
     
 	NSTimer *scanTimer;
 

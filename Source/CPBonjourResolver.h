@@ -9,26 +9,33 @@
 #import <Foundation/Foundation.h>
 @protocol CPBonjourResolverDelegate <NSObject>;
 
-- (void) foundItemsDidChange:(id)sender;
+- (void) foundNewServiceFrom:(id)sender withService:(NSNetService *) service;
 - (void) resolvedServiceArrived:(id)sender;
 - (void) netServiceBrowser:(id)netServiceBrowser removedService:(NSNetService *)removedService;
 
 @end
+
+
+
 
 @interface CPBonjourResolver : NSObject <NSNetServiceBrowserDelegate, NSNetServiceDelegate> {
     NSNetServiceBrowser *networkBrowser;
     NSMutableArray *foundItems;
     NSMutableArray *resolveQueue;
     NSMutableArray *resolvedItems;
+    
+    NSString * myServiceType;
     id delegate;
 }
 
 @property (nonatomic, assign) id <CPBonjourResolverDelegate> delegate;
 @property (readwrite, assign) NSMutableArray *foundItems;
+@property (readwrite, retain) NSString *myServiceType;
 
 - (void) searchForServicesOfType:(NSString *)serviceType inDomain:(NSString *) domain;
 - (void) stop;
 - (void) doResolveForService:(NSNetService *)service;
+- (NSUInteger) numberOfHosts;
 
 + (NSString *) stripLocal:(NSString *) incoming;
 

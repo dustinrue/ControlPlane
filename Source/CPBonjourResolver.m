@@ -13,6 +13,7 @@
 
 @synthesize delegate;
 @synthesize foundItems;
+@synthesize myServiceType;
 
 #pragma mark -
 #pragma mark init/dealloc
@@ -42,6 +43,11 @@
 
 - (void) stop {
     [networkBrowser stop];
+    
+    for (NSNetService *tmp in foundItems) {
+        //[tmp stop];
+        //[tmp release];
+    }
     [foundItems removeAllObjects];
 }
 
@@ -58,6 +64,8 @@
          didRemoveService:(NSNetService *)netService
                moreComing:(BOOL)moreServicesComing {
 
+    [foundItems removeObject:netService];
+    
     if ([[self delegate] respondsToSelector:@selector(netServiceBrowser:removedService:)])
         [[self delegate] netServiceBrowser:self removedService:netService];
     else
@@ -82,8 +90,8 @@
     
     [foundItems addObject:netService];
     
-    if (!moreServicesComing && [[self delegate] respondsToSelector:@selector(foundItemsDidChange:)]) {
-        [[self delegate] foundItemsDidChange:self];
+    if ([[self delegate] respondsToSelector:@selector(foundNewServiceFrom:withService:)]) {
+        [[self delegate] foundNewServiceFrom:self withService:netService];
     }
 }
 
@@ -114,6 +122,10 @@
 #ifdef DEBUG_MODE
     DSLog(@"");
 #endif
+}
+
+- (NSUInteger) numberOfHosts {
+    return [foundItems count];
 }
 
 
