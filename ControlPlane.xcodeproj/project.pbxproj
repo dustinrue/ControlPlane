@@ -24,7 +24,6 @@
 		8D232FB60BD9D507006A3963 /* RulesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB40BD9D507006A3963 /* RulesPrefs.png */; };
 		8D27ECB00C4456A300AE1929 /* AudioOutputEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */; };
 		8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */; };
-		8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3453C20C18E5C1006011D0 /* IChatAction.m */; };
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.png */; };
 		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; };
@@ -140,7 +139,6 @@
 		DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F81411748B0098FA6E /* LockKeychainAction.m */; };
 		DD8274FB141177750098FA6E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274FD14117C580098FA6E /* SpeakAction.m */; };
-		DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -1223,7 +1221,6 @@
 				8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */,
 				8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */,
 				8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */,
-				8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */,
 				8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */,
 				8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */,
 				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
@@ -1261,7 +1258,6 @@
 				DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */,
 				DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */,
 				DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */,
-				DD827507141188890098FA6E /* DisplayBrightnessAction.m in Sources */,
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
 				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
 				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
@@ -1470,7 +1466,7 @@
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -1484,7 +1480,7 @@
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
@@ -1602,7 +1598,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -1610,7 +1606,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};
@@ -1618,7 +1614,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -1626,7 +1622,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};

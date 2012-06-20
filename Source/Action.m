@@ -220,10 +220,10 @@
 #import "DefaultBrowserAction.h"
 #import "DefaultPrinterAction.h"
 #import "DesktopBackgroundAction.h"
-#import "DisplayBrightnessAction.h"
+//#import "DisplayBrightnessAction.h"
 #import "DisplaySleepTimeAction.h"
 #import "FirewallRuleAction.h"
-#import "IChatAction.h"
+//#import "IChatAction.h"
 #import "ITunesPlaylistAction.h"
 #import "LockKeychainAction.h"
 #import "MailIMAPServerAction.h"
@@ -274,9 +274,9 @@
 			   [DefaultBrowserAction class],
                [DefaultPrinterAction class],
 			   [DesktopBackgroundAction class],
-			   [DisplayBrightnessAction class],
+			   //[DisplayBrightnessAction class],
                [DisplaySleepTimeAction class],
-			   [IChatAction class],
+			   //[IChatAction class],
 			   [ITunesPlaylistAction class],
 			   [LockKeychainAction class],
 			   [MailIMAPServerAction class],
@@ -316,8 +316,8 @@
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
         NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
-		NSLocalizedString(@"DisplayBrightness", @"Action type");
-		NSLocalizedString(@"iChat", @"Action type");
+		//NSLocalizedString(@"DisplayBrightness", @"Action type");
+		//NSLocalizedString(@"iChat", @"Action type");
 		NSLocalizedString(@"iTunesPlaylist", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");
 		NSLocalizedString(@"MailIMAPServer", @"Action type");
@@ -346,13 +346,14 @@
 		NSLocalizedString(@"Unmount", @"Action type");
 		NSLocalizedString(@"VPN", @"Action type");
 	}
-    
+    /*
     // hack to remove the DisplayBrightnessAction on ML
     if (major == 10 && minor > 7) {
         NSMutableArray *tmp = [classes mutableCopy];
         [tmp removeObject:[DisplayBrightnessAction class]];
         classes = tmp;
     }
+     */
     
     if (major == 10 && minor < 7) {
         NSMutableArray *tmp = [classes mutableCopy];
