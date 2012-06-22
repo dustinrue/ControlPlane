@@ -116,6 +116,7 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
+		DAB4355F15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB4355E15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m */; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
 		DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */; };
@@ -388,7 +389,7 @@
 		DA4A629213E2546800CE976F /* ControlPlane Help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ControlPlane Help"; path = "Resources/ControlPlane Help"; sourceTree = "<group>"; };
 		DA4A629413E25C9D00CE976F /* Credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
 		DA4ED9C21520055100E6A8CE /* ToggleNaturalScrollingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleNaturalScrollingAction.h; path = Source/ToggleNaturalScrollingAction.h; sourceTree = "<group>"; };
-		DA4ED9C31520055100E6A8CE /* ToggleNaturalScrollingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleNaturalScrollingAction.m; path = Source/ToggleNaturalScrollingAction.m; sourceTree = "<group>"; };
+		DA4ED9C31520055100E6A8CE /* ToggleNaturalScrollingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleNaturalScrollingAction.m; path = Source/ToggleNaturalScrollingAction.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DA571B6F151587B80074CE22 /* ToggleFileSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFileSharingAction.h; path = Source/ToggleFileSharingAction.h; sourceTree = "<group>"; };
 		DA571B70151587B80074CE22 /* ToggleFileSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFileSharingAction.m; path = Source/ToggleFileSharingAction.m; sourceTree = "<group>"; };
 		DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperInstallTool; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -420,6 +421,8 @@
 		DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
+		DAB4355D15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleAutomaticDisplayBrightness.h; path = Source/ToggleAutomaticDisplayBrightness.h; sourceTree = "<group>"; };
+		DAB4355E15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleAutomaticDisplayBrightness.m; path = Source/ToggleAutomaticDisplayBrightness.m; sourceTree = "<group>"; };
 		DAC45F1E14CDEC170007F5EF /* TimeMachineDestinationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeMachineDestinationAction.h; path = Source/TimeMachineDestinationAction.h; sourceTree = "<group>"; };
 		DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeMachineDestinationAction.m; path = Source/TimeMachineDestinationAction.m; sourceTree = "<group>"; };
 		DAC672FC152235E800F1C7A1 /* ToggleWebSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleWebSharingAction.h; path = Source/ToggleWebSharingAction.h; sourceTree = "<group>"; };
@@ -956,6 +959,8 @@
 				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
+				DAB4355D15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.h */,
+				DAB4355E15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m */,
 			);
 			name = "System Actions";
 			sourceTree = "<group>";
@@ -1181,6 +1186,7 @@
 				"/System/Library/CoreServices/System Events.app",
 				/Applications/iTunes.app,
 				"/System/Library/CoreServices/Printer Setup Utility.app",
+				/Applications/Messages.app,
 			);
 			name = "Generate Script Bridge Headers";
 			outputPaths = (
@@ -1192,7 +1198,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "for (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i)\"\n    filename=$(basename \"$appFile\")\n    base=${filename%.[^.]*}\n    sdef \"$appFile\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$base\" --bundleid `defaults read \"$appFile/Contents/Info\" CFBundleIdentifier`\ndone";
+			shellScript = "for (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i)\"\n    if [ ! -d $appFile ]; then\n        continue\n    fi\n    filename=$(basename \"$appFile\")\n    base=${filename%.[^.]*}\n    sdef \"$appFile\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$base\" --bundleid `defaults read \"$appFile/Contents/Info\" CFBundleIdentifier`\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1286,6 +1292,7 @@
 				DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */,
 				DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */,
 				DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */,
+				DAB4355F15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
