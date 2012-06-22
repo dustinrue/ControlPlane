@@ -116,7 +116,6 @@
 		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DAB4355F15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB4355E15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m */; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
 		DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */; };
@@ -421,8 +420,6 @@
 		DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
-		DAB4355D15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleAutomaticDisplayBrightness.h; path = Source/ToggleAutomaticDisplayBrightness.h; sourceTree = "<group>"; };
-		DAB4355E15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleAutomaticDisplayBrightness.m; path = Source/ToggleAutomaticDisplayBrightness.m; sourceTree = "<group>"; };
 		DAC45F1E14CDEC170007F5EF /* TimeMachineDestinationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeMachineDestinationAction.h; path = Source/TimeMachineDestinationAction.h; sourceTree = "<group>"; };
 		DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeMachineDestinationAction.m; path = Source/TimeMachineDestinationAction.m; sourceTree = "<group>"; };
 		DAC672FC152235E800F1C7A1 /* ToggleWebSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleWebSharingAction.h; path = Source/ToggleWebSharingAction.h; sourceTree = "<group>"; };
@@ -959,8 +956,6 @@
 				8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */,
 				8D643DDA0C4F1F0D006D8ECC /* VPNAction.h */,
 				8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */,
-				DAB4355D15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.h */,
-				DAB4355E15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m */,
 			);
 			name = "System Actions";
 			sourceTree = "<group>";
@@ -1292,7 +1287,6 @@
 				DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */,
 				DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */,
 				DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */,
-				DAB4355F15902C670052E4F5 /* ToggleAutomaticDisplayBrightness.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
