@@ -49,7 +49,7 @@
 }
 
 - (bool)isWirelessAvailable {
-    BOOL powerState = self.currentInterface.power;
+    BOOL powerState = [self.currentInterface powerOn];
     return powerState;
 }
 
@@ -59,8 +59,8 @@
 	NSMutableArray *all_aps = [NSMutableArray array];
 	NSError *err = nil;
     CWNetwork *currentNetwork = nil;
-	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:nil];
-    NSArray *supportedInterfaces = [CWInterface supportedInterfaces];
+    NSArray *supportedInterfaces = [[CWInterface interfaceNames] allObjects];
+    NSLog(@"%@", supportedInterfaces);
 	BOOL do_scan = YES;
 
     
@@ -80,7 +80,7 @@
     
     
     // first see if Wi-Fi is even turned on
-    if (! self.currentInterface.power) {
+    if (! [self.currentInterface powerOn]) {
         [self clearCollectedData];
 #ifdef DEBUG_MODE
         DSLog(@"wifi disabled, no scan done");
@@ -112,7 +112,7 @@
     // if do_scan is set to yes, do the Wi-Fi scan
     if (do_scan) { 
     
-        self.scanResults = [NSMutableArray arrayWithArray:[self.currentInterface scanForNetworksWithParameters:params error:&err]];
+        self.scanResults = [NSMutableArray arrayWithArray:(NSArray *)[self.currentInterface cachedScanResults]];
         
         if( err )
             DSLog(@"error: %@",err);
@@ -124,7 +124,7 @@
             [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
     #ifdef DEBUG_MODE
-            DSLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssi]);
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
     #endif
         }
 
