@@ -112,7 +112,7 @@
     // if do_scan is set to yes, do the Wi-Fi scan
     if (do_scan) { 
     
-        self.scanResults = [NSMutableArray arrayWithArray:(NSArray *)[self.currentInterface cachedScanResults]];
+        self.scanResults = [NSMutableArray arrayWithArray:[[self.currentInterface scanForNetworksWithName:nil error:&err] allObjects]];
         
         if( err )
             DSLog(@"error: %@",err);
@@ -124,7 +124,7 @@
             [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
     #ifdef DEBUG_MODE
-            DSLog(@"found ssid %@ with bssid %@ and RSSI %@",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
+             DSLog(@"found ssid %@ with bssid %@ and RSSI %ld",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
     #endif
         }
 
