@@ -325,7 +325,8 @@
 {
     // we're being notified that a device has connected
 #ifdef DEBUG_MODE
-	DSLog(@"Got notified of '%@' connecting!, %@", [device name], [device getAddressString]);
+    
+	DSLog(@"Got notified of '%@' connecting!, %@", [device name], [device addressString]);
 #endif
     
     // tell the bluetooth API we want to know when this device goes away
@@ -349,7 +350,7 @@
     
     // find device in devices array
 	while ((dev = [en nextObject])) {
-		if ([[dev valueForKey:@"mac"] isEqualToString:[device getAddressString]])
+		if ([[dev valueForKey:@"mac"] isEqualToString:[device addressString]])
 			break;
 		++index;
 	}
@@ -489,7 +490,7 @@
 	NSEnumerator *en = [devices objectEnumerator];
 	NSMutableDictionary *dev;
 	while ((dev = [en nextObject])) {
-		if ([[dev valueForKey:@"mac"] isEqualToString:[device getAddressString]])
+		if ([[dev valueForKey:@"mac"] isEqualToString:[device addressString]])
 			break;
 	}
 	if (dev) {
@@ -499,7 +500,7 @@
 		[dev setValue:expires forKey:@"expires"];
 	} else {
 		// Insert
-		NSString *mac = [[[device getAddressString] copy] autorelease];
+		NSString *mac = [[[device addressString] copy] autorelease];
 		NSString *vendor = [[self class] vendorByMAC:mac];
         
 		dev = [NSMutableDictionary dictionary];
