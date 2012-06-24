@@ -50,7 +50,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:NSLocalizedString(@"Setting iChat status to '%@'.", @""), status];
+	return [NSString stringWithFormat:NSLocalizedString(@"Setting Messages status to '%@'.", @""), status];
 }
 
 - (BOOL) execute: (NSString **) errorString {
@@ -62,7 +62,7 @@
 		
 	} @catch (NSException *e) {
 		DSLog(@"Exception: %@", e);
-		*errorString = NSLocalizedString(@"Couldn't set iChat status!", @"In IChatAction");
+		*errorString = NSLocalizedString(@"Couldn't set Messages status!", @"In MessagesAction");
 		return NO;
 	}
 	
@@ -71,16 +71,16 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString(@"The parameter for iChat actions is the status message to set.", @"");
+	return NSLocalizedString(@"The parameter for Messages actions is the status message to set.", @"");
 }
 
 + (NSString *)creationHelpText
 {
-	return NSLocalizedString(@"Set iChat status message to", @"");
+	return NSLocalizedString(@"Set Messages status message to", @"");
 }
 
 + (NSString *) friendlyName {
-    return NSLocalizedString(@"iChat Status", @"");
+    return NSLocalizedString(@"Messages Status", @"");
 }
 
 + (NSString *)menuCategory {
