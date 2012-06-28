@@ -67,7 +67,7 @@
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>com.dustinrue.CPHelperTool</key>
-		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = "3rd Party Mac Developer Application: Dustin Rue"</string>
+		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = "Developer ID Application: Dustin Rue"</string>
 	</dict>
 	<key>SUFeedURL</key>
 	<string>http://www.controlplaneapp.com/appcast.xml</string>

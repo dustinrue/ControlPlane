@@ -12,7 +12,7 @@
 	<string>5</string>
 	<key>SMAuthorizedClients</key>
 	<array>
-		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = &quot;3rd Party Mac Developer Application: Dustin Rue&quot;</string>
+		<string>identifier com.dustinrue.ControlPlane and certificate leaf[subject.CN] = &quot;Developer ID Application: Dustin Rue&quot;</string>
 	</array>
 </dict>
 </plist>
