@@ -1,4 +1,3 @@
-
 /*
 	File:       BetterAuthorizationSampleLib.c
 
@@ -50,18 +49,15 @@
 
 #define BAS_PRIVATE 1
 
-// Helper for easier error logging:
-#define AslLogError(errStr) err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, errStr); assert(err == 0);
+#include "BetterAuthorizationSampleLib.h"
 
-#import "BetterAuthorizationSampleLib.h"
-
-#import <launch.h>
-#import <unistd.h>
-#import <fcntl.h>
-#import <sys/event.h>
-#import <sys/stat.h>
-#import <sys/un.h>
-#import <sys/socket.h>
+#include <launch.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/event.h>
+#include <sys/stat.h>
+#include <sys/un.h>
+#include <sys/socket.h>
 
 // At runtime BAS only requires CoreFoundation.  However, at build time we need 
 // CoreServices for the various OSStatus error codes in "MacErrors.h".  Thus, by default, 
@@ -69,11 +65,11 @@
 // that you're not accidentally using any other CoreServices things.
 
 #if 1
-    #import <CoreServices/CoreServices.h>
+    #include <CoreServices/CoreServices.h>
 #else
     #warning Do not ship this way!
-    #import <CoreFoundation/CoreFoundation.h>
-    #import "/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/MacErrors.h"
+    #include <CoreFoundation/CoreFoundation.h>
+    #include "/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/MacErrors.h"
 #endif
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -945,7 +941,7 @@ static OSStatus FindCommand(
 	OSStatus					retval = noErr;
     CFStringRef                 commandStr;
     char *                      command;
-	CFIndex						commandSize = 0;
+	long						commandSize = 0;
 	size_t						index = 0;
 	
 	// Pre-conditions
@@ -1446,7 +1442,7 @@ extern int BASHelperToolMain(
 	
     pipeSet = signal(SIGPIPE, SIG_IGN);
     if (pipeSet == SIG_ERR) {
-        AslLogError("Could not ignore SIGPIPE: %m");
+        errStr = "Could not ignore SIGPIPE: %m";
         goto done;
     }
 	
@@ -1462,14 +1458,14 @@ extern int BASHelperToolMain(
 
     kq = kqueue();
 	if (kq < 0) {
-        AslLogError("Could not create kqueue: %m");
+        errStr = "Could not create kqueue: %m";
 		goto done;
 	}
 
     EV_SET(&initEvent, listener, EVFILT_READ, EV_ADD, 0, 0, NULL);
     err = kevent(kq, &initEvent, 1, NULL, 0, NULL);
     if (err < 0) {
-        AslLogError("Could not add listening socket to kqueue: %m");
+        errStr = "Could not add listening socket to kqueue: %m";
         goto done;
     }
 	
@@ -1481,7 +1477,7 @@ extern int BASHelperToolMain(
     err = SetNonBlocking(listener, true);
     if (err != 0) {
         errno = err;            // for %m
-        AslLogError("Could not check/set socket flags: %m");
+        errStr = "Could not check/set socket flags: %m";
         goto done;
     }
     
@@ -1490,7 +1486,7 @@ extern int BASHelperToolMain(
     while (true) {
         int                         eventCount;
         struct kevent               thisEvent;
-		int                         thisConnection;
+		uintptr_t                         thisConnection;
         int                         thisConnectionError;
         struct sockaddr_storage     clientAddr;         // we don't need this info, but accept won't let us ignore it
         socklen_t                   clientAddrLen = sizeof(clientAddr);
@@ -1504,7 +1500,7 @@ extern int BASHelperToolMain(
             break;
         } else if (eventCount == -1) {
             // We got some sort of error from kevent; quit with an error.
-            AslLogError("Unexpected error while listening for connections: %m");
+            errStr = "Unexpected error while listening for connections: %m";
             goto done;
         }
 
@@ -1516,7 +1512,7 @@ extern int BASHelperToolMain(
         // The accept should never get stuck because this is a non-blocking 
         // socket.
         
-        thisConnection = accept((int) thisEvent.ident, (struct sockaddr *) &clientAddr, &clientAddrLen);
+        thisConnection = accept(thisEvent.ident, (struct sockaddr *) &clientAddr, &clientAddrLen);
         if (thisConnection == -1) {
             if (errno == EWOULDBLOCK) {
                 // If the incoming connection just disappeared (perhaps the client 
@@ -1527,7 +1523,7 @@ extern int BASHelperToolMain(
             } else {
                 // Other errors mean that we're in a very weird state; we respond by 
                 // failing out with an error.
-                AslLogError("Unexpected error while accepting a connection: %m");
+                errStr = "Unexpected error while accepting a connection: %m";
                 goto done;
             }
         }
@@ -1576,6 +1572,10 @@ done:
     // don't bother cleaning up any resources we have allocated here, including 
     // asl, aslMsg, and kq.
     
+    if (errStr != NULL) {
+        err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, "%s", errStr);
+        assert(err == 0);
+    }
     err = asl_log(asl, aslMsg, ASL_LEVEL_INFO, "Shutting down");
     assert(err == 0);
     return (errStr == NULL) ? EXIT_SUCCESS : EXIT_FAILURE;
@@ -1763,7 +1763,7 @@ extern OSStatus BASExecuteRequestInHelperTool(
 	
 		addr.sun_family = AF_UNIX;
         pathLen = snprintf(addr.sun_path, sizeof(addr.sun_path), kBASSocketPathFormat, bundleIDC);
-        if (pathLen >= (int) sizeof(addr.sun_path)) {
+        if (pathLen >= sizeof(addr.sun_path)) {
             retval = paramErr;                  // length of bundle pushed us over the UNIX domain socket path length limit
         } else {
 			addr.sun_len = SUN_LEN(&addr);
@@ -1906,515 +1906,6 @@ extern BASFailCode BASDiagnoseFailure(
 	return retval;
 }
 
-// kPlistTemplate is a template for our launchd.plist file.
-
-static const char * kPlistTemplate =
-    // The standard plist header.
-    
-    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-    "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
-    "<plist version=\"1.0\">\n"
-    "<dict>\n"
-
-    // We install the job disabled, then enable it as the last step.
-
-    "	<key>Disabled</key>\n"
-    "	<true/>\n"
-
-    // Use the bundle identifier as the job label.
-
-    "	<key>Label</key>\n"
-    "	<string>%s</string>\n"
-
-    // Use launch on demaind.
-
-    "	<key>OnDemand</key>\n"
-    "	<true/>\n"
-
-    // There are no program arguments, other that the path to the helper tool itself.
-    //
-    // IMPORTANT
-    // kBASToolPathFormat embeds a %s
-
-    "	<key>ProgramArguments</key>\n"
-    "	<array>\n"
-    "		<string>" kBASToolPathFormat "</string>\n"
-    "	</array>\n"
-
-    // The tool is required to check in with launchd.
-
-    "	<key>ServiceIPC</key>\n"
-    "	<true/>\n"
-
-    // This specifies the UNIX domain socket used to launch the tool, including 
-    // the permissions on the socket (438 is 0666).
-    //
-    // IMPORTANT
-    // kBASSocketPathFormat embeds a %s
-
-    "	<key>Sockets</key>\n"
-    "	<dict>\n"
-    "		<key>" kLaunchDSocketDictKey "</key>\n"
-    "		<dict>\n"
-    "			<key>SockFamily</key>\n"
-    "			<string>Unix</string>\n"
-    "			<key>SockPathMode</key>\n"
-    "			<integer>438</integer>\n"
-    "			<key>SockPathName</key>\n"
-    "			<string>" kBASSocketPathFormat "</string>\n"
-    "			<key>SockType</key>\n"
-    "			<string>Stream</string>\n"
-    "		</dict>\n"
-    "	</dict>\n"
-    "</dict>\n"
-    "</plist>\n"
-    ;
 	
 
-//  Installation
-//  ------------
-//  We install by running our "InstallTool" using AuthorizationExecuteWithPrivileges 
-//  (AEWP) and passing the relevant parameters to it through AEWP.
-//    
-//  There is an obvious issue with the way we are handling installation as the user
-//  is executing some non-privileged code by way of AEWP. The scenario could exist 
-//  that the code is malicious (or they have other malicious code running at the 
-//  same time) and it could swap in any other tool that it would want executed as 
-//  EUID == 0.
-//    
-//  We decided on this design primarily because the only other option was to run a 
-//  shell via AEWP and pipe a script to it. That would have given us the nice 
-//  properties of not having to have a separate installer on disk and the script 
-//  could be embedded within the executable making it a little more difficult for 
-//  casual hacking. 
-//    
-//  However, running a shell as root is /not/ a very good paradigm to follow, thus, 
-//  weighing the cost-benefits from a security perspective impelled us to just use 
-//  a separate installer tool. The assumption being that, no matter what, if a user 
-//  has malicious code running on their system the added security of having an 
-//  embedded script is negligible and not worth pulling in an entire shell 
-//  environment as root.
-//  
-//  The obvious disadvantages stem from the first advantage of the former, namely,
-//  it's a little more coding and accounting effort (-:
-//
-//
-//  What's This About Zombies?
-//  --------------------------
-//  AuthorizationExecuteWithPrivileges creates a process that runs with privileges. 
-//  This process is a child of our process.  Thus, we need to reap the process 
-//  (by calling <x-man-page://2/waitpid>).  If we don't do this, we create a 'zombie' 
-//  process (<x-man-page://1/ps> displays its status as "Z") that persists until 
-//  our process quits (at which point the zombie gets reparented to launchd, and 
-//  launchd automatically reaps it).  Zombies are generally considered poor form. 
-//  Thus, we want to avoid creating them.
-//
-//  Unfortunately, AEWP doesn't return the process ID of the child process 
-//  <rdar://problem/3090277>, which makes it challenging for us to reap it.  We could 
-//  reap all children (by passing -1 to waitpid) but that's not cool for library code 
-//  (we could end up reaping a child process that's completely unrelated to this 
-//  code, perhaps created by some other part of the host application).  Thus, we need 
-//  to find the child process's PID.  And the only way to do that is for the child 
-//  process to tell us.
-//
-//  So, in the child process (the install tool) we echo the process ID and in the 
-//  parent we look for that in the returned text.  *sigh*  It's pretty ugly, but 
-//  that's the best I can come up with.  We delimit the process ID with some 
-//  pretty distinctive text to make it clear that we've got the right thing.
 
-#if !defined(NDEBUG)
-
-    static Boolean gBASLogInteractions = false;
-        // Set gBASLogInteractions to have BASFixFailure log its interactions with 
-        // the installation tool to stderr.
-
-    static Boolean gBASLogInteractionsInitialised = false;
-        // This indicates whether we've initialised gBASLogInteractions from the 
-		// environment variable.
-
-#endif
-
-static OSStatus RunInstallToolAsRoot(
-	AuthorizationRef			auth, 
-    const char *                installToolPath,
-	const char *				command, 
-								...
-)
-    // Run the specified install tool as root.  The arguments to the tool are 
-    // given as a sequence of (char *)s, terminated be a NULL.  The tool is 
-    // expected to output special tokens to indicate success or failure.
-{
-    OSStatus    retval;
-    size_t      argCount;
-    size_t      argIndex;
-    va_list     ap;
-    char **     args;
-    Boolean     success;
-    FILE *      channel;
-    int         junk;
-	pid_t		childPID;
-
-    // Pre-conditions
-    
-    assert(auth != NULL);
-    assert(installToolPath != NULL);
-    assert(command != NULL);
-    
-    channel = NULL;
-    args    = NULL;
-	childPID = -1;
-    
-    // Count the number of arguments.
-    
-    argCount = 0;
-    va_start(ap, command);
-    while ( va_arg(ap, char *) != NULL ) {
-        argCount += 1;
-    }
-    va_end(ap);
-
-    // Allocate an argument array and populate it, checking each argument along the way.
-    
-    retval = noErr;
-    args = calloc(argCount + 3, sizeof(char *));        // +3 for installToolPath, command and trailing NULL
-    if (args == NULL) {
-        retval = memFullErr;
-    }
-    if (retval == noErr) {
-        argIndex = 0;
-
-        args[argIndex] = (char *) installToolPath;  // Annoyingly, AEWP (and exec) takes a (char * const *) 
-        argIndex += 1;                              // argument, implying that it might modify the individual 
-        args[argIndex] = (char *) command;          // strings.  That means you can't pass a (const char *) to 
-        argIndex += 1;                              // the routine.  However, AEWP never modifies its input 
-                                                    // arguments, so we just cast away the const.
-                                                    // *sigh* <rdar://problem/3090294>
-        va_start(ap, command);
-        do {
-            args[argIndex] = va_arg(ap, char *);
-            if (args[argIndex] == NULL) {
-                break;
-            }
-            argIndex += 1;
-        } while (true);
-        va_end(ap);
-    }
-    
-    // Go go gadget AEWP!
-    
-    if (retval == noErr) {
-        #if !defined(NDEBUG)
-			if ( ! gBASLogInteractionsInitialised ) {
-				const char *	value;
-				
-				value = getenv("BASLogInteractions");
-				gBASLogInteractions = ( ((value != NULL) && (atoi(value) != 0)) );
-				
-				gBASLogInteractionsInitialised = true;
-			}
-		
-            if (gBASLogInteractions) {
-                argIndex = 0;
-                while (args[argIndex] != NULL) {
-                    fprintf(stderr, "args[%zd] = %s\n", argIndex, args[argIndex]);
-                    argIndex += 1;
-                }
-            }
-        #endif
-        retval = AuthorizationExecuteWithPrivileges(auth, args[0], kAuthorizationFlagDefaults, &args[1], &channel);
-    }
-    
-    // Process the tool's output.  We read every line of output from the tool until
-	// we receive either an EOF or the success or failure tokens.
-    //
-    // AEWP provides us with no way to get to the tool's stderr or exit status, 
-    // so we rely on the tool to send us this "oK" to indicate successful completion.
-
-    if (retval == noErr) {
-        char	thisLine[1024];
-		long	tmpLong;
-        int     tmpInt;
-
-        // This loops is a little more complex than you might expect.  There are 
-        // a number of reasons for this:
-        //
-        // o AEWP does not return us the child PID, so we have to scan the tool's 
-        //   output look for a line that contains that information (surrounded 
-        //   by special tokens).
-        //
-        // o Because we can't be guaranteed to get the child PID, we can't be 
-        //   guaranteed to get the child's exit status.  Thus, rather than relying 
-        //   on the exit status, we have the child explicitly print special tokens 
-        //   on success and failure.
-        //
-        // o Because we're parsing special tokens anyway, we might as well extract 
-        //   the real error code from the failure token.
-        //
-        // o A change made to launchctl in Mac OS X 10.4.7 <rdar://problem/4389914> 
-        //   causes it to fork a copy of itself.  The forked copy then delays 
-        //   for 30 seconds before doing some stuff, eventually printing a message 
-        //   like "Workaround Bonjour: 0".  This causes us two problems.
-        //
-        //	 1.	The second copy of launchd still has our communications channel 
-        //		(that is, the other end of "channel") as its stdin/stdout. 
-        //		Thus, we don't get an EOF on channel until that copy quits. 
-        //		This causes a 30 second delay in installation.
-        //
-        //	 2.	The second copy of launchd prints its status line (that is, 
-        //		"Workaround Bonjour: 0") well after the tool prints the success 
-        //      token.
-        //
-        //   I solved these problems by parsing each line for the success or failure 
-        //   token and ignoring any output after that.
-        //
-        // To minimise the danger of interpreting one of the tool's commands 
-        // output as one of our tokens, I've given them a wacky case (for example, 
-        // "oK", not "ok" or "OK" or "Ok").
-        
-        do {
-            success = (fgets(thisLine, sizeof(thisLine), channel) != NULL);
-            if ( ! success ) {
-                // We hit the end of the output without seeing a success or failure 
-                // token.  Note good.  errState is an ADSP error code, but it says 
-                // exactly what I want to say and it's not likely to crop up any 
-                // other way.
-                retval = errState;
-                break;
-            }
-            
-            // This echo doesn't work properly if the line coming back from the tool 
-            // is longer than the line buffer.  However, as the echo is only relevant for 
-            // debugging, and the detection of the "oK" isn't affected by this problem, 
-            // I'm going to leave it as it is.
-            
-            #if !defined(NDEBUG)
-                if (gBASLogInteractions) {
-                    fprintf(stderr, ">%s", thisLine);
-                }
-            #endif
-			
-            // Look for the success token and terminate with no error in that case.
-            
-			if (strcmp(thisLine, kBASInstallToolSuccess "\n") == 0) {
-                assert(retval == noErr);
-				break;
-			}
-            
-            // Look for the failure token and extract the error result from that.
-            
-            if ( sscanf(thisLine, kBASInstallToolFailure "\n", &tmpInt) == 1 ) {
-                retval = BASErrnoToOSStatus( tmpInt );
-                if (retval == noErr) {
-                    assert(false);
-                    retval = errState;
-                }
-                break;
-            }
-			
-			// If we haven't already found a child process ID, look for a line 
-            // that contains it (surrounded by special tokens).  For details, see 
-            // the discussion of zombies above.
-			
-			if ( (childPID == -1) && (sscanf(thisLine, kBASAntiZombiePIDToken1 "%ld" kBASAntiZombiePIDToken2 "\n", &tmpLong) == 1) ) {
-				childPID = (pid_t) tmpLong;
-			}
-        } while (true);
-    }
-	
-	// If we successfully managed to determine the PID of our child process, reap 
-	// that child.  Note that we ignore any errors from this step.  If an error 
-	// occurs, we end up creating a zombie, which isn't too big a deal.  We also 
-    // junk the status result from the tool, relying exclusively on the presence 
-    // of the "oK" in the output.
-	
-	#if !defined(NDEBUG)
-		if (gBASLogInteractions) {
-			fprintf(stderr, "childPID=%ld\n", (long) childPID);
-		}
-	#endif
-	if (childPID != -1) {
-		pid_t	waitResult;
-		int		junkStatus;
-		
-		do {
-			waitResult = waitpid(childPID, &junkStatus, 0);
-		} while ( (waitResult < 0) && (errno == EINTR) );
-	}
-    
-    // Clean up.
-    
-    if (channel != NULL) {
-        junk = fclose(channel);
-        assert(junk == 0);
-    }
-    free(args);
-
-    NormaliseOSStatusErrorCode(&retval);
-    return retval;
-}
-
-static OSStatus BASInstall(
-	AuthorizationRef			auth, 
-	const char *				bundleID, 
-    const char *                installToolPath,
-    const char *                helperToolPath
-)
-	// Do an install from scratch.  Get the specified tool from the bundle 
-    // and install it in the "/Library/PrivilegedHelperTools" directory, 
-	// along with a plist in "/Library/LaunchDaemons".
-{
-    OSStatus    retval;
-    int         junk;
-    char *      plistText;
-    int         fd;
-    char        plistPath[PATH_MAX];
-
-    // Pre-conditions
-    
-    assert(auth != NULL);
-    assert(bundleID != NULL);
-    assert(installToolPath != NULL);
-    assert(helperToolPath != NULL);
-
-    // Prepare for failure
-    
-    plistText = NULL;
-    fd = -1;
-    plistPath[0] = 0;
-
-    // Create the property list from the template, substituting the bundle identifier in 
-    // three different places.  I realise that this isn't very robust (if you change 
-    // the template you have to change this code), but it is /very/ easy.
-    
-    retval = asprintf(&plistText, kPlistTemplate, bundleID, bundleID, bundleID);
-    if (retval < 0) {
-        retval = memFullErr;
-    } else {
-        retval = noErr;
-    }
-    
-    // Write the plist to a temporary file.
-
-    if (retval == noErr) {
-        strlcpy(plistPath, "/tmp/BASTemp-XXXXXXXX.plist", sizeof(plistPath));
-        
-        fd = mkstemps(plistPath, (int) strlen( strrchr(plistPath, '.') ) );
-        if (fd < 0) {
-            retval = BASErrnoToOSStatus( errno );
-        }
-    }
-    if (retval == noErr) {
-        retval = BASErrnoToOSStatus( BASWrite(fd, plistText, strlen(plistText), NULL) );
-    }
-    
-    // Run the tool as root using AuthorizationExecuteWithPrivileges.
-    
-    if (retval == noErr) {
-        retval = RunInstallToolAsRoot(auth, installToolPath, kBASInstallToolInstallCommand, bundleID, helperToolPath, plistPath, NULL);
-    }
-
-    // Clean up.
-    
-    free(plistText);
-    if (fd != -1) {
-        junk = close(fd);
-        assert(junk == 0);
-        
-        junk = unlink(plistPath);
-        assert(junk == 0);
-    }
-
-    return retval;
-}
-
-static OSStatus GetToolPath(CFStringRef bundleID, CFStringRef toolName, char *toolPath, size_t toolPathSize)
-    // Given a bundle identifier and the name of a tool embedded within that bundle, 
-    // get a file system path to the tool.
-{
-    OSStatus    err;
-    CFBundleRef bundle;
-    Boolean     success;
-    CFURLRef    toolURL;
-    
-    assert(bundleID != NULL);
-    assert(toolName != NULL);
-    assert(toolPath != NULL);
-    assert(toolPathSize > 0);
-    
-    toolURL = NULL;
-    
-    err = noErr;
-    bundle = CFBundleGetBundleWithIdentifier(bundleID);
-    if (bundle == NULL) {
-        err = coreFoundationUnknownErr;
-    }
-    if (err == noErr) {
-        toolURL = CFBundleCopyAuxiliaryExecutableURL(bundle, toolName);
-        if (toolURL == NULL) {
-            err = coreFoundationUnknownErr;
-        }
-    }
-    if (err == noErr) {
-        success = CFURLGetFileSystemRepresentation(toolURL, true, (UInt8 *) toolPath, toolPathSize);
-        if ( ! success ) {
-            err = coreFoundationUnknownErr;
-        }
-    }
-    
-    if (toolURL != NULL) {
-        CFRelease(toolURL);
-    }
-    
-    return err;
-}
-
-extern OSStatus BASFixFailure(
-	AuthorizationRef			auth,
-	CFStringRef					bundleID,
-	CFStringRef					installToolName,
-	CFStringRef					helperToolName,
-	BASFailCode					failCode
-)
-    // See comment in header.
-{	
-	OSStatus    retval;
-    Boolean     success;
-    char        bundleIDC[PATH_MAX];
-    char        installToolPath[PATH_MAX];
-    char        helperToolPath[PATH_MAX];
-
-    // Pre-conditions
-    
-    assert(auth != NULL);
-    assert(bundleID != NULL);
-    assert(installToolName != NULL);
-    assert(helperToolName  != NULL);
-    
-    // Get the bundle identifier as a UTF-8 C string.  Also, get paths for both of 
-    // the tools.
-    
-    retval = noErr;
-    success = CFStringGetFileSystemRepresentation(bundleID, bundleIDC, sizeof(bundleIDC));
-    if ( ! success ) {
-        retval = coreFoundationUnknownErr;
-    }
-    if (retval == noErr) {
-        retval = GetToolPath(bundleID, installToolName, installToolPath, sizeof(installToolPath));
-    }
-    if (retval == noErr) {
-        retval = GetToolPath(bundleID, helperToolName,  helperToolPath,  sizeof(helperToolPath));
-    }
-    
-    // Depending on the failure code, either run the enable command or the install 
-    // from scratch command.
-    
-    if (retval == noErr) {
-        if (failCode == kBASFailDisabled) {
-            retval = RunInstallToolAsRoot(auth, installToolPath, kBASInstallToolEnableCommand, bundleIDC, NULL);
-        } else {
-            retval = BASInstall(auth, bundleIDC, installToolPath, helperToolPath);
-        }
-    }
-
-    return retval;
-}

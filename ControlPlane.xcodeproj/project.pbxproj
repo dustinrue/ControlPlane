@@ -24,7 +24,6 @@
 		8D232FB60BD9D507006A3963 /* RulesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D232FB40BD9D507006A3963 /* RulesPrefs.png */; };
 		8D27ECB00C4456A300AE1929 /* AudioOutputEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */; };
 		8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */; };
-		8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3453C20C18E5C1006011D0 /* IChatAction.m */; };
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.png */; };
 		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; };
@@ -115,11 +114,15 @@
 		DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */; };
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
-		DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* CPHelperTool */; };
+		DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
+		DAC817B1159BF95A0012ED43 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */; };
+		DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */; };
+		DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */; };
+		DACE6D4E159C055C00FEE37E /* com.dustinrue.CPHelperTool in Copy Launch Services */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
 		DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF2F820150EE5960040DDC7 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */; };
@@ -206,7 +209,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				DAAF16B11412D8A200F5D915 /* CPHelperTool in CopyFiles */,
+				DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */,
 				DA5B01E61412B86400E19C50 /* CPHelperInstallTool in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,11 +217,22 @@
 		DA5B01F91412BB1700E19C50 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = usr/share/man/man1;
+			dstSubfolderSpec = 7;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		DACE6D4D159C053000FEE37E /* Copy Launch Services */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchServices;
+			dstSubfolderSpec = 1;
+			files = (
+				DACE6D4E159C055C00FEE37E /* com.dustinrue.CPHelperTool in Copy Launch Services */,
+			);
+			name = "Copy Launch Services";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -396,7 +410,7 @@
 		DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterAuthorizationSampleLib.h; sourceTree = "<group>"; };
 		DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLib.c; sourceTree = "<group>"; };
 		DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLibInstallTool.c; sourceTree = "<group>"; };
-		DA5B01FB1412BB1700E19C50 /* CPHelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CPHelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = com.dustinrue.CPHelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B02091412BBF200E19C50 /* CPHelperTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperTool.c; sourceTree = "<group>"; };
 		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
 		DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHelperToolCommon.h; sourceTree = "<group>"; };
@@ -428,6 +442,9 @@
 		DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeMachineDestinationAction.m; path = Source/TimeMachineDestinationAction.m; sourceTree = "<group>"; };
 		DAC672FC152235E800F1C7A1 /* ToggleWebSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleWebSharingAction.h; path = Source/ToggleWebSharingAction.h; sourceTree = "<group>"; };
 		DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleWebSharingAction.m; path = Source/ToggleWebSharingAction.m; sourceTree = "<group>"; };
+		DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Info.plist"; sourceTree = "<group>"; };
+		DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Launchd.plist"; sourceTree = "<group>"; };
 		DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Merge.h"; path = "Source/NSMutableArray+Merge.h"; sourceTree = "<group>"; };
 		DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Merge.m"; path = "Source/NSMutableArray+Merge.m"; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
@@ -526,6 +543,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAC817B1159BF95A0012ED43 /* ServiceManagement.framework in Frameworks */,
 				DA8E2833156B498A0040FC35 /* ApplicationServices.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
 				DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */,
@@ -611,9 +629,9 @@
 		1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA8E2832156B498A0040FC35 /* ApplicationServices.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */,
+				DA8E2832156B498A0040FC35 /* ApplicationServices.framework */,
 				DD06E810140C661600059764 /* AudioToolbox.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				8D57B1430C4457AB00EC620D /* CoreAudio.framework */,
@@ -628,6 +646,7 @@
 				DA48F2E3140AD2FC00B000D3 /* Kernel.framework */,
 				DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */,
 				DD8274FA141177750098FA6E /* Security.framework */,
+				DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */,
 				8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */,
 				8D3BFFB10C61CA5300B9B910 /* WebKit.framework */,
 			);
@@ -639,7 +658,7 @@
 			children = (
 				DA1204DA13D0E5C800CDA091 /* ControlPlane.app */,
 				DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */,
-				DA5B01FB1412BB1700E19C50 /* CPHelperTool */,
+				DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -806,6 +825,8 @@
 		DA5B01E91412BA6700E19C50 /* HelperTool */ = {
 			isa = PBXGroup;
 			children = (
+				DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */,
+				DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */,
 				DA5B01EA1412BA6700E19C50 /* AuthorizationLib */,
 				DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */,
 				DA5B02091412BBF200E19C50 /* CPHelperTool.c */,
@@ -999,6 +1020,7 @@
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				8D2073870B86AB5100D61A9E /* Copy Frameworks */,
 				DA5B01E51412B85600E19C50 /* CopyFiles */,
+				DACE6D4D159C053000FEE37E /* Copy Launch Services */,
 			);
 			buildRules = (
 			);
@@ -1029,9 +1051,9 @@
 			productReference = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */;
 			productType = "com.apple.product-type.tool";
 		};
-		DA5B01FA1412BB1700E19C50 /* CPHelperTool */ = {
+		DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "CPHelperTool" */;
+			buildConfigurationList = DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "com.dustinrue.CPHelperTool" */;
 			buildPhases = (
 				DA5B01F71412BB1700E19C50 /* Sources */,
 				DA5B01F81412BB1700E19C50 /* Frameworks */,
@@ -1041,9 +1063,9 @@
 			);
 			dependencies = (
 			);
-			name = CPHelperTool;
+			name = com.dustinrue.CPHelperTool;
 			productName = CPHelperTool;
-			productReference = DA5B01FB1412BB1700E19C50 /* CPHelperTool */;
+			productReference = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -1095,7 +1117,7 @@
 			targets = (
 				8D1107260486CEB800E47090 /* ControlPlane */,
 				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
-				DA5B01FA1412BB1700E19C50 /* CPHelperTool */,
+				DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */,
 			);
 		};
 /* End PBXProject section */
@@ -1142,6 +1164,8 @@
 				73A5092F14849405007D22B5 /* ShellScriptRule.xib in Resources */,
 				DAF2F822150EE5960040DDC7 /* Quincy-Info.plist in Resources */,
 				DAA9ABFF1595FDE700B84B05 /* README.md in Resources */,
+				DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */,
+				DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1226,7 +1250,6 @@
 				8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */,
 				8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */,
 				8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */,
-				8D3453C40C18E5C1006011D0 /* IChatAction.m in Sources */,
 				8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */,
 				8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */,
 				8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */,
@@ -1320,7 +1343,7 @@
 		};
 		DA5B02071412BB3A00E19C50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA5B01FA1412BB1700E19C50 /* CPHelperTool */;
+			target = DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1626,6 +1649,18 @@
 		DA5B02031412BB1800E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "CPHelperTool-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"Source/CPHelperTool/CPHelperTool-Info.plist",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"Source/CPHelperTool/CPHelperTool-Launchd.plist",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -1634,6 +1669,18 @@
 		DA5B02041412BB1800E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "CPHelperTool-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"Source/CPHelperTool/CPHelperTool-Info.plist",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"Source/CPHelperTool/CPHelperTool-Launchd.plist",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -1669,7 +1716,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "CPHelperTool" */ = {
+		DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "com.dustinrue.CPHelperTool" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA5B02031412BB1800E19C50 /* Debug */,

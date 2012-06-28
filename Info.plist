@@ -64,6 +64,11 @@
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>ControlPlane.sdef</string>
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>com.dustinrue.CPHelperTool</key>
+		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = "3rd Party Mac Developer Application: Dustin Rue"</string>
+	</dict>
 	<key>SUFeedURL</key>
 	<string>http://www.controlplaneapp.com/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>

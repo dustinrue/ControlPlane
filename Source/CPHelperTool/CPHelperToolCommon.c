@@ -10,6 +10,12 @@
 #import "BetterAuthorizationSampleLib.h"
 
 const BASCommandSpec kCPHelperToolCommandSet[] = {
+    {	kInstallCommandLineToolCommand,         // commandName
+        kInstallCommandLineToolRightName,       // rightName
+        "default",                              // rightDefaultRule    -- by default, you have to have admin credentials (see the "default" rule in the authorization policy database, currently "/etc/authorization")
+        "AuthInstallCommandLineToolPrompt",				// rightDescriptionKey -- key for custom prompt in "Localizable.strings
+        NULL                                    // userData
+	},
 	{	kCPHelperToolGetVersionCommand,		// commandName
 		NULL,								// rightName
 		NULL,								// rightDefaultRule

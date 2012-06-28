@@ -8,6 +8,15 @@
 
 #import "Action+HelperTool.h"
 #import <libkern/OSAtomic.h>
+#import <ServiceManagement/ServiceManagement.h>
+#import <Security/Security.h>
+#import <Security/Authorization.h>
+#import <Security/Security.h>
+#import <Security/SecCertificate.h>
+#import <Security/SecCode.h>
+#import <Security/SecStaticCode.h>
+#import <Security/SecCodeHost.h>
+#import <Security/SecRequirement.h>
 
 @interface Action (HelperTool_Private)
 
@@ -18,6 +27,9 @@
 - (void) helperToolInit: (AuthorizationRef *) auth;
 - (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth;
 - (void) helperToolAlert: (NSMutableDictionary *) parameters;
+
+BOOL installHelperToolUsingSMJobBless();
+BOOL blessHelperWithLabel(NSString* label, NSError** error);
 
 @end
 
@@ -98,7 +110,8 @@
 		BASFailCode failCode = BASDiagnoseFailure(auth, (CFStringRef) bundleID);
 		
 		// try to fix
-		error = [self helperToolFix: failCode withAuth: auth];
+		//error = [self installHelperToolUsingSMJobBless: failCode withAuth: auth];
+        error = installHelperToolUsingSMJobBless();
 		
 		// If the fix went OK, retry the request.
 		if (error == noErr)
@@ -142,6 +155,7 @@
 					   CFSTR("CPHelperToolAuthorizationPrompts"));
 }
 
+/*
 - (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth {
 	NSMutableDictionary *parameters = [[[NSMutableDictionary alloc] init] autorelease];
 	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
@@ -156,11 +170,141 @@
 	
 	// Try to fix things.
 	if (err == NSAlertDefaultReturn) {
-		err = BASFixFailure(auth, (CFStringRef) bundleID, CFSTR("CPHelperInstallTool"), CFSTR("CPHelperTool"), failCode);
+		err = BASFixFailure(auth,
+                            (CFStringRef) bundleID,
+                            CFSTR("CPHelperInstallTool"),
+                            CFSTR("CPHelperTool"),
+                            failCode);
 	} else
 		err = userCanceledErr;
 	
 	return err;
+}
+*/
+
+BOOL installHelperToolUsingSMJobBless() {
+    // This uses SMJobBless to install a tool in /Library/PrivilegedHelperTools which is
+    // run by launchd instead of us, with elevated privileges. This can then be used to do
+    // things like install utilities in /usr/local/bin
+    
+    // We do this rather than AuthorizationExecuteWithPrivileges because that's deprecated in 10.7
+    // The SMJobBless approach is more secure because both ends are validated via code signing
+    // which is enforced by launchd - ie only tools signed with the right cert can be installed, and
+    // only apps signed with the right cert can install it.
+    
+    // Although the launchd approach is primarily associated with daemons, it can be used for one-off
+    // tools too. We effectively invoke the privileged helper by talking to it over a private Unix socket
+    // (since we can't launch it directly). We still need to be careful about that invocation because
+    // the SMJobBless structure doesn't validate that the caller at runtime is the right application.
+    
+    NSError* error = nil;
+    NSDictionary*	installedHelperJobData 	= (NSDictionary*)SMJobCopyDictionary(kSMDomainSystemLaunchd, (CFStringRef)kPRIVILEGED_HELPER_LABEL);
+    BOOL needToInstall = YES;
+    
+    if (installedHelperJobData)
+    {
+        NSLog( @"helperJobData: %@", installedHelperJobData );
+        
+        NSString* installedPath = [[installedHelperJobData objectForKey:@"ProgramArguments"] objectAtIndex:0];
+        NSURL* installedPathURL = [NSURL fileURLWithPath:installedPath];
+        
+        NSDictionary* installedInfoPlist = (NSDictionary*)CFBundleCopyInfoDictionaryForURL( (CFURLRef)installedPathURL );
+        NSString* installedBundleVersion = [installedInfoPlist objectForKey:@"CFBundleVersion"];
+        NSInteger installedVersion = [installedBundleVersion integerValue];
+        
+        NSLog( @"installedVersion: %ld", (long)installedVersion );
+        
+        NSBundle* appBundle	= [NSBundle mainBundle];
+        NSURL* appBundleURL	= [appBundle bundleURL];
+        
+        NSLog( @"appBundleURL: %@", appBundleURL );
+        
+        NSURL* currentHelperToolURL	= [appBundleURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Contents/Library/LaunchServices/%@", kPRIVILEGED_HELPER_LABEL]];
+        NSLog( @"currentHelperToolURL: %@", currentHelperToolURL );
+        
+        NSDictionary* currentInfoPlist = (NSDictionary*)CFBundleCopyInfoDictionaryForURL( (CFURLRef)currentHelperToolURL );
+        NSString* currentBundleVersion = [currentInfoPlist objectForKey:@"CFBundleVersion"];
+        NSInteger currentVersion = [currentBundleVersion integerValue];
+        
+        NSLog( @"currentVersion: %ld", (long)currentVersion );
+        
+      	if ( currentVersion == installedVersion )
+        {
+            SecRequirementRef requirement;
+            OSStatus stErr;
+            
+            stErr = SecRequirementCreateWithString((CFStringRef)[NSString stringWithFormat:@"identifier %@ and certificate leaf[subject.CN] = \"%@\"", kPRIVILEGED_HELPER_LABEL, @kSigningCertCommonName], kSecCSDefaultFlags, &requirement );
+            
+            if ( stErr == noErr )
+            {
+                SecStaticCodeRef staticCodeRef;
+                
+                stErr = SecStaticCodeCreateWithPath( (CFURLRef)installedPathURL, kSecCSDefaultFlags, &staticCodeRef );
+                
+                if ( stErr == noErr )
+                {
+                    stErr = SecStaticCodeCheckValidity( staticCodeRef, kSecCSDefaultFlags, requirement );
+                    
+                    needToInstall = NO;
+                }
+            }
+        }
+	}
+    
+    
+    if (needToInstall)
+    {
+        NSLog(@"blessing %@", kPRIVILEGED_HELPER_LABEL);
+        if (!blessHelperWithLabel(kPRIVILEGED_HELPER_LABEL, &error))
+        {
+            NSLog(@"Failed to install privileged helper: %@", [error description]);
+            NSRunAlertPanel(@"Error",
+                            [NSString stringWithFormat:@"Failed to install privileged helper: %@", [error description]],
+                            @"OK", nil, nil);
+            return NO;
+        }
+        else
+            NSLog(@"Privileged helper installed.");
+    }
+    else
+		NSLog(@"Privileged helper already available, not installing.");
+    
+    return YES;
+    
+}
+
+// Code below adapted from the SMJobBless example
+BOOL blessHelperWithLabel(NSString* label, NSError** error) {
+	BOOL result = NO;
+    
+	AuthorizationItem authItem		= { kSMRightBlessPrivilegedHelper, 0, NULL, 0 };
+	AuthorizationRights authRights	= { 1, &authItem };
+	AuthorizationFlags flags		=	kAuthorizationFlagDefaults				|
+    kAuthorizationFlagInteractionAllowed	|
+    kAuthorizationFlagPreAuthorize			|
+    kAuthorizationFlagExtendRights;
+    
+	AuthorizationRef authRef = NULL;
+	
+	/* Obtain the right to install privileged helper tools (kSMRightBlessPrivilegedHelper). */
+	OSStatus status = AuthorizationCreate(&authRights, kAuthorizationEmptyEnvironment, flags, &authRef);
+	if (status != errAuthorizationSuccess)
+    {
+		NSLog(@"Failed to create AuthorizationRef, return code %ld", (long)status);
+	} else
+    {
+		/* This does all the work of verifying the helper tool against the application
+		 * and vice-versa. Once verification has passed, the embedded launchd.plist
+		 * is extracted and placed in /Library/LaunchDaemons and then loaded. The
+		 * executable is placed in /Library/PrivilegedHelperTools.
+		 */
+		result = SMJobBless(kSMDomainSystemLaunchd, (CFStringRef)label, authRef, (CFErrorRef *)error);
+	}
+    
+    AuthorizationFree(authRef, kAuthorizationFlagDefaults);
+    
+	
+	return result;
 }
 
 - (void) helperToolAlert: (NSMutableDictionary *) parameters {

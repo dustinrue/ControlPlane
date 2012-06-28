@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>com.dustinrue.CPHelperTool</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>CPHelperTool</string>
+	<key>CFBundleVersion</key>
+	<string>5</string>
+	<key>SMAuthorizedClients</key>
+	<array>
+		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = &quot;3rd Party Mac Developer Application: Dustin Rue&quot;</string>
+	</array>
+</dict>
+</plist>

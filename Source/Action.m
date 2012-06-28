@@ -223,7 +223,7 @@
 //#import "DisplayBrightnessAction.h"
 #import "DisplaySleepTimeAction.h"
 #import "FirewallRuleAction.h"
-#import "IChatAction.h"
+//#import "IChatAction.h"
 #import "ITunesPlaylistAction.h"
 #import "LockKeychainAction.h"
 #import "MailIMAPServerAction.h"
@@ -276,7 +276,7 @@
 			   [DesktopBackgroundAction class],
 			   //[DisplayBrightnessAction class],
                [DisplaySleepTimeAction class],
-			   [IChatAction class],
+			   //[IChatAction class],
 			   [ITunesPlaylistAction class],
 			   [LockKeychainAction class],
 			   [MailIMAPServerAction class],
@@ -317,7 +317,7 @@
         NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
 		//NSLocalizedString(@"DisplayBrightness", @"Action type");
-		NSLocalizedString(@"iChat", @"Action type");
+		//NSLocalizedString(@"iChat", @"Action type");
 		NSLocalizedString(@"iTunesPlaylist", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");
 		NSLocalizedString(@"MailIMAPServer", @"Action type");

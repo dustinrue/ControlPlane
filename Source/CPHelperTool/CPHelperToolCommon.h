@@ -81,6 +81,15 @@
 
 // Misc
 
+#define kPRIVILEGED_HELPER_LABEL @"com.dustinrue.CPHelperTool"
+#define kSigningCertCommonName "3rd Party Mac Developer Application: Dustin Rue"
+
+#define kInstallCommandLineToolCommand      "InstallTool"
+#define kInstallCommandLineToolSrcPath      "srcPath"   // Parameter, CFString
+#define kInstallCommandLineToolName         "toolName"  // Parameter, CFString
+#define kInstallCommandLineToolResponse		"Success"   // Response, CFNumber
+#define	kInstallCommandLineToolRightName	"com.dustinrue.ControlPlane.InstallTool"
+
 
 // Commands array (keep in sync!)
 extern const BASCommandSpec kCPHelperToolCommandSet[];
