@@ -116,7 +116,9 @@ BOOL blessHelperWithLabel(NSString* label, NSError** error);
 	
 	// If it failed, try to recover.
 	if (error != noErr && error != userCanceledErr) {
-		BASFailCode failCode = BASDiagnoseFailure(auth, (CFStringRef) bundleID);
+        // for now we don't care about the failCode, we just try to install it again
+		//BASFailCode failCode = BASDiagnoseFailure(auth, (CFStringRef) bundleID);
+        BASDiagnoseFailure(auth, (CFStringRef) bundleID);
 		
 		// try to fix
 		//error = [self installHelperToolUsingSMJobBless: failCode withAuth: auth];
@@ -210,30 +212,25 @@ BOOL installHelperToolUsingSMJobBless() {
     NSDictionary*	installedHelperJobData 	= (NSDictionary*)SMJobCopyDictionary(kSMDomainSystemLaunchd, (CFStringRef)kPRIVILEGED_HELPER_LABEL);
     BOOL needToInstall = YES;
     
-    if (installedHelperJobData)
-    {
-        NSLog( @"helperJobData: %@", installedHelperJobData );
-        
-        NSString* installedPath = [[installedHelperJobData objectForKey:@"ProgramArguments"] objectAtIndex:0];
-        NSURL* installedPathURL = [NSURL fileURLWithPath:installedPath];
+    if (installedHelperJobData) {
+        NSURL* installedPathURL = [NSURL fileURLWithPath:[[installedHelperJobData objectForKey:@"ProgramArguments"] objectAtIndex:0]];
+        [installedHelperJobData release];
         
         NSDictionary* installedInfoPlist = (NSDictionary*)CFBundleCopyInfoDictionaryForURL( (CFURLRef)installedPathURL );
-        NSString* installedBundleVersion = [installedInfoPlist objectForKey:@"CFBundleVersion"];
-        NSInteger installedVersion = [installedBundleVersion integerValue];
+        NSInteger installedVersion = [[installedInfoPlist objectForKey:@"CFBundleVersion"] integerValue];
+        [installedInfoPlist release];
         
         NSLog( @"installedVersion: %ld", (long)installedVersion );
         
         NSBundle* appBundle	= [NSBundle mainBundle];
         NSURL* appBundleURL	= [appBundle bundleURL];
         
-        NSLog( @"appBundleURL: %@", appBundleURL );
-        
         NSURL* currentHelperToolURL	= [appBundleURL URLByAppendingPathComponent:[NSString stringWithFormat:@"Contents/Library/LaunchServices/%@", kPRIVILEGED_HELPER_LABEL]];
         NSLog( @"currentHelperToolURL: %@", currentHelperToolURL );
         
         NSDictionary* currentInfoPlist = (NSDictionary*)CFBundleCopyInfoDictionaryForURL( (CFURLRef)currentHelperToolURL );
-        NSString* currentBundleVersion = [currentInfoPlist objectForKey:@"CFBundleVersion"];
-        NSInteger currentVersion = [currentBundleVersion integerValue];
+        NSInteger currentVersion  = [[currentInfoPlist objectForKey:@"CFBundleVersion"] integerValue];
+        [currentInfoPlist release];
         
         NSLog( @"currentVersion: %ld", (long)currentVersion );
         
@@ -253,6 +250,10 @@ BOOL installHelperToolUsingSMJobBless() {
                 if ( stErr == noErr )
                 {
                     stErr = SecStaticCodeCheckValidity( staticCodeRef, kSecCSDefaultFlags, requirement );
+                    
+                    if (stErr != noErr) {
+                        NSLog(@"unknown error in SecStaticCodeCheckValidity");
+                    }
                     
                     needToInstall = NO;
                 }
