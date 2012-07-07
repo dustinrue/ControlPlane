@@ -65,7 +65,9 @@ static OSStatus DoInstallTool(
         ourFilename = malloc(len);
         if (!CFStringGetCString(srcPath, ourFilename, len, kCFStringEncodingMacRoman))
         {
-            free(ourFilename);
+            // freeing here will cause the compiler to complain, the if below should
+            // catch this if it exists and free it then
+            //free(ourFilename);
             retval = 3;
             success = false;
         }
