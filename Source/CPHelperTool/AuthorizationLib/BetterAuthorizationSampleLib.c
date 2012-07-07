@@ -1486,7 +1486,7 @@ extern int BASHelperToolMain(
     while (true) {
         int                         eventCount;
         struct kevent               thisEvent;
-		uintptr_t                         thisConnection;
+		int                         thisConnection;
         int                         thisConnectionError;
         struct sockaddr_storage     clientAddr;         // we don't need this info, but accept won't let us ignore it
         socklen_t                   clientAddrLen = sizeof(clientAddr);
@@ -1512,7 +1512,7 @@ extern int BASHelperToolMain(
         // The accept should never get stuck because this is a non-blocking 
         // socket.
         
-        thisConnection = accept(thisEvent.ident, (struct sockaddr *) &clientAddr, &clientAddrLen);
+        thisConnection = accept((int)thisEvent.ident, (struct sockaddr *) &clientAddr, &clientAddrLen);
         if (thisConnection == -1) {
             if (errno == EWOULDBLOCK) {
                 // If the incoming connection just disappeared (perhaps the client 
@@ -1763,7 +1763,7 @@ extern OSStatus BASExecuteRequestInHelperTool(
 	
 		addr.sun_family = AF_UNIX;
         pathLen = snprintf(addr.sun_path, sizeof(addr.sun_path), kBASSocketPathFormat, bundleIDC);
-        if (pathLen >= sizeof(addr.sun_path)) {
+        if (pathLen >= (int)sizeof(addr.sun_path)) {
             retval = paramErr;                  // length of bundle pushed us over the UNIX domain socket path length limit
         } else {
 			addr.sun_len = SUN_LEN(&addr);
