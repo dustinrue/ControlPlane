@@ -94,7 +94,11 @@ BOOL blessHelperWithLabel(NSString* label, NSError** error);
 	*response = NULL;
 	
 	// create request
-	bundleID = [[NSBundle mainBundle] bundleIdentifier];
+    // get the bundleID from the Info dictionary, it is the SMPrivilegedExcutable entry
+    // For ControlPlane there is just helper so this is essentially hard coded to returning the first
+    // entry in the dictionary.  If more were added then this would need to be able to specify the proper
+    // helper tool to use based on the command to be run.
+	bundleID = [[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"SMPrivilegedExecutables"] allKeys] objectAtIndex:0];
 	assert(bundleID != NULL);
 	if (parameter)
 		request = [NSDictionary dictionaryWithObjectsAndKeys: action, @kBASCommandKey, parameter, @"param", nil];
@@ -103,9 +107,10 @@ BOOL blessHelperWithLabel(NSString* label, NSError** error);
 	assert(request != NULL);
 	
 	// Execute it.
+    NSLog(@"request is %@", request);
 	error = BASExecuteRequestInHelperTool(auth,
 										  kCPHelperToolCommandSet, 
-										  (CFStringRef) bundleID, 
+										  (CFStringRef) bundleID,
 										  (CFDictionaryRef) request,
 										  response);
 	
