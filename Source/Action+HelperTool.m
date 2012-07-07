@@ -107,7 +107,6 @@ BOOL blessHelperWithLabel(NSString* label, NSError** error);
 	assert(request != NULL);
 	
 	// Execute it.
-    NSLog(@"request is %@", request);
 	error = BASExecuteRequestInHelperTool(auth,
 										  kCPHelperToolCommandSet, 
 										  (CFStringRef) bundleID,
