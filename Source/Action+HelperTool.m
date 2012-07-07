@@ -32,7 +32,7 @@
 - (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth;
 - (void) helperToolAlert: (NSMutableDictionary *) parameters;
 
-BOOL installHelperToolUsingSMJobBless();
+BOOL installHelperToolUsingSMJobBless(void);
 BOOL blessHelperWithLabel(NSString* label, NSError** error);
 
 @end
@@ -166,34 +166,8 @@ BOOL blessHelperWithLabel(NSString* label, NSError** error);
 					   CFSTR("CPHelperToolAuthorizationPrompts"));
 }
 
-/*
-- (OSStatus) helperToolFix: (BASFailCode) failCode withAuth: (AuthorizationRef) auth {
-	NSMutableDictionary *parameters = [[[NSMutableDictionary alloc] init] autorelease];
-	NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-	OSStatus err = noErr;
-	
-	// At this point we tell the user that something has gone wrong and that we need 
-	// to authorize in order to fix it.  Ideally we'd use failCode to describe the type of 
-	// error to the user.
-	
-	[self performSelectorOnMainThread: @selector(helperToolAlert:) withObject: parameters waitUntilDone: YES];
-	err = [[parameters objectForKey: @"result"] intValue];
-	
-	// Try to fix things.
-	if (err == NSAlertDefaultReturn) {
-		err = BASFixFailure(auth,
-                            (CFStringRef) bundleID,
-                            CFSTR("CPHelperInstallTool"),
-                            CFSTR("CPHelperTool"),
-                            failCode);
-	} else
-		err = userCanceledErr;
-	
-	return err;
-}
-*/
 
-BOOL installHelperToolUsingSMJobBless() {
+BOOL installHelperToolUsingSMJobBless(void) {
     // This uses SMJobBless to install a tool in /Library/PrivilegedHelperTools which is
     // run by launchd instead of us, with elevated privileges. This can then be used to do
     // things like install utilities in /usr/local/bin
