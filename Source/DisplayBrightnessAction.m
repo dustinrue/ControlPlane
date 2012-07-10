@@ -13,6 +13,8 @@
 #import "DSLogger.h"
 #import <IOKit/graphics/IOGraphicsLib.h>
 
+const int kMaxDisplays = 16;
+const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
 
 #pragma mark Magic Bits!
 
@@ -60,11 +62,11 @@
 		return nil;
 	
 	brightnessText = [[dict valueForKey: @"parameter"] copy];
-	brightness = (unsigned int) [brightnessText intValue];
+	brightness = (unsigned int) [brightnessText floatValue];
 	
 	// must be between 0 and 100
 	brightness = (brightness > 100) ? 100 : brightness;
-	brightnessText = [[NSString stringWithFormat: @"%d", brightness] copy];
+	brightnessText = [[NSString stringWithFormat: @"%ld", [[NSNumber numberWithFloat:brightness] integerValue]] copy];
 	
 	return self;
 }
@@ -89,61 +91,50 @@
 
 - (BOOL) execute: (NSString **) errorString {
 
-    // get system version
-	SInt32 major = 0, minor = 0;
-	Gestalt(gestaltSystemVersionMajor, &major);
-    Gestalt(gestaltSystemVersionMinor, &minor);
-    
-    if (major == 10 && minor > 7) {
-        *errorString = NSLocalizedString(@"DislplayBrightness is currently not supported on this version of OS X", @"");
-            return NO;
-    }
-        
-    [O3Manager initialize];
-	const int kMaxDisplays = 16;
-	//const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
-	
-	BOOL errorOccurred = NO;
-	CGDirectDisplayID display[kMaxDisplays];
+    CGDirectDisplayID display[kMaxDisplays];
 	CGDisplayCount numDisplays;
 	CGDisplayErr err;
-	
-	// get list of displays
 	err = CGGetActiveDisplayList(kMaxDisplays, display, &numDisplays);
     
-	if (err != CGDisplayNoErr) {
-		DSLog(@"Cannot get list of displays (error %d)", err);
-		errorOccurred = YES;
-	}
-    else {
-#if DEBUG_MODE
-        DSLog(@"There are %d display[s] connected", numDisplays);
-#endif
-    }
+    BOOL errorOccurred = NO;
 	
-	// loop through displays
+	if (err != CGDisplayNoErr) {
+        errorOccurred = YES;
+		DSLog(@"cannot get list of displays (error %d)\n",err);
+    }
+    
 	for (CGDisplayCount i = 0; i < numDisplays; ++i) {
-		CGDirectDisplayID dspy = display[i];
-        
-		//io_service_t service = CGDisplayIOServicePort(dspy);
 		
-		// set brightness
-        id<BrightnessEngineWireProtocol> engine =
-        	      [O3Manager engineOfClass: @"BrightnessEngine" forDisplayID: dspy];
+		
+		CGDirectDisplayID dspy = display[i];
+		//CFDictionaryRef originalMode = CGDisplayCurrentMode(dspy);
+        CGDisplayModeRef originalMode = CGDisplayCopyDisplayMode(dspy);
         
-		//err = IODisplaySetFloatParameter(service, kNilOptions, kDisplayBrightness, (brightness / 100.0));
-        [engine setBrightness: brightness / 100.0];
+		if (originalMode == NULL)
+			continue;
         
-        /*
-        if (err == kIOReturnUnsupported) {
-            DSLog(@"Failed to set brightness of display 0x%x because the system reported it wasn't a supported operation", (unsigned int)dspy);
-        }
-		else if (err != kIOReturnSuccess) {
-			DSLog(@"Failed to set brightness of display 0x%x for an unknown reason, error was: 0x%x", (unsigned int)dspy, err);
-			errorOccurred = YES;
+        io_service_t service = CGDisplayIOServicePort(dspy);
+        
+        CFRelease(originalMode);
+		
+
+		err= IODisplayGetFloatParameter(service, kNilOptions, kDisplayBrightness,
+										&old_brightness);
+		if (err != kIOReturnSuccess) {
+            errorOccurred = YES;
+			DSLog(@"failed to get brightness of display 0x%x (error %d)",
+					(unsigned int)dspy, err);
 			continue;
 		}
-         */
+        
+		err = IODisplaySetFloatParameter(service, kNilOptions, kDisplayBrightness,
+										 brightness/100);
+		if (err != kIOReturnSuccess) {
+            errorOccurred = YES;
+			DSLog(@"Failed to set brightness of display 0x%x (error %d)",
+                    (unsigned int)dspy, err);
+			continue;
+		}
 	}
 	
 	if (errorOccurred) {

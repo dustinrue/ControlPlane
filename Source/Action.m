@@ -220,7 +220,7 @@
 #import "DefaultBrowserAction.h"
 #import "DefaultPrinterAction.h"
 #import "DesktopBackgroundAction.h"
-//#import "DisplayBrightnessAction.h"
+#import "DisplayBrightnessAction.h"
 #import "DisplaySleepTimeAction.h"
 #import "FirewallRuleAction.h"
 //#import "IChatAction.h"
@@ -274,7 +274,7 @@
 			   [DefaultBrowserAction class],
                [DefaultPrinterAction class],
 			   [DesktopBackgroundAction class],
-			   //[DisplayBrightnessAction class],
+			   [DisplayBrightnessAction class],
                [DisplaySleepTimeAction class],
 			   //[IChatAction class],
 			   [ITunesPlaylistAction class],
@@ -316,7 +316,7 @@
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
         NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
-		//NSLocalizedString(@"DisplayBrightness", @"Action type");
+		NSLocalizedString(@"DisplayBrightness", @"Action type");
 		//NSLocalizedString(@"iChat", @"Action type");
 		NSLocalizedString(@"iTunesPlaylist", @"Action type");
 		NSLocalizedString(@"LockKeychain", @"Action type");

@@ -11,7 +11,8 @@
 
 @interface DisplayBrightnessAction : Action <ActionWithString> {
 	NSString *brightnessText;
-	unsigned int brightness;
+	float brightness;
+    float old_brightness;
 }
 
 - (id) initWithDictionary: (NSDictionary *) dict;
