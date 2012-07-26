@@ -9,7 +9,7 @@
 	<key>CFBundleName</key>
 	<string>CPHelperTool</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>SMAuthorizedClients</key>
 	<array>
 		<string>identifier com.dustinrue.ControlPlane and certificate leaf[subject.CN] = &quot;Developer ID Application: Dustin Rue&quot;</string>

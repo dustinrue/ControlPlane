@@ -12,7 +12,7 @@
 #import "BetterAuthorizationSampleLib.h"
 
 // Helper tool version
-#define kCPHelperToolVersionNumber              21
+#define kCPHelperToolVersionNumber              22
 
 // Commands
 #define kCPHelperToolGetVersionCommand              "GetVersion"

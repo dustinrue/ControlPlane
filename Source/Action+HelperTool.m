@@ -67,7 +67,8 @@ BOOL blessHelperWithLabel(NSString* label, NSError** error);
 		// check version and update if needed
 		NSNumber *version = [(NSDictionary *) helperToolResponse objectForKey: @kCPHelperToolGetVersionResponse];
 		if ([version intValue] < kCPHelperToolVersionNumber)
-			[self helperToolFix: kBASFailNeedsUpdate withAuth: auth];
+            installHelperToolUsingSMJobBless();
+			//[self helperToolFix: kBASFailNeedsUpdate withAuth: auth];
 		
 		// finish version check
 		OSAtomicIncrement32(&versionCheck);
