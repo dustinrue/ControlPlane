@@ -11,6 +11,7 @@
 #import "CPController+SleepThread.h"
 #import "NetworkLocationAction.h"
 #import "NSTimer+Invalidation.h"
+#import "CPNotifications.h"
 #import <libkern/OSAtomic.h>
 
 @interface CPController (Private) 
@@ -20,7 +21,7 @@
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
 - (void)doHideFromStatusBar:(BOOL)forced;
 
-- (void)doGrowl:(NSString *)title withMessage:(NSString *)message;
+- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message;
 - (void)contextsChanged:(NSNotification *)notification;
 
 - (void)doUpdate:(NSTimer *)theTimer;
@@ -125,6 +126,7 @@
     [appDefaults setValue:[NSNumber numberWithInt:1] forKey:@"SmoothSwitchCount"];
 
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+    
 }
 
 // Helper: Load a named image, and scale it to be suitable for menu bar use.
@@ -598,41 +600,13 @@
     }
 }
 
-- (void)doGrowl:(NSString *)title withMessage:(NSString *)message
-{
-    /*
-    // because actions are performed on their own thread, it's possible
-    // for doGrowl to be called by each simultaneously especially in the 
-    // case that an action fails, need to provide some order here to prevent 
-    // the title/message from being clobbered
-    
-    static int32_t alreadyHere = 0;
-    */
+- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
     BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
-    if (!useGrowl)
-        return;
+    if (useGrowl)
+        [CPNotifications postNotification:title withMessage:message];
     
-    /*
-    while (alreadyHere) {
-        [NSThread sleepForTimeInterval:0.5];
-    }
-    OSAtomicIncrement32(&alreadyHere);
-    */
+    
 
-	
-	signed int pri = 0;
-
-	if ([title isEqualToString:@"Failure"])
-		pri = 1;
-
-	[GrowlApplicationBridge notifyWithTitle:title
-								description:message
-						   notificationName:title
-								   iconData:nil
-								   priority:pri
-								   isSticky:NO
-							   clickContext:nil];
-    //OSAtomicDecrement32(&alreadyHere);
 
 }
 
@@ -775,7 +749,7 @@
 
 	NSString *errorString;
 	if (![action execute:&errorString])
-		[self doGrowl:[[[NSString stringWithFormat:NSLocalizedString(@"Failure", @"Growl message title")] copy] autorelease] withMessage:[[errorString copy] autorelease]];
+		[self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Failure", @"Growl message title")] copy] autorelease] withMessage:[[errorString copy] autorelease]];
 	
 	[self decreaseActionsInProgress];
 	[pool release];
@@ -801,7 +775,7 @@
 		growlTitle = NSLocalizedString(@"Performing Actions", @"Growl message title");
 		growlMessage = [NSString stringWithFormat:@"* %@", [actions componentsJoinedByString:@"\n* "]];
 	}
-	[self doGrowl:[[growlTitle copy] autorelease] withMessage:[[growlMessage copy] autorelease]];
+	[self postUserNotification:[[growlTitle copy] autorelease] withMessage:[[growlMessage copy] autorelease]];
 
 	NSEnumerator *en = [actions objectEnumerator];
 	Action *action;
@@ -1000,7 +974,7 @@
 #endif
     }
     
-	[self doGrowl:[[[NSString stringWithFormat:NSLocalizedString(@"Changing Context", @"Growl message title")] copy] autorelease]
+	[self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Changing Context", @"Growl message title")] copy] autorelease]
 	  withMessage:[[[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, guessConfidence] copy] autorelease]];
     
