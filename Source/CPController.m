@@ -355,8 +355,7 @@
 }
 
 - (void)awakeFromNib {
-	// Init Growl
-	[GrowlApplicationBridge setGrowlDelegate: self];
+	
     [[BWQuincyManager sharedQuincyManager] setSubmissionURL:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPCrashReportURL"]];
     [[BWQuincyManager sharedQuincyManager] setCompanyName:@"ControlPlane developers"];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];

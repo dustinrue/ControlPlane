@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Growl/Growl.h>
 
-@interface CPNotifications : NSObject <GrowlApplicationBridgeDelegate>
+@interface CPNotifications : NSObject
 
 + (void) postNotification:(NSString *)title withMessage:(NSString *)message;
 

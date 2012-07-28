@@ -1505,7 +1505,7 @@
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
@@ -1522,7 +1522,7 @@
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
