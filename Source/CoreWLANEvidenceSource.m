@@ -60,7 +60,7 @@
 	NSError *err = nil;
     CWNetwork *currentNetwork = nil;
     NSArray *supportedInterfaces = [[CWInterface interfaceNames] allObjects];
-    NSLog(@"%@", supportedInterfaces);
+
 	BOOL do_scan = YES;
 
     
