@@ -196,6 +196,26 @@
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA0E9C1715C84D0100C53789 /* Copy Evidence Source Plugins */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "Evidence Sources";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Copy Evidence Source Plugins";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA0E9C1815C84D3500C53789 /* Copy Action Plugins */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Actions;
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Copy Action Plugins";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA5B01D51412B6A700E19C50 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1023,6 +1043,8 @@
 				8D2073870B86AB5100D61A9E /* Copy Frameworks */,
 				DA5B01E51412B85600E19C50 /* CopyFiles */,
 				DACE6D4D159C053000FEE37E /* Copy Launch Services */,
+				DA0E9C1715C84D0100C53789 /* Copy Evidence Source Plugins */,
+				DA0E9C1815C84D3500C53789 /* Copy Action Plugins */,
 			);
 			buildRules = (
 			);
