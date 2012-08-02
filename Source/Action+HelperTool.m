@@ -5,7 +5,7 @@
 //  Created by David Jennes on 05/09/11.
 //  Copyright 2011. All rights reserved.
 //
-// Reworked to support SMJobBless, thanks to Steve Streeting for making this easier
+// Reworked by Dustin Rue to support SMJobBless, thanks to Steve Streeting for making this easier
 // to figure out and doing most of the leg work
 // -- http://www.stevestreeting.com/2012/03/05/follow-up-os-x-privilege-escalation-without-using-deprecated-methods/
 
