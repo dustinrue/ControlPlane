@@ -1,0 +1,267 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA94BED115CA233400ED2AB2 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA94BED015CA233400ED2AB2 /* CoreFoundation.framework */; };
+		DA94BED715CA233400ED2AB2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA94BED515CA233400ED2AB2 /* InfoPlist.strings */; };
+		DA94BEEA15CA24E400ED2AB2 /* SampleESPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA94BEE915CA24E400ED2AB2 /* SampleESPlugin.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DA94BECD15CA233400ED2AB2 /* SampleESPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleESPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA94BED015CA233400ED2AB2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		DA94BED415CA233400ED2AB2 /* SampleESPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SampleESPlugin-Info.plist"; sourceTree = "<group>"; };
+		DA94BED615CA233400ED2AB2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA94BED815CA233400ED2AB2 /* SampleESPlugin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SampleESPlugin-Prefix.pch"; sourceTree = "<group>"; };
+		DA94BEE815CA24E400ED2AB2 /* SampleESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleESPlugin.h; sourceTree = "<group>"; };
+		DA94BEE915CA24E400ED2AB2 /* SampleESPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleESPlugin.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA94BECA15CA233400ED2AB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA94BED115CA233400ED2AB2 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA94BEC215CA233400ED2AB2 = {
+			isa = PBXGroup;
+			children = (
+				DA94BED215CA233400ED2AB2 /* SampleESPlugin */,
+				DA94BECF15CA233400ED2AB2 /* Frameworks */,
+				DA94BECE15CA233400ED2AB2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA94BECE15CA233400ED2AB2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA94BECD15CA233400ED2AB2 /* SampleESPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA94BECF15CA233400ED2AB2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA94BED015CA233400ED2AB2 /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA94BED215CA233400ED2AB2 /* SampleESPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				DA94BED315CA233400ED2AB2 /* Supporting Files */,
+				DA94BEE815CA24E400ED2AB2 /* SampleESPlugin.h */,
+				DA94BEE915CA24E400ED2AB2 /* SampleESPlugin.m */,
+			);
+			path = SampleESPlugin;
+			sourceTree = "<group>";
+		};
+		DA94BED315CA233400ED2AB2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA94BED415CA233400ED2AB2 /* SampleESPlugin-Info.plist */,
+				DA94BED515CA233400ED2AB2 /* InfoPlist.strings */,
+				DA94BED815CA233400ED2AB2 /* SampleESPlugin-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DA94BECC15CA233400ED2AB2 /* SampleESPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA94BEDB15CA233400ED2AB2 /* Build configuration list for PBXNativeTarget "SampleESPlugin" */;
+			buildPhases = (
+				DA94BEC915CA233400ED2AB2 /* Sources */,
+				DA94BECA15CA233400ED2AB2 /* Frameworks */,
+				DA94BECB15CA233400ED2AB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SampleESPlugin;
+			productName = SampleESPlugin;
+			productReference = DA94BECD15CA233400ED2AB2 /* SampleESPlugin.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA94BEC415CA233400ED2AB2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Dustin Rue";
+			};
+			buildConfigurationList = DA94BEC715CA233400ED2AB2 /* Build configuration list for PBXProject "SampleESPlugin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DA94BEC215CA233400ED2AB2;
+			productRefGroup = DA94BECE15CA233400ED2AB2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA94BECC15CA233400ED2AB2 /* SampleESPlugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA94BECB15CA233400ED2AB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA94BED715CA233400ED2AB2 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA94BEC915CA233400ED2AB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA94BEEA15CA24E400ED2AB2 /* SampleESPlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DA94BED515CA233400ED2AB2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA94BED615CA233400ED2AB2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DA94BED915CA233400ED2AB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DA94BEDA15CA233400ED2AB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DA94BEDC15CA233400ED2AB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SampleESPlugin/SampleESPlugin-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "SampleESPlugin/SampleESPlugin-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../../../Protocols;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		DA94BEDD15CA233400ED2AB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SampleESPlugin/SampleESPlugin-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "SampleESPlugin/SampleESPlugin-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../../../Protocols;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA94BEC715CA233400ED2AB2 /* Build configuration list for PBXProject "SampleESPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA94BED915CA233400ED2AB2 /* Debug */,
+				DA94BEDA15CA233400ED2AB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA94BEDB15CA233400ED2AB2 /* Build configuration list for PBXNativeTarget "SampleESPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA94BEDC15CA233400ED2AB2 /* Debug */,
+				DA94BEDD15CA233400ED2AB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DA94BEC415CA233400ED2AB2 /* Project object */;
+}

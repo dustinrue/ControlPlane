@@ -112,6 +112,7 @@
 		DA8E2833156B498A0040FC35 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8E2832156B498A0040FC35 /* ApplicationServices.framework */; };
 		DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8E283E156BCAD50040FC35 /* ToggleRemoteLoginAction.m */; };
 		DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */; };
+		DA94BEE615CA235300ED2AB2 /* SampleESPlugin.bundle in Copy Evidence Source Plugins */ = {isa = PBXBuildFile; fileRef = DA94BEE315CA233400ED2AB2 /* SampleESPlugin.bundle */; };
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
 		DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
@@ -180,6 +181,20 @@
 			remoteGlobalIDString = DA5B01FA1412BB1700E19C50;
 			remoteInfo = CPHelperTool;
 		};
+		DA94BEE215CA233400ED2AB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA94BECD15CA233400ED2AB2;
+			remoteInfo = SampleESPlugin;
+		};
+		DA94BEE415CA234200ED2AB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DA94BECC15CA233400ED2AB2;
+			remoteInfo = SampleESPlugin;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -202,6 +217,7 @@
 			dstPath = "Evidence Sources";
 			dstSubfolderSpec = 13;
 			files = (
+				DA94BEE615CA235300ED2AB2 /* SampleESPlugin.bundle in Copy Evidence Source Plugins */,
 			);
 			name = "Copy Evidence Source Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,6 +422,7 @@
 		DA146F7E143F3C4000906DBF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
 		DA146F7F143F3C4000906DBF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		DA22656915CAEF2000B75163 /* EvidenceSourcePlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EvidenceSourcePlugin.h; path = Protocols/EvidenceSourcePlugin.h; sourceTree = "<group>"; };
 		DA2B437F152161C800E94A1D /* ToggleTFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTFTPAction.h; path = Source/ToggleTFTPAction.h; sourceTree = "<group>"; };
 		DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTFTPAction.m; path = Source/ToggleTFTPAction.m; sourceTree = "<group>"; };
 		DA2B4383152161D900E94A1D /* ToggleFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFTPAction.h; path = Source/ToggleFTPAction.h; sourceTree = "<group>"; };
@@ -453,6 +470,8 @@
 		DA8E283E156BCAD50040FC35 /* ToggleRemoteLoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleRemoteLoginAction.m; path = Source/ToggleRemoteLoginAction.m; sourceTree = "<group>"; };
 		DA922E9B144FC95200920B40 /* ToggleInternetSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleInternetSharingAction.h; path = Source/ToggleInternetSharingAction.h; sourceTree = "<group>"; };
 		DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
+		DA94BE8E15CA1B6E00ED2AB2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SampleESPlugin.xcodeproj; path = "Plugins/Evidence Source/SampleESPlugin/SampleESPlugin/SampleESPlugin.xcodeproj"; sourceTree = "<group>"; };
 		DAA9ABFE1595FDE700B84B05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		DAA9AC1915961CDF00B84B05 /* MessagesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesAction.h; path = Source/MessagesAction.h; sourceTree = "<group>"; };
 		DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesAction.m; path = Source/MessagesAction.m; sourceTree = "<group>"; };
@@ -753,6 +772,7 @@
 				DAFC0E4014788A6000DA6139 /* Apple Private Frameworks */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Apple Frameworks */,
+				DA94BE8E15CA1B6E00ED2AB2 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -775,6 +795,7 @@
 		8DAD148E0BBCA40700F93914 /* Evidence Sources */ = {
 			isa = PBXGroup;
 			children = (
+				DA94BE8815CA1B0300ED2AB2 /* Plugins */,
 				8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */,
 				DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */,
 				DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */,
@@ -786,6 +807,7 @@
 				8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */,
 				8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */,
 				8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */,
+				DA22656915CAEF2000B75163 /* EvidenceSourcePlugin.h */,
 			);
 			name = "Evidence Sources";
 			sourceTree = "<group>";
@@ -868,6 +890,22 @@
 				DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */,
 			);
 			path = AuthorizationLib;
+			sourceTree = "<group>";
+		};
+		DA94BE8815CA1B0300ED2AB2 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		DA94BEDF15CA233400ED2AB2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA94BEE315CA233400ED2AB2 /* SampleESPlugin.bundle */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		DAF2F819150EE5960040DDC7 /* External Source */ = {
@@ -1049,6 +1087,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DA94BEE515CA234200ED2AB2 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
 			);
@@ -1137,6 +1176,12 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ControlPlane */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DA94BEDF15CA233400ED2AB2 /* Products */;
+					ProjectRef = DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* ControlPlane */,
@@ -1145,6 +1190,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DA94BEE315CA233400ED2AB2 /* SampleESPlugin.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SampleESPlugin.bundle;
+			remoteRef = DA94BEE215CA233400ED2AB2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -1371,6 +1426,11 @@
 			isa = PBXTargetDependency;
 			target = DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
+		};
+		DA94BEE515CA234200ED2AB2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SampleESPlugin;
+			targetProxy = DA94BEE415CA234200ED2AB2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

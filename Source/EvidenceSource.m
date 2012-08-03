@@ -372,8 +372,28 @@
 	if (!(self = [super init]))
 		return nil;
     
+    NSBundle *aBundle;
+    NSString *pluginPath;
+    
+    aBundle = [NSBundle mainBundle];
+    
+    pluginPath = [NSString stringWithFormat:@"%@/Evidence Sources/%@.bundle", [aBundle builtInPlugInsPath], @"SampleESPlugin"];
+    DSLog(@"plugin path is %@", pluginPath);
+    
+    NSBundle *thePlugin = [NSBundle bundleWithPath:pluginPath];
+    
+    Class principalClass;
+    
+    principalClass = [thePlugin principalClass];
+    
+    NSLog(@"pc is %@", principalClass);
+    id instance = [[principalClass alloc] init];
+    
+    NSLog(@"I have a %@", instance);
+    
 	NSArray *classes = [NSArray arrayWithObjects:
                         [NetworkLinkEvidenceSource class],
+                        [principalClass class],
                         [IPEvidenceSource class],
                         [FireWireEvidenceSource class],
                         [MonitorEvidenceSource class],
