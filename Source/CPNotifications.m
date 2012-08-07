@@ -33,13 +33,20 @@
         if ([title isEqualToString:@"Failure"])
             pri = 1;
     
-        [GrowlApplicationBridge notifyWithTitle:title
-                                    description:message
-                               notificationName:title
-                                       iconData:nil
-                                       priority:pri
-                                       isSticky:NO
-                                   clickContext:nil];
+        @try {
+            [GrowlApplicationBridge notifyWithTitle:title
+                                        description:message
+                                   notificationName:title
+                                           iconData:nil
+                                           priority:pri
+                                           isSticky:NO
+                                       clickContext:nil];
+        }
+        @catch (NSException *exception) {
+            // something went wrong and we're going to simply throw the message away 
+        }
+        
+
     }
 }
 
