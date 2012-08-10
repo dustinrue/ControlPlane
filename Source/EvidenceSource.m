@@ -345,6 +345,7 @@
 - (NSUInteger)numberOfRowsInTableView:(NSTableView *)aTableView;
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+- (NSArray *)getEvidenceSourcePlugins;
 
 @end
 
@@ -414,6 +415,28 @@
 						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
 						nil];
+    
+#ifdef DEBUG_MODE
+    NSBundle *aBundle;
+    NSString *pluginPath;
+    NSArray *availablePlugins = nil;
+    
+    availablePlugins = [self getEvidenceSourcePlugins];
+    
+    
+    for (NSString *pluginPath in availablePlugins) {
+        NSLog(@"would load plugin at %@", pluginPath);
+        NSBundle *thePlugin = [NSBundle bundleWithPath:pluginPath];
+        Class principalClass = [thePlugin principalClass];
+        @try {
+            [classes addObject:principalClass];
+        }
+        @catch (NSException *e) {
+            NSLog(@"%@ is not a vaild plugin", pluginPath);
+        }
+    }
+    
+#endif
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
@@ -462,6 +485,44 @@
 	[sources release];
 
 	[super dealloc];
+}
+
+/**
+ *  Returns an array containing paths to all of the available Evidence Source Plugins
+ */
+- (NSArray *)getEvidenceSourcePlugins {
+    NSMutableArray *searchPaths = [NSMutableArray array];
+    NSMutableArray *bundles = [NSMutableArray array];
+    NSString *pluginPath = @"/Application Support/ControlPlane/PlugIns/Evidence Sources";
+    
+    
+    for (NSString *path in NSSearchPathForDirectoriesInDomains(
+                                                               NSLibraryDirectory,
+                                                               NSAllDomainsMask - NSSystemDomainMask,
+                                                               YES)) {
+        [searchPaths addObject:[path stringByAppendingPathComponent:pluginPath]];
+    }
+    
+    [searchPaths addObject:[NSString stringWithFormat:@"%@/Evidence Sources",[[NSBundle mainBundle] builtInPlugInsPath]]];
+    
+    
+    for (NSString *currentPath in searchPaths) {
+        NSDirectoryEnumerator *dirEnumerator;
+        NSString *currentFile;
+        
+        dirEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:currentPath];
+        
+        if (dirEnumerator) {
+            while (currentFile = [dirEnumerator nextObject]) {
+                if([[currentFile pathExtension] isEqualToString:@"bundle"]) {
+                    [bundles addObject:[currentPath stringByAppendingPathComponent:currentFile]];
+                }
+            }
+        }
+    }
+    
+    // hand back an immutable version
+    return (NSArray *)bundles;
 }
 
 - (EvidenceSource *)sourceWithName:(NSString *)name
