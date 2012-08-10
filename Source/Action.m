@@ -276,7 +276,7 @@
 	Gestalt(gestaltSystemVersionMajor, &major);
     Gestalt(gestaltSystemVersionMinor, &minor);
     
-	classes = [[NSArray alloc] initWithObjects:
+	classes = [[NSMutableArray alloc] initWithObjects:
 			   [DefaultBrowserAction class],
                [DefaultPrinterAction class],
 			   [DesktopBackgroundAction class],
@@ -329,18 +329,26 @@
     
     for (NSString *pluginPath in availablePlugins) {
         NSLog(@"would load plugin at %@", pluginPath);
+        NSBundle *thePlugin = [NSBundle bundleWithPath:pluginPath];
+        Class principalClass = [thePlugin principalClass];
+        @try {
+            [classes addObject:principalClass];
+        }
+        @catch (NSException *e) {
+            NSLog(@"%@ is not a vaild plugin", pluginPath);
+        }
     }
     
     /*
     NSBundle *thePlugin = [NSBundle bundleWithPath:pluginPath];
     
-    Class principalClass;
+    
     
     [self getActionPlugins];
     
-    principalClass = [thePlugin principalClass];
+    principalClass = 
     
-    [classes addObject:principalClass];
+    
     
     NSLog(@"pc is %@", principalClass);
     id instance = [[principalClass alloc] init];
