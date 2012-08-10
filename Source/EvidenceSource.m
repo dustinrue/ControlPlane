@@ -372,33 +372,10 @@
 {
 	if (!(self = [super init]))
 		return nil;
+
     
-#ifdef DEBUG_MODE
-    NSBundle *aBundle;
-    NSString *pluginPath;
-    
-    aBundle = [NSBundle mainBundle];
-    
-    pluginPath = [NSString stringWithFormat:@"%@/Evidence Sources/%@.bundle", [aBundle builtInPlugInsPath], @"SampleESPlugin"];
-    DSLog(@"plugin path is %@", pluginPath);
-    
-    NSBundle *thePlugin = [NSBundle bundleWithPath:pluginPath];
-    
-    Class principalClass;
-    
-    principalClass = [thePlugin principalClass];
-    
-    NSLog(@"pc is %@", principalClass);
-    id instance = [[principalClass alloc] init];
-    
-    NSLog(@"I have a %@", instance);
-#endif
-    
-	NSArray *classes = [NSArray arrayWithObjects:
+	NSMutableArray *classes = [NSMutableArray arrayWithObjects:
                         [NetworkLinkEvidenceSource class],
-#ifdef DEBUG_MODE
-                        [principalClass class],
-#endif
                         [IPEvidenceSource class],
                         [FireWireEvidenceSource class],
                         [MonitorEvidenceSource class],
@@ -417,8 +394,6 @@
 						nil];
     
 #ifdef DEBUG_MODE
-    NSBundle *aBundle;
-    NSString *pluginPath;
     NSArray *availablePlugins = nil;
     
     availablePlugins = [self getEvidenceSourcePlugins];

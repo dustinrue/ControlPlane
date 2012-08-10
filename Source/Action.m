@@ -320,8 +320,6 @@
     
     // Load any available plugins
 #ifdef DEBUG_MODE
-    NSBundle *aBundle;
-    NSString *pluginPath;
     NSArray *availablePlugins = nil;
     
     availablePlugins = [self getActionPlugins];
