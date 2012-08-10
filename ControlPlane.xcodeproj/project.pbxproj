@@ -854,6 +854,7 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				DA008D1C15D4B73C0091CC54 /* Plugins */,
 				DD8274EB14114CFF0098FA6E /* Application Actions */,
 				DD8274ED14114D620098FA6E /* System Actions */,
 				8DF5A4150BC2353D00CBEB4B /* Action.h */,
@@ -866,6 +867,13 @@
 				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
 			);
 			name = Actions;
+			sourceTree = "<group>";
+		};
+		DA008D1C15D4B73C0091CC54 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Plugins;
 			sourceTree = "<group>";
 		};
 		DA5B01E91412BA6700E19C50 /* HelperTool */ = {

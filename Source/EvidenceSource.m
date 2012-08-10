@@ -372,6 +372,7 @@
 	if (!(self = [super init]))
 		return nil;
     
+#ifdef DEBUG_MODE
     NSBundle *aBundle;
     NSString *pluginPath;
     
@@ -390,10 +391,13 @@
     id instance = [[principalClass alloc] init];
     
     NSLog(@"I have a %@", instance);
+#endif
     
 	NSArray *classes = [NSArray arrayWithObjects:
                         [NetworkLinkEvidenceSource class],
+#ifdef DEBUG_MODE
                         [principalClass class],
+#endif
                         [IPEvidenceSource class],
                         [FireWireEvidenceSource class],
                         [MonitorEvidenceSource class],

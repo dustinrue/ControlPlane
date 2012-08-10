@@ -258,6 +258,11 @@
 #import "UnmountAction.h"
 #import "VPNAction.h"
 
+@interface ActionSetController (Private)
+
+- (NSArray *)getActionPlugins;
+
+@end
 
 @implementation ActionSetController
 
@@ -265,7 +270,7 @@
 {
 	if (!(self = [super init]))
 		return nil;
-
+    
     // get system version
 	SInt32 major = 0, minor = 0;
 	Gestalt(gestaltSystemVersionMajor, &major);
@@ -312,6 +317,38 @@
 			   [VPNAction class],
 			nil];
 	
+    
+    // Load any available plugins
+#ifdef DEBUG_MODE
+    NSBundle *aBundle;
+    NSString *pluginPath;
+    NSArray *availablePlugins = nil;
+    
+    availablePlugins = [self getActionPlugins];
+    
+    
+    for (NSString *pluginPath in availablePlugins) {
+        NSLog(@"would load plugin at %@", pluginPath);
+    }
+    
+    /*
+    NSBundle *thePlugin = [NSBundle bundleWithPath:pluginPath];
+    
+    Class principalClass;
+    
+    [self getActionPlugins];
+    
+    principalClass = [thePlugin principalClass];
+    
+    [classes addObject:principalClass];
+    
+    NSLog(@"pc is %@", principalClass);
+    id instance = [[principalClass alloc] init];
+    
+    NSLog(@"I have a %@", instance);
+     */
+#endif
+    
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
@@ -404,6 +441,44 @@
 		[array addObject:[Action typeForClass:klass]];
 	}
 	return array;
+}
+
+/**
+ *  Returns an array containing paths to all of the available Action Plugins
+ */
+- (NSArray *)getActionPlugins {
+    NSMutableArray *searchPaths = [NSMutableArray array];
+    NSMutableArray *bundles = [NSMutableArray array];
+    NSString *pluginPath = @"/Application Support/ControlPlane/PlugIns/Actions";
+    
+    
+    for (NSString *path in NSSearchPathForDirectoriesInDomains(
+                                                               NSLibraryDirectory,
+                                                               NSAllDomainsMask - NSSystemDomainMask,
+                                                               YES)) {
+        [searchPaths addObject:[path stringByAppendingPathComponent:pluginPath]];
+    }
+    
+    [searchPaths addObject:[NSString stringWithFormat:@"%@/Actions",[[NSBundle mainBundle] builtInPlugInsPath]]];
+    
+
+    for (NSString *currentPath in searchPaths) {
+        NSDirectoryEnumerator *dirEnumerator;
+        NSString *currentFile;
+        
+        dirEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:currentPath];
+        
+        if (dirEnumerator) {
+            while (currentFile = [dirEnumerator nextObject]) {
+                if([[currentFile pathExtension] isEqualToString:@"bundle"]) {
+                    [bundles addObject:[currentPath stringByAppendingPathComponent:currentFile]];
+                }
+            }
+        }
+    }
+    
+    // hand back an immutable version
+    return (NSArray *)bundles;
 }
 
 #pragma mark NSMenu delegates

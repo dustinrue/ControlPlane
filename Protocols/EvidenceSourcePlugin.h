@@ -67,6 +67,12 @@
  */
 - (NSArray *)myRules;
 
+/*!
+ * @method
+ * @abstract dealloc method would only be needed if you're not compiling with ARC
+ */
+- (void)dealloc NS_AUTOMATED_REFCOUNT_UNAVAILABLE;
+
 
 /*!
  * @method
@@ -92,6 +98,26 @@
  */
 - (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
 
+/*!
+ * @method
+ * @abstract called if the system is going to sleep
+ */
+- (void)goingToSleep:(id)arg;
+
+/*!
+ * @method
+ * @abstract called if the system is waking from sleep
+ */
+- (void)wakeFromSleep:(id)arg;
+
+/*!
+ * @
+- (void) screenSaverDidBecomeInActive:(NSNotification *) notification;
+- (void) screenSaverDidBecomeActive:(NSNotification *) notification;
+- (void) screenDidUnlock:(NSNotification *) notification;
+- (void) screenDidLock:(NSNotification *) notification;
+ */
+
 @end
 
 /*
@@ -114,13 +140,9 @@
 @property (readwrite) BOOL screenIsLocked;
 
 - (id)initWithNibNamed:(NSString *)name;
-- (void)dealloc;
-- (void)goingToSleep:(id)arg;
-- (void)wakeFromSleep:(id)arg;
-- (void) screenSaverDidBecomeInActive:(NSNotification *) notification;
-- (void) screenSaverDidBecomeActive:(NSNotification *) notification;
-- (void) screenDidUnlock:(NSNotification *) notification;
-- (void) screenDidLock:(NSNotification *) notification;
+
+
+
 - (BOOL)matchesRulesOfType:(NSString *)type;
 
 - (BOOL)dataCollected;

@@ -67,7 +67,7 @@
 
 @interface ActionSetController : NSObject {
 	IBOutlet NSWindowController *prefsWindowController;
-	NSArray *classes;	// array of class objects
+	NSMutableArray *classes;	// array of class objects
     NSDictionary *menuCategories;
 }
 
