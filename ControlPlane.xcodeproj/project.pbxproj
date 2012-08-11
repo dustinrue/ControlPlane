@@ -112,7 +112,6 @@
 		DA8E2833156B498A0040FC35 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8E2832156B498A0040FC35 /* ApplicationServices.framework */; };
 		DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8E283E156BCAD50040FC35 /* ToggleRemoteLoginAction.m */; };
 		DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */; };
-		DA94BEE615CA235300ED2AB2 /* SampleESPlugin.bundle in Copy Evidence Source Plugins */ = {isa = PBXBuildFile; fileRef = DA94BEE315CA233400ED2AB2 /* SampleESPlugin.bundle */; };
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
 		DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
@@ -125,6 +124,7 @@
 		DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */; };
 		DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */; };
 		DACE6D4E159C055C00FEE37E /* com.dustinrue.CPHelperTool in Copy Launch Services */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
+		DAD889B015D5F3DE009F30A3 /* NotificationCenterAction.bundle in Copy Action Plugins */ = {isa = PBXBuildFile; fileRef = DAD889A815D5F338009F30A3 /* NotificationCenterAction.bundle */; };
 		DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF2257E15ABD8CD003A8030 /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; };
@@ -188,12 +188,19 @@
 			remoteGlobalIDString = DA94BECD15CA233400ED2AB2;
 			remoteInfo = SampleESPlugin;
 		};
-		DA94BEE415CA234200ED2AB2 /* PBXContainerItemProxy */ = {
+		DAD889A715D5F338009F30A3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */;
+			containerPortal = DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAD8898E15D5F337009F30A3;
+			remoteInfo = NotificationCenterAction;
+		};
+		DAD889AE15D5F3CD009F30A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = DA94BECC15CA233400ED2AB2;
-			remoteInfo = SampleESPlugin;
+			remoteGlobalIDString = DAD8898D15D5F337009F30A3;
+			remoteInfo = NotificationCenterAction;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -217,7 +224,6 @@
 			dstPath = "Evidence Sources";
 			dstSubfolderSpec = 13;
 			files = (
-				DA94BEE615CA235300ED2AB2 /* SampleESPlugin.bundle in Copy Evidence Source Plugins */,
 			);
 			name = "Copy Evidence Source Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +234,7 @@
 			dstPath = Actions;
 			dstSubfolderSpec = 13;
 			files = (
+				DAD889B015D5F3DE009F30A3 /* NotificationCenterAction.bundle in Copy Action Plugins */,
 			);
 			name = "Copy Action Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,6 +493,9 @@
 		DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Info.plist"; sourceTree = "<group>"; };
 		DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Launchd.plist"; sourceTree = "<group>"; };
+		DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NotificationCenterAction.xcodeproj; path = NotificationCenterAction/NotificationCenterAction.xcodeproj; sourceTree = "<group>"; };
+		DAD889B115D5F4C1009F30A3 /* ActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ActionPlugin.h; path = Protocols/ActionPlugin.h; sourceTree = "<group>"; };
+		DAD889B215D5F4DC009F30A3 /* ToggleableActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ToggleableActionPlugin.h; path = Protocols/ToggleableActionPlugin.h; sourceTree = "<group>"; };
 		DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Merge.h"; path = "Source/NSMutableArray+Merge.h"; sourceTree = "<group>"; };
 		DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Merge.m"; path = "Source/NSMutableArray+Merge.m"; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
@@ -865,6 +875,8 @@
 				DA41954C151C17F000FF7BA0 /* ActionSubmenuItem.m */,
 				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
 				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
+				DAD889B115D5F4C1009F30A3 /* ActionPlugin.h */,
+				DAD889B215D5F4DC009F30A3 /* ToggleableActionPlugin.h */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -872,6 +884,7 @@
 		DA008D1C15D4B73C0091CC54 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -912,6 +925,14 @@
 			isa = PBXGroup;
 			children = (
 				DA94BEE315CA233400ED2AB2 /* SampleESPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DAD889A415D5F337009F30A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DAD889A815D5F338009F30A3 /* NotificationCenterAction.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1095,7 +1116,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DA94BEE515CA234200ED2AB2 /* PBXTargetDependency */,
+				DAD889AF15D5F3CD009F30A3 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
 			);
@@ -1186,6 +1207,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = DAD889A415D5F337009F30A3 /* Products */;
+					ProjectRef = DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */;
+				},
+				{
 					ProductGroup = DA94BEDF15CA233400ED2AB2 /* Products */;
 					ProjectRef = DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */;
 				},
@@ -1205,6 +1230,13 @@
 			fileType = wrapper.cfbundle;
 			path = SampleESPlugin.bundle;
 			remoteRef = DA94BEE215CA233400ED2AB2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DAD889A815D5F338009F30A3 /* NotificationCenterAction.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NotificationCenterAction.bundle;
+			remoteRef = DAD889A715D5F338009F30A3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1435,10 +1467,10 @@
 			target = DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
 		};
-		DA94BEE515CA234200ED2AB2 /* PBXTargetDependency */ = {
+		DAD889AF15D5F3CD009F30A3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SampleESPlugin;
-			targetProxy = DA94BEE415CA234200ED2AB2 /* PBXContainerItemProxy */;
+			name = NotificationCenterAction;
+			targetProxy = DAD889AE15D5F3CD009F30A3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

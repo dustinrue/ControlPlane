@@ -1,0 +1,280 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DAD8899215D5F337009F30A3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD8899115D5F337009F30A3 /* Cocoa.framework */; };
+		DAD8899C15D5F337009F30A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAD8899A15D5F337009F30A3 /* InfoPlist.strings */; };
+		DAD889AD15D5F394009F30A3 /* NotificationCenterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD889AC15D5F394009F30A3 /* NotificationCenterAction.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DAD8898E15D5F337009F30A3 /* NotificationCenterAction.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificationCenterAction.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAD8899115D5F337009F30A3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DAD8899415D5F337009F30A3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DAD8899515D5F337009F30A3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DAD8899615D5F337009F30A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DAD8899915D5F337009F30A3 /* NotificationCenterAction-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NotificationCenterAction-Info.plist"; sourceTree = "<group>"; };
+		DAD8899B15D5F337009F30A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DAD8899D15D5F337009F30A3 /* NotificationCenterAction-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NotificationCenterAction-Prefix.pch"; sourceTree = "<group>"; };
+		DAD889AB15D5F394009F30A3 /* NotificationCenterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCenterAction.h; sourceTree = "<group>"; };
+		DAD889AC15D5F394009F30A3 /* NotificationCenterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCenterAction.m; sourceTree = "<group>"; };
+		DAD889B315D5F61C009F30A3 /* ActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = ActionPlugin.h; path = ../../Protocols/ActionPlugin.h; sourceTree = "<group>"; };
+		DAD889B415D5F61C009F30A3 /* ToggleableActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = ToggleableActionPlugin.h; path = ../../Protocols/ToggleableActionPlugin.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DAD8898B15D5F337009F30A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAD8899215D5F337009F30A3 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DAD8898315D5F337009F30A3 = {
+			isa = PBXGroup;
+			children = (
+				DAD8899715D5F337009F30A3 /* NotificationCenterAction */,
+				DAD8899015D5F337009F30A3 /* Frameworks */,
+				DAD8898F15D5F337009F30A3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DAD8898F15D5F337009F30A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DAD8898E15D5F337009F30A3 /* NotificationCenterAction.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DAD8899015D5F337009F30A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DAD8899115D5F337009F30A3 /* Cocoa.framework */,
+				DAD8899315D5F337009F30A3 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DAD8899315D5F337009F30A3 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DAD8899415D5F337009F30A3 /* AppKit.framework */,
+				DAD8899515D5F337009F30A3 /* CoreData.framework */,
+				DAD8899615D5F337009F30A3 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		DAD8899715D5F337009F30A3 /* NotificationCenterAction */ = {
+			isa = PBXGroup;
+			children = (
+				DAD889B315D5F61C009F30A3 /* ActionPlugin.h */,
+				DAD889B415D5F61C009F30A3 /* ToggleableActionPlugin.h */,
+				DAD889AB15D5F394009F30A3 /* NotificationCenterAction.h */,
+				DAD889AC15D5F394009F30A3 /* NotificationCenterAction.m */,
+				DAD8899815D5F337009F30A3 /* Supporting Files */,
+			);
+			path = NotificationCenterAction;
+			sourceTree = "<group>";
+		};
+		DAD8899815D5F337009F30A3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DAD8899915D5F337009F30A3 /* NotificationCenterAction-Info.plist */,
+				DAD8899A15D5F337009F30A3 /* InfoPlist.strings */,
+				DAD8899D15D5F337009F30A3 /* NotificationCenterAction-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DAD8898D15D5F337009F30A3 /* NotificationCenterAction */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAD889A015D5F337009F30A3 /* Build configuration list for PBXNativeTarget "NotificationCenterAction" */;
+			buildPhases = (
+				DAD8898A15D5F337009F30A3 /* Sources */,
+				DAD8898B15D5F337009F30A3 /* Frameworks */,
+				DAD8898C15D5F337009F30A3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationCenterAction;
+			productName = NotificationCenterAction;
+			productReference = DAD8898E15D5F337009F30A3 /* NotificationCenterAction.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAD8898515D5F337009F30A3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Dustin Rue";
+			};
+			buildConfigurationList = DAD8898815D5F337009F30A3 /* Build configuration list for PBXProject "NotificationCenterAction" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DAD8898315D5F337009F30A3;
+			productRefGroup = DAD8898F15D5F337009F30A3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DAD8898D15D5F337009F30A3 /* NotificationCenterAction */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DAD8898C15D5F337009F30A3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAD8899C15D5F337009F30A3 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DAD8898A15D5F337009F30A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAD889AD15D5F394009F30A3 /* NotificationCenterAction.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DAD8899A15D5F337009F30A3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAD8899B15D5F337009F30A3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DAD8899E15D5F337009F30A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DAD8899F15D5F337009F30A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DAD889A115D5F337009F30A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NotificationCenterAction/NotificationCenterAction-Prefix.pch";
+				INFOPLIST_FILE = "NotificationCenterAction/NotificationCenterAction-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		DAD889A215D5F337009F30A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NotificationCenterAction/NotificationCenterAction-Prefix.pch";
+				INFOPLIST_FILE = "NotificationCenterAction/NotificationCenterAction-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DAD8898815D5F337009F30A3 /* Build configuration list for PBXProject "NotificationCenterAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAD8899E15D5F337009F30A3 /* Debug */,
+				DAD8899F15D5F337009F30A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAD889A015D5F337009F30A3 /* Build configuration list for PBXNativeTarget "NotificationCenterAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAD889A115D5F337009F30A3 /* Debug */,
+				DAD889A215D5F337009F30A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAD8898515D5F337009F30A3 /* Project object */;
+}
