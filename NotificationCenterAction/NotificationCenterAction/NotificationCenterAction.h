@@ -7,7 +7,7 @@
 //
 
 #import "ActionPlugin.h"
-#import "ToggleableActionPlugin.h"
+
 
 @interface NotificationCenterAction : NSObject <ToggleableAction>
 

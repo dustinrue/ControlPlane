@@ -10,6 +10,7 @@
 
 @implementation NotificationCenterAction
 
+
 @synthesize helperToolResponse;
 @synthesize type;
 @synthesize context;
@@ -18,8 +19,44 @@
 @synthesize enabled;
 @synthesize turnOn;
 
+
+- (id)initWithDictionary:(NSDictionary *)dict {
+	if (!(self = [super init]))
+		return nil;
+    
+    type = [NotificationCenterAction typeForClass:[self class]];
+	context = [[dict valueForKey:@"context"] copy];
+	when = [[dict valueForKey:@"when"] copy];
+	delay = [[dict valueForKey:@"delay"] copy];
+	enabled = [[dict valueForKey:@"enabled"] copy];
+    
+	NSObject *val = [dict valueForKey:@"parameter"];
+	if ([val isKindOfClass:[NSNumber class]])
+		turnOn = [[dict valueForKey:@"parameter"] boolValue];
+	else {
+		if ([val isEqual:@"on"] || [val isEqual:@"1"])
+			turnOn = YES;
+		else
+			turnOn = NO;
+	}
+    
+	return self;
+}
+
+- (NSMutableDictionary *)dictionary
+{
+	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+	[dict setObject:[NSNumber numberWithBool:turnOn] forKey:@"parameter"];
+    
+	return dict;
+}
+
 + (NSString *)typeForClass:(Class)klass {
-    return NSLocalizedString(@"NotificationCenterAction", @"");
+    // Hack "Action" off class name (6 chars)
+	// TODO: make this a bit more robust?
+	NSString *className = NSStringFromClass(klass);
+	return [className substringToIndex:([className length] - 6)];
 }
 
 + (Class)classForType:(NSString *)type {
@@ -43,62 +80,23 @@
 }
 
 - (id)init {
-    self = [super init];
-    
-    /*
-	if ([[self class] isEqualTo:[self class]]) {
-		[NSException raise:@"Abstract Class Exception"
-                    format:@"Error, attempting to instantiate Action directly."];
-	}
-     */
-    
-	if (!self)
+	if (!(self = [super init]))
 		return nil;
     
-	type = @"NotificationCenter";
-	context = @"";
-	when = @"Arrival";
-	delay = [[NSNumber alloc] initWithDouble:0];
-	enabled = [[NSNumber alloc] initWithBool:YES];
+    type = [NotificationCenterAction typeForClass:[self class]];
+	
     
 	return self;
 }
 
-- (id)initWithDictionary:(NSDictionary *)dict {
-    
-	if ([[self class] isEqualTo:[self class]]) {
-		[NSException raise:@"Abstract Class Exception"
-                    format:@"Error, attempting to instantiate Action directly."];
-	}
-    
-	if (!(self = [super init]))
-		return nil;
-    
-	type = @"NotificationCenter";
-	context = [[dict valueForKey:@"context"] copy];
-	when = [[dict valueForKey:@"when"] copy];
-	delay = [[dict valueForKey:@"delay"] copy];
-	enabled = [[dict valueForKey:@"enabled"] copy];
-    
-	return self;
-}
 
 - (void)dealloc {
     
 }
 
-- (NSMutableDictionary *)dictionary {
-    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [type copy], @"type",
-            [context copy], @"context",
-            [when copy], @"when",
-            [delay copy], @"delay",
-            [enabled copy], @"enabled",
-            nil];
-}
 
 + (NSString *)helpTextForActionOfType:(NSString *)type {
-    return @"";
+    return @"help text";
 }
 
 - (NSComparisonResult)compareDelay:(Action *)other {

@@ -23,8 +23,7 @@
 		DAD8899D15D5F337009F30A3 /* NotificationCenterAction-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NotificationCenterAction-Prefix.pch"; sourceTree = "<group>"; };
 		DAD889AB15D5F394009F30A3 /* NotificationCenterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCenterAction.h; sourceTree = "<group>"; };
 		DAD889AC15D5F394009F30A3 /* NotificationCenterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCenterAction.m; sourceTree = "<group>"; };
-		DAD889B315D5F61C009F30A3 /* ActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = ActionPlugin.h; path = ../../Protocols/ActionPlugin.h; sourceTree = "<group>"; };
-		DAD889B415D5F61C009F30A3 /* ToggleableActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = file; name = ToggleableActionPlugin.h; path = ../../Protocols/ToggleableActionPlugin.h; sourceTree = "<group>"; };
+		DAD889B315D5F61C009F30A3 /* ActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ActionPlugin.h; path = ../../Protocols/ActionPlugin.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +78,6 @@
 			isa = PBXGroup;
 			children = (
 				DAD889B315D5F61C009F30A3 /* ActionPlugin.h */,
-				DAD889B415D5F61C009F30A3 /* ToggleableActionPlugin.h */,
 				DAD889AB15D5F394009F30A3 /* NotificationCenterAction.h */,
 				DAD889AC15D5F394009F30A3 /* NotificationCenterAction.m */,
 				DAD8899815D5F337009F30A3 /* Supporting Files */,
@@ -273,6 +271,7 @@
 				DAD889A215D5F337009F30A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
