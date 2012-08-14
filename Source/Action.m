@@ -249,6 +249,7 @@
 #import "ToggleFTPAction.h"
 #import "ToggleInternetSharingAction.h"
 #import "ToggleNaturalScrollingAction.h"
+#import "ToggleNotificationCenterAlertsAction.h"
 #import "TogglePrinterSharingAction.h"
 #import "ToggleRemoteLoginAction.h"
 #import "ToggleTFTPAction.h"
@@ -307,6 +308,7 @@
                [ToggleFTPAction class],
                [ToggleInternetSharingAction class],
                [ToggleNaturalScrollingAction class],
+               [ToggleNotificationCenterAlertsAction class],
                [TogglePrinterSharingAction class],
                [ToggleRemoteLoginAction class],
                [ToggleTFTPAction class],
@@ -385,6 +387,7 @@
         NSLocalizedString(@"ToggleFirewall", @"Action type");
         NSLocalizedString(@"ToggleInternetSharing", @"Action type");
         NSLocalizedString(@"ToggleNaturalScrolling", @"Action type");
+        NSLocalizedString(@"ToggleNotificationCenterAlertsAction", @"Action type");
         NSLocalizedString(@"TimeMachineAction",@"Action type");
 		NSLocalizedString(@"ToggleWiFi", @"Action type");
 		NSLocalizedString(@"Unmount", @"Action type");

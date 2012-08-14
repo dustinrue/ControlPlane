@@ -124,8 +124,8 @@
 		DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */; };
 		DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */; };
 		DACE6D4E159C055C00FEE37E /* com.dustinrue.CPHelperTool in Copy Launch Services */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
-		DAD889B015D5F3DE009F30A3 /* NotificationCenterAction.bundle in Copy Action Plugins */ = {isa = PBXBuildFile; fileRef = DAD889A815D5F338009F30A3 /* NotificationCenterAction.bundle */; };
 		DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */; };
+		DADFF79715D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DADFF79615D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF2257E15ABD8CD003A8030 /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; };
 		DAF2F820150EE5960040DDC7 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */; };
@@ -234,7 +234,6 @@
 			dstPath = Actions;
 			dstSubfolderSpec = 13;
 			files = (
-				DAD889B015D5F3DE009F30A3 /* NotificationCenterAction.bundle in Copy Action Plugins */,
 			);
 			name = "Copy Action Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,9 +494,10 @@
 		DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Launchd.plist"; sourceTree = "<group>"; };
 		DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NotificationCenterAction.xcodeproj; path = NotificationCenterAction/NotificationCenterAction.xcodeproj; sourceTree = "<group>"; };
 		DAD889B115D5F4C1009F30A3 /* ActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ActionPlugin.h; path = Protocols/ActionPlugin.h; sourceTree = "<group>"; };
-		DAD889B215D5F4DC009F30A3 /* ToggleableActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ToggleableActionPlugin.h; path = Protocols/ToggleableActionPlugin.h; sourceTree = "<group>"; };
 		DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Merge.h"; path = "Source/NSMutableArray+Merge.h"; sourceTree = "<group>"; };
 		DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Merge.m"; path = "Source/NSMutableArray+Merge.m"; sourceTree = "<group>"; };
+		DADFF79515D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleNotificationCenterAlertsAction.h; path = Source/ToggleNotificationCenterAlertsAction.h; sourceTree = "<group>"; };
+		DADFF79615D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleNotificationCenterAlertsAction.m; path = Source/ToggleNotificationCenterAlertsAction.m; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
 		DAE893E514546897005FA13C /* ToggleFirewallAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleFirewallAction.m; path = Source/ToggleFirewallAction.m; sourceTree = "<group>"; };
 		DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = BWQuincyMain.nib; sourceTree = "<group>"; };
@@ -876,7 +876,6 @@
 				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
 				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
 				DAD889B115D5F4C1009F30A3 /* ActionPlugin.h */,
-				DAD889B215D5F4DC009F30A3 /* ToggleableActionPlugin.h */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -1057,6 +1056,8 @@
 				DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */,
 				DA4ED9C21520055100E6A8CE /* ToggleNaturalScrollingAction.h */,
 				DA4ED9C31520055100E6A8CE /* ToggleNaturalScrollingAction.m */,
+				DADFF79515D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.h */,
+				DADFF79615D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m */,
 				DA49AF6A14C3E0AB00D03D6A /* TogglePrinterSharingAction.h */,
 				DA49AF6B14C3E0AB00D03D6A /* TogglePrinterSharingAction.m */,
 				DA8E283D156BCAD50040FC35 /* ToggleRemoteLoginAction.h */,
@@ -1433,6 +1434,7 @@
 				DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */,
 				DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */,
 				DAB1A7E215C3776D00CF65E8 /* CPNotifications.m in Sources */,
+				DADFF79715D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
