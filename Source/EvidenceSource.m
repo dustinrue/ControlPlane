@@ -349,6 +349,7 @@
 
 @end
 
+#import "ActiveApplicationEvidenceSource.h"
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 #import "BonjourEvidenceSource.h"
@@ -375,6 +376,7 @@
 
     
 	NSMutableArray *classes = [NSMutableArray arrayWithObjects:
+                        [ActiveApplicationEvidenceSource class],
                         [NetworkLinkEvidenceSource class],
                         [IPEvidenceSource class],
                         [FireWireEvidenceSource class],
