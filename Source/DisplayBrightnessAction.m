@@ -160,4 +160,12 @@ const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
     return NSLocalizedString(@"System Preferences", @"");
 }
 
++ (BOOL) shouldWaitForScreensaverExit {
+    return YES;
+}
+
++ (BOOL) shouldWaitForScreenUnlock {
+    return YES;
+}
+
 @end
