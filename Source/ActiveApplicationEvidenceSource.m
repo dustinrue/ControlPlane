@@ -89,9 +89,11 @@
 	NSString *param = [rule valueForKey:@"parameter"];
 	BOOL match = NO;
     
+    [lock lock];
     if ([activeApplication isEqualToString:param]) {
         match = YES;
     }
+    [lock unlock];
 
 	return match;
 }

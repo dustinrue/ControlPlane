@@ -1379,6 +1379,7 @@
 #pragma mark Evidence source change handling
 - (void) evidenceSourceDataDidChange:(NSNotification *)notification {
     // we should update immediately here
+    [self doUpdateForReal];
 }
 
 @end
