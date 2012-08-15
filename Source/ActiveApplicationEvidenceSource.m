@@ -139,6 +139,7 @@
           identifier, @"parameter",
           desc, @"description", nil]];
 	}
+    [apps release];
 	[lock unlock];
     
 	return array;
