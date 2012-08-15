@@ -426,7 +426,7 @@
 					<object class="NSButton" id="650230487">
 						<reference key="NSNextResponder" ref="899755655"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{18, 223}, {168, 18}}</string>
+						<string key="NSFrame">{{18, 223}, {129, 18}}</string>
 						<reference key="NSSuperview" ref="899755655"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1000951367"/>
@@ -434,7 +434,7 @@
 						<object class="NSButtonCell" key="NSCell" id="396350238">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Use Notification Center</string>
+							<string key="NSContents">Use Notifications</string>
 							<reference key="NSSupport" ref="972341995"/>
 							<reference key="NSControlView" ref="650230487"/>
 							<int key="NSButtonFlags">1211912448</int>
@@ -555,7 +555,6 @@
 						<string key="NSFrame">{{309, 20}, {84, 13}}</string>
 						<reference key="NSSuperview" ref="899755655"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1001382091">
 							<int key="NSCellFlags">67108864</int>
@@ -787,7 +786,7 @@
 										<string key="NSFrameSize">{435, 198}</string>
 										<reference key="NSSuperview" ref="916458113"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="829084382"/>
+										<reference key="NSNextKeyView" ref="729802760"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1015,7 +1014,7 @@
 						<string key="NSFrame">{{20, 48}, {437, 216}}</string>
 						<reference key="NSSuperview" ref="273226987"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="729802760"/>
+						<reference key="NSNextKeyView" ref="916458113"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="439280017"/>
 						<reference key="NSHScroller" ref="729802760"/>
@@ -1091,7 +1090,6 @@
 						<string key="NSFrame">{{67, 19}, {20, 22}}</string>
 						<reference key="NSSuperview" ref="273226987"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="338340382">
 							<int key="NSCellFlags">67108864</int>
@@ -1142,7 +1140,7 @@
 										<string key="NSFrameSize">{456, 126}</string>
 										<reference key="NSSuperview" ref="572115010"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="260542878"/>
+										<reference key="NSNextKeyView" ref="955731289"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1357,7 +1355,7 @@
 						<string key="NSFrame">{{20, 249}, {458, 144}}</string>
 						<reference key="NSSuperview" ref="742374488"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="955731289"/>
+						<reference key="NSNextKeyView" ref="572115010"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="861096710"/>
 						<reference key="NSHScroller" ref="955731289"/>
@@ -1526,7 +1524,6 @@
 						<string key="NSFrame">{{17, 20}, {464, 42}}</string>
 						<reference key="NSSuperview" ref="742374488"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="208403191">
 							<int key="NSCellFlags">67108864</int>
@@ -3437,7 +3434,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="NSFrameSize">{125, 1}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
