@@ -20,6 +20,7 @@
 		return nil;
     
 	applications = [[NSMutableArray alloc] init];
+    activeApplication = nil;
     
 	return self;
 }
@@ -90,8 +91,10 @@
 	BOOL match = NO;
     
     [lock lock];
-    if ([activeApplication isEqualToString:param]) {
-        match = YES;
+    if (activeApplication != nil && param != nil) {
+        if ([activeApplication isEqualToString:param]) {
+            match = YES;
+        }
     }
     [lock unlock];
 
