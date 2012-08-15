@@ -57,6 +57,9 @@
 // Evidence source monitoring
 - (void) evidenceSourceDataDidChange:(NSNotification *) notification;
 
+- (void) setStickyBit:(NSNotification *) notification;
+- (void) unsetStickyBit:(NSNotification *) notification;
+
 @end
 
 #pragma mark -
@@ -428,6 +431,16 @@
                                                         selector:@selector(setScreenLockInActive:)
                                                             name:@"com.apple.screenIsUnlocked"
                                                           object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(setStickyBit:)
+												 name:@"setStickyBit"
+											   object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(unsetStickyBit:)
+												 name:@"unsetStickyBit"
+											   object:nil];
     
     // set default screen saver and screen lock status
     [self setScreenLocked:NO];
@@ -1032,6 +1045,17 @@
 	[self performTransitionFrom:currentContextUUID to:[ctxt uuid]];
 }
 
+- (void) setStickyBit:(NSNotification *) notification {
+    if (![self stickyContext]) {
+        [self toggleSticky:self];
+    }
+}
+
+- (void) unsetStickyBit:(NSNotification *) notification {
+    if ([self stickyContext]) {
+        [self toggleSticky:self];
+    }
+}
 - (void)toggleSticky:(id)sender
 {
 	BOOL oldValue = forcedContextIsSticky;

@@ -79,6 +79,7 @@
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; };
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
+		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA2B4381152161C800E94A1D /* ToggleTFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */; };
 		DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4384152161D900E94A1D /* ToggleFTPAction.m */; };
@@ -422,6 +423,8 @@
 		8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QuitApplicationAction.m; path = Source/QuitApplicationAction.m; sourceTree = "<group>"; };
 		8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnmountAction.h; path = Source/UnmountAction.h; sourceTree = "<group>"; };
 		8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmountAction.m; path = Source/UnmountAction.m; sourceTree = "<group>"; };
+		DA04D57015DC119E004B9E1C /* ToggleContextStickinessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleContextStickinessAction.h; path = Source/ToggleContextStickinessAction.h; sourceTree = "<group>"; };
+		DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleContextStickinessAction.m; path = Source/ToggleContextStickinessAction.m; sourceTree = "<group>"; };
 		DA1204DA13D0E5C800CDA091 /* ControlPlane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlPlane.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA146F7B143F3C4000906DBF /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
 		DA146F7C143F3C4000906DBF /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
@@ -1016,6 +1019,8 @@
 				DD8274FD14117C580098FA6E /* SpeakAction.m */,
 				DAC45F1E14CDEC170007F5EF /* TimeMachineDestinationAction.h */,
 				DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */,
+				DA04D57015DC119E004B9E1C /* ToggleContextStickinessAction.h */,
+				DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */,
 			);
 			name = "Application Actions";
 			sourceTree = "<group>";
@@ -1441,6 +1446,7 @@
 				DAB1A7E215C3776D00CF65E8 /* CPNotifications.m in Sources */,
 				DADFF79715D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m in Sources */,
 				DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */,
+				DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
