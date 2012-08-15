@@ -84,7 +84,7 @@
 }
 
 + (NSString *)menuCategory {
-    return NSLocalizedString(@"Applications", @"");
+    return NSLocalizedString(@"Application", @"");
 }
 
 @end
