@@ -121,7 +121,10 @@ const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
 		err= IODisplayGetFloatParameter(service, kNilOptions, kDisplayBrightness,
 										&old_brightness);
 		if (err != kIOReturnSuccess) {
-            errorOccurred = YES;
+            // don't mark this as a failure for the whole action, it simply
+            // means that this display doesn't support programattic brightness
+            // control
+            //errorOccurred = YES;
 			DSLog(@"failed to get brightness of display 0x%x (error %d)",
 					(unsigned int)dspy, err);
 			continue;
