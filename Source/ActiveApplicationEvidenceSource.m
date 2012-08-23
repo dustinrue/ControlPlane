@@ -89,14 +89,15 @@
 {
 	NSString *param = [rule valueForKey:@"parameter"];
 	BOOL match = NO;
+    NSString *localActiveApplication = [activeApplication copy];
+
+    NSLog(@"activeApplication is %@ and param is %@", localActiveApplication, param);
     
-    [lock lock];
-    if (activeApplication != nil && param != nil) {
-        if ([activeApplication isEqualToString:param]) {
-            match = YES;
-        }
+    if ([localActiveApplication isEqualToString:param]) {
+        match = YES;
     }
-    [lock unlock];
+    
+    [localActiveApplication release];
 
 	return match;
 }
