@@ -60,6 +60,8 @@
 - (void) setStickyBit:(NSNotification *) notification;
 - (void) unsetStickyBit:(NSNotification *) notification;
 
+- (void) registerForNotifications;
+
 @end
 
 #pragma mark -
@@ -137,6 +139,7 @@
 {
 	NSImage *img = [NSImage imageNamed:name];
 	[img setScalesWhenResized:YES];
+    // TODO: provide images for retina displays
 	[img setSize:NSMakeSize(18, 18)];
 
 	return img;
@@ -359,6 +362,7 @@
 
 - (void)awakeFromNib {
 	
+    // Configures the crash reporter
     [[BWQuincyManager sharedQuincyManager] setSubmissionURL:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPCrashReportURL"]];
     [[BWQuincyManager sharedQuincyManager] setCompanyName:@"ControlPlane developers"];
     [[BWQuincyManager sharedQuincyManager] setDelegate:self];
@@ -380,67 +384,7 @@
 	}
     
     
-    // Register for notifications from evidence sources that their data has changed
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(evidenceSourceDataDidChange:) 
-                                                 name:@"evidenceSourceDataDidChange"
-                                               object:nil];
     
-
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(contextsChanged:)
-												 name:@"ContextsChangedNotification"
-											   object:contextsDataSource];
-	[self contextsChanged:nil];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(userDefaultsChanged:)
-												 name:NSUserDefaultsDidChangeNotification
-											   object:nil];
-
-	// Get notified when we go to sleep, and wake from sleep
-	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-														   selector:@selector(goingToSleep:)
-															   name:@"NSWorkspaceWillSleepNotification"
-															 object:nil];
-	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-														   selector:@selector(wakeFromSleep:)
-															   name:@"NSWorkspaceDidWakeNotification"
-															 object:nil];
-    
-    // Monitor screensaver status
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
-                                                        selector:@selector(setScreenSaverInActive:)
-                                                            name:@"com.apple.screensaver.didstop"
-                                                          object:nil];
-    
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
-                                                        selector:@selector(setScreenSaverActive:) 
-                                                            name:@"com.apple.screensaver.didstart"
-                                                          object:nil];
-    
-
-    
-    // Monitor screen lock status
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
-                                                        selector:@selector(setScreenLockActive:)
-                                                            name:@"com.apple.screenIsLocked"
-                                                          object:nil];
-    
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
-                                                        selector:@selector(setScreenLockInActive:)
-                                                            name:@"com.apple.screenIsUnlocked"
-                                                          object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(setStickyBit:)
-												 name:@"setStickyBit"
-											   object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(unsetStickyBit:)
-												 name:@"unsetStickyBit"
-											   object:nil];
     
     // set default screen saver and screen lock status
     [self setScreenLocked:NO];
@@ -474,6 +418,9 @@
 		}
 	}
 	
+    
+    [self registerForNotifications];
+    
 	// update thread
 	[NSThread detachNewThreadSelector:@selector(updateThread:)
 							 toTarget:self
@@ -503,6 +450,72 @@
 	[NSApp unhide];
 }
 
+
+#pragma mark Register for notifications
+
+- (void) registerForNotifications {
+    // Register for notifications from evidence sources that their data has changed
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(evidenceSourceDataDidChange:)
+                                                 name:@"evidenceSourceDataDidChange"
+                                               object:nil];
+    
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(contextsChanged:)
+												 name:@"ContextsChangedNotification"
+											   object:contextsDataSource];
+	[self contextsChanged:nil];
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(userDefaultsChanged:)
+												 name:NSUserDefaultsDidChangeNotification
+											   object:nil];
+    
+	// Get notified when we go to sleep, and wake from sleep
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+														   selector:@selector(goingToSleep:)
+															   name:@"NSWorkspaceWillSleepNotification"
+															 object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+														   selector:@selector(wakeFromSleep:)
+															   name:@"NSWorkspaceDidWakeNotification"
+															 object:nil];
+    
+    // Monitor screensaver status
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenSaverInActive:)
+                                                            name:@"com.apple.screensaver.didstop"
+                                                          object:nil];
+    
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenSaverActive:)
+                                                            name:@"com.apple.screensaver.didstart"
+                                                          object:nil];
+    
+    
+    
+    // Monitor screen lock status
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenLockActive:)
+                                                            name:@"com.apple.screenIsLocked"
+                                                          object:nil];
+    
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(setScreenLockInActive:)
+                                                            name:@"com.apple.screenIsUnlocked"
+                                                          object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(setStickyBit:)
+												 name:@"setStickyBit"
+											   object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(unsetStickyBit:)
+												 name:@"unsetStickyBit"
+											   object:nil];
+}
 
 
 #pragma mark Menu Bar Wrangling
