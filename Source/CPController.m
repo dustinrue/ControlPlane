@@ -436,6 +436,7 @@
 
 	// Schedule a one-off timer (in 2s) to get initial data.
 	// Future recurring timers will be set automatically from there.
+    
 	updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
 													  target: self
 													selector: @selector(doUpdate:)
@@ -1415,8 +1416,9 @@
 #pragma mark -
 #pragma mark Evidence source change handling
 - (void) evidenceSourceDataDidChange:(NSNotification *)notification {
-    // we should update immediately here
-    [self doUpdateForReal];
+    // this will cause the updateThread to do it's work
+    [updatingLock lock];
+    [updatingLock unlockWithCondition:1];
 }
 
 @end
