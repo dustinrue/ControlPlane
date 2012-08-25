@@ -697,7 +697,7 @@
 
 - (void)doUpdate:(NSTimer *)theTimer
 {
-    
+    DSLog(@"Start");
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
     
@@ -747,6 +747,7 @@
         [self setMenuBarImage:NULL];
 
 	[updatingLock unlockWithCondition:1];
+    DSLog(@"Done");
 }
 
 - (NSArray *)getRulesThatMatch
@@ -963,7 +964,7 @@
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
 #ifdef DEBUG_MODE
-    DSLog(@"in performTransitionFrom");
+    DSLog(@"in performTransitionFrom %@ -> %@", fromUUID, toUUID);
 #endif
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
 	NSArray *leaving_walk = [walks objectAtIndex:0];
@@ -1091,13 +1092,18 @@
 
 // TODO: allow multiple contexts to be active at once
 - (void)doUpdateForReal {
-    NSString *uuid                   = @"";
-    NSArray *allConfiguredContexts   = nil;
-    NSMutableDictionary *guesses     = nil;
-    NSEnumerator *ruleHitsEnumerator = nil;
-    NSDictionary *mostConfidentGuess = nil;
-    NSString *guess                  = @"";
-    double guessConf                 = 0.0;
+    DSLog(@"Starting");
+    NSArray *allConfiguredContexts     = nil;
+    NSMutableDictionary *guesses       = nil;
+    NSDictionary *mostConfidentGuess   = nil;
+    NSString *guess                    = @"";
+    NSArray *allKeys                   = nil;
+    //double guessConf                   = 0.0;
+    NSNumberFormatter *numberFormatter = nil;
+    
+    numberFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
     
     // Array of the UUIDs of all configured contexts, might look like this if UUIDs were simple text:
     // Top Level
@@ -1108,128 +1114,32 @@
     
     guesses = [self getGuessesFrom:allConfiguredContexts];
     
+    //DSLog(@"guess in updateForReal\n%@", guesses);
+    
     mostConfidentGuess = [self getMostConfidentContext:guesses];
     
-    if ([mostConfidentGuess count] > 0) {
-        guess = [mostConfidentGuess valueForKey:@"guess"];
-        guessConf = [[mostConfidentGuess valueForKey:@"guessConf"] doubleValue];
-    }
     
-    // Update the values seen in the GUI.  This shows that there are rules that match
-    // the context and what the "confidence" is for each
-	NSNumberFormatter *numberFormatter = [[[NSNumberFormatter alloc] init] autorelease];
-	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-	[numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-
-
-	ruleHitsEnumerator = [allConfiguredContexts objectEnumerator];
-	while ((uuid = [ruleHitsEnumerator nextObject])) {
-		Context *ctxt = [contextsDataSource contextByUUID:uuid];
-		NSString *newConfString = @"";
-		NSNumber *unconf = [guesses objectForKey:uuid];
-		if (unconf) {
-			double con = 1.0 - [unconf doubleValue];
-			newConfString = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:con]];
-		}
-		[ctxt setValue:newConfString forKey:@"confidence"];
-	}
-#if 1
-	// XXX: hackish -- but will be enough until 3.0
-    // don't force data update if we're editing a context name
-	NSOutlineView *olv = [contextsDataSource valueForKey:@"outlineView"];
-	if (![olv currentEditor])	
-#endif
-        
-        
-    [contextsDataSource triggerOutlineViewReloadData:nil];
-
-    // setup the confidence for display to the user
-	NSString *perc = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:guessConf]];
-	NSString *guessConfidenceString = [NSString stringWithFormat:
-		NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
-		perc];
+    [self updateContextListView:allConfiguredContexts withGuesses:guesses];
     
+    // TODO: move this to some other area dedicated to maintaining the state of the menu bar icon/status
     // This covers the case where the show context in menu bar option has been changed
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
 		[self setStatusTitle:nil];
     
-#ifdef DEBUG_MODE
-	NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
-#endif
-
-    // ControlPlane will now determine if the most confident guess meets our minimum confidence
-    // required and if so, initiates the transition to it (run its actions)
+    if ([mostConfidentGuess count] > 0) {
+        allKeys = [mostConfidentGuess allKeys];
+        //DSLog(@"keys %@", allKeys);
+        guess = [allKeys objectAtIndex:0];
+    }
+    DSLog(@"currentContext and guess %@ -> %@", currentContextUUID, guess);
+    if ([self contextIsActiveForGuess:mostConfidentGuess] && ! [guess isEqualToString:@""]) {
+        [self performTransitionFrom:currentContextUUID to:guess];
+    }
+    else if ([guess isEqualToString:@""]) {
+        DSLog(@"guess is empty");
+    }
     
-    // TODO: Loop over all rule hits so that we can have multiple active contexts
-	BOOL no_guess = NO;
-	if (!guess) {
-#ifdef DEBUG_MODE
-		DSLog(@"No guess made.");
-#endif
-		no_guess = YES;
-	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
-#ifdef DEBUG_MODE
-		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
-#endif
-		no_guess = YES;
-	}
-
-    // there isn't a confident enough context, so we the default context
-	if (no_guess) {
-        // not sure why guessIsConfident is set to NO when it will get forced to YES later
-		guessIsConfident = NO;
-        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
-            [self setMenuBarImage:sbImageInactive];
-
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
-			return;
-		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
-		Context *ctxt;
-		if (!(ctxt = [contextsDataSource contextByUUID:guess]))
-			return;
-		guessConfidenceString = NSLocalizedString(@"as default context",
-							  @"Appended to a context-change notification");
-#ifdef DEBUG_MODE
-		guessString = [ctxt name];
-#endif
-	}
-
-    // not sure why this is forced to YES here
-	guessIsConfident = YES;
-    
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
-        [self setMenuBarImage:sbImageActive];
-
-	BOOL do_switch = YES;
-
-    
-    // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
-	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
-	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
-		if (smoothCounter == 0) {
-			smoothCounter = [[NSUserDefaults standardUserDefaults] integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
-			do_switch = NO;
-		} else if (--smoothCounter > 0)
-			do_switch = NO;
-#ifdef DEBUG_MODE
-		if (!do_switch)
-			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
-#endif
-	}
-
-	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
-
-	if (!do_switch)
-		return;
-
-	if ([guess isEqualToString:currentContextUUID]) {
-#ifdef DEBUG_MODE
-		DSLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
-#endif
-		return;
-	}
-
-	[self performTransitionFrom:currentContextUUID to:guess];
+    DSLog(@"Done");
 }
 
 /**
@@ -1239,12 +1149,15 @@
  * @return NSMutableDictionary list of contexts with matching rules and their confidence values
  */
 - (NSMutableDictionary *)getGuessesFrom:(NSArray *)allConfiguredContexts {
-
+    DSLog(@"");
 	// Maps a guessed context to an "unconfidence" value, which is
 	// equal to (1 - confidence). We step through all the rules that are "hits",
 	// and multiply this running unconfidence value by (1 - rule.confidence).
 	NSMutableDictionary *guesses = [NSMutableDictionary dictionaryWithCapacity:[allConfiguredContexts count]];
 	NSArray *rule_hits = [self getRulesThatMatch];
+    
+    //DSLog(@"rule_hits\n%@", rule_hits);
+    
 	NSEnumerator *ruleHitsEnumerator = [rule_hits objectEnumerator];
 	NSDictionary *currentRule;
     
@@ -1261,7 +1174,7 @@
 		NSArray *currentContextTree = [contextsDataSource orderedTraversalRootedAt:[currentRule valueForKey:@"context"]];
         
 #ifdef DEBUG_MODE
-        DSLog(@"currentContextTree looks like %@", currentContextTree);
+        //DSLog(@"currentContextTree looks like %@", currentContextTree);
 #endif
         
         
@@ -1295,6 +1208,7 @@
 #ifdef DEBUG_MODE
 			DSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
 #endif
+      
 			[guesses setObject:unconfidenceValue forKey:uuidOfCurrentContext];
 		}
 	}
@@ -1310,8 +1224,11 @@
  * @return NSDictionary the most confident guess
  */
 - (NSDictionary *) getMostConfidentContext:(NSDictionary *) guesses {
+    DSLog(@"");
     // Finds the context with the highest confidence rating but not necessarily
     // one that satisfies the minimum confidence
+    NSMutableDictionary *mostConfident = [NSMutableDictionary dictionaryWithCapacity:0];
+    
     NSEnumerator *ruleHitsEnumerator = nil;
 	ruleHitsEnumerator = [guesses keyEnumerator];
 	NSString *uuid, *guess = nil;
@@ -1325,15 +1242,158 @@
 		}
 	}
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:guess, @"guess", [NSNumber numberWithDouble:guessConf], @"guessConf", nil];
+    if (guess != nil)
+        [mostConfident setValue:[NSNumber numberWithDouble:guessConf] forKey:guess];
+    
+    return mostConfident;
+}
+
+- (void)updateContextListView:(NSArray *) allConfiguredContexts withGuesses:(NSDictionary *) guesses {
+        DSLog(@"");
+    NSNumberFormatter *numberFormatter = nil;
+    NSEnumerator *ruleHitsEnumerator   = nil;
+    id uuid;
+    
+    // Update the values seen in the GUI.  This shows that there are rules that match
+    // the context and what the "confidence" is for each
+	numberFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+    
+    
+	ruleHitsEnumerator = [allConfiguredContexts objectEnumerator];
+	while ((uuid = [ruleHitsEnumerator nextObject])) {
+		Context *ctxt = [contextsDataSource contextByUUID:uuid];
+		NSString *newConfString = @"";
+		NSNumber *unconf = [guesses objectForKey:uuid];
+		if (unconf) {
+			double con = 1.0 - [unconf doubleValue];
+			newConfString = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:con]];
+		}
+		[ctxt setValue:newConfString forKey:@"confidence"];
+	}
+	// XXX: hackish -- but will be enough until 3.0
+    // don't force data update if we're editing a context name
+	NSOutlineView *olv = [contextsDataSource valueForKey:@"outlineView"];
+	if (![olv currentEditor])
+        [contextsDataSource triggerOutlineViewReloadData:nil];
+}
+
+/**
+ * Decides if a given guess can become active
+ */
+- (BOOL)contextIsActiveForGuess:(NSDictionary *) guessDictionary {
+        DSLog(@"");
+    NSNumberFormatter *numberFormatter = nil;
+    NSString *guess                    = nil;
+    double guessConf                   = 0.0;
+    NSString *guessString              = nil;
+    NSString *perc                     = nil;
+    NSArray *allKeys                   = nil;
+
+    if ([guessDictionary count] == 0) {
+        DSLog(@"bailing out early");
+        return false;
+    }
+    
+    allKeys = [guessDictionary allKeys];
+    
+    guess       = [allKeys objectAtIndex:0];
+    guessConf   = [[guessDictionary valueForKey:guess] doubleValue];
+    guessString = [[contextsDataSource contextByUUID:guess] name];
+    
+    numberFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+	[numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+    
+    // setup the confidence for display to the user
+	perc = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:guessConf]];
+	NSString *guessConfidenceString = [NSString stringWithFormat:
+                                       NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
+                                       perc];
+    // ControlPlane will now determine if the most confident guess meets our minimum confidence
+    // required and if so, initiates the transition to it (run its actions)
+    
+    // TODO: Loop over all rule hits so that we can have multiple active contexts
+	BOOL no_guess = NO;
+	if (!guess) {
+#ifdef DEBUG_MODE
+		DSLog(@"No guess made.");
+#endif
+		no_guess = YES;
+	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
+#ifdef DEBUG_MODE
+		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
+#endif
+		no_guess = YES;
+	}
+    
+    // there isn't a confident enough context, so we the default context
+	if (no_guess) {
+        // not sure why guessIsConfident is set to NO when it will get forced to YES later
+		guessIsConfident = NO;
+        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
+            [self setMenuBarImage:sbImageInactive];
+        
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
+			return false;
+		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
+		Context *ctxt;
+		if (!(ctxt = [contextsDataSource contextByUUID:guess]))
+			return false;
+		guessConfidenceString = NSLocalizedString(@"as default context",
+                                                  @"Appended to a context-change notification");
+#ifdef DEBUG_MODE
+		guessString = [ctxt name];
+#endif
+	}
+    
+    // not sure why this is forced to YES here
+	guessIsConfident = YES;
+    
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
+        [self setMenuBarImage:sbImageActive];
+    
+	BOOL do_switch = YES;
+    
+    
+    // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
+	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
+	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
+		if (smoothCounter == 0) {
+			smoothCounter = [[NSUserDefaults standardUserDefaults] integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
+			do_switch = NO;
+		} else if (--smoothCounter > 0)
+			do_switch = NO;
+#ifdef DEBUG_MODE
+		if (!do_switch)
+			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
+#endif
+	}
+    
+	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
+    
+	if (!do_switch)
+		return false;
+    
+	if ([guess isEqualToString:currentContextUUID]) {
+#ifdef DEBUG_MODE
+		DSLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
+#endif
+		return false;
+	}
+    
+    currentContextUUID = guess;
+    return true;
 }
 
 - (void)updateThread:(id)arg
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
+    
 	while (!timeToDie) {
 		[updatingLock lockWhenCondition:1];
+        
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"] &&
 		    !forcedContextIsSticky) {
@@ -1343,12 +1403,15 @@
 			[pool release];
 			pool = [[NSAutoreleasePool alloc] init];
 		}
-		
+
 		[updatingLock unlockWithCondition:0];
+        DSLog(@"did the unlock thing");
 	}
 
 	[pool release];
 }
+
+
 
 - (void)goingToSleep:(id)arg
 {
