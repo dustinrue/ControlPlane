@@ -80,6 +80,7 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 			
 		case kIOMessageSystemWillPowerOn:
 			DSLog(@"Sleep callback: waking up");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
 			break;
 		case kIOMessageSystemHasPoweredOn:
 			break;
