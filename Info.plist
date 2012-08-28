@@ -27,7 +27,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>30</string>
+	<string>31</string>
 	<key>CPCrashReportURL</key>
 	<string>http://crashreport.controlplaneapp.com/crash_v200.php</string>
 	<key>CPDonationURL</key>
