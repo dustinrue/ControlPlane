@@ -1318,8 +1318,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -f ${PROJECT_DIR}/Resources/out.txt || ! -f ${PROJECT_DIR}/Resources/usb-vendors.txt ]; then\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-oui.sh\n    . ./update-usb-data.sh\nfi";
+			shellPath = /bin/bash;
+			shellScript = "if [ ! -f ${PROJECT_DIR}/Resources/out.txt ] || [ ]! -f ${PROJECT_DIR}/Resources/usb-vendors.txt ]; then\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-oui.sh\n    . ./update-usb-data.sh\nfi";
 		};
 		8DEF43B20BAA072400F87273 /* Index Help */ = {
 			isa = PBXShellScriptBuildPhase;
