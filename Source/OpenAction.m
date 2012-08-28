@@ -3,10 +3,10 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 3/04/07.
+//  Updated by Dustin Rue on 8/28/2012 
 //
 
 #import "OpenAction.h"
-
 
 @implementation OpenAction
 
@@ -59,10 +59,6 @@
 		return NO;
 	}
 
-#ifdef DEBUG_MODE
-	NSLog(@"[%@]: Type: '%@'.", [self class], fileType);
-#endif
-
 	if ([[fileType uppercaseString] isEqualToString:@"SCPT"]) {
 		NSArray *args = [NSArray arrayWithObject:path];
 		NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
@@ -71,8 +67,21 @@
 			return YES;
 	} else {
 		// Fallback
-		if ([[NSWorkspace sharedWorkspace] openFile:path])
-			return YES;
+        // DO NOT "open" an app that is already running, it's annoying
+        NSBundle *requestedAppBundle = [[NSBundle alloc] initWithPath:path];
+        
+        NSString *requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
+        [requestedAppBundle release];
+        
+        // check to see if the requested app is already running
+        if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
+            return YES;
+        }
+        else {
+            if ([[NSWorkspace sharedWorkspace] openFile:path])
+                return YES;
+        }
+        
 	}
 	
 	*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
