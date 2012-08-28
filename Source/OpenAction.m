@@ -53,35 +53,50 @@
 
 - (BOOL)execute:(NSString **)errorString {
 	NSString *app, *fileType;
+    BOOL success = NO;
 
 	if (![[NSWorkspace sharedWorkspace] getInfoForFile:path application:&app type:&fileType]) {
 		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
-		return NO;
+		success = NO;
+        return success;
+        
 	}
 
 	if ([[fileType uppercaseString] isEqualToString:@"SCPT"]) {
 		NSArray *args = [NSArray arrayWithObject:path];
 		NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
 		[task waitUntilExit];
-		if ([task terminationStatus] == 0)
-			return YES;
+		if ([task terminationStatus] == 0) {
+			success = YES;
+            return success;
+        }
+        
 	} else {
 		// Fallback
         // DO NOT "open" an app that is already running, it's annoying
         NSBundle *requestedAppBundle = [[NSBundle alloc] initWithPath:path];
-        
-        NSString *requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
-        [requestedAppBundle release];
-        
-        // check to see if the requested app is already running
-        if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
-            return YES;
+        NSString *requestedApplBundleIdentifier = nil;
+        // if the requestedAppBundle comes back nil then
+        // they are either specifying that an actual file (not an app) be
+        // opened
+        if (!requestedAppBundle) {
+            requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
+            
+            if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
+                
+                success = YES;
+                return success;
+            }
         }
-        else {
-            if ([[NSWorkspace sharedWorkspace] openFile:path])
-                return YES;
-        }
+    
+        // whether it is a file or an app, it needs to get opened here
+        if ([[NSWorkspace sharedWorkspace] openFile:path])
+            success = YES;
+    
+        if (requestedAppBundle)
+            [requestedAppBundle release];
         
+        return success;
 	}
 	
 	*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
