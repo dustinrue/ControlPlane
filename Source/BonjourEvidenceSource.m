@@ -139,16 +139,17 @@
 		return NO;	// corrupted rule
 	NSString *host = [comp objectAtIndex:0], *service = [comp objectAtIndex:1];
     
-	[lock lock];
-	for (NSNetService *aService in services) {
+    NSArray *servicesSnapshot = [services copy];
+
+	for (NSNetService *aService in servicesSnapshot) {
         if ([[aService name] isEqualToString:host] &&
             [[aService type] isEqualToString:service]) {
             match = YES;
             break;
         }
     }
-    
-	[lock unlock];
+    [servicesSnapshot release];
+
     
 	return match;
 }
