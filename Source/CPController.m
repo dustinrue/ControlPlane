@@ -963,9 +963,7 @@
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
 {
-#ifdef DEBUG_MODE
-    DSLog(@"in performTransitionFrom %@ -> %@", fromUUID, toUUID);
-#endif
+
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
 	NSArray *leaving_walk = [walks objectAtIndex:0];
 	NSArray *entering_walk = [walks objectAtIndex:1];
@@ -1092,7 +1090,6 @@
 
 // TODO: allow multiple contexts to be active at once
 - (void)doUpdateForReal {
-    DSLog(@"Starting");
     NSArray *allConfiguredContexts     = nil;
     NSMutableDictionary *guesses       = nil;
     NSDictionary *mostConfidentGuess   = nil;
@@ -1112,13 +1109,19 @@
     //     Sub context of sub context of Top Level 2
 	allConfiguredContexts = [contextsDataSource arrayOfUUIDs];
     
+    
+    // of the configured contexts, which ones have rule hits?
     guesses = [self getGuessesFrom:allConfiguredContexts];
     
-    //DSLog(@"guess in updateForReal\n%@", guesses);
-    
+
+    // of the guesses, which one has the highest confidence rating?
     mostConfidentGuess = [self getMostConfidentContext:guesses];
     
     
+    // if we don't have a confident guess
+    
+    
+    // Update what the user sees in preferences
     [self updateContextListView:allConfiguredContexts withGuesses:guesses];
     
     // TODO: move this to some other area dedicated to maintaining the state of the menu bar icon/status
@@ -1126,20 +1129,17 @@
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
 		[self setStatusTitle:nil];
     
+    
+    
     if ([mostConfidentGuess count] > 0) {
         allKeys = [mostConfidentGuess allKeys];
-        //DSLog(@"keys %@", allKeys);
         guess = [allKeys objectAtIndex:0];
     }
-    DSLog(@"currentContext and guess %@ -> %@", currentContextUUID, guess);
+
     if ([self contextIsActiveForGuess:mostConfidentGuess] && ! [guess isEqualToString:@""]) {
         [self performTransitionFrom:currentContextUUID to:guess];
     }
-    else if ([guess isEqualToString:@""]) {
-        DSLog(@"guess is empty");
-    }
     
-    DSLog(@"Done");
 }
 
 /**
@@ -1149,7 +1149,7 @@
  * @return NSMutableDictionary list of contexts with matching rules and their confidence values
  */
 - (NSMutableDictionary *)getGuessesFrom:(NSArray *)allConfiguredContexts {
-    DSLog(@"");
+    
 	// Maps a guessed context to an "unconfidence" value, which is
 	// equal to (1 - confidence). We step through all the rules that are "hits",
 	// and multiply this running unconfidence value by (1 - rule.confidence).
@@ -1172,11 +1172,7 @@
         // Sub context of Top Level 2
         //   Sub context of sub context of Top Level 2
 		NSArray *currentContextTree = [contextsDataSource orderedTraversalRootedAt:[currentRule valueForKey:@"context"]];
-        
-#ifdef DEBUG_MODE
-        //DSLog(@"currentContextTree looks like %@", currentContextTree);
-#endif
-        
+                
         
 		if ([currentContextTree count] == 0)
 			continue;	// Oops, something got busted along the way
@@ -1224,32 +1220,46 @@
  * @return NSDictionary the most confident guess
  */
 - (NSDictionary *) getMostConfidentContext:(NSDictionary *) guesses {
-    DSLog(@"");
+    NSMutableDictionary *mostConfident = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSMutableDictionary *mutable_guesses = [guesses mutableCopy];
+    NSString *defaultContext = @"";
+    double defaultContextConfidence = 0.0;
+
+    // If configured to use a default context, add it here
+    // and set the confidence value to exactly the minimum required
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"]) {
+        defaultContext = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
+        
+        defaultContextConfidence = 1 - [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"];
+        
+        [mutable_guesses setObject:[NSNumber numberWithFloat:defaultContextConfidence] forKey:defaultContext];
+    }
+    
     // Finds the context with the highest confidence rating but not necessarily
     // one that satisfies the minimum confidence
-    NSMutableDictionary *mostConfident = [NSMutableDictionary dictionaryWithCapacity:0];
+    
     
     NSEnumerator *ruleHitsEnumerator = nil;
-	ruleHitsEnumerator = [guesses keyEnumerator];
+	ruleHitsEnumerator = [mutable_guesses keyEnumerator];
 	NSString *uuid, *guess = nil;
 	double guessConf = 0.0;
 	while ((uuid = [ruleHitsEnumerator nextObject])) {
-		double uncon = [[guesses objectForKey:uuid] doubleValue];
+		double uncon = [[mutable_guesses objectForKey:uuid] doubleValue];
 		double con = 1.0 - uncon;
 		if ((con > guessConf) || !guess) {
 			guess = uuid;
 			guessConf = con;
 		}
-	}
-    
+	}    
+
     if (guess != nil)
         [mostConfident setValue:[NSNumber numberWithDouble:guessConf] forKey:guess];
     
+    [mutable_guesses release];
     return mostConfident;
 }
 
 - (void)updateContextListView:(NSArray *) allConfiguredContexts withGuesses:(NSDictionary *) guesses {
-        DSLog(@"");
     NSNumberFormatter *numberFormatter = nil;
     NSEnumerator *ruleHitsEnumerator   = nil;
     id uuid;
@@ -1291,8 +1301,8 @@
     NSString *perc                     = nil;
     NSArray *allKeys                   = nil;
 
+    // if the guess dictionary is empty bail early
     if ([guessDictionary count] == 0) {
-        DSLog(@"bailing out early");
         return false;
     }
     
@@ -1383,7 +1393,6 @@
 		return false;
 	}
     
-    currentContextUUID = guess;
     return true;
 }
 
@@ -1405,7 +1414,6 @@
 		}
 
 		[updatingLock unlockWithCondition:0];
-        DSLog(@"did the unlock thing");
 	}
 
 	[pool release];
