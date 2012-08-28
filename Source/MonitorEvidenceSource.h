@@ -5,10 +5,10 @@
 //  Created by David Symonds on 2/07/07.
 //
 
-#import "GenericLoopingEvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
-@interface MonitorEvidenceSource : GenericLoopingEvidenceSource {
+@interface MonitorEvidenceSource : GenericEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *monitors;
 }
@@ -16,12 +16,14 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)doUpdate;
+- (void)doFullUpdate;
 - (void)clearCollectedData;
 
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
+- (void) start;
+- (void) stop;
 
 @end

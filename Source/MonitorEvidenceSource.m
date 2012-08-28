@@ -7,6 +7,7 @@
 
 #import <IOKit/graphics/IOGraphicsLib.h>
 #import "MonitorEvidenceSource.h"
+#import "DSLogger.h"
 
 
 @implementation MonitorEvidenceSource
@@ -19,6 +20,7 @@
 	lock = [[NSLock alloc] init];
 	monitors = [[NSMutableArray alloc] init];
 
+
 	return self;
 }
 
@@ -30,7 +32,11 @@
 	[super dealloc];
 }
 
-- (void)doUpdate
+- (void) displayConfigChanged:(NSNotification *) notification {
+    [self doFullUpdate];
+}
+
+- (void)doFullUpdate
 {
 	CGDirectDisplayID displays[4];
 	CGDisplayCount numDisplays = -1;
@@ -147,5 +153,33 @@
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Attached Monitor", @"");
+}
+
+- (void) start {
+    if (running)
+		return;
+    
+    // There is a distributed notification of "com.apple.BezelServices.BMDisplayHWReconfiguredEvent"
+    // that is issued when the display configuration changes, we listen for that
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(displayConfigChanged:)
+                                                            name:@"com.apple.BezelServices.BMDisplayHWReconfiguredEvent"
+                                                          object:nil];
+    
+	[self doFullUpdate];
+    
+	running = YES;
+}
+
+- (void) stop {
+    
+    if (!running)
+        return;
+    
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+    
+    running = NO;
+    
+    
 }
 @end
