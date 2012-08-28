@@ -350,6 +350,7 @@
 @end
 
 #import "ActiveApplicationEvidenceSource.h"
+#import "AttachedPowerAdapterEvidenceSource.h"
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 #import "BonjourEvidenceSource.h"
@@ -377,6 +378,7 @@
     
 	NSMutableArray *classes = [NSMutableArray arrayWithObjects:
                         [ActiveApplicationEvidenceSource class],
+                        [AttachedPowerAdapterEvidenceSource class],
                         [NetworkLinkEvidenceSource class],
                         [IPEvidenceSource class],
                         [FireWireEvidenceSource class],
@@ -416,6 +418,7 @@
 #endif
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
+        NSLocalizedString(@"AttachedPowerAdapter", @"Evidence source");
 		NSLocalizedString(@"AudioOutput", @"Evidence source");
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
 		NSLocalizedString(@"Bonjour", @"Evidence source");
