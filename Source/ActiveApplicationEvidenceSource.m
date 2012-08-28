@@ -32,18 +32,21 @@
 	[super dealloc];
 }
 
+- (void)doFullUpdate:(NSNotification *) notification {
+    NSRunningApplication *runningApplication = [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"];
+
+    activeApplication = [runningApplication bundleIdentifier];
+    
+    // doFullUpdate is required, so just call it here
+    [self doFullUpdate];
+}
+
 - (void)doFullUpdate {
     
-    NSDictionary *activeApp = [[NSWorkspace sharedWorkspace] activeApplication];
-	
-    activeApplication = [activeApp valueForKey:@"NSApplicationBundleIdentifier"];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
-	
-#ifdef DEBUG_MODE
-	DSLog(@"Active app:\n%@", [activeApp valueForKey:@"NSApplicationBundleIdentifier"]);
+#if DEBUG_MODE
+    DSLog(@"active application %@", activeApplication);
 #endif
-	
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 	[self setDataCollected:YES];
 	
 }
@@ -54,7 +57,7 @@
 		return;
     
 	// register for notifications
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(doFullUpdate) name:NSWorkspaceDidActivateApplicationNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(doFullUpdate:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
 	
     
 	[self doFullUpdate];
@@ -89,9 +92,15 @@
 {
 	NSString *param = [rule valueForKey:@"parameter"];
 	BOOL match = NO;
+    
+    if ([activeApplication class] == [NSArray class]) {
+        DSLog(@"weird, activeApplication is an array?");
+        return false;
+    }
     NSString *localActiveApplication = [activeApplication copy];
 
-    NSLog(@"activeApplication is %@ and param is %@", localActiveApplication, param);
+    
+    
     
     if ([localActiveApplication isEqualToString:param]) {
         match = YES;
