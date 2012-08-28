@@ -182,4 +182,11 @@
     
     
 }
+
+- (void)wakeFromSleep:(id)arg
+{
+	[super wakeFromSleep:arg];
+    
+	[self doFullUpdate];
+}
 @end
