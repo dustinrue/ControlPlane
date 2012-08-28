@@ -11,6 +11,7 @@
 
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #import <IOKit/IOMessage.h>
+#import <IOKit/ps/IOPowerSources.h>
 #import <libkern/OSAtomic.h>
 
 
@@ -18,7 +19,9 @@
 CPController *cp_controller = nil;
 int32_t actionsInProgress = 0;
 io_connect_t root_port = 0;
+CFRunLoopSourceRef powerAdapterChanged = nil;
 void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
+static void powerAdapterChangedCallBack();
 
 
 @implementation CPController (SleepThread)
@@ -37,7 +40,11 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 	
 	// add the notification port to the application runloop
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPort), kCFRunLoopCommonModes);
+    powerAdapterChanged = IOPSNotificationCreateRunLoopSource(
+                                                           powerAdapterChangedCallBack,
+                                                           NULL);
 	
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
 	// run!
 	CFRunLoopRun();
 	[pool release];
@@ -87,6 +94,11 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 		default:
 			break;
 	}
+}
+
+static void powerAdapterChangedCallBack() {
+    DSLog(@"power adapter changed");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"powerAdapterDidChangeNotification" object:nil];
 }
 
 @end
