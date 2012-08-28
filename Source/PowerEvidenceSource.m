@@ -70,12 +70,12 @@ static void sourceChange(void *info)
 	if (running)
 		return;
 
-	// register for notifications
-	runLoopSource = IOPSNotificationCreateRunLoopSource(sourceChange, self);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
-
-	[self doFullUpdate];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(doFullUpdate)
+                                                 name:@"powerAdapterDidChangeNotification"
+                                               object:nil];
+    
+    [self doFullUpdate];
 	running = YES;
 }
 
@@ -83,10 +83,6 @@ static void sourceChange(void *info)
 {
 	if (!running)
 		return;
-
-	// remove notification registration
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
-	CFRelease(runLoopSource);
 
 	status = nil;
 	[self setDataCollected:NO];
