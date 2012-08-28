@@ -97,7 +97,7 @@
     [self setDataCollected:NO];
     [services removeAllObjects];
     
-    DSLog(@"clearing servicesBeingResolved");
+    //DSLog(@"clearing servicesBeingResolved");
     for (CPBonjourResolver *goingAway in servicesBeingResolved) {
         
         [goingAway stop];
@@ -105,22 +105,22 @@
         //[goingAway release];
         
     }
-    DSLog(@"removing all objects");
+    //DSLog(@"removing all objects");
     [servicesBeingResolved removeAllObjects];
     
 	
-    DSLog(@"clearing servicesByType");
+    //DSLog(@"clearing servicesByType");
     NSArray *keys = [servicesByType allKeys];
     for (NSString *currentKey in keys) {
-        DSLog(@"clearing %@", currentKey);
+        //DSLog(@"clearing %@", currentKey);
         CPBonjourResolver *goingAway = [servicesByType objectForKey:currentKey];
         [goingAway stop];
-        //[goingAway release];
+
     }
-    DSLog(@"removing all objects");
+    //DSLog(@"removing all objects");
     [servicesByType removeAllObjects];
 	//[lock unlock];
-    DSLog(@"done clearing data");
+    //DSLog(@"done clearing data");
 }
 
 - (NSString *)name {

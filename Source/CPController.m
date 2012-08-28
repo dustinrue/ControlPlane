@@ -697,7 +697,6 @@
 
 - (void)doUpdate:(NSTimer *)theTimer
 {
-    DSLog(@"Start");
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
     
@@ -747,7 +746,6 @@
         [self setMenuBarImage:NULL];
 
 	[updatingLock unlockWithCondition:1];
-    DSLog(@"Done");
 }
 
 - (NSArray *)getRulesThatMatch
@@ -1293,7 +1291,6 @@
  * Decides if a given guess can become active
  */
 - (BOOL)contextIsActiveForGuess:(NSDictionary *) guessDictionary {
-        DSLog(@"");
     NSNumberFormatter *numberFormatter = nil;
     NSString *guess                    = nil;
     double guessConf                   = 0.0;

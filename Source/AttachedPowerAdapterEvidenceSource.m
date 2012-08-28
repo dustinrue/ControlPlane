@@ -45,7 +45,6 @@
     else {
         [self setDataCollected:NO];
     }
-    DSLog(@"powerAdapterInfo %@", attachedPowerAdapter);
     
     if (powerAdapterInfo)
         CFRelease(powerAdapterInfo);
@@ -97,7 +96,6 @@
 
     NSString *currentAdapter = [[attachedPowerAdapter stringValue] copy];
 
-    DSLog(@"currentAdapter %@ vs param %@", currentAdapter, param);
     if ([currentAdapter isEqualToString:param])
         match = YES;
 
