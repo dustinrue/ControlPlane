@@ -151,6 +151,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 #endif
 			[devices addObject:dev_dict];
 			[self setDataCollected:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 		}
 		
 		[lock unlock];
@@ -184,6 +185,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	while ((device = IOIteratorNext(iterator)))
 		IOObjectRelease(device);
 	[self enumerateAll];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
 #pragma mark Update stuff

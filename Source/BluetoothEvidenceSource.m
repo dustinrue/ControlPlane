@@ -333,6 +333,7 @@
 	[devicesRegisteredForDisconnectNotices addObject:[device registerForDisconnectNotification:self selector:@selector(deviceDisconnected:device:)]];
    // [devices addObject:device];
     [self deviceInquiryDeviceFound:nil device:device];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
 - (void)deviceDisconnected:(IOBluetoothUserNotification *)notification device:(IOBluetoothDevice *)device
@@ -362,6 +363,7 @@
 	[devicesRegisteredForDisconnectNotices removeObject: notification];
     
 	[lock unlock];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
 
