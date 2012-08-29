@@ -65,6 +65,7 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
 			// entering sleep
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
 			DSLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
 			
 			// Hack: we need to do an extra check (2 if smoothing is enabled) right before sleeping

@@ -475,14 +475,15 @@
 											   object:nil];
     
 	// Get notified when we go to sleep, and wake from sleep
-	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-														   selector:@selector(goingToSleep:)
-															   name:@"NSWorkspaceWillSleepNotification"
-															 object:nil];
-	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-														   selector:@selector(wakeFromSleep:)
-															   name:@"NSWorkspaceDidWakeNotification"
-															 object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(goingToSleep:)
+                                                 name:@"systemWillSleep"
+                                               object:nil];
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(wakeFromSleep:)
+                                                 name:@"systemDidWake"
+                                               object:nil];
     
     // Monitor screensaver status
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self

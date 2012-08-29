@@ -18,14 +18,6 @@
 
 @end
 
-#pragma mark -
-
-static void sourceChange(void *info)
-{
-	PowerEvidenceSource *src = (PowerEvidenceSource *) info;
-
-	[src doFullUpdate];
-}
 
 #pragma mark -
 

@@ -7,6 +7,7 @@
 //
 
 #import "OpenAction.h"
+#import "DSLogger.h"
 
 @implementation OpenAction
 
@@ -76,14 +77,15 @@
         // DO NOT "open" an app that is already running, it's annoying
         NSBundle *requestedAppBundle = [[NSBundle alloc] initWithPath:path];
         NSString *requestedApplBundleIdentifier = nil;
+        
         // if the requestedAppBundle comes back nil then
         // they are either specifying that an actual file (not an app) be
         // opened
-        if (!requestedAppBundle) {
+        if (requestedAppBundle != nil) {
             requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
-            
+            [requestedAppBundle release];
+            DSLog(@"%@ is already running", requestedApplBundleIdentifier);
             if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
-                
                 success = YES;
                 return success;
             }
@@ -92,9 +94,7 @@
         // whether it is a file or an app, it needs to get opened here
         if ([[NSWorkspace sharedWorkspace] openFile:path])
             success = YES;
-    
-        if (requestedAppBundle)
-            [requestedAppBundle release];
+
         
         return success;
 	}
