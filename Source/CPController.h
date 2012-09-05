@@ -56,6 +56,7 @@
 @property (readwrite) BOOL screenSaverRunning;
 @property (readwrite) BOOL screenLocked;
 @property (readwrite) BOOL goingToSleep;
+@property (strong) NSArray *activeContexts;
 
 - (NSString *) currentContextName;
 - (ContextsDataSource *) contextsDataSource;

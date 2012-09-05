@@ -1112,31 +1112,40 @@
     // of the configured contexts, which ones have rule hits?
     guesses = [self getGuessesFrom:allConfiguredContexts];
     
-
-    // of the guesses, which one has the highest confidence rating?
-    mostConfidentGuess = [self getMostConfidentContext:guesses];
-    
-    
-    // if we don't have a confident guess
-    
-    
-    // Update what the user sees in preferences
-    [self updateContextListView:allConfiguredContexts withGuesses:guesses];
-    
-    // TODO: move this to some other area dedicated to maintaining the state of the menu bar icon/status
-    // This covers the case where the show context in menu bar option has been changed
-	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
-		[self setStatusTitle:nil];
-    
-    
-    
-    if ([mostConfidentGuess count] > 0) {
-        allKeys = [mostConfidentGuess allKeys];
-        guess = [allKeys objectAtIndex:0];
+    DSLog(@"guesses %@", guesses);
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AllowMultipleActiveContexts"]) {
+        // use the newer style of context matching
+        allKeys = [guesses allKeys];
+        
+        for (NSString *uuid in allKeys) {
+            mostConfidentGuess = [self getMostConfidentContext:[NSDictionary dictionaryWithObjectsAndKeys:[guesses valueForKey:uuid], uuid, nil]];
+            DSLog(@"currentGuess %@ should be %@", uuid, ([self guessMeetsConfidenceRequirement:mostConfidentGuess]) ? @"enabled":@"disabled");
+        }
     }
+    else {
+        // use the older style of context matching
+        // of the guesses, which one has the highest confidence rating?
+        mostConfidentGuess = [self getMostConfidentContext:guesses];
+        
+        
+        // Update what the user sees in preferences
+        [self updateContextListView:allConfiguredContexts withGuesses:guesses];
+        
+        // TODO: move this to some other area dedicated to maintaining the state of the menu bar icon/status
+        // This covers the case where the show context in menu bar option has been changed
+        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
+            [self setStatusTitle:nil];
+        
+        
+        
+        if ([mostConfidentGuess count] > 0) {
+            allKeys = [mostConfidentGuess allKeys];
+            guess = [allKeys objectAtIndex:0];
+        }
 
-    if ([self contextIsActiveForGuess:mostConfidentGuess] && ! [guess isEqualToString:@""]) {
-        [self performTransitionFrom:currentContextUUID to:guess];
+        if ([self guessMeetsConfidenceRequirement:mostConfidentGuess] && ! [guess isEqualToString:@""]) {
+            [self performTransitionFrom:currentContextUUID to:guess];
+        }
     }
     
 }
@@ -1208,6 +1217,17 @@
 		}
 	}
     
+    // convert unconfidence values to confidence values
+    NSDictionary *guessesForConversion = [guesses copy];
+    double guessConf = 0.0;
+    
+    for (NSString *uuid in guessesForConversion) {
+        guessConf = 1 - [[guessesForConversion valueForKey:uuid] doubleValue];
+        [guesses setValue:[NSNumber numberWithDouble:guessConf] forKey:uuid];
+    }
+    
+    [guessesForConversion release];
+
     return guesses;
 }
 
@@ -1243,8 +1263,8 @@
 	NSString *uuid, *guess = nil;
 	double guessConf = 0.0;
 	while ((uuid = [ruleHitsEnumerator nextObject])) {
-		double uncon = [[mutable_guesses objectForKey:uuid] doubleValue];
-		double con = 1.0 - uncon;
+		double con = [[mutable_guesses objectForKey:uuid] doubleValue];
+		//double con = 1.0 - uncon;
 		if ((con > guessConf) || !guess) {
 			guess = uuid;
 			guessConf = con;
@@ -1276,7 +1296,7 @@
 		NSString *newConfString = @"";
 		NSNumber *unconf = [guesses objectForKey:uuid];
 		if (unconf) {
-			double con = 1.0 - [unconf doubleValue];
+			double con = [unconf doubleValue];
 			newConfString = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:con]];
 		}
 		[ctxt setValue:newConfString forKey:@"confidence"];
@@ -1291,7 +1311,7 @@
 /**
  * Decides if a given guess can become active
  */
-- (BOOL)contextIsActiveForGuess:(NSDictionary *) guessDictionary {
+- (BOOL)guessMeetsConfidenceRequirement:(NSDictionary *) guessDictionary {
     NSNumberFormatter *numberFormatter = nil;
     NSString *guess                    = nil;
     double guessConf                   = 0.0;
@@ -1319,10 +1339,9 @@
 	NSString *guessConfidenceString = [NSString stringWithFormat:
                                        NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
                                        perc];
-    // ControlPlane will now determine if the most confident guess meets our minimum confidence
-    // required and if so, initiates the transition to it (run its actions)
-    
-    // TODO: Loop over all rule hits so that we can have multiple active contexts
+
+    DSLog(@"checking %@ (%@) with confidence %f", guessString, guess, guessConf);
+    // this decides if the guess is confident enough
 	BOOL no_guess = NO;
 	if (!guess) {
 #ifdef DEBUG_MODE
@@ -1333,9 +1352,14 @@
 #ifdef DEBUG_MODE
 		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 #endif
+        return false;
 		no_guess = YES;
 	}
     
+    
+    
+    
+    /*
     // there isn't a confident enough context, so we the default context
 	if (no_guess) {
         // not sure why guessIsConfident is set to NO when it will get forced to YES later
@@ -1356,9 +1380,11 @@
 #endif
 	}
     
+     
+    // if we're here, then the guess is confident enough but we need to deal with smooth switching
     // not sure why this is forced to YES here
 	guessIsConfident = YES;
-    
+    */
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
         [self setMenuBarImage:sbImageActive];
     
