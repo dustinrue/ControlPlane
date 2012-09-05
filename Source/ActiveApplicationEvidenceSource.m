@@ -19,7 +19,6 @@
 	if (!(self = [super init]))
 		return nil;
     
-	applications = [[NSMutableArray alloc] init];
     activeApplication = nil;
     
 	return self;
@@ -27,16 +26,17 @@
 
 - (void)dealloc
 {
-	[applications release];
     
 	[super dealloc];
 }
 
 - (void)doFullUpdate:(NSNotification *) notification {
-    NSRunningApplication *runningApplication = [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"];
-
-    activeApplication = [runningApplication bundleIdentifier];
     
+    [lock lock];
+    activeApplication = [[[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"] bundleIdentifier];
+    [lock unlock];
+    
+    DSLog(@"activeApplication %@ (%@)", activeApplication, [activeApplication class]);
     // doFullUpdate is required, so just call it here
     [self doFullUpdate];
 }
@@ -76,7 +76,6 @@
                                                                 object:nil];
     
 	[lock lock];
-	[applications removeAllObjects];
 	[self setDataCollected:NO];
 	[lock unlock];
     
@@ -90,24 +89,19 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
+    [lock lock];
 	NSString *param = [rule valueForKey:@"parameter"];
 	BOOL match = NO;
-    
-    if ([activeApplication class] == [NSArray class]) {
-        DSLog(@"weird, activeApplication is an array?");
-        return false;
-    }
-    NSString *localActiveApplication = [activeApplication copy];
 
-    
-    
-    
+    NSString *localActiveApplication = [activeApplication copy];
+   
     if ([localActiveApplication isEqualToString:param]) {
         match = YES;
     }
     
     [localActiveApplication release];
 
+    [lock unlock];
 	return match;
 }
 
@@ -136,7 +130,7 @@
 	}
     
 	[lock lock];
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[applications count]];
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[apps count]];
     
 	NSEnumerator *en = [apps objectEnumerator];
 	NSDictionary *dict;
@@ -157,6 +151,11 @@
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Active Application", @"");
+}
+
+- (void) goingToSleep:(id)arg {
+    if (running)
+        activeApplication = nil;
 }
 
 @end
