@@ -1249,7 +1249,7 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"]) {
         defaultContext = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
         
-        defaultContextConfidence = 1 - [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"];
+        defaultContextConfidence = [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"];
         
         [mutable_guesses setObject:[NSNumber numberWithFloat:defaultContextConfidence] forKey:defaultContext];
     }
