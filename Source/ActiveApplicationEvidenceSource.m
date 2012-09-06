@@ -46,7 +46,7 @@
 #if DEBUG_MODE
     DSLog(@"active application %@", activeApplication);
 #endif
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 	[self setDataCollected:YES];
 	
 }
@@ -93,13 +93,13 @@
 	NSString *param = [rule valueForKey:@"parameter"];
 	BOOL match = NO;
 
-    NSString *localActiveApplication = [activeApplication copy];
+    //NSString *localActiveApplication = [activeApplication copy];
    
-    if ([localActiveApplication isEqualToString:param]) {
+    if ([activeApplication isEqualToString:param]) {
         match = YES;
     }
     
-    [localActiveApplication release];
+    //[localActiveApplication release];
 
     [lock unlock];
 	return match;

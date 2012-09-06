@@ -95,7 +95,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	[lock lock];
 	[interfaces setArray:inters];
 	[self setDataCollected:[interfaces count] > 0];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 	[lock unlock];
 
 	[pool release];

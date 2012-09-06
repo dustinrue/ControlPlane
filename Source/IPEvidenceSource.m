@@ -105,7 +105,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	[lock lock];
 	[addresses setArray:addrs];
 	[self setDataCollected:[addresses count] > 0];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 	[lock unlock];
 
 	[pool release];

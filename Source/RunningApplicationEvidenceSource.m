@@ -50,7 +50,7 @@
 	[lock lock];
 	[applications setArray:apps];
 	[self setDataCollected:[applications count] > 0];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 #ifdef DEBUG_MODE
 	DSLog(@"Running apps:\n%@", applications);
 #endif

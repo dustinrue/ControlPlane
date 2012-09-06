@@ -49,7 +49,7 @@
     if (powerAdapterInfo)
         CFRelease(powerAdapterInfo);
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
 - (void)start

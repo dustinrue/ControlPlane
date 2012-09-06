@@ -55,7 +55,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 #ifdef DEBUG_MODE
 	NSLog(@"%@ >> Got 0x%08lu", [self class], (unsigned long) sourceID);
 #endif
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 	// 0x6973706b ('ispk') => Internal speakers
 	// 0x6864706e ('hdpn') => Headphones
 	// ... any others? (see IOAudioPortSubtypes enum)
