@@ -85,10 +85,18 @@
             requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
             [requestedAppBundle release];
             DSLog(@"%@ is already running", requestedApplBundleIdentifier);
-            if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
-                success = YES;
-                return success;
+            @try {
+                if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
+                    success = YES;
+                    return success;
+                }
             }
+            @catch (NSException * e) {
+                DSLog(@"failed to get the bundleidentifier for %@", requestedAppBundle);
+                // at this point we assume the app isn't running because we can't actually check
+                success = NO;
+            }
+            
         }
     
         // whether it is a file or an app, it needs to get opened here
