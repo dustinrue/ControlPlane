@@ -126,6 +126,7 @@
     
     [self unregisterForConnectionNotifications];
     
+    
     // we registered for disconnect notifications, unregister now
     for (IOBluetoothUserNotification *currentDevice in devicesRegisteredForDisconnectNotices) {
         // remove from registered objects
@@ -134,12 +135,14 @@
         if (!currentDevice)
             return;
         
-        // remove the device notification entry
-        [devicesRegisteredForDisconnectNotices removeObject: currentDevice];
-        
         // unregister for disconnect notifications
         [currentDevice unregister];
     }
+    
+    [lock lock];
+    [devicesRegisteredForDisconnectNotices removeAllObjects];
+    [lock unlock];
+    
     if (cleanupTimer && [cleanupTimer isValid]) {
 #ifdef DEBUG_MODE
         DSLog(@"invalidating cleanupTimer because we're going to sleep (from stop)");
