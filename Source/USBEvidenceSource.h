@@ -8,7 +8,7 @@
 #import "GenericLoopingEvidenceSource.h"
 
 
-@interface USBEvidenceSource : GenericLoopingEvidenceSource {
+@interface USBEvidenceSource : GenericEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *devices;
 
