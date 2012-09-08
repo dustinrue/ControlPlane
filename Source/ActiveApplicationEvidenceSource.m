@@ -39,6 +39,7 @@
     DSLog(@"activeApplication %@ (%@)", activeApplication, [activeApplication class]);
     // doFullUpdate is required, so just call it here
     [self doFullUpdate];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
 - (void)doFullUpdate {
@@ -46,7 +47,7 @@
 #if DEBUG_MODE
     DSLog(@"active application %@", activeApplication);
 #endif
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    
 	[self setDataCollected:YES];
 	
 }
@@ -58,9 +59,6 @@
     
 	// register for notifications
     [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(doFullUpdate:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
-	
-    
-	[self doFullUpdate];
     
 	running = YES;
 }
@@ -75,9 +73,7 @@
                                                                   name:nil
                                                                 object:nil];
     
-	[lock lock];
 	[self setDataCollected:NO];
-	[lock unlock];
     
 	running = NO;
 }
@@ -92,14 +88,10 @@
     [lock lock];
 	NSString *param = [rule valueForKey:@"parameter"];
 	BOOL match = NO;
-
-    //NSString *localActiveApplication = [activeApplication copy];
    
     if ([activeApplication isEqualToString:param]) {
         match = YES;
     }
-    
-    //[localActiveApplication release];
 
     [lock unlock];
 	return match;
