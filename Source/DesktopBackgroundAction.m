@@ -60,15 +60,18 @@
 	}
 	
 	// get current screen and options
-	NSScreen *screen = [NSScreen mainScreen];
-	NSDictionary *options = [[NSWorkspace sharedWorkspace] desktopImageOptionsForScreen: screen];
+    NSArray *screens = [NSScreen screens];
+	NSDictionary *options = nil;
 	NSURL *image = [NSURL fileURLWithPath:path];
 	NSError *error;
 	
 	// set background
-	if (![[NSWorkspace sharedWorkspace] setDesktopImageURL:image forScreen:screen options:options error:&error]) {
-		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed setting '%@' as desktop background.", @""), path];
-		return NO;
+    for (NSScreen *currentScreen in screens) {
+        options = [[NSWorkspace sharedWorkspace] desktopImageOptionsForScreen: currentScreen];
+        if (![[NSWorkspace sharedWorkspace] setDesktopImageURL:image forScreen:currentScreen options:options error:&error]) {
+            *errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed setting '%@' as desktop background.", @""), path];
+            return NO;
+        }
 	}
 	
 	return YES;
