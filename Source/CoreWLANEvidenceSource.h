@@ -11,7 +11,7 @@
 
 
 @class CWInterface, CWNetwork;
-@interface WiFiEvidenceSourceCoreWLAN : GenericLoopingEvidenceSource  {
+@interface WiFiEvidenceSourceCoreWLAN : GenericEvidenceSource  {
     NSLock *lock;
 	NSMutableArray *apList;
 	int wakeUpCounter;
@@ -27,6 +27,7 @@
 @property(readwrite, retain) NSString *ssidString;
 @property(readwrite, retain) NSString *signalStrength;
 @property(readwrite, retain) NSString *macAddress;
+@property(readwrite, retain) NSTimer *loopTimer;
 
 - (id)init;
 - (void)dealloc;

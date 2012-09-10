@@ -20,6 +20,7 @@
 @synthesize ssidString;
 @synthesize signalStrength;
 @synthesize macAddress;
+@synthesize loopTimer;
 
 - (id)init
 {
@@ -51,6 +52,10 @@
 - (bool)isWirelessAvailable {
     BOOL powerState = [self.currentInterface powerOn];
     return powerState;
+}
+
+- (void)doUpdate:(NSTimer *)timer {
+    [self doUpdate];
 }
 
 - (void)doUpdate
@@ -237,6 +242,60 @@
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Nearby WiFi Network", @"");
+}
+
+- (void) startUpdateLoop {
+    
+    loopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
+                                                 target:self
+                                               selector:@selector(doUpdate:)
+                                               userInfo:nil
+                                                repeats:YES];
+
+}
+
+- (void) stopUpdateLoop {
+    [loopTimer invalidate];
+    loopTimer = nil;
+}
+
+- (void) toggleUpdateLoop:(NSNotification *)notification {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
+        [self startUpdateLoop];
+    }
+    else {
+        [self stopUpdateLoop];
+    }
+}
+- (void) start {
+    if (!running)
+        running = YES;
+    
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(doUpdate)
+                                                               name:@"com.apple.internetconfignotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toggleUpdateLoop:)
+												 name:NSUserDefaultsDidChangeNotification
+											   object:nil];
+    
+    
+    [self doUpdate];
+    
+    [self toggleUpdateLoop:nil];
+    
+}
+
+- (void) stop {
+    
+    if (running)
+        running = NO;
+    
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self forKeyPath:@"com.apple.internetconfignotification"];
+    
+
+    [self stopUpdateLoop];
+    
 }
 
 
