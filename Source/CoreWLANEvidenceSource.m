@@ -270,10 +270,12 @@
 - (void) start {
     if (!running)
         running = YES;
-    
+
+    DSLog(@"registering %@ for notifications", self);
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(doUpdate)
                                                                name:@"com.apple.internetconfignotification" object:nil];
     
+
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(toggleUpdateLoop:)
 												 name:NSUserDefaultsDidChangeNotification
@@ -291,7 +293,9 @@
     if (running)
         running = NO;
     
-    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self forKeyPath:@"com.apple.internetconfignotification"];
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self
+                                                               name:nil
+                                                             object:nil];
     
 
     [self stopUpdateLoop];
