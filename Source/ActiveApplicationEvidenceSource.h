@@ -12,7 +12,7 @@
     NSLock *lock;
 }
 
-@property (strong) NSString *activeApplication;
+@property (retain) NSString *activeApplication;
 
 - (id)init;
 - (void)dealloc;
