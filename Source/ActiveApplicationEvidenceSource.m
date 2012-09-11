@@ -32,13 +32,13 @@
 
 - (void)doFullUpdate:(NSNotification *) notification {
     
-    [lock lock];
-    activeApplication = [[[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"] bundleIdentifier];
-    [lock unlock];
-    
-    DSLog(@"activeApplication %@ (%@)", activeApplication, [activeApplication class]);
-    // doFullUpdate is required, so just call it here
-    [self doFullUpdate];
+    @synchronized(self) {
+        [self setActiveApplication:[[[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"] bundleIdentifier]];
+        
+        // doFullUpdate is required, so just call it here
+        [self doFullUpdate];
+    }
+ 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
@@ -85,15 +85,15 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-    [lock lock];
-	NSString *param = [rule valueForKey:@"parameter"];
-	BOOL match = NO;
-   
-    if ([activeApplication isEqualToString:param]) {
-        match = YES;
+    BOOL match = NO;
+    @synchronized(self) {
+        NSString *param = [rule valueForKey:@"parameter"];
+        match = NO;
+       
+        if ([[self activeApplication] isEqualToString:param]) {
+            match = YES;
+        }
     }
-
-    [lock unlock];
 	return match;
 }
 
