@@ -271,7 +271,6 @@
     if (!running)
         running = YES;
 
-    DSLog(@"registering %@ for notifications", self);
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(doUpdate)
                                                                name:@"com.apple.internetconfignotification" object:nil];
     
