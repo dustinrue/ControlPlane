@@ -24,7 +24,8 @@
 - (void)postUserNotification:(NSString *)title withMessage:(NSString *)message;
 - (void)contextsChanged:(NSNotification *)notification;
 
-- (void)doUpdate:(NSTimer *)theTimer;
+- (void)doUpdateByTimer:(NSTimer *)theTimer;
+- (void)doUpdate;
 
 - (void)updateThread:(id)arg;
 - (void)goingToSleep:(id)arg;
@@ -440,7 +441,7 @@
     
 	updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
 													  target: self
-													selector: @selector(doUpdate:)
+													selector: @selector(doUpdateByTimer:)
 													userInfo: nil
 													 repeats: NO] retain];
     
@@ -696,8 +697,12 @@
 
 #pragma mark Rule matching and Action triggering
 
-- (void)doUpdate:(NSTimer *)theTimer
+- (void)doUpdateByTimer:(NSTimer *)theTimer
 {
+    [self doUpdate];
+}
+
+- (void)doUpdate {
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
     
@@ -719,11 +724,11 @@
 		updatingTimer = [updatingTimer checkAndInvalidate];
 		updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: intv
 														  target: self
-														selector: @selector(doUpdate:)
+														selector: @selector(doUpdateByTimer:)
 														userInfo: nil
 														 repeats: YES] retain];
 	}
-
+    
 	// Check status bar visibility
 	BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"];
 	if (sbItem && hide && !sbHideTimer)
@@ -741,11 +746,11 @@
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
         [self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
     }
-
-	[updatingLock lock];
+    
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_CONTEXT)
         [self setMenuBarImage:NULL];
-
+    
+	[updatingLock lock];
 	[updatingLock unlockWithCondition:1];
 }
 
@@ -1553,8 +1558,7 @@
 #pragma mark Evidence source change handling
 - (void) evidenceSourceDataDidChange:(NSNotification *)notification {
     // this will cause the updateThread to do it's work
-    [updatingLock lock];
-    [updatingLock unlockWithCondition:1];
+    [self doUpdate];
 }
 
 @end
