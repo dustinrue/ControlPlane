@@ -98,7 +98,6 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 }
 
 static void powerAdapterChangedCallBack() {
-    DSLog(@"power adapter changed");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"powerAdapterDidChangeNotification" object:nil];
 }
 
