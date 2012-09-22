@@ -368,6 +368,8 @@
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 
+#import "StressTestEvidenceSource.h"
+
 @implementation EvidenceSourceSetController
 
 - (id)init
@@ -377,6 +379,9 @@
 
     
 	NSMutableArray *classes = [NSMutableArray arrayWithObjects:
+#ifdef DEBUG_MODE
+                               [StressTestEvidenceSource class],
+#endif
                         [ActiveApplicationEvidenceSource class],
                         [AttachedPowerAdapterEvidenceSource class],
                         [NetworkLinkEvidenceSource class],

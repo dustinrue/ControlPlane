@@ -115,6 +115,7 @@
 		DA8E2833156B498A0040FC35 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8E2832156B498A0040FC35 /* ApplicationServices.framework */; };
 		DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8E283E156BCAD50040FC35 /* ToggleRemoteLoginAction.m */; };
 		DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */; };
+		DA9957EA160D4BA300AB3C7A /* StressTestEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */; };
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
 		DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
@@ -487,6 +488,8 @@
 		DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleInternetSharingAction.m; path = Source/ToggleInternetSharingAction.m; sourceTree = "<group>"; };
 		DA94BE8E15CA1B6E00ED2AB2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SampleESPlugin.xcodeproj; path = "Plugins/Evidence Source/SampleESPlugin/SampleESPlugin/SampleESPlugin.xcodeproj"; sourceTree = "<group>"; };
+		DA9957E8160D4BA300AB3C7A /* StressTestEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StressTestEvidenceSource.h; path = Source/StressTestEvidenceSource.h; sourceTree = "<group>"; };
+		DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StressTestEvidenceSource.m; path = Source/StressTestEvidenceSource.m; sourceTree = "<group>"; };
 		DAA9ABFE1595FDE700B84B05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		DAA9AC1915961CDF00B84B05 /* MessagesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesAction.h; path = Source/MessagesAction.h; sourceTree = "<group>"; };
 		DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesAction.m; path = Source/MessagesAction.m; sourceTree = "<group>"; };
@@ -866,6 +869,8 @@
 				732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */,
 				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
 				DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */,
+				DA9957E8160D4BA300AB3C7A /* StressTestEvidenceSource.h */,
+				DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */,
 				8DE428F90C5084D00073499A /* TimeOfDayEvidenceSource.h */,
 				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
 				8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */,
@@ -1453,6 +1458,7 @@
 				DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */,
 				DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */,
 				DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */,
+				DA9957EA160D4BA300AB3C7A /* StressTestEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
