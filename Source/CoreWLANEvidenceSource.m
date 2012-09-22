@@ -10,8 +10,17 @@
 #import <CoreWLAN/CoreWLAN.h>
 #import "CoreWLANEvidenceSource.h"
 #import "NSMutableArray+Merge.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 #import "DSLogger.h"
 
+#pragma mark C callbacks
+
+static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
+
+    WiFiEvidenceSourceCoreWLAN *src = (WiFiEvidenceSourceCoreWLAN *) info;
+    [src getInterfaceStateInfo];
+
+}
 
 @implementation WiFiEvidenceSourceCoreWLAN
 
@@ -20,7 +29,6 @@
 @synthesize ssidString;
 @synthesize signalStrength;
 @synthesize macAddress;
-@synthesize loopTimer;
 
 - (id)init
 {
@@ -50,116 +58,81 @@
 }
 
 - (bool)isWirelessAvailable {
-    BOOL powerState = [self.currentInterface powerOn];
-    return powerState;
+    if (self.currentInterface == nil)
+        return NO;
+
+    return [self.currentInterface powerOn];
 }
 
 - (void)doUpdate:(NSTimer *)timer {
+    DSLog(@"timer fired");
     [self doUpdate];
 }
 
-- (void)doUpdate
-{
+- (void)doUpdate {
     
 	NSMutableArray *all_aps = [NSMutableArray array];
-	NSError *err = nil;
-    CWNetwork *currentNetwork = nil;
-    NSArray *supportedInterfaces = [[CWInterface interfaceNames] allObjects];
-
-	BOOL do_scan = YES;
-
-    
-#ifdef DEBUG_MODE
-    DSLog(@"Attempting to do the scan");
-#endif
-    
-    // get a list of supported Wi-Fi interfaces.  It is unlikely, but still possible, for there to
-    // be more than one interface, yet this assumes there is just one
-    @try {
-        self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
-    }
-    @catch (NSException *exception) {
-        DSLog(NSLocalizedString(@"This Mac doesn't appear to have WiFi or your WiFi card has failed",@"The Mac does not have a Wifi/AirPort card or it has failed"));
-    }
-
-    
     
     // first see if Wi-Fi is even turned on
-    if (! [self.currentInterface powerOn]) {
+    if (![self isWirelessAvailable]) {
         [self clearCollectedData];
-#ifdef DEBUG_MODE
-        DSLog(@"wifi disabled, no scan done");
-#endif
+        DSLog(@"WiFi disabled, no scan done");
         return;
     }
     
-    // see if we are currently connected to an AP
-    NSString *currentSSID = [self.currentInterface ssid];
+    // check to see if the interface is busy, lets not check anything if it is
+    if ([[self.interfaceData valueForKey:@"Busy"] boolValue]) {
+        DSLog(@"WiFi is busy, not updating");
+        return;
+    }
     
-
-    // wakeUpCounter will be set to 2 after a wake event.  Since
-    // the machine can't be associated yet we can afford to scan
-    // a couple of times.  This might not be needed any longer and might
-    // even be detrimental with newer versions of OS X that promise to 
-    // scan for and connect to wifi networks more quickly.
-    if (wakeUpCounter > 0) {
-		do_scan = YES;
-		--wakeUpCounter;
-	}
-    // don't scan if currentSSID is set (Wi-Fi is associated with something)
-    // and the WiFiAlwaysScans is set to false
-    else if (currentSSID && ![[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"])
-        do_scan = NO;
-    else
-        do_scan = YES;
-
-
-    // if do_scan is set to yes, do the Wi-Fi scan
-    if (do_scan) { 
-    
-        self.scanResults = [NSMutableArray arrayWithArray:[[self.currentInterface scanForNetworksWithName:nil error:&err] allObjects]];
-        
-        if( err )
-            DSLog(@"error: %@",err);
-        else
-            [self.scanResults sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"ssid" ascending:YES selector:@selector	(caseInsensitiveCompare:)] autorelease]]];
-        
-        
-        for (currentNetwork in self.scanResults) {
-            [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
-    #ifdef DEBUG_MODE
-             DSLog(@"found ssid %@ with bssid %@ and RSSI %ld",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
-    #endif
-        }
-
+    // check to see if the interface is active
+    if (!self.linkActive || [[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
+        DSLog(@"WiFi link is inactive, doing full scan");
+        all_aps = [self scanForNetworks];
     }
     else {
-        // if do_scan is false but we're still here, then we're associated
-        // We still need to fill in the scanResults variable so rather than
-        // doing so with a scan we ask CoreWLAN to tell us about what 
-        // we're connected to, ControlPlane can then see if the associated
-        // network matches a rule
-#ifdef DEBUG_MODE
-        DSLog(@"already associated with an AP, using connection info");
-#endif
+        DSLog(@"WiFi link is active, grabbing connection info");
         [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:self.currentInterface.ssid, @"WiFi SSID", self.currentInterface.bssid, @"WiFi BSSID", nil]];
-
     }
-    
+
+    [self toggleUpdateLoop:nil];
 	[lock lock];
-	//[apList setArray:all_aps];
-    
-    // merge the results rather than simply replacing
-    // the apList array with new results
-    if ([apList mergeWith:all_aps] ) {
+
+    if ([apList mergeWith:all_aps]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
     }
+    
 	[self setDataCollected:[apList count] > 0];
 #ifdef DEBUG_MODE
 	//DSLog(@"%@ >> %@", [self class], apList);
 #endif
 	[lock unlock];
+}
+
+- (NSMutableArray *)scanForNetworks {
+    
+    NSError *err = nil;
+    NSMutableArray *all_aps = [NSMutableArray array];
+    CWInterface *currentNetwork = nil;
+    
+    self.scanResults = [NSMutableArray arrayWithArray:[[self.currentInterface scanForNetworksWithName:nil error:&err] allObjects]];
+    
+    if( err )
+        DSLog(@"error: %@",err);
+    else
+        [self.scanResults sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"ssid" ascending:YES selector:@selector	(caseInsensitiveCompare:)] autorelease]]];
+    
+    
+    for (currentNetwork in self.scanResults) {
+        [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                            [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
+#ifdef DEBUG_MODE
+        DSLog(@"found ssid %@ with bssid %@ and RSSI %ld",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
+#endif
+    }
+    
+    return all_aps;
 }
 
 - (void)clearCollectedData
@@ -246,7 +219,10 @@
 
 - (void) startUpdateLoop {
     
-    loopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
+    if (self.loopTimer)
+        return;
+    
+    self.loopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
                                                  target:self
                                                selector:@selector(doUpdate:)
                                                userInfo:nil
@@ -255,12 +231,12 @@
 }
 
 - (void) stopUpdateLoop {
-    [loopTimer invalidate];
-    loopTimer = nil;
+    [self.loopTimer invalidate];
+    self.loopTimer = nil;
 }
 
 - (void) toggleUpdateLoop:(NSNotification *)notification {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"] || !self.linkActive) {
         [self startUpdateLoop];
     }
     else {
@@ -268,23 +244,31 @@
     }
 }
 - (void) start {
-    if (!running)
-        running = YES;
+    if (running) return;        
 
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(doUpdate)
-                                                               name:@"com.apple.internetconfignotification" object:nil];
     
-
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(toggleUpdateLoop:)
 												 name:NSUserDefaultsDidChangeNotification
 											   object:nil];
+     
     
+    // attempt to get the current 
+    if (![self getWiFiInterface])
+        return;
+    
+    
+    if (![self registerForAsyncNotifications])
+        return;
+    
+    
+    [self getInterfaceStateInfo];
     
     [self doUpdate];
     
     [self toggleUpdateLoop:nil];
-    
+
+    running = YES;
 }
 
 - (void) stop {
@@ -292,13 +276,76 @@
     if (running)
         running = NO;
     
-    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self
-                                                               name:nil
-                                                             object:nil];
-    
+    [self clearCollectedData];
+    CFRunLoopRemoveSource(CFRunLoopGetCurrent(), _runLoop, kCFRunLoopCommonModes);
 
     [self stopUpdateLoop];
     
+}
+
+- (BOOL) getWiFiInterface {
+    NSArray *supportedInterfaces = [[CWInterface interfaceNames] allObjects];
+    
+    // get a list of supported Wi-Fi interfaces.  It is unlikely, but still possible,
+    // for there to be more than one interface, yet this assumes there is just one
+    
+    if ([supportedInterfaces count] == 0) {
+        DSLog(NSLocalizedString(@"This Mac doesn't appear to have WiFi or your WiFi card has failed",@"The Mac does not have a Wifi/AirPort card or it has failed"));
+        self.currentInterface = nil;
+        return NO;
+    }
+
+    
+    self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
+    self.interfaceBSDName = [self.currentInterface interfaceName];
+    
+    DSLog(@"currentInterface %@\nBSD name %@", self.currentInterface, self.interfaceBSDName);
+    
+    return YES;
+}
+
+- (BOOL) registerForAsyncNotifications {
+    // Register for asynchronous notifications
+	
+	_ctxt.version = 0;
+	_ctxt.info = self;
+	_ctxt.retain = NULL;
+	_ctxt.release = NULL;
+	_ctxt.copyDescription = NULL;
+    
+	self.store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), linkDataChanged, &_ctxt);
+	_runLoop = SCDynamicStoreCreateRunLoopSource(NULL, self.store, 0);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), _runLoop, kCFRunLoopCommonModes);
+	NSArray *keys = [NSArray arrayWithObjects:
+                     [NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", self.interfaceBSDName],
+                     [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", self.interfaceBSDName],
+                     nil];
+    
+
+	return SCDynamicStoreSetNotificationKeys(self.store, (CFArrayRef) keys, NULL);
+}
+
+- (void) dumpData {
+    BOOL isActive = [[self.interfaceData valueForKey:@"Busy"] boolValue];
+    DSLog(@"interface data %@", self.interfaceData);
+    DSLog(@"interface is %@", (isActive) ? @"busy":@"not busy");
+    DSLog(@"interface is %@", (self.linkActive) ? @"active":@"inactive");
+}
+
+- (void) getInterfaceStateInfo {
+
+    NSDictionary *currentData = nil;
+    
+    currentData = SCDynamicStoreCopyValue(self.store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", self.interfaceBSDName]);
+    [self setLinkActive:[[currentData valueForKey:@"Active"] boolValue]];
+    [currentData release];
+    
+    currentData = SCDynamicStoreCopyValue(self.store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", self.interfaceBSDName]);
+    [self setInterfaceData:currentData];
+    [currentData release];
+    
+    //[self dumpData];
+    [self doUpdate];
 }
 
 

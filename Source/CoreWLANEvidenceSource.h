@@ -7,6 +7,7 @@
 //
 
 #import "GenericLoopingEvidenceSource.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 #import <Foundation/Foundation.h>
 
 
@@ -27,7 +28,17 @@
 @property(readwrite, retain) NSString *ssidString;
 @property(readwrite, retain) NSString *signalStrength;
 @property(readwrite, retain) NSString *macAddress;
-@property(readwrite, retain) NSTimer *loopTimer;
+@property(strong) NSDictionary *interfaceData;
+@property BOOL linkActive;
+@property(strong) NSString *interfaceBSDName;
+@property(strong) NSTimer *loopTimer;
+@property SCDynamicStoreContext ctxt;
+
+// For SystemConfiguration asynchronous notifications
+@property SCDynamicStoreRef store;
+@property CFRunLoopSourceRef runLoop;
+
+//@property(readwrite, retain) NSTimer *loopTimer;
 
 - (id)init;
 - (void)dealloc;
@@ -43,5 +54,7 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
+- (void) dumpData;
+- (void) getInterfaceStateInfo;
 
 @end
