@@ -699,6 +699,9 @@
 
 - (void)doUpdateByTimer:(NSTimer *)theTimer
 {
+#ifdef DEBUG_MODE
+    DSLog(@"**** DOING UPDATE LOOP BY TIMER ****");
+#endif
     [self doUpdate];
 }
 
@@ -726,7 +729,7 @@
 														  target: self
 														selector: @selector(doUpdateByTimer:)
 														userInfo: nil
-														 repeats: YES] retain];
+														 repeats: NO] retain];
 	}
     
 	// Check status bar visibility
@@ -757,11 +760,18 @@
 - (NSArray *)getRulesThatMatch
 {
 	NSArray *rules = [rulesController arrangedObjects];
+#ifdef DEBUG_MODE
+    DSLog(@"number of rules %ld", [rules count]);
+    DSLog(@"rules list %@", rules);
+#endif
 	NSMutableArray *matching_rules = [NSMutableArray array];
 
 	NSEnumerator *rule_enum = [rules objectEnumerator];
 	NSDictionary *rule;
 	while (rule = [rule_enum nextObject]) {
+#ifdef DEBUG_MODE
+        DSLog(@"checking rule %@", rule);
+#endif
 		if ([evidenceSources ruleMatches:rule])
 			[matching_rules addObject:rule];
 	}
@@ -1113,7 +1123,9 @@
     //     Sub context of sub context of Top Level 2
 	allConfiguredContexts = [contextsDataSource arrayOfUUIDs];
     
-    
+#ifdef DEBUG_MODE
+    DSLog(@"context list %@", allConfiguredContexts);
+#endif
     // of the configured contexts, which ones have rule hits?
     guesses = [self getGuessesFrom:allConfiguredContexts];
     
@@ -1166,10 +1178,15 @@
 	// Maps a guessed context to an "unconfidence" value, which is
 	// equal to (1 - confidence). We step through all the rules that are "hits",
 	// and multiply this running unconfidence value by (1 - rule.confidence).
+#ifdef DEBUG_MODE
+    DSLog(@"attempting to get rules that match: %@", allConfiguredContexts);
+#endif
 	NSMutableDictionary *guesses = [NSMutableDictionary dictionaryWithCapacity:[allConfiguredContexts count]];
 	NSArray *rule_hits = [self getRulesThatMatch];
     
-    //DSLog(@"rule_hits\n%@", rule_hits);
+#ifdef DEBUG_MODE
+    DSLog(@"rules that match: %@", rule_hits);
+#endif
     
 	NSEnumerator *ruleHitsEnumerator = [rule_hits objectEnumerator];
 	NSDictionary *currentRule;
@@ -1432,7 +1449,9 @@
 	while (!timeToDie) {
 		[updatingLock lockWhenCondition:1];
         
-
+#ifdef DEBUG_MODE
+        DSLog(@"**** DOING UPDATE LOOP ****");
+#endif
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"] &&
 		    !forcedContextIsSticky) {
 			[self doUpdateForReal];
@@ -1558,6 +1577,9 @@
 #pragma mark Evidence source change handling
 - (void) evidenceSourceDataDidChange:(NSNotification *)notification {
     // this will cause the updateThread to do it's work
+#ifdef DEBUG_MODE
+    DSLog(@"**** DOING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
+#endif
     [self doUpdate];
 }
 
