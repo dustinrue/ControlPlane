@@ -121,8 +121,7 @@
 		DSLog(@"Stopping %@ for sleep.", [self class]);
 		startAfterSleep = YES;
 		[self stop];
-	} else
-		startAfterSleep = NO;
+	} 
 }
 
 - (void)wakeFromSleep:(id)arg
@@ -131,6 +130,7 @@
 	if (startAfterSleep) {
 		DSLog(@"Starting %@ after sleep.", [self class]);
 		[self start];
+        startAfterSleep = NO;
 	}
 }
 
