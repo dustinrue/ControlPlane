@@ -326,7 +326,7 @@
 			NSLocalizedString(@"All your actions have been imported.", @"")];
 
 	info = [info stringByAppendingFormat:@"\n\n%@",
-		NSLocalizedString(@"We strongly recommended that you review your preferences.", @"")];
+		NSLocalizedString(@"We strongly recommend that you review your preferences.", @"")];
 
 	[alert setInformativeText:info];
 
