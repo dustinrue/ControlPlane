@@ -116,20 +116,23 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     NSMutableArray *all_aps = [NSMutableArray array];
     CWInterface *currentNetwork = nil;
     
-    self.scanResults = [NSMutableArray arrayWithArray:[[self.currentInterface scanForNetworksWithName:nil error:&err] allObjects]];
-    
-    if( err )
-        DSLog(@"error: %@",err);
-    else
-        [self.scanResults sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"ssid" ascending:YES selector:@selector	(caseInsensitiveCompare:)] autorelease]]];
-    
-    
-    for (currentNetwork in self.scanResults) {
-        [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
-#ifdef DEBUG_MODE
-        DSLog(@"found ssid %@ with bssid %@ and RSSI %ld",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
-#endif
+    @synchronized(self) {
+        self.scanResults = [NSMutableArray arrayWithArray:[[self.currentInterface scanForNetworksWithName:nil error:&err] allObjects]];
+        
+        if( err )
+            DSLog(@"error: %@",err);
+        else
+            [self.scanResults sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"ssid" ascending:YES selector:@selector	(caseInsensitiveCompare:)] autorelease]]];
+        
+        
+        for (currentNetwork in self.scanResults) {
+            [all_aps addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                [currentNetwork ssid], @"WiFi SSID", [currentNetwork bssid], @"WiFi BSSID", nil]];
+    #ifdef DEBUG_MODE
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld",[currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
+    #endif
+            
+        }
     }
     
     return all_aps;
