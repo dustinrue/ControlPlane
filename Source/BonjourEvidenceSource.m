@@ -32,11 +32,24 @@
 
 #pragma mark -
 
+
 @implementation BonjourEvidenceSource
 
+@synthesize lock;
+@synthesize scanTimer;
+@synthesize stage;
+@synthesize topLevelNetworkBrowser;
+@synthesize servicesBeingResolved;
+@synthesize services;
+@synthesize servicesByType;
+@synthesize hits;
+@synthesize hitsInProgress;
+
 - (id)init {
-	if (!(self = [super init]))
-		return nil;
+    self = [super init];
+    
+    if (!self)
+        return self;
     
 	lock = [[NSLock alloc] init];
 	
@@ -47,7 +60,7 @@
     servicesBeingResolved = [[NSMutableArray alloc] init];
 	
 	services = [[NSMutableArray alloc] init];
-    servicesByType = [[[NSMutableDictionary alloc] init] retain];
+    servicesByType = [[NSMutableDictionary alloc] init];
     
 	hits = [[NSMutableArray alloc] init];
 	hitsInProgress = [[NSMutableArray alloc] init];
@@ -57,6 +70,8 @@
 
 - (void)dealloc {
 	[lock release];
+    [scanTimer release];
+    [servicesBeingResolved release];
 	[topLevelNetworkBrowser release];
 	[services release];
     
@@ -85,7 +100,7 @@
 	if (!running)
 		return;
     
-    [topLevelNetworkBrowser stop];
+    [self.topLevelNetworkBrowser stop];
     [self clearCollectedData];
 
 	running = NO;
@@ -95,10 +110,10 @@
 - (void)clearCollectedData {
 	//[lock lock];
     [self setDataCollected:NO];
-    [services removeAllObjects];
+    [self.services removeAllObjects];
     
     //DSLog(@"clearing servicesBeingResolved");
-    for (CPBonjourResolver *goingAway in servicesBeingResolved) {
+    for (CPBonjourResolver *goingAway in self.servicesBeingResolved) {
         
         [goingAway stop];
         //[goingAway release];
@@ -106,19 +121,19 @@
         
     }
     //DSLog(@"removing all objects");
-    [servicesBeingResolved removeAllObjects];
+    [self.servicesBeingResolved removeAllObjects];
     
 	
     //DSLog(@"clearing servicesByType");
-    NSArray *keys = [servicesByType allKeys];
+    NSArray *keys = [self.servicesByType allKeys];
     for (NSString *currentKey in keys) {
         //DSLog(@"clearing %@", currentKey);
-        CPBonjourResolver *goingAway = [servicesByType objectForKey:currentKey];
+        CPBonjourResolver *goingAway = [self.servicesByType objectForKey:currentKey];
         [goingAway stop];
 
     }
     //DSLog(@"removing all objects");
-    [servicesByType removeAllObjects];
+    [self.servicesByType removeAllObjects];
 	//[lock unlock];
     //DSLog(@"done clearing data");
 }
@@ -129,7 +144,7 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
 #ifdef DEBUG_MODE
-    NSLog(@"I know about %@", services);
+    NSLog(@"I know about %@", self.services);
 #endif
     
 	BOOL match = NO;
@@ -139,7 +154,7 @@
 		return NO;	// corrupted rule
 	NSString *host = [comp objectAtIndex:0], *service = [comp objectAtIndex:1];
     
-    NSArray *servicesSnapshot = [services copy];
+    NSArray *servicesSnapshot = [self.services copy];
 
 	for (NSNetService *aService in servicesSnapshot) {
         if ([[aService name] isEqualToString:host] &&
@@ -159,9 +174,9 @@
 }
 
 - (NSArray *)getSuggestions {
-	[lock lock];
-    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[services count]];
-    for (NSNetService *aService in services) {
+	[self.lock lock];
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[self.services count]];
+    for (NSNetService *aService in self.services) {
 		NSString *desc = [NSString stringWithFormat:@"%@ on %@", [aService type], [CPBonjourResolver stripLocal:[aService name]]];
 		NSString *param = [NSString stringWithFormat:@"%@/%@", [aService name], [aService type]];
 		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -170,7 +185,7 @@
                         desc, @"description", nil]];
     }
     
-	[lock unlock];
+	[self.lock unlock];
     
 	return arr;
 }
@@ -183,9 +198,9 @@
     [self clearCollectedData];
     
 	// This finds all service types
-    [topLevelNetworkBrowser setDelegate:self];
-    [topLevelNetworkBrowser setMyServiceType:@"TOP"];
-	[topLevelNetworkBrowser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
+    [self.topLevelNetworkBrowser setDelegate:self];
+    [self.topLevelNetworkBrowser setMyServiceType:@"TOP"];
+	[self.topLevelNetworkBrowser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
 }
 
 
@@ -196,15 +211,15 @@
     // of CPBonjourResolver for each one.
 
 
-    if (sender == topLevelNetworkBrowser) {
+    if (sender == self.topLevelNetworkBrowser) {
         // if we don't already have an NSNetService object looking for this service we 
         // create one now
-        if (![servicesByType objectForKey:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]]]) {
+        if (![self.servicesByType objectForKey:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]]]) {
             CPBonjourResolver *tmp = [[CPBonjourResolver alloc] init];
             [tmp setDelegate:self];
             [tmp setMyServiceType:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]]];
             [tmp searchForServicesOfType:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]] inDomain:@"local."];
-            [servicesByType setObject:tmp forKey:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]]];
+            [self.servicesByType setObject:tmp forKey:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]]];
             [tmp release];
         }
     }
@@ -213,7 +228,7 @@
         [tmp setDelegate:self];
         [tmp setMyServiceType:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]]];
         [tmp doResolveForService:service];
-        [servicesBeingResolved addObject:tmp];
+        [self.servicesBeingResolved addObject:tmp];
         [tmp release];
     }
 
@@ -224,14 +239,14 @@
 #if DEBUG_MODE
     DSLog(@"adding %@ on %@", [(NSNetService *)sender type], [(NSNetService *) sender name]);
 #endif
-    [services addObject:sender];
+    [self.services addObject:sender];
 }
 
 - (void) netServiceBrowser:(id)netServiceBrowser removedService:(NSNetService *)removedService {
 #if DEBUG_MODE
     DSLog(@"removing %@ on %@", [removedService type], [removedService name]);
 #endif
-    [services removeObject:removedService];
+    [self.services removeObject:removedService];
 }
 
 - (NSString *) friendlyName {
