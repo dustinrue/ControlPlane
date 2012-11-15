@@ -540,7 +540,7 @@
 	}
 
 	// Smaller font
-	NSFont *font = [NSFont menuBarFontOfSize:10.0];
+	NSFont *font = [NSFont menuBarFontOfSize:0];
 	NSDictionary *attrs = [NSDictionary dictionaryWithObject:font
 							  forKey:NSFontAttributeName];
 	NSAttributedString *as = [[NSAttributedString alloc] initWithString:title attributes:attrs];
