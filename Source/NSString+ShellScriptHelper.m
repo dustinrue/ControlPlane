@@ -72,6 +72,10 @@
 	// check type
 	if ([extension isEqualToString: @"sh"])
 		result = @"/bin/bash";
+	else if ([extension isEqualToString: @"zsh"])
+		result = @"/usr/bin/zsh";
+	else if ([extension isEqualToString: @"rb"])
+		result = @"/usr/bin/ruby";
 	else if ([extension isEqualToString: @"scpt"])
 		result = @"/usr/bin/osascript";
 	else if ([extension isEqualToString: @"pl"])
