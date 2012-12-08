@@ -27,7 +27,7 @@
 - (void)dealloc
 {
     
-	[super dealloc];
+	//[super dealloc];
 }
 
 
@@ -35,7 +35,7 @@
     CFDictionaryRef powerAdapterInfo = IOPSCopyExternalPowerAdapterDetails();
     
     if (powerAdapterInfo)
-        attachedPowerAdapter = [(NSDictionary *)powerAdapterInfo valueForKey:@"SerialNumber"];
+        attachedPowerAdapter = [(__bridge NSDictionary *)powerAdapterInfo valueForKey:@"SerialNumber"];
     else
         attachedPowerAdapter = nil;
     
@@ -99,7 +99,7 @@
     if ([currentAdapter isEqualToString:param])
         match = YES;
 
-    [currentAdapter release];
+   // [currentAdapter release];
 
     return match;
 }

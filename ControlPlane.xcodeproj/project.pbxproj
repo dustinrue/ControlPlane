@@ -80,7 +80,7 @@
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
-		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; };
+		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA2B4381152161C800E94A1D /* ToggleTFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */; };
 		DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4384152161D900E94A1D /* ToggleFTPAction.m */; };
@@ -103,7 +103,7 @@
 		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
 		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; };
-		DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */; };
+		DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; };
 		DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */; };
 		DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A21E13D12A3200074503 /* cp-icon-active.icns */; };

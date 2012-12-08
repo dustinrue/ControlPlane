@@ -27,7 +27,7 @@
 - (void)dealloc
 {
     
-	[super dealloc];
+	//[super dealloc];
 }
 
 - (void)doFullUpdate:(NSNotification *) notification {
@@ -135,7 +135,7 @@
           identifier, @"parameter",
           desc, @"description", nil]];
 	}
-    [apps release];
+    //[apps release];
 	[lock unlock];
     
 	return array;
