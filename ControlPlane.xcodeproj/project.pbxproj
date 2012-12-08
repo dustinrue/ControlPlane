@@ -81,6 +81,7 @@
 		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA1E59D21673A039002D256D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1E59D11673A039002D256D /* Growl.framework */; };
+		DA1E59D41673A2F7002D256D /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DA1E59D11673A039002D256D /* Growl.framework */; };
 		DA2B4381152161C800E94A1D /* ToggleTFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */; };
 		DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4384152161D900E94A1D /* ToggleFTPAction.m */; };
 		DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */ = {isa = PBXBuildFile; fileRef = DA312CA2156DD42E009C1389 /* BWQuincyUI.m */; };
@@ -216,6 +217,7 @@
 			files = (
 				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
 				DA87D18014EE0E8300E46DFF /* MapKit.framework in Copy Frameworks */,
+				DA1E59D41673A2F7002D256D /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;

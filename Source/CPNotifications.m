@@ -14,7 +14,7 @@
 + (void) postNotification:(NSString *)title withMessage:(NSString *)message {
     
     // use Notification Center if it is available
-    if (NSClassFromString(@"NSUserNotification")) {
+    if (!NSClassFromString(@"NSUserNotification")) {
         NSUserNotification *notificationMessage = [[NSUserNotification alloc] init];
         
         notificationMessage.title = title;
@@ -43,7 +43,8 @@
                                        clickContext:nil];
         }
         @catch (NSException *exception) {
-            // something went wrong and we're going to simply throw the message away 
+            // something went wrong and we're going to simply throw the message away
+            NSLog(@"derp %@", exception);
         }
         
 
