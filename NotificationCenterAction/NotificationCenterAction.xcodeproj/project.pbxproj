@@ -121,7 +121,7 @@
 		DAD8898515D5F337009F30A3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Dustin Rue";
 			};
 			buildConfigurationList = DAD8898815D5F337009F30A3 /* Build configuration list for PBXProject "NotificationCenterAction" */;

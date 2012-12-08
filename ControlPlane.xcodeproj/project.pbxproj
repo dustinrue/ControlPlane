@@ -80,6 +80,7 @@
 		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
 		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
+		DA1E59D21673A039002D256D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1E59D11673A039002D256D /* Growl.framework */; };
 		DA2B4381152161C800E94A1D /* ToggleTFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */; };
 		DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4384152161D900E94A1D /* ToggleFTPAction.m */; };
 		DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */ = {isa = PBXBuildFile; fileRef = DA312CA2156DD42E009C1389 /* BWQuincyUI.m */; };
@@ -432,6 +433,7 @@
 		DA146F7E143F3C4000906DBF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
 		DA146F7F143F3C4000906DBF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		DA1E59D11673A039002D256D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		DA22656915CAEF2000B75163 /* EvidenceSourcePlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EvidenceSourcePlugin.h; path = Protocols/EvidenceSourcePlugin.h; sourceTree = "<group>"; };
 		DA2B437F152161C800E94A1D /* ToggleTFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTFTPAction.h; path = Source/ToggleTFTPAction.h; sourceTree = "<group>"; };
 		DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTFTPAction.m; path = Source/ToggleTFTPAction.m; sourceTree = "<group>"; };
@@ -619,6 +621,7 @@
 				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */,
 				DA4411A514EE03C9005E7B3B /* MapKit.framework in Frameworks */,
+				DA1E59D21673A039002D256D /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -679,6 +682,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA1E59D11673A039002D256D /* Growl.framework */,
 				DA4411A414EE03C9005E7B3B /* MapKit.framework */,
 				8D20720E0B86AB0000D61A9E /* Sparkle.framework */,
 			);
