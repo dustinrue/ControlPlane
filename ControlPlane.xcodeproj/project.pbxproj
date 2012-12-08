@@ -46,8 +46,6 @@
 		8D73CBB30C46FEC800DF839E /* PowerEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */; };
 		8D73CC140C470FE000DF839E /* RunningApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */; };
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
-		8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
-		8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8D80BB950B8B033400104A87 /* Growl.framework */; };
 		8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8155CE0C3A304E00228463 /* ContextsDataSource.m */; };
 		8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */; };
 		8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */; };
@@ -215,7 +213,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8D80BBA30B8B036C00104A87 /* Growl.framework in Copy Frameworks */,
 				8D2073890B86AB8000D61A9E /* Sparkle.framework in Copy Frameworks */,
 				DA87D18014EE0E8300E46DFF /* MapKit.framework in Copy Frameworks */,
 			);
@@ -362,7 +359,6 @@
 		8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ScreenSaverPasswordAction.m; path = Source/ScreenSaverPasswordAction.m; sourceTree = "<group>"; };
 		8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToggleBluetoothAction.h; path = Source/ToggleBluetoothAction.h; sourceTree = "<group>"; };
 		8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ToggleBluetoothAction.m; path = Source/ToggleBluetoothAction.m; sourceTree = "<group>"; };
-		8D80BB950B8B033400104A87 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		8D8155CD0C3A304E00228463 /* ContextsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextsDataSource.h; path = Source/ContextsDataSource.h; sourceTree = "<group>"; };
 		8D8155CE0C3A304E00228463 /* ContextsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextsDataSource.m; path = Source/ContextsDataSource.m; sourceTree = "<group>"; };
 		8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
@@ -615,7 +611,6 @@
 				DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */,
 				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
 				DAFC0E4514788ACB00DA6139 /* DisplayServices.framework in Frameworks */,
-				8D80BB980B8B033400104A87 /* Growl.framework in Frameworks */,
 				DAFC0E4614788B0500DA6139 /* IOBluetooth.framework in Frameworks */,
 				8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */,
 				DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */,
@@ -685,7 +680,6 @@
 			isa = PBXGroup;
 			children = (
 				DA4411A414EE03C9005E7B3B /* MapKit.framework */,
-				8D80BB950B8B033400104A87 /* Growl.framework */,
 				8D20720E0B86AB0000D61A9E /* Sparkle.framework */,
 			);
 			name = "Linked Frameworks";
@@ -1648,6 +1642,7 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
+					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
@@ -1665,6 +1660,7 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
+					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PROVISIONING_PROFILE = "";
