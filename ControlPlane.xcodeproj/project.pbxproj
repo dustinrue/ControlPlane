@@ -13,7 +13,7 @@
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */; };
+		8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8D185DC60BF428CF00A06B03 /* AdvancedPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D185DC50BF428CF00A06B03 /* AdvancedPrefs.png */; };
 		8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A45590BA00DE2004A6BC4 /* minus-8.png */; };
 		8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A455A0BA00DE2004A6BC4 /* plus-8.png */; };
