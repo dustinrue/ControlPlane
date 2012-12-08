@@ -146,7 +146,7 @@
 		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
 		DD7D2539149C338300BE7C8B /* NSTimer+Invalidation.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
-		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; };
+		DD8274F0141154780098FA6E /* MailIntervalAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274EF141154780098FA6E /* MailIntervalAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */; };
 		DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F514116CC80098FA6E /* OpenURLAction.m */; };
 		DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F81411748B0098FA6E /* LockKeychainAction.m */; };

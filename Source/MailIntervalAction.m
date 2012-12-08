@@ -44,14 +44,14 @@
 }
 
 - (void) dealloc {
-	[time release];
-	[super dealloc];
+	//[time release];
+	//[super dealloc];
 }
 
 - (NSMutableDictionary *) dictionary {
 	NSMutableDictionary *dict = [super dictionary];
 	
-	[dict setObject: [[time copy] autorelease] forKey: @"parameter"];
+	[dict setObject: [time copy] forKey: @"parameter"];
 	
 	return dict;
 }
