@@ -269,11 +269,18 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     NSArray *validSubnetValues = @[@0, @128, @192, @224, @240, @248, @252, @254, @255];
     
     // used as a lookup that converts a calculated jump size to the distance
-    // between networks
+    // between networks.  For example, if you have a network 10.0.0.0 with netmask 255.255.252.0
+    // the prefix length value would calculate to /22.  22 % 8 is 6, 4 is in position 6 of the array below.
+    // This means that there is a new network every 4th step from 0, like so
+    // 10.0.0.0 - 10.0.3.255
+    // 10.0.4.0 - 10.0.7.255
+    // 10.0.8.0 - 10.0.11.255
+    // Refer to the link above for more information
     NSArray *jump_sizes = @[@256, @128, @64, @32, @16, @8, @4, @2, @1];
     
     // we're going to determine the prefix length (the /24 part of 192.168.0.0/24 is the "prefix")
-    // this makes calcuating some things later on easier
+    // this makes calcuating some things later on easier.  It always starts with 8 because the
+    // large net mask is 255.0.0.0 (255 = 8 bits)
     int prefix = 8;
     
     if ([[netmaskExploded objectAtIndex:0] intValue] != 255) {
@@ -305,6 +312,8 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
         return NO;
     }
     
+    // what ever prefix's value is now, that'd be the short hand (address prefix length) of the
+    // subnet.  A class A would be /8, B /16 and C /24.  
     // if prefix is 32, then we're looking for a specific host address
     // and we can leave early if the ip address matches the rule ip address
     if (prefix == 32) {
@@ -313,23 +322,29 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     }
     
     // based on the subnet mask, how many octets of the assigned IP address
-    // and the rule IP must match?  This is based on the prefix
+    // and the rule IP must match?  This is based on the prefix.  Again, if dealing
+    // with a simple class C network then the first 3 octets of the net mask would be
+    // 255.255.255.0 meaning the first 3 octets of the assigned IP must match the
+    // first 3 octets of the rule IP
     for (int i = 0; i < floor(prefix / 8); i++) {
         if (![[ipExploded objectAtIndex:i] isEqualToString:[ruleIpExploded objectAtIndex:i]])
             return NO;
     }
     
+    // we can calculate then which octet is actually interesting, the one we need to
+    // use to calculate additional information to help determine a match
     int interesting_octet = ceil(prefix / 8);
     int jump_size = prefix % 8; // distance between subnets
     
     // if we've made it this far and the "jump size" is 0, then the IP
-    // fits within the range provided and we have a match
+    // fits within the range provided and we have a match.  This will happen
+    // when we've hit on one of the original A, B or C classes of networks
     if (jump_size == 0)
         return YES;
     
     // if jump size is anything other than 0 then it gets more difficult
     // we convert the jump size we have to a value that represents the distance
-    // between networks
+    // between networks as described above.
     jump_size = [[jump_sizes objectAtIndex:jump_size] intValue];
     
     //NSLog(@"the interesting octet for %@ is %d, jump size is %d", ipAddress, [[ipExploded objectAtIndex:interesting_octet] intValue], jump_size);
