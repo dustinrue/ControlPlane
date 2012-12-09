@@ -207,8 +207,6 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-    int i;
-    NSInteger networkOctetPosition = 0;
 
     // TODO: add proper IPV6 support
 	BOOL match = NO;
@@ -216,6 +214,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     // this grabs the IP address from the rule, will look something like
     // 192.168.0.0 and 255.255.255.0
 	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@","];
+    
     
 	if ([comp count] != 2)
 		return NO;	// corrupted rule
@@ -225,97 +224,12 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     // now ControlPlane will determine if the IP address fits in the
     // network range provided in the rule
     
-    // split the rule netmask into an array we can walk later
-    NSArray *ruleNetmaskArray = [[comp objectAtIndex:1] componentsSeparatedByString:@"."];
-    networkOctetPosition = [self findInterestingOctet:ruleNetmaskArray];
-    
-    // determine of the rule is a host address (netmask is 255.255.255.255)
-    bool isHostAddress = [self isHostAddress:[comp objectAtIndex:1]];
-    
 	NSEnumerator *en = [addresses objectEnumerator];
 	NSString *ip;
 
 	while ((ip = [en nextObject])) {
-#ifdef DEBUG_MODE
-        DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
-#endif
-        // if the rule is for a host address
-        // then we can simply match the whole string wholesale and
-        // then GTFO
-
-        if (isHostAddress && [[comp objectAtIndex:0] isEqualToString:ip]) {
-#ifdef DEBUG_MODE
-            DSLog(@"matching on host address");
-#endif
+        if ([self isIp:ip inRuleIp:[comp objectAtIndex:0] withSubnetMask:[comp objectAtIndex:1]])
             match = YES;
-            break;
-        }
-        else if (isHostAddress) {
-            break;
-        }
-
-#ifdef DEBUG_MODE
-        DSLog(@"checking %@ to see if it matches against %@/%@",ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
-#endif
-
-        
-        // if we're here, then we have a network range we have to figure out
-        // get the current ip we're checking, break it up into an array
-        NSArray *currentIPArray   = [ip componentsSeparatedByString:@"."];
-        NSArray *ruleIPArray      = [[comp objectAtIndex:0] componentsSeparatedByString:@"."];
-        
-        
-        for (i = 0; i < 4; ++i) {
-            // if i is less than our interesting octet then we can just compare the values directly
-            if (i < networkOctetPosition) {
-#ifdef DEBUG_MODE
-                DSLog(@"checking %d and %d",[[currentIPArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue]);
-#endif
-                if ([[currentIPArray objectAtIndex:i] intValue] != [[ruleIPArray objectAtIndex:i] intValue])
-                    break;
-                continue;
-            }
-            else {
-#ifdef DEBUG_MODE
-                DSLog(@"subnet mask octet is not 255, doing host checks for %@", ip);
-#endif
-            }
-            
-
-            // if the final netmask is 0 and everything else has matched up to this
-            // point then we know that the IP the machine has matches the rule
-            if ([[ruleNetmaskArray objectAtIndex:i] intValue] == 0) {
-#ifdef DEBUG_MODE
-                DSLog(@"%@ matches current rule", ip);
-#endif
-                match = YES;
-                break;
-            }
-            else {
-                // we must calculate what network the machine is on vs the 
-                // network the rule says we're looking for
-#ifdef DEBUG_MODE
-                DSLog(@"checking %@ for match because it is on the same subnet (%d vs %d) as the rule", ip,  [[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue], [[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue]);
-#endif
-                if (([[ruleIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])  == ([[currentIPArray objectAtIndex:i] intValue] & [[ruleNetmaskArray objectAtIndex:i] intValue])) {
-                    // if these are equal then the machine is sitting on the same network as the rule
-#ifdef DEBUG_MODE
-                    DSLog(@"%@ matches because it is on the same subnet as the rule", ip);
-#endif
-                    match = YES;
-                    break;
-                }
-                else {
-#ifdef DEBUG_MODE
-                    DSLog(@"%@ doesn't match rule %@/%@", ip, [comp objectAtIndex:0], [comp objectAtIndex:1]);
-#endif
-                    match = NO;
-                    break;
-                }
-            }
-
-        }
-
 	}
 	[lock unlock];
 
@@ -343,5 +257,133 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     return NSLocalizedString(@"Assigned IP Address", @"");
 }
 
+- (BOOL) isIp:(NSString *)ipAddress inRuleIp:(NSString *)ruleIp withSubnetMask:(NSString *) ruleSubnet {
+    // this page was used as a reference for building this code
+    // http://www.cisco.com/web/about/ac123/ac147/archived_issues/ipj_9-1/ip_addresses.html
+    
+    NSArray *ipExploded = [ipAddress componentsSeparatedByString:@"."];
+    NSArray *ruleIpExploded = [ruleIp componentsSeparatedByString:@"."];
+    NSArray *netmaskExploded = [ruleSubnet componentsSeparatedByString:@"."];
+    
+    // in a CIDR network, these are the only valid values for a subnet
+    NSArray *validSubnetValues = @[@0, @128, @192, @224, @240, @248, @252, @254, @255];
+    
+    // used as a lookup that converts a calculated jump size to the distance
+    // between networks
+    NSArray *jump_sizes = @[@256, @128, @64, @32, @16, @8, @4, @2, @1];
+    
+    // we're going to determine the prefix length (the /24 part of 192.168.0.0/24 is the "prefix")
+    // this makes calcuating some things later on easier
+    int prefix = 8;
+    
+    if ([[netmaskExploded objectAtIndex:0] intValue] != 255) {
+        DSLog(@"invalid subnet mask in rule");
+        return NO;
+    }
+    
+    if ([validSubnetValues containsObject:[NSNumber numberWithInt:[[netmaskExploded objectAtIndex:1] intValue]]]) {
+        prefix = prefix + [self calculatePrefixLengthForOctet:[[netmaskExploded objectAtIndex:1] intValue]];
+    }
+    else {
+        DSLog(@"invalid subnet mask in rule");
+        return NO;
+    }
+    
+    if ([validSubnetValues containsObject:[NSNumber numberWithInt:[[netmaskExploded objectAtIndex:2] intValue]]]) {
+        prefix = prefix + [self calculatePrefixLengthForOctet:[[netmaskExploded objectAtIndex:2] intValue]];
+    }
+    else {
+        DSLog(@"invalid subnet mask in rule");
+        return NO;
+    }
+    
+    if ([validSubnetValues containsObject:[NSNumber numberWithInt:[[netmaskExploded objectAtIndex:3] intValue]]]) {
+        prefix = prefix + [self calculatePrefixLengthForOctet:[[netmaskExploded objectAtIndex:3] intValue]];
+    }
+    else {
+        DSLog(@"invalid subnet mask in rule");
+        return NO;
+    }
+    
+    // if prefix is 32, then we're looking for a specific host address
+    // and we can leave early if the ip address matches the rule ip address
+    if (prefix == 32) {
+        if ([ipAddress isEqualToString:ruleIp])
+            return YES;
+    }
+    
+    // based on the subnet mask, how many octets of the assigned IP address
+    // and the rule IP must match?  This is based on the prefix
+    for (int i = 0; i < floor(prefix / 8); i++) {
+        if (![[ipExploded objectAtIndex:i] isEqualToString:[ruleIpExploded objectAtIndex:i]])
+            return NO;
+    }
+    
+    int interesting_octet = ceil(prefix / 8);
+    int jump_size = prefix % 8; // distance between subnets
+    
+    // if we've made it this far and the "jump size" is 0, then the IP
+    // fits within the range provided and we have a match
+    if (jump_size == 0)
+        return YES;
+    
+    // if jump size is anything other than 0 then it gets more difficult
+    // we convert the jump size we have to a value that represents the distance
+    // between networks
+    jump_size = [[jump_sizes objectAtIndex:jump_size] intValue];
+    
+    //NSLog(@"the interesting octet for %@ is %d, jump size is %d", ipAddress, [[ipExploded objectAtIndex:interesting_octet] intValue], jump_size);
+    
+    for (int i = 0; i < 256; i = i + jump_size) {
+        
+        // just as well leave if i is larger than the rule's interesting octet
+        if (i > [[ruleIpExploded objectAtIndex:interesting_octet] intValue])
+            return NO;
+        // test to see if the rule exists in a valid network
+        //NSLog(@"checking if rule's %d fits in %d - %d", [[ruleIpExploded objectAtIndex:interesting_octet] intValue], i, i + jump_size);
+        if ([[ruleIpExploded objectAtIndex:interesting_octet] intValue] >= i && [[ruleIpExploded objectAtIndex:interesting_octet] intValue] < i + jump_size) {
+            // if the rule matches, lets see if the assigned ip address does too
+            //NSLog(@"checking if assigned ip's %d fits in %d - %d", [[ipExploded objectAtIndex:interesting_octet] intValue], i, i + jump_size);
+            if ([[ipExploded objectAtIndex:interesting_octet] intValue] >= i && [[ipExploded objectAtIndex:interesting_octet] intValue] < i + jump_size) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+- (int) calculatePrefixLengthForOctet:(int) octet {
+    //NSLog(@"calculating for %d", octet);
+    int one_count = 0;
+    
+    if (octet - 128 >= 0)
+        one_count++;
+    
+    if (octet - 192 >= 0)
+        one_count++;
+    
+    if (octet - 224 >= 0)
+        one_count++;
+    
+    if (octet - 240 >= 0)
+        one_count++;
+    
+    if (octet - 248 >= 0)
+        one_count++;
+    
+    if (octet - 252 >= 0)
+        one_count++;
+    
+    if (octet - 254 >= 0)
+        one_count++;
+    
+    if (octet - 255 >= 0)
+        one_count++;
+    
+    //NSLog(@"returning %d", one_count);
+    return one_count;
+        
+}
 
 @end
