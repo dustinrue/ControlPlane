@@ -1375,7 +1375,6 @@
 		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 #endif
         return false;
-		no_guess = YES;
 	}
     
     
