@@ -153,7 +153,7 @@
     
     
     
-	if (holdTimer && [holdTimer isValid]) {
+	if (holdTimer != nil && [holdTimer isValid]) {
 		DSLog(@"stopping hold timer");
 		[holdTimer invalidate];		// XXX: -[NSTimer invalidate] has to happen from the timer's creation thread
 		holdTimer = nil;
