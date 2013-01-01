@@ -326,7 +326,14 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     // with a simple class C network then the first 3 octets of the net mask would be
     // 255.255.255.0 meaning the first 3 octets of the assigned IP must match the
     // first 3 octets of the rule IP
-    for (int i = 0; i < floor(prefix / 8); i++) {
+    
+    if (prefix % 8 != 0)
+        prefix = floor(prefix / 8);
+    else {
+        prefix = prefix / 8;
+    }
+    
+    for (int i = 0; i < prefix; i++) {
         if (![[ipExploded objectAtIndex:i] isEqualToString:[ruleIpExploded objectAtIndex:i]])
             return NO;
     }
