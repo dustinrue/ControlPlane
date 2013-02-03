@@ -112,18 +112,23 @@
 - (void)clearCollectedData {
 	//[lock lock];
     [self setDataCollected:NO];
-    [self.services removeAllObjects];
     
-    //DSLog(@"clearing servicesBeingResolved");
+    NSMutableArray *toBeCleared = [self.services mutableCopy];
+    [toBeCleared removeAllObjects];
+    
+    self.services = toBeCleared;
+
+
     for (CPBonjourResolver *goingAway in self.servicesBeingResolved) {
         
         [goingAway stop];
-        //[goingAway release];
-        //[goingAway release];
         
     }
     //DSLog(@"removing all objects");
-    [self.servicesBeingResolved removeAllObjects];
+    toBeCleared = [self.servicesBeingResolved mutableCopy];
+    [toBeCleared removeAllObjects];
+    
+    self.servicesBeingResolved = toBeCleared;
     
 	
     //DSLog(@"clearing servicesByType");
@@ -216,6 +221,7 @@
     // of CPBonjourResolver for each one.
 
     @synchronized(self) {
+        NSMutableArray *mutableServicesBeingResolved = [self.servicesBeingResolved mutableCopy];
         if (sender == self.topLevelNetworkBrowser) {
             // if we don't already have an NSNetService object looking for this service we 
             // create one now
@@ -233,7 +239,8 @@
             [tmp setDelegate:self];
             [tmp setMyServiceType:[NSString stringWithFormat:@"%@.%@", [service name],[CPBonjourResolver stripLocal:[service type]]]];
             [tmp doResolveForService:service];
-            [self.servicesBeingResolved addObject:tmp];
+            [mutableServicesBeingResolved addObject:tmp];
+            self.servicesBeingResolved = mutableServicesBeingResolved;
             //[tmp release];
         }
     }
@@ -241,26 +248,34 @@
 }
 
 - (void) resolvedServiceArrived:(id)sender {
+    NSMutableArray *toBeAddedTo = [self.services mutableCopy];
+    
     @synchronized(self) {
         dataCollected = YES;
     #if DEBUG_MODE
         DSLog(@"adding %@ on %@", [(NSNetService *)sender type], [(NSNetService *) sender name]);
     #endif
-        [self.services addObject:sender];
+        [toBeAddedTo addObject:sender];
+    
+        self.services = toBeAddedTo;
     }
 }
 
 - (void) netServiceBrowser:(id)netServiceBrowser removedService:(NSNetService *)removedService {
+    NSMutableArray *toBeDeletedFrom = [self.services mutableCopy];
     @synchronized(self) {
     #if DEBUG_MODE
         DSLog(@"removing %@ on %@", [removedService type], [removedService name]);
     #endif
-        [self.services removeObject:removedService];
+        [toBeDeletedFrom removeObject:removedService];
+        
+        self.services = toBeDeletedFrom;
     }
 }
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Bonjour", @"");
 }
+
 
 @end

@@ -22,7 +22,7 @@
 
 // For each service on a host in cpBonjourResolvers
 //
-@property (strong) NSMutableArray *servicesBeingResolved;
+@property (strong) NSArray *servicesBeingResolved;
 
 // for each type of service that the top level browser
 // finds we create a new NSNetService object responsible
@@ -31,7 +31,7 @@
 
 // full resolved services, we now know what service
 // and what host
-@property (strong) NSMutableArray *services;
+@property (strong) NSArray *services;
 
 // service level browsers by their type
 @property (strong) NSMutableDictionary *servicesByType;
