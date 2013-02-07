@@ -321,6 +321,11 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
             return YES;
     }
     
+    // we can calculate then which octet is actually interesting, the one we need to
+    // use to calculate additional information to help determine a match
+    int interesting_octet = ceil(prefix / 8);
+    int jump_size = prefix % 8; // distance between subnets
+    
     // based on the subnet mask, how many octets of the assigned IP address
     // and the rule IP must match?  This is based on the prefix.  Again, if dealing
     // with a simple class C network then the first 3 octets of the net mask would be
@@ -337,11 +342,6 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
         if (![[ipExploded objectAtIndex:i] isEqualToString:[ruleIpExploded objectAtIndex:i]])
             return NO;
     }
-    
-    // we can calculate then which octet is actually interesting, the one we need to
-    // use to calculate additional information to help determine a match
-    int interesting_octet = ceil(prefix / 8);
-    int jump_size = prefix % 8; // distance between subnets
     
     // if we've made it this far and the "jump size" is 0, then the IP
     // fits within the range provided and we have a match.  This will happen
