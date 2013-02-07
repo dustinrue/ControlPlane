@@ -4,6 +4,7 @@
 //
 //  Created by David Symonds on 3/04/07.
 //  Updated by Dustin Rue on 8/28/2012 
+//  Updated by Vladimir Beloborodov on 2/07/2013
 //
 
 #import "OpenAction.h"
@@ -98,11 +99,16 @@
             }
             
         }
-    
+        
+        NSWorkspaceLaunchOptions options = NSWorkspaceLaunchDefault;
+        if ([[self className] isEqualToString:@"OpenAndHideAction"])
+            options |= NSWorkspaceLaunchAndHide;
+        
         // whether it is a file or an app, it needs to get opened here
-        if ([[NSWorkspace sharedWorkspace] openFile:path])
+        NSArray *urls = [NSArray arrayWithObject:[NSURL fileURLWithPath:path]];
+        if ([[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:nil options:options additionalEventParamDescriptor:nil launchIdentifiers:nil]) {
             success = YES;
-
+        }
         
         return success;
 	}
