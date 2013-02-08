@@ -45,17 +45,6 @@
         if (assertionID)
             success = IOPMAssertionRelease(assertionID);
     }
-    
-    
-    if (success == kIOReturnSuccess)
-    {
-        
-        //Add the work you need to do without
-        //  the system sleeping here.
-        
-        
-        //The system will be able to sleep again. 
-    }
 	
 	
 	// result
@@ -72,7 +61,6 @@
 }
 
 + (NSString *) creationHelpText {
-	// FIXME: is there some useful text we could use?
 	return NSLocalizedString(@"Toggle prevention of display sleep", @"");
 }
 
