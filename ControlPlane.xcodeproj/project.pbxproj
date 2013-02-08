@@ -78,6 +78,7 @@
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
+		DA0CAE6516C4813600EDE2C5 /* PreventDisplaySleepAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */; };
 		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA1E59D21673A039002D256D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1E59D11673A039002D256D /* Growl.framework */; };
@@ -122,6 +123,7 @@
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DAB1A7E215C3776D00CF65E8 /* CPNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB1A7E115C3776D00CF65E8 /* CPNotifications.m */; };
+		DABE3F6A16C44236004F5E63 /* OpenAndHideAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DABE3F6916C44236004F5E63 /* OpenAndHideAction.m */; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
 		DAC817B1159BF95A0012ED43 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */; };
@@ -426,6 +428,8 @@
 		8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmountAction.m; path = Source/UnmountAction.m; sourceTree = "<group>"; };
 		DA04D57015DC119E004B9E1C /* ToggleContextStickinessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleContextStickinessAction.h; path = Source/ToggleContextStickinessAction.h; sourceTree = "<group>"; };
 		DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleContextStickinessAction.m; path = Source/ToggleContextStickinessAction.m; sourceTree = "<group>"; };
+		DA0CAE6316C4813600EDE2C5 /* PreventDisplaySleepAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreventDisplaySleepAction.h; path = Source/PreventDisplaySleepAction.h; sourceTree = "<group>"; };
+		DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreventDisplaySleepAction.m; path = Source/PreventDisplaySleepAction.m; sourceTree = "<group>"; };
 		DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttachedPowerAdapterEvidenceSource.m; path = Source/AttachedPowerAdapterEvidenceSource.m; sourceTree = "<group>"; };
 		DA0E648715EC707300E77ABF /* AttachedPowerAdapterEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AttachedPowerAdapterEvidenceSource.h; path = Source/AttachedPowerAdapterEvidenceSource.h; sourceTree = "<group>"; };
 		DA1204DA13D0E5C800CDA091 /* ControlPlane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlPlane.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -497,6 +501,8 @@
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
 		DAB1A7E015C3776D00CF65E8 /* CPNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPNotifications.h; path = Source/CPNotifications.h; sourceTree = "<group>"; };
 		DAB1A7E115C3776D00CF65E8 /* CPNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPNotifications.m; path = Source/CPNotifications.m; sourceTree = "<group>"; };
+		DABE3F6816C44236004F5E63 /* OpenAndHideAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenAndHideAction.h; path = Source/OpenAndHideAction.h; sourceTree = "<group>"; };
+		DABE3F6916C44236004F5E63 /* OpenAndHideAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenAndHideAction.m; path = Source/OpenAndHideAction.m; sourceTree = "<group>"; };
 		DAC45F1E14CDEC170007F5EF /* TimeMachineDestinationAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeMachineDestinationAction.h; path = Source/TimeMachineDestinationAction.h; sourceTree = "<group>"; };
 		DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeMachineDestinationAction.m; path = Source/TimeMachineDestinationAction.m; sourceTree = "<group>"; };
 		DAC672FC152235E800F1C7A1 /* ToggleWebSharingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleWebSharingAction.h; path = Source/ToggleWebSharingAction.h; sourceTree = "<group>"; };
@@ -1019,6 +1025,8 @@
 				DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */,
 				8DD790AA0BC28A9F00705346 /* OpenAction.h */,
 				8DD790AB0BC28A9F00705346 /* OpenAction.m */,
+				DABE3F6816C44236004F5E63 /* OpenAndHideAction.h */,
+				DABE3F6916C44236004F5E63 /* OpenAndHideAction.m */,
 				DD8274F414116CC80098FA6E /* OpenURLAction.h */,
 				DD8274F514116CC80098FA6E /* OpenURLAction.m */,
 				8DFA46140CC33E46003EAC16 /* QuitApplicationAction.h */,
@@ -1056,6 +1064,8 @@
 				8DC4E7F90C178917007E7E41 /* MuteAction.m */,
 				8D6762140C3B8D8D000B63EC /* NetworkLocationAction.h */,
 				8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */,
+				DA0CAE6316C4813600EDE2C5 /* PreventDisplaySleepAction.h */,
+				DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */,
 				8D71CB760C17C01700E56526 /* ScreenSaverPasswordAction.h */,
 				8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */,
 				8D3C85120CDD8546009DBCD9 /* ScreenSaverStartAction.h */,
@@ -1459,6 +1469,8 @@
 				DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */,
 				DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */,
 				DA9957EA160D4BA300AB3C7A /* StressTestEvidenceSource.m in Sources */,
+				DABE3F6A16C44236004F5E63 /* OpenAndHideAction.m in Sources */,
+				DA0CAE6516C4813600EDE2C5 /* PreventDisplaySleepAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

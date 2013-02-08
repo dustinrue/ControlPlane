@@ -236,6 +236,7 @@
 #import "OpenAction.h"
 #import "OpenAndHideAction.h"
 #import "OpenURLAction.h"
+#import "PreventDisplaySleepAction.h"
 #import "QuitApplicationAction.h"
 #import "ScreenSaverPasswordAction.h"
 #import "ScreenSaverStartAction.h"
@@ -298,6 +299,7 @@
 			   [OpenAndHideAction class],
 			   [OpenURLAction class],
 			   [QuitApplicationAction class],
+               [PreventDisplaySleepAction class],
 			   [ScreenSaverPasswordAction class],
 			   [ScreenSaverStartAction class],
 			   [ScreenSaverTimeAction class],
@@ -379,6 +381,7 @@
 		NSLocalizedString(@"Open", @"Action type");
 		NSLocalizedString(@"OpenAndHide", @"Action type");
 		NSLocalizedString(@"OpenURL", @"Action type");
+        NSLocalizedString(@"Prevent Display Sleep", @"Action type");
 		NSLocalizedString(@"QuitApplication", @"Action type");
 		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
 		NSLocalizedString(@"ScreenSaverStart", @"Action type");

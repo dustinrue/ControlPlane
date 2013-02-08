@@ -363,7 +363,7 @@
 }
 
 - (void)awakeFromNib {
-	
+	NSLog(@"did super awake from nib");
     // Configures the crash reporter
     [[BWQuincyManager sharedQuincyManager] setSubmissionURL:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPCrashReportURL"]];
     [[BWQuincyManager sharedQuincyManager] setCompanyName:@"ControlPlane developers"];
