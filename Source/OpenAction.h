@@ -21,4 +21,6 @@
 
 - (id)initWithFile:(NSString *)file;
 
+- (NSWorkspaceLaunchOptions)launchOptions;
+
 @end
