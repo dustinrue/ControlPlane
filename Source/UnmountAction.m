@@ -55,42 +55,23 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-    // use NSTask to run diskutil to unmount the volume
-    NSTask *diskutil;
-    diskutil = [[NSTask alloc] init];
-    [diskutil setLaunchPath:@"/usr/sbin/diskutil"];
-     
-    NSArray *diskUtilArguments;
-    diskUtilArguments = [NSArray arrayWithObjects:@"unmountDisk",path, nil];
-    [diskutil setArguments: diskUtilArguments ];
+    NSError *error;
+    BOOL success = NO;
     
-    NSPipe *retValuePipe = [NSPipe pipe];
-    [diskutil setStandardError:retValuePipe];
-     
+    // unmount if it exists
+    NSURL *pathAsURL = [NSURL fileURLWithPath:path];
+    if ([pathAsURL checkResourceIsReachableAndReturnError:&error] == YES) {
+        success = [[NSWorkspace sharedWorkspace] unmountAndEjectDeviceAtURL:pathAsURL error:&error];
+    }
+    // try again in case the user only provided the name of the mount instead of the full path
+    else {
+        pathAsURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"/Volumes/%@", path]];
+        if ([pathAsURL checkResourceIsReachableAndReturnError:&error] == YES)
+            success = [[NSWorkspace sharedWorkspace] unmountAndEjectDeviceAtURL:pathAsURL error:&error];
+    }
     
-    [diskutil launch];
-    [diskutil waitUntilExit];
-    
-    NSData *retValueData = [[retValuePipe fileHandleForReading] readDataToEndOfFile];
-    
-
-    
-    NSString *retValue = [[[NSString alloc] initWithData:retValueData encoding:NSUTF8StringEncoding] autorelease];
-    
-#ifdef DEBUG_MODE
-    NSLog(@"about to get terminationStatus");
-#endif
-    int status = [diskutil terminationStatus];
-    [diskutil release];
-    
-    
-#ifdef DEBUG_MODE
-    NSLog(@"task ended with status %d",status);
-#endif
-
-	if (status != 0) {
-		*errorString = [[[NSString alloc] initWithFormat:@"%@ - %@", NSLocalizedString(@"Couldn't unmount that volume!", @"In UnmountAction"), retValue] autorelease];
-
+	if (!success) {
+		*errorString = [[[NSString alloc] initWithFormat:@"%@: %@", NSLocalizedString(@"Couldn't unmount that volume!", @"In UnmountAction"), [error localizedFailureReason]] autorelease];
         
 		return NO;
 	}
