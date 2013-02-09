@@ -53,6 +53,10 @@
 	return [NSString stringWithFormat:NSLocalizedString(@"Opening '%@'.", @""), path];
 }
 
+- (NSWorkspaceLaunchOptions)launchOptions {
+    return NSWorkspaceLaunchDefault;
+}
+
 - (BOOL)execute:(NSString **)errorString {
 	NSString *app, *fileType;
     BOOL success = NO;
@@ -100,13 +104,9 @@
             
         }
         
-        NSWorkspaceLaunchOptions options = NSWorkspaceLaunchDefault;
-        if ([[self className] isEqualToString:@"OpenAndHideAction"])
-            options |= NSWorkspaceLaunchAndHide;
-        
         // whether it is a file or an app, it needs to get opened here
         NSArray *urls = [NSArray arrayWithObject:[NSURL fileURLWithPath:path]];
-        if ([[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:nil options:options additionalEventParamDescriptor:nil launchIdentifiers:nil]) {
+        if ([[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:nil options:[self launchOptions] additionalEventParamDescriptor:nil launchIdentifiers:nil]) {
             success = YES;
         }
         

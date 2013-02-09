@@ -9,6 +9,10 @@
 
 @implementation OpenAndHideAction
 
+- (NSWorkspaceLaunchOptions)launchOptions {
+    return NSWorkspaceLaunchDefault | NSWorkspaceLaunchAndHide;
+}
+
 + (NSString *)helpText
 {
 	return NSLocalizedString(@"The parameter for OpenAndHide actions is the full path of the "
