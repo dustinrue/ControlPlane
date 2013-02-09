@@ -30,7 +30,7 @@
     
     if (turnOn) {
         //  NOTE: IOPMAssertionCreateWithName limits the string to 128 characters.
-        CFStringRef reasonForActivity= CFSTR("Display sleep disallowed by ControlPlane");
+        CFStringRef reasonForActivity= CFSTR("ControlPlane is preventing display sleep");
         
         
         
