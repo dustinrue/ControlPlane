@@ -38,7 +38,4 @@
 - (NSString *)name;
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 
-- (NSInteger) findInterestingOctet:(NSArray *) netmaskArray;
-- (BOOL) isHostAddress:(NSString *) ipAddress;
-
 @end
