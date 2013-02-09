@@ -64,6 +64,8 @@
         success = [[NSWorkspace sharedWorkspace] unmountAndEjectDeviceAtURL:pathAsURL error:&error];
     }
     // try again in case the user only provided the name of the mount instead of the full path
+    // we assume it is in /Volumes because a user who knows how to mount something anywhere else
+    // will probably realize to provide a full path as well
     else {
         pathAsURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"/Volumes/%@", path]];
         if ([pathAsURL checkResourceIsReachableAndReturnError:&error] == YES)
