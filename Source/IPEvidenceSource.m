@@ -280,8 +280,12 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     
     // we're going to determine the prefix length (the /24 part of 192.168.0.0/24 is the "prefix")
     // this makes calcuating some things later on easier.  It always starts with 8 because the
-    // large net mask is 255.0.0.0 (255 = 8 bits)
+    // largest net mask is 255.0.0.0 (255 = 8 bits)
     int prefix = 8;
+    
+    // working_octet represents which octect of the ip address contains hosts and not just
+    // the network
+    int working_octet = 0;
     
     if ([[netmaskExploded objectAtIndex:0] intValue] != 255) {
         DSLog(@"invalid subnet mask in rule");
@@ -328,19 +332,18 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     // first 3 octets of the rule IP
     
     if (prefix % 8 != 0)
-        prefix = floor(prefix / 8);
+        working_octet = floor(prefix / 8);
     else {
-        prefix = prefix / 8;
+        working_octet = prefix / 8;
     }
     
-    for (int i = 0; i < prefix; i++) {
+    for (int i = 0; i < working_octet; i++) {
         if (![[ipExploded objectAtIndex:i] isEqualToString:[ruleIpExploded objectAtIndex:i]])
             return NO;
     }
     
-    // we can calculate then which octet is actually interesting, the one we need to
-    // use to calculate additional information to help determine a match
-    int interesting_octet = ceil(prefix / 8);
+
+    // calculate how large the a network is
     int jump_size = prefix % 8; // distance between subnets
     
     // if we've made it this far and the "jump size" is 0, then the IP
@@ -354,19 +357,19 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
     // between networks as described above.
     jump_size = [[jump_sizes objectAtIndex:jump_size] intValue];
     
-    //NSLog(@"the interesting octet for %@ is %d, jump size is %d", ipAddress, [[ipExploded objectAtIndex:interesting_octet] intValue], jump_size);
+    //NSLog(@"the interesting octet for %@ is %d, jump size is %d", ipAddress, [[ipExploded objectAtIndex:working_octet] intValue], jump_size);
     
     for (int i = 0; i < 256; i = i + jump_size) {
         
         // just as well leave if i is larger than the rule's interesting octet
-        if (i > [[ruleIpExploded objectAtIndex:interesting_octet] intValue])
+        if (i > [[ruleIpExploded objectAtIndex:working_octet] intValue])
             return NO;
         // test to see if the rule exists in a valid network
-        //NSLog(@"checking if rule's %d fits in %d - %d", [[ruleIpExploded objectAtIndex:interesting_octet] intValue], i, i + jump_size);
-        if ([[ruleIpExploded objectAtIndex:interesting_octet] intValue] >= i && [[ruleIpExploded objectAtIndex:interesting_octet] intValue] < i + jump_size) {
+        //NSLog(@"checking if rule's %d fits in %d - %d", [[ruleIpExploded objectAtIndex:working_octet] intValue], i, i + jump_size);
+        if ([[ruleIpExploded objectAtIndex:working_octet] intValue] >= i && [[ruleIpExploded objectAtIndex:working_octet] intValue] < i + jump_size) {
             // if the rule matches, lets see if the assigned ip address does too
-            //NSLog(@"checking if assigned ip's %d fits in %d - %d", [[ipExploded objectAtIndex:interesting_octet] intValue], i, i + jump_size);
-            if ([[ipExploded objectAtIndex:interesting_octet] intValue] >= i && [[ipExploded objectAtIndex:interesting_octet] intValue] < i + jump_size) {
+            //NSLog(@"checking if assigned ip's %d fits in %d - %d", [[ipExploded objectAtIndex:working_octet] intValue], i, i + jump_size);
+            if ([[ipExploded objectAtIndex:working_octet] intValue] >= i && [[ipExploded objectAtIndex:working_octet] intValue] < i + jump_size) {
                 return YES;
             }
         }
