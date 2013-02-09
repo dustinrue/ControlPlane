@@ -238,21 +238,6 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 }
 
 
-// walks an array and returns which octet of subnetmask is of interest (not 255)
-- (NSInteger) findInterestingOctet:(NSArray *)netmaskArray {
-    for (NSUInteger i = 0; i < [netmaskArray count]; i++) {     
-        if ([[netmaskArray objectAtIndex:i] intValue] != 255) {
-            return i;
-        }
-    }
-    // if we get here then it is a 32bit mask (255.255.255.255)
-    return -1;
-}
-
-- (BOOL) isHostAddress:(NSString *) ipAddress {
-    return ([ipAddress isEqualToString:@"255.255.255.255"]);
-}
-
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Assigned IP Address", @"");
 }
