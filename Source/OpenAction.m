@@ -59,12 +59,10 @@
 
 - (BOOL)execute:(NSString **)errorString {
 	NSString *app, *fileType;
-    BOOL success = NO;
 
 	if (![[NSWorkspace sharedWorkspace] getInfoForFile:path application:&app type:&fileType]) {
 		*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
-		success = NO;
-        return success;
+        return NO;
         
 	}
 
@@ -73,44 +71,35 @@
 		NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/osascript" arguments:args];
 		[task waitUntilExit];
 		if ([task terminationStatus] == 0) {
-			success = YES;
-            return success;
+            return YES;
         }
         
 	} else {
 		// Fallback
         // DO NOT "open" an app that is already running, it's annoying
-        NSBundle *requestedAppBundle = [[NSBundle alloc] initWithPath:path];
-        NSString *requestedApplBundleIdentifier = nil;
-        
+        NSBundle *requestedAppBundle = [NSBundle bundleWithPath:path];
+
         // if the requestedAppBundle comes back nil then
         // they are either specifying that an actual file (not an app) be
         // opened
         if (requestedAppBundle != nil) {
-            requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
-            [requestedAppBundle release];
-            DSLog(@"%@ is already running", requestedApplBundleIdentifier);
+            NSString *requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
             @try {
                 if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
-                    success = YES;
-                    return success;
+                    DSLog(@"%@ is already running", requestedApplBundleIdentifier);
+                    return YES;
                 }
             }
             @catch (NSException * e) {
-                DSLog(@"failed to get the bundleidentifier for %@", requestedAppBundle);
-                // at this point we assume the app isn't running because we can't actually check
-                success = NO;
+                DSLog(@"failed to get the bundleidentifier for %@", requestedApplBundleIdentifier);
             }
-            
         }
-        
+
         // whether it is a file or an app, it needs to get opened here
         NSArray *urls = [NSArray arrayWithObject:[NSURL fileURLWithPath:path]];
         if ([[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:nil options:[self launchOptions] additionalEventParamDescriptor:nil launchIdentifiers:nil]) {
-            success = YES;
+            return YES;
         }
-        
-        return success;
 	}
 	
 	*errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed opening '%@'.", @""), path];
