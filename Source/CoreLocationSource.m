@@ -122,15 +122,20 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (BOOL) doesRuleMatch: (NSDictionary *) rule {
-	// get coordinates of rule
-	CLLocation *ruleLocation = nil;
-	[CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation];
-	
-	// match if distance is smaller than accuracy
-	if (ruleLocation && current)
-		return [ruleLocation distanceFromLocation: current] <= current.horizontalAccuracy;
-	else
-		return 0;
+	BOOL match = NO;
+    
+    if (current) {
+        // get coordinates of rule
+        CLLocation *ruleLocation = nil;
+        
+        if ([CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation] && ruleLocation) {
+            // match if distance is smaller than accuracy
+            match = ([ruleLocation distanceFromLocation: current] <= current.horizontalAccuracy);
+            [ruleLocation release];
+        }
+    }
+
+    return match;
 }
 
 - (IBAction) showCoreLocation: (id) sender {
