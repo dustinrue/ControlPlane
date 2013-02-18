@@ -542,14 +542,16 @@
 
 - (BOOL)ruleMatches:(NSDictionary *)rule
 {
-	NSEnumerator *en = [sources objectEnumerator];
+	NSString *ruleType = [rule objectForKey:@"type"];
+    NSEnumerator *en = [sources objectEnumerator];
 	EvidenceSource *src;
 	while ((src = [en nextObject])) {
+		if (![src matchesRulesOfType:ruleType])
+			continue;
+
         NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
 
-		if (![src matchesRulesOfType:[rule objectForKey:@"type"]])
-			continue;
 		if (enabled && [src isRunning] && [src doesRuleMatch:rule]) {
 #if DEBUG_MODE
             DSLog(@"checking EvidenceSource %@ for matching rules", src);
