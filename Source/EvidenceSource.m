@@ -54,17 +54,16 @@
 	}
 
 	// Look for an NSPanel
-	panel = nil;
 	NSEnumerator *en = [topLevelObjects objectEnumerator];
 	NSObject *obj;
-	while ((obj = [en nextObject])) {
-		if ([obj isKindOfClass:[NSPanel class]] && !panel)
-			panel = (NSPanel *) [obj retain];
+	while ((obj = [en nextObject]) && !([obj isKindOfClass:[NSPanel class]])) {
 	}
-	if (!panel) {
+	if (!obj) {
 		NSLog(@"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
 		return nil;
 	}
+
+    panel = (NSPanel *) [obj retain];
 
 	// Get notified when we go to sleep, and wake from sleep
 	[[NSNotificationCenter defaultCenter] addObserver:self
