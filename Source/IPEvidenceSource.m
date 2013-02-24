@@ -227,7 +227,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	NSEnumerator *en = [addresses objectEnumerator];
 	NSString *ip;
 
-	while ((ip = [en nextObject])) {
+	while ((ip = [en nextObject]) && !match) {
         if ([self isIp:ip inRuleIp:[comp objectAtIndex:0] withSubnetMask:[comp objectAtIndex:1]])
             match = YES;
 	}
