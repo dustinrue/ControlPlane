@@ -24,6 +24,9 @@
 
 @property (readwrite) BOOL screenIsLocked;
 
++ (NSPanel *)getPanelFromNibNamed:(NSString *)name instantiatedWithOwner:(id)owner;
+
+- (id)initWithPanel:(NSPanel *)initPanel;
 - (id)initWithNibNamed:(NSString *)name;
 - (void)dealloc;
 - (void)goingToSleep:(id)arg;

@@ -23,48 +23,25 @@
 
 @synthesize screenIsLocked;
 
-- (id)initWithNibNamed:(NSString *)name
-{
+- (id)initWithPanel:(NSPanel *)initPanel {
 	if ([[self class] isEqualTo:[EvidenceSource class]]) {
 		[NSException raise:@"Abstract Class Exception"
-			    format:@"Error, attempting to instantiate EvidenceSource directly."];
+                    format:@"Error, attempting to instantiate EvidenceSource directly."];
 	}
-
+    
 	if (!(self = [super init]))
 		return nil;
-
+    
 	running = NO;
 	dataCollected = NO;
 	startAfterSleep = NO;
     goingToSleep = NO;
     screenIsLocked = NO;
-
+    
 	oldDescription = nil;
 
-	// load nib
-	NSNib *nib = [[[NSNib alloc] initWithNibNamed:name bundle:nil] autorelease];
-	if (!nib) {
-		NSLog(@"%@ >> failed loading nib named '%@'!", [self class], name);
-		return nil;
-	}
-	NSArray *topLevelObjects = [NSArray array];
-	if (![nib instantiateNibWithOwner:self topLevelObjects:&topLevelObjects]) {
-		NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
-		return nil;
-	}
-
-	// Look for an NSPanel
-	NSEnumerator *en = [topLevelObjects objectEnumerator];
-	NSObject *obj;
-	while ((obj = [en nextObject]) && !([obj isKindOfClass:[NSPanel class]])) {
-	}
-	if (!obj) {
-		NSLog(@"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
-		return nil;
-	}
-
-    panel = (NSPanel *) [obj retain];
-
+    panel = initPanel;
+    
 	// Get notified when we go to sleep, and wake from sleep
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(goingToSleep:)
@@ -75,7 +52,7 @@
                                              selector:@selector(wakeFromSleep:)
                                                  name:@"systemDidWake"
                                                object:nil];
-
+    
     // Monitor screensaver status
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self
                                                         selector:@selector(screenSaverDidBecomeInActive:)
@@ -83,7 +60,7 @@
                                                           object:nil];
     
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self
-                                                        selector:@selector(screenSaverDidBecomeActive:) 
+                                                        selector:@selector(screenSaverDidBecomeActive:)
                                                             name:@"com.apple.screensaver.didstart"
                                                           object:nil];
     
@@ -101,6 +78,45 @@
                                                           object:nil];
     
 	return self;
+}
+
++ (NSPanel *)getPanelFromNibNamed:(NSString *)name instantiatedWithOwner:(id)owner {
+	// load nib
+	NSNib *nib = [[[NSNib alloc] initWithNibNamed:name bundle:nil] autorelease];
+	if (!nib) {
+		NSLog(@"%@ >> failed loading nib named '%@'!", [self class], name);
+		return nil;
+	}
+
+	NSArray *topLevelObjects = [NSArray array];
+	if (![nib instantiateNibWithOwner:owner topLevelObjects:&topLevelObjects]) {
+		NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
+		return nil;
+	}
+    
+	// Look for an NSPanel
+    for (NSObject *obj in topLevelObjects) {
+        if ([obj isKindOfClass:[NSPanel class]]) {
+            return (NSPanel *) [obj retain];
+        }
+    }
+
+    NSLog(@"%@ >> failed to find an NSPanel in nib named '%@'!", [self class], name);
+    return nil;
+}
+
+- (id)initWithNibNamed:(NSString *)name
+{
+    if (!(self = [self initWithPanel:nil])) {
+        return nil;
+    }
+    
+    panel = [[self class] getPanelFromNibNamed:name instantiatedWithOwner:self];
+    if (!panel) {
+        return nil;
+    }
+
+    return self;
 }
 
 - (void)dealloc
