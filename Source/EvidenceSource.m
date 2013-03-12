@@ -97,7 +97,7 @@
 	// Look for an NSPanel
     for (NSObject *obj in topLevelObjects) {
         if ([obj isKindOfClass:[NSPanel class]]) {
-            return (NSPanel *) [obj retain];
+            return (NSPanel *) obj;
         }
     }
 
@@ -111,7 +111,7 @@
         return nil;
     }
     
-    panel = [[self class] getPanelFromNibNamed:name instantiatedWithOwner:self];
+    panel = [[[self class] getPanelFromNibNamed:name instantiatedWithOwner:self] retain];
     if (!panel) {
         return nil;
     }
