@@ -19,14 +19,19 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 #endif
 	NetworkLinkEvidenceSource *src = (NetworkLinkEvidenceSource *) info;
 
-	// This is spun off into a separate thread because any delays would
-	// hold up the main thread, causing UI hanging.
-	[NSThread detachNewThreadSelector:@selector(doFullUpdate:)
-				 toTarget:src
-			       withObject:nil];
+    [src doFullUpdate:nil];
 }
 
-@implementation NetworkLinkEvidenceSource
+@implementation NetworkLinkEvidenceSource {
+	NSLock *lock;
+	NSMutableArray *interfaces;
+
+    // To get network services
+    SCPreferencesRef prefs;
+	// For SystemConfiguration asynchronous notifications
+	SCDynamicStoreRef store;
+}
+
 
 - (id)init
 {
@@ -47,50 +52,52 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	[super dealloc];
 }
 
-+ (NSArray *)enumerate
+- (NSArray *)enumerate
 {
-	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL};
-	SCDynamicStoreRef newStore = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), NULL, &ctxt);
-
-	NSMutableArray *subset = [NSMutableArray array];
-
-	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
-    for (id inter in all) {
-		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName((SCNetworkInterfaceRef) inter);
-		NSString *key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name];
-		CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, (CFStringRef) key);
-		if (current) {
-            NSString *opt;
-            if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
-                opt = @"+";
-            else
-                opt = @"-";
-            [subset addObject:[opt stringByAppendingString:name]];
-            
-            CFRelease(current);
-		}
-	}
-	[all release];
-
-    CFRelease(newStore);
+    // Get all interfaces from the Network Services prefs. This way
+    // we capture interfaces that not currently present, such as
+    // Thunderbolt network adapters.
+    NSArray * services = (NSArray *)SCNetworkServiceCopyAll(prefs);
+    NSMutableSet * inters = [NSMutableSet set];
+	NSEnumerator *e = [services objectEnumerator];
+    SCNetworkServiceRef service;
     
+	while (service = (SCNetworkServiceRef) [e nextObject]) {
+        SCNetworkInterfaceRef inter = SCNetworkServiceGetInterface(service);
+		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
+        if (name) {
+            [inters addObject:name];
+        }
+    }
+    [services release];
+
+    NSMutableArray * subset = [NSMutableArray array];
+    for (NSString * name in inters) {
+        NSString * key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name];
+        // Default state is 'inactive'. That way we capture a transition even if the link
+        // disappeared completely, e.g. Thunderbolt adapter unplugged.
+        NSString * opt = [NSString stringWithFormat:@"-%@", name];
+        CFDictionaryRef current = SCDynamicStoreCopyValue(store, (CFStringRef)key);
+        if (current) {
+            if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
+                opt = [NSString stringWithFormat:@"+%@", name];
+            CFRelease(current);
+        }
+		[subset addObject:opt];
+	}
+
 	return subset;
 }
 
 - (void)doFullUpdate:(id)sender
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self setThreadNameFromClassName];
-
-	NSArray *inters = [[self class] enumerate];
+	NSArray *inters = [self enumerate];
 
 	[lock lock];
 	[interfaces setArray:inters];
 	[self setDataCollected:[interfaces count] > 0];
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 	[lock unlock];
-
-	[pool release];
 }
 
 - (void)start
@@ -106,30 +113,23 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	ctxt.release = NULL;
 	ctxt.copyDescription = NULL;
 
-	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
-	NSEnumerator *e = [all objectEnumerator];
-	NSMutableArray *monInters = [NSMutableArray arrayWithCapacity:0];
-
-	SCNetworkInterfaceRef inter;
-	while (inter = (SCNetworkInterfaceRef) [e nextObject]) {
-		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
-		[monInters addObject:[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name]];
-	}
-
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), linkChange, &ctxt);
-	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
-	NSArray *keys = monInters;
+    dispatch_queue_t queue = dispatch_queue_create("ControlPlane.NetworkLink", NULL);
+    SCDynamicStoreSetDispatchQueue(store, queue);
 
-	SCDynamicStoreSetNotificationKeys(store, (CFArrayRef) keys, NULL);
+    // Notify on link changes for all interfaces
+    NSArray * patterns = @[ @"State:/Network/Interface/[[:alnum:]]+/Link" ];
+	SCDynamicStoreSetNotificationKeys(store, NULL, (CFArrayRef) patterns);
 	// TODO: catch errors
 
-	// (see comment in linkChange function to see why we don't call it directly)
-	[NSThread detachNewThreadSelector:@selector(doFullUpdate:)
-				 toTarget:self
-			       withObject:nil];
+    // For retrieving network service later
+    prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
 
-	[all release];
+    dispatch_async(queue, ^{
+        [self doFullUpdate:nil];
+    });
+    CFRelease(queue); // retained by 'store'
+
 
 	running = YES;
 }
@@ -139,9 +139,9 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	if (!running)
 		return;
 
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
-	CFRelease(runLoop);
+    SCDynamicStoreSetDispatchQueue(store, NULL);
 	CFRelease(store);
+    CFRelease(prefs);
 
 	[lock lock];
 	[interfaces removeAllObjects];
@@ -163,14 +163,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	NSString *iface = [rule valueForKey:@"parameter"];
 
 	[lock lock];
-	NSEnumerator *en = [interfaces objectEnumerator];
-	NSString *inter;
-	while ((inter = [en nextObject])) {
-		if ([inter isEqualToString:iface]) {
-			match = YES;
-			break;
-		}
-	}
+    match = [interfaces containsObject:iface];
 	[lock unlock];
 
 	return match;
@@ -184,14 +177,20 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 - (NSArray *)getSuggestions
 {
 	NSMutableArray *arr = [NSMutableArray array];
-	NSArray *all = [(NSArray *) SCNetworkInterfaceCopyAll() autorelease];
+	NSArray *all = [(NSArray *)SCNetworkServiceCopyAll(prefs) autorelease];
+    // The above returns all services in all locations, and in random order,
+    // so weed out duplicates and sort at the end to make more presentable.
+    NSMutableSet * alreadySeen = [NSMutableSet set];
 
 	NSEnumerator *en = [all objectEnumerator];
-	SCNetworkInterfaceRef inter;
-	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
+    SCNetworkServiceRef service;
+	while ((service = (SCNetworkServiceRef) [en nextObject])) {
+        SCNetworkInterfaceRef inter = SCNetworkServiceGetInterface(service);
 		NSString *dev = (NSString *) SCNetworkInterfaceGetBSDName(inter);
 		if (!dev)
 			continue;
+        if ([alreadySeen containsObject:dev])
+            continue;
 		NSString *name = (NSString *) SCNetworkInterfaceGetLocalizedDisplayName(inter);
 		if (!name)
 			name = [NSString stringWithFormat:@"%@?", dev];
@@ -214,8 +213,11 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 			@"NetworkLink", @"type",
 			inactiveParam, @"parameter",
 			inactiveDesc, @"description", nil]];
+
+        [alreadySeen addObject:dev];
 	}
 
+    [arr sortUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES] ]];
 	return arr;
 }
 
