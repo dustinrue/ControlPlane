@@ -8,14 +8,7 @@
 #import "GenericEvidenceSource.h"
 
 
-@interface NetworkLinkEvidenceSource : GenericEvidenceSource {
-	NSLock *lock;
-	NSMutableArray *interfaces;
-
-	// For SystemConfiguration asynchronous notifications
-	SCDynamicStoreRef store;
-	CFRunLoopSourceRef runLoop;
-}
+@interface NetworkLinkEvidenceSource : GenericEvidenceSource
 
 - (id)init;
 - (void)dealloc;
