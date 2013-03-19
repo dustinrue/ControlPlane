@@ -1797,7 +1797,7 @@ d28gbGluZXMsIC4uLioKKmJ1dCBpdCBtYXkgc3BhbiB0aHJlZS4qA</string>
 						<object class="NSTextFieldCell" key="NSCell" id="642204550">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Die Änderungen dieser Option kann verheerende Effekte auf die Geschwindigkeit Ihres Computers haben. Bitte schauen Sie in das Handbuch für weitere Inforamtionen.</string>
+							<string key="NSContents">Die Änderungen dieser Option kann verheerende Effekte auf die Geschwindigkeit Ihres Computers haben. Bitte schauen Sie in das Handbuch für weitere Informationen.</string>
 							<reference key="NSSupport" ref="1030040430"/>
 							<reference key="NSControlView" ref="745972873"/>
 							<reference key="NSBackgroundColor" ref="927019150"/>
