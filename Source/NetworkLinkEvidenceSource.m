@@ -49,39 +49,31 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 
 + (NSArray *)enumerate
 {
-	SCDynamicStoreContext ctxt;
-	ctxt.version = 0;
-	ctxt.info = self;
-	ctxt.retain = NULL;
-	ctxt.release = NULL;
-	ctxt.copyDescription = NULL;
+	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL};
 	SCDynamicStoreRef newStore = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), NULL, &ctxt);
 
-	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
 	NSMutableArray *subset = [NSMutableArray array];
-	NSEnumerator *en = [all objectEnumerator];
-	SCNetworkInterfaceRef inter;
 
-	while ((inter = (SCNetworkInterfaceRef) [en nextObject])) {
-		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
-		NSString *opt;
-		CFStringRef key = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("State:/Network/Interface/%@/Link"), name);
-		CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, key);
-		if (!current) {
-			CFRelease(key);
-			continue;
+	NSArray *all = (NSArray *) SCNetworkInterfaceCopyAll();
+    for (id inter in all) {
+		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName((SCNetworkInterfaceRef) inter);
+		NSString *key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name];
+		CFDictionaryRef current = SCDynamicStoreCopyValue(newStore, (CFStringRef) key);
+		if (current) {
+            NSString *opt;
+            if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
+                opt = @"+";
+            else
+                opt = @"-";
+            [subset addObject:[opt stringByAppendingString:name]];
+            
+            CFRelease(current);
 		}
-		if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
-			opt = [NSString stringWithFormat:@"+%@", name];
-		else
-			opt = [NSString stringWithFormat:@"-%@", name];
-		CFRelease(current);
-		CFRelease(key);
-
-		[subset addObject:opt];
 	}
-
 	[all release];
+
+    CFRelease(newStore);
+    
 	return subset;
 }
 
