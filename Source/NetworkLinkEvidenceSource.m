@@ -4,6 +4,7 @@
 //
 //  Created by Mark Wallis on 25/07/07.
 //  Tweaks by David Symonds on 25/07/07.
+//  Changed by Ingvar Nedrebo 27/03/13
 //
 
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -25,6 +26,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 @implementation NetworkLinkEvidenceSource {
 	NSLock *lock;
 	NSMutableArray *interfaces;
+    BOOL didSleep;
 
     // To get network services
     SCPreferencesRef prefs;
@@ -40,6 +42,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 
 	lock = [[NSLock alloc] init];
 	interfaces = [[NSMutableArray alloc] init];
+    didSleep = NO;
 
 	return self;
 }
@@ -52,40 +55,39 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	[super dealloc];
 }
 
+
 - (NSArray *)enumerate
 {
-    // Get all interfaces from the Network Services prefs. This way
-    // we capture interfaces that not currently present, such as
-    // Thunderbolt network adapters.
-    NSArray * services = (NSArray *)SCNetworkServiceCopyAll(prefs);
-    NSMutableSet * inters = [NSMutableSet set];
+    NSArray * services = [(NSArray *)SCNetworkServiceCopyAll(prefs) autorelease];
+
+    // For some connections, we get several Services with different ID
+    // but same name (e.g. 'Ethernet'), presumably because they have
+    // different parameters. Enumerate by name here, because we're only
+    // interested in whether an interface is active, and not which specific
+    // Service caused it.
+
+    NSMutableDictionary * serviceState = [NSMutableDictionary dictionary];
 	NSEnumerator *e = [services objectEnumerator];
     SCNetworkServiceRef service;
-    
-	while (service = (SCNetworkServiceRef) [e nextObject]) {
-        SCNetworkInterfaceRef inter = SCNetworkServiceGetInterface(service);
-		NSString *name = (NSString *) SCNetworkInterfaceGetBSDName(inter);
-        if (name) {
-            [inters addObject:name];
-        }
+    while (service = (SCNetworkServiceRef) [e nextObject])
+    {
+		NSString * serviceName = (NSString *) SCNetworkServiceGetName(service);
+        if ([serviceState[serviceName] boolValue])
+            continue;
+        
+		NSString * serviceID = (NSString *) SCNetworkServiceGetServiceID(service);
+        BOOL isActive = [self isProtocol:@"IPv4" activeForService:serviceID];
+        if (!isActive)
+            isActive = [self isProtocol:@"IPv6" activeForService:serviceID];
+        serviceState[serviceName] = @(isActive);
     }
-    [services release];
 
-    NSMutableArray * subset = [NSMutableArray array];
-    for (NSString * name in inters) {
-        NSString * key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", name];
-        // Default state is 'inactive'. That way we capture a transition even if the link
-        // disappeared completely, e.g. Thunderbolt adapter unplugged.
-        NSString * opt = [NSString stringWithFormat:@"-%@", name];
-        CFDictionaryRef current = SCDynamicStoreCopyValue(store, (CFStringRef)key);
-        if (current) {
-            if (CFDictionaryGetValue(current, CFSTR("Active")) == kCFBooleanTrue)
-                opt = [NSString stringWithFormat:@"+%@", name];
-            CFRelease(current);
-        }
-		[subset addObject:opt];
-	}
-
+	NSMutableArray *subset = [NSMutableArray array];
+    for (NSString * name in serviceState)
+    {
+        NSString * opt = [serviceState[name] boolValue] ? @"+" : @"-";
+        [subset addObject:[NSString stringWithFormat:@"%@%@", opt, name]];
+    }
 	return subset;
 }
 
@@ -98,6 +100,12 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	[self setDataCollected:[interfaces count] > 0];
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 	[lock unlock];
+}
+
+- (void) goingToSleep:(id)arg
+{
+    [super goingToSleep:arg];
+    didSleep = YES;
 }
 
 - (void)start
@@ -117,20 +125,25 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
     dispatch_queue_t queue = dispatch_queue_create("ControlPlane.NetworkLink", NULL);
     SCDynamicStoreSetDispatchQueue(store, queue);
 
-    // Notify on link changes for all interfaces
-    NSArray * patterns = @[ @"State:/Network/Interface/[[:alnum:]]+/Link" ];
+    // Notify on IPv4/IPv6 updates on all services
+    NSArray * patterns = @[ @"State:/Network/Service/[^/]+/IPv." ];
 	SCDynamicStoreSetNotificationKeys(store, NULL, (CFArrayRef) patterns);
 	// TODO: catch errors
 
-    // For retrieving network service later
+    // For retrieving network services later
     prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
 
-    dispatch_async(queue, ^{
+    // Delay initial scan if we're waking from sleep, otherwise we'll get false
+    // negatives for interfaces that takes time to become active (e.g. slow DHCP)
+    NSTimeInterval delay = didSleep ? 15.0 : 0.0;
+    dispatch_time_t scanTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
+    dispatch_after(scanTime, queue, ^{
         [self doFullUpdate:nil];
     });
+
     CFRelease(queue); // retained by 'store'
 
-
+    didSleep = NO;
 	running = YES;
 }
 
@@ -160,10 +173,10 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 {
 	BOOL match = NO;
 
-	NSString *iface = [rule valueForKey:@"parameter"];
+	NSString *service = [rule valueForKey:@"parameter"];
 
 	[lock lock];
-    match = [interfaces containsObject:iface];
+    match = [interfaces containsObject:service];
 	[lock unlock];
 
 	return match;
@@ -178,51 +191,57 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 {
 	NSMutableArray *arr = [NSMutableArray array];
 	NSArray *all = [(NSArray *)SCNetworkServiceCopyAll(prefs) autorelease];
-    // The above returns all services in all locations, and in random order,
-    // so weed out duplicates and sort at the end to make more presentable.
+
+    // See comments in -enumerate:
     NSMutableSet * alreadySeen = [NSMutableSet set];
 
 	NSEnumerator *en = [all objectEnumerator];
     SCNetworkServiceRef service;
 	while ((service = (SCNetworkServiceRef) [en nextObject])) {
-        SCNetworkInterfaceRef inter = SCNetworkServiceGetInterface(service);
-		NSString *dev = (NSString *) SCNetworkInterfaceGetBSDName(inter);
-		if (!dev)
-			continue;
-        if ([alreadySeen containsObject:dev])
+		NSString *name = (NSString *) SCNetworkServiceGetName(service);
+        if ([alreadySeen containsObject:name])
             continue;
-		NSString *name = (NSString *) SCNetworkInterfaceGetLocalizedDisplayName(inter);
-		if (!name)
-			name = [NSString stringWithFormat:@"%@?", dev];
+
 		NSString *activeDesc = [NSString stringWithFormat:
-			NSLocalizedString(@"%@ (%@) link active", @"In NetworkLinkEvidenceSource"), dev, name];
+                                NSLocalizedString(@"%@ link active", @"In NetworkLinkEvidenceSource"), name];
 		NSString *inactiveDesc = [NSString stringWithFormat:
-			NSLocalizedString(@"%@ (%@) link inactive", @"In NetworkLinkEvidenceSource"), dev, name];
-		NSString *activeParam = [NSString stringWithFormat:@"+%@", dev];
-		NSString *inactiveParam = [NSString stringWithFormat:@"-%@", dev];
-
-		// Don't include interfaces that we couldn't enumerate
-		if (![interfaces containsObject:activeParam] && ![interfaces containsObject:inactiveParam])
-			continue;
-
+                                  NSLocalizedString(@"%@ link inactive", @"In NetworkLinkEvidenceSource"), name];
+		NSString *activeParam = [NSString stringWithFormat:@"+%@", name];
+		NSString *inactiveParam = [NSString stringWithFormat:@"-%@", name];
+                
 		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			@"NetworkLink", @"type",
-			activeParam, @"parameter",
-			activeDesc, @"description", nil]];
+                        @"NetworkLink", @"type",
+                        activeParam, @"parameter",
+                        activeDesc, @"description", nil]];
 		[arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-			@"NetworkLink", @"type",
-			inactiveParam, @"parameter",
-			inactiveDesc, @"description", nil]];
+                        @"NetworkLink", @"type",
+                        inactiveParam, @"parameter",
+                        inactiveDesc, @"description", nil]];
+        
 
-        [alreadySeen addObject:dev];
+        [alreadySeen addObject:name];
 	}
 
-    [arr sortUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES] ]];
+    [arr sortUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)] ]];
 	return arr;
 }
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Active Network Adapter", @"");
+}
+
+// A service is considered active if IPv4 or IPv6 device name has been assigned
+- (BOOL) isProtocol:(NSString *)protocol activeForService:(NSString *)serviceID
+{
+    BOOL isActive = NO;
+    NSString * key = [NSString stringWithFormat:@"State:/Network/Service/%@/%@", serviceID, protocol];
+    CFDictionaryRef protoDict = SCDynamicStoreCopyValue(store, (CFStringRef)key);
+    if (protoDict)
+    {
+        isActive = CFDictionaryContainsKey(protoDict, CFSTR("InterfaceName"));
+        CFRelease(protoDict);
+    }
+    return isActive;
 }
 
 @end
