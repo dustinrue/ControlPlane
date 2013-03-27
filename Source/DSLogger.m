@@ -68,7 +68,8 @@ static DSLogger *shared_Logger = nil;
 	if (([now timeIntervalSinceDate:clusterStartDate] < clusterThreshold) && [lastFunction isEqualToString:function])
 		line = [NSString stringWithFormat:@"\t%@", proc];
 	else {
-		clusterStartDate = [now retain];
+		[clusterStartDate release];
+        clusterStartDate = [now retain];
 		line = [NSString stringWithFormat:@"%@ %@\n\t%@", [timestampFormatter stringFromDate:now], function, proc];
 	}
 	[lastFunction setString:function];
