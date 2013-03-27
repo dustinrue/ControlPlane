@@ -220,14 +220,14 @@
 // Private
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	if (returnCode != NSOKButton)
-		return;
+    NSInvocation *inv = (NSInvocation *) contextInfo;
 
-	NSInvocation *inv = (NSInvocation *) contextInfo;
-	NSDictionary *dict = [self readFromPanel];
-	[inv setArgument:&dict atIndex:2];
+	if (returnCode == NSOKButton) {
+        NSDictionary *dict = [self readFromPanel];
+        [inv setArgument:&dict atIndex:2];
+        [inv invoke];
+    }
 
-	[inv invoke];
 	[inv release];
 }
 
