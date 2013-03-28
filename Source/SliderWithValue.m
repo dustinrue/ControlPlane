@@ -90,8 +90,9 @@ static ToolTip *sharedToolTip = nil;
 
 - (void)dealloc
 {
-	[window release];
 	[textAttributes release];
+    [textField release];
+	[window release];
 
 	[super dealloc];
 }
@@ -172,7 +173,6 @@ static NSTimer *hideToolTipTimer;
 		p1.y += bump;
 		[ToolTip setString:[[self class] toolTipTextForValue:[self doubleValue]] atPoint:p1];
         if (!hideToolTipTimer) {
-            NSLog(@"tooltip is %@", hideToolTipTimer);
             hideToolTipTimer = [[NSTimer scheduledTimerWithTimeInterval: 5
                                                                  target: self
                                                                selector: @selector(hideToolTip:)
@@ -187,7 +187,10 @@ static NSTimer *hideToolTipTimer;
 
 - (void) hideToolTip:(NSTimer *)theTimer {
     [self doHideToolTip];
-    hideToolTipTimer = nil;
+    if (hideToolTipTimer) {
+        [hideToolTipTimer release];
+        hideToolTipTimer = nil;
+    }
 }
 
 - (void) doHideToolTip {
