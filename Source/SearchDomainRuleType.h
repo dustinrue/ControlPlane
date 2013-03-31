@@ -19,7 +19,7 @@
 
 - (BOOL)validatePanelParams;
 - (void)readFromPanelInto:(NSMutableDictionary *)rule;
-- (NSString *)getDescripiton:(NSDictionary *)rule;
+- (NSString *)getDefaultDescription:(NSDictionary *)rule;
 - (void)writeToPanel:(NSDictionary *)rule;
 
 @end

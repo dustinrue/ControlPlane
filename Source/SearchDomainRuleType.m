@@ -64,7 +64,7 @@
     rule[@"parameter.isWildcard"] = @([wildcardCheckBox intValue]);
 }
 
-- (NSString *)getDescripiton:(NSDictionary *)rule {
+- (NSString *)getDefaultDescription:(NSDictionary *)rule {
     NSString *domainName = [domainComboBox stringValue];
     if ([wildcardCheckBox intValue]) {
         return [@"*" stringByAppendingString:domainName];

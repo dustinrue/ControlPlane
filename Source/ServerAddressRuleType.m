@@ -70,7 +70,7 @@ static BOOL isValidIPAddress(NSString *value) {
     rule[@"parameter"] = [addressComboBox stringValue];
 }
 
-- (NSString *)getDescripiton:(NSDictionary *)rule {
+- (NSString *)getDefaultDescription:(NSDictionary *)rule {
     return [addressComboBox stringValue];
 }
 

@@ -118,7 +118,7 @@
     [panelRuleType readFromPanelInto:rule];
 
     if (!rule[@"description"]) {
-        rule[@"description"] = [panelRuleType getDescripiton:rule];
+        rule[@"description"] = [panelRuleType getDefaultDescription:rule];
     }
 
     return rule;
@@ -143,6 +143,7 @@
     [ruleType writeToPanel:rule];
 
     if (oldDescription && [ruleType canAutoupdateDescription:oldDescription ofRule:rule]) {
+        [oldDescription autorelease];
         oldDescription = nil;
     }
 }

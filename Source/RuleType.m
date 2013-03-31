@@ -95,13 +95,13 @@
     rule[@"confidence"] = @([ruleConfidenceSlider doubleValue]);
 }
 
-- (NSString *)getDescripiton:(NSDictionary *)rule {
+- (NSString *)getDefaultDescription:(NSDictionary *)rule {
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
 }
 
 - (BOOL)canAutoupdateDescription:(NSString *)description ofRule:(NSDictionary *)rule {
-    return [description isEqualToString:[self getDescripiton:rule]];
+    return [description isEqualToString:[self getDefaultDescription:rule]];
 }
 
 - (void)setContextMenu:(NSMenu *)menu {
@@ -112,8 +112,7 @@
     // Set up context selector
     id context = rule[@"context"];
 	if (context) {
-		NSInteger index = [ruleContext indexOfItemWithRepresentedObject:context];
-		[ruleContext selectItemAtIndex:index];
+		[ruleContext selectItemAtIndex:[ruleContext indexOfItemWithRepresentedObject:context]];
 	}
 
     // Set up confidence slider

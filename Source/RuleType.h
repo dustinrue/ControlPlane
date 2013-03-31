@@ -39,13 +39,13 @@
 
 // To be implemented by descendant classes.
 // Create rule description from panel's controls' values or from rule[@"parameter"].
-- (NSString *)getDescripiton:(NSDictionary *)rule;
+- (NSString *)getDefaultDescription:(NSDictionary *)rule;
 
 - (BOOL)canAutoupdateDescription:(NSString *)description ofRule:(NSDictionary *)rule;
 
 // To be implemented by descendant classes.
 // rule[@"parameter"] *must* be filled in.
-// For rule descriptions, please, use the getDescription: method.
+// To fill in rule descriptions, please, implement method getDefaultDescription: .
 - (void)readFromPanelInto:(NSMutableDictionary *)rule;
 
 - (void)setContextMenu:(NSMenu *)menu;

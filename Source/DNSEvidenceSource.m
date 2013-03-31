@@ -16,7 +16,7 @@
 @property (atomic, retain, readwrite) NSSet *searchDomains;
 @property (atomic, retain, readwrite) NSSet *dnsServers;
 
-- (void)doFullUpdate;
+- (void)doFullUpdateFromStore:(SCDynamicStoreRef)store;
 - (void)doStop;
 
 @end
@@ -28,7 +28,7 @@ static void dnsChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *inf
 #ifdef DEBUG_MODE
 	NSLog(@"dnsChange called with changedKeys:\n%@", changedKeys);
 #endif
-    [(DNSEvidenceSource *) info doFullUpdate];
+    [(DNSEvidenceSource *) info doFullUpdateFromStore:store];
 }
 
 static BOOL addDNSSearchDomainsToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutableSet *domains) {
@@ -102,26 +102,19 @@ typedef struct {
     NSSet *domains;
 } EnumeratedParams;
 
-+ (EnumeratedParams)enumerate {
++ (EnumeratedParams)enumerateFromStore:(SCDynamicStoreRef)store {
 	NSMutableSet *servers = [NSMutableSet set], *domains = [NSMutableSet set];
 
-	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL};
-	SCDynamicStoreRef tmpStore = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), NULL, &ctxt);
-    if (!tmpStore) {
-        return (EnumeratedParams) {servers, domains};
-    }
-
     NSArray *dnsKeyPatterns = @[ @"Setup:/Network/Service/[^/]+/DNS", @"State:/Network/Service/[^/]+/DNS" ];
-    CFDictionaryRef dict = SCDynamicStoreCopyMultiple(tmpStore, NULL, (CFArrayRef) dnsKeyPatterns);
-    CFRelease(tmpStore);
-
+    CFDictionaryRef dict = SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) dnsKeyPatterns);
     if (!dict) {
         return (EnumeratedParams) {servers, domains};
     }
 
     @autoreleasepool {
         NSMutableSet *servicesWithDNS = [NSMutableSet setWithCapacity:[(NSDictionary *) dict count]];
-        // get all unique keys after stripped 'Setup:/Network/Service/' and 'State:/Network/Service/' prefixes
+
+        // get all unique keys after stripping prefixes 'Setup:/Network/Service/' and 'State:/Network/Service/'
         for (NSString *key in (NSDictionary *) dict) {
             [servicesWithDNS addObject:[key substringFromIndex:23u]];
         }
@@ -145,9 +138,9 @@ typedef struct {
 	return (EnumeratedParams) {servers, domains};
 }
 
-- (void)doFullUpdate {
+- (void)doFullUpdateFromStore:(SCDynamicStoreRef)aStore {
 	@autoreleasepool {
-        EnumeratedParams params = [[self class] enumerate];
+        EnumeratedParams params = [[self class] enumerateFromStore:aStore];
         
         self.searchDomains = (NSSet *) params.domains;
         self.dnsServers = (NSSet *) params.servers;
@@ -182,8 +175,10 @@ typedef struct {
         return;
     }
 
+    CFRetain(store);
     dispatch_async(queue, ^{
-        [self doFullUpdate];
+        [self doFullUpdateFromStore:store];
+        CFRelease(store);
     });
 
 	running = YES;
@@ -204,9 +199,11 @@ typedef struct {
 
     if (queue) {
         dispatch_async(queue, ^{
-            self.searchDomains = [NSSet set];
-            self.dnsServers = [NSSet set];
-            [self setDataCollected:NO];
+            @autoreleasepool {
+                self.searchDomains = [NSSet set];
+                self.dnsServers = [NSSet set];
+                [self setDataCollected:NO];
+            }
         });
         dispatch_release(queue);
         queue = NULL;
