@@ -10,6 +10,13 @@
 		732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
 		73A5092F14849405007D22B5 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A5092714849405007D22B5 /* ShellScriptRule.xib */; };
+		7C42F30216FB8960000EE57B /* RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30116FB8960000EE57B /* RuleType.m */; };
+		7C42F30716FB9519000EE57B /* SearchDomainRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30616FB9518000EE57B /* SearchDomainRuleType.m */; };
+		7C42F30A16FB9D47000EE57B /* MultiRuleEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */; };
+		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
+		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
+		7C8574F616FB53930081659A /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8574F216FB53930081659A /* SearchDomainRule.xib */; };
+		7C8574F716FB53930081659A /* ServerAddressRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8574F416FB53930081659A /* ServerAddressRule.xib */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -312,6 +319,18 @@
 		73A5092C14849405007D22B5 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = Resources/it.lproj/ShellScriptRule.xib; sourceTree = "<group>"; };
 		73A5092D14849405007D22B5 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "Resources/pt-BR.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
 		73A5092E14849405007D22B5 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "Resources/pt-PT.lproj/ShellScriptRule.xib"; sourceTree = "<group>"; };
+		7C42F30116FB8960000EE57B /* RuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuleType.m; path = Source/RuleType.m; sourceTree = "<group>"; };
+		7C42F30416FB8966000EE57B /* RuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuleType.h; path = Source/RuleType.h; sourceTree = "<group>"; };
+		7C42F30516FB950B000EE57B /* SearchDomainRuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchDomainRuleType.h; path = Source/SearchDomainRuleType.h; sourceTree = "<group>"; };
+		7C42F30616FB9518000EE57B /* SearchDomainRuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchDomainRuleType.m; path = Source/SearchDomainRuleType.m; sourceTree = "<group>"; };
+		7C42F30816FB9D14000EE57B /* MultiRuleEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiRuleEvidenceSource.h; path = Source/MultiRuleEvidenceSource.h; sourceTree = "<group>"; };
+		7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiRuleEvidenceSource.m; path = Source/MultiRuleEvidenceSource.m; sourceTree = "<group>"; };
+		7C8574EA16FB52AF0081659A /* DNSEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DNSEvidenceSource.h; path = Source/DNSEvidenceSource.h; sourceTree = "<group>"; };
+		7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DNSEvidenceSource.m; path = Source/DNSEvidenceSource.m; sourceTree = "<group>"; };
+		7C8574EF16FB53180081659A /* ServerAddressRuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerAddressRuleType.h; path = Source/ServerAddressRuleType.h; sourceTree = "<group>"; };
+		7C8574F016FB53180081659A /* ServerAddressRuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerAddressRuleType.m; path = Source/ServerAddressRuleType.m; sourceTree = "<group>"; };
+		7C8574F316FB53930081659A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
+		7C8574F516FB53930081659A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -805,6 +824,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7C8574EE16FB52C80081659A /* DNSEvidenceSource */ = {
+			isa = PBXGroup;
+			children = (
+				7C8574EA16FB52AF0081659A /* DNSEvidenceSource.h */,
+				7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */,
+				7C42F30516FB950B000EE57B /* SearchDomainRuleType.h */,
+				7C42F30616FB9518000EE57B /* SearchDomainRuleType.m */,
+				7C8574EF16FB53180081659A /* ServerAddressRuleType.h */,
+				7C8574F016FB53180081659A /* ServerAddressRuleType.m */,
+			);
+			name = DNSEvidenceSource;
+			sourceTree = "<group>";
+		};
 		8D0164850C02AB08004AD8DB /* UI Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -835,7 +867,11 @@
 				8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */,
 				8D643CDA0C4EF6FD006D8ECC /* LoopingEvidenceSource.h */,
 				8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */,
+				7C42F30816FB9D14000EE57B /* MultiRuleEvidenceSource.h */,
+				7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */,
 				DA22656915CAEF2000B75163 /* EvidenceSourcePlugin.h */,
+				7C42F30416FB8966000EE57B /* RuleType.h */,
+				7C42F30116FB8960000EE57B /* RuleType.m */,
 			);
 			name = "Evidence Sources";
 			sourceTree = "<group>";
@@ -857,6 +893,7 @@
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
 				DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */,
+				7C8574EE16FB52C80081659A /* DNSEvidenceSource */,
 				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
 				8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
@@ -1118,6 +1155,8 @@
 				DDA201501411C32F00DE570E /* IPRule.xib */,
 				DDA2015A1411C35700DE570E /* LightRule.xib */,
 				DDA201641411C37300DE570E /* MainMenu.xib */,
+				7C8574F216FB53930081659A /* SearchDomainRule.xib */,
+				7C8574F416FB53930081659A /* ServerAddressRule.xib */,
 				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
 				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
 				DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */,
@@ -1316,6 +1355,8 @@
 				DAA9ABFF1595FDE700B84B05 /* README.md in Resources */,
 				DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */,
 				DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */,
+				7C8574F616FB53930081659A /* SearchDomainRule.xib in Resources */,
+				7C8574F716FB53930081659A /* ServerAddressRule.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1471,6 +1512,11 @@
 				DA9957EA160D4BA300AB3C7A /* StressTestEvidenceSource.m in Sources */,
 				DABE3F6A16C44236004F5E63 /* OpenAndHideAction.m in Sources */,
 				DA0CAE6516C4813600EDE2C5 /* PreventDisplaySleepAction.m in Sources */,
+				7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */,
+				7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */,
+				7C42F30216FB8960000EE57B /* RuleType.m in Sources */,
+				7C42F30716FB9519000EE57B /* SearchDomainRuleType.m in Sources */,
+				7C42F30A16FB9D47000EE57B /* MultiRuleEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1525,6 +1571,22 @@
 				73A5092E14849405007D22B5 /* pt-PT */,
 			);
 			name = ShellScriptRule.xib;
+			sourceTree = "<group>";
+		};
+		7C8574F216FB53930081659A /* SearchDomainRule.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7C8574F316FB53930081659A /* en */,
+			);
+			name = SearchDomainRule.xib;
+			sourceTree = "<group>";
+		};
+		7C8574F416FB53930081659A /* ServerAddressRule.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7C8574F516FB53930081659A /* en */,
+			);
+			name = ServerAddressRule.xib;
 			sourceTree = "<group>";
 		};
 		DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */ = {
@@ -1653,7 +1715,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1663,7 +1725,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1671,7 +1732,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1681,7 +1742,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -1799,9 +1859,8 @@
 		DA5B01DF1412B6A700E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1809,9 +1868,8 @@
 		DA5B01E01412B6A700E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -1819,7 +1877,7 @@
 		DA5B02031412BB1800E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = "CPHelperTool-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
@@ -1833,7 +1891,6 @@
 					"Source/CPHelperTool/CPHelperTool-Launchd.plist",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1841,7 +1898,7 @@
 		DA5B02041412BB1800E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = "CPHelperTool-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
@@ -1855,7 +1912,6 @@
 					"Source/CPHelperTool/CPHelperTool-Launchd.plist",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
