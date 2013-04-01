@@ -369,6 +369,7 @@
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 #import "BonjourEvidenceSource.h"
+#import "DNSEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPEvidenceSource.h"
 #import "LightEvidenceSource.h"
@@ -408,6 +409,7 @@
 						[BluetoothEvidenceSource class],
                         [BonjourEvidenceSource class],	
 						[CoreLocationSource class],
+                        [DNSEvidenceSource class],
 						[LightEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
 						[PowerEvidenceSource class],
@@ -444,6 +446,7 @@
 		NSLocalizedString(@"Bonjour", @"Evidence source");
 		NSLocalizedString(@"CoreLocation", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
+		NSLocalizedString(@"DNS", @"Evidence source");
 		NSLocalizedString(@"IP", @"Evidence source");
 		NSLocalizedString(@"Light", @"Evidence source");
 		NSLocalizedString(@"Monitor", @"Evidence source");
