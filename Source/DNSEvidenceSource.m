@@ -175,10 +175,10 @@ typedef struct {
         return;
     }
 
-    CFRetain(store);
+    [self retain];
     dispatch_async(queue, ^{
         [self doFullUpdateFromStore:store];
-        CFRelease(store);
+        [self release];
     });
 
 	running = YES;
@@ -198,12 +198,12 @@ typedef struct {
     }
 
     if (queue) {
+        [self retain];
         dispatch_async(queue, ^{
-            @autoreleasepool {
-                self.searchDomains = [NSSet set];
-                self.dnsServers = [NSSet set];
-                [self setDataCollected:NO];
-            }
+            self.searchDomains = [NSSet set];
+            self.dnsServers = [NSSet set];
+            [self setDataCollected:NO];
+            [self release];
         });
         dispatch_release(queue);
         queue = NULL;
