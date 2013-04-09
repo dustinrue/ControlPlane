@@ -83,15 +83,15 @@
         // they are either specifying that an actual file (not an app) be
         // opened
         if (requestedAppBundle != nil) {
-            NSString *requestedApplBundleIdentifier = [requestedAppBundle bundleIdentifier];
+            NSString *bundleId = [requestedAppBundle bundleIdentifier];
             @try {
-                if ([[NSRunningApplication runningApplicationsWithBundleIdentifier:requestedApplBundleIdentifier] count] > 0) {
-                    DSLog(@"%@ is already running", requestedApplBundleIdentifier);
+                if (bundleId && [[NSRunningApplication runningApplicationsWithBundleIdentifier:bundleId] count]) {
+                    DSLog(@"%@ is already running", bundleId);
                     return YES;
                 }
             }
             @catch (NSException * e) {
-                DSLog(@"failed to get the bundleidentifier for %@", requestedApplBundleIdentifier);
+                DSLog(@"failed to get the bundleidentifier for %@", bundleId);
             }
         }
 
