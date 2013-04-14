@@ -436,8 +436,8 @@
             NSLog(@"%@ is not a vaild plugin", pluginPath);
         }
     }
-    
 #endif
+
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
         NSLocalizedString(@"AttachedPowerAdapter", @"Evidence source");
@@ -462,21 +462,16 @@
 
 	// Instantiate all the evidence sources
 	NSMutableArray *srclist = [[NSMutableArray alloc] initWithCapacity:[classes count]];
-	NSEnumerator *en = [classes objectEnumerator];
-	Class klass;
-	while ((klass = [en nextObject])) {
-		EvidenceSource *src = [[klass alloc] init];
+	NSMutableSet *types = [[NSMutableSet alloc] initWithCapacity:[classes count]];
+    for (Class class in classes) {
+		EvidenceSource *src = [[class alloc] init];
 		[srclist addObject:src];
+		[types addObjectsFromArray:[src typesOfRulesMatched]];
 		[src release];
-	}
+    }
+
 	sources = srclist;
 
-	// Find all rule types supported
-	NSMutableSet *types = [[NSMutableSet alloc] initWithCapacity:[sources count]];
-	en = [sources objectEnumerator];
-	EvidenceSource *src;
-	while ((src = [en nextObject]))
-		[types addObjectsFromArray:[src typesOfRulesMatched]];
 	ruleTypes = [[types allObjects] sortedArrayUsingSelector:@selector(compare:)];
 	[types release];
 
@@ -485,6 +480,9 @@
 
 - (void)dealloc
 {
+    for (EvidenceSource *src in sources) {
+        [src stop];
+    }
 	[sources release];
 
 	[super dealloc];
@@ -530,11 +528,11 @@
 
 - (EvidenceSource *)sourceWithName:(NSString *)name
 {
-	NSEnumerator *en = [sources objectEnumerator];
-	EvidenceSource *src;
-	while ((src = [en nextObject]))
-		if ([[src name] isEqualToString:name])
+	for (EvidenceSource *src in sources) {
+		if ([[src name] isEqualToString:name]) {
 			return src;
+        }
+    }
 	return nil;
 }
 
@@ -542,9 +540,7 @@
 {
     // walk through all of the Evidence Sources that are enabled
     // and issue a start on each one
-	NSEnumerator *en = [sources objectEnumerator];
-	EvidenceSource *src;
-	while ((src = [en nextObject])) {
+	for (EvidenceSource *src in sources) {
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
 		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
 
@@ -560,24 +556,23 @@
 
 - (BOOL)ruleMatches:(NSDictionary *)rule
 {
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	NSString *ruleType = [rule objectForKey:@"type"];
-    NSEnumerator *en = [sources objectEnumerator];
-	EvidenceSource *src;
-	while ((src = [en nextObject])) {
-		if (![src matchesRulesOfType:ruleType])
+	for (EvidenceSource *src in sources) {
+		if (![src isRunning] || ![src matchesRulesOfType:ruleType])
 			continue;
 
         NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
-		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
+		BOOL enabled = [standardUserDefaults boolForKey:key];
 
-		if (enabled && [src isRunning] && [src doesRuleMatch:rule]) {
+		if (enabled && [src doesRuleMatch:rule]) {
 #if DEBUG_MODE
             DSLog(@"checking EvidenceSource %@ for matching rules", src);
 #endif
             return YES;
         }
-			
 	}
+
 	return NO;
 }
 
