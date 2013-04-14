@@ -371,7 +371,9 @@
 }
 
 - (void)awakeFromNib {
+#ifdef DEBUG_MODE
 	NSLog(@"did super awake from nib");
+#endif
     // Configures the crash reporter
     [[BWQuincyManager sharedQuincyManager] setSubmissionURL:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPCrashReportURL"]];
     [[BWQuincyManager sharedQuincyManager] setCompanyName:@"ControlPlane developers"];
@@ -1118,11 +1120,11 @@
 #ifdef DEBUG_MODE
     DSLog(@"context list %@", allConfiguredContexts);
 #endif
-
+    
     // of the configured contexts, which ones have rule hits?
     NSMutableDictionary *guesses = [self getGuessesFrom:allConfiguredContexts];
-    
     DSLog(@"guesses %@", guesses);
+
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AllowMultipleActiveContexts"]) {
         // use the newer style of context matching
         [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, id aGuess, BOOL *stop) {
@@ -1130,23 +1132,21 @@
             DSLog(@"currentGuess %@ should be %@", uuid, ([self guessMeetsConfidenceRequirement:mostConfidentGuess]) ? @"enabled":@"disabled");
         }];
     } else {
-        // use the older style of context matching
-        // of the guesses, which one has the highest confidence rating?
-        NSDictionary *mostConfidentGuess = [self getMostConfidentContext:guesses];
-
         // Update what the user sees in preferences
         [self updateContextListView:allConfiguredContexts withGuesses:guesses];
-
+        
         // TODO: move this to some other area dedicated to maintaining the state of the menu bar icon/status
         // This covers the case where the show context in menu bar option has been changed
         if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
             [self setStatusTitle:nil];
-
+        
+        // use the older style of context matching
+        // of the guesses, which one has the highest confidence rating?
+        NSDictionary *mostConfidentGuess = [self getMostConfidentContext:guesses];
+        
         if ([self guessMeetsConfidenceRequirement:mostConfidentGuess]) {
-            if ([mostConfidentGuess count] > 0) {
-                NSString *guess = [[mostConfidentGuess allKeys] objectAtIndex:0];
-                [self performTransitionFrom:currentContextUUID to:guess];
-            }
+            NSString *guess = [[mostConfidentGuess allKeys] objectAtIndex:0];
+            [self performTransitionFrom:currentContextUUID to:guess];
         }
     }
 }
@@ -1279,109 +1279,63 @@
         [contextsDataSource triggerOutlineViewReloadData:nil];
 }
 
+- (NSString *)getGuessConfidenceStringFrom:(NSNumber *)confidence {
+	return [NSString stringWithFormat:NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"), [numberFormatter stringFromNumber:confidence]];
+}
+
 /**
  * Decides if a given guess can become active
  */
-- (BOOL)guessMeetsConfidenceRequirement:(NSDictionary *) guessDictionary {
-    NSString *guess                    = nil;
-    double guessConf                   = 0.0;
-    NSString *guessString              = nil;
-    NSString *perc                     = nil;
-    NSArray *allKeys                   = nil;
-
+- (BOOL)guessMeetsConfidenceRequirement:(NSDictionary *)guessDictionary {
     // if the guess dictionary is empty bail early
     if ([guessDictionary count] == 0) {
         return false;
     }
-    
-    allKeys = [guessDictionary allKeys];
-    
-    guess       = [allKeys objectAtIndex:0];
-    guessConf   = [[guessDictionary valueForKey:guess] doubleValue];
-    guessString = [[contextsDataSource contextByUUID:guess] name];
 
-    // setup the confidence for display to the user
-	perc = [numberFormatter stringFromNumber:[NSNumber numberWithDouble:guessConf]];
-	NSString *guessConfidenceString = [NSString stringWithFormat:
-                                       NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification"),
-                                       perc];
+    NSString *guess       = [[guessDictionary allKeys] objectAtIndex:0];
+    NSNumber *guessConf   = [guessDictionary valueForKey:guess];
+    NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
 
-    DSLog(@"checking %@ (%@) with confidence %f", guessString, guess, guessConf);
+    DSLog(@"checking %@ (%@) with confidence %@", guessString, guess, guessConf);
+
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
     // this decides if the guess is confident enough
-	BOOL no_guess = NO;
-	if (!guess) {
+	if ([guessConf doubleValue] < [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"]) {
 #ifdef DEBUG_MODE
-		DSLog(@"No guess made.");
-#endif
-		no_guess = YES;
-	} else if (guessConf < [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"]) {
-#ifdef DEBUG_MODE
-		DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
+		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
+        DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
 #endif
         return false;
 	}
-    
-    
-    
-    
-    /*
-    // there isn't a confident enough context, so we the default context
-	if (no_guess) {
-        // not sure why guessIsConfident is set to NO when it will get forced to YES later
-		guessIsConfident = NO;
-        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
-            [self setMenuBarImage:sbImageInactive];
-        
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"])
-			return false;
-		guess = [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
-		Context *ctxt;
-		if (!(ctxt = [contextsDataSource contextByUUID:guess]))
-			return false;
-		guessConfidenceString = NSLocalizedString(@"as default context",
-                                                  @"Appended to a context-change notification");
-#ifdef DEBUG_MODE
-		guessString = [ctxt name];
-#endif
-	}
-    
-     
-    // if we're here, then the guess is confident enough but we need to deal with smooth switching
-    // not sure why this is forced to YES here
-	guessIsConfident = YES;
-    */
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
+
+    if ([standardUserDefaults floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
         [self setMenuBarImage:sbImageActive];
-    
-	BOOL do_switch = YES;
-    
-    
+
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
-	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
+	BOOL smoothing = [standardUserDefaults boolForKey:@"EnableSwitchSmoothing"];
 	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
 		if (smoothCounter == 0) {
-			smoothCounter = [[NSUserDefaults standardUserDefaults] integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
-			do_switch = NO;
-		} else if (--smoothCounter > 0)
-			do_switch = NO;
+			smoothCounter = [standardUserDefaults integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
+		} else if (--smoothCounter == 0) {
 #ifdef DEBUG_MODE
-		if (!do_switch)
-			DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
+            DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
 #endif
+            return false;
+        }
 	}
-    
-	[self setValue:guessConfidenceString forKey:@"guessConfidence"];
-    
-	if (!do_switch)
-		return false;
-    
+
 	if ([guess isEqualToString:currentContextUUID]) {
 #ifdef DEBUG_MODE
+		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
 		DSLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
 #endif
 		return false;
 	}
-    
+
+    // setup the confidence for display to the user
+	[self setValue:[self getGuessConfidenceStringFrom:guessConf] forKey:@"guessConfidence"];
+
     return true;
 }
 
@@ -1395,8 +1349,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"**** DOING UPDATE LOOP ****");
 #endif
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"] &&
-		    !forcedContextIsSticky) {
+		if (!forcedContextIsSticky && [[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
 			[self doUpdateForReal];
 
 			// Flush auto-release pool
