@@ -234,7 +234,6 @@
 							<string key="NSFrame">{{224, 13}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="617766757"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="345613809">
 								<int key="NSCellFlags">67108864</int>
@@ -725,6 +724,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SearchDomainRuleType</string>
 					<string key="superclassName">RuleType</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="domainComboBox">NSComboBox</string>
+						<string key="wildcardCheckBox">NSButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="domainComboBox">
+							<string key="name">domainComboBox</string>
+							<string key="candidateClassName">NSComboBox</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="wildcardCheckBox">
+							<string key="name">wildcardCheckBox</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/SearchDomainRuleType.h</string>
