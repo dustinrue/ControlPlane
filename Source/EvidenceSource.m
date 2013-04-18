@@ -433,7 +433,7 @@
             [classes addObject:principalClass];
         }
         @catch (NSException *e) {
-            NSLog(@"%@ is not a vaild plugin", pluginPath);
+            NSLog(@"%@ is not a valid plugin", pluginPath);
         }
     }
 #endif
@@ -465,6 +465,10 @@
 	NSMutableSet *types = [[NSMutableSet alloc] initWithCapacity:[classes count]];
     for (Class class in classes) {
 		EvidenceSource *src = [[class alloc] init];
+        if (!src) {
+            DSLog(@"%@ failed to init properly", class);
+            continue;
+        }
 		[srclist addObject:src];
 		[types addObjectsFromArray:[src typesOfRulesMatched]];
 		[src release];
