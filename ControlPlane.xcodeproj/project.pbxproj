@@ -331,18 +331,6 @@
 		7C8574F016FB53180081659A /* ServerAddressRuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerAddressRuleType.m; path = Source/ServerAddressRuleType.m; sourceTree = "<group>"; };
 		7C8574F316FB53930081659A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
 		7C8574F516FB53930081659A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99DF8171FFF6B000DFDAD /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
-		7CB99DFA171FFF6C000DFDAD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
-		7CB99DFB171FFF6C000DFDAD /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
-		7CB99DFC171FFF6D000DFDAD /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
-		7CB99DFD171FFF6D000DFDAD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
-		7CB99DFE171FFF6E000DFDAD /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
-		7CB99DFF171FFF73000DFDAD /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
-		7CB99E00171FFF73000DFDAD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
-		7CB99E01171FFF74000DFDAD /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99E02171FFF75000DFDAD /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99E03171FFF75000DFDAD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99E04171FFF76000DFDAD /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -1589,12 +1577,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7C8574F316FB53930081659A /* en */,
-				7CB99DF8171FFF6B000DFDAD /* pt-PT */,
-				7CB99DFA171FFF6C000DFDAD /* pt-BR */,
-				7CB99DFB171FFF6C000DFDAD /* it */,
-				7CB99DFC171FFF6D000DFDAD /* fr */,
-				7CB99DFD171FFF6D000DFDAD /* de */,
-				7CB99DFE171FFF6E000DFDAD /* da-DK */,
 			);
 			name = SearchDomainRule.xib;
 			sourceTree = "<group>";
@@ -1603,12 +1585,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7C8574F516FB53930081659A /* en */,
-				7CB99DFF171FFF73000DFDAD /* pt-PT */,
-				7CB99E00171FFF73000DFDAD /* pt-BR */,
-				7CB99E01171FFF74000DFDAD /* it */,
-				7CB99E02171FFF75000DFDAD /* fr */,
-				7CB99E03171FFF75000DFDAD /* de */,
-				7CB99E04171FFF76000DFDAD /* da-DK */,
 			);
 			name = ServerAddressRule.xib;
 			sourceTree = "<group>";
