@@ -41,7 +41,7 @@
 	oldDescription = nil;
 
     panel = initPanel;
-    
+
 	// Get notified when we go to sleep, and wake from sleep
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(goingToSleep:)
@@ -88,7 +88,7 @@
 		return nil;
 	}
 
-	NSArray *topLevelObjects = [NSArray array];
+	NSArray *topLevelObjects = nil;
 	if (![nib instantiateNibWithOwner:owner topLevelObjects:&topLevelObjects]) {
 		NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
 		return nil;
@@ -105,26 +105,29 @@
     return nil;
 }
 
-- (id)initWithNibNamed:(NSString *)name
-{
+- (id)initWithNibNamed:(NSString *)name {
     if (!(self = [self initWithPanel:nil])) {
         return nil;
     }
     
     panel = [[[self class] getPanelFromNibNamed:name instantiatedWithOwner:self] retain];
     if (!panel) {
+        [self release];
         return nil;
     }
 
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	[panel release];
 
-	if (oldDescription)
+	if (oldDescription) {
 		[oldDescription release];
+    }
 
 	[super dealloc];
 }
@@ -273,11 +276,14 @@
 
 
 - (NSArray *)myRules {
+    if (!rulesThatBelongToThisEvidenceSource) {
+        rulesThatBelongToThisEvidenceSource = [[NSMutableArray alloc] init];
+    }
+    
     // clear out existing rules if they exist
     if ([rulesThatBelongToThisEvidenceSource count] > 0)
         [rulesThatBelongToThisEvidenceSource removeAllObjects];
 
-    rulesThatBelongToThisEvidenceSource = [[NSMutableArray alloc] init];
     NSMutableArray *tmp = [[[NSMutableArray alloc] init] autorelease];
     [tmp addObjectsFromArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"]];
     
@@ -384,7 +390,9 @@
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 
+#ifdef DEBUG_MODE
 #import "StressTestEvidenceSource.h"
+#endif
 
 @implementation EvidenceSourceSetController
 
