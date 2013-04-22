@@ -18,7 +18,6 @@
 	NSTimer *sbHideTimer;
 
 	NSString *currentContextUUID, *currentContextName;
-	NSString *guessConfidence;
 	BOOL guessIsConfident;
 	NSInteger smoothCounter;
 
