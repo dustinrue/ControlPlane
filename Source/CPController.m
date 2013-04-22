@@ -170,7 +170,6 @@
 	// Set placeholder values
 	[self setValue:@"" forKey:@"currentContextUUID"];
 	[self setValue:@"?" forKey:@"currentContextName"];
-	[self setValue:@"?" forKey:@"guessConfidence"];
     
     [self setGoingToSleep:NO];
 
@@ -693,7 +692,6 @@
 		// Our current context was removed
 		[self setValue:@""  forKey:@"currentContextUUID"];
 		[self setValue:@"?" forKey:@"currentContextName"];
-		[self setValue:@"?" forKey:@"guessConfidence"];
 	}
 
 
@@ -981,8 +979,7 @@
 
 #pragma mark Context switching
 
-- (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID
-{
+- (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID withConfidenceMsg:(NSString *)confMsg {
 
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
 	NSArray *leaving_walk = [walks objectAtIndex:0];
@@ -1020,7 +1017,7 @@
     
 	[self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Changing Context", @"Growl message title")] copy] autorelease]
 	  withMessage:[[[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
-								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, guessConfidence] copy] autorelease]];
+								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, confMsg] copy] autorelease]];
     
 	[self setValue:ctxt_path forKey:@"currentContextName"];
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
@@ -1066,15 +1063,13 @@
 		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
 	
 	DSLog(@"going to %@", [ctxt name]);
-	[self setValue:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")
-		forKey:@"guessConfidence"];
 
 	// Selecting any context in the force-context menu deselects the 'stick forced contexts' item,
 	// so we force it to be correct here.
 	int state = forcedContextIsSticky ? NSOnState : NSOffState;
 	[stickForcedContextMenuItem setState:state];
 	
-	[self performTransitionFrom:currentContextUUID to:[ctxt uuid]];
+	[self performTransitionFrom:currentContextUUID to:[ctxt uuid] withConfidenceMsg:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")];
 }
 
 - (void) setStickyBit:(NSNotification *) notification {
@@ -1128,8 +1123,8 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AllowMultipleActiveContexts"]) {
         // use the newer style of context matching
         [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, id aGuess, BOOL *stop) {
-            NSDictionary *mostConfidentGuess = [self getMostConfidentContext:@{ uuid: aGuess }];
-            DSLog(@"currentGuess %@ should be %@", uuid, ([self guessMeetsConfidenceRequirement:mostConfidentGuess]) ? @"enabled":@"disabled");
+            NSArray *guess = [self getMostConfidentContext:@{ uuid: aGuess }];
+            DSLog(@"currentGuess %@ should be %@", uuid, ([self guessMeetsConfidenceRequirement:guess]) ? @"enabled":@"disabled");
         }];
     } else {
         // Update what the user sees in preferences
@@ -1142,11 +1137,12 @@
         
         // use the older style of context matching
         // of the guesses, which one has the highest confidence rating?
-        NSDictionary *mostConfidentGuess = [self getMostConfidentContext:guesses];
-        
+        NSArray *mostConfidentGuess = [self getMostConfidentContext:guesses];
+
         if ([self guessMeetsConfidenceRequirement:mostConfidentGuess]) {
-            NSString *guess = [[mostConfidentGuess allKeys] objectAtIndex:0];
-            [self performTransitionFrom:currentContextUUID to:guess];
+            NSString *confMsg = [self getGuessConfidenceStringFrom:mostConfidentGuess[1]];
+
+            [self performTransitionFrom:currentContextUUID to:mostConfidentGuess[0] withConfidenceMsg:confMsg];
         }
     }
 }
@@ -1229,7 +1225,7 @@
  * @param NSDictionary list of guesses
  * @return NSDictionary the most confident guess
  */
-- (NSDictionary *) getMostConfidentContext:(NSDictionary *) guesses {
+- (NSArray *) getMostConfidentContext:(NSDictionary *) guesses {
 	__block NSString *guess = nil;
 	__block double guessConf = -1.0; // guaranteed to be less than any actual confidence value
 
@@ -1255,10 +1251,10 @@
     }];
 
     if (guess) {
-        return [NSDictionary dictionaryWithObject:@(guessConf) forKey:guess];
+        return @[ guess, @(guessConf) ];
     }
 
-    return [NSDictionary dictionary];
+    return @[];
 }
 
 - (void)updateContextListView:(NSArray *) allConfiguredContexts withGuesses:(NSDictionary *) guesses {
@@ -1286,17 +1282,17 @@
 /**
  * Decides if a given guess can become active
  */
-- (BOOL)guessMeetsConfidenceRequirement:(NSDictionary *)guessDictionary {
+- (BOOL)guessMeetsConfidenceRequirement:(NSArray *)guessArray {
     // if the guess dictionary is empty bail early
-    if ([guessDictionary count] == 0) {
+    if ([guessArray count] < 2) {
         return false;
     }
 
-    NSString *guess       = [[guessDictionary allKeys] objectAtIndex:0];
-    NSNumber *guessConf   = [guessDictionary valueForKey:guess];
-    NSString *guessString = [[contextsDataSource contextByUUID:guess] name];
+    NSString *guessUUID = guessArray[0];
+    NSNumber *guessConf = guessArray[1];
+    NSString *guessName = [[contextsDataSource contextByUUID:guessUUID] name];
 
-    DSLog(@"checking %@ (%@) with confidence %@", guessString, guess, guessConf);
+    DSLog(@"checking %@ (%@) with confidence %@", guessName, guessUUID, guessConf);
 
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -1304,7 +1300,7 @@
 	if ([guessConf doubleValue] < [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"]) {
 #ifdef DEBUG_MODE
 		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
-        DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessString, guessConfidenceString);
+        DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessName, guessConfidenceString);
 #endif
         return false;
 	}
@@ -1314,27 +1310,24 @@
 
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
 	BOOL smoothing = [standardUserDefaults boolForKey:@"EnableSwitchSmoothing"];
-	if (smoothing && ![currentContextUUID isEqualToString:guess]) {
+	if (smoothing && ![currentContextUUID isEqualToString:guessUUID]) {
 		if (smoothCounter == 0) {
 			smoothCounter = [standardUserDefaults integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
 		} else if (--smoothCounter == 0) {
 #ifdef DEBUG_MODE
-            DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessString);
+            DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessName);
 #endif
             return false;
         }
 	}
 
-	if ([guess isEqualToString:currentContextUUID]) {
+	if ([guessUUID isEqualToString:currentContextUUID]) {
 #ifdef DEBUG_MODE
 		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
-		DSLog(@"Guessed '%@' (%@); already there.", guessString, guessConfidenceString);
+		DSLog(@"Guessed '%@' (%@); already there.", guessName, guessConfidenceString);
 #endif
 		return false;
 	}
-
-    // setup the confidence for display to the user
-	[self setValue:[self getGuessConfidenceStringFrom:guessConf] forKey:@"guessConfidence"];
 
     return true;
 }
