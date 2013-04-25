@@ -114,14 +114,9 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 		return;
 
 	// Register for asynchronous notifications
-	SCDynamicStoreContext ctxt;
-	ctxt.version = 0;
-	ctxt.info = self;
-	ctxt.retain = NULL;
-	ctxt.release = NULL;
-	ctxt.copyDescription = NULL;
-
+	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), linkChange, &ctxt);
+
     dispatch_queue_t queue = dispatch_queue_create("ControlPlane.NetworkLink", NULL);
     SCDynamicStoreSetDispatchQueue(store, queue);
 
@@ -141,7 +136,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
         [self doFullUpdate:nil];
     });
 
-    CFRelease(queue); // retained by 'store'
+    dispatch_release(queue); // retained by 'store'
 
     didSleep = NO;
 	running = YES;
