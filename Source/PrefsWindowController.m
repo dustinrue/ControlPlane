@@ -131,6 +131,7 @@
 - (void)doAddRule:(NSDictionary *)dict;
 - (void)doEditRule:(NSDictionary *)dict;
 - (void)updateLogBuffer:(NSTimer *)timer;
+- (void)onPrefsWindowClose;
 
 @end
 
@@ -169,6 +170,7 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[blankPrefsView release];
 	[super dealloc];
 }
@@ -289,12 +291,21 @@
 				nil]];
 
 	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:9]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPrefsWindowClose) name:NSWindowWillCloseNotification object:prefsWindow];
+}
+
+- (void)onPrefsWindowClose {
+    [self stopLogBufferTimer];
 }
 
 - (IBAction)runPreferences:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
 	[prefsWindow makeKeyAndOrderFront:self];
+	if ([currentPrefsGroup isEqualToString:@"Advanced"]) {
+        [self startLogBufferTimer];
+	}
 }
 
 - (IBAction)runAbout:(id)sender
@@ -387,17 +398,13 @@
 	}
 
 	if ([groupId isEqualToString:@"Advanced"]) {
-		logBufferTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 0.5
-														   target: self
-														 selector: @selector(updateLogBuffer:)
-														 userInfo: nil
-														  repeats: YES] retain];
-		[logBufferTimer fire];
-	} else
-		logBufferTimer = [logBufferTimer checkAndInvalidate];
+        [self startLogBufferTimer];
+	} else {
+        [self stopLogBufferTimer];
+    }
 
 	currentPrefsView = [group objectForKey:@"view"];
-
+    
 	NSSize minSize = NSMakeSize([[group valueForKey:@"min_width"] floatValue],
 			       [[group valueForKey:@"min_height"] floatValue]);
 	NSSize size = minSize;
@@ -796,10 +803,22 @@
 }
 
 
-
-
-
 #pragma mark Miscellaneous
+
+- (void)startLogBufferTimer {
+    if (!logBufferTimer) {
+        logBufferTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 0.5
+                                                           target: self
+                                                         selector: @selector(updateLogBuffer:)
+                                                         userInfo: nil
+                                                          repeats: YES] retain];
+        [logBufferTimer fire];
+    }
+}
+
+- (void)stopLogBufferTimer {
+    logBufferTimer = [logBufferTimer checkAndInvalidate];
+}
 
 - (void)updateLogBuffer:(NSTimer *)timer
 {
