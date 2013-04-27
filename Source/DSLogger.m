@@ -6,27 +6,97 @@
 //  Modified by Vladimir Beloborodov on 01 Apr 2013.
 //
 
+#pragma mark -
+#pragma mark DSLogRecord (used by DSLogger)
+
+@interface DSLogRecord : NSObject
+
+@property (retain, nonatomic, readwrite) NSDate   *timeStamp;
+@property (retain, nonatomic, readwrite) NSString *functionName;
+@property (retain, nonatomic, readwrite) NSString *infoMsg;
+
+@end
+
+@implementation DSLogRecord
+
+- (id)initWithTimeStamp:(NSDate *)date functionName:(NSString *)name info:(NSString *)info {
+    self = [super init];
+    if (self) {
+        _timeStamp = [date retain];
+        _functionName = [name retain];
+        _infoMsg = [info retain];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [_infoMsg release];
+    [_functionName release];
+    [_timeStamp release];
+
+    [super dealloc];
+}
+
+- (void)setTimeStamp:(NSDate *)date functionName:(NSString *)name info:(NSString *)info {
+    self.timeStamp = date;
+    self.functionName = name;
+    self.infoMsg = info;
+}
+
+static NSDateFormatter *timestampFormatter;
+
++ (void)initialize {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        timestampFormatter = [[NSDateFormatter alloc] init];
+        [timestampFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+        [timestampFormatter setDateFormat:@"HH:mm:ss.SSS"];
+    });
+}
+
+- (NSString *)getLogRecordString {
+    if (self.timeStamp) {
+        NSMutableString *buf = [[NSMutableString alloc] initWithString:@"\n"];
+        [buf appendString:[timestampFormatter stringFromDate:self.timeStamp]];
+        [buf appendString:@" "];
+        [buf appendString:self.functionName];
+        [buf appendString:@"\n\t"];
+        [buf appendString:self.infoMsg];
+        
+        self.infoMsg = buf;
+        self.timeStamp = nil;
+        
+        [buf release];
+    }
+
+    return self.infoMsg;
+}
+
+@end
+
+
+#pragma mark -
+#pragma mark DSLogger
+
 #import "DSLogger.h"
 
-
-#define DSLOGGER_CAPACITY	128
-
-static DSLogger *sharedLogger = nil;
+#define DSLOGGER_CAPACITY	128u
 
 @implementation DSLogger {
     dispatch_queue_t serialQueue;
 
-	NSDateFormatter *timestampFormatter;
-
+#ifdef DEBUG_MODE
 	// Clustering
-	NSTimeInterval clusterThreshold;
 	NSDate *clusterStartDate;
 	NSString *lastFunction;
+#endif
 
 	// Ring buffer
 	NSMutableArray *buffer;
-	int startIndex, count;
+	unsigned int startIndex, count;
 }
+
+static DSLogger *sharedLogger = nil;
 
 + (void)initialize {
     static dispatch_once_t onceToken;
@@ -40,35 +110,38 @@ static DSLogger *sharedLogger = nil;
 }
 
 - (id)init {
-	if (!(self = [super init]))
+	if (!(self = [super init])) {
 		return nil;
+    }
 
-	timestampFormatter = [[NSDateFormatter alloc] init];
-	[timestampFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	[timestampFormatter setDateFormat:@"HH:mm:ss.SSS"];
-
-	clusterThreshold = 0.5;
+#ifdef DEBUG_MODE
+	// Clustering
 	clusterStartDate = [[NSDate distantPast] retain];
 	lastFunction = [[NSString alloc] init];
+#endif
 
 	buffer = [[NSMutableArray alloc] initWithCapacity:DSLOGGER_CAPACITY];
-	startIndex = count = 0;
+	startIndex = count = 0u;
 
     serialQueue = dispatch_queue_create("ControlPlane.DSLogger", DISPATCH_QUEUE_SERIAL);
+#ifndef DEBUG_MODE
+    dispatch_set_target_queue(serialQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
+#endif
 
 	return self;
 }
 
 - (void)dealloc {
-    dispatch_sync(serialQueue, ^{
-        [timestampFormatter release];
-        [clusterStartDate release];
-        [lastFunction release];
-        [buffer release];
-    });
     dispatch_release(serialQueue);
+    [buffer release];
 
-	[super dealloc];
+#ifdef DEBUG_MODE
+	// Clustering
+    [clusterStartDate release];
+    [lastFunction release];
+#endif
+
+    [super dealloc];
 }
 
 - (void)logFromFunction:(NSString *)fnName withInfo:(NSString *)info {
@@ -80,38 +153,44 @@ static DSLogger *sharedLogger = nil;
 	NSLog(@"%@ %@", fnName, info);
 #endif
 
+    NSDate *now = [[NSDate alloc] init];
     NSString *fnNameCopy = [fnName copy], *infoCopy = [info copy];
-	NSDate *now = [[NSDate alloc] init];
+
     dispatch_async(sharedLogger->serialQueue, ^{
-        @autoreleasepool {
-            [sharedLogger doLogFromFunction:fnNameCopy withInfo:infoCopy timeStamp:now];
-        }
-        [now release];
-        [fnNameCopy release];
-        [infoCopy release];
+        [sharedLogger doLogFromFunction:fnNameCopy withInfo:infoCopy timeStamp:now];
     });
+
+    [infoCopy release];
+    [fnNameCopy release];
+    [now release];
 }
 
-- (void)doLogFromFunction:(NSString *)func withInfo:(NSString *)info timeStamp:(NSDate *)timeSt {
-	NSString *line;
+- (void)doLogFromFunction:(NSString *)func withInfo:(NSString *)info timeStamp:(NSDate *)date {
+#ifdef DEBUG_MODE
+    // "Clustering" all adjacent records coming from the same function within a limited timeframe
+	static const NSTimeInterval clusterThreshold = 0.5; // seconds
 
-	if (([timeSt timeIntervalSinceDate:clusterStartDate] < clusterThreshold) && [lastFunction isEqualToString:func])
-		line = [@"\t" stringByAppendingString:info];
-	else {
+	if (([date timeIntervalSinceDate:clusterStartDate] < clusterThreshold) && [func isEqualToString:lastFunction]) {
+		info = [@"\t" stringByAppendingString:info];
+        date = nil;
+    } else {
 		[clusterStartDate release];
-        clusterStartDate = [timeSt retain];
-        
         [lastFunction release];
-        lastFunction = [func retain];
-        
-		line = [NSString stringWithFormat:@"%@ %@\n\t%@", [timestampFormatter stringFromDate:timeSt], func, info];
-	}
 
-	if (count < DSLOGGER_CAPACITY) {
-		[buffer addObject:line];
+        clusterStartDate = [date retain];
+        lastFunction = [func retain];
+	}
+#endif
+
+    if (count < DSLOGGER_CAPACITY) {
+        DSLogRecord *record = [[DSLogRecord alloc] initWithTimeStamp:date functionName:func info:info];
+		[buffer addObject:record];
+        [record release];
+
 		++count;
 	} else {
-		buffer[startIndex] = line;
+		[(DSLogRecord *)buffer[startIndex] setTimeStamp:date functionName:func info:info];
+
         ++startIndex;
         startIndex %= DSLOGGER_CAPACITY;
 	}
@@ -121,19 +200,17 @@ static DSLogger *sharedLogger = nil;
 	NSMutableString *buf = [NSMutableString string];
 
     dispatch_suspend(serialQueue);
-	int i = startIndex, cnt = count;
 
-	while (cnt > 0) {
-		[buf appendString:buffer[i]];
-		if (cnt > 1)
-			[buf appendString:@"\n"];
+	unsigned int i = startIndex;
+    for (unsigned int cnt = count; cnt > 0u; --cnt) {
+        [buf appendString:[(DSLogRecord *)buffer[i] getLogRecordString]];
 
         ++i;
         i %= DSLOGGER_CAPACITY;
-		--cnt;
 	}
 
     dispatch_resume(serialQueue);
+
 	return buf;
 }
 
