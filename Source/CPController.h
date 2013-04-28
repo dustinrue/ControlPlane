@@ -18,7 +18,6 @@
 	NSTimer *sbHideTimer;
 
 	NSString *currentContextUUID, *currentContextName;
-	BOOL guessIsConfident;
 	NSInteger smoothCounter;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;
@@ -28,7 +27,6 @@
 	NSTimer *updatingTimer;
 	NSThread *updatingThread;
 	NSLock *updatingSwitchingLock;
-    NSLock *menuBarLocker;
 	NSConditionLock *updatingLock;
 	BOOL timeToDie;
 
