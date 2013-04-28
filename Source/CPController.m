@@ -162,7 +162,6 @@
 	updatingTimer = nil;
 
 	updatingSwitchingLock = [[NSLock alloc] init];
-    menuBarLocker = [[NSLock alloc] init];
 	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
 	smoothCounter = 0;
@@ -403,6 +402,7 @@
     
 	// Set up status bar.
 	[self showInStatusBar:self];
+    [self autoHideOrShowInStatusBar];
 
 	// Persistent contexts
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
@@ -534,114 +534,110 @@
 #pragma mark Menu Bar Wrangling
 
 
-- (void)setStatusTitle:(NSString *)title
-{
-    [menuBarLocker lock];
-
+- (void)setStatusTitle:(NSString *)title {
 	if (!sbItem) {
-        [menuBarLocker unlock];
 		return;
     }
 	if (!title) {
 		[sbItem setTitle:nil];
-        [menuBarLocker unlock];
 		return;
 	}
 
 	// Smaller font
-	NSFont *font = [NSFont menuBarFontOfSize:0];
-	NSDictionary *attrs = [NSDictionary dictionaryWithObject:font
-							  forKey:NSFontAttributeName];
+	NSDictionary *attrs = @{ NSFontAttributeName: [NSFont menuBarFontOfSize:0] };
 	NSAttributedString *as = [[NSAttributedString alloc] initWithString:title attributes:attrs];
-	[sbItem setAttributedTitle:[as autorelease]];
+	[sbItem setAttributedTitle:as];
+    [as release];
+}
 
-    [menuBarLocker unlock];
+- (void)updateMenuBarImage {
+	if (!sbItem) {
+		return;
+    }
+
+    NSImage *barImage = nil;
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
+        barImage = ([currentContextUUID length] > 0) ? (sbImageActive) : (sbImageInactive);
+    }
+
+    [self setMenuBarImage:barImage];
 }
 
 - (void)setMenuBarImage:(NSImage *)imageName {
-
-    [menuBarLocker lock];
     // if the menu bar item has been hidden sbItem will have been released
     // and we should not attempt to update the image
     if (!sbItem) {
-
-        [menuBarLocker unlock];
         return;
     }
 
-    
     @try {
         [sbItem setImage:imageName];
     }
     @catch (NSException *exception) {
-        DSLog(@"failed to set the menubar icon to %@ with error %@.  Please alert ControlPlane Developers!", [imageName name], [exception reason]);
+        DSLog(@"failed to set the menubar icon to %@ with error %@. Please alert ControlPlane Developers!", [imageName name], [exception reason]);
         [self setStatusTitle:@"Failed to set icon"];
     }
-
-    [menuBarLocker unlock];
 }
 
-- (void)showInStatusBar:(id)sender
-{
-
-    [menuBarLocker lock];
+- (void)showInStatusBar:(id)sender {
 	if (sbItem) {
 		// Already there? Rebuild it anyway.
-       	sbHideTimer = [sbHideTimer checkAndInvalidate];
         [self doHideFromStatusBar:YES];
 	}
 
-	sbItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-	[sbItem retain];
+	sbItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
 	[sbItem setHighlightMode:YES];
 
-    [menuBarLocker unlock];
-
-    // only show the icon if preferences say we should
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
-        [self setMenuBarImage:(guessIsConfident ? sbImageActive : sbImageInactive)];
-    }
-    else {
-        [self setMenuBarImage:NULL];
-    }
+    [self updateMenuBarImage];
     
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
         [self setStatusTitle:currentContextName];
     }
 	
 	[sbItem setMenu:sbMenu];
-
 }
 
 - (void)hideFromStatusBar:(NSTimer *)theTimer {
-
-    [menuBarLocker lock];
-    
-	sbHideTimer = [sbHideTimer checkAndInvalidate];
-	
     [self doHideFromStatusBar:NO];
-    
-
-    [menuBarLocker unlock];
 }
 
-
 - (void)doHideFromStatusBar:(BOOL)forced {
+    if (sbHideTimer) {
+        sbHideTimer = [sbHideTimer checkAndInvalidate];
+    }
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"] && !forced)
-		return;
-    
-    if (sbItem) {
-        [[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
-        [sbItem release];
-        sbItem = nil;
+    if (forced || [[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"]) {
+        if (sbItem) {
+            [[NSStatusBar systemStatusBar] removeStatusItem:sbItem];
+            [sbItem release];
+            sbItem = nil;
+        }
+    }
+}
+
+- (void)autoHideOrShowInStatusBar {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"]) {
+        if (!sbHideTimer && sbItem) {
+            sbHideTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)STATUS_BAR_LINGER
+                                                            target: self
+                                                          selector: @selector(hideFromStatusBar:)
+                                                          userInfo: nil
+                                                           repeats: NO] retain];
+        }
+    } else {
+		if (sbHideTimer) {
+            sbHideTimer = [sbHideTimer checkAndInvalidate];
+        }
+        if (!sbItem) {
+            [self showInStatusBar:self];
+        }
     }
 }
 
 - (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
-    BOOL useGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"];
-    if (useGrowl)
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
         [CPNotifications postNotification:title withMessage:message];
+    }
 }
 
 - (void)contextsChanged:(NSNotification *)notification
@@ -694,11 +690,13 @@
 		[self setValue:@"?" forKey:@"currentContextName"];
 	}
 
-
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-		[self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
-        [self showInStatusBar:self];
-    }
+    // Update menu bar (always do that in the main thread)
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateMenuBarImage];
+        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+            [self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
+        }
+    });
 
 	// update other stuff?
 }
@@ -727,8 +725,7 @@
         [self executeActionSet:screensaverActionDepartureQueue];
         [self executeActionSet:screensaverActionArrivalQueue];
     }
-    
-    
+
 	// Check timer interval
 	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
 	if (fabs(intv - [updatingTimer timeInterval]) > 0.1) {
@@ -739,27 +736,6 @@
 														userInfo: nil
 														 repeats: NO] retain];
 	}
-    
-	// Check status bar visibility
-	BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"];
-	if (sbItem && hide && !sbHideTimer)
-		sbHideTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)STATUS_BAR_LINGER
-														target: self
-													  selector: @selector(hideFromStatusBar:)
-													  userInfo: nil
-													   repeats: NO] retain];
-	else if (!hide)
-		sbHideTimer = [sbHideTimer checkAndInvalidate];
-	
-	if (!hide && !sbItem) {
-		[self showInStatusBar:self];
-    }
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_CONTEXT)
-        [self setMenuBarImage:NULL];
     
 	[updatingLock lock];
 	[updatingLock unlockWithCondition:1];
@@ -980,68 +956,63 @@
 #pragma mark Context switching
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID withConfidenceMsg:(NSString *)confMsg {
-
 	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
-	NSArray *leaving_walk = [walks objectAtIndex:0];
-	NSArray *entering_walk = [walks objectAtIndex:1];
-	NSEnumerator *en;
-	Context *ctxt;
+	NSArray *leaving_walk = walks[0];
+	NSArray *entering_walk = walks[1];
 
+    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
+    NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *notificationName   = [notificationObject stringByAppendingString:@".ContextChanged"];
+    
 	[updatingSwitchingLock lock];
 
 	// Execute all the "Departure" actions
-	en = [leaving_walk objectEnumerator];
-	while ((ctxt = [en nextObject])) {
+    for (Context *ctxt in leaving_walk) {
 		DSLog(@"Depart from %@", [ctxt name]);
 		[self triggerDepartureActions:[ctxt uuid]];
 	}
 
-	// Update current context
-	[self setValue:toUUID forKey:@"currentContextUUID"];
 	NSString *ctxt_path = [contextsDataSource pathFromRootTo:toUUID];
     
-    NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
-    NSString *notificationName = [NSString stringWithFormat:@"%@.ContextChanged",notificationObject];
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:ctxt_path, @"context", nil];
-                              
-    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
-                              [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
+	// Update current context
+	[self setValue:toUUID forKey:@"currentContextUUID"];
+	[self setValue:ctxt_path forKey:@"currentContextName"];
     
+    NSDictionary *userInfo = @{ @"context": ctxt_path };
+    [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
+    
+#if DEBUG_MODE
     // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
     // Allows you to test QuincyKit
     if ([ctxt_path isEqualToString:@"Developer Crash"]) {
-#if DEBUG_MODE
         kill( getpid(), SIGABRT );
-#endif
     }
+#endif
+
+    // Update menu bar (always do that in the main thread)
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateMenuBarImage];
+        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+            [self setStatusTitle:ctxt_path];
+        }
+    });
     
 	[self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Changing Context", @"Growl message title")] copy] autorelease]
 	  withMessage:[[[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
 								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, confMsg] copy] autorelease]];
     
-	[self setValue:ctxt_path forKey:@"currentContextName"];
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:ctxt_path];
-     
-    }
-	/*if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowGuess"])
-		[self setStatusTitle:ctxt_path];*/
-
 	// Update force context menu
 	NSMenu *menu = [forceContextMenuItem submenu];
-	en = [[menu itemArray] objectEnumerator];
-	NSMenuItem *item;
-	while ((item = [en nextObject])) {
+    for (NSMenuItem *item in [menu itemArray]) {
 		NSString *rep = [item representedObject];
-		if (!rep || ![contextsDataSource contextByUUID:rep])
-			continue;
-		BOOL ticked = ([rep isEqualToString:toUUID]);
-		[item setState:(ticked ? NSOnState : NSOffState)];
+		if (rep && [contextsDataSource contextByUUID:rep]) {
+            BOOL ticked = ([rep isEqualToString:toUUID]);
+            [item setState:(ticked ? NSOnState : NSOffState)];
+        }
 	}
 
 	// Execute all the "Arrival" actions
-	en = [entering_walk objectEnumerator];
-	while ((ctxt = [en nextObject])) {
+    for (Context *ctxt in entering_walk) {
 		DSLog(@"Arrive at %@", [ctxt name]);
 		[self triggerArrivalActions:[ctxt uuid]];
 	}
@@ -1130,11 +1101,6 @@
         // Update what the user sees in preferences
         [self updateContextListView:allConfiguredContexts withGuesses:guesses];
         
-        // TODO: move this to some other area dedicated to maintaining the state of the menu bar icon/status
-        // This covers the case where the show context in menu bar option has been changed
-        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON)
-            [self setStatusTitle:nil];
-        
         // use the older style of context matching
         // of the guesses, which one has the highest confidence rating?
         NSArray *mostConfidentGuess = [self getMostConfidentContext:guesses];
@@ -1182,23 +1148,23 @@
 		if ([currentContextTree count] == 0)
 			continue;	// Oops, something got busted along the way
         
-		int base_depth = [[[currentContextTree objectAtIndex:0] valueForKey:@"depth"] intValue];
-        double currentRuleConfidence = [currentRule[@"confidence"] doubleValue];
+		const int base_depth = [[[currentContextTree objectAtIndex:0] valueForKey:@"depth"] intValue];
+        const double currentRuleConfidence = [currentRule[@"confidence"] doubleValue];
 
 		for (Context *currentContext in currentContextTree) {
 			NSString *uuidOfCurrentContext = [currentContext uuid];
-			int depth = [[currentContext valueForKey:@"depth"] intValue];
-			double decay = 1.0 - (0.03 * (depth - base_depth));
+			const int depth = [[currentContext valueForKey:@"depth"] intValue];
+			const double decay = 1.0 - (0.03 * (depth - base_depth));
             
             // seed unconfidenceValue with what we've calcuated so far
-			NSNumber *unconfidenceValue = [guesses objectForKey:uuidOfCurrentContext];
+			NSNumber *unconfidenceValue = guesses[uuidOfCurrentContext];
 			
             // if the unconfidenceValue isn't set initilialize it to a sane default
             if (!unconfidenceValue)
 				unconfidenceValue = @(1.0);
             
             // account for the amount of confidence this matching rule affects the guess
-			double mult = currentRuleConfidence * decay;
+			const double mult = currentRuleConfidence * decay;
 			unconfidenceValue = @([unconfidenceValue doubleValue] * (1.0 - mult));
 #ifdef DEBUG_MODE
 			DSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
@@ -1240,13 +1206,11 @@
     // Finds the context with the highest confidence rating but not necessarily
     // one that satisfies the minimum confidence
     [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, NSNumber *conf, BOOL *stop) {
-	 	double con = [conf doubleValue];
-		if (con > guessConf) {
+	 	const double confindence = [conf doubleValue];
+		if (confindence > guessConf) {
+			guessConf = confindence;
+            *stop = (confindence >= 1.0);
 			guess = uuid;
-			guessConf = con;
-            if (guessConf >= 1.0) {
-                *stop = YES;
-            }
 		}
     }];
 
@@ -1304,9 +1268,6 @@
 #endif
         return false;
 	}
-
-    if ([standardUserDefaults floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT)
-        [self setMenuBarImage:sbImageActive];
 
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
 	BOOL smoothing = [standardUserDefaults boolForKey:@"EnableSwitchSmoothing"];
@@ -1423,16 +1384,8 @@
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
-	// Set up status bar.
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"]) {
-		[self showInStatusBar:self];
-		sbHideTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)STATUS_BAR_LINGER
-														target: self
-													  selector: @selector(hideFromStatusBar:)
-													  userInfo: nil
-													   repeats: NO] retain];
-	}
-
+    [self showInStatusBar:self];
+    [self autoHideOrShowInStatusBar];
 	return YES;
 }
 
@@ -1445,7 +1398,6 @@
 
 - (void) showMainApplicationWindow {
 	[prefsWindow makeFirstResponder: nil];
-
 }
 
 #pragma mark NSUserDefaults notifications
@@ -1458,8 +1410,18 @@
 #endif
 
 	// Check that the running evidence sources match the defaults
-    if (!goingToSleep)
+    if (!goingToSleep) {
         [evidenceSources startOrStopAll];
+    }
+
+    [self autoHideOrShowInStatusBar];
+    [self updateMenuBarImage];
+    
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
+        [self setStatusTitle:nil];
+    } else {
+        [self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
+    }
 }
 
 #pragma mark -
