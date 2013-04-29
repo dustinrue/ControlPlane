@@ -393,42 +393,33 @@
 		[prefsWindow makeKeyAndOrderFront:self];
 	}
     
-    
-    
-    
     // set default screen saver and screen lock status
     [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
     
-	// Set up status bar.
-	[self showInStatusBar:self];
-    [self autoHideOrShowInStatusBar];
-
 	// Persistent contexts
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
 		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
 		Context *ctxt = [contextsDataSource contextByUUID:uuid];
 		if (ctxt) {
 			[self setValue:uuid forKey:@"currentContextUUID"];
-			NSString *ctxt_path = [contextsDataSource pathFromRootTo:uuid];
-			[self setValue:ctxt_path forKey:@"currentContextName"];
-			if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON)
-				[self setStatusTitle:ctxt_path];
+			[self setValue:[contextsDataSource pathFromRootTo:uuid] forKey:@"currentContextName"];
 
 			// Update force context menu
 			NSMenu *menu = [forceContextMenuItem submenu];
-			NSEnumerator *en = [[menu itemArray] objectEnumerator];
-			NSMenuItem *item;
-			while ((item = [en nextObject])) {
+			for (NSMenuItem *item in [menu itemArray]) {
 				NSString *rep = [item representedObject];
-				if (!rep || ![contextsDataSource contextByUUID:rep])
-					continue;
-				BOOL ticked = ([rep isEqualToString:uuid]);
-				[item setState:(ticked ? NSOnState : NSOffState)];
+				if (rep && [contextsDataSource contextByUUID:rep]) {
+                    BOOL ticked = ([rep isEqualToString:uuid]);
+                    [item setState:(ticked ? NSOnState : NSOffState)];
+                }
 			}
 		}
 	}
 	
+	// Set up status bar.
+	[self showInStatusBar:self];
+    [self autoHideOrShowInStatusBar];
     
     [self registerForNotifications];
     
@@ -683,7 +674,7 @@
 	// Update current context details
 	ctxt = [contextsDataSource contextByUUID:currentContextUUID];
 	if (ctxt) {
-		[self setValue:[ctxt name] forKey:@"currentContextName"];
+		[self setValue:[contextsDataSource pathFromRootTo:currentContextUUID] forKey:@"currentContextName"];
 	} else {
 		// Our current context was removed
 		[self setValue:@""  forKey:@"currentContextUUID"];
@@ -694,7 +685,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateMenuBarImage];
         if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-            [self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
+            [self setStatusTitle:currentContextName];
         }
     });
 
@@ -993,7 +984,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateMenuBarImage];
         if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-            [self setStatusTitle:ctxt_path];
+            [self setStatusTitle:currentContextName];
         }
     });
     
@@ -1420,7 +1411,7 @@
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
         [self setStatusTitle:nil];
     } else {
-        [self setStatusTitle:[contextsDataSource pathFromRootTo:currentContextUUID]];
+        [self setStatusTitle:currentContextName];
     }
 }
 
