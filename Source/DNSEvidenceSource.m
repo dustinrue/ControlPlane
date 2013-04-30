@@ -85,11 +85,21 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
 
     _searchDomains = [NSSet new];
     _dnsServers = [NSSet new];
+    
+    queue = dispatch_queue_create("ControlPlane.DNSParams", DISPATCH_QUEUE_SERIAL);
 
 	return self;
 }
 
 - (void)dealloc {
+    if (store) {
+        SCDynamicStoreSetDispatchQueue(store, NULL);
+        CFRelease(store);
+    }
+
+    dispatch_sync(queue, ^{}); // ensure the queue is fully stopped
+    dispatch_release(queue);
+
 	[_searchDomains release];
     [_dnsServers release];
 
@@ -100,15 +110,15 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
 typedef struct {
     NSSet *servers;
     NSSet *domains;
-} EnumeratedParams;
+} EnumeratedDNSParams;
 
-+ (EnumeratedParams)enumerateFromStore:(SCDynamicStoreRef)store {
++ (EnumeratedDNSParams)enumerateFromStore:(SCDynamicStoreRef)store {
 	NSMutableSet *servers = [NSMutableSet set], *domains = [NSMutableSet set];
 
     NSArray *dnsKeyPatterns = @[ @"Setup:/Network/Service/[^/]+/DNS", @"State:/Network/Service/[^/]+/DNS" ];
     CFDictionaryRef dict = SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) dnsKeyPatterns);
     if (!dict) {
-        return (EnumeratedParams) {servers, domains};
+        return (EnumeratedDNSParams) {servers, domains};
     }
 
     @autoreleasepool {
@@ -135,12 +145,12 @@ typedef struct {
 
     CFRelease(dict);
 
-	return (EnumeratedParams) {servers, domains};
+	return (EnumeratedDNSParams) {servers, domains};
 }
 
 - (void)doFullUpdateFromStore:(SCDynamicStoreRef)aStore {
 	@autoreleasepool {
-        EnumeratedParams params = [[self class] enumerateFromStore:aStore];
+        EnumeratedDNSParams params = [[self class] enumerateFromStore:aStore];
         
         self.searchDomains = (NSSet *) params.domains;
         self.dnsServers = (NSSet *) params.servers;
@@ -154,16 +164,16 @@ typedef struct {
 	if (running) {
 		return;
     }
-
+    
+    dispatch_sync(queue, ^{}); // ensure we always start with an empty queue
+    
 	// Register for asynchronous notifications
-	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL};
+	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), dnsChange, &ctxt);
     if (!store) {
         [self doStop];
         return;
     }
-
-    queue = dispatch_queue_create("ControlPlane.DNS", DISPATCH_QUEUE_SERIAL);
     if (!SCDynamicStoreSetDispatchQueue(store, queue)) {
         [self doStop];
         return;
@@ -175,10 +185,8 @@ typedef struct {
         return;
     }
 
-    [self retain];
     dispatch_async(queue, ^{
         [self doFullUpdateFromStore:store];
-        [self release];
     });
 
 	running = YES;
@@ -197,17 +205,11 @@ typedef struct {
         store = NULL;
     }
 
-    if (queue) {
-        [self retain];
-        dispatch_async(queue, ^{
-            self.searchDomains = [NSSet set];
-            self.dnsServers = [NSSet set];
-            [self setDataCollected:NO];
-            [self release];
-        });
-        dispatch_release(queue);
-        queue = NULL;
-    }
+    dispatch_async(queue, ^{
+        self.searchDomains = [NSSet set];
+        self.dnsServers = [NSSet set];
+        [self setDataCollected:NO];
+    });
 
 	running = NO;
 }
