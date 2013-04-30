@@ -419,7 +419,7 @@
 	
 	// Set up status bar.
 	[self showInStatusBar:self];
-    [self autoHideOrShowInStatusBar];
+    [self startOrStopHidingFromStatusBar];
     
     [self registerForNotifications];
     
@@ -606,7 +606,7 @@
     }
 }
 
-- (void)autoHideOrShowInStatusBar {
+- (void)startOrStopHidingFromStatusBar {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HideStatusBarIcon"]) {
         if (!sbHideTimer && sbItem) {
             sbHideTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)STATUS_BAR_LINGER
@@ -694,8 +694,7 @@
 
 #pragma mark Rule matching and Action triggering
 
-- (void)doUpdateByTimer:(NSTimer *)theTimer
-{
+- (void)doUpdateByTimer:(NSTimer *)theTimer {
 #ifdef DEBUG_MODE
     DSLog(@"**** DOING UPDATE LOOP BY TIMER ****");
 #endif
@@ -703,6 +702,8 @@
 }
 
 - (void)doUpdate {
+    updatingTimer = [updatingTimer checkAndInvalidate];
+
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
     
@@ -719,8 +720,7 @@
 
 	// Check timer interval
 	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
-	if (fabs(intv - [updatingTimer timeInterval]) > 0.1) {
-		updatingTimer = [updatingTimer checkAndInvalidate];
+	if (intv > 0.1) {
 		updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: intv
 														  target: self
 														selector: @selector(doUpdateByTimer:)
@@ -755,17 +755,17 @@
 // (Private) in a new thread, execute Action immediately, growling upon failure
 // performs an individual action called by an executeAction* method and on
 // a new thread
-- (void)executeAction:(id)arg
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	Action *action = (Action *) arg;
-
-	NSString *errorString;
-	if (![action execute:&errorString])
-		[self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Failure", @"Growl message title")] copy] autorelease] withMessage:[[errorString copy] autorelease]];
-	
-	[self decreaseActionsInProgress];
-	[pool release];
+- (void)executeAction:(id)arg {
+	@autoreleasepool {
+        Action *action = (Action *) arg;
+        
+        NSString *errorString;
+        if (![action execute:&errorString]) {
+            [self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Failure", @"Growl message title")] copy] autorelease] withMessage:[[errorString copy] autorelease]];
+        }
+        
+        [self decreaseActionsInProgress];
+    }
 }
 
 // (Private) in a new thread
@@ -1260,9 +1260,16 @@
         return false;
 	}
 
+	if ([guessUUID isEqualToString:currentContextUUID]) {
+#ifdef DEBUG_MODE
+		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
+		DSLog(@"Guessed '%@' (%@); already there.", guessName, guessConfidenceString);
+#endif
+		return false;
+	}
+    
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
-	BOOL smoothing = [standardUserDefaults boolForKey:@"EnableSwitchSmoothing"];
-	if (smoothing && ![currentContextUUID isEqualToString:guessUUID]) {
+	if ([standardUserDefaults boolForKey:@"EnableSwitchSmoothing"]) {
 		if (smoothCounter == 0) {
 			smoothCounter = [standardUserDefaults integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
 		} else if (--smoothCounter == 0) {
@@ -1271,14 +1278,6 @@
 #endif
             return false;
         }
-	}
-
-	if ([guessUUID isEqualToString:currentContextUUID]) {
-#ifdef DEBUG_MODE
-		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
-		DSLog(@"Guessed '%@' (%@); already there.", guessName, guessConfidenceString);
-#endif
-		return false;
 	}
 
     return true;
@@ -1376,7 +1375,7 @@
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
     [self showInStatusBar:self];
-    [self autoHideOrShowInStatusBar];
+    [self startOrStopHidingFromStatusBar];
 	return YES;
 }
 
@@ -1393,8 +1392,16 @@
 
 #pragma mark NSUserDefaults notifications
 
-- (void)userDefaultsChanged:(NSNotification *)notification
-{
+- (void)userDefaultsChanged:(NSNotification *)notification {
+    [self startOrStopHidingFromStatusBar];
+    [self updateMenuBarImage];
+    
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
+        [self setStatusTitle:nil];
+    } else {
+        [self setStatusTitle:currentContextName];
+    }
+
 #ifndef DEBUG_MODE
 	// Force write of preferences
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -1403,15 +1410,6 @@
 	// Check that the running evidence sources match the defaults
     if (!goingToSleep) {
         [evidenceSources startOrStopAll];
-    }
-
-    [self autoHideOrShowInStatusBar];
-    [self updateMenuBarImage];
-    
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
-        [self setStatusTitle:nil];
-    } else {
-        [self setStatusTitle:currentContextName];
     }
 }
 
