@@ -388,15 +388,6 @@
 			[self importVersion1Settings];
 	}
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug OpenPrefsAtStartup"]) {
-		[NSApp activateIgnoringOtherApps:YES];
-		[prefsWindow makeKeyAndOrderFront:self];
-	}
-    
-    // set default screen saver and screen lock status
-    [self setScreenLocked:NO];
-    [self setScreenSaverRunning:NO];
-    
 	// Persistent contexts
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
 		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
@@ -416,41 +407,51 @@
 			}
 		}
 	}
-	
-	// Set up status bar.
-	[self showInStatusBar:self];
-    [self startOrStopHidingFromStatusBar];
-    
+
+    // set default screen saver and screen lock status
+    [self setScreenLocked:NO];
+    [self setScreenSaverRunning:NO];
+
+    screensaverActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+    screensaverActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+    screenLockActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+    screenLockActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+
     [self registerForNotifications];
-    
+
 	// update thread
 	[NSThread detachNewThreadSelector:@selector(updateThread:)
 							 toTarget:self
 						   withObject:nil];
-	
+
 	// sleep thread
 	[NSThread detachNewThreadSelector:@selector(monitorSleepThread:)
 							 toTarget:self
 						   withObject:nil];
 
+	// Set up status bar.
+	[self showInStatusBar:self];
+    [self startOrStopHidingFromStatusBar];
+
+	[NSApp unhideWithoutActivation];
+
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug OpenPrefsAtStartup"]) {
+		[NSApp activateIgnoringOtherApps:YES];
+		[prefsWindow makeKeyAndOrderFront:self];
+	}
+
 	// Start up evidence sources that should be started
 	[evidenceSources startOrStopAll];
 
-	// Schedule a one-off timer (in 2s) to get initial data.
-	// Future recurring timers will be set automatically from there.
-    
-	updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
-													  target: self
-													selector: @selector(doUpdateByTimer:)
-													userInfo: nil
-													 repeats: NO] retain];
-    
-    screensaverActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
-    screensaverActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
-    screenLockActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
-    screenLockActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
-	
-	[NSApp unhide];
+    if (!updatingTimer) {
+        // Schedule a one-off timer (in 2s) to get initial data.
+        // Future recurring timers will be set automatically from there.
+        updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
+                                                          target: self
+                                                        selector: @selector(doUpdateByTimer:)
+                                                        userInfo: nil
+                                                         repeats: NO] retain];
+    }
 }
 
 
