@@ -15,8 +15,8 @@
 		7C42F30A16FB9D47000EE57B /* MultiRuleEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */; };
 		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
 		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
-		7C8574F616FB53930081659A /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8574F216FB53930081659A /* SearchDomainRule.xib */; };
-		7C8574F716FB53930081659A /* ServerAddressRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8574F416FB53930081659A /* ServerAddressRule.xib */; };
+		7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF034B17246B770098990F /* SearchDomainRule.xib */; };
+		7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF035C172471DD0098990F /* ServerAddressRule.xib */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -329,20 +329,20 @@
 		7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DNSEvidenceSource.m; path = Source/DNSEvidenceSource.m; sourceTree = "<group>"; };
 		7C8574EF16FB53180081659A /* ServerAddressRuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerAddressRuleType.h; path = Source/ServerAddressRuleType.h; sourceTree = "<group>"; };
 		7C8574F016FB53180081659A /* ServerAddressRuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerAddressRuleType.m; path = Source/ServerAddressRuleType.m; sourceTree = "<group>"; };
-		7C8574F316FB53930081659A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
-		7C8574F516FB53930081659A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Resources/en.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99DF8171FFF6B000DFDAD /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
-		7CB99DFA171FFF6C000DFDAD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
-		7CB99DFB171FFF6C000DFDAD /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
-		7CB99DFC171FFF6D000DFDAD /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
-		7CB99DFD171FFF6D000DFDAD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
-		7CB99DFE171FFF6E000DFDAD /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
-		7CB99DFF171FFF73000DFDAD /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
-		7CB99E00171FFF73000DFDAD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
-		7CB99E01171FFF74000DFDAD /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99E02171FFF75000DFDAD /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99E03171FFF75000DFDAD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
-		7CB99E04171FFF76000DFDAD /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
+		7CFF034A17246B770098990F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
+		7CFF03521724705D0098990F /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
+		7CFF0353172470640098990F /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
+		7CFF0354172470650098990F /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
+		7CFF0355172470660098990F /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
+		7CFF0356172470670098990F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
+		7CFF0357172470680098990F /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
+		7CFF035B172471DD0098990F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
+		7CFF035D1724728F0098990F /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
+		7CFF035E172472960098990F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
+		7CFF035F172472970098990F /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
+		7CFF0360172472980098990F /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
+		7CFF0361172472990098990F /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
+		7CFF03621724729A0098990F /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -1167,8 +1167,8 @@
 				DDA201501411C32F00DE570E /* IPRule.xib */,
 				DDA2015A1411C35700DE570E /* LightRule.xib */,
 				DDA201641411C37300DE570E /* MainMenu.xib */,
-				7C8574F216FB53930081659A /* SearchDomainRule.xib */,
-				7C8574F416FB53930081659A /* ServerAddressRule.xib */,
+				7CFF034B17246B770098990F /* SearchDomainRule.xib */,
+				7CFF035C172471DD0098990F /* ServerAddressRule.xib */,
 				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
 				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
 				DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */,
@@ -1367,8 +1367,8 @@
 				DAA9ABFF1595FDE700B84B05 /* README.md in Resources */,
 				DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */,
 				DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */,
-				7C8574F616FB53930081659A /* SearchDomainRule.xib in Resources */,
-				7C8574F716FB53930081659A /* ServerAddressRule.xib in Resources */,
+				7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */,
+				7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1585,32 +1585,34 @@
 			name = ShellScriptRule.xib;
 			sourceTree = "<group>";
 		};
-		7C8574F216FB53930081659A /* SearchDomainRule.xib */ = {
+		7CFF034B17246B770098990F /* SearchDomainRule.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7C8574F316FB53930081659A /* en */,
-				7CB99DF8171FFF6B000DFDAD /* pt-PT */,
-				7CB99DFA171FFF6C000DFDAD /* pt-BR */,
-				7CB99DFB171FFF6C000DFDAD /* it */,
-				7CB99DFC171FFF6D000DFDAD /* fr */,
-				7CB99DFD171FFF6D000DFDAD /* de */,
-				7CB99DFE171FFF6E000DFDAD /* da-DK */,
+				7CFF034A17246B770098990F /* en */,
+				7CFF03521724705D0098990F /* fr */,
+				7CFF0353172470640098990F /* pt-PT */,
+				7CFF0354172470650098990F /* pt-BR */,
+				7CFF0355172470660098990F /* it */,
+				7CFF0356172470670098990F /* de */,
+				7CFF0357172470680098990F /* da-DK */,
 			);
 			name = SearchDomainRule.xib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
-		7C8574F416FB53930081659A /* ServerAddressRule.xib */ = {
+		7CFF035C172471DD0098990F /* ServerAddressRule.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7C8574F516FB53930081659A /* en */,
-				7CB99DFF171FFF73000DFDAD /* pt-PT */,
-				7CB99E00171FFF73000DFDAD /* pt-BR */,
-				7CB99E01171FFF74000DFDAD /* it */,
-				7CB99E02171FFF75000DFDAD /* fr */,
-				7CB99E03171FFF75000DFDAD /* de */,
-				7CB99E04171FFF76000DFDAD /* da-DK */,
+				7CFF035B172471DD0098990F /* en */,
+				7CFF035D1724728F0098990F /* fr */,
+				7CFF035E172472960098990F /* de */,
+				7CFF035F172472970098990F /* da-DK */,
+				7CFF0360172472980098990F /* pt-PT */,
+				7CFF0361172472990098990F /* pt-BR */,
+				7CFF03621724729A0098990F /* it */,
 			);
 			name = ServerAddressRule.xib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */ = {
@@ -1739,7 +1741,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1749,7 +1751,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1757,7 +1758,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1767,7 +1768,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -1885,9 +1885,8 @@
 		DA5B01DF1412B6A700E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1895,9 +1894,8 @@
 		DA5B01E01412B6A700E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -1905,7 +1903,7 @@
 		DA5B02031412BB1800E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = "CPHelperTool-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
@@ -1919,7 +1917,6 @@
 					"Source/CPHelperTool/CPHelperTool-Launchd.plist",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1927,7 +1924,7 @@
 		DA5B02041412BB1800E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Developer ID Application: Dustin Rue";
+				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = "CPHelperTool-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
@@ -1941,7 +1938,6 @@
 					"Source/CPHelperTool/CPHelperTool-Launchd.plist",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
