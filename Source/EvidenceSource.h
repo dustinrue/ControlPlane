@@ -82,7 +82,6 @@
 @interface EvidenceSourceSetController : NSObject {
 	IBOutlet NSWindowController *prefsWindowController;
 	NSArray *sources;	// dictionary of EvidenceSource descendants (key is its name)
-	NSArray *ruleTypes;
 }
 
 - (EvidenceSource *)sourceWithName:(NSString *)name;
