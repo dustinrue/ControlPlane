@@ -398,13 +398,13 @@
 
 - (id)init
 {
-	if (!(self = [super init]))
+	if (!(self = [super init])) {
 		return nil;
+    }
 
-    
 	NSMutableArray *classes = [NSMutableArray arrayWithObjects:
 #ifdef DEBUG_MODE
-                               [StressTestEvidenceSource class],
+                        [StressTestEvidenceSource class],
 #endif
                         [ActiveApplicationEvidenceSource class],
                         [AttachedPowerAdapterEvidenceSource class],
@@ -428,12 +428,7 @@
 						nil];
     
 #ifdef DEBUG_MODE
-    NSArray *availablePlugins = nil;
-    
-    availablePlugins = [self getEvidenceSourcePlugins];
-    
-    
-    for (NSString *pluginPath in availablePlugins) {
+    for (NSString *pluginPath in [self getEvidenceSourcePlugins]) {
         NSLog(@"would load plugin at %@", pluginPath);
         NSBundle *thePlugin = [NSBundle bundleWithPath:pluginPath];
         Class principalClass = [thePlugin principalClass];
@@ -470,22 +465,19 @@
 
 	// Instantiate all the evidence sources
 	NSMutableArray *srclist = [[NSMutableArray alloc] initWithCapacity:[classes count]];
-	NSMutableSet *types = [[NSMutableSet alloc] initWithCapacity:[classes count]];
     for (Class class in classes) {
-		EvidenceSource *src = [[class alloc] init];
-        if (!src) {
-            DSLog(@"%@ failed to init properly", class);
-            continue;
+        @autoreleasepool {
+            EvidenceSource *src = [[class alloc] init];
+            if (!src) {
+                DSLog(@"%@ failed to init properly", class);
+                continue;
+            }
+            [srclist addObject:src];
+            [src release];
         }
-		[srclist addObject:src];
-		[types addObjectsFromArray:[src typesOfRulesMatched]];
-		[src release];
     }
 
 	sources = srclist;
-
-	ruleTypes = [[types allObjects] sortedArrayUsingSelector:@selector(compare:)];
-	[types release];
 
 	return self;
 }
@@ -554,15 +546,19 @@
     // and issue a start on each one
 	for (EvidenceSource *src in sources) {
 		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
-		BOOL enabled = [[NSUserDefaults standardUserDefaults] boolForKey:key];
+		BOOL enabledByUser = [[NSUserDefaults standardUserDefaults] boolForKey:key];
 
-		if (enabled && ![src isRunning]) {
-			DSLog(@"Starting %@ evidence source", [src name]);
-			[src start];
-		} else if (!enabled && [src isRunning]) {
-			DSLog(@"Stopping %@ evidence source", [src name]);
-			[src stop];
-		}
+        if ([src isRunning] != enabledByUser) {
+            @autoreleasepool {
+                if (enabledByUser) {
+                    DSLog(@"Starting %@ evidence source", [src name]);
+                    [src start];
+                } else {
+                    DSLog(@"Stopping %@ evidence source", [src name]);
+                    [src stop];
+                }
+            }
+        }
 	}
 }
 
@@ -598,25 +594,24 @@
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
 	EvidenceSource *src = [sources objectAtIndex:index];
-    NSString *friendlyName = [[sources objectAtIndex:index] friendlyName];
-	//NSString *localisedName = NSLocalizedString([src name], @"Evidence source");
-
+    NSString *friendlyName = [src friendlyName];
 	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add '%@' Rule...", @"Menu item"), friendlyName];
 	[item setTitle:title];
 
-	if ([[src typesOfRulesMatched] count] > 1) {
-		NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
-		NSEnumerator *en = [[src typesOfRulesMatched] objectEnumerator];
-		NSString *type;
-		while ((type = [en nextObject])) {
-			NSMenuItem *it = [[[NSMenuItem alloc] init] autorelease];
+    NSArray *typesOfRulesMatched = [src typesOfRulesMatched];
+	if ([typesOfRulesMatched count] > 1) {
+		NSMenu *submenu = [[NSMenu alloc] init];
+		for (NSString *type in typesOfRulesMatched) {
+			NSMenuItem *it = [[NSMenuItem alloc] init];
 			[it setTitle:NSLocalizedString(type, @"Rule type")];
 			[it setTarget:prefsWindowController];
 			[it setAction:@selector(addRule:)];
-			[it setRepresentedObject:[NSArray arrayWithObjects:src, type, nil]];
+			[it setRepresentedObject:@[src, type]];
 			[submenu addItem:it];
+            [it release];
 		}
 		[item setSubmenu:submenu];
+        [submenu release];
 	} else {
 		[item setTarget:prefsWindowController];
 		[item setAction:@selector(addRule:)];
