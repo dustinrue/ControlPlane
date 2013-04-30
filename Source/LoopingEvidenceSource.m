@@ -9,30 +9,33 @@
 #import "LoopingEvidenceSource.h"
 #import "NSTimer+Invalidation.h"
 
-@implementation LoopingEvidenceSource
+@implementation LoopingEvidenceSource {
+    SEL doUpdateSelector;
+}
 
-- (id)initWithNibNamed:(NSString *)name
-{
-	if (!(self = [super initWithNibNamed:name]))
+- (id)initWithNibNamed:(NSString *)name {
+	if (!(self = [super initWithNibNamed:name])) {
 		return nil;
+    }
 
 	loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
 	loopTimer = nil;
 
+    doUpdateSelector = NSSelectorFromString(@"doUpdate");
+    
 	return self;
 }
 
-- (void)dealloc
-{
-	if (loopTimer)
+- (void)dealloc {
+	if (loopTimer) {
 		[self stop];
+    }
 
 	[super dealloc];
 }
 
 // Private
-- (void)loopTimerPoll:(NSTimer *)timer
-{
+- (void)loopTimerPoll:(NSTimer *)timer {
 	if (timer) {
 		[NSThread detachNewThreadSelector:@selector(loopTimerPoll:)
 					 toTarget:self
@@ -40,20 +43,25 @@
 		return;
 	}
 
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self setThreadNameFromClassName];
-	DSLog(@"Updating...");
-	
-	SEL selector = NSSelectorFromString(@"doUpdate");
-	if ([self respondsToSelector: selector])
-		[self performSelector: selector];
-	[pool release];
+    @autoreleasepool {
+        [self setThreadNameFromClassName];
+#ifdef DEBUG_MODE
+        DSLog(@"Updating...");
+#endif
+        
+        [self performSelector: doUpdateSelector];
+    }
 }
 
-- (void)start
-{
-	if (running)
+- (void)start {
+	if (running) {
 		return;
+    }
+
+    if (![self respondsToSelector: doUpdateSelector]) {
+        DSLog(@"Error: %@ cannot respond to selector 'doUpdate'", [self class]);
+        return;
+    }
 
 	loopTimer = [[NSTimer scheduledTimerWithTimeInterval: loopInterval
 												  target: self
@@ -65,16 +73,17 @@
 	running = YES;
 }
 
-- (void)stop
-{
-	if (!running)
+- (void)stop {
+	if (!running) {
 		return;
+    }
 	
 	loopTimer = [loopTimer checkAndInvalidate];
 	
 	SEL selector = NSSelectorFromString(@"clearCollectedData");
-	if ([self respondsToSelector: selector])
+	if ([self respondsToSelector: selector]) {
 		[self performSelector: selector];
+    }
 	
 	[self setDataCollected:NO];
 	running = NO;
