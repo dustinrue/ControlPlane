@@ -33,6 +33,14 @@ if [ ! -d "$APP" ]; then
 	exit 1
 fi
 
+
+# do codesigning
+codesign -v -vv $APP
+codesign -f -s "Developer ID Application: Dustin Rue" -vv $APP
+codesign -v -vv $APP
+read -p "Did code sign work?"
+
+
 # Create an initial disk image (32 megs)
 if [ -f "$IMG" ]; then rm "$IMG"; fi
 hdiutil convert $IMGTMP.dmg -format UDSP -o $IMG || exit 1
