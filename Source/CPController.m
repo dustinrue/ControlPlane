@@ -429,29 +429,33 @@
 							 toTarget:self
 						   withObject:nil];
 
-	// Set up status bar.
-	[self showInStatusBar:self];
-    [self startOrStopHidingFromStatusBar];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Start up evidence sources that should be started
+        [evidenceSources startOrStopAll];
 
-	[NSApp unhideWithoutActivation];
+        if (!updatingTimer) {
+            // Schedule a one-off timer (in 2s) to get initial data.
+            // Future recurring timers will be set automatically from there.
+            updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
+                                                              target: self
+                                                            selector: @selector(doUpdateByTimer:)
+                                                            userInfo: nil
+                                                             repeats: NO] retain];
+        }
+    });
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug OpenPrefsAtStartup"]) {
-		[NSApp activateIgnoringOtherApps:YES];
-		[prefsWindow makeKeyAndOrderFront:self];
-	}
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Set up status bar.
+        [self showInStatusBar:self];
+        [self startOrStopHidingFromStatusBar];
 
-	// Start up evidence sources that should be started
-	[evidenceSources startOrStopAll];
+        [NSApp unhideWithoutActivation];
 
-    if (!updatingTimer) {
-        // Schedule a one-off timer (in 2s) to get initial data.
-        // Future recurring timers will be set automatically from there.
-        updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
-                                                          target: self
-                                                        selector: @selector(doUpdateByTimer:)
-                                                        userInfo: nil
-                                                         repeats: NO] retain];
-    }
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug OpenPrefsAtStartup"]) {
+            [NSApp activateIgnoringOtherApps:YES];
+            [prefsWindow makeKeyAndOrderFront:self];
+        }
+    });
 }
 
 
@@ -1403,15 +1407,17 @@
         [self setStatusTitle:currentContextName];
     }
 
+    dispatch_async(dispatch_get_main_queue(), ^{
 #ifndef DEBUG_MODE
-	// Force write of preferences
-	[[NSUserDefaults standardUserDefaults] synchronize];
+        // Force write of preferences
+        [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
 
-	// Check that the running evidence sources match the defaults
-    if (!goingToSleep) {
-        [evidenceSources startOrStopAll];
-    }
+        // Check that the running evidence sources match the defaults
+        if (!goingToSleep) {
+            [evidenceSources startOrStopAll];
+        }
+    });
 }
 
 #pragma mark -
