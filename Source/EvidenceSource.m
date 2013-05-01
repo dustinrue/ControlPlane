@@ -89,10 +89,17 @@
 	}
 
 	NSArray *topLevelObjects = nil;
-	if (![nib instantiateNibWithOwner:owner topLevelObjects:&topLevelObjects]) {
-		NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
-		return nil;
-	}
+    if ([nib respondsToSelector:@selector(instantiateWithOwner:topLevelObjects:)]) {
+        if (![nib instantiateWithOwner:owner topLevelObjects:&topLevelObjects]) {
+            NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
+            return nil;
+        }
+    } else {
+        if (![nib instantiateNibWithOwner:owner topLevelObjects:&topLevelObjects]) {
+            NSLog(@"%@ >> failed instantiating nib (named '%@')!", [self class], name);
+            return nil;
+        }
+    }
     
 	// Look for an NSPanel
     for (NSObject *obj in topLevelObjects) {
