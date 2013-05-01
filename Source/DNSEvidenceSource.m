@@ -85,8 +85,6 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
 
     _searchDomains = [NSSet new];
     _dnsServers = [NSSet new];
-    
-    queue = dispatch_queue_create("ControlPlane.DNSParams", DISPATCH_QUEUE_SERIAL);
 
 	return self;
 }
@@ -164,9 +162,13 @@ typedef struct {
 	if (running) {
 		return;
     }
-    
-    dispatch_sync(queue, ^{}); // ensure we always start with an empty queue
-    
+
+    if (queue) {
+        dispatch_sync(queue, ^{}); // ensure we always start with an empty queue
+    } else {
+        queue = dispatch_queue_create("ControlPlane.DNSParams", DISPATCH_QUEUE_SERIAL);
+    }
+
 	// Register for asynchronous notifications
 	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), dnsChange, &ctxt);
