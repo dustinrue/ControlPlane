@@ -468,7 +468,7 @@
     
     
 #ifdef DEBUG_MODE
-	DSLog(@"know of %d device(s)%s and inquiry is running: %s", [devices count], holdTimer ? " -- hold timer running" : "", [self inquiryStatus] ? "YES":"NO");
+	DSLog(@"know of %lu device(s)%s and inquiry is running: %s", (unsigned long)[devices count], holdTimer ? " -- hold timer running" : "", [self inquiryStatus] ? "YES":"NO");
     DSLog(@"I know about %@", devices);
 #endif
 	//NSLog(@"%@ >> know about %d paired device(s), too", [self class], [[IOBluetoothDevice pairedDevices] count]);
