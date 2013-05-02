@@ -20,7 +20,7 @@
 - (void)logFromFunction:(NSString *)fnName withInfo:(NSString *)info;
 - (NSString *)buffer;
 
-#define DSLog(format, ...)	\
-	[DSLogger logFromFunction:[NSString stringWithUTF8String:__PRETTY_FUNCTION__] withInfo:[NSString stringWithFormat:(format),##__VA_ARGS__]]
+#define DSLog(...)	\
+	[DSLogger logFromFunction:@(__PRETTY_FUNCTION__) withInfo:[NSString stringWithFormat:__VA_ARGS__]]
 
 @end
