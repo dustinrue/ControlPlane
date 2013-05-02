@@ -59,8 +59,6 @@ static void powerAdapterChangedCallBack();
 }
 
 void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument) {
-	BOOL smoothing = [[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"];
-
 	switch (messageType) {
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
@@ -73,14 +71,18 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 			[NSThread sleepForTimeInterval:2];
 			
 			// Call update for real (in case of smoothing, call twice)
+#ifdef DEBUG_MODE
 			DSLog(@"Sleep callback: calling doUpdateForReal");
+#endif
 			[cp_controller doUpdateForReal];
-			if (smoothing)
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
 				[cp_controller doUpdateForReal];
+            }
 			
 			// wait until all actions finish
-			while (actionsInProgress > 0)
+			while (actionsInProgress > 0) {
 				usleep(100);
+            }
 			
 			// Allow sleep
 			IOAllowPowerChange(root_port, (long)argument);
@@ -90,8 +92,10 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 			DSLog(@"Sleep callback: waking up");
             [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
 			break;
+
 		case kIOMessageSystemHasPoweredOn:
 			break;
+
 		default:
 			break;
 	}
