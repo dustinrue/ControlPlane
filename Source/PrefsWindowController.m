@@ -126,7 +126,9 @@
 
 #pragma mark -
 
-@interface PrefsWindowController (Private)
+@interface PrefsWindowController ()
+
+@property (retain,nonatomic,readwrite) NSDate *logBufferUnchangedSince;
 
 - (void)doAddRule:(NSDictionary *)dict;
 - (void)doEditRule:(NSDictionary *)dict;
@@ -164,12 +166,14 @@
 
 	[self setValue:[NSNumber numberWithBool:NO] forKey:@"logBufferPaused"];
 	logBufferTimer = nil;
+    
+    _logBufferUnchangedSince = [[NSDate distantPast] retain];
 
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
+    [_logBufferUnchangedSince release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[blankPrefsView release];
 	[super dealloc];
@@ -297,6 +301,7 @@
 
 - (void)onPrefsWindowClose {
     [self stopLogBufferTimer];
+    [NSApp deactivate];
 }
 
 - (IBAction)runPreferences:(id)sender
@@ -820,12 +825,16 @@
     logBufferTimer = [logBufferTimer checkAndInvalidate];
 }
 
-- (void)updateLogBuffer:(NSTimer *)timer
-{
+- (void)updateLogBuffer:(NSTimer *)timer {
 	if (![logBufferPaused boolValue]) {
-		NSString *buf = [[DSLogger sharedLogger] buffer];
-		[logBufferView setString:buf];
-		[logBufferView scrollRangeToVisible:NSMakeRange([buf length] - 2, 1)];
+        DSLogger *logger = [DSLogger sharedLogger];
+        NSDate *lastLogUpdateTime = logger.lastUpdatedAt;
+        if ([self.logBufferUnchangedSince isLessThan:lastLogUpdateTime]) {
+            self.logBufferUnchangedSince = lastLogUpdateTime;
+            NSString *buf = [logger buffer];
+            [logBufferView setString:buf];
+            [logBufferView scrollRangeToVisible:NSMakeRange([buf length] - 2, 1)];
+        }
 	}
 }
 
