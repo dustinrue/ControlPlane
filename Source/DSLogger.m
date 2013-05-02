@@ -82,6 +82,12 @@ static NSDateFormatter *timestampFormatter;
 
 #define DSLOGGER_CAPACITY	128u
 
+@interface DSLogger ()
+
+@property (retain,atomic,readwrite) NSDate *lastUpdatedAt;
+
+@end
+
 @implementation DSLogger {
     dispatch_queue_t serialQueue;
 
@@ -128,12 +134,16 @@ static DSLogger *sharedLogger = nil;
     dispatch_set_target_queue(serialQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
 #endif
 
+    _lastUpdatedAt = [[NSDate distantPast] retain];
+    
 	return self;
 }
 
 - (void)dealloc {
     dispatch_release(serialQueue);
     [buffer release];
+
+    [_lastUpdatedAt release];
 
 #ifdef DEBUG_MODE
 	// Clustering
@@ -194,6 +204,10 @@ static DSLogger *sharedLogger = nil;
         ++startIndex;
         startIndex %= DSLOGGER_CAPACITY;
 	}
+
+    NSDate *now = [[NSDate alloc] init];
+    self.lastUpdatedAt = now; // atomic change
+    [now release];
 }
 
 - (NSString *)buffer {
