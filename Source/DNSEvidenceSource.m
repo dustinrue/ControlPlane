@@ -203,11 +203,13 @@ typedef struct {
         store = NULL;
     }
 
-    dispatch_async(serialQueue, ^{
-        self.searchDomains = nil;
-        self.dnsServers = nil;
-        [self setDataCollected:NO];
-    });
+    if (serialQueue) {
+        dispatch_async(serialQueue, ^{
+            [self setDataCollected:NO];
+            self.searchDomains = nil;
+            self.dnsServers = nil;
+        });
+    }
 
 	running = NO;
 }
