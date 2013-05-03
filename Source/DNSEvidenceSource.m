@@ -16,7 +16,7 @@
 @property (atomic, retain, readwrite) NSSet *searchDomains;
 @property (atomic, retain, readwrite) NSSet *dnsServers;
 
-- (void)doFullUpdateFromStore:(SCDynamicStoreRef)store;
+- (void)doFullUpdate;
 - (void)doStop;
 
 @end
@@ -28,7 +28,7 @@ static void dnsChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *inf
 #ifdef DEBUG_MODE
 	NSLog(@"dnsChange called with changedKeys:\n%@", changedKeys);
 #endif
-    [(DNSEvidenceSource *) info doFullUpdateFromStore:store];
+    [(DNSEvidenceSource *) info doFullUpdate];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
@@ -88,15 +88,7 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
 }
 
 - (void)dealloc {
-    if (store) {
-        SCDynamicStoreSetDispatchQueue(store, NULL);
-        CFRelease(store);
-    }
-
-    if (serialQueue) {
-        dispatch_sync(serialQueue, ^{}); // ensure the queue is fully stopped
-        dispatch_release(serialQueue);
-    }
+    [self doStop];
 
 	[_searchDomains release];
     [_dnsServers release];
@@ -143,13 +135,15 @@ typedef struct {
 	return (EnumeratedDNSParams) {servers, domains};
 }
 
-- (void)doFullUpdateFromStore:(SCDynamicStoreRef)aStore {
-	@autoreleasepool {
-        EnumeratedDNSParams params = [[self class] enumerateFromStore:aStore];
-        
-        self.searchDomains = (NSSet *) params.domains;
-        self.dnsServers = (NSSet *) params.servers;
-        [self setDataCollected:(([params.servers count] > 0) || ([params.domains count] > 0))];
+- (void)doFullUpdate {
+    if (store) {
+        @autoreleasepool {
+            EnumeratedDNSParams params = [[self class] enumerateFromStore:store];
+            
+            self.searchDomains = (NSSet *) params.domains;
+            self.dnsServers = (NSSet *) params.servers;
+            [self setDataCollected:(([params.servers count] > 0) || ([params.domains count] > 0))];
+        }
     }
 }
 
@@ -158,10 +152,10 @@ typedef struct {
 		return;
     }
 
-    if (serialQueue) {
-        dispatch_sync(serialQueue, ^{}); // ensure we always start with an empty queue
-    } else {
-        serialQueue = dispatch_queue_create("ControlPlane.DNSEvidenceSource", DISPATCH_QUEUE_SERIAL);
+    serialQueue = dispatch_queue_create("ControlPlane.DNSEvidenceSource", DISPATCH_QUEUE_SERIAL);
+    if (!serialQueue) {
+        [self doStop];
+        return;
     }
 
 	// Register for asynchronous notifications
@@ -183,7 +177,7 @@ typedef struct {
     }
 
     dispatch_async(serialQueue, ^{
-        [self doFullUpdateFromStore:store];
+        [self doFullUpdate];
     });
 
 	running = YES;
@@ -196,19 +190,25 @@ typedef struct {
 }
 
 - (void)doStop {
-    if (store) {
-        SCDynamicStoreSetDispatchQueue(store, NULL);
-        CFRelease(store);
-        store = NULL;
+    if (serialQueue) {
+        if (store) {
+            dispatch_suspend(serialQueue);
+
+            SCDynamicStoreSetDispatchQueue(store, NULL);
+            CFRelease(store);
+            store = NULL;
+
+            dispatch_resume(serialQueue);
+            dispatch_sync(serialQueue, ^{}); // ensure the queue is empty
+        }
+
+        dispatch_release(serialQueue);
+        serialQueue = NULL;
     }
 
-    if (serialQueue) {
-        dispatch_async(serialQueue, ^{
-            [self setDataCollected:NO];
-            self.searchDomains = nil;
-            self.dnsServers = nil;
-        });
-    }
+    self.searchDomains = nil;
+    self.dnsServers = nil;
+    [self setDataCollected:NO];
 
 	running = NO;
 }
