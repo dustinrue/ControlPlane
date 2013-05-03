@@ -1423,11 +1423,13 @@
 #pragma mark -
 #pragma mark Evidence source change handling
 - (void) evidenceSourceDataDidChange:(NSNotification *)notification {
-    // this will cause the updateThread to do it's work
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // this will cause the updateThread to do it's work
 #ifdef DEBUG_MODE
-    DSLog(@"**** DOING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
+        DSLog(@"**** DOING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
 #endif
-    [self doUpdate];
+        [self doUpdate];
+    });
 }
 
 @end
