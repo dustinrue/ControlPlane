@@ -3,78 +3,93 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 19/07/07.
+//  Updated by Vladimir Beloborodov (VladimirTechMan) on 03 May 2013.
 //
 
+#import "DSLogger.h"
 #import "GenericLoopingEvidenceSource.h"
 #import "NSTimer+Invalidation.h"
 
-@implementation GenericLoopingEvidenceSource
+@implementation GenericLoopingEvidenceSource {
+	NSTimer *loopTimer;
+    SEL doUpdateSelector;
+    dispatch_queue_t serialQueue;
+}
 
-- (id)init
-{
-	if (!(self = [super init]))
-		return nil;
-
-	loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
-	loopTimer = nil;
-
+- (id)init {
+    self = [super init];
+	if (self) {
+        loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
+        doUpdateSelector = NSSelectorFromString(@"doUpdate");
+    }
 	return self;
 }
 
-- (void)dealloc
-{
-	if (loopTimer)
-		[self stop];
+- (void)dealloc {
+	if (loopTimer) {
+        [self doStop];
+    }
+
+    if (serialQueue) {
+        dispatch_sync(serialQueue, ^{});
+        dispatch_release(serialQueue);
+    }
 
 	[super dealloc];
 }
 
 // Private
-- (void)loopTimerPoll:(NSTimer *)timer
-{
-	if (timer) {
-		[NSThread detachNewThreadSelector:@selector(loopTimerPoll:)
-					 toTarget:self
-				       withObject:nil];
-		return;
-	}
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self setThreadNameFromClassName];
-	
-	SEL selector = NSSelectorFromString(@"doUpdate");
-	if ([self respondsToSelector: selector])
-		[self performSelector: selector];
-	
-	[pool release];
+- (void)loopTimerPoll:(NSTimer *)timer {
+    dispatch_async(serialQueue, ^{
+        @autoreleasepool {
+            [self performSelector: doUpdateSelector];
+        }
+    });
 }
 
-- (void)start
-{
-	if (running)
+- (void)start {
+	if (running) {
 		return;
+    }
 
+    if (![self respondsToSelector: doUpdateSelector]) {
+#ifdef DEBUG_MODE
+        DSLog(@"Error: %@ cannot respond to method 'doUpdate'", [self class]);
+#endif
+        [self doStop];
+        return;
+    }
+    
+    if (!serialQueue) {
+        NSString *queueName = [[NSString alloc] initWithFormat:@"ControlPlane.%@",[self class]];
+        serialQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
+        [queueName release];
+    }
+    
 	loopTimer = [[NSTimer scheduledTimerWithTimeInterval: loopInterval
 												  target: self
 												selector: @selector(loopTimerPoll:)
 												userInfo: nil
 												 repeats: YES] retain];
-	[self loopTimerPoll:loopTimer];
+    [loopTimer fire];
 
 	running = YES;
 }
 
-- (void)stop
-{
-	if (!running)
-		return;
+- (void)stop {
+	if (!running) {
+        [self doStop];
+    }
+}
 
+- (void)doStop {
 	loopTimer = [loopTimer checkAndInvalidate];
-	
+
 	SEL selector = NSSelectorFromString(@"clearCollectedData");
-	if ([self respondsToSelector: selector])
+	if ([self respondsToSelector: selector]) {
 		[self performSelector: selector];
-	
+    }
+
 	[self setDataCollected:NO];
 	running = NO;
 }
