@@ -29,6 +29,7 @@ static void dnsChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *inf
 	NSLog(@"dnsChange called with changedKeys:\n%@", changedKeys);
 #endif
     [(DNSEvidenceSource *) info doFullUpdateFromStore:store];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
 static BOOL addDNSSearchDomainsToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutableSet *domains) {
@@ -149,8 +150,6 @@ typedef struct {
         self.searchDomains = (NSSet *) params.domains;
         self.dnsServers = (NSSet *) params.servers;
         [self setDataCollected:(([params.servers count] > 0) || ([params.domains count] > 0))];
-
-        //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
     }
 }
 
