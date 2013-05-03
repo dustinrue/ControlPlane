@@ -77,7 +77,7 @@
 }
 
 - (void)stop {
-	if (!running) {
+	if (running) {
         [self doStop];
     }
 }
