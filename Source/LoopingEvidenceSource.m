@@ -12,6 +12,7 @@
 @implementation LoopingEvidenceSource {
 	NSTimer *loopTimer;
     SEL doUpdateSelector;
+    dispatch_queue_t serialQueue;
 }
 
 - (id)initWithNibNamed:(NSString *)name {
@@ -28,18 +29,24 @@
 		[self doStop];
     }
 
+    if (serialQueue) {
+        dispatch_sync(serialQueue, ^{});
+        dispatch_release(serialQueue);
+    }
+
 	[super dealloc];
 }
 
 // Private
 - (void)loopTimerPoll:(NSTimer *)timer {
-    @autoreleasepool {
-        [self setThreadNameFromClassName];
+    dispatch_async(serialQueue, ^{
+        @autoreleasepool {
 #ifdef DEBUG_MODE
-        DSLog(@"Updating...");
+            DSLog(@"Updating...");
 #endif
-        [self performSelector: doUpdateSelector];
-    }
+            [self performSelector: doUpdateSelector];
+        }
+    });
 }
 
 - (void)start {
@@ -55,15 +62,19 @@
         return;
     }
 
+    if (!serialQueue) {
+        NSString *queueName = [[NSString alloc] initWithFormat:@"ControlPlane.%@",[self class]];
+        serialQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
+        [queueName release];
+    }
+
 	loopTimer = [[NSTimer scheduledTimerWithTimeInterval: loopInterval
 												  target: self
 												selector: @selector(loopTimerPoll:)
 												userInfo: nil
 												 repeats: YES] retain];
 
-    [NSThread detachNewThreadSelector:@selector(loopTimerPoll:)
-                             toTarget:self
-                           withObject:loopTimer];
+    [loopTimer fire];
 
 	running = YES;
 }
