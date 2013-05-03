@@ -3,6 +3,7 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 19/07/07.
+//  Updated by Vladimir Beloborodov (VladimirTechMan) on 03 May 2013.
 //
 
 #import "DSLogger.h"
@@ -41,9 +42,6 @@
 - (void)loopTimerPoll:(NSTimer *)timer {
     dispatch_async(serialQueue, ^{
         @autoreleasepool {
-#ifdef DEBUG_MODE
-            DSLog(@"Updating...");
-#endif
             [self performSelector: doUpdateSelector];
         }
     });
@@ -73,7 +71,6 @@
 												selector: @selector(loopTimerPoll:)
 												userInfo: nil
 												 repeats: YES] retain];
-
     [loopTimer fire];
 
 	running = YES;
