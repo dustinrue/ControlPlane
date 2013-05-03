@@ -301,11 +301,12 @@
 
 - (void)onPrefsWindowClose {
     [self stopLogBufferTimer];
-    [NSApp deactivate];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NSApp deactivate];
+    });
 }
 
-- (IBAction)runPreferences:(id)sender
-{
+- (IBAction)runPreferences:(id)sender {
 	[NSApp activateIgnoringOtherApps:YES];
 	[prefsWindow makeKeyAndOrderFront:self];
 	if ([currentPrefsGroup isEqualToString:@"Advanced"]) {
@@ -313,9 +314,7 @@
 	}
 }
 
-- (IBAction)runAbout:(id)sender
-{
-
+- (IBAction)runAbout:(id)sender {
 	[NSApp activateIgnoringOtherApps:YES];
 #if 0
 	[NSApp orderFrontStandardAboutPanelWithOptions:
