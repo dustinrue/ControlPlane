@@ -10,7 +10,6 @@
 
 @interface LoopingEvidenceSource : EvidenceSource {
 	NSTimeInterval loopInterval;
-	NSTimer *loopTimer;
 }
 
 - (id)initWithNibNamed:(NSString *)name;

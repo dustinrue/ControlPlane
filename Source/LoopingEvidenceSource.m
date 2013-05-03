@@ -10,25 +10,22 @@
 #import "NSTimer+Invalidation.h"
 
 @implementation LoopingEvidenceSource {
+	NSTimer *loopTimer;
     SEL doUpdateSelector;
 }
 
 - (id)initWithNibNamed:(NSString *)name {
-	if (!(self = [super initWithNibNamed:name])) {
-		return nil;
+    self = [super initWithNibNamed:name];
+	if (self) {
+        loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
+        doUpdateSelector = NSSelectorFromString(@"doUpdate");
     }
-
-	loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
-	loopTimer = nil;
-
-    doUpdateSelector = NSSelectorFromString(@"doUpdate");
-    
 	return self;
 }
 
 - (void)dealloc {
 	if (loopTimer) {
-		[self stop];
+		[self doStop];
     }
 
 	[super dealloc];
@@ -36,19 +33,11 @@
 
 // Private
 - (void)loopTimerPoll:(NSTimer *)timer {
-	if (timer) {
-		[NSThread detachNewThreadSelector:@selector(loopTimerPoll:)
-					 toTarget:self
-				       withObject:nil];
-		return;
-	}
-
     @autoreleasepool {
         [self setThreadNameFromClassName];
 #ifdef DEBUG_MODE
         DSLog(@"Updating...");
 #endif
-        
         [self performSelector: doUpdateSelector];
     }
 }
@@ -59,7 +48,10 @@
     }
 
     if (![self respondsToSelector: doUpdateSelector]) {
-        DSLog(@"Error: %@ cannot respond to selector 'doUpdate'", [self class]);
+#ifdef DEBUG_MODE
+        DSLog(@"Error: %@ cannot respond to method 'doUpdate'", [self class]);
+#endif
+        [self doStop];
         return;
     }
 
@@ -68,16 +60,21 @@
 												selector: @selector(loopTimerPoll:)
 												userInfo: nil
 												 repeats: YES] retain];
-	[self loopTimerPoll:loopTimer];
+
+    [NSThread detachNewThreadSelector:@selector(loopTimerPoll:)
+                             toTarget:self
+                           withObject:loopTimer];
 
 	running = YES;
 }
 
 - (void)stop {
-	if (!running) {
-		return;
+	if (running) {
+	 	[self doStop];
     }
-	
+}
+
+- (void)doStop {
 	loopTimer = [loopTimer checkAndInvalidate];
 	
 	SEL selector = NSSelectorFromString(@"clearCollectedData");
