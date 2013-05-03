@@ -71,7 +71,7 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
 @implementation DNSEvidenceSource {
     // for SystemConfiguration asynchronous notifications
     SCDynamicStoreRef store;
-    dispatch_queue_t queue;
+    dispatch_queue_t serialQueue;
 }
 
 @synthesize searchDomains = _searchDomains;
@@ -83,9 +83,6 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
         return nil;
     }
 
-    _searchDomains = [NSSet new];
-    _dnsServers = [NSSet new];
-
 	return self;
 }
 
@@ -95,8 +92,10 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
         CFRelease(store);
     }
 
-    dispatch_sync(queue, ^{}); // ensure the queue is fully stopped
-    dispatch_release(queue);
+    if (serialQueue) {
+        dispatch_sync(serialQueue, ^{}); // ensure the queue is fully stopped
+        dispatch_release(serialQueue);
+    }
 
 	[_searchDomains release];
     [_dnsServers release];
@@ -111,33 +110,30 @@ typedef struct {
 } EnumeratedDNSParams;
 
 + (EnumeratedDNSParams)enumerateFromStore:(SCDynamicStoreRef)store {
-	NSMutableSet *servers = [NSMutableSet set], *domains = [NSMutableSet set];
-
     NSArray *dnsKeyPatterns = @[ @"Setup:/Network/Service/[^/]+/DNS", @"State:/Network/Service/[^/]+/DNS" ];
     CFDictionaryRef dict = SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) dnsKeyPatterns);
     if (!dict) {
-        return (EnumeratedDNSParams) {servers, domains};
+        return (EnumeratedDNSParams) {nil, nil};
     }
 
-    @autoreleasepool {
-        NSMutableSet *servicesWithDNS = [NSMutableSet setWithCapacity:[(NSDictionary *) dict count]];
-
-        // get all unique keys after stripping prefixes 'Setup:/Network/Service/' and 'State:/Network/Service/'
-        for (NSString *key in (NSDictionary *) dict) {
-            [servicesWithDNS addObject:[key substringFromIndex:23u]];
+	NSMutableSet *servers = [NSMutableSet set], *domains = [NSMutableSet set];
+    NSMutableSet *servicesWithDNS = [NSMutableSet setWithCapacity:[(NSDictionary *) dict count]];
+    
+    // get all unique keys after stripping prefixes 'Setup:/Network/Service/' and 'State:/Network/Service/'
+    for (NSString *key in (NSDictionary *) dict) {
+        [servicesWithDNS addObject:[key substringFromIndex:23u]];
+    }
+    
+    for (NSString *serviceDNSName in servicesWithDNS) {
+        NSString *setupKey = [@"Setup:/Network/Service/" stringByAppendingString:serviceDNSName];
+        NSString *stateKey = [@"State:/Network/Service/" stringByAppendingString:serviceDNSName];
+        
+        if (!addDNSServersToSet(dict, setupKey, servers)) {
+            addDNSServersToSet(dict, stateKey, servers);
         }
-
-        for (NSString *serviceDNSName in servicesWithDNS) {
-            NSString *setupKey = [@"Setup:/Network/Service/" stringByAppendingString:serviceDNSName];
-            NSString *stateKey = [@"State:/Network/Service/" stringByAppendingString:serviceDNSName];
-
-            if (!addDNSServersToSet(dict, setupKey, servers)) {
-                addDNSServersToSet(dict, stateKey, servers);
-            }
-
-            if (!addDNSSearchDomainsToSet(dict, setupKey, domains)) {
-                addDNSSearchDomainsToSet(dict, stateKey, domains);
-            }
+        
+        if (!addDNSSearchDomainsToSet(dict, setupKey, domains)) {
+            addDNSSearchDomainsToSet(dict, stateKey, domains);
         }
     }
 
@@ -163,10 +159,10 @@ typedef struct {
 		return;
     }
 
-    if (queue) {
-        dispatch_sync(queue, ^{}); // ensure we always start with an empty queue
+    if (serialQueue) {
+        dispatch_sync(serialQueue, ^{}); // ensure we always start with an empty queue
     } else {
-        queue = dispatch_queue_create("ControlPlane.DNSParams", DISPATCH_QUEUE_SERIAL);
+        serialQueue = dispatch_queue_create("ControlPlane.DNSEvidenceSource", DISPATCH_QUEUE_SERIAL);
     }
 
 	// Register for asynchronous notifications
@@ -176,7 +172,7 @@ typedef struct {
         [self doStop];
         return;
     }
-    if (!SCDynamicStoreSetDispatchQueue(store, queue)) {
+    if (!SCDynamicStoreSetDispatchQueue(store, serialQueue)) {
         [self doStop];
         return;
     }
@@ -187,7 +183,7 @@ typedef struct {
         return;
     }
 
-    dispatch_async(queue, ^{
+    dispatch_async(serialQueue, ^{
         [self doFullUpdateFromStore:store];
     });
 
@@ -207,9 +203,9 @@ typedef struct {
         store = NULL;
     }
 
-    dispatch_async(queue, ^{
-        self.searchDomains = [NSSet set];
-        self.dnsServers = [NSSet set];
+    dispatch_async(serialQueue, ^{
+        self.searchDomains = nil;
+        self.dnsServers = nil;
         [self setDataCollected:NO];
     });
 

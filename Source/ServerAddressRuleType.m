@@ -76,11 +76,12 @@ static BOOL isValidIPAddress(NSString *value) {
 
 - (void)writeToPanel:(NSDictionary *)rule {
     [super writeToPanel:rule];
+	[addressComboBox removeAllItems];
 
 	NSArray *currentServers = [((DNSEvidenceSource *) self.evidenceSource).dnsServers allObjects];
-
-	[addressComboBox removeAllItems];
-	[addressComboBox addItemsWithObjectValues:currentServers];
+    if (currentServers) {
+        [addressComboBox addItemsWithObjectValues:currentServers];
+    }
 
 	NSString *serverAddress = rule[@"parameter"];
 	if (serverAddress) {
@@ -88,10 +89,8 @@ static BOOL isValidIPAddress(NSString *value) {
             [addressComboBox addItemWithObjectValue:serverAddress];
         }
         [addressComboBox selectItemWithObjectValue:serverAddress];
-	} else if ([currentServers count]) {
-		serverAddress = [currentServers objectAtIndex:0];
     } else {
-        serverAddress = @"";
+		serverAddress = ([currentServers count]) ? ([currentServers objectAtIndex:0]) : (@"");
     }
 
     [addressComboBox setStringValue:serverAddress];

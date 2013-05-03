@@ -74,11 +74,12 @@
 
 - (void)writeToPanel:(NSDictionary *)rule {
     [super writeToPanel:rule];
+	[domainComboBox removeAllItems];
 
 	NSArray *currentDomains = [((DNSEvidenceSource *) self.evidenceSource).searchDomains allObjects];
-
-	[domainComboBox removeAllItems];
-	[domainComboBox addItemsWithObjectValues:currentDomains];
+    if (currentDomains) {
+        [domainComboBox addItemsWithObjectValues:currentDomains];
+    }
 
 	NSString *domainName = rule[@"parameter"];
 	if (domainName) {
@@ -86,15 +87,13 @@
             [domainComboBox addItemWithObjectValue:domainName];
         }
         [domainComboBox selectItemWithObjectValue:domainName];
-	} else if ([currentDomains count]) {
-		domainName = [currentDomains objectAtIndex:0];
     } else {
-        domainName = @"";
+		domainName = ([currentDomains count]) ? ([currentDomains objectAtIndex:0]) : (@"");
     }
 
     NSNumber *isWildcard = rule[@"parameter.isWildcard"];
     if (!isWildcard) {
-        isWildcard = @(NO);
+        isWildcard = @NO;
     }
 
     [domainComboBox setStringValue:domainName];
