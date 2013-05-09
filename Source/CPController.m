@@ -445,6 +445,8 @@
     });
 
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self contextsChanged:nil];
+
         // Set up status bar.
         [self showInStatusBar:self];
         [self startOrStopHidingFromStatusBar];
@@ -468,12 +470,10 @@
                                                  name:@"evidenceSourceDataDidChange"
                                                object:nil];
     
-    
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(contextsChanged:)
 												 name:@"ContextsChangedNotification"
 											   object:contextsDataSource];
-	[self contextsChanged:nil];
     
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(userDefaultsChanged:)
@@ -636,16 +636,13 @@
     }
 }
 
-- (void)contextsChanged:(NSNotification *)notification
-{
+- (void)contextsChanged:(NSNotification *)notification {
 #ifdef DEBUG_MODE
     DSLog(@"in contextChanged");
 #endif
 	// Fill in 'Force context' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
-	NSEnumerator *en = [[contextsDataSource orderedTraversal] objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject])) {
+	for (Context *ctxt in [contextsDataSource orderedTraversal]) {
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
 		[item setTitle:[ctxt name]];
 		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
@@ -677,7 +674,7 @@
 	[forceContextMenuItem setSubmenu:submenu];
 
 	// Update current context details
-	ctxt = [contextsDataSource contextByUUID:currentContextUUID];
+	Context *ctxt = [contextsDataSource contextByUUID:currentContextUUID];
 	if (ctxt) {
 		[self setValue:[contextsDataSource pathFromRootTo:currentContextUUID] forKey:@"currentContextName"];
 	} else {
