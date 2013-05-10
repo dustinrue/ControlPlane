@@ -769,6 +769,7 @@
 										<string key="NSFrameSize">{435, 198}</string>
 										<reference key="NSSuperview" ref="648544117"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="1060926526"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -781,11 +782,10 @@
 											<reference key="NSNextKeyView" ref="609388239"/>
 											<reference key="NSTableView" ref="76253405"/>
 										</object>
-										<object class="_NSCornerView" key="NSCornerView" id="834842447">
+										<object class="_NSCornerView" key="NSCornerView">
 											<nil key="NSNextResponder"/>
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
-											<reference key="NSNextKeyView" ref="440226565"/>
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns">
 											<object class="NSTableColumn" id="149355763">
@@ -968,7 +968,7 @@
 								<string key="NSFrame">{{1, -30}, {420, 15}}</string>
 								<reference key="NSSuperview" ref="790804737"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="834842447"/>
+								<reference key="NSNextKeyView" ref="440226565"/>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="790804737"/>
@@ -993,7 +993,7 @@
 						<string key="NSFrame">{{20, 48}, {437, 216}}</string>
 						<reference key="NSSuperview" ref="280217310"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="648544117"/>
+						<reference key="NSNextKeyView" ref="752042160"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="609388239"/>
 						<reference key="NSHScroller" ref="752042160"/>
@@ -1039,6 +1039,7 @@
 						<string key="NSFrame">{{48, 19}, {20, 22}}</string>
 						<reference key="NSSuperview" ref="280217310"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="699475917"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="894563239">
 							<int key="NSCellFlags">67108864</int>
@@ -1067,6 +1068,7 @@
 						<string key="NSFrame">{{67, 19}, {25, 22}}</string>
 						<reference key="NSSuperview" ref="280217310"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="502912008">
 							<int key="NSCellFlags">67108864</int>
@@ -1093,6 +1095,7 @@
 				<string key="NSFrameSize">{477, 284}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="790804737"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
 				</object>
@@ -4205,6 +4208,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: canRemove</string>
+						<reference key="source" ref="699475917"/>
+						<reference key="destination" ref="151153385"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="699475917"/>
+							<reference key="NSDestination" ref="151153385"/>
+							<string key="NSLabel">enabled: canRemove</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">canRemove</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1923</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: selection.type</string>
 						<reference key="source" ref="571574103"/>
 						<reference key="destination" ref="949247496"/>
@@ -7095,7 +7114,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1920</int>
+			<int key="maxID">1923</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
