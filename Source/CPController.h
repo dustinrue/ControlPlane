@@ -32,8 +32,6 @@
 
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
-	IBOutlet NSArrayController *rulesController;
-	IBOutlet NSArrayController *actionsController;
 	IBOutlet NSWindow *prefsWindow;
     
     BOOL screenSaverRunning;

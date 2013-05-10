@@ -734,9 +734,8 @@
 	[updatingLock unlockWithCondition:1];
 }
 
-- (NSArray *)getRulesThatMatch
-{
-	NSArray *rules = [rulesController arrangedObjects];
+- (NSArray *)getRulesThatMatch {
+	NSArray *rules = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
 #ifdef DEBUG_MODE
     DSLog(@"number of rules %ld", [rules count]);
     DSLog(@"rules list %@", rules);
@@ -846,9 +845,8 @@
 	}
 }
 
-- (void)triggerDepartureActions:(NSString *)fromUUID
-{
-	NSArray *actions = [actionsController arrangedObjects];
+- (void)triggerDepartureActions:(NSString *)fromUUID {
+	NSArray *actions = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"];
 	NSMutableArray *actionsToRun = [NSMutableArray array];
 	int max_delay = 0;
 
@@ -858,27 +856,24 @@
 	// We then go through those selected actions, and run a surrogate action for each with
 	// a delay equal to (max_delay - original_delay).
 
-	NSEnumerator *action_enum = [actions objectEnumerator];
-	NSDictionary *action;
-	while ((action = [action_enum nextObject])) {
+	for (NSDictionary *action in actions) {
 		NSString *when = [action objectForKey:@"when"];
 		if (!([when isEqualToString:@"Departure"] || [when isEqualToString:@"Both"]))
 			continue;
-		if (![[action objectForKey:@"context"] isEqualToString:fromUUID])
+		if (![action[@"context"] isEqualToString:fromUUID])
 			continue;
-		if (![[action objectForKey:@"enabled"] boolValue])
+		if (![action[@"enabled"] boolValue])
 			continue;
 
-		NSNumber *aDelay;
-		if ((aDelay = [action valueForKey:@"delay"])) {
-			if ([aDelay doubleValue] > max_delay)
+		NSNumber *aDelay = [action valueForKey:@"delay"];
+		if (aDelay && ([aDelay doubleValue] > max_delay)) {
 				max_delay = [aDelay doubleValue];
 		}
 
-        if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
+        if ([[Action classForType:action[@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
             [screenLockActionDepartureQueue addObject:[Action actionFromDictionary:action]];
         }
-        else if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
+        else if ([[Action classForType:action[@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
             [screensaverActionDepartureQueue addObject:[Action actionFromDictionary:action]];
         }
         else {
@@ -887,49 +882,45 @@
 
 	}
 
-	action_enum = [actionsToRun objectEnumerator];
-	NSMutableArray *set = [NSMutableArray array];
-	while ((action = [action_enum nextObject])) {
+	NSMutableArray *set = [NSMutableArray arrayWithCapacity:[actionsToRun count]];
+	for (NSDictionary *action in actionsToRun) {
 		NSMutableDictionary *surrogateAction = [NSMutableDictionary dictionaryWithDictionary:action];
 		double original_delay = [[action valueForKey:@"delay"] doubleValue];
 		[surrogateAction setValue:[NSNumber numberWithDouble:(max_delay - original_delay)]
 				   forKey:@"delay"];
+
         @try {
             [set addObject:[Action actionFromDictionary:surrogateAction]];
         }
         @catch (NSException *exception) {
-    
             DSLog(@"ERROR: %@",NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
         }
-		
 	}
+
 	[self executeActionSet:set];
 
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:max_delay]];
 }
 
-- (void)triggerArrivalActions:(NSString *)toUUID
-{
-	NSArray *actions = [actionsController arrangedObjects];
+- (void)triggerArrivalActions:(NSString *)toUUID {
+	NSArray *actions = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"];
 
-	NSEnumerator *action_enum = [actions objectEnumerator];
-	NSDictionary *action;
 	NSMutableArray *set = [NSMutableArray array];
-	while (action = [action_enum nextObject]) {
-		NSString *when = [action objectForKey:@"when"];
+	for (NSDictionary *action in actions) {
+		NSString *when = action[@"when"];
 		if (!([when isEqualToString:@"Arrival"] || [when isEqualToString:@"Both"]))
 			continue;
-		if (![[action objectForKey:@"context"] isEqualToString:toUUID])
+		if (![action[@"context"] isEqualToString:toUUID])
 			continue;
-		if (![[action objectForKey:@"enabled"] boolValue])
+		if (![action[@"enabled"] boolValue])
 			continue;
         
         @try {
-            if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
+            if ([[Action classForType:action[@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
                 [screenLockActionArrivalQueue addObject:[Action actionFromDictionary:action]];
             }
-            else if ([[Action classForType:[action objectForKey:@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
+            else if ([[Action classForType:action[@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
                 [screensaverActionArrivalQueue addObject:[Action actionFromDictionary:action]];
             }
             else {
