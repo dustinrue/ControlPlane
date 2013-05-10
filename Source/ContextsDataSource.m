@@ -325,18 +325,18 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 
 // Private
-- (NSArray *)childrenOfContext:(NSString *)uuid
-{
+- (NSArray *)childrenOfContext:(NSString *)uuid {
+	if (!uuid) {
+		uuid = @"";
+    }
+
 	NSMutableArray *arr = [NSMutableArray array];
 
-	if (!uuid)
-		uuid = @"";
-
-	NSEnumerator *en = [contexts objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject]))
-		if ([[ctxt parentUUID] isEqualToString:uuid])
+    [contexts enumerateKeysAndObjectsUsingBlock:^(id key, Context *ctxt, BOOL *stop) {
+		if ([[ctxt parentUUID] isEqualToString:uuid]) {
 			[arr addObject:ctxt];
+        }
+    }];
 
 	[arr sortUsingSelector:@selector(compare:)];
 
@@ -422,23 +422,22 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private
-- (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array
-{
-	Context *ctxt = [contexts objectForKey:uuid];
-	if (ctxt)
-		[array addObject:ctxt];
-	NSEnumerator *en = [[self childrenOfContext:uuid] objectEnumerator];
-	while ((ctxt = [en nextObject]))
-		[self orderedTraversalFrom:[ctxt uuid] into:array];
+- (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array {
+	Context *current = [contexts objectForKey:uuid];
+	if (current) {
+		[array addObject:current];
+    }
+
+    for (Context *child in [self childrenOfContext:uuid]) {
+		[self orderedTraversalFrom:[child uuid] into:array];
+    }
 }
 
-- (NSArray *)orderedTraversal
-{
+- (NSArray *)orderedTraversal {
 	return [self orderedTraversalRootedAt:nil];
 }
 
-- (NSArray *)orderedTraversalRootedAt:(NSString *)uuid
-{
+- (NSArray *)orderedTraversalRootedAt:(NSString *)uuid {
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
 	[self orderedTraversalFrom:uuid into:array];
 	return array;
@@ -499,12 +498,9 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [rev_walk componentsJoinedByString:@"/"];
 }
 
-- (NSMenu *)hierarchicalMenu
-{
+- (NSMenu *)hierarchicalMenu {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-	NSEnumerator *en = [[self orderedTraversal] objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject])) {
+	for (Context *ctxt in [self orderedTraversal]) {
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
 		[item setTitle:[ctxt name]];
 		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
