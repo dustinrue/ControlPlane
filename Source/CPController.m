@@ -1395,17 +1395,17 @@
         [self setStatusTitle:currentContextName];
     }
 
-    dispatch_async(dispatch_get_main_queue(), ^{
 #ifndef DEBUG_MODE
-        // Force write of preferences
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    // Force write of preferences
+    [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
-
-        // Check that the running evidence sources match the defaults
-        if (!goingToSleep) {
+    
+    // Check that the running evidence sources match the defaults
+    if (!goingToSleep) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             [evidenceSources startOrStopAll];
-        }
-    });
+        });
+    }
 }
 
 #pragma mark -
