@@ -3663,26 +3663,6 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 					<int key="connectionID">1810</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: values.Rules</string>
-						<reference key="source" ref="827118435"/>
-						<reference key="destination" ref="592827177"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="827118435"/>
-							<reference key="NSDestination" ref="592827177"/>
-							<string key="NSLabel">contentArray: values.Rules</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">values.Rules</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSHandlesContentAsCompoundValue</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">306</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">remove:</string>
 						<reference key="source" ref="827118435"/>
@@ -3697,6 +3677,35 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 						<reference key="destination" ref="346015909"/>
 					</object>
 					<int key="connectionID">1554</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentArray: activeRules</string>
+						<reference key="source" ref="827118435"/>
+						<reference key="destination" ref="654022860"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="827118435"/>
+							<reference key="NSDestination" ref="654022860"/>
+							<string key="NSLabel">contentArray: activeRules</string>
+							<string key="NSBinding">contentArray</string>
+							<string key="NSKeyPath">activeRules</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSConditionallySetsEditable</string>
+									<string>NSHandlesContentAsCompoundValue</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="YES"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1954</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -7862,7 +7871,7 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1951</int>
+			<int key="maxID">1954</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
