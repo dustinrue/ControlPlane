@@ -12,20 +12,25 @@
 #import <stdio.h>
 
 
+@interface IPEvidenceSource ()
+
+- (void)doFullUpdate;
+
+@end
+
 #pragma mark C callbacks
 
-static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info)
-{
+static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
 #ifdef DEBUG_MODE
 	NSLog(@"ipChange called with changedKeys:\n%@", changedKeys);
 #endif
-	IPEvidenceSource *src = (IPEvidenceSource *) info;
 
 	// This is spun off into a separate thread because DNS delays, etc., would
 	// hold up the main thread, causing UI hanging.
-	[NSThread detachNewThreadSelector:@selector(doFullUpdate:)
-				 toTarget:src
-			       withObject:nil];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [(IPEvidenceSource *) info doFullUpdate];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    });
 }
 
 #pragma mark -
@@ -92,7 +97,7 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	return subset;
 }
 
-- (void)doFullUpdate:(id)sender
+- (void)doFullUpdate
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self setThreadNameFromClassName];
@@ -111,18 +116,12 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	[pool release];
 }
 
-- (void)start
-{
+- (void)start {
 	if (running)
 		return;
 
 	// Register for asynchronous notifications
-	SCDynamicStoreContext ctxt;
-	ctxt.version = 0;
-	ctxt.info = self;
-	ctxt.retain = NULL;
-	ctxt.release = NULL;
-	ctxt.copyDescription = NULL;
+	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
 
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), ipChange, &ctxt);
 	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
@@ -135,15 +134,14 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	// TODO: catch errors
 
 	// (see comment in ipChange function to see why we don't call it directly)
-	[NSThread detachNewThreadSelector:@selector(doFullUpdate:)
-				 toTarget:self
-			       withObject:nil];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self doFullUpdate];
+    });
 
 	running = YES;
 }
 
-- (void)stop
-{
+- (void)stop {
 	if (!running)
 		return;
 
@@ -200,39 +198,34 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	[self setValue:nmask forKey:@"ruleNetmask"];
 }
 
-- (NSString *)name
-{
+- (NSString *)name {
 	return @"IP";
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule
-{
-
-    // TODO: add proper IPV6 support
-	BOOL match = NO;
-
+- (BOOL)doesRuleMatch:(NSDictionary *)rule {
     // this grabs the IP address from the rule, will look something like
     // 192.168.0.0 and 255.255.255.0
 	NSArray *comp = [[rule valueForKey:@"parameter"] componentsSeparatedByString:@","];
     
-    
-	if ([comp count] != 2)
+	if ([comp count] != 2) {
 		return NO;	// corrupted rule
+    }
 	
+    NSString *ruleIPAddr = comp[0], *ruleSubnetMask = comp[1];
+    
+    // TODO: add proper IPV6 support
+	__block BOOL match = NO;
+    
 	[lock lock];
     
     // now ControlPlane will determine if the IP address fits in the
     // network range provided in the rule
     
-	NSEnumerator *en = [addresses objectEnumerator];
-	NSString *ip;
+    [addresses enumerateObjectsUsingBlock:^(NSString *ip, NSUInteger idx, BOOL *stop) {
+        *stop = match = [self isIp:ip inRuleIp:ruleIPAddr withSubnetMask:ruleSubnetMask];
+    }];
 
-	while ((ip = [en nextObject]) && !match) {
-        if ([self isIp:ip inRuleIp:[comp objectAtIndex:0] withSubnetMask:[comp objectAtIndex:1]])
-            match = YES;
-	}
 	[lock unlock];
-
 
 	return match;
 }

@@ -27,8 +27,6 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)doFullUpdate:(id)sender;
-
 - (void)start;
 - (void)stop;
 
