@@ -14,7 +14,8 @@
 #import "CPNotifications.h"
 #import <libkern/OSAtomic.h>
 
-@interface CPController (Private) 
+
+@interface CPController (Private)
 
 - (void)setStatusTitle:(NSString *)title;
 - (void)showInStatusBar:(id)sender;
@@ -68,6 +69,13 @@
 
 #pragma mark -
 
+@interface CPController ()
+
+@property (retain,atomic,readwrite) NSArray *rules;
+@property (assign,atomic,readwrite) BOOL forceOneFullUpdate;
+
+@end
+
 @implementation CPController {
     NSNumberFormatter *numberFormatter;
 }
@@ -80,6 +88,16 @@
 @synthesize screenSaverRunning;
 @synthesize screenLocked;
 @synthesize goingToSleep;
+
++ (NSMutableArray *)deepMutableCopyOfArray:(NSArray *)array {
+    NSMutableArray *arrayMutableCopy = [NSMutableArray arrayWithCapacity:[array count]];
+    for (id obj in array) {
+        id objMutableCopy = [obj mutableCopy];
+        [arrayMutableCopy addObject:objMutableCopy];
+        [objMutableCopy release];
+    }
+    return arrayMutableCopy;
+}
 
 + (void)initialize
 {
@@ -150,8 +168,7 @@
 	return img;
 }
 
-- (id)init
-{
+- (id)init {
 	if (!(self = [super init]))
 		return nil;
 
@@ -177,12 +194,18 @@
 	numberFormatter = [[NSNumberFormatter alloc] init];
 	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
 	[numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-	
+
+    NSArray *rulesInUserDefaults = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
+    _rules = [[[self class] deepMutableCopyOfArray:rulesInUserDefaults] retain];
+    
+    _forceOneFullUpdate = YES;
+    
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
+    [_rules release];
+    
     [numberFormatter release];
 	[updatingSwitchingLock release];
 	[updatingLock release];
@@ -190,12 +213,40 @@
 	[super dealloc];
 }
 
-- (NSString *) currentContextName {
+- (NSString *)currentContextName {
 	return currentContextName;
 }
 
-- (ContextsDataSource *) contextsDataSource {
+- (ContextsDataSource *)contextsDataSource {
 	return contextsDataSource;
+}
+
+- (NSArray *)activeRules {
+    return [[self class] deepMutableCopyOfArray:self.rules];
+}
+
+- (void)setActiveRules:(NSArray *)newRules {
+    NSMutableArray *rules = [[NSMutableArray alloc] initWithCapacity:[newRules count]];
+
+    for (NSDictionary *ruleParams in newRules) {
+        NSMutableDictionary *rule = [ruleParams mutableCopy];
+
+        // remove all transient data
+        [rule removeObjectForKey:@"status"];
+
+        [rules addObject:rule];
+        [rule release];
+    }
+
+    self.rules = rules; // atomic
+
+    [[NSUserDefaults standardUserDefaults] setObject:rules forKey:@"Rules"];
+
+    [rules release];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self doUpdate];
+    });
 }
 
 - (BOOL) stickyContext {
@@ -691,6 +742,8 @@
         }
     });
 
+    self.forceOneFullUpdate = YES;
+
 	// update other stuff?
 }
 
@@ -734,23 +787,40 @@
 	[updatingLock unlockWithCondition:1];
 }
 
-- (NSArray *)getRulesThatMatch {
-	NSArray *rules = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
+- (NSArray *)getRulesThatMatchAndSetChangeFlag:(BOOL *)flag {
+	NSArray *rules = self.rules;
 #ifdef DEBUG_MODE
     DSLog(@"number of rules %ld", [rules count]);
     DSLog(@"rules list %@", rules);
 #endif
-	NSMutableArray *matching_rules = [NSMutableArray array];
+	NSMutableArray *matchingRules = [NSMutableArray array];
+    BOOL changed = NO;
 
-	for (NSDictionary *rule in rules) {
+	for (NSMutableDictionary *rule in rules) {
 #ifdef DEBUG_MODE
         DSLog(@"checking rule %@", rule);
 #endif
-		if ([evidenceSources ruleMatches:rule])
-			[matching_rules addObject:rule];
+		BOOL isMatching = [evidenceSources ruleMatches:rule];
+        if (isMatching) {
+			[matchingRules addObject:rule];
+        }
+
+        NSNumber *recentStatus = rule[@"status"];
+        if (!recentStatus || ([recentStatus boolValue] != isMatching)) {
+            rule[@"status"] = @(isMatching);
+            changed = YES;
+        }
 	}
 
-	return matching_rules;
+    if (changed) {
+        *flag = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self willChangeValueForKey:@"activeRules"];
+            [self didChangeValueForKey:@"activeRules"];
+        });
+    }
+
+	return matchingRules;
 }
 
 // (Private) in a new thread, execute Action immediately, growling upon failure
@@ -1060,19 +1130,33 @@
 
 // TODO: allow multiple contexts to be active at once
 - (void)doUpdateForReal {
+    BOOL changed = NO;
+    NSArray *matchingRules = [self getRulesThatMatchAndSetChangeFlag:&changed];
+#ifdef DEBUG_MODE
+    DSLog(@"rules that match: %@", matchingRules);
+#endif
+
+    if (!changed && !self.forceOneFullUpdate) {
+#ifdef DEBUG_MODE
+        DSLog(@"Same rule are matching as on previous check. No updates required.");
+#endif
+        return;
+    }
+
+    self.forceOneFullUpdate = NO;
+
     // Array of the UUIDs of all configured contexts, might look like this if UUIDs were simple text:
     // Top Level
     // Top Level 2
     //   Sub context of Top Level 2
     //     Sub context of sub context of Top Level 2
     NSArray *allConfiguredContexts = [contextsDataSource arrayOfUUIDs];
-    
 #ifdef DEBUG_MODE
     DSLog(@"context list %@", allConfiguredContexts);
 #endif
-    
+
     // of the configured contexts, which ones have rule hits?
-    NSMutableDictionary *guesses = [self getGuessesFrom:allConfiguredContexts];
+    NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
     DSLog(@"guesses %@", guesses);
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AllowMultipleActiveContexts"]) {
@@ -1098,27 +1182,18 @@
 }
 
 /**
- * Builds a list of guesses with their confidence values for any rules that match
+ * Builds a list of guesses with their confidence values for the given (matching) rules
  * 
- * @param NSArray list of all of the configured contexts
+ * @param NSArray list of rules
  * @return NSMutableDictionary list of contexts with matching rules and their confidence values
  */
-- (NSMutableDictionary *)getGuessesFrom:(NSArray *)allConfiguredContexts {
-    
+- (NSMutableDictionary *)getGuessesForRules:(NSArray *)rules {
+	NSMutableDictionary *guesses = [NSMutableDictionary dictionary];
+
 	// Maps a guessed context to an "unconfidence" value, which is
 	// equal to (1 - confidence). We step through all the rules that are "hits",
 	// and multiply this running unconfidence value by (1 - rule.confidence).
-#ifdef DEBUG_MODE
-    DSLog(@"attempting to get rules that match: %@", allConfiguredContexts);
-#endif
-	NSMutableDictionary *guesses = [NSMutableDictionary dictionaryWithCapacity:[allConfiguredContexts count]];
-	NSArray *rule_hits = [self getRulesThatMatch];
-    
-#ifdef DEBUG_MODE
-    DSLog(@"rules that match: %@", rule_hits);
-#endif
-    
-    for (NSDictionary *currentRule in rule_hits) {
+    for (NSDictionary *currentRule in rules) {
 		// Rules apply to the stated context, as well as any subcontexts. We very slightly decay the amount
 		// credited (proportional to the depth below the stated context), so that we don't guess a more
 		// detailed context than is warranted.
@@ -1399,7 +1474,7 @@
     // Force write of preferences
     [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
-    
+
     // Check that the running evidence sources match the defaults
     if (!goingToSleep) {
         dispatch_async(dispatch_get_main_queue(), ^{
