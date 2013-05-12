@@ -18,6 +18,8 @@
 	ContextsDataSource *contextsDataSource;
 }
 @end
+@interface RuleStatusResultTransformer : NSValueTransformer
+@end
 
 
 @implementation ActionTypeHelpTransformer
@@ -124,6 +126,21 @@
 
 @end
 
+@implementation RuleStatusResultTransformer
+
++ (Class)transformedValueClass { return [NSString class]; }
+
++ (BOOL)allowsReverseTransformation { return NO; }
+
+- (id)transformedValue:(id)theValue {
+    if (!theValue) {
+        return  @"?";
+    }
+    return ([theValue boolValue]) ? (@"\u2713") : (@"");
+}
+
+@end
+
 #pragma mark -
 
 @interface PrefsWindowController ()
@@ -153,6 +170,8 @@
 					forName:@"LocalizeTransformer"];
 	[NSValueTransformer setValueTransformer:[[[WhenLocalizeTransformer alloc] init] autorelease]
 					forName:@"WhenLocalizeTransformer"];
+	[NSValueTransformer setValueTransformer:[[[RuleStatusResultTransformer alloc] init] autorelease]
+                    forName:@"RuleStatusResultTransformer"];
 }
 
 - (id)init

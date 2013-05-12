@@ -53,6 +53,8 @@
 @property (readwrite) BOOL goingToSleep;
 @property (strong) NSArray *activeContexts;
 
+@property (copy,nonatomic,readwrite) NSArray *activeRules;
+
 - (NSString *) currentContextName;
 - (ContextsDataSource *) contextsDataSource;
 - (BOOL) stickyContext;
