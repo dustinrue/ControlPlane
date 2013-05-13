@@ -231,8 +231,12 @@
     for (NSDictionary *ruleParams in newRules) {
         NSMutableDictionary *rule = [ruleParams mutableCopy];
 
-        // remove all transient data
-        [rule removeObjectForKey:@"status"];
+        // remove all previously cached data
+        for (NSString *key in [rule allKeys]) {
+            if ([key hasPrefix:@"cached"]) {
+                [rule removeObjectForKey:key];
+            }
+        }
 
         [rules addObject:rule];
         [rule release];
@@ -805,9 +809,9 @@
 			[matchingRules addObject:rule];
         }
 
-        NSNumber *recentStatus = rule[@"status"];
+        NSNumber *recentStatus = rule[@"cachedStatus"];
         if (!recentStatus || ([recentStatus boolValue] != isMatching)) {
-            rule[@"status"] = @(isMatching);
+            rule[@"cachedStatus"] = @(isMatching);
             changed = YES;
         }
 	}

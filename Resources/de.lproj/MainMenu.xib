@@ -784,7 +784,7 @@
 										<object class="NSMutableArray" key="NSTableColumns">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSTableColumn" id="399410271">
-												<double key="NSWidth">12</double>
+												<double key="NSWidth">15</double>
 												<double key="NSMinWidth">10</double>
 												<double key="NSMaxWidth">3.4028234663852886e+38</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -908,7 +908,7 @@
 											</object>
 											<object class="NSTableColumn" id="44500243">
 												<string key="NSIdentifier">confidence</string>
-												<double key="NSWidth">126.92529296875</double>
+												<double key="NSWidth">121.92529296875</double>
 												<double key="NSMinWidth">63.92529296875</double>
 												<double key="NSMaxWidth">1000</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -985,7 +985,7 @@
 							<object class="NSScroller" id="215464208">
 								<reference key="NSNextResponder" ref="874464119"/>
 								<int key="NSvFlags">-2147483392</int>
-								<string key="NSFrame">{{1, 199}, {435, 16}}</string>
+								<string key="NSFrame">{{1, 199}, {438, 16}}</string>
 								<reference key="NSSuperview" ref="874464119"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="510320836"/>
@@ -993,7 +993,7 @@
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="874464119"/>
 								<string key="NSAction">_doScroller:</string>
-								<double key="NSPercent">0.99542334096109841</double>
+								<double key="NSPercent">0.99545454545454548</double>
 							</object>
 							<object class="NSClipView" id="44901239">
 								<reference key="NSNextResponder" ref="874464119"/>
@@ -5173,15 +5173,15 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.status</string>
+						<string key="label">value: arrangedObjects.cachedStatus</string>
 						<reference key="source" ref="399410271"/>
 						<reference key="destination" ref="827118435"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="399410271"/>
 							<reference key="NSDestination" ref="827118435"/>
-							<string key="NSLabel">value: arrangedObjects.status</string>
+							<string key="NSLabel">value: arrangedObjects.cachedStatus</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.status</string>
+							<string key="NSKeyPath">arrangedObjects.cachedStatus</string>
 							<object class="NSDictionary" key="NSOptions">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSArray" key="dict.sortedKeys">
@@ -5200,7 +5200,7 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1951</int>
+					<int key="connectionID">1956</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -7871,7 +7871,7 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1954</int>
+			<int key="maxID">1956</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

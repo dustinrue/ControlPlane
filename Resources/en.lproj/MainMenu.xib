@@ -5004,15 +5004,15 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.status</string>
+						<string key="label">value: arrangedObjects.cachedStatus</string>
 						<reference key="source" ref="348936883"/>
 						<reference key="destination" ref="736607620"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="348936883"/>
 							<reference key="NSDestination" ref="736607620"/>
-							<string key="NSLabel">value: arrangedObjects.status</string>
+							<string key="NSLabel">value: arrangedObjects.cachedStatus</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.status</string>
+							<string key="NSKeyPath">arrangedObjects.cachedStatus</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
 								<boolean value="YES" key="NSConditionallySetsEditable"/>
@@ -5021,7 +5021,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">2096</int>
+					<int key="connectionID">2106</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -7272,7 +7272,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2104</int>
+			<int key="maxID">2106</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

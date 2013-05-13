@@ -789,7 +789,7 @@
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns">
 											<object class="NSTableColumn" id="151477662">
-												<double key="NSWidth">12</double>
+												<double key="NSWidth">15</double>
 												<double key="NSMinWidth">10</double>
 												<double key="NSMaxWidth">3.4028234663852886e+38</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -862,7 +862,7 @@
 											</object>
 											<object class="NSTableColumn" id="736735907">
 												<string key="NSIdentifier">description</string>
-												<double key="NSWidth">141.8720703125</double>
+												<double key="NSWidth">140.8720703125</double>
 												<double key="NSMinWidth">40</double>
 												<double key="NSMaxWidth">1000</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -888,7 +888,7 @@
 											</object>
 											<object class="NSTableColumn" id="520557415">
 												<string key="NSIdentifier">location</string>
-												<double key="NSWidth">82.20263671875</double>
+												<double key="NSWidth">81.20263671875</double>
 												<double key="NSMinWidth">10</double>
 												<double key="NSMaxWidth">1000</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -913,7 +913,7 @@
 											</object>
 											<object class="NSTableColumn" id="212016047">
 												<string key="NSIdentifier">confidence</string>
-												<double key="NSWidth">126.88037109375</double>
+												<double key="NSWidth">123.88037109375</double>
 												<double key="NSMinWidth">54.88037109375</double>
 												<double key="NSMaxWidth">1000</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -998,7 +998,7 @@
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="708725706"/>
 								<string key="NSAction">_doScroller:</string>
-								<double key="NSPercent">0.99770642201834858</double>
+								<double key="NSPercent">0.99315068493150682</double>
 							</object>
 							<object class="NSClipView" id="1058842077">
 								<reference key="NSNextResponder" ref="708725706"/>
@@ -4920,15 +4920,15 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.status</string>
+						<string key="label">value: arrangedObjects.cachedStatus</string>
 						<reference key="source" ref="151477662"/>
 						<reference key="destination" ref="388804239"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="151477662"/>
 							<reference key="NSDestination" ref="388804239"/>
-							<string key="NSLabel">value: arrangedObjects.status</string>
+							<string key="NSLabel">value: arrangedObjects.cachedStatus</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.status</string>
+							<string key="NSKeyPath">arrangedObjects.cachedStatus</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
 								<boolean value="YES" key="NSConditionallySetsEditable"/>
@@ -4937,7 +4937,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1927</int>
+					<int key="connectionID">1932</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -7177,7 +7177,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1930</int>
+			<int key="maxID">1932</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
