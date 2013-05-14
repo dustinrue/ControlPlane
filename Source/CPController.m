@@ -245,6 +245,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:rules forKey:@"Rules"];
 
     self.rules = rules; // atomic
+    self.forceOneFullUpdate = YES;
     
     [rules release];
 
@@ -765,16 +766,22 @@
 
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
-
-    if (!screenLocked && (([screenLockActionArrivalQueue count] > 0) || ([screenLockActionDepartureQueue count] > 0))) {
-        [self scheduleActionSet:screenLockActionDepartureQueue];
-        [self scheduleActionSet:screenLockActionArrivalQueue];
+    if (!screenLocked) {
+        if ([screenLockActionDepartureQueue count] > 0) {
+            [self scheduleActions:screenLockActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+        }
+        if ([screenLockActionArrivalQueue count] > 0) {
+            [self scheduleActions:screenLockActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
+        }
     }
 
-    if (!screenSaverRunning && (([screensaverActionArrivalQueue count] > 0) ||
-                                ([screensaverActionDepartureQueue count] > 0))) {
-        [self scheduleActionSet:screensaverActionDepartureQueue];
-        [self scheduleActionSet:screensaverActionArrivalQueue];
+    if (!screenSaverRunning) {
+        if ([screensaverActionDepartureQueue count] > 0) {
+            [self scheduleActions:screensaverActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+        }
+        if ([screensaverActionArrivalQueue count] > 0) {
+            [self scheduleActions:screensaverActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
+        }
     }
 
 	// Check timer interval
@@ -833,206 +840,209 @@
 // (Private) in a new thread, execute Action immediately, growling upon failure
 // performs an individual action called by an executeAction* method and on
 // a new thread
-- (void)executeAction:(id)arg {
+- (void)doExecuteAction:(id)arg {
 	@autoreleasepool {
         NSString *errorString;
         if (![(Action *) arg execute:&errorString]) {
-            [self postUserNotification:NSLocalizedString(@"Failure", @"Growl message title") withMessage:errorString];
+            NSString *title = NSLocalizedString(@"Failure", @"Growl message title");
+            [self postUserNotification:title withMessage:errorString];
         }
-        
+
         [self decreaseActionsInProgress];
     }
 }
 
 // (Private) in a separate thread
 // Parameter is an NSArray of actions
-- (void)executeActionSetNow:(NSArray *)actions {
-    @autoreleasepool {
+- (void)executeActions:(NSArray *)actions {
+    if ([actions count] > 0) {
         // Aggregate notification messages for all actions
-        if ([actions count] > 0) {
-            NSString *notificationTitle, *notificationMessage;
-            if ([actions count] == 1) {
-                notificationTitle = NSLocalizedString(@"Performing Action", @"Growl message title");
-                notificationMessage = [actions[0] description];
-            } else {
-                notificationTitle = NSLocalizedString(@"Performing Actions", @"Growl message title");
-                notificationMessage = [@"* " stringByAppendingString:[actions componentsJoinedByString:@"\n* "]];
-            }
-            [self postUserNotification:notificationTitle withMessage:notificationMessage];
+        NSString *title, *msg;
+        if ([actions count] == 1) {
+            title = NSLocalizedString(@"Performing Action", @"Growl message title");
+            msg = [actions[0] description];
+        } else {
+            title = NSLocalizedString(@"Performing Actions", @"Growl message title");
+            msg = [@"* " stringByAppendingString:[actions componentsJoinedByString:@"\n* "]];
         }
-        
-        for (Action *action in actions) {
-            [self increaseActionsInProgress];
-            [NSThread detachNewThreadSelector:@selector(executeAction:)
-                                     toTarget:self
-                                   withObject:action];
-        }
+
+        [self postUserNotification:title withMessage:msg];
+    }
+
+    for (Action *action in actions) {
+        [self increaseActionsInProgress];
+        [NSThread detachNewThreadSelector:@selector(doExecuteAction:)
+                                 toTarget:self
+                               withObject:action];
     }
 }
 
-- (void)executeActionSet:(NSArray *)actions withDelay:(NSTimeInterval)delay {
-    [self increaseActionsInProgress];
+- (void)executeActions:(NSArray *)actions withDelay:(NSTimeInterval)delay {
+    if (delay == 0.0) {
+        [self executeActions:actions];
+        return;
+    }
 
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self executeActionSetNow:actions];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
-        [self decreaseActionsInProgress];
+    [self increaseActionsInProgress];
+    dispatch_after(popTime, queue, ^{
+        @autoreleasepool {
+            [self executeActions:actions];
+            [self decreaseActionsInProgress];
+        }
     });
 }
 
-// (Private) This will group the growling together. The parameter should be an array of Action objects.
-- (void)scheduleActionSet:(NSMutableArray *)actions {
-	if ([actions count] == 0)
-		return;
-
+// (Private) This will group the growling together.
+// The first parameter MUST be an array of Action objects ORDERED in the appropriate way.
+- (void)scheduleOrderedActions:(NSArray *)actions usingDelayProvider:(double (^)(Action *action))getDelay {
 	static const double batchThreshold = 0.25;		// maximum grouping interval size
-
-	// Sort by delay
-	[actions sortUsingSelector:@selector(compareDelay:)];
-
+    
 	NSMutableArray *batch = nil;
     NSTimeInterval batchDelay = 0.0, maxBatchDelay = 0.0;
 	for (Action *action in actions) {
-		if (batch) {
-            if ([[action valueForKey:@"delay"] doubleValue] < maxBatchDelay) {
+		const double actionDelay = getDelay(action);
+        if (batch) {
+            if (actionDelay < maxBatchDelay) {
                 [batch addObject:action];
                 continue;
             }
             
             // Completed a batch
-            [self executeActionSet:batch withDelay:batchDelay];
+            [self executeActions:batch withDelay:batchDelay];
 		}
-
+        
         // Start a new batch with the current action
 		batch = [NSMutableArray arrayWithObject:action];
-        batchDelay = [[action valueForKey:@"delay"] doubleValue];
-        maxBatchDelay = batchDelay + batchThreshold;
+        batchDelay = actionDelay;
+        maxBatchDelay = actionDelay + batchThreshold;
 	}
-
+    
 	// Final batch
 	if ([batch count] > 0) {
-        [self executeActionSet:batch withDelay:batchDelay];
+        [self executeActions:batch withDelay:batchDelay];
 	}
 }
 
-- (void)triggerDepartureActions:(NSString *)fromUUID {
-	NSArray *actions = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"];
-	NSMutableArray *actionsToRun = [NSMutableArray array];
-	int max_delay = 0;
+- (void)scheduleActions:(NSMutableArray *)actions
+     usingReverseDelays:(BOOL)areReversed
+               maxDelay:(NSTimeInterval *)maxDelay {
 
-	// This is slightly trickier than triggerArrivalActions, since the "delay" value is
-	// a reverse delay, rather than a forward delay. We scan through the actions, finding
-	// all the ones that need to be run, calculating the maximum delay along the way.
-	// We then go through those selected actions, and run a surrogate action for each with
-	// a delay equal to (max_delay - original_delay).
+	if ([actions count] == 0) {
+		return;
+    }
 
-	for (NSDictionary *action in actions) {
-		NSString *when = [action objectForKey:@"when"];
-		if (!([when isEqualToString:@"Departure"] || [when isEqualToString:@"Both"]))
-			continue;
-		if (![action[@"context"] isEqualToString:fromUUID])
-			continue;
-		if (![action[@"enabled"] boolValue])
-			continue;
+    double maxDelayValue = 0.0;
 
-		NSNumber *aDelay = [action valueForKey:@"delay"];
-		if (aDelay && ([aDelay doubleValue] > max_delay)) {
-				max_delay = [aDelay doubleValue];
-		}
+    if (!areReversed) {
+        // Sort by delay (ascending order)
+        [actions sortUsingSelector:@selector(compareDelay:)];
 
-        if ([[Action classForType:action[@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
-            [screenLockActionDepartureQueue addObject:[Action actionFromDictionary:action]];
-        }
-        else if ([[Action classForType:action[@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
-            [screensaverActionDepartureQueue addObject:[Action actionFromDictionary:action]];
-        }
-        else {
-            [actionsToRun addObject:action];
-        }
+        Action *lastAction = actions[[actions count] - 1];
+        maxDelayValue = [[lastAction valueForKey:@"delay"] doubleValue];
 
-	}
+        [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
+            return [[action valueForKey:@"delay"] doubleValue];
+        }];
+    } else {
+        // Sort by delay (descending order)
+        [actions sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [obj2 compareDelay:obj1]; // reverse comparison
+        }];
 
-	NSMutableArray *set = [NSMutableArray arrayWithCapacity:[actionsToRun count]];
-	for (NSDictionary *action in actionsToRun) {
-		NSMutableDictionary *surrogateAction = [NSMutableDictionary dictionaryWithDictionary:action];
-		double original_delay = [[action valueForKey:@"delay"] doubleValue];
-		[surrogateAction setValue:[NSNumber numberWithDouble:(max_delay - original_delay)]
-				   forKey:@"delay"];
+        maxDelayValue = [[actions[0] valueForKey:@"delay"] doubleValue];
 
-        @try {
-            [set addObject:[Action actionFromDictionary:surrogateAction]];
-        }
-        @catch (NSException *exception) {
-            DSLog(@"ERROR: %@",NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
-        }
-	}
+        [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
+            return (maxDelayValue - [[action valueForKey:@"delay"] doubleValue]);
+        }];
+    }
 
-	[self scheduleActionSet:set];
-
-	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
-	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:max_delay]];
+    if (maxDelay) {
+        *maxDelay = maxDelayValue;
+    }
 }
 
-- (void)addArrivalActionsForContext:(NSString *)contextUUID toWaitQueuesOrToActionSet:(NSMutableArray *)actionSet {
+- (void)enumerateEnabledActionsForContext:(Context *)ctxt
+                                 on:(NSString *)triggerId
+                         usingBlock:(void (^)(NSDictionary *))block {
+
+    NSString *contextUUID = [ctxt uuid];
 	NSArray *actions = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"];
 
 	for (NSDictionary *action in actions) {
-		if (![action[@"context"] isEqualToString:contextUUID] || ![action[@"enabled"] boolValue]) {
-			continue;
-        }
-
-		NSString *when = action[@"when"];
-		if (!([when isEqualToString:@"Arrival"] || [when isEqualToString:@"Both"])) {
-			continue;
-        }
-        
-        @try {
-            if (screenLocked && [[Action classForType:action[@"type"]] shouldWaitForScreenUnlock]) {
-                [screenLockActionArrivalQueue addObject:[Action actionFromDictionary:action]];
+		if ([action[@"context"] isEqualToString:contextUUID] && [action[@"enabled"] boolValue]) {
+            NSString *when = action[@"when"];
+            if ([when isEqualToString:triggerId] || [when isEqualToString:@"Both"]) {
+                block(action);
             }
-            else if (screenSaverRunning && [[Action classForType:action[@"type"]] shouldWaitForScreensaverExit]) {
-                [screensaverActionArrivalQueue addObject:[Action actionFromDictionary:action]];
+        }
+	}
+}
+
+- (void)triggerArrivalActionsOnWalk:(NSArray *)walk {
+    NSMutableArray *arrivalActions = [NSMutableArray array];
+    for (Context *ctxt in walk) {
+        [self enumerateEnabledActionsForContext:ctxt on:@"Arrival" usingBlock:^(NSDictionary *actionParams) {
+            Action *action = [Action actionFromDictionary:actionParams];
+            if (!action) {
+                DSLog(@"ERROR: %@",
+                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+                return;
+            }
+
+            if (screenLocked && [[action class] shouldWaitForScreenUnlock]) {
+                [screenLockActionArrivalQueue addObject:action];
+            }
+            else if (screenSaverRunning && [[action class] shouldWaitForScreensaverExit]) {
+                [screensaverActionArrivalQueue addObject:action];
             }
             else {
-                [actionSet addObject:[Action actionFromDictionary:action]];
+                [arrivalActions addObject:action];
             }
-        }
-        @catch (NSException *exception) {
-            DSLog(@"ERROR: %@",NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
-        }
-		
-	}
+        }];
+    }
+
+    [self scheduleActions:arrivalActions usingReverseDelays:NO maxDelay:NULL];
 }
+
+- (void)triggerDepartureActionsOnWalk:(NSArray *)walk {
+    NSMutableArray *departureActions = [NSMutableArray array];
+    for (Context *ctxt in walk) {
+        [self enumerateEnabledActionsForContext:ctxt on:@"Departure" usingBlock:^(NSDictionary *actionParams) {
+            Action *action = [Action actionFromDictionary:actionParams];
+            if (!action) {
+                DSLog(@"ERROR: %@",
+                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+                return;
+            }
+
+            if (screenLocked && [[action class] shouldWaitForScreenUnlock]) {
+                [screenLockActionDepartureQueue addObject:action];
+            }
+            else if (screenSaverRunning && [[action class] shouldWaitForScreensaverExit]) {
+                [screensaverActionDepartureQueue addObject:action];
+            }
+            else {
+                [departureActions addObject:action];
+            }
+        }];
+    }
+    
+    NSTimeInterval maxDelay = 0.0;
+    [self scheduleActions:departureActions usingReverseDelays:YES maxDelay:&maxDelay];
+    
+	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
+	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
+}
+
 
 #pragma mark Context switching
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID withConfidenceMsg:(NSString *)confMsg {
-	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
-	NSArray *leaving_walk = walks[0];
-	NSArray *entering_walk = walks[1];
-
-    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
-    NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
-    NSString *notificationName   = [notificationObject stringByAppendingString:@".ContextChanged"];
-    
-	[updatingSwitchingLock lock];
-
-	// Execute all the "Departure" actions
-    for (Context *ctxt in leaving_walk) {
-		DSLog(@"Depart from %@", [ctxt name]);
-		[self triggerDepartureActions:[ctxt uuid]];
-	}
-
 	NSString *ctxt_path = [contextsDataSource pathFromRootTo:toUUID];
-    
-	// Update current context
-	[self setValue:toUUID forKey:@"currentContextUUID"];
-	[self setValue:ctxt_path forKey:@"currentContextName"];
-    
-    NSDictionary *userInfo = @{ @"context": ctxt_path };
-    [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
-    
+
 #if DEBUG_MODE
     // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
     // Allows you to test QuincyKit
@@ -1041,6 +1051,31 @@
     }
 #endif
 
+	NSArray *walks = [contextsDataSource walkFrom:fromUUID to:toUUID];
+	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
+
+    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
+    NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *notificationName   = [notificationObject stringByAppendingString:@".ContextChanged"];
+
+	[updatingSwitchingLock lock];
+
+    [self triggerDepartureActionsOnWalk:leavingWalk];
+
+	// Update current context
+	[self setValue:toUUID forKey:@"currentContextUUID"];
+	[self setValue:ctxt_path forKey:@"currentContextName"];
+
+    // Notify subscribed apps
+    NSDictionary *userInfo = @{ @"context": ctxt_path };
+    [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
+
+    // Notify the user
+    NSString *msg = [NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
+                                                                 @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"), ctxt_path, confMsg];
+	[self postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title")
+                   withMessage:msg];
+
     // Update menu bar (always do that in the main thread)
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateMenuBarImage];
@@ -1048,11 +1083,7 @@
             [self setStatusTitle:currentContextName];
         }
     });
-    
-	[self postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title")
-	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
-								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, confMsg]];
-    
+
 	// Update force context menu
 	NSMenu *menu = [forceContextMenuItem submenu];
     for (NSMenuItem *item in [menu itemArray]) {
@@ -1063,24 +1094,14 @@
         }
 	}
 
-	// Execute all the "Arrival" actions
-    NSMutableArray *arrivalActions = [NSMutableArray array];
-    for (Context *ctxt in entering_walk) {
-		DSLog(@"Arrive at %@", [ctxt name]);
-        [self addArrivalActionsForContext:[ctxt uuid] toWaitQueuesOrToActionSet:arrivalActions];
-	}
-
-    [self scheduleActionSet:arrivalActions];
+    [self triggerArrivalActionsOnWalk:enteringWalk];
 
 	[updatingSwitchingLock unlock];
-
-	return;
 }
 
 #pragma mark Force switching
 
-- (void)forceSwitch:(id)sender
-{
+- (void)forceSwitch:(id)sender {
 	Context *ctxt = nil;
 	
 	if ([sender isKindOfClass:[Context class]])
@@ -1094,8 +1115,12 @@
 	// so we force it to be correct here.
 	int state = forcedContextIsSticky ? NSOnState : NSOffState;
 	[stickForcedContextMenuItem setState:state];
-	
+
 	[self performTransitionFrom:currentContextUUID to:[ctxt uuid] withConfidenceMsg:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")];
+
+    if (!forcedContextIsSticky) {
+        self.forceOneFullUpdate = YES;
+    }
 }
 
 - (void) setStickyBit:(NSNotification *) notification {
@@ -1109,16 +1134,18 @@
         [self toggleSticky:self];
     }
 }
-- (void)toggleSticky:(id)sender
-{
+- (void)toggleSticky:(id)sender {
 	BOOL oldValue = forcedContextIsSticky;
 	forcedContextIsSticky = !oldValue;
 
 	[stickForcedContextMenuItem setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
+
+    if (!forcedContextIsSticky) {
+        self.forceOneFullUpdate = YES;
+    }
 }
 
-- (void)forceSwitchAndToggleSticky:(id)sender
-{
+- (void)forceSwitchAndToggleSticky:(id)sender {
 	[self toggleSticky:sender];
 	[self forceSwitch:sender];
 }
@@ -1148,6 +1175,10 @@
 
     self.forceOneFullUpdate = NO;
 
+    if (forcedContextIsSticky) {
+        return;
+    }
+    
     // Array of the UUIDs of all configured contexts, might look like this if UUIDs were simple text:
     // Top Level
     // Top Level 2
@@ -1354,8 +1385,7 @@
     return true;
 }
 
-- (void)updateThread:(id)arg
-{
+- (void)updateThread:(id)arg {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
 	while (!timeToDie) {
@@ -1364,13 +1394,15 @@
 #ifdef DEBUG_MODE
         DSLog(@"**** DOING UPDATE LOOP ****");
 #endif
-		if (!forcedContextIsSticky && [[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
-			[self doUpdateForReal];
-
-			// Flush auto-release pool
-			[pool release];
-			pool = [[NSAutoreleasePool alloc] init];
-		}
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
+            if (!forcedContextIsSticky || self.forceOneFullUpdate) {
+                [self doUpdateForReal];
+                
+                // Flush auto-release pool
+                [pool release];
+                pool = [[NSAutoreleasePool alloc] init];
+            }
+        }
 
 		[updatingLock unlockWithCondition:0];
 	}
@@ -1415,8 +1447,8 @@
 }
 - (void) setScreenSaverInActive:(NSNotification *) notification {
     [self setScreenSaverRunning:NO];
-    [self scheduleActionSet:screensaverActionDepartureQueue];
-    [self scheduleActionSet:screensaverActionArrivalQueue];
+    [self scheduleActions:screensaverActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+    [self scheduleActions:screensaverActionArrivalQueue   usingReverseDelays:NO  maxDelay:NULL];
     [screensaverActionArrivalQueue removeAllObjects];
     [screensaverActionDepartureQueue removeAllObjects];
     DSLog(@"Screen saver is not running");
@@ -1433,8 +1465,8 @@
 
 - (void) setScreenLockInActive:(NSNotification *) notification {
     [self setScreenLocked:NO];
-    [self scheduleActionSet:screenLockActionDepartureQueue];
-    [self scheduleActionSet:screenLockActionArrivalQueue];
+    [self scheduleActions:screenLockActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+    [self scheduleActions:screenLockActionArrivalQueue   usingReverseDelays:NO  maxDelay:NULL];
     [screenLockActionDepartureQueue removeAllObjects];
     [screenLockActionArrivalQueue removeAllObjects];
     DSLog(@"screen lock becoming inactive");
