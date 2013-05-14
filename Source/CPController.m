@@ -974,38 +974,35 @@
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:max_delay]];
 }
 
-- (void)triggerArrivalActions:(NSString *)toUUID {
+- (void)addArrivalActionsForContext:(NSString *)contextUUID toWaitQueuesOrToActionSet:(NSMutableArray *)actionSet {
 	NSArray *actions = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Actions"];
 
-	NSMutableArray *set = [NSMutableArray array];
 	for (NSDictionary *action in actions) {
+		if (![action[@"context"] isEqualToString:contextUUID] || ![action[@"enabled"] boolValue]) {
+			continue;
+        }
+
 		NSString *when = action[@"when"];
-		if (!([when isEqualToString:@"Arrival"] || [when isEqualToString:@"Both"]))
+		if (!([when isEqualToString:@"Arrival"] || [when isEqualToString:@"Both"])) {
 			continue;
-		if (![action[@"context"] isEqualToString:toUUID])
-			continue;
-		if (![action[@"enabled"] boolValue])
-			continue;
+        }
         
         @try {
-            if ([[Action classForType:action[@"type"]] shouldWaitForScreenUnlock] && screenLocked) {
+            if (screenLocked && [[Action classForType:action[@"type"]] shouldWaitForScreenUnlock]) {
                 [screenLockActionArrivalQueue addObject:[Action actionFromDictionary:action]];
             }
-            else if ([[Action classForType:action[@"type"]] shouldWaitForScreensaverExit] && screenSaverRunning) {
+            else if (screenSaverRunning && [[Action classForType:action[@"type"]] shouldWaitForScreensaverExit]) {
                 [screensaverActionArrivalQueue addObject:[Action actionFromDictionary:action]];
             }
             else {
-                [set addObject:[Action actionFromDictionary:action]];
+                [actionSet addObject:[Action actionFromDictionary:action]];
             }
-            
         }
         @catch (NSException *exception) {
             DSLog(@"ERROR: %@",NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
         }
 		
 	}
-
-	[self scheduleActionSet:set];
 }
 
 #pragma mark Context switching
@@ -1067,10 +1064,13 @@
 	}
 
 	// Execute all the "Arrival" actions
+    NSMutableArray *arrivalActions = [NSMutableArray array];
     for (Context *ctxt in entering_walk) {
 		DSLog(@"Arrive at %@", [ctxt name]);
-		[self triggerArrivalActions:[ctxt uuid]];
+        [self addArrivalActionsForContext:[ctxt uuid] toWaitQueuesOrToActionSet:arrivalActions];
 	}
+
+    [self scheduleActionSet:arrivalActions];
 
 	[updatingSwitchingLock unlock];
 
