@@ -58,27 +58,34 @@ static void powerAdapterChangedCallBack();
 	OSAtomicDecrement32(&actionsInProgress);
 }
 
+- (void)forceUpdateForReal {
+    [updatingLock lock];
+    // Call update for real (in case of smoothing, call twice)
+    [self doUpdateForReal];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
+        [self doUpdateForReal];
+    }
+    [updatingLock unlockWithCondition:0];
+}
+
+
 void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument) {
 	switch (messageType) {
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
 			// entering sleep
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
 			DSLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
 			
 			// Hack: we need to do an extra check (2 if smoothing is enabled) right before sleeping
 			//		 otherwise the sleep rule won't be triggered
 			[NSThread sleepForTimeInterval:2];
-			
-			// Call update for real (in case of smoothing, call twice)
+
 #ifdef DEBUG_MODE
-			DSLog(@"Sleep callback: calling doUpdateForReal");
+			DSLog(@"Sleep callback: force calling doUpdateForReal");
 #endif
-			[cp_controller doUpdateForReal];
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
-				[cp_controller doUpdateForReal];
-            }
-			
+			[cp_controller forceUpdateForReal];
+            
 			// wait until all actions finish
 			while (actionsInProgress > 0) {
 				usleep(100);

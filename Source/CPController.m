@@ -242,10 +242,10 @@
         [rule release];
     }
 
-    self.rules = rules; // atomic
-
     [[NSUserDefaults standardUserDefaults] setObject:rules forKey:@"Rules"];
 
+    self.rules = rules; // atomic
+    
     [rules release];
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -765,12 +765,12 @@
 
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
-    
+
     if (!screenLocked && (([screenLockActionArrivalQueue count] > 0) || ([screenLockActionDepartureQueue count] > 0))) {
         [self executeActionSet:screenLockActionDepartureQueue];
         [self executeActionSet:screenLockActionArrivalQueue];
     }
-    
+
     if (!screenSaverRunning && (([screensaverActionArrivalQueue count] > 0) ||
                                 ([screensaverActionDepartureQueue count] > 0))) {
         [self executeActionSet:screensaverActionDepartureQueue];
@@ -786,9 +786,12 @@
 														userInfo: nil
 														 repeats: NO] retain];
 	}
-    
-	[updatingLock lock];
-	[updatingLock unlockWithCondition:1];
+
+    // if the (read) update is already in progress, don't block tha main tread to be waiting for it:
+    // let the next (real) update be on the next timer tick
+    if ([updatingLock tryLock]) {
+        [updatingLock unlockWithCondition:1];
+    }
 }
 
 - (NSArray *)getRulesThatMatchAndSetChangeFlag:(BOOL *)flag {
@@ -1126,9 +1129,11 @@
 	[self forceSwitch:sender];
 }
 
+
 #pragma mark Thread stuff
 
-// this method is the meat of ControlPlane, it is the engine that 
+
+// this method is the meat of ControlPlane, it is the engine that
 // determines if matching rules add up to the required confidence level
 // and initiates a switch from one context to another
 
@@ -1381,29 +1386,31 @@
 
 
 
-- (void)goingToSleep:(id)arg
-{
-    // clear the queued actions on sleep
-    // in case the machine woke up but the screen saver
-    // was never exited or the screen was never unlocked
-    // but then the machine went back to sleep
-    
-    // this might cause an issue with anyone who does an 
-    // immediate action (not delayed at all) at sleep
-    [self setGoingToSleep:YES];
-    [screensaverActionArrivalQueue removeAllObjects];
-    [screensaverActionDepartureQueue removeAllObjects];
-    [screenLockActionDepartureQueue removeAllObjects];
-    [screenLockActionArrivalQueue removeAllObjects];
-	DSLog(@"Stopping update thread for sleep.");
-	[updatingTimer setFireDate:[NSDate distantFuture]];
+- (void)goingToSleep:(id)arg {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // clear the queued actions on sleep
+        // in case the machine woke up but the screen saver
+        // was never exited or the screen was never unlocked
+        // but then the machine went back to sleep
+        
+        // this might cause an issue with anyone who does an
+        // immediate action (not delayed at all) at sleep
+        [self setGoingToSleep:YES];
+        [screensaverActionArrivalQueue removeAllObjects];
+        [screensaverActionDepartureQueue removeAllObjects];
+        [screenLockActionDepartureQueue removeAllObjects];
+        [screenLockActionArrivalQueue removeAllObjects];
+        DSLog(@"Stopping update thread for sleep.");
+        [updatingTimer setFireDate:[NSDate distantFuture]];
+    });
 }
 
-- (void)wakeFromSleep:(id)arg
-{
-    [self setGoingToSleep:NO];
-	DSLog(@"Starting update thread after sleep.");
-	[updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+- (void)wakeFromSleep:(id)arg{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setGoingToSleep:NO];
+        DSLog(@"Starting update thread after sleep.");
+        [updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+    });
 }
 
 #pragma mark -
