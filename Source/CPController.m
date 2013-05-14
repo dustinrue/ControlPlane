@@ -687,7 +687,7 @@
 
 - (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
-        [CPNotifications postNotification:title withMessage:message];
+        [CPNotifications postNotification:[[title copy] autorelease] withMessage:[[message copy] autorelease]];
     }
 }
 
@@ -767,14 +767,14 @@
     // but the screen is not locked and the screen saver is not running
 
     if (!screenLocked && (([screenLockActionArrivalQueue count] > 0) || ([screenLockActionDepartureQueue count] > 0))) {
-        [self executeActionSet:screenLockActionDepartureQueue];
-        [self executeActionSet:screenLockActionArrivalQueue];
+        [self scheduleActionSet:screenLockActionDepartureQueue];
+        [self scheduleActionSet:screenLockActionArrivalQueue];
     }
 
     if (!screenSaverRunning && (([screensaverActionArrivalQueue count] > 0) ||
                                 ([screensaverActionDepartureQueue count] > 0))) {
-        [self executeActionSet:screensaverActionDepartureQueue];
-        [self executeActionSet:screensaverActionArrivalQueue];
+        [self scheduleActionSet:screensaverActionDepartureQueue];
+        [self scheduleActionSet:screensaverActionArrivalQueue];
     }
 
 	// Check timer interval
@@ -835,90 +835,84 @@
 // a new thread
 - (void)executeAction:(id)arg {
 	@autoreleasepool {
-        Action *action = (Action *) arg;
-        
         NSString *errorString;
-        if (![action execute:&errorString]) {
-            [self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Failure", @"Growl message title")] copy] autorelease] withMessage:[[errorString copy] autorelease]];
+        if (![(Action *) arg execute:&errorString]) {
+            [self postUserNotification:NSLocalizedString(@"Failure", @"Growl message title") withMessage:errorString];
         }
         
         [self decreaseActionsInProgress];
     }
 }
 
-// (Private) in a new thread
-// Parameter is an NSArray of actions; delay will be taken from the first one
-- (void)executeActionSetWithDelay:(id)arg
-{
-	NSArray *actions = (NSArray *) arg;
-	if ([actions count] == 0)
-		return;
+// (Private) in a separate thread
+// Parameter is an NSArray of actions
+- (void)executeActionSetNow:(NSArray *)actions {
+    @autoreleasepool {
+        // Aggregate notification messages for all actions
+        if ([actions count] > 0) {
+            NSString *notificationTitle, *notificationMessage;
+            if ([actions count] == 1) {
+                notificationTitle = NSLocalizedString(@"Performing Action", @"Growl message title");
+                notificationMessage = [actions[0] description];
+            } else {
+                notificationTitle = NSLocalizedString(@"Performing Actions", @"Growl message title");
+                notificationMessage = [@"* " stringByAppendingString:[actions componentsJoinedByString:@"\n* "]];
+            }
+            [self postUserNotification:notificationTitle withMessage:notificationMessage];
+        }
+        
+        for (Action *action in actions) {
+            [self increaseActionsInProgress];
+            [NSThread detachNewThreadSelector:@selector(executeAction:)
+                                     toTarget:self
+                                   withObject:action];
+        }
+    }
+}
 
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+- (void)executeActionSet:(NSArray *)actions withDelay:(NSTimeInterval)delay {
+    [self increaseActionsInProgress];
 
-	NSTimeInterval delay = [[[actions objectAtIndex:0] valueForKey:@"delay"] doubleValue];
-	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:delay]];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self executeActionSetNow:actions];
 
-	// Aggregate growl messages
-	NSString *growlTitle = NSLocalizedString(@"Performing Action", @"Growl message title");
-	NSString *growlMessage = [[actions objectAtIndex:0] description];
-	if ([actions count] > 1) {
-		growlTitle = NSLocalizedString(@"Performing Actions", @"Growl message title");
-		growlMessage = [NSString stringWithFormat:@"* %@", [actions componentsJoinedByString:@"\n* "]];
-	}
-	[self postUserNotification:[[growlTitle copy] autorelease] withMessage:[[growlMessage copy] autorelease]];
-
-	for (Action *action in actions) {
-		[self increaseActionsInProgress];
-		[NSThread detachNewThreadSelector:@selector(executeAction:)
-								 toTarget:self
-							   withObject:action];
-	}
-	
-	[self decreaseActionsInProgress];
-
-	[pool release];
+        [self decreaseActionsInProgress];
+    });
 }
 
 // (Private) This will group the growling together. The parameter should be an array of Action objects.
-- (void)executeActionSet:(NSMutableArray *)actions
-{
+- (void)scheduleActionSet:(NSMutableArray *)actions {
 	if ([actions count] == 0)
 		return;
 
-	static double batchThreshold = 0.25;		// maximum grouping interval size
+	static const double batchThreshold = 0.25;		// maximum grouping interval size
 
 	// Sort by delay
 	[actions sortUsingSelector:@selector(compareDelay:)];
 
-	NSMutableArray *batch = [NSMutableArray array];
-	NSEnumerator *en = [actions objectEnumerator];
-	Action *action;
-	while ((action = [en nextObject])) {
-		if ([batch count] == 0) {
-			[batch addObject:action];
-			continue;
+	NSMutableArray *batch = nil;
+    NSTimeInterval batchDelay = 0.0, maxBatchDelay = 0.0;
+	for (Action *action in actions) {
+		if (batch) {
+            if ([[action valueForKey:@"delay"] doubleValue] < maxBatchDelay) {
+                [batch addObject:action];
+                continue;
+            }
+            
+            // Completed a batch
+            [self executeActionSet:batch withDelay:batchDelay];
 		}
-		double maxBatchDelay = [[[batch objectAtIndex:0] valueForKey:@"delay"] doubleValue] + batchThreshold;
-		if ([[action valueForKey:@"delay"] doubleValue] < maxBatchDelay) {
-			[batch addObject:action];
-			continue;
-		}
-		// Completed a batch
-		[self increaseActionsInProgress];
-		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
-								 toTarget:self
-							   withObject:batch];
+
+        // Start a new batch with the current action
 		batch = [NSMutableArray arrayWithObject:action];
-		continue;
+        batchDelay = [[action valueForKey:@"delay"] doubleValue];
+        maxBatchDelay = batchDelay + batchThreshold;
 	}
 
 	// Final batch
 	if ([batch count] > 0) {
-		[self increaseActionsInProgress];
-		[NSThread detachNewThreadSelector:@selector(executeActionSetWithDelay:)
-								 toTarget:self
-							   withObject:batch];
+        [self executeActionSet:batch withDelay:batchDelay];
 	}
 }
 
@@ -974,7 +968,7 @@
         }
 	}
 
-	[self executeActionSet:set];
+	[self scheduleActionSet:set];
 
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:max_delay]];
@@ -1011,7 +1005,7 @@
 		
 	}
 
-	[self executeActionSet:set];
+	[self scheduleActionSet:set];
 }
 
 #pragma mark Context switching
@@ -1058,9 +1052,9 @@
         }
     });
     
-	[self postUserNotification:[[[NSString stringWithFormat:NSLocalizedString(@"Changing Context", @"Growl message title")] copy] autorelease]
-	  withMessage:[[[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
-								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, confMsg] copy] autorelease]];
+	[self postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title")
+	  withMessage:[NSString stringWithFormat:NSLocalizedString(@"Changing to context '%@' %@.",
+								   @"First parameter is the context name, second parameter is the confidence value, or 'as default context'"),	ctxt_path, confMsg]];
     
 	// Update force context menu
 	NSMenu *menu = [forceContextMenuItem submenu];
@@ -1421,8 +1415,8 @@
 }
 - (void) setScreenSaverInActive:(NSNotification *) notification {
     [self setScreenSaverRunning:NO];
-    [self executeActionSet:screensaverActionDepartureQueue];
-    [self executeActionSet:screensaverActionArrivalQueue];
+    [self scheduleActionSet:screensaverActionDepartureQueue];
+    [self scheduleActionSet:screensaverActionArrivalQueue];
     [screensaverActionArrivalQueue removeAllObjects];
     [screensaverActionDepartureQueue removeAllObjects];
     DSLog(@"Screen saver is not running");
@@ -1439,8 +1433,8 @@
 
 - (void) setScreenLockInActive:(NSNotification *) notification {
     [self setScreenLocked:NO];
-    [self executeActionSet:screenLockActionDepartureQueue];
-    [self executeActionSet:screenLockActionArrivalQueue];
+    [self scheduleActionSet:screenLockActionDepartureQueue];
+    [self scheduleActionSet:screenLockActionArrivalQueue];
     [screenLockActionDepartureQueue removeAllObjects];
     [screenLockActionArrivalQueue removeAllObjects];
     DSLog(@"screen lock becoming inactive");
