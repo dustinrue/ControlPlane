@@ -787,8 +787,8 @@
 														 repeats: NO] retain];
 	}
 
-    // if the (read) update is already in progress, don't block tha main tread to be waiting for it:
-    // let the next (real) update be on the next timer tick
+    // if the (real) update is already in progress, don't block the main thread to be waiting for it:
+    // just postpone the update till the update timer fires again
     if ([updatingLock tryLock]) {
         [updatingLock unlockWithCondition:1];
     }
