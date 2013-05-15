@@ -1197,7 +1197,8 @@
         // use the newer style of context matching
         [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, id aGuess, BOOL *stop) {
             NSArray *guess = [self getMostConfidentContext:@{ uuid: aGuess }];
-            DSLog(@"currentGuess %@ should be %@", uuid, ([self guessMeetsConfidenceRequirement:guess]) ? @"enabled":@"disabled");
+            DSLog(@"currentGuess %@ should be %@", uuid,
+                  ([self guessMeetsConfidenceRequirement:guess]) ? @"enabled" : @"disabled");
         }];
     } else {
         // Update what the user sees in preferences
@@ -1240,25 +1241,27 @@
         
 		if ([currentContextTree count] == 0)
 			continue;	// Oops, something got busted along the way
-        
-		const int base_depth = [[[currentContextTree objectAtIndex:0] valueForKey:@"depth"] intValue];
+
+		const int base_depth = [[currentContextTree[0] valueForKey:@"depth"] intValue];
         const double currentRuleConfidence = [currentRule[@"confidence"] doubleValue];
 
 		for (Context *currentContext in currentContextTree) {
 			NSString *uuidOfCurrentContext = [currentContext uuid];
-			const int depth = [[currentContext valueForKey:@"depth"] intValue];
-			const double decay = 1.0 - (0.03 * (depth - base_depth));
-            
+
             // seed unconfidenceValue with what we've calcuated so far
 			NSNumber *unconfidenceValue = guesses[uuidOfCurrentContext];
-			
+
             // if the unconfidenceValue isn't set initilialize it to a sane default
-            if (!unconfidenceValue)
-				unconfidenceValue = @(1.0);
-            
+            if (!unconfidenceValue) {
+				unconfidenceValue = @1.0;
+            }
+
             // account for the amount of confidence this matching rule affects the guess
-			const double mult = currentRuleConfidence * decay;
+			const int depth = [[currentContext valueForKey:@"depth"] intValue];
+			double mult = 1.0 - (0.03 * (depth - base_depth)); // decay
+			mult *= currentRuleConfidence;
 			unconfidenceValue = @([unconfidenceValue doubleValue] * (1.0 - mult));
+
 #ifdef DEBUG_MODE
 			DSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
 #endif
