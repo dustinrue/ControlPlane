@@ -25,7 +25,6 @@
 	NSMenuItem *stickForcedContextMenuItem;
 
 	NSTimer *updatingTimer;
-	NSThread *updatingThread;
 	NSLock *updatingSwitchingLock;
 	NSConditionLock *updatingLock;
 	BOOL timeToDie;
