@@ -769,18 +769,22 @@
     if (!screenLocked) {
         if ([screenLockActionDepartureQueue count] > 0) {
             [self scheduleActions:screenLockActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+            [screenLockActionDepartureQueue removeAllObjects];
         }
         if ([screenLockActionArrivalQueue count] > 0) {
             [self scheduleActions:screenLockActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
+            [screenLockActionArrivalQueue removeAllObjects];
         }
     }
 
     if (!screenSaverRunning) {
         if ([screensaverActionDepartureQueue count] > 0) {
             [self scheduleActions:screensaverActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+            [screensaverActionDepartureQueue removeAllObjects];
         }
         if ([screensaverActionArrivalQueue count] > 0) {
             [self scheduleActions:screensaverActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
+            [screensaverActionArrivalQueue removeAllObjects];
         }
     }
 
