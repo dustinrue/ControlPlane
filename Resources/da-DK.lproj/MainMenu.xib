@@ -769,7 +769,7 @@
 										<string key="NSFrameSize">{435, 198}</string>
 										<reference key="NSSuperview" ref="982186366"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="1007950745"/>
+										<reference key="NSNextKeyView" ref="651013189"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1018,7 +1018,7 @@
 						<string key="NSFrame">{{20, 48}, {437, 216}}</string>
 						<reference key="NSSuperview" ref="764886370"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="651013189"/>
+						<reference key="NSNextKeyView" ref="982186366"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="496414959"/>
 						<reference key="NSHScroller" ref="1007950745"/>
@@ -1093,7 +1093,6 @@
 						<string key="NSFrame">{{67, 19}, {25, 22}}</string>
 						<reference key="NSSuperview" ref="764886370"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="700875448">
 							<int key="NSCellFlags">67108864</int>
@@ -7157,6 +7156,7 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 				<string key="1860.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1861.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="1861.IBShouldRemoveOnLegacySave"/>
+				<string key="1862.CustomClassName">SliderCellWithValue</string>
 				<string key="1862.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="1862.IBShouldRemoveOnLegacySave"/>
 				<string key="1863.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7648,6 +7648,14 @@ AAAAAAAAAAAAAHRleHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/SUUpdater.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SliderCellWithValue</string>
+					<string key="superclassName">NSSliderCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SliderCellWithValue.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

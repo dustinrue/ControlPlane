@@ -763,7 +763,7 @@
 										<string key="NSFrameSize">{438, 198}</string>
 										<reference key="NSSuperview" ref="136212862"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="215464208"/>
+										<reference key="NSNextKeyView" ref="44901239"/>
 										<bool key="NSEnabled">YES</bool>
 										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -1014,7 +1014,7 @@
 						<string key="NSFrame">{{20, 48}, {440, 216}}</string>
 						<reference key="NSSuperview" ref="889027356"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="44901239"/>
+						<reference key="NSNextKeyView" ref="136212862"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="662548180"/>
 						<reference key="NSHScroller" ref="215464208"/>
@@ -1089,7 +1089,6 @@
 						<string key="NSFrame">{{67, 19}, {25, 22}}</string>
 						<reference key="NSSuperview" ref="889027356"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="221425782">
 							<int key="NSCellFlags">67108864</int>
@@ -7422,6 +7421,7 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 					<string>1860.IBPluginDependency</string>
 					<string>1861.IBPluginDependency</string>
 					<string>1861.IBShouldRemoveOnLegacySave</string>
+					<string>1862.CustomClassName</string>
 					<string>1862.IBPluginDependency</string>
 					<string>1862.IBShouldRemoveOnLegacySave</string>
 					<string>1863.IBPluginDependency</string>
@@ -7742,6 +7742,7 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>SliderCellWithValue</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8399,6 +8400,14 @@ eHQAAAAAQ29weXJpZ2h0IEFwcGxlIENvbXB1dGVyLCBJbmMuLCAyMDA1AAAAAA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/SUUpdater.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SliderCellWithValue</string>
+					<string key="superclassName">NSSliderCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SliderCellWithValue.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
