@@ -209,48 +209,47 @@
 			@"General", @"name",
 			NSLocalizedString(@"General", "Preferences section"), @"display_name",
 			@"GeneralPrefs", @"icon",
-			[NSNumber numberWithBool:NO], @"resizeable",
 			generalPrefsView, @"view", nil],
 		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Contexts", @"name",
 			NSLocalizedString(@"Contexts", "Preferences section"), @"display_name",
 			@"ContextsPrefs", @"icon",
-			[NSNumber numberWithBool:NO], @"resizeable",
+            @YES, @"resizeableHeight",
 			contextsPrefsView, @"view", nil],
 		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"EvidenceSources", @"name",
 			NSLocalizedString(@"Evidence Sources", "Preferences section"), @"display_name",
 			@"EvidenceSourcesPrefs", @"icon",
-			[NSNumber numberWithBool:NO], @"resizeable",
+            @YES, @"resizeableHeight",
 			evidenceSourcesPrefsView, @"view", nil],
 		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Rules", @"name",
 			NSLocalizedString(@"Rules", "Preferences section"), @"display_name",
 			@"RulesPrefs", @"icon",
-			[NSNumber numberWithBool:YES], @"resizeable",
+            @YES, @"resizeableWidth",
+            @YES, @"resizeableHeight",
 			rulesPrefsView, @"view", nil],
 		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Actions", @"name",
 			NSLocalizedString(@"Actions", "Preferences section"), @"display_name",
 			@"ActionsPrefs", @"icon",
-			[NSNumber numberWithBool:YES], @"resizeable",
+            @YES, @"resizeableWidth",
+            @YES, @"resizeableHeight",
 			actionsPrefsView, @"view", nil],
 		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"Advanced", @"name",
 			NSLocalizedString(@"Advanced", "Preferences section"), @"display_name",
 			@"AdvancedPrefs", @"icon",
-			[NSNumber numberWithBool:NO], @"resizeable",
+            @YES, @"resizeableHeight",
 			advancedPrefsView, @"view", nil],
 		nil] retain];
 
 	// Store initial sizes of each prefs NSView as their "minimum" size
-	NSEnumerator *en = [prefsGroups objectEnumerator];
-	NSMutableDictionary *group;
-	while ((group = [en nextObject])) {
-		NSView *view = [group valueForKey:@"view"];
+	for (NSMutableDictionary *group in prefsGroups) {
+		NSView *view = group[@"view"];
 		NSSize frameSize = [view frame].size;
-		[group setValue:[NSNumber numberWithFloat:frameSize.width] forKey:@"min_width"];
-		[group setValue:[NSNumber numberWithFloat:frameSize.height] forKey:@"min_height"];
+		group[@"min_width"]  = @(frameSize.width);
+		group[@"min_height"] = @(frameSize.height);
 	}
 
 	// Init. toolbar
@@ -258,7 +257,7 @@
 	[prefsToolbar setDelegate:self];
 	[prefsToolbar setAllowsUserCustomization:NO];
 	[prefsToolbar setAutosavesConfiguration:NO];
-        [prefsToolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+    [prefsToolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
 	[prefsWindow setToolbar:prefsToolbar];
 
 	currentPrefsGroup = nil;
@@ -320,9 +319,6 @@
 
 - (void)onPrefsWindowClose {
     [self stopLogBufferTimer];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [NSApp deactivate];
-    });
 }
 
 - (IBAction)runPreferences:(id)sender {
@@ -434,12 +430,16 @@
 	if ([group objectForKey:@"last_width"])
 		size = NSMakeSize([[group valueForKey:@"last_width"] floatValue],
 				  [[group valueForKey:@"last_height"] floatValue]);
-	BOOL resizeable = [[group valueForKey:@"resizeable"] boolValue];
-	[prefsWindow setShowsResizeIndicator:resizeable];
 
 	[prefsWindow setContentView:blankPrefsView];
-	[prefsWindow setTitle:[NSString stringWithFormat:@"ControlPlane - %@", [group objectForKey:@"display_name"]]];
-	[self resizeWindowToSize:size withMinSize:minSize limitMaxSize:!resizeable];
+	[prefsWindow setTitle:[@"ControlPlane - " stringByAppendingString:[group objectForKey:@"display_name"]]];
+
+	BOOL resizeableWidth  = [group[@"resizeableWidth"] boolValue];
+    BOOL resizeableHeight = [group[@"resizeableHeight"] boolValue];
+    [self resizeWindowToSize:size withMinSize:minSize
+               limitMaxWidth:!resizeableWidth
+              limitMaxHeight:!resizeableHeight];
+	[prefsWindow setShowsResizeIndicator:(resizeableWidth || resizeableHeight)];
 
 	if ([prefsToolbar respondsToSelector:@selector(setSelectedItemIdentifier:)])
 		[prefsToolbar setSelectedItemIdentifier:groupId];
@@ -447,17 +447,16 @@
 	[self setValue:groupId forKey:@"currentPrefsGroup"];
 }
 
-- (void)resizeWindowToSize:(NSSize)size withMinSize:(NSSize)minSize limitMaxSize:(BOOL)limitMaxSize
-{
-	NSRect frame;
-	float tbHeight, newHeight, newWidth;
+- (void)resizeWindowToSize:(NSSize)size
+               withMinSize:(NSSize)minSize
+             limitMaxWidth:(BOOL)limitMaxWidth
+            limitMaxHeight:(BOOL)limitMaxHeight {
 
-	tbHeight = [self toolbarHeight];
+	float tbHeight = [self toolbarHeight];
+	float newWidth  = size.width;
+	float newHeight = size.height;
 
-	newWidth = size.width;
-	newHeight = size.height;
-
-	frame = [NSWindow contentRectForFrameRect:[prefsWindow frame]
+	NSRect frame = [NSWindow contentRectForFrameRect:[prefsWindow frame]
 					styleMask:[prefsWindow styleMask]];
 
 	frame.origin.y += frame.size.height;
@@ -471,9 +470,12 @@
 	[prefsWindow setFrame:frame display:YES animate:YES];
 
 	minSize.height += [self titleBarHeight];
-	[prefsWindow setMinSize:minSize];
 
-	[prefsWindow setMaxSize:(limitMaxSize ? minSize : NSMakeSize(FLT_MAX, FLT_MAX))];
+    NSSize maxSize = NSMakeSize((limitMaxWidth  ? minSize.width  : FLT_MAX),
+                                (limitMaxHeight ? minSize.height : FLT_MAX));
+
+	[prefsWindow setMinSize:minSize];
+	[prefsWindow setMaxSize:maxSize];
 }
 
 #pragma mark Toolbar delegates
