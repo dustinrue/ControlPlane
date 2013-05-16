@@ -365,55 +365,47 @@
 
 #pragma mark Prefs group switching
 
-- (NSMutableDictionary *)groupById:(NSString *)groupId
-{
-	NSEnumerator *en = [prefsGroups objectEnumerator];
-	NSMutableDictionary *group;
-
-	while ((group = [en nextObject])) {
-		if ([[group objectForKey:@"name"] isEqualToString:groupId])
+- (NSMutableDictionary *)groupById:(NSString *)groupId {
+	for (NSMutableDictionary *group in prefsGroups) {
+		if ([group[@"name"] isEqualToString:groupId]) {
 			return group;
-	}
-
+        }
+    }
 	return nil;
 }
 
-- (float)toolbarHeight
-{
+- (float)toolbarHeight {
 	NSRect contentRect;
 
 	contentRect = [NSWindow contentRectForFrameRect:[prefsWindow frame] styleMask:[prefsWindow styleMask]];
 	return (NSHeight(contentRect) - NSHeight([[prefsWindow contentView] frame]));
 }
 
-- (float)titleBarHeight
-{
+- (float)titleBarHeight {
 	return [prefsWindow frame].size.height - [[prefsWindow contentView] frame].size.height - [self toolbarHeight];
 }
 
-- (void)switchToViewFromToolbar:(NSToolbarItem *)item
-{
+- (void)switchToViewFromToolbar:(NSToolbarItem *)item {
 	[self switchToView:[item itemIdentifier]];
 }
 
-- (void)switchToView:(NSString *)groupId
-{
+- (void)switchToView:(NSString *)groupId {
 	NSDictionary *group = [self groupById:groupId];
 	if (!group) {
 		NSLog(@"Bad prefs group '%@' to switch to!", groupId);
 		return;
 	}
 
-	if (currentPrefsView == [group objectForKey:@"view"])
+	if (currentPrefsView == group[@"view"]) {
 		return;
+    }
 
 	if (currentPrefsGroup) {
 		// Store current size
-		NSMutableDictionary *oldGroup = [self groupById:currentPrefsGroup];
 		NSSize size = [prefsWindow frame].size;
-		size.height -= ([self toolbarHeight] + [self titleBarHeight]);
-		[oldGroup setValue:[NSNumber numberWithFloat:size.width] forKey:@"last_width"];
-		[oldGroup setValue:[NSNumber numberWithFloat:size.height] forKey:@"last_height"];
+		NSMutableDictionary *oldGroup = [self groupById:currentPrefsGroup];
+		oldGroup[@"last_width"]  = @(size.width);
+		oldGroup[@"last_height"] = @(size.height - [self toolbarHeight] - [self titleBarHeight]);
 	}
 
 	if ([groupId isEqualToString:@"Advanced"]) {
@@ -422,19 +414,18 @@
         [self stopLogBufferTimer];
     }
 
-	currentPrefsView = [group objectForKey:@"view"];
+	currentPrefsView = group[@"view"];
     
-	NSSize minSize = NSMakeSize([[group valueForKey:@"min_width"] floatValue],
-			       [[group valueForKey:@"min_height"] floatValue]);
+	NSSize minSize = NSMakeSize([group[@"min_width"] floatValue], [group[@"min_height"] floatValue]);
 	NSSize size = minSize;
-	if ([group objectForKey:@"last_width"])
-		size = NSMakeSize([[group valueForKey:@"last_width"] floatValue],
-				  [[group valueForKey:@"last_height"] floatValue]);
+	if (group[@"last_width"] || group[@"last_height"]) {
+		size = NSMakeSize([group[@"last_width"] floatValue], [group[@"last_height"] floatValue]);
+    }
 
 	[prefsWindow setContentView:blankPrefsView];
-	[prefsWindow setTitle:[@"ControlPlane - " stringByAppendingString:[group objectForKey:@"display_name"]]];
+	[prefsWindow setTitle:[@"ControlPlane - " stringByAppendingString:group[@"display_name"]]];
 
-	BOOL resizeableWidth  = [group[@"resizeableWidth"] boolValue];
+	BOOL resizeableWidth  = [group[@"resizeableWidth"]  boolValue];
     BOOL resizeableHeight = [group[@"resizeableHeight"] boolValue];
     [self resizeWindowToSize:size withMinSize:minSize
                limitMaxWidth:!resizeableWidth
@@ -443,6 +434,7 @@
 
 	if ([prefsToolbar respondsToSelector:@selector(setSelectedItemIdentifier:)])
 		[prefsToolbar setSelectedItemIdentifier:groupId];
+
 	[prefsWindow setContentView:currentPrefsView];
 	[self setValue:groupId forKey:@"currentPrefsGroup"];
 }
@@ -464,8 +456,7 @@
 	frame.size.width = newWidth;
 	frame.size.height = newHeight + tbHeight;
 
-	frame = [NSWindow frameRectForContentRect:frame
-					styleMask:[prefsWindow styleMask]];
+	frame = [NSWindow frameRectForContentRect:frame styleMask:[prefsWindow styleMask]];
 
 	[prefsWindow setFrame:frame display:YES animate:YES];
 
@@ -486,7 +477,7 @@
 	NSDictionary *group;
 
 	while ((group = [en nextObject])) {
-		if ([[group objectForKey:@"name"] isEqualToString:groupId])
+		if ([group[@"name"] isEqualToString:groupId])
 			break;
 	}
 	if (!group) {
@@ -504,26 +495,21 @@
 	return [item autorelease];
 }
 
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
-{
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[prefsGroups count]];
 
-	NSEnumerator *en = [prefsGroups objectEnumerator];
-	NSDictionary *group;
-
-	while ((group = [en nextObject]))
-		[array addObject:[group objectForKey:@"name"]];
+	for (NSDictionary *group in prefsGroups) {
+		[array addObject:group[@"name"]];
+    }
 
 	return array;
 }
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
-{
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
 	return [self toolbarAllowedItemIdentifiers:toolbar];
 }
 
-- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
-{
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
 	return [self toolbarAllowedItemIdentifiers:toolbar];
 }
 
@@ -539,11 +525,11 @@
 	if ([[sender representedObject] isKindOfClass:[NSArray class]]) {
 		// specific type
 		NSArray *arr = [sender representedObject];
-		src = [arr objectAtIndex:0];
-		type = [arr objectAtIndex:1];
+		src = arr[0];
+		type = arr[1];
 	} else {
 		src = [sender representedObject];
-		type = [[src typesOfRulesMatched] objectAtIndex:0];
+		type = [src typesOfRulesMatched][0];
 	}
 	
 	[src setContextMenu:[contextsDataSource hierarchicalMenu]];
@@ -568,18 +554,16 @@
 	id sel = [[rulesController selectedObjects] lastObject];
 	if (!sel)
 		return;
+
 	NSString *type = [sel valueForKey:@"type"];
 	NSEnumerator *en = [evidenceSources sourceEnumerator];
 	EvidenceSource *src;
-	while ((src = [en nextObject])) {
-		if (![src matchesRulesOfType:type])
-			continue;
+	while ((src = [en nextObject]) && ![src matchesRulesOfType:type]) {
 		// TODO: use some more intelligent selection method?
 		// This just gets the first evidence source that matches
 		// this rule type, so it will probably break if we have
 		// multiple evidence sources that match/suggest the same
 		// rule types (e.g. *MAC* rules!!!)
-		break;
 	}
 	if (!src)
 		return;
