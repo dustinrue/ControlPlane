@@ -30,11 +30,11 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
     NSString *serverAddress = rule[@"parameter"];
-	if (!serverAddress) {
-		return NO;	// corrupted rule
+	if (serverAddress) {
+        return [((DNSEvidenceSource *) self.evidenceSource).dnsServers containsObject:serverAddress];
     }
 
-    return [((DNSEvidenceSource *) self.evidenceSource).dnsServers containsObject:serverAddress];
+    return NO;	// corrupted rule
 }
 
 static BOOL isValidIPAddress(NSString *value) {
@@ -90,7 +90,7 @@ static BOOL isValidIPAddress(NSString *value) {
         }
         [addressComboBox selectItemWithObjectValue:serverAddress];
     } else {
-		serverAddress = ([currentServers count]) ? ([currentServers objectAtIndex:0]) : (@"");
+		serverAddress = ([currentServers count]) ? (currentServers[0]) : (@"");
     }
 
     [addressComboBox setStringValue:serverAddress];

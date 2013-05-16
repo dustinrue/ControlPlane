@@ -88,7 +88,7 @@
         }
         [domainComboBox selectItemWithObjectValue:domainName];
     } else {
-		domainName = ([currentDomains count]) ? ([currentDomains objectAtIndex:0]) : (@"");
+		domainName = ([currentDomains count]) ? (currentDomains[0]) : (@"");
     }
 
     NSNumber *isWildcard = rule[@"parameter.isWildcard"];
