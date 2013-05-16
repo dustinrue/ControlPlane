@@ -38,7 +38,6 @@ fi
 codesign -v -vv $APP
 codesign -f -s "Developer ID Application: Dustin Rue" -vv $APP
 codesign -v -vv $APP
-read -p "Did code sign work?"
 
 
 # Create an initial disk image (32 megs)
