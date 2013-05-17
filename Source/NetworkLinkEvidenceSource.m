@@ -117,7 +117,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), linkChange, &ctxt);
 
-    dispatch_queue_t queue = dispatch_queue_create("ControlPlane.NetworkLink", NULL);
+    dispatch_queue_t queue = dispatch_queue_create("com.dustinrue.ControlPlane.NetworkLink", NULL);
     SCDynamicStoreSetDispatchQueue(store, queue);
 
     // Notify on IPv4/IPv6 updates on all services

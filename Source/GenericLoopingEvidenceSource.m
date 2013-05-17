@@ -61,7 +61,7 @@
     }
     
     if (!serialQueue) {
-        NSString *queueName = [[NSString alloc] initWithFormat:@"ControlPlane.%@",[self class]];
+        NSString *queueName = [[NSString alloc] initWithFormat:@"com.dustinrue.ControlPlane.%@",[self class]];
         serialQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
         [queueName release];
     }

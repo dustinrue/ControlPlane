@@ -152,7 +152,7 @@ typedef struct {
 		return;
     }
 
-    serialQueue = dispatch_queue_create("ControlPlane.DNSEvidenceSource", DISPATCH_QUEUE_SERIAL);
+    serialQueue = dispatch_queue_create("com.dustinrue.ControlPlane.DNSEvidenceSource", DISPATCH_QUEUE_SERIAL);
     if (!serialQueue) {
         [self doStop];
         return;
