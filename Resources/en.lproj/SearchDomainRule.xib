@@ -75,7 +75,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="218036261">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">DNS Search Domain:</string>
+								<string key="NSContents">DNS Search Domain (exact matching):</string>
 								<object class="NSFont" key="NSSupport" id="278732731">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>

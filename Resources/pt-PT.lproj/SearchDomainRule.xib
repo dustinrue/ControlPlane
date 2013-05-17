@@ -75,7 +75,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="36817624">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">DNS Search Domain:</string>
+								<string key="NSContents">DNS Search Domain (exact matching):</string>
 								<object class="NSFont" key="NSSupport" id="815894670">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
@@ -713,20 +713,6 @@
 						<object class="IBActionInfo" key="closeSheetWithOK:">
 							<string key="name">closeSheetWithOK:</string>
 							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="ruleConfidenceSlider">NSSlider</string>
-						<string key="ruleContext">NSPopUpButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="ruleConfidenceSlider">
-							<string key="name">ruleConfidenceSlider</string>
-							<string key="candidateClassName">NSSlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ruleContext">
-							<string key="name">ruleContext</string>
-							<string key="candidateClassName">NSPopUpButton</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
