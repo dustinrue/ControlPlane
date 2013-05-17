@@ -102,7 +102,7 @@ typedef struct {
     NSSet *domains;
 } EnumeratedDNSParams;
 
-+ (EnumeratedDNSParams)enumerateFromStore:(SCDynamicStoreRef)store {
+- (EnumeratedDNSParams)enumerate {
     NSArray *dnsKeyPatterns = @[ @"Setup:/Network/Service/[^/]+/DNS", @"State:/Network/Service/[^/]+/DNS" ];
     CFDictionaryRef dict = SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) dnsKeyPatterns);
     if (!dict) {
@@ -135,10 +135,12 @@ typedef struct {
 	return (EnumeratedDNSParams) {servers, domains};
 }
 
+static char * const strQueueIsRunning = "queueIsRunning";
+
 - (void)doFullUpdate {
-    if (store) {
+    if (dispatch_get_specific(strQueueIsRunning)) {
         @autoreleasepool {
-            EnumeratedDNSParams params = [[self class] enumerateFromStore:store];
+            EnumeratedDNSParams params = [self enumerate];
             
             self.searchDomains = (NSSet *) params.domains;
             self.dnsServers = (NSSet *) params.servers;
@@ -165,6 +167,9 @@ typedef struct {
         [self doStop];
         return;
     }
+    
+    dispatch_queue_set_specific(serialQueue, strQueueIsRunning, strQueueIsRunning, NULL);
+    
     if (!SCDynamicStoreSetDispatchQueue(store, serialQueue)) {
         [self doStop];
         return;
@@ -195,15 +200,18 @@ typedef struct {
             dispatch_suspend(serialQueue);
 
             SCDynamicStoreSetDispatchQueue(store, NULL);
-            CFRelease(store);
-            store = NULL;
 
+            dispatch_queue_set_specific(serialQueue, strQueueIsRunning, NULL, NULL);
             dispatch_resume(serialQueue);
-            dispatch_sync(serialQueue, ^{}); // ensure the queue is empty
         }
 
         dispatch_release(serialQueue);
         serialQueue = NULL;
+    }
+
+    if (store) {
+        CFRelease(store);
+        store = NULL;
     }
 
     self.searchDomains = nil;
