@@ -11,13 +11,14 @@
 #import "ServerAddressRuleType.h"
 
 
+static char * const queueIsStopped = "queueIsStopped";
+
 @interface DNSEvidenceSource ()
 
 @property (atomic, retain, readwrite) NSSet *searchDomains;
 @property (atomic, retain, readwrite) NSSet *dnsServers;
 
-- (void)doFullUpdate;
-- (void)doStop;
+- (void)enumerate;
 
 @end
 
@@ -25,46 +26,47 @@
 #pragma mark C callbacks
 
 static void dnsChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
+    if (dispatch_get_specific(queueIsStopped) != queueIsStopped) {
+        @autoreleasepool {
 #ifdef DEBUG_MODE
-	NSLog(@"dnsChange called with changedKeys:\n%@", changedKeys);
+            NSLog(@"dnsChange called with changedKeys:\n%@", changedKeys);
 #endif
-    [(DNSEvidenceSource *) info doFullUpdate];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+            [(DNSEvidenceSource *) info enumerate];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+        }
+    }
 }
 
-static BOOL addDNSSearchDomainsToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutableSet *domains) {
-    const void *dnsParams;
-    if (!CFDictionaryGetValueIfPresent(keys, (CFStringRef) dnsKey, &dnsParams)) {
+static BOOL addDNSSearchDomainsToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSet *domains) {
+    NSDictionary *dnsParams = dict[dnsKey];
+    if (!dnsParams) {
         return NO;
     }
-    
+
     BOOL isAnyValueAdded = NO;
-    
-    const void *value;
-    if (CFDictionaryGetValueIfPresent((CFDictionaryRef) dnsParams, kSCPropNetDNSDomainName, &value)) {
-        [domains addObject:(NSString *) value];
+
+    NSString *domainName = dnsParams[(NSString *) kSCPropNetDNSDomainName];
+    if (domainName) {
+        [domains addObject:domainName];
         isAnyValueAdded = YES;
     }
-    if (CFDictionaryGetValueIfPresent((CFDictionaryRef) dnsParams, kSCPropNetDNSSearchDomains, &value)) {
-        [domains addObjectsFromArray:(NSArray *) value];
+
+    NSArray *searchDomains = dnsParams[(NSString *) kSCPropNetDNSSearchDomains];
+    if (searchDomains) {
+        [domains addObjectsFromArray:searchDomains];
         isAnyValueAdded = YES;
     }
-    
+
     return isAnyValueAdded;
 }
 
-static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutableSet *servers) {
-    const void *dnsParams;
-    if (!CFDictionaryGetValueIfPresent(keys, (CFStringRef) dnsKey, &dnsParams)) {
-        return NO;
-    }
-    
-    const void *value;
-    if (CFDictionaryGetValueIfPresent((CFDictionaryRef) dnsParams, kSCPropNetDNSServerAddresses, &value)) {
-        [servers addObjectsFromArray:(NSArray *) value];
+static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSet *servers) {
+    NSArray *serverAddresses = dict[dnsKey][(NSString *) kSCPropNetDNSServerAddresses];
+    if (serverAddresses) {
+        [servers addObjectsFromArray:serverAddresses];
         return YES;
     }
-    
+
     return NO;
 }
 
@@ -96,27 +98,29 @@ static BOOL addDNSServersToSet(CFDictionaryRef keys, NSString *dnsKey, NSMutable
 	[super dealloc];
 }
 
+- (void)removeAllDataCollected {
+    self.searchDomains = nil;
+    self.dnsServers = nil;
+    [self setDataCollected:NO];
+}
 
-typedef struct {
-    NSSet *servers;
-    NSSet *domains;
-} EnumeratedDNSParams;
-
-- (EnumeratedDNSParams)enumerate {
-    NSArray *dnsKeyPatterns = @[ @"Setup:/Network/Service/[^/]+/DNS", @"State:/Network/Service/[^/]+/DNS" ];
-    CFDictionaryRef dict = SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) dnsKeyPatterns);
+- (void)enumerate {
+    NSArray *dnsKeyPatterns = @[ @"S....:/Network/Service/[^/]+/DNS" ]; // Setup or State keys
+    NSDictionary *dict = (NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) dnsKeyPatterns);
     if (!dict) {
-        return (EnumeratedDNSParams) {nil, nil};
+        [self removeAllDataCollected];
+        return;
     }
 
 	NSMutableSet *servers = [NSMutableSet set], *domains = [NSMutableSet set];
-    NSMutableSet *servicesWithDNS = [NSMutableSet setWithCapacity:[(NSDictionary *) dict count]];
-    
-    // get all unique keys after stripping prefixes 'Setup:/Network/Service/' and 'State:/Network/Service/'
-    for (NSString *key in (NSDictionary *) dict) {
+    NSMutableSet *servicesWithDNS = [NSMutableSet setWithCapacity:[dict count]];
+
+    // Get all unique keys after stripping prefixes 'Setup:/Network/Service/' and 'State:/Network/Service/'.
+    // This implementation uses the fact that both prefixes have the same length of 23 characters.
+    for (NSString *key in dict) {
         [servicesWithDNS addObject:[key substringFromIndex:23u]];
     }
-    
+
     for (NSString *serviceDNSName in servicesWithDNS) {
         NSString *setupKey = [@"Setup:/Network/Service/" stringByAppendingString:serviceDNSName];
         NSString *stateKey = [@"State:/Network/Service/" stringByAppendingString:serviceDNSName];
@@ -130,23 +134,11 @@ typedef struct {
         }
     }
 
-    CFRelease(dict);
+    CFRelease((CFDictionaryRef) dict);
 
-	return (EnumeratedDNSParams) {servers, domains};
-}
-
-static char * const strQueueIsRunning = "queueIsRunning";
-
-- (void)doFullUpdate {
-    if (dispatch_get_specific(strQueueIsRunning)) {
-        @autoreleasepool {
-            EnumeratedDNSParams params = [self enumerate];
-            
-            self.searchDomains = (NSSet *) params.domains;
-            self.dnsServers = (NSSet *) params.servers;
-            [self setDataCollected:(([params.servers count] > 0) || ([params.domains count] > 0))];
-        }
-    }
+    self.searchDomains = (NSSet *) domains;
+    self.dnsServers = (NSSet *) servers;
+    [self setDataCollected:(([servers count] > 0) || ([domains count] > 0))];
 }
 
 - (void)start {
@@ -168,21 +160,23 @@ static char * const strQueueIsRunning = "queueIsRunning";
         return;
     }
     
-    dispatch_queue_set_specific(serialQueue, strQueueIsRunning, strQueueIsRunning, NULL);
-    
     if (!SCDynamicStoreSetDispatchQueue(store, serialQueue)) {
         [self doStop];
         return;
     }
 
-    NSArray *dnsKeyPatterns = @[ @"Setup:/Network/Service/[^/]+/DNS", @"State:/Network/Service/[^/]+/DNS" ];
+    NSArray *dnsKeyPatterns = @[ @"S....:/Network/Service/[^/]+/DNS" ]; // Setup or State keys
 	if (!SCDynamicStoreSetNotificationKeys(store, NULL, (CFArrayRef) dnsKeyPatterns)) {
         [self doStop];
         return;
     }
 
     dispatch_async(serialQueue, ^{
-        [self doFullUpdate];
+        if (dispatch_get_specific(queueIsStopped) != queueIsStopped) {
+            @autoreleasepool {
+                [self enumerate];
+            }
+        }
     });
 
 	running = YES;
@@ -201,7 +195,7 @@ static char * const strQueueIsRunning = "queueIsRunning";
 
             SCDynamicStoreSetDispatchQueue(store, NULL);
 
-            dispatch_queue_set_specific(serialQueue, strQueueIsRunning, NULL, NULL);
+            dispatch_queue_set_specific(serialQueue, queueIsStopped, queueIsStopped, NULL);
             dispatch_resume(serialQueue);
         }
 
@@ -214,9 +208,7 @@ static char * const strQueueIsRunning = "queueIsRunning";
         store = NULL;
     }
 
-    self.searchDomains = nil;
-    self.dnsServers = nil;
-    [self setDataCollected:NO];
+    [self removeAllDataCollected];
 
 	running = NO;
 }
