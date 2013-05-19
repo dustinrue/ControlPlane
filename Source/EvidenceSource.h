@@ -64,7 +64,7 @@
 
 // To be implemented by descendant classes:
 - (NSString *)name;
-- (BOOL)doesRuleMatch:(NSDictionary *)rule;
+- (BOOL)doesRuleMatch:(NSMutableDictionary *)rule;
 
 // Optionally implemented by descendant classes
 - (NSArray *)typesOfRulesMatched;	// optional; default is [self name]
@@ -86,7 +86,7 @@
 
 - (EvidenceSource *)sourceWithName:(NSString *)name;
 - (void)startOrStopAll;
-- (BOOL)ruleMatches:(NSDictionary *)rule;
+- (BOOL)ruleMatches:(NSMutableDictionary *)rule;
 - (NSEnumerator *)sourceEnumerator;
 
 @end

@@ -13,6 +13,10 @@
 		7C42F30216FB8960000EE57B /* RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30116FB8960000EE57B /* RuleType.m */; };
 		7C42F30716FB9519000EE57B /* SearchDomainRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30616FB9518000EE57B /* SearchDomainRuleType.m */; };
 		7C42F30A16FB9D47000EE57B /* MultiRuleEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */; };
+		7C4855BB17493B7200D8EB84 /* IPv6AddrRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C4855BD17493B7200D8EB84 /* IPv6AddrRule.xib */; };
+		7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4855BF174941C500D8EB84 /* IPv6RuleType.m */; };
+		7C6D94591747A1BE00D5B9C7 /* IPAddrEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */; };
+		7C6D945C1747A1F300D5B9C7 /* IPv4RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */; };
 		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
 		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
 		7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF034B17246B770098990F /* SearchDomainRule.xib */; };
@@ -325,6 +329,19 @@
 		7C42F30616FB9518000EE57B /* SearchDomainRuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchDomainRuleType.m; path = Source/SearchDomainRuleType.m; sourceTree = "<group>"; };
 		7C42F30816FB9D14000EE57B /* MultiRuleEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiRuleEvidenceSource.h; path = Source/MultiRuleEvidenceSource.h; sourceTree = "<group>"; };
 		7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiRuleEvidenceSource.m; path = Source/MultiRuleEvidenceSource.m; sourceTree = "<group>"; };
+		7C4855BC17493B7200D8EB84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IPv6AddrRule.xib; sourceTree = "<group>"; };
+		7C4855BE174941BE00D8EB84 /* IPv6RuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPv6RuleType.h; path = Source/IPv6RuleType.h; sourceTree = "<group>"; };
+		7C4855BF174941C500D8EB84 /* IPv6RuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPv6RuleType.m; path = Source/IPv6RuleType.m; sourceTree = "<group>"; };
+		7C4855C31749696900D8EB84 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/IPv6AddrRule.xib; sourceTree = "<group>"; };
+		7C4855C51749697E00D8EB84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/IPv6AddrRule.xib; sourceTree = "<group>"; };
+		7C4855C61749698000D8EB84 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/IPv6AddrRule.xib; sourceTree = "<group>"; };
+		7C4855C71749698200D8EB84 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/IPv6AddrRule.xib"; sourceTree = "<group>"; };
+		7C4855C81749698300D8EB84 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/IPv6AddrRule.xib"; sourceTree = "<group>"; };
+		7C4855C91749698500D8EB84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/IPv6AddrRule.xib"; sourceTree = "<group>"; };
+		7C6D94571747A1A500D5B9C7 /* IPAddrEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPAddrEvidenceSource.h; path = Source/IPAddrEvidenceSource.h; sourceTree = "<group>"; };
+		7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPAddrEvidenceSource.m; path = Source/IPAddrEvidenceSource.m; sourceTree = "<group>"; };
+		7C6D945A1747A1E400D5B9C7 /* IPv4RuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPv4RuleType.h; path = Source/IPv4RuleType.h; sourceTree = "<group>"; };
+		7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPv4RuleType.m; path = Source/IPv4RuleType.m; sourceTree = "<group>"; };
 		7C8574EA16FB52AF0081659A /* DNSEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DNSEvidenceSource.h; path = Source/DNSEvidenceSource.h; sourceTree = "<group>"; };
 		7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DNSEvidenceSource.m; path = Source/DNSEvidenceSource.m; sourceTree = "<group>"; };
 		7C8574EF16FB53180081659A /* ServerAddressRuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerAddressRuleType.h; path = Source/ServerAddressRuleType.h; sourceTree = "<group>"; };
@@ -836,6 +853,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7C6D94551747A15300D5B9C7 /* IPAddrEvidenceSource */ = {
+			isa = PBXGroup;
+			children = (
+				7C6D94571747A1A500D5B9C7 /* IPAddrEvidenceSource.h */,
+				7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */,
+				7C6D945A1747A1E400D5B9C7 /* IPv4RuleType.h */,
+				7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */,
+				7C4855BE174941BE00D8EB84 /* IPv6RuleType.h */,
+				7C4855BF174941C500D8EB84 /* IPv6RuleType.m */,
+			);
+			name = IPAddrEvidenceSource;
+			sourceTree = "<group>";
+		};
 		7C8574EE16FB52C80081659A /* DNSEvidenceSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -908,6 +938,7 @@
 				7C8574EE16FB52C80081659A /* DNSEvidenceSource */,
 				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
 				8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */,
+				7C6D94551747A15300D5B9C7 /* IPAddrEvidenceSource */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
 				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
@@ -1165,6 +1196,7 @@
 				DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */,
 				DDA201461411C25A00DE570E /* GenericRule.xib */,
 				DDA201501411C32F00DE570E /* IPRule.xib */,
+				7C4855BD17493B7200D8EB84 /* IPv6AddrRule.xib */,
 				DDA2015A1411C35700DE570E /* LightRule.xib */,
 				DDA201641411C37300DE570E /* MainMenu.xib */,
 				7CFF034B17246B770098990F /* SearchDomainRule.xib */,
@@ -1369,6 +1401,7 @@
 				DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */,
 				7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */,
 				7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */,
+				7C4855BB17493B7200D8EB84 /* IPv6AddrRule.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1529,6 +1562,9 @@
 				7C42F30216FB8960000EE57B /* RuleType.m in Sources */,
 				7C42F30716FB9519000EE57B /* SearchDomainRuleType.m in Sources */,
 				7C42F30A16FB9D47000EE57B /* MultiRuleEvidenceSource.m in Sources */,
+				7C6D94591747A1BE00D5B9C7 /* IPAddrEvidenceSource.m in Sources */,
+				7C6D945C1747A1F300D5B9C7 /* IPv4RuleType.m in Sources */,
+				7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1583,6 +1619,21 @@
 				73A5092E14849405007D22B5 /* pt-PT */,
 			);
 			name = ShellScriptRule.xib;
+			sourceTree = "<group>";
+		};
+		7C4855BD17493B7200D8EB84 /* IPv6AddrRule.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7C4855BC17493B7200D8EB84 /* en */,
+				7C4855C31749696900D8EB84 /* de */,
+				7C4855C51749697E00D8EB84 /* fr */,
+				7C4855C61749698000D8EB84 /* it */,
+				7C4855C71749698200D8EB84 /* da-DK */,
+				7C4855C81749698300D8EB84 /* pt-BR */,
+				7C4855C91749698500D8EB84 /* pt-PT */,
+			);
+			name = IPv6AddrRule.xib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		7CFF034B17246B770098990F /* SearchDomainRule.xib */ = {
