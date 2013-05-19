@@ -19,7 +19,7 @@
 - (BOOL)matchesRulesOfType:(NSString *)type;
 - (NSArray *)typesOfRulesMatched;
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule;
+- (BOOL)doesRuleMatch:(NSMutableDictionary *)rule;
 
 - (NSMutableDictionary *)readFromPanel;
 - (void)setContextMenu:(NSMenu *)menu;

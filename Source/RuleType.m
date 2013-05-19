@@ -85,7 +85,7 @@
 	return nil;
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule {
+- (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
