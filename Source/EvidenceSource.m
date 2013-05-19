@@ -309,29 +309,24 @@
     return rulesThatBelongToThisEvidenceSource;
 }
 
-- (void)start
-{
+- (void)start {
 	[self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)stop
-{
+- (void)stop {
 	[self doesNotRecognizeSelector:_cmd];
 }
 
-- (NSString *)name
-{
+- (NSString *)name {
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
 }
 
-- (NSArray *)typesOfRulesMatched
-{
+- (NSArray *)typesOfRulesMatched {
 	return [NSArray arrayWithObject:[self name]];
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule
-{
+- (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
@@ -384,6 +379,7 @@
 #import "BonjourEvidenceSource.h"
 #import "DNSEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
+#import "IPAddrEvidenceSource.h"
 #import "IPEvidenceSource.h"
 #import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
@@ -416,7 +412,8 @@
                         [ActiveApplicationEvidenceSource class],
                         [AttachedPowerAdapterEvidenceSource class],
                         [NetworkLinkEvidenceSource class],
-                        [IPEvidenceSource class],
+                        //[IPEvidenceSource class],
+                        [IPAddrEvidenceSource class],
                         [FireWireEvidenceSource class],
                         [MonitorEvidenceSource class],
                         [USBEvidenceSource class],
@@ -457,7 +454,8 @@
 		NSLocalizedString(@"CoreLocation", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"DNS", @"Evidence source");
-		NSLocalizedString(@"IP", @"Evidence source");
+		//NSLocalizedString(@"IP", @"Evidence source");
+		NSLocalizedString(@"IPAddr", @"Evidence source");
 		NSLocalizedString(@"Light", @"Evidence source");
 		NSLocalizedString(@"Monitor", @"Evidence source");
 		NSLocalizedString(@"NetworkLink", @"Evidence source");
@@ -569,7 +567,7 @@
 	}
 }
 
-- (BOOL)ruleMatches:(NSDictionary *)rule
+- (BOOL)ruleMatches:(NSMutableDictionary *)rule
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	NSString *ruleType = [rule objectForKey:@"type"];

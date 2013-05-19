@@ -3,6 +3,7 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
+//  Major rework by Vladimir Beloborodov (VladimirTechMan) in April-May 2013.
 //
 
 #import "Action.h"
@@ -124,6 +125,7 @@
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableDNSEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableFireWireEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableIPEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableIPAddrEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableLightEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableMonitorEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePowerEvidenceSource"];

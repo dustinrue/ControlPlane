@@ -95,7 +95,7 @@
     return ruleTypeNames;
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule {
+- (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
     NSString *typeName = rule[@"type"];
     if (!typeName) {
         NSLog(@"%@ >> no type specified in the rule to be matched!", [self class]);
