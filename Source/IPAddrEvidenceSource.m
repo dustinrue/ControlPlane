@@ -120,7 +120,7 @@ static BOOL isAllowedIPv6Address(struct in6_addr *ipv6) {
 }
 
 - (void)enumerate {
-    NSArray *ipKeyPatterns = @[ @"State:/Network/Service/[^/]+/IPv." ];
+    NSArray *ipKeyPatterns = @[ @"State:/Network/Interface/[^/]+/IPv." ];
     NSDictionary *dict = (NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) ipKeyPatterns);
     if (!dict) {
         [self removeAllDataCollected];
@@ -182,7 +182,7 @@ static BOOL isAllowedIPv6Address(struct in6_addr *ipv6) {
         return;
     }
 
-    NSArray *ipKeyPatterns = @[ @"State:/Network/Service/[^/]+/IPv." ];
+    NSArray *ipKeyPatterns = @[ @"State:/Network/Interface/[^/]+/IPv." ];
 	if (!SCDynamicStoreSetNotificationKeys(store, NULL, (CFArrayRef) ipKeyPatterns)) {
         [self doStop];
         return;
