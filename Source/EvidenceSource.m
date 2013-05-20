@@ -380,7 +380,6 @@
 #import "DNSEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPAddrEvidenceSource.h"
-#import "IPEvidenceSource.h"
 #import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
@@ -412,7 +411,6 @@
                         [ActiveApplicationEvidenceSource class],
                         [AttachedPowerAdapterEvidenceSource class],
                         [NetworkLinkEvidenceSource class],
-                        //[IPEvidenceSource class],
                         [IPAddrEvidenceSource class],
                         [FireWireEvidenceSource class],
                         [MonitorEvidenceSource class],
@@ -454,7 +452,6 @@
 		NSLocalizedString(@"CoreLocation", @"Evidence source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"DNS", @"Evidence source");
-		//NSLocalizedString(@"IP", @"Evidence source");
 		NSLocalizedString(@"IPAddr", @"Evidence source");
 		NSLocalizedString(@"Light", @"Evidence source");
 		NSLocalizedString(@"Monitor", @"Evidence source");
