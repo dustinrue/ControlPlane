@@ -967,14 +967,14 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
-				DAF7F83F1749BB90002BB402 /* ActionPlugin.h */,
-				DA008D1C15D4B73C0091CC54 /* Plugins */,
 				DD8274EB14114CFF0098FA6E /* Application Actions */,
+				DA008D1C15D4B73C0091CC54 /* Plugins */,
 				DD8274ED14114D620098FA6E /* System Actions */,
-				8DF5A4150BC2353D00CBEB4B /* Action.h */,
-				8DF5A4160BC2353D00CBEB4B /* Action.m */,
 				DDAEFFF91414714F00FDADE8 /* Action+HelperTool.h */,
 				DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */,
+				8DF5A4150BC2353D00CBEB4B /* Action.h */,
+				8DF5A4160BC2353D00CBEB4B /* Action.m */,
+				DAF7F83F1749BB90002BB402 /* ActionPlugin.h */,
 				DA41954B151C17EF00FF7BA0 /* ActionSubmenuItem.h */,
 				DA41954C151C17F000FF7BA0 /* ActionSubmenuItem.m */,
 				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
