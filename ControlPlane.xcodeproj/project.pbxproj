@@ -487,7 +487,6 @@
 		DA146F7F143F3C4000906DBF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		DA1E59D11673A039002D256D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
-		DA22656915CAEF2000B75163 /* EvidenceSourcePlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EvidenceSourcePlugin.h; path = Protocols/EvidenceSourcePlugin.h; sourceTree = "<group>"; };
 		DA2B437F152161C800E94A1D /* ToggleTFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTFTPAction.h; path = Source/ToggleTFTPAction.h; sourceTree = "<group>"; };
 		DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTFTPAction.m; path = Source/ToggleTFTPAction.m; sourceTree = "<group>"; };
 		DA2B4383152161D900E94A1D /* ToggleFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFTPAction.h; path = Source/ToggleFTPAction.h; sourceTree = "<group>"; };
@@ -558,7 +557,6 @@
 		DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Info.plist"; sourceTree = "<group>"; };
 		DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Launchd.plist"; sourceTree = "<group>"; };
 		DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NotificationCenterAction.xcodeproj; path = NotificationCenterAction/NotificationCenterAction.xcodeproj; sourceTree = "<group>"; };
-		DAD889B115D5F4C1009F30A3 /* ActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ActionPlugin.h; path = Protocols/ActionPlugin.h; sourceTree = "<group>"; };
 		DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Merge.h"; path = "Source/NSMutableArray+Merge.h"; sourceTree = "<group>"; };
 		DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Merge.m"; path = "Source/NSMutableArray+Merge.m"; sourceTree = "<group>"; };
 		DADFF79515D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleNotificationCenterAlertsAction.h; path = Source/ToggleNotificationCenterAlertsAction.h; sourceTree = "<group>"; };
@@ -570,6 +568,8 @@
 		DAF2F81D150EE5960040DDC7 /* BWQuincyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWQuincyManager.m; sourceTree = "<group>"; };
 		DAF2F81E150EE5960040DDC7 /* Quincy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quincy-Info.plist"; sourceTree = "<group>"; };
 		DAF2F81F150EE5960040DDC7 /* Quincy-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Quincy-Prefix.pch"; sourceTree = "<group>"; };
+		DAF7F83E1749BB6A002BB402 /* EvidenceSourcePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvidenceSourcePlugin.h; path = Source/EvidenceSourcePlugin.h; sourceTree = "<group>"; };
+		DAF7F83F1749BB90002BB402 /* ActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionPlugin.h; path = Source/ActionPlugin.h; sourceTree = "<group>"; };
 		DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = /System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<absolute>"; };
 		DD06E810140C661600059764 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DD3BAB8414163C6B000D5F88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
@@ -910,7 +910,7 @@
 				8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */,
 				7C42F30816FB9D14000EE57B /* MultiRuleEvidenceSource.h */,
 				7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */,
-				DA22656915CAEF2000B75163 /* EvidenceSourcePlugin.h */,
+				DAF7F83E1749BB6A002BB402 /* EvidenceSourcePlugin.h */,
 				7C42F30416FB8966000EE57B /* RuleType.h */,
 				7C42F30116FB8960000EE57B /* RuleType.m */,
 			);
@@ -967,6 +967,7 @@
 		8DF5A4130BC2350000CBEB4B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				DAF7F83F1749BB90002BB402 /* ActionPlugin.h */,
 				DA008D1C15D4B73C0091CC54 /* Plugins */,
 				DD8274EB14114CFF0098FA6E /* Application Actions */,
 				DD8274ED14114D620098FA6E /* System Actions */,
@@ -978,7 +979,6 @@
 				DA41954C151C17F000FF7BA0 /* ActionSubmenuItem.m */,
 				8D71CAEC0C17BA7900E56526 /* ToggleableAction.h */,
 				8D71CAED0C17BA7900E56526 /* ToggleableAction.m */,
-				DAD889B115D5F4C1009F30A3 /* ActionPlugin.h */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
