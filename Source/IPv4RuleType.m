@@ -10,6 +10,15 @@
 #import "IPAddrEvidenceSource.h"
 #import "IPv4RuleType.h"
 
+@interface CachedParams : NSObject
+@end
+
+@implementation CachedParams {
+@public
+    in_addr_t subnet, mask;
+    int index;
+}
+@end
 
 @implementation IPv4RuleType {
     // For custom panel
@@ -25,26 +34,13 @@
     return NSLocalizedString(@"IP", @"");
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
-
 - (BOOL)parseParamsOf:(NSMutableDictionary *)rule toNetAddr:(in_addr_t *)addr andMask:(in_addr_t *)mask {
-    NSNumber *cachedSubnet = rule[@"cachedSubnet"];
-    NSNumber *cachedMask   = rule[@"cachedMask"];
-
-    if (cachedSubnet && cachedMask) {
-        *mask = (in_addr_t) [cachedMask unsignedIntValue];
-        *addr = (in_addr_t) [cachedSubnet unsignedIntValue];
-        return YES;
-    }
-
 	NSArray *comp = [rule[@"parameter"] componentsSeparatedByString:@","];
-    
+
 	if ([comp count] != 2) {
 		return NO;	// corrupted rule
     }
-    
+
     struct in_addr ruleIPAddr, ruleSubnetMask;
     if (inet_pton(AF_INET, [comp[0] UTF8String], &ruleIPAddr) != 1) {
         return NO;
@@ -53,54 +49,51 @@
         return NO;
     }
 
-    in_addr_t maskValue = ruleSubnetMask.s_addr, subnetAddrValue = (ruleIPAddr.s_addr & maskValue);
-
-    *mask = maskValue;
-    rule[@"cachedMask"] = @(maskValue);
-
-    *addr = subnetAddrValue;
-    rule[@"cachedSubnet"] = @(subnetAddrValue);
+    *addr = (ruleIPAddr.s_addr & (*mask = ruleSubnetMask.s_addr));
 
     return YES;
 }
 
-- (BOOL)doesAddressAtIndex:(NSUInteger)index matchNetworkAddress:(in_addr_t)address usingMask:(in_addr_t)mask {
-
+- (BOOL)doParamsMatch:(CachedParams *)params {
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv4Addresses;
-    if (index < [addresses count]) {
-        struct in_addr ipv4;
-        [(NSValue *) addresses[index] getValue:&ipv4];
-        return ((ipv4.s_addr & mask) == address);
+    if ((NSUInteger) params->index >= [addresses count]) {
+        return NO;
     }
 
-    return NO;
+    struct in_addr ipv4;
+    [(NSValue *) addresses[(NSUInteger) params->index] getValue:&ipv4];
+    return ((ipv4.s_addr & params->mask) == params->subnet);
 }
 
 - (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
-    in_addr_t ruleSubnet, mask;
-    if (![self parseParamsOf:rule toNetAddr:&ruleSubnet andMask:&mask]) {
-        return NO; // corrupted rule
+    CachedParams *cachedParams = rule[@"cachedParams"];
+    if (cachedParams) {
+        if ((cachedParams->index >= 0) && [self doParamsMatch:cachedParams]) {
+            return YES;
+        }
+    } else {
+        cachedParams = [[[CachedParams alloc] init] autorelease];
+        if (![self parseParamsOf:rule toNetAddr:&(cachedParams->subnet) andMask:&(cachedParams->mask)]) {
+            return NO; // corrupted rule
+        }
+        rule[@"cachedParams"] = cachedParams;
     }
 
-    NSNumber *index = rule[@"cachedIndex"];
-    if (index && [self doesAddressAtIndex:[index unsignedIntegerValue]
-                        matchNetworkAddress:ruleSubnet usingMask:mask]) {
-        return YES;
-    }
+    cachedParams->index = -1;
 
-    __block BOOL match = NO;
+    const in_addr_t subnet = cachedParams->subnet, mask = cachedParams->mask;
 
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv4Addresses;
     [addresses enumerateObjectsUsingBlock:^(NSValue *packedIPAddr, NSUInteger idx, BOOL *stop) {
         struct in_addr ipv4;
         [packedIPAddr getValue:&ipv4];
-        if ((ipv4.s_addr & mask) == ruleSubnet) {
-            *stop = match = YES;
-            rule[@"cachedIndex"] = @(idx); // for quick matching on future calls
+        if ((ipv4.s_addr & mask) == subnet) {
+            cachedParams->index = (int) idx; // for quick matching on future calls
+            *stop = YES;
         }
     }];
 
-    return match;
+    return (cachedParams->index >= 0);
 }
 
 static BOOL isValidIPv4Address(NSString *value) {
@@ -173,14 +166,11 @@ static BOOL isValidIPv4NetworkMask(NSString *value) {
 
 - (void)writeToPanel:(NSDictionary *)rule {
     [super writeToPanel:rule];
-	NSArray *currentAddresses = ((IPAddrEvidenceSource *) self.evidenceSource).stringIPv4Addresses;
     NSArray *comp = [rule[@"parameter"] componentsSeparatedByString:@","];
 
     // Set IP address
+	NSArray *currentAddresses = ((IPAddrEvidenceSource *) self.evidenceSource).stringIPv4Addresses;
 	[addressComboBox removeAllItems];
-    if (currentAddresses) {
-        [addressComboBox addItemsWithObjectValues:currentAddresses];
-    }
     
 	NSString *ipAddress = ([comp count] > 0) ? (comp[0]) : (nil);
 	if (ipAddress) {
@@ -191,22 +181,25 @@ static BOOL isValidIPv4NetworkMask(NSString *value) {
 		ipAddress = ([currentAddresses count]) ? (currentAddresses[0]) : (@"");
     }
 
+    if (currentAddresses) {
+        [addressComboBox addItemsWithObjectValues:currentAddresses];
+    }
     [addressComboBox setStringValue:ipAddress];
 
     // Set IP network mask
+    NSArray *netmasks = @[ @"255.255.255.255", @"255.255.255.0", @"255.255.0.0", @"255.0.0.0" ];
     [netmaskComboBox removeAllItems];
-    [netmaskComboBox addItemsWithObjectValues:@[ @"255.255.255.255", @"255.255.255.0",
-     @"255.255.0.0", @"255.0.0.0" ]]; // common netmasks
-    
+
     NSString *netMask = ([comp count] > 1) ? (comp[1]) : (nil);
     if (netMask) {
-        if (![[netmaskComboBox objectValues] containsObject:netMask]) {
+        if (![netmasks containsObject:netMask]) {
             [netmaskComboBox addItemWithObjectValue:netMask];
         }
     } else {
         netMask = @"255.255.255.255";
     }
 
+    [netmaskComboBox addItemsWithObjectValues:netmasks];
     [netmaskComboBox setStringValue:netMask];
 }
 

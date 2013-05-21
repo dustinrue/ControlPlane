@@ -119,6 +119,10 @@ static BOOL isAllowedIPv6Address(struct in6_addr *ipv6) {
     }
 }
 
+static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
+    return [(NSString * )obj2 compare:obj1]; // descending
+};
+
 - (void)enumerate {
     NSArray *ipKeyPatterns = @[ @"State:/Network/Interface/[^/]+/IPv." ];
     NSDictionary *dict = (NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) ipKeyPatterns);
@@ -150,6 +154,9 @@ static BOOL isAllowedIPv6Address(struct in6_addr *ipv6) {
 
     CFRelease((CFDictionaryRef) dict);
 
+    [stringIPv4Addresses sortUsingComparator:descendingSorter];
+    [stringIPv6Addresses sortUsingComparator:descendingSorter];
+    
     self.stringIPv4Addresses = stringIPv4Addresses;
     self.packedIPv4Addresses = packedIPv4Addresses;
     self.stringIPv6Addresses = stringIPv6Addresses;
