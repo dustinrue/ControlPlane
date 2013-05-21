@@ -11,6 +11,18 @@
 #import "IPv6RuleType.h"
 
 
+@interface CachedIPv6RuleParams : NSObject
+@end
+
+@implementation CachedIPv6RuleParams {
+@public
+    struct in6_addr addr;
+    unsigned int prefixLen;
+    int index;
+}
+@end
+
+
 @implementation IPv6RuleType {
     // For custom panel
     IBOutlet NSComboBox *addressComboBox;
@@ -25,33 +37,15 @@
     return NSLocalizedString(@"IPv6", @"");
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
-
-- (BOOL)parseParamsOf:(NSMutableDictionary *)rule
-     toNetworkAddress:(struct in6_addr *)address
-      andPrefixLength:(unsigned int *)prefixLength {
+- (BOOL)parseParamsOf:(NSMutableDictionary *)rule toNetworkAddress:(struct in6_addr *)address
+                                                   andPrefixLength:(unsigned int *)prefixLength {
+	NSString *ruleAddress = rule[@"parameter"];
+    if (!ruleAddress || (inet_pton(AF_INET6, [ruleAddress UTF8String], address) != 1)) {
+        return NO;	// corrupted rule
+    }
 
     NSNumber *rulePrefixLenght = rule[@"parameter.prefixLength"];
     *prefixLength = (rulePrefixLenght) ? ([rulePrefixLenght unsignedIntValue]) : (128u);
-    
-    NSNumber *cachedAddress = rule[@"cachedAddress"];
-    if (cachedAddress) {
-        [(NSValue *) cachedAddress getValue:address];
-        return YES;
-    }
-
-	NSString *ruleAddress = rule[@"parameter"];
-	if (!ruleAddress) {
-		return NO;	// corrupted rule
-    }
-
-    if (inet_pton(AF_INET6, [ruleAddress UTF8String], address) != 1) {
-        return NO;
-    }
-
-    rule[@"cachedAddress"] = [NSValue valueWithBytes:address objCType:@encode(struct in6_addr)];
 
     return YES;
 }
@@ -61,7 +55,7 @@ static BOOL areEqualIPv6Subnetworks(const struct in6_addr *addr,
                                     unsigned int prefixLen) {
     // bytes are in the network order (most significat come first)
     uint8_t *byte = (uint8_t *)addr, *otherByte = (uint8_t *)otherAddr;
-    
+
     while (prefixLen > 8) {
         if (*byte != *otherByte) {
             return NO;
@@ -77,46 +71,45 @@ static BOOL areEqualIPv6Subnetworks(const struct in6_addr *addr,
     return ((*byte & mask) == (*otherByte & mask));
 }
 
-- (BOOL)doesAddressAtIndex:(NSUInteger)index
-       matchNetworkAddress:(struct in6_addr *)address
-         usingPrefixLength:(unsigned int)prefixLength {
-
+- (BOOL)doParamsMatch:(CachedIPv6RuleParams *)params {
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv6Addresses;
-    if (index < [addresses count]) {
-        struct in6_addr ipv6;
-        [(NSValue *) addresses[index] getValue:&ipv6];
-        return areEqualIPv6Subnetworks(address, &ipv6, prefixLength);
+    if ((NSUInteger) params->index >= [addresses count]) {
+        return NO;
     }
 
-    return NO;
+    struct in6_addr ipv6;
+    [(NSValue *) addresses[(NSUInteger) params->index] getValue:&ipv6];
+    return areEqualIPv6Subnetworks(&ipv6, &(params->addr), params->prefixLen);
 }
 
 - (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
-    struct in6_addr address;
-    unsigned int prefixLength;
-    if (![self parseParamsOf:rule toNetworkAddress:&address andPrefixLength:&prefixLength]) {
-        return NO; // corrupted rule
+    CachedIPv6RuleParams *cachedParams = rule[@"cachedParams"];
+    if (cachedParams) {
+        if ((cachedParams->index >= 0) && [self doParamsMatch:cachedParams]) {
+            return YES;
+        }
+    } else {
+        cachedParams = [[[CachedIPv6RuleParams alloc] init] autorelease];
+        if (![self parseParamsOf:rule toNetworkAddress:&(cachedParams->addr)
+                                       andPrefixLength:&(cachedParams->prefixLen)]) {
+            return NO; // corrupted rule
+        }
+        rule[@"cachedParams"] = cachedParams;
     }
 
-    NSNumber *index = rule[@"cachedIndex"];
-    if (index && [self doesAddressAtIndex:[index unsignedIntegerValue]
-                       matchNetworkAddress:&address usingPrefixLength:prefixLength]) {
-        return YES;
-    }
-
-    __block BOOL match = NO;
+    cachedParams->index = -1;
 
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv6Addresses;
     [addresses enumerateObjectsUsingBlock:^(NSValue *packedIPAddr, NSUInteger idx, BOOL *stop) {
         struct in6_addr ipv6;
         [packedIPAddr getValue:&ipv6];
-        if (areEqualIPv6Subnetworks(&address, &ipv6, prefixLength)) {
-            *stop = match = YES;
-            rule[@"cachedIndex"] = @(idx); // for quick matching on future calls
+        if (areEqualIPv6Subnetworks(&ipv6, &(cachedParams->addr), cachedParams->prefixLen)) {
+            cachedParams->index = (int) idx; // for quick matching on future calls
+            *stop = YES;
         }
     }];
 
-    return match;
+    return (cachedParams->index >= 0);
 }
 
 static BOOL isValidIPv6Address(NSString *value) {
@@ -175,13 +168,10 @@ static BOOL isValidIPv6Address(NSString *value) {
 
 - (void)writeToPanel:(NSDictionary *)rule {
     [super writeToPanel:rule];
-	NSArray *currentAddresses = ((IPAddrEvidenceSource *) self.evidenceSource).stringIPv6Addresses;
 
     // Set IP address
+	NSArray *currentAddresses = ((IPAddrEvidenceSource *) self.evidenceSource).stringIPv6Addresses;
 	[addressComboBox removeAllItems];
-    if (currentAddresses) {
-        [addressComboBox addItemsWithObjectValues:currentAddresses];
-    }
     
 	NSString *ipAddress = rule[@"parameter"];
 	if (ipAddress) {
@@ -192,6 +182,9 @@ static BOOL isValidIPv6Address(NSString *value) {
 		ipAddress = ([currentAddresses count]) ? (currentAddresses[0]) : (@"");
     }
 
+    if (currentAddresses) {
+        [addressComboBox addItemsWithObjectValues:currentAddresses];
+    }
     [addressComboBox setStringValue:ipAddress];
 
     NSString *len = rule[@"parameter.prefixLength"];

@@ -10,15 +10,17 @@
 #import "IPAddrEvidenceSource.h"
 #import "IPv4RuleType.h"
 
-@interface CachedParams : NSObject
+
+@interface CachedIPv4RuleParams : NSObject
 @end
 
-@implementation CachedParams {
+@implementation CachedIPv4RuleParams {
 @public
     in_addr_t subnet, mask;
     int index;
 }
 @end
+
 
 @implementation IPv4RuleType {
     // For custom panel
@@ -54,7 +56,7 @@
     return YES;
 }
 
-- (BOOL)doParamsMatch:(CachedParams *)params {
+- (BOOL)doParamsMatch:(CachedIPv4RuleParams *)params {
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv4Addresses;
     if ((NSUInteger) params->index >= [addresses count]) {
         return NO;
@@ -66,13 +68,13 @@
 }
 
 - (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
-    CachedParams *cachedParams = rule[@"cachedParams"];
+    CachedIPv4RuleParams *cachedParams = rule[@"cachedParams"];
     if (cachedParams) {
         if ((cachedParams->index >= 0) && [self doParamsMatch:cachedParams]) {
             return YES;
         }
     } else {
-        cachedParams = [[[CachedParams alloc] init] autorelease];
+        cachedParams = [[[CachedIPv4RuleParams alloc] init] autorelease];
         if (![self parseParamsOf:rule toNetAddr:&(cachedParams->subnet) andMask:&(cachedParams->mask)]) {
             return NO; // corrupted rule
         }

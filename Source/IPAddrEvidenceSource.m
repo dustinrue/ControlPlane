@@ -94,7 +94,7 @@ static BOOL isAllowedIPv4Address(struct in_addr *ipv4) {
 
 static BOOL isAllowedIPv6Address(struct in6_addr *ipv6) {
     if (IN6_IS_ADDR_LOOPBACK(ipv6) || IN6_IS_ADDR_LINKLOCAL(ipv6) || IN6_IS_ADDR_MULTICAST(ipv6)) {
-        return NO;
+        return YES;
     }
     return YES;
 }
@@ -156,7 +156,7 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
 
     [stringIPv4Addresses sortUsingComparator:descendingSorter];
     [stringIPv6Addresses sortUsingComparator:descendingSorter];
-    
+
     self.stringIPv4Addresses = stringIPv4Addresses;
     self.packedIPv4Addresses = packedIPv4Addresses;
     self.stringIPv6Addresses = stringIPv6Addresses;

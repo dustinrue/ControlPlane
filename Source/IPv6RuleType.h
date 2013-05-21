@@ -11,8 +11,6 @@
 @interface IPv6RuleType : RuleType
 
 + (NSString *)panelNibName;
-- (void)dealloc;
-
 - (NSString *)name;
 
 - (BOOL)doesRuleMatch:(NSMutableDictionary *)rule;
