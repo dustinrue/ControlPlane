@@ -94,7 +94,7 @@ static BOOL isAllowedIPv4Address(struct in_addr *ipv4) {
 
 static BOOL isAllowedIPv6Address(struct in6_addr *ipv6) {
     if (IN6_IS_ADDR_LOOPBACK(ipv6) || IN6_IS_ADDR_LINKLOCAL(ipv6) || IN6_IS_ADDR_MULTICAST(ipv6)) {
-        return YES;
+        return NO;
     }
     return YES;
 }
