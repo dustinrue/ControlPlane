@@ -171,11 +171,12 @@
 }
 
 - (id)init {
-	if (!(self = [super init]))
+	if (!(self = [super init])) {
 		return nil;
+    }
 
-	sbImageActive = [self prepareImageForMenubar:@"cp-icon-active"];
-	sbImageInactive = [self prepareImageForMenubar:@"cp-icon-inactive"];
+	sbImageActive = [[self prepareImageForMenubar:@"cp-icon-active"] retain];
+	sbImageInactive = [[self prepareImageForMenubar:@"cp-icon-inactive"] retain];
 	sbItem = nil;
 	sbHideTimer = nil;
 	updatingTimer = nil;
@@ -207,6 +208,9 @@
 
 - (void)dealloc {
     [_rules release];
+    
+    [sbImageInactive release];
+    [sbImageActive release];
     
     [numberFormatter release];
 	[updatingSwitchingLock release];
