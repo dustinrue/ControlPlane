@@ -6,105 +6,83 @@
 //
 
 #import "ContextsDataSource.h"
+#import "CPController.h"
 #import "DSLogger.h"
 
+@interface Context ()
+
+// Transient
+@property (retain,nonatomic,readwrite) NSNumber *depth;
+
+@end
 
 @implementation Context
 
-- (id)init
-{
-	if (!(self = [super init]))
+@synthesize uuid = _uuid;
+
+- (id)init {
+	if (!(self = [super init])) {
 		return nil;
+    }
 
 	CFUUIDRef ref = CFUUIDCreate(NULL);
-	uuid = (NSString *) CFUUIDCreateString(NULL, ref);
+	_uuid = (NSString *) CFUUIDCreateString(NULL, ref);
 	CFRelease(ref);
 
-	parent = [[NSString alloc] init];
-	name = [uuid retain];
+	_parentUUID = [[NSString alloc] init];
+	_name = [_uuid copy];
 
 	return self;
 }
 
-- (id)initWithDictionary:(NSDictionary *)dict
-{
-	if (!(self = [super init]))
+- (id)initWithDictionary:(NSDictionary *)dict {
+	if (!(self = [super init])) {
 		return nil;
+    }
 
-	uuid = [[dict valueForKey:@"uuid"] copy];
-	parent = [[dict valueForKey:@"parent"] copy];
-	name = [[dict valueForKey:@"name"] copy];
+	_uuid = [dict[@"uuid"] copy];
+	_parentUUID = [dict[@"parent"] copy];
+	_name = [dict[@"name"] copy];
+
+    NSData *colorData = dict[@"iconColor"];
+    if (colorData) {
+        _iconColor = [(NSColor *) [NSUnarchiver unarchiveObjectWithData:colorData] copy];
+    }
 
 	return self;
 }
 
-- (void)dealloc
-{
-	[uuid release];
-	[parent release];
-	[name release];
+- (void)dealloc {
+	[_depth release];
+    [_confidence release];
+    [_iconColor release];
+	[_name release];
+	[_parentUUID release];
+    [_uuid release];
 
 	[super dealloc];
 }
 
-- (BOOL)isRoot
-{
-	return [parent length] == 0;
+- (BOOL)isRoot {
+	return ([self.parentUUID length] == 0);
 }
 
-- (NSDictionary *)dictionary
-{
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		uuid, @"uuid", parent, @"parent", name, @"name", nil];
+- (NSDictionary *)dictionary {
+    if (!(self.iconColor) || [self.iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
+        return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name };
+    }
+
+    NSData *colorData = [NSArchiver archivedDataWithRootObject:(self.iconColor)];
+    return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name, @"iconColor": colorData };
 }
 
-- (NSComparisonResult)compare:(Context *)ctxt
-{
-	return [name compare:[ctxt name]];
-}
-
-- (NSString *)uuid
-{
-	return uuid;
-}
-
-- (NSString *)parentUUID
-{
-	return parent;
-}
-
-- (void)setParentUUID:(NSString *)parentUUID
-{
-	[parent autorelease];
-	parent = [parentUUID copy];
-}
-
-- (NSString *)name
-{
-	return name;
-}
-
-- (void)setName:(NSString *)newName
-{
-	[name autorelease];
-	name = [newName copy];
+- (NSComparisonResult)compare:(Context *)ctxt {
+	return [self.name compare:[ctxt name]];
 }
 
 // Used by -[ContextsDataSource pathFromRootTo:]
-- (NSString *)description
-{
-	return name;
-}
-
-- (NSString *)confidence
-{
-	return confidence;
-}
-
-- (void)setConfidence:(NSString *)newConfidence
-{
-	[confidence autorelease];
-	confidence = [newConfidence copy];
+- (NSString *)description {
+	return self.name;
 }
 
 @end
@@ -120,13 +98,11 @@
 
 @implementation ContextsDataSource
 
-+ (void)initialize
-{
++ (void)initialize {
 	[self exposeBinding:@"selection"];	// outlineView selection binding proxy
 }
 
-- (id)init
-{
+- (id)init {
 	if (!(self = [super init]))
 		return nil;
 
@@ -142,8 +118,7 @@
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[contexts release];
 
 	[super dealloc];
@@ -151,8 +126,7 @@
 
 static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
 	// register for drag and drop
 	[outlineView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
 
@@ -163,8 +137,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private
-- (void)postContextsChangedNotification
-{
+- (void)postContextsChangedNotification {
 	[self saveContexts:self];		// make sure they're saved
 
     @try {
@@ -179,78 +152,64 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 
 // Private: assumes any depths already set in other contexts are correct, except when it's negative
-- (void)recomputeDepthOf:(Context *)context
-{
-	if ([[context valueForKey:@"depth"] intValue] >= 0)
+- (void)recomputeDepthOf:(Context *)context {
+	if ([context.depth intValue] >= 0)
 		return;
 
 	Context *parent = [contexts objectForKey:[context parentUUID]];
-	if (!parent)
-		[context setValue:[NSNumber numberWithInt:0] forKey:@"depth"];
-	else {
+	if (!parent) {
+		context.depth = @0;
+    } else {
 		[self recomputeDepthOf:parent];
-		int depth = [[parent valueForKey:@"depth"] intValue] + 1;
-		[context setValue:[NSNumber numberWithInt:depth] forKey:@"depth"];
+        context.depth = @([parent.depth intValue] + 1);
 	}
 }
 
 // Private
-- (void)recomputeTransientData
-{
+- (void)recomputeTransientData {
 	// Recalculate depths
-	NSEnumerator *en = [contexts objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject])) {
-		int depth = -1;
-		if ([ctxt isRoot])
-			depth = 0;
-		[ctxt setValue:[NSNumber numberWithInt:depth] forKey:@"depth"];
-	}
-	en = [contexts objectEnumerator];
-	while ((ctxt = [en nextObject])) {
-		if (![ctxt isRoot])
+    [contexts enumerateKeysAndObjectsUsingBlock:^(id key, Context *ctxt, BOOL *stop) {
+        ctxt.depth = ([ctxt isRoot]) ? (@0) : (@-1);
+    }];
+
+    [contexts enumerateKeysAndObjectsUsingBlock:^(id key, Context *ctxt, BOOL *stop) {
+		if (![ctxt isRoot]) {
 			[self recomputeDepthOf:ctxt];
-	}
+        }
+    }];
 
 	// XXX: any other data to recompute?
 }
 
 #pragma mark -
 
-- (void)loadContexts
-{
+- (void)loadContexts {
 	[contexts removeAllObjects];
 
-	NSEnumerator *en = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Contexts"] objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [en nextObject])) {
+	for (NSDictionary *dict in [[NSUserDefaults standardUserDefaults] objectForKey:@"Contexts"]) {
 		Context *ctxt = [[Context alloc] initWithDictionary:dict];
 		[contexts setValue:ctxt forKey:[ctxt uuid]];
 		[ctxt release];
-	}
+    }
 
 	// Check consistency of parent UUIDs; drop the parent UUID if it is invalid
-	en = [contexts objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject])) {
+    [contexts enumerateKeysAndObjectsUsingBlock:^(id key, Context *ctxt, BOOL *stop) {
 		if (![ctxt isRoot] && ![contexts objectForKey:[ctxt parentUUID]]) {
 			NSLog(@"%s correcting broken parent UUID for context '%@'", __PRETTY_FUNCTION__, [ctxt name]);
 			[ctxt setParentUUID:@""];
 		}
-	}
+    }];
 
 	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 }
 
-- (void)saveContexts:(id)arg
-{
+- (void)saveContexts:(id)arg {
 	// Write out
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
-	NSEnumerator *en = [contexts objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject]))
+    [contexts enumerateKeysAndObjectsUsingBlock:^(id key, Context *ctxt, BOOL *stop) {
 		[array addObject:[ctxt dictionary]];
+    }];
 
 	[[NSUserDefaults standardUserDefaults] setObject:array forKey:@"Contexts"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -259,26 +218,29 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 #pragma mark Context creation via sheet
 
-- (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI
-{
+- (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI {
 	Context *ctxt = [[[Context alloc] init] autorelease];
-	[ctxt setName:name];
+    ctxt.name = name;
+    if (fromUI) {
+        ctxt.iconColor = [newContextSheetColor color];
+    }
 
 	// Look for parent
-	if (fromUI && ([outlineView selectedRow] >= 0))
-		[ctxt setParentUUID:[(Context *) [outlineView itemAtRow:[outlineView selectedRow]] uuid]];
-	else
-		[ctxt setParentUUID:@""];
+	if (fromUI && ([outlineView selectedRow] >= 0)) {
+        ctxt.parentUUID = [(Context *) [outlineView itemAtRow:[outlineView selectedRow]] uuid];
+    } else {
+        ctxt.parentUUID = @"";
+    }
 
-
-	[contexts setValue:ctxt forKey:[ctxt uuid]];
+    contexts[ctxt.uuid] = ctxt;
 
 	[self recomputeTransientData];
 	[self postContextsChangedNotification];
 
 	if (fromUI) {
-		if (![ctxt isRoot])
-			[outlineView expandItem:[contexts objectForKey:[ctxt parentUUID]]];
+        if (![ctxt isRoot]) {
+			[outlineView expandItem:contexts[ctxt.parentUUID]];
+        }
 		[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[outlineView rowForItem:ctxt]] byExtendingSelection:NO];
 		[self outlineViewSelectionDidChange:nil];
 	} else
@@ -287,10 +249,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return ctxt;
 }
 
-- (IBAction)newContextPromptingForName:(id)sender
-{
+- (IBAction)newContextPromptingForName:(id)sender {
 	[newContextSheetName setStringValue:NSLocalizedString(@"New context", @"Default value for new context names")];
 	[newContextSheetName selectText:nil];
+    [newContextSheetColor setColor:[NSColor blackColor]];
+    [newContextSheetColorPreviewEnabled setIntValue:0];
 
 	[NSApp beginSheet:newContextSheet
 	   modalForWindow:prefsWindow
@@ -300,26 +263,71 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Triggered by OK button
-- (IBAction)newContextSheetAccepted:(id)sender
-{
+- (IBAction)newContextSheetAccepted:(id)sender {
 	[NSApp endSheet:newContextSheet returnCode:NSOKButton];
 	[newContextSheet orderOut:nil];
 }
 
 // Triggered by cancel button
-- (IBAction)newContextSheetRejected:(id)sender
-{
+- (IBAction)newContextSheetRejected:(id)sender {
 	[NSApp endSheet:newContextSheet returnCode:NSCancelButton];
 	[newContextSheet orderOut:nil];
 }
 
 // Private
-- (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-	if (returnCode != NSOKButton)
+- (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if ([newContextSheetColorPreviewEnabled intValue]) {
+        [newContextSheetColorPreviewEnabled setIntValue:0];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewFinished" object:nil];
+    }
+
+	if (returnCode != NSOKButton) {
 		return;
+    }
 
 	[self createContextWithName:[newContextSheetName stringValue] fromUI:YES];
+}
+
+- (IBAction)editSelectedContext:(id)sender {
+	NSInteger row = [outlineView selectedRow];
+	if (row < 0) {
+		return;
+    }
+
+	Context *ctxt = (Context *) [outlineView itemAtRow:row];
+
+	[newContextSheetName setStringValue:ctxt.name];
+	[newContextSheetName selectText:nil];
+    [newContextSheetColor setColor:(ctxt.iconColor) ? (ctxt.iconColor) : ([NSColor blackColor])];
+    [newContextSheetColorPreviewEnabled setIntValue:0];
+
+	[NSApp beginSheet:newContextSheet
+	   modalForWindow:prefsWindow
+	    modalDelegate:self
+	   didEndSelector:@selector(editContextSheetDidEnd:returnCode:contextInfo:)
+	      contextInfo:nil];
+}
+
+- (void)editContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if ([newContextSheetColorPreviewEnabled intValue]) {
+        [newContextSheetColorPreviewEnabled setIntValue:0];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewFinished" object:nil];
+    }
+
+	if (returnCode != NSOKButton) {
+		return;
+    }
+
+	NSInteger row = [outlineView selectedRow];
+	if (row < 0) {
+		return;
+    }
+
+	Context *ctxt = (Context *) [outlineView itemAtRow:row];
+    ctxt.name = [newContextSheetName stringValue];
+    ctxt.iconColor = [newContextSheetColor color];
+
+	[self postContextsChangedNotification];
 }
 
 #pragma mark -
@@ -344,8 +352,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private: Make sure you call [outlineView reloadData] after this!
-- (void)removeContextRecursively:(NSString *)uuid
-{
+- (void)removeContextRecursively:(NSString *)uuid {
 	NSEnumerator *en = [[self childrenOfContext:uuid] objectEnumerator];
 	Context *ctxt;
 	while ((ctxt = [en nextObject]))
@@ -355,8 +362,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private
-- (void)removeContextAfterAlert:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
+- (void)removeContextAfterAlert:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	Context *ctxt = (Context *) contextInfo;
 
 	if (returnCode != NSAlertFirstButtonReturn)
@@ -369,11 +375,29 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[self outlineViewSelectionDidChange:nil];
 }
 
-- (IBAction)removeContext:(id)sender
-{
+- (IBAction)onIconColorChange:(id)sender {
+    if ([newContextSheetColorPreviewEnabled intValue]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewRequested"
+                                                            object:nil
+                                                          userInfo:@{ @"color": [newContextSheetColor color] }];
+    }
+}
+
+- (IBAction)onColorPreviewModeChange:(id)sender {
+    if ([newContextSheetColorPreviewEnabled intValue]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewRequested"
+                                                            object:nil
+                                                          userInfo:@{ @"color": [newContextSheetColor color] }];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewFinished" object:nil];
+    }
+}
+
+- (IBAction)removeContext:(id)sender {
 	NSInteger row = [outlineView selectedRow];
-	if (row < 0)
+	if (row < 0) {
 		return;
+    }
 
 	Context *ctxt = (Context *) [outlineView itemAtRow:row];
 
@@ -400,12 +424,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[self outlineViewSelectionDidChange:nil];
 }
 
-- (Context *)contextByUUID:(NSString *)uuid
-{
+- (Context *)contextByUUID:(NSString *)uuid {
 	return [contexts objectForKey:uuid];
 }
 
-- (Context *) contextByName:(NSString *) name {
+- (Context *)contextByName:(NSString *) name {
 	for (NSString *key in contexts) {
 		Context *value = [contexts objectForKey:key];
 		
@@ -416,8 +439,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return nil;
 }
 
-- (NSArray *)arrayOfUUIDs
-{
+- (NSArray *)arrayOfUUIDs {
 	return [contexts allKeys];
 }
 
@@ -444,8 +466,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 // Private
-- (NSMutableArray *)walkToRoot:(NSString *)uuid
-{
+- (NSMutableArray *)walkToRoot:(NSString *)uuid {
 	// NOTE: There's no reason why this is limited, except for loop-avoidance.
 	// If you're using more than 20-deep nested contexts, perhaps ControlPlane isn't for you?
 	int limit = 20;
@@ -463,8 +484,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return walk;
 }
 
-- (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid
-{
+- (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid {
 	NSArray *src_walk = [self walkToRoot:src_uuid];
 	NSArray *dst_walk = [self walkToRoot:dst_uuid];
 
@@ -485,8 +505,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [NSArray arrayWithObjects:src_walk, dst_walk_rev, nil];
 }
 
-- (NSString *)pathFromRootTo:(NSString *)uuid
-{
+- (NSString *)pathFromRootTo:(NSString *)uuid {
 	NSArray *walk = [self walkToRoot:uuid];
 
 	NSMutableArray *rev_walk = [NSMutableArray arrayWithCapacity:[walk count]];
@@ -502,9 +521,9 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	for (Context *ctxt in [self orderedTraversal]) {
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
-		[item setTitle:[ctxt name]];
-		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
-		[item setRepresentedObject:[ctxt uuid]];
+		[item setTitle:ctxt.name];
+		[item setIndentationLevel:[ctxt.depth intValue]];
+		[item setRepresentedObject:ctxt.uuid];
 		//[item setTarget:self];
 		//[item setAction:@selector(forceSwitch:)];
 		[menu addItem:item];
@@ -515,39 +534,39 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 #pragma mark NSOutlineViewDataSource general methods
 
-- (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item
-{
+- (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item {
 	// TODO: optimise!
 
 	NSArray *children = [self childrenOfContext:(item ? [item uuid] : @"")];
 	return [children objectAtIndex:index];
 }
 
-- (NSInteger)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item
-{
+- (NSInteger)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item {
 	// TODO: optimise!
 	
 	NSArray *children = [self childrenOfContext:(item ? [item uuid] : @"")];
 	return [children count];
 }
 
-- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item
-{
+- (BOOL)outlineView:(NSOutlineView *)olv isItemExpandable:(id)item {
 	return [self outlineView:olv numberOfChildrenOfItem:item] > 0;
 }
 
-- (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
-{
+- (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
 	Context *ctxt = (Context *) item;
-	if ([[tableColumn identifier] isEqualToString:@"context"])
-		return [ctxt name];
-	else if ([[tableColumn identifier] isEqualToString:@"confidence"])
-		return [ctxt valueForKey:@"confidence"];
+	if ([[tableColumn identifier] isEqualToString:@"context"]) {
+		return ctxt.name;
+    } else if ([[tableColumn identifier] isEqualToString:@"confidence"]) {
+		return ctxt.confidence;
+    }
 	return nil;
 }
 
-- (void)outlineView:(NSOutlineView *)olv setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
-{
+- (void)outlineView:(NSOutlineView *)olv
+     setObjectValue:(id)object
+     forTableColumn:(NSTableColumn *)tableColumn
+             byItem:(id)item {
+
 	if (![[tableColumn identifier] isEqualToString:@"context"])
 		return;
 
@@ -560,8 +579,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 #pragma mark NSOutlineViewDataSource drag-n-drop methods
 
-- (BOOL)outlineView:(NSOutlineView *)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
-{
+- (BOOL)outlineView:(NSOutlineView *)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index {
 	// Only support internal drags (i.e. moves)
 	if ([info draggingSource] != outlineView)
 		return NO;
@@ -581,8 +599,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return YES;
 }
 
-- (NSDragOperation)outlineView:(NSOutlineView *)olv validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
-{
+- (NSDragOperation)outlineView:(NSOutlineView *)olv
+                  validateDrop:(id <NSDraggingInfo>)info
+                  proposedItem:(id)item
+            proposedChildIndex:(int)index {
+
 	// Only support internal drags (i.e. moves)
 	if ([info draggingSource] != outlineView)
 		return NSDragOperationNone;
@@ -596,8 +617,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return NSDragOperationMove;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)olv writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
-{
+- (BOOL)outlineView:(NSOutlineView *)olv writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
 	// declare our own pasteboard types
 	NSArray *typesArray = [NSArray arrayWithObject:MovedRowsType];
 
@@ -612,13 +632,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 #pragma mark NSOutlineView delegate methods
 
-- (void)triggerOutlineViewReloadData:(NSNotification *)notification
-{
+- (void)triggerOutlineViewReloadData:(NSNotification *)notification {
 	[outlineView reloadData];
 }
 
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification
-{
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
 	Context *ctxt = nil;
 	NSInteger row = [outlineView selectedRow];
 	if (row >= 0)
