@@ -61,11 +61,11 @@
 	double res;
 
 	if (!value || [value isEqualToString:NSLocalizedString(@"None", @"Delay value to display for zero seconds")])
-		res = 0;
+		res = 0.0;
 	else
 		res = [value doubleValue];
 
-	return [NSNumber numberWithDouble:res];
+	return @(res);
 }
 
 @end
@@ -174,8 +174,7 @@
                     forName:@"RuleStatusResultTransformer"];
 }
 
-- (id)init
-{
+- (id)init {
 	if (!(self = [super init]))
 		return nil;
 
@@ -183,7 +182,7 @@
 
 	newActionWindowParameterViewCurrentControl = nil;
 
-	[self setValue:[NSNumber numberWithBool:NO] forKey:@"logBufferPaused"];
+	[self setValue:@NO forKey:@"logBufferPaused"];
 	logBufferTimer = nil;
     
     _logBufferUnchangedSince = [[NSDate distantPast] retain];

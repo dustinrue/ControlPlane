@@ -17,6 +17,7 @@
 		7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4855BF174941C500D8EB84 /* IPv6RuleType.m */; };
 		7C6D94591747A1BE00D5B9C7 /* IPAddrEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */; };
 		7C6D945C1747A1F300D5B9C7 /* IPv4RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */; };
+		7C841D80175A904A000BDA66 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C841D7F175A904A000BDA66 /* QuartzCore.framework */; };
 		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
 		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
 		7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF034B17246B770098990F /* SearchDomainRule.xib */; };
@@ -211,13 +212,6 @@
 			remoteGlobalIDString = DAD8898E15D5F337009F30A3;
 			remoteInfo = NotificationCenterAction;
 		};
-		DAD889AE15D5F3CD009F30A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DAD8898D15D5F337009F30A3;
-			remoteInfo = NotificationCenterAction;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -341,6 +335,7 @@
 		7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPAddrEvidenceSource.m; path = Source/IPAddrEvidenceSource.m; sourceTree = "<group>"; };
 		7C6D945A1747A1E400D5B9C7 /* IPv4RuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPv4RuleType.h; path = Source/IPv4RuleType.h; sourceTree = "<group>"; };
 		7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPv4RuleType.m; path = Source/IPv4RuleType.m; sourceTree = "<group>"; };
+		7C841D7F175A904A000BDA66 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7C8574EA16FB52AF0081659A /* DNSEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DNSEvidenceSource.h; path = Source/DNSEvidenceSource.h; sourceTree = "<group>"; };
 		7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DNSEvidenceSource.m; path = Source/DNSEvidenceSource.m; sourceTree = "<group>"; };
 		7C8574EF16FB53180081659A /* ServerAddressRuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerAddressRuleType.h; path = Source/ServerAddressRuleType.h; sourceTree = "<group>"; };
@@ -659,6 +654,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C841D80175A904A000BDA66 /* QuartzCore.framework in Frameworks */,
 				DAC817B1159BF95A0012ED43 /* ServiceManagement.framework in Frameworks */,
 				DA8E2833156B498A0040FC35 /* ApplicationServices.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
@@ -762,6 +758,7 @@
 				8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */,
 				8D481B070B6098DD0097CF9C /* IOKit.framework */,
 				DA48F2E3140AD2FC00B000D3 /* Kernel.framework */,
+				7C841D7F175A904A000BDA66 /* QuartzCore.framework */,
 				DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */,
 				DD8274FA141177750098FA6E /* Security.framework */,
 				DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */,
@@ -1229,7 +1226,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DAD889AF15D5F3CD009F30A3 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
 			);
@@ -1596,11 +1592,6 @@
 			isa = PBXTargetDependency;
 			target = DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
-		};
-		DAD889AF15D5F3CD009F30A3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = NotificationCenterAction;
-			targetProxy = DAD889AE15D5F3CD009F30A3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

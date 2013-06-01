@@ -6,15 +6,17 @@
 //
 
 
-@interface Context : NSObject {
-	NSString *uuid;
-	NSString *parent;	// UUID
-	NSString *name;
+@interface Context : NSObject
 
-	// Transient
-	NSNumber *depth;
-	NSString *confidence;
-}
+// Persistent
+@property (assign,nonatomic,readonly) NSString *uuid;
+@property (copy,nonatomic,readwrite) NSString *parentUUID;
+@property (copy,nonatomic,readwrite) NSString *name;
+@property (copy,nonatomic,readwrite) NSColor  *iconColor;
+
+// Transient
+@property (copy,nonatomic,readwrite) NSString *confidence;
+@property (retain,nonatomic,readonly) NSNumber *depth;
 
 - (id)init;
 - (id)initWithDictionary:(NSDictionary *)dict;
@@ -22,12 +24,6 @@
 - (BOOL)isRoot;
 - (NSDictionary *)dictionary;
 - (NSComparisonResult)compare:(Context *)ctxt;
-
-- (NSString *)uuid;
-- (NSString *)parentUUID;
-- (void)setParentUUID:(NSString *)parentUUID;
-- (NSString *)name;
-- (void)setName:(NSString *)newName;
 
 @end
 
@@ -40,8 +36,11 @@
 	Context *selection;
 
 	IBOutlet NSWindow *prefsWindow;
+
 	IBOutlet NSPanel *newContextSheet;
 	IBOutlet NSTextField *newContextSheetName;
+    IBOutlet NSColorWell *newContextSheetColor;
+    IBOutlet NSButton *newContextSheetColorPreviewEnabled;
 }
 
 - (void)loadContexts;
