@@ -14,8 +14,6 @@
 	NSToolbar *prefsToolbar;
 
     
-
-	IBOutlet CPController *cpController;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet NSArrayController *rulesController, *actionsController;
