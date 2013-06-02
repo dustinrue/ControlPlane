@@ -14,7 +14,6 @@
 #import "NSTimer+Invalidation.h"
 #import "CPNotifications.h"
 #import <libkern/OSAtomic.h>
-#import <QuartzCore/QuartzCore.h>
 
 
 @interface CPController (Private)
@@ -160,23 +159,14 @@
     
 }
 
-- (NSImage *)getImageFromImage:(NSImage*)img byAddingBiasColor:(NSColor *)color {
-    CIImage *inputImage = [[[CIImage alloc] initWithData:[img TIFFRepresentation]] autorelease];
+- (NSImage *)getColorImageFromContourImage:(NSImage*)img usingTint:(NSColor *)color {
+    NSImage *resultImage = [[img copy] autorelease];
 
-    NSColor *rgb = [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
-    CIVector *bias = [CIVector vectorWithX:[rgb redComponent] Y:[rgb greenComponent] Z:[rgb blueComponent]];
+    [resultImage lockFocus];
+    [color set];
+    NSRectFillUsingOperation((NSRect) {NSZeroPoint, img.size}, NSCompositeSourceAtop);
+    [resultImage unlockFocus];
 
-    CIFilter *filter = [CIFilter filterWithName:@"CIColorMatrix"];
-    [filter setDefaults];
-    [filter setValue:inputImage forKey:kCIInputImageKey];
-    [filter setValue:bias forKey:@"inputBiasVector"];
-
-    CIImage *outputImage = [filter valueForKey:kCIOutputImageKey];
-    
-    NSImage *resultImage = [[[NSImage alloc] initWithSize:img.size] autorelease];
-    NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:outputImage];
-    [resultImage addRepresentation:rep];
-    
     return resultImage;
 }
 
@@ -642,7 +632,7 @@
     if (userInfo) {
         NSColor *color = userInfo[@"color"];
         if (color) {
-            [self setMenuBarImage:[self getImageFromImage:sbImageActive byAddingBiasColor:color]];
+            [self setMenuBarImage:[self getColorImageFromContourImage:sbImageActive usingTint:color]];
         } else {
             [self setMenuBarImage:sbImageActive];
         }
@@ -662,7 +652,7 @@
             barImage = sbImageActive;
 
             if (currentColorOfIcon && ![currentColorOfIcon isEqualTo:[NSColor blackColor]]) {
-                barImage = [self getImageFromImage:barImage byAddingBiasColor:currentColorOfIcon];
+                barImage = [self getColorImageFromContourImage:barImage usingTint:currentColorOfIcon];
             }
         } else {
             barImage = sbImageInactive;
