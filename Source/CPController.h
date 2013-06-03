@@ -19,6 +19,7 @@
 	NSTimer *sbHideTimer;
 
 	NSString *currentContextUUID, *currentContextName;
+    NSColor *currentColorOfIcon;
 	NSInteger smoothCounter;
 
 	IBOutlet NSMenuItem *forceContextMenuItem;

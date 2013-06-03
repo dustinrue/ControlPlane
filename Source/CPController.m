@@ -159,9 +159,19 @@
     
 }
 
+- (NSImage *)getColorImageFromContourImage:(NSImage*)img usingTint:(NSColor *)color {
+    NSImage *resultImage = [[img copy] autorelease];
+
+    [resultImage lockFocus];
+    [color set];
+    NSRectFillUsingOperation((NSRect) {NSZeroPoint, img.size}, NSCompositeSourceAtop);
+    [resultImage unlockFocus];
+
+    return resultImage;
+}
+
 // Helper: Load a named image, and scale it to be suitable for menu bar use.
-- (NSImage *)prepareImageForMenubar:(NSString *)name
-{
+- (NSImage *)prepareImageForMenubar:(NSString *)name {
 	NSImage *img = [NSImage imageNamed:name];
 	[img setScalesWhenResized:YES];
     // TODO: provide images for retina displays
@@ -171,11 +181,10 @@
 }
 
 - (id)init {
-	if (!(self = [super init])) {
+	if (!(self = [super init]))
 		return nil;
-    }
 
-	sbImageActive = [[self prepareImageForMenubar:@"cp-icon-active"] retain];
+	sbImageActive   = [[self prepareImageForMenubar:@"cp-icon-active"]   retain];
 	sbImageInactive = [[self prepareImageForMenubar:@"cp-icon-inactive"] retain];
 	sbItem = nil;
 	sbHideTimer = nil;
@@ -208,10 +217,10 @@
 
 - (void)dealloc {
     [_rules release];
-    
-    [sbImageInactive release];
+
     [sbImageActive release];
-    
+    [sbImageInactive release];
+
     [numberFormatter release];
 	[updatingSwitchingLock release];
 	[updatingLock release];
@@ -457,6 +466,7 @@
 		if (ctxt) {
 			[self setValue:uuid forKey:@"currentContextUUID"];
 			[self setValue:[contextsDataSource pathFromRootTo:uuid] forKey:@"currentContextName"];
+            [self setValue:[ctxt iconColor] forKey:@"currentColorOfIcon"];
 
 			// Update force context menu
 			NSMenu *menu = [forceContextMenuItem submenu];
@@ -586,6 +596,15 @@
 											 selector:@selector(unsetStickyBit:)
 												 name:@"unsetStickyBit"
 											   object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateMenuBarImageOnIconColorPreviewNotification:)
+                                                 name:@"iconColorPreviewRequested"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateMenuBarImageOnIconColorPreviewNotification:)
+                                                 name:@"iconColorPreviewFinished"
+                                               object:nil];
 }
 
 
@@ -608,6 +627,20 @@
     [as release];
 }
 
+- (void)updateMenuBarImageOnIconColorPreviewNotification:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    if (userInfo) {
+        NSColor *color = userInfo[@"color"];
+        if (color) {
+            [self setMenuBarImage:[self getColorImageFromContourImage:sbImageActive usingTint:color]];
+        } else {
+            [self setMenuBarImage:sbImageActive];
+        }
+    } else {
+        [self updateMenuBarImage];
+    }
+}
+
 - (void)updateMenuBarImage {
 	if (!sbItem) {
 		return;
@@ -615,7 +648,15 @@
 
     NSImage *barImage = nil;
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
-        barImage = ([currentContextUUID length] > 0) ? (sbImageActive) : (sbImageInactive);
+        if ([currentContextUUID length] > 0) {
+            barImage = sbImageActive;
+
+            if (currentColorOfIcon && ![currentColorOfIcon isEqualTo:[NSColor blackColor]]) {
+                barImage = [self getColorImageFromContourImage:barImage usingTint:currentColorOfIcon];
+            }
+        } else {
+            barImage = sbImageInactive;
+        }
     }
 
     [self setMenuBarImage:barImage];
@@ -707,8 +748,8 @@
 	for (Context *ctxt in [contextsDataSource orderedTraversal]) {
 		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
 		[item setTitle:[ctxt name]];
-		[item setIndentationLevel:[[ctxt valueForKey:@"depth"] intValue]];
-		[item setRepresentedObject:[ctxt uuid]];
+		[item setIndentationLevel:[ctxt.depth intValue]];
+		[item setRepresentedObject:ctxt.uuid];
 		[item setTarget:self];
 		[item setAction:@selector(forceSwitch:)];
 		[submenu addItem:item];
@@ -739,10 +780,12 @@
 	Context *ctxt = [contextsDataSource contextByUUID:currentContextUUID];
 	if (ctxt) {
 		[self setValue:[contextsDataSource pathFromRootTo:currentContextUUID] forKey:@"currentContextName"];
+        [self setValue:[ctxt iconColor] forKey:@"currentColorOfIcon"];
 	} else {
 		// Our current context was removed
 		[self setValue:@""  forKey:@"currentContextUUID"];
 		[self setValue:@"?" forKey:@"currentContextName"];
+        [self setValue:nil forKey:@"currentColorOfIcon"];
 	}
 
     // Update menu bar (always do that in the main thread)
@@ -1076,6 +1119,9 @@
 	[self setValue:toUUID forKey:@"currentContextUUID"];
 	[self setValue:ctxt_path forKey:@"currentContextName"];
 
+    Context *toCtxt = enteringWalk[[enteringWalk count] - 1];
+    [self setValue:[toCtxt iconColor] forKey:@"currentColorOfIcon"];
+
     // Notify subscribed apps
     NSDictionary *userInfo = @{ @"context": ctxt_path };
     [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
@@ -1252,7 +1298,7 @@
 		if ([currentContextTree count] == 0)
 			continue;	// Oops, something got busted along the way
 
-		const int base_depth = [[currentContextTree[0] valueForKey:@"depth"] intValue];
+		const int base_depth = [((Context *) currentContextTree[0]).depth intValue];
         const double currentRuleConfidence = [currentRule[@"confidence"] doubleValue];
 
 		for (Context *currentContext in currentContextTree) {
@@ -1267,7 +1313,7 @@
             }
 
             // account for the amount of confidence this matching rule affects the guess
-			const int depth = [[currentContext valueForKey:@"depth"] intValue];
+			const int depth = [currentContext.depth intValue];
 			double mult = 1.0 - (0.03 * (depth - base_depth)); // decay
 			mult *= currentRuleConfidence;
 			unconfidenceValue = @([unconfidenceValue doubleValue] * (1.0 - mult));
@@ -1331,18 +1377,17 @@
     // Update the values seen in the GUI.  This shows that there are rules that match
     // the context and what the "confidence" is for each
     for (NSString *uuid in allConfiguredContexts) {
-		NSNumber *conf = guesses[uuid];
-		NSString *newConfString = (conf) ? ([numberFormatter stringFromNumber:conf]) : (@"");
-
 		Context *ctxt = [contextsDataSource contextByUUID:uuid];
-		[ctxt setValue:newConfString forKey:@"confidence"];
+		NSNumber *conf = guesses[uuid];
+        ctxt.confidence = (conf) ? ([numberFormatter stringFromNumber:conf]) : (@"");
 	}
 
 	// XXX: hackish -- but will be enough until 3.0
     // don't force data update if we're editing a context name
 	NSOutlineView *olv = [contextsDataSource valueForKey:@"outlineView"];
-	if (![olv currentEditor])
+	if (![olv currentEditor]) {
         [contextsDataSource triggerOutlineViewReloadData:nil];
+    }
 }
 
 - (NSString *)getGuessConfidenceStringFrom:(NSNumber *)confidence {

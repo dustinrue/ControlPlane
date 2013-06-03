@@ -211,13 +211,6 @@
 			remoteGlobalIDString = DAD8898E15D5F337009F30A3;
 			remoteInfo = NotificationCenterAction;
 		};
-		DAD889AE15D5F3CD009F30A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DAD8898D15D5F337009F30A3;
-			remoteInfo = NotificationCenterAction;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1229,7 +1222,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DAD889AF15D5F3CD009F30A3 /* PBXTargetDependency */,
 				DA5B02071412BB3A00E19C50 /* PBXTargetDependency */,
 				DA5B01E31412B78900E19C50 /* PBXTargetDependency */,
 			);
@@ -1596,11 +1588,6 @@
 			isa = PBXTargetDependency;
 			target = DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
-		};
-		DAD889AF15D5F3CD009F30A3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = NotificationCenterAction;
-			targetProxy = DAD889AE15D5F3CD009F30A3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
