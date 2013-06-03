@@ -58,10 +58,10 @@
 	NSString *strippedVPNType = [vpnType substringFromIndex:1];
 
 	if (enabledPrefix == true)
-		return [NSString stringWithFormat:NSLocalizedString(@"Connecting to default VPN of type '%@'.", @""),
+		return [NSString stringWithFormat:NSLocalizedString(@"Connecting to VPN '%@'.", @""),
 			strippedVPNType];
 	else
-		return [NSString stringWithFormat:NSLocalizedString(@"Disconnecting from default VPN of type '%@'.", @""),
+		return [NSString stringWithFormat:NSLocalizedString(@"Disconnecting from VPN '%@'.", @""),
 			strippedVPNType];
 }
 
@@ -70,12 +70,15 @@
 	
 	@try {
 		BOOL connect = ([vpnType characterAtIndex:0] == '+' ? YES : NO);
-		NSString *tVPNType = [vpnType substringFromIndex: 1];
+		NSString *tVPNName = [vpnType substringFromIndex: 1];
 		SystemEventsApplication *SEvents = [SBApplication applicationWithBundleIdentifier: @"com.apple.systemevents"];
 		
 		// find service
 		SystemEventsLocation *location = SEvents.networkPreferences.currentLocation;
-		SystemEventsService *service = [location.services objectWithName: [NSString stringWithFormat:@"VPN (%@)", tVPNType]];
+		SystemEventsService *service = [location.services objectWithName:[NSString stringWithFormat:@"%@", tVPNName]];
+        
+        // no service found? try legacy format.
+		service = service ? service : [location.services objectWithName:[NSString stringWithFormat:@"VPN (%@)", tVPNName]];
 		
 		// connect/disconnect
 		if (service) {
@@ -95,7 +98,7 @@
 
 + (NSString *)helpText
 {
-	return NSLocalizedString(@"The parameter for VPN action is the type of the "
+	return NSLocalizedString(@"The parameter for VPN action is the name of the "
 				 "VPN connection you wish to establish or disconnect.", @"");
 }
 
@@ -106,21 +109,40 @@
 
 + (NSArray *)limitedOptions
 {
-	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:4];
-
-	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @"-PPTP", @"option", @"Disable default PPTP VPN", @"description", nil]];
-	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @"+PPTP", @"option", @"Enable default PPTP VPN", @"description", nil]];
-	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @"-L2TP", @"option", @"Disable default L2TP VPN", @"description", nil]];
-	[opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @"+L2TP", @"option", @"Enable default L2TP VPN", @"description", nil]];
-    [opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @"-Cisco IPSec", @"option", @"Disable default Cisco IPSec VPN", @"description", nil]];
-    [opts addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                     @"+Cisco IPSec", @"option", @"Enable default Cisco IPSec VPN", @"description", nil]];
-
+	NSMutableArray *opts = [NSMutableArray array];
+    
+    // loop through all services
+    SystemEventsApplication *SEvents = [SBApplication applicationWithBundleIdentifier: @"com.apple.systemevents"];
+    SystemEventsLocation *location = SEvents.networkPreferences.currentLocation;
+    
+    for (SystemEventsService *service in location.services)
+    {
+        // only add vpns, not other services
+        if (!(service.kind == 10 || service.kind == 12 || service.kind == 15)) continue;
+        
+        [opts addObject:
+         @{
+            @"option": [NSString stringWithFormat:@"+%@", service.name],
+            @"description": [NSString stringWithFormat:@"Connect VPN '%@'", service.name]
+         }];
+        [opts addObject:
+         @{
+            @"option": [NSString stringWithFormat:@"-%@", service.name],
+            @"description": [NSString stringWithFormat:@"Disconnect VPN '%@'", service.name]
+         }];
+    }
+    
+    [opts addObject:
+     @{
+        @"option": @"+<name>",
+        @"description": @"Connect other VPN"
+     }];
+    [opts addObject:
+     @{
+        @"option": @"-<name>",
+        @"description": @"Disconnect other VPN"
+     }];
+    
 	return opts;
 }
 
