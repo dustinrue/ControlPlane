@@ -34,7 +34,7 @@
 }
 
 - (NSString *)name {
-    return NSLocalizedString(@"IPv6", @"");
+    return @"IPv6";
 }
 
 - (BOOL)parseParamsOf:(NSMutableDictionary *)rule toNetworkAddress:(struct in6_addr *)address
