@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Dustin Rue. All rights reserved.
 //
 
-#import "ActionPlugin.h"
+#import "../../Source/ActionPlugin.h"
 
 
 @interface NotificationCenterAction : NSObject <ToggleableAction>

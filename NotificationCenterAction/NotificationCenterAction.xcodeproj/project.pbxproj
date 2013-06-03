@@ -23,7 +23,6 @@
 		DAD8899D15D5F337009F30A3 /* NotificationCenterAction-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NotificationCenterAction-Prefix.pch"; sourceTree = "<group>"; };
 		DAD889AB15D5F394009F30A3 /* NotificationCenterAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCenterAction.h; sourceTree = "<group>"; };
 		DAD889AC15D5F394009F30A3 /* NotificationCenterAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCenterAction.m; sourceTree = "<group>"; };
-		DAD889B315D5F61C009F30A3 /* ActionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ActionPlugin.h; path = ../../Protocols/ActionPlugin.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +76,6 @@
 		DAD8899715D5F337009F30A3 /* NotificationCenterAction */ = {
 			isa = PBXGroup;
 			children = (
-				DAD889B315D5F61C009F30A3 /* ActionPlugin.h */,
 				DAD889AB15D5F394009F30A3 /* NotificationCenterAction.h */,
 				DAD889AC15D5F394009F30A3 /* NotificationCenterAction.m */,
 				DAD8899815D5F337009F30A3 /* Supporting Files */,
@@ -200,6 +198,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = ../../Source;
 			};
 			name = Debug;
 		};
@@ -221,6 +220,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = ../../Source;
 			};
 			name = Release;
 		};
