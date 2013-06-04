@@ -159,17 +159,6 @@
     
 }
 
-- (NSImage *)getColorImageFromContourImage:(NSImage*)img usingTint:(NSColor *)color {
-    NSImage *resultImage = [[img copy] autorelease];
-
-    [resultImage lockFocus];
-    [color set];
-    NSRectFillUsingOperation((NSRect) {NSZeroPoint, img.size}, NSCompositeSourceAtop);
-    [resultImage unlockFocus];
-
-    return resultImage;
-}
-
 // Helper: Load a named image, and scale it to be suitable for menu bar use.
 - (NSImage *)prepareImageForMenubar:(NSString *)name {
 	NSImage *img = [NSImage imageNamed:name];
@@ -180,12 +169,21 @@
 	return img;
 }
 
+- (void)changeActiveIconImageColorTo:(NSColor *)color {
+    [sbImageActive lockFocus];
+    [color set];
+    NSRectFillUsingOperation((NSRect) {NSZeroPoint, sbImageActive.size}, NSCompositeSourceIn);
+    [sbImageActive unlockFocus];
+}
+
 - (id)init {
-	if (!(self = [super init]))
+	if (!(self = [super init])) {
 		return nil;
+    }
 
 	sbImageActive   = [[self prepareImageForMenubar:@"cp-icon-active"]   retain];
 	sbImageInactive = [[self prepareImageForMenubar:@"cp-icon-inactive"] retain];
+
 	sbItem = nil;
 	sbHideTimer = nil;
 	updatingTimer = nil;
@@ -631,11 +629,8 @@
     NSDictionary *userInfo = [notification userInfo];
     if (userInfo) {
         NSColor *color = userInfo[@"color"];
-        if (color) {
-            [self setMenuBarImage:[self getColorImageFromContourImage:sbImageActive usingTint:color]];
-        } else {
-            [self setMenuBarImage:sbImageActive];
-        }
+        [self changeActiveIconImageColorTo:((color) ? (color) : ([NSColor blackColor]))];
+        [self setMenuBarImage:sbImageActive];
     } else {
         [self updateMenuBarImage];
     }
@@ -649,11 +644,9 @@
     NSImage *barImage = nil;
     if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
         if ([currentContextUUID length] > 0) {
+            NSColor *iconColor = (currentColorOfIcon) ? (currentColorOfIcon) : ([NSColor blackColor]);
+            [self changeActiveIconImageColorTo:iconColor];
             barImage = sbImageActive;
-
-            if (currentColorOfIcon && ![currentColorOfIcon isEqualTo:[NSColor blackColor]]) {
-                barImage = [self getColorImageFromContourImage:barImage usingTint:currentColorOfIcon];
-            }
         } else {
             barImage = sbImageInactive;
         }
@@ -662,7 +655,7 @@
     [self setMenuBarImage:barImage];
 }
 
-- (void)setMenuBarImage:(NSImage *)imageName {
+- (void)setMenuBarImage:(NSImage *)image {
     // if the menu bar item has been hidden sbItem will have been released
     // and we should not attempt to update the image
     if (!sbItem) {
@@ -670,10 +663,10 @@
     }
 
     @try {
-        [sbItem setImage:imageName];
+        [sbItem setImage:image];
     }
     @catch (NSException *exception) {
-        DSLog(@"failed to set the menubar icon to %@ with error %@. Please alert ControlPlane Developers!", [imageName name], [exception reason]);
+        DSLog(@"failed to set the menubar icon to %@ with error %@. Please alert ControlPlane Developers!", [image name], [exception reason]);
         [self setStatusTitle:@"Failed to set icon"];
     }
 }
