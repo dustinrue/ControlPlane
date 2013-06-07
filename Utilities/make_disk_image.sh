@@ -36,9 +36,10 @@ fi
 
 # do codesigning
 codesign -v -vv $APP
-codesign -f -s "Developer ID Application: Dustin Rue" -vv $APP
+codesign -f -s "Developer ID Application: Dustin Rue" -vv $APP || exit 1
+codesign -f -s "Developer ID Application: Dustin Rue" -vv $APP/Contents/Library/LaunchServices/com.dustinrue.CPHelperTool || exit 1
+codesign -f -s "Developer ID Application: Dustin Rue" -vv $APP/Contents/MacOS/CPHelperInstallTool || exit 1
 codesign -v -vv $APP
-
 
 # Create an initial disk image (32 megs)
 if [ -f "$IMG" ]; then rm "$IMG"; fi
