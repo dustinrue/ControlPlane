@@ -58,13 +58,13 @@
 
 - (BOOL)doParamsMatch:(CachedIPv4RuleParams *)params {
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv4Addresses;
-    if ((NSUInteger) params->index >= [addresses count]) {
+    const NSUInteger index = (NSUInteger) params->index;
+    if (index >= [addresses count]) {
         return NO;
     }
 
-    struct in_addr ipv4;
-    [(NSValue *) addresses[(NSUInteger) params->index] getValue:&ipv4];
-    return ((ipv4.s_addr & params->mask) == params->subnet);
+    PackedIPv4Address *ipv4 = (PackedIPv4Address *) addresses[index];
+    return (([ipv4 inAddr]->s_addr & params->mask) == params->subnet);
 }
 
 - (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
@@ -86,10 +86,8 @@
     const in_addr_t subnet = cachedParams->subnet, mask = cachedParams->mask;
 
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv4Addresses;
-    [addresses enumerateObjectsUsingBlock:^(NSValue *packedIPAddr, NSUInteger idx, BOOL *stop) {
-        struct in_addr ipv4;
-        [packedIPAddr getValue:&ipv4];
-        if ((ipv4.s_addr & mask) == subnet) {
+    [addresses enumerateObjectsUsingBlock:^(PackedIPv4Address *addr, NSUInteger idx, BOOL *stop) {
+        if (([addr inAddr]->s_addr & mask) == subnet) {
             cachedParams->index = (int) idx; // for quick matching on future calls
             *stop = YES;
         }

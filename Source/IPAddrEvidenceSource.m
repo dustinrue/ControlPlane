@@ -7,10 +7,58 @@
 
 #import <arpa/inet.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+
 #import "IPAddrEvidenceSource.h"
 #import "IPv4RuleType.h"
 #import "IPv6RuleType.h"
 
+
+#pragma mark Packed IP Addresses
+
+@implementation PackedIPv4Address {
+    struct in_addr ipAddr;
+}
+
+- (id)initWithString:(NSString *)description {
+    self = [super init];
+    if (self) {
+        if (inet_pton(AF_INET, [description UTF8String], &ipAddr) != 1) {
+            [self release];
+            return nil;
+        }
+    }
+    return self;
+}
+
+- (const struct in_addr *)inAddr {
+    return &ipAddr;
+}
+
+@end
+
+@implementation PackedIPv6Address {
+    struct in6_addr ipAddr;
+}
+
+- (id)initWithString:(NSString *)description {
+    self = [super init];
+    if (self) {
+        if (inet_pton(AF_INET6, [description UTF8String], &ipAddr) != 1) {
+            [self release];
+            return nil;
+        }
+    }
+    return self;
+}
+
+- (const struct in6_addr *)inAddr {
+    return &ipAddr;
+}
+
+@end
+
+
+#pragma mark IP Address Evidence Source
 
 static char * const queueIsStopped = "queueIsStopped";
 
@@ -84,37 +132,44 @@ static void ipAddrChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *
     [self setDataCollected:NO];
 }
 
-static BOOL isAllowedIPv4Address(struct in_addr *ipv4) {
-    in_addr_t addr = ntohl(ipv4->s_addr);
+static BOOL isAllowedIPv4Address(PackedIPv4Address *ipv4) {
+    const in_addr_t addr = ntohl([ipv4 inAddr]->s_addr);
     if (IN_LOOPBACK(addr) || IN_LINKLOCAL(addr) || IN_MULTICAST(addr)) {
         return NO;
     }
     return YES;
 }
 
-static BOOL isAllowedIPv6Address(struct in6_addr *ipv6) {
-    if (IN6_IS_ADDR_LOOPBACK(ipv6) || IN6_IS_ADDR_LINKLOCAL(ipv6) || IN6_IS_ADDR_MULTICAST(ipv6)) {
+static BOOL isAllowedIPv6Address(PackedIPv6Address *ipv6) {
+    const struct in6_addr *addr = [ipv6 inAddr];
+    if (IN6_IS_ADDR_LOOPBACK(addr) || IN6_IS_ADDR_LINKLOCAL(addr) || IN6_IS_ADDR_MULTICAST(addr)) {
         return NO;
     }
     return YES;
 }
 
 - (void)enumerateIPv4Addresses:(NSArray *)addresses
-                    usingBlock:(void (^)(NSString *strIPAddr, struct in_addr *ipAddr))block {
+                    usingBlock:(void (^)(NSString *strIPAddr, PackedIPv4Address *ipAddr))block {
     for (NSString *addr in addresses) {
-        struct in_addr ipv4;
-        if ((inet_pton(AF_INET, [addr UTF8String], &ipv4) == 1) && isAllowedIPv4Address(&ipv4)) {
-            block(addr, &ipv4);
+        PackedIPv4Address *packedAddr = [[PackedIPv4Address alloc] initWithString:addr];
+        if (packedAddr) {
+            if (isAllowedIPv4Address(packedAddr)) {
+                block(addr, packedAddr);
+            }
+            [packedAddr release];
         }
     }
 }
 
 - (void)enumerateIPv6Addresses:(NSArray *)addresses
-                    usingBlock:(void (^)(NSString *strIPAddr, struct in6_addr *ipAddr))block {
+                    usingBlock:(void (^)(NSString *strIPAddr, PackedIPv6Address *ipAddr))block {
     for (NSString *addr in addresses) {
-        struct in6_addr ipv6;
-        if ((inet_pton(AF_INET6, [addr UTF8String], &ipv6) == 1) && isAllowedIPv6Address(&ipv6)) {
-            block(addr, &ipv6);
+        PackedIPv6Address *packedAddr = [[PackedIPv6Address alloc] initWithString:addr];
+        if (packedAddr) {
+            if (isAllowedIPv6Address(packedAddr)) {
+                block(addr, packedAddr);
+            }
+            [packedAddr release];
         }
     }
 }
@@ -138,16 +193,14 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
         NSArray *addresses = ipParams[@"Addresses"];
 
         if ([key hasSuffix:@"4"]) { // IPv4
-            [self enumerateIPv4Addresses:addresses usingBlock:^(NSString *strIPAddr, struct in_addr *ipAddr) {
-                NSValue *packedIPAddr = [NSValue valueWithBytes:ipAddr objCType:@encode(struct in_addr)];
+            [self enumerateIPv4Addresses:addresses usingBlock:^(NSString *strIPAddr, PackedIPv4Address *ipAddr) {
                 [stringIPv4Addresses addObject:strIPAddr];
-                [packedIPv4Addresses addObject:packedIPAddr];
+                [packedIPv4Addresses addObject:ipAddr];
             }];
         } else { // IPv6
-            [self enumerateIPv6Addresses:addresses usingBlock:^(NSString *strIPAddr, struct in6_addr *ipAddr) {
-                NSValue *packedIPAddr = [NSValue valueWithBytes:ipAddr objCType:@encode(struct in6_addr)];
+            [self enumerateIPv6Addresses:addresses usingBlock:^(NSString *strIPAddr, PackedIPv6Address *ipAddr) {
                 [stringIPv6Addresses addObject:strIPAddr];
-                [packedIPv6Addresses addObject:packedIPAddr];
+                [packedIPv6Addresses addObject:ipAddr];
             }];
         }
     }];

@@ -73,13 +73,13 @@ static BOOL areEqualIPv6Subnetworks(const struct in6_addr *addr,
 
 - (BOOL)doParamsMatch:(CachedIPv6RuleParams *)params {
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv6Addresses;
-    if ((NSUInteger) params->index >= [addresses count]) {
+    const NSUInteger index = (NSUInteger) params->index;
+    if (index >= [addresses count]) {
         return NO;
     }
 
-    struct in6_addr ipv6;
-    [(NSValue *) addresses[(NSUInteger) params->index] getValue:&ipv6];
-    return areEqualIPv6Subnetworks(&ipv6, &(params->addr), params->prefixLen);
+    PackedIPv6Address *ipv6 = (PackedIPv6Address *) addresses[index];
+    return areEqualIPv6Subnetworks([ipv6 inAddr], &(params->addr), params->prefixLen);
 }
 
 - (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
@@ -100,10 +100,8 @@ static BOOL areEqualIPv6Subnetworks(const struct in6_addr *addr,
     cachedParams->index = -1;
 
     NSArray *addresses = ((IPAddrEvidenceSource *) self.evidenceSource).packedIPv6Addresses;
-    [addresses enumerateObjectsUsingBlock:^(NSValue *packedIPAddr, NSUInteger idx, BOOL *stop) {
-        struct in6_addr ipv6;
-        [packedIPAddr getValue:&ipv6];
-        if (areEqualIPv6Subnetworks(&ipv6, &(cachedParams->addr), cachedParams->prefixLen)) {
+    [addresses enumerateObjectsUsingBlock:^(PackedIPv6Address *packedIPAddr, NSUInteger idx, BOOL *stop) {
+        if (areEqualIPv6Subnetworks([packedIPAddr inAddr], &(cachedParams->addr), cachedParams->prefixLen)) {
             cachedParams->index = (int) idx; // for quick matching on future calls
             *stop = YES;
         }
