@@ -33,7 +33,7 @@
 }
 
 - (NSString *)name {
-    return NSLocalizedString(@"IP", @"");
+    return @"IP";
 }
 
 - (BOOL)parseParamsOf:(NSMutableDictionary *)rule toNetAddr:(in_addr_t *)addr andMask:(in_addr_t *)mask {

@@ -25,7 +25,7 @@
 }
 
 - (NSString *)name {
-    return NSLocalizedString(@"DNS Search Domain", @"");
+    return @"DNS Search Domain";
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {

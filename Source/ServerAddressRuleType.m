@@ -25,7 +25,7 @@
 }
 
 - (NSString *)name {
-    return NSLocalizedString(@"DNS Server IP Address", @"");
+    return @"DNS Server IP Address";
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
