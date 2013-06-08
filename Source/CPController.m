@@ -82,9 +82,9 @@
 }
 
 #define STATUS_BAR_LINGER	10	// seconds before disappearing from menu bar
-#define CP_DISPLAY_ICON     0
-#define CP_DISPLAY_CONTEXT  1
-#define CP_DISPLAY_BOTH     2
+#define CP_DISPLAY_ICON     0u
+#define CP_DISPLAY_CONTEXT  1u
+#define CP_DISPLAY_BOTH     2u
 
 @synthesize screenSaverRunning;
 @synthesize screenLocked;
@@ -642,7 +642,7 @@
     }
 
     NSImage *barImage = nil;
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
         if ([currentContextUUID length] > 0) {
             NSColor *iconColor = (currentColorOfIcon) ? (currentColorOfIcon) : ([NSColor blackColor]);
             [self changeActiveIconImageColorTo:iconColor];
@@ -682,7 +682,7 @@
 
     [self updateMenuBarImage];
     
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
         [self setStatusTitle:currentContextName];
     }
 	
@@ -784,7 +784,7 @@
     // Update menu bar (always do that in the main thread)
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateMenuBarImage];
-        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
             [self setStatusTitle:currentContextName];
         }
     });
@@ -1128,7 +1128,7 @@
     // Update menu bar (always do that in the main thread)
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateMenuBarImage];
-        if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
             [self setStatusTitle:currentContextName];
         }
     });
@@ -1551,8 +1551,8 @@
 - (void)userDefaultsChanged:(NSNotification *)notification {
     [self startOrStopHidingFromStatusBar];
     [self updateMenuBarImage];
-    
-    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
+
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
         [self setStatusTitle:nil];
     } else {
         [self setStatusTitle:currentContextName];
