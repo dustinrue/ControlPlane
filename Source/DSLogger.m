@@ -130,9 +130,6 @@ static DSLogger *sharedLogger = nil;
 	startIndex = count = 0u;
 
     serialQueue = dispatch_queue_create("com.dustinrue.ControlPlane.DSLogger", DISPATCH_QUEUE_SERIAL);
-#ifndef DEBUG_MODE
-    dispatch_set_target_queue(serialQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
-#endif
 
     _lastUpdatedAt = [[NSDate distantPast] retain];
     
