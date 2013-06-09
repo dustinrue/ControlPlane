@@ -316,8 +316,33 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPrefsWindowClose) name:NSWindowWillCloseNotification object:prefsWindow];
 }
 
+static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
+
+- (void)persistCurrentViewSize {
+	NSSize minSize = [prefsWindow minSize], maxSize = [prefsWindow maxSize];
+    if (currentPrefsGroup && ((minSize.width < maxSize.width) || (minSize.height < maxSize.height))) {
+		NSSize size  = [prefsWindow frame].size;
+        size.height -= [self toolbarHeight] + [self titleBarHeight];
+        
+        NSData *persistedSize = [NSArchiver archivedDataWithRootObject:[NSValue valueWithSize:size]];
+        NSString *sizeParamName = [sizeParamPrefix stringByAppendingString:currentPrefsGroup];
+        [[NSUserDefaults standardUserDefaults] setObject:persistedSize forKey:sizeParamName];
+	}
+}
+
+- (NSValue *)getPersistedSizeOfViewNamed:(NSString *)name {
+    NSString *sizeParamName = [sizeParamPrefix stringByAppendingString:name];
+    NSData *persistedSize = [[NSUserDefaults standardUserDefaults] objectForKey:sizeParamName];
+    if (!persistedSize) {
+        return nil;
+    }
+
+    return (NSValue *) [NSUnarchiver unarchiveObjectWithData:persistedSize];
+}
+
 - (void)onPrefsWindowClose {
     [self stopLogBufferTimer];
+    [self persistCurrentViewSize];
 }
 
 - (IBAction)runPreferences:(id)sender {
@@ -399,13 +424,7 @@
 		return;
     }
 
-	if (currentPrefsGroup) {
-		// Store current size
-		NSSize size = [prefsWindow frame].size;
-		NSMutableDictionary *oldGroup = [self groupById:currentPrefsGroup];
-		oldGroup[@"last_width"]  = @(size.width);
-		oldGroup[@"last_height"] = @(size.height - [self toolbarHeight] - [self titleBarHeight]);
-	}
+    [self persistCurrentViewSize];
 
 	if ([groupId isEqualToString:@"Advanced"]) {
         [self startLogBufferTimer];
@@ -414,11 +433,19 @@
     }
 
 	currentPrefsView = group[@"view"];
-    
+
 	NSSize minSize = NSMakeSize([group[@"min_width"] floatValue], [group[@"min_height"] floatValue]);
-	NSSize size = minSize;
-	if (group[@"last_width"] || group[@"last_height"]) {
-		size = NSMakeSize([group[@"last_width"] floatValue], [group[@"last_height"] floatValue]);
+    NSSize size = minSize;
+
+    NSValue *persistedSize = [self getPersistedSizeOfViewNamed:groupId];
+    if (persistedSize) {
+        size = [persistedSize sizeValue];
+        if (size.width < minSize.width) {
+            size.width = minSize.width;
+        }
+        if (size.height < minSize.height) {
+            size.height = minSize.height;
+        }
     }
 
 	[prefsWindow setContentView:blankPrefsView];
@@ -431,8 +458,9 @@
               limitMaxHeight:!resizeableHeight];
 	[prefsWindow setShowsResizeIndicator:(resizeableWidth || resizeableHeight)];
 
-	if ([prefsToolbar respondsToSelector:@selector(setSelectedItemIdentifier:)])
+	if ([prefsToolbar respondsToSelector:@selector(setSelectedItemIdentifier:)]) {
 		[prefsToolbar setSelectedItemIdentifier:groupId];
+    }
 
 	[prefsWindow setContentView:currentPrefsView];
 	[self setValue:groupId forKey:@"currentPrefsGroup"];
