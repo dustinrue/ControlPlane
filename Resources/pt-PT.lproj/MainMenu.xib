@@ -782,6 +782,7 @@
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns">
 											<object class="NSTableColumn" id="259067236">
+												<string key="NSIdentifier">status</string>
 												<double key="NSWidth">15</double>
 												<double key="NSMinWidth">10</double>
 												<double key="NSMaxWidth">3.4028234663852886e+38</double>
