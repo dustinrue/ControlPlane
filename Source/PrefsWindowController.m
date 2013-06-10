@@ -321,12 +321,16 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 - (void)persistCurrentViewSize {
 	NSSize minSize = [prefsWindow minSize], maxSize = [prefsWindow maxSize];
     if (currentPrefsGroup && ((minSize.width < maxSize.width) || (minSize.height < maxSize.height))) {
-		NSSize size  = [prefsWindow frame].size;
-        size.height -= [self toolbarHeight] + [self titleBarHeight];
-        
-        NSData *persistedSize = [NSArchiver archivedDataWithRootObject:[NSValue valueWithSize:size]];
         NSString *sizeParamName = [sizeParamPrefix stringByAppendingString:currentPrefsGroup];
-        [[NSUserDefaults standardUserDefaults] setObject:persistedSize forKey:sizeParamName];
+
+		NSSize size  = [prefsWindow frame].size;
+        if ((size.width > minSize.width) || (size.height > minSize.height)) {
+            size.height -= [self toolbarHeight] + [self titleBarHeight];
+            NSData *persistedSize = [NSArchiver archivedDataWithRootObject:[NSValue valueWithSize:size]];
+            [[NSUserDefaults standardUserDefaults] setObject:persistedSize forKey:sizeParamName];
+        } else {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:sizeParamName];
+        }
 	}
 }
 
