@@ -260,7 +260,7 @@
 #import "ToggleWebSharingAction.h"
 #import "ToggleWiFiAction.h"
 #import "UnmountAction.h"
-#import "VPNAction.h"
+//#import "VPNAction.h"
 
 @interface ActionSetController (Private)
 
@@ -322,7 +322,7 @@
                [ToggleWebSharingAction class],
 			   [ToggleWiFiAction class],
 			   [UnmountAction class],
-			   [VPNAction class],
+			   //[VPNAction class],
 			nil];
 	
     

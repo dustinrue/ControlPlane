@@ -47,7 +47,6 @@
 		8D57B1440C4457AB00EC620D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D57B1430C4457AB00EC620D /* CoreAudio.framework */; };
 		8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643C660C4EF197006D8ECC /* GenericLoopingEvidenceSource.m */; };
 		8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643CDB0C4EF6FD006D8ECC /* LoopingEvidenceSource.m */; };
-		8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D643DDB0C4F1F0D006D8ECC /* VPNAction.m */; };
 		8D649BA50BE8033A00716059 /* ToggleWiFiAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D649BA30BE8033A00716059 /* ToggleWiFiAction.m */; };
 		8D6762170C3B8D8D000B63EC /* NetworkLocationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */; };
 		8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D71CAED0C17BA7900E56526 /* ToggleableAction.m */; };
@@ -733,6 +732,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA80EC4B17681C5000EAEBFF /* libcups.dylib */,
 				DA1E59D11673A039002D256D /* Growl.framework */,
 				DA4411A414EE03C9005E7B3B /* MapKit.framework */,
 				8D20720E0B86AB0000D61A9E /* Sparkle.framework */,
@@ -780,7 +780,6 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
-				DA80EC4B17681C5000EAEBFF /* libcups.dylib */,
 				DAF2F819150EE5960040DDC7 /* External Source */,
 				DA5B01E91412BA6700E19C50 /* HelperTool */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -1496,7 +1495,6 @@
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
 				8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */,
 				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
-				8D643DDD0C4F1F0D006D8ECC /* VPNAction.m in Sources */,
 				8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */,
 				8DBB44980C530F7600064010 /* DSLogger.m in Sources */,
 				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
