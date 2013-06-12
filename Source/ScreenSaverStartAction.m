@@ -7,7 +7,6 @@
 
 #import "ScreenSaverStartAction.h"
 #import <ScriptingBridge/SBApplication.h>
-#import "System Events.h"
 #import "DSLogger.h"
 
 @implementation ScreenSaverStartAction
