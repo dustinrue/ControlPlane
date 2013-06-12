@@ -6,8 +6,7 @@
 //
 
 #import "DefaultPrinterAction.h"
-#import <ScriptingBridge/SBApplication.h>
-#import "Printer Setup Utility.h"
+#import <cups/cups.h>
 #import "DSLogger.h"
 
 @implementation DefaultPrinterAction
@@ -56,24 +55,32 @@
 
 - (BOOL)execute:(NSString **)errorString
 {
-	@try {
-		PrinterSetupUtilityApplication *PSUA = [SBApplication applicationWithBundleIdentifier: @"com.apple.print.PrintCenter"];
-		SBElementArray *availablePrinters = [PSUA printers];
-		
-		
-		if ([[availablePrinters objectWithName:printerQueue] name] != NULL) {
-			[PSUA setCurrentPrinter:[availablePrinters objectWithName:printerQueue]];
-		}
-		else {
-			*errorString = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Couldn't set default printer to", @""), printerQueue];
-			return NO;
-		}
-	} @catch (NSException *e) {
-		DSLog(@"Exception: %@", e);
-		*errorString = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Couldn't set default printer to", @""), printerQueue];
-		return NO;
-	}
+    int           j         = 0;
+    int           num_dests = 0;
+    cups_dest_t   *dests    = NULL;
+    cups_dest_t   *dest     = NULL;
+    const char    *printer  = NULL;
+    char          *instance = NULL;
+    
+    NSCharacterSet *replaceThese = [NSCharacterSet characterSetWithCharactersInString:@" @-"];
+    printer = [[[printerQueue componentsSeparatedByCharactersInSet: replaceThese] componentsJoinedByString: @"_"] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    DSLog(@"Attempting to set %s as default", printer);
+    num_dests = cupsGetDests(&dests);
+    
+    if (num_dests == 0 || !dests || (dest = cupsGetDest(printer, instance, num_dests, dests)) == NULL) {
+        *errorString = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Couldn't set default printer to", @""), printerQueue];
+        return NO;
+    }
+    
+    for (j = 0; j < num_dests; j++)
+        dests[j].is_default = 0;
 
+    dest->is_default = 1;
+    
+    cupsSetDests(num_dests, dests);
+	
 	return YES;
 }
 
