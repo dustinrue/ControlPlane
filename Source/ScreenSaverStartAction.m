@@ -21,6 +21,19 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
+    
+    NSFileHandle *devnull = [NSFileHandle fileHandleForWritingAtPath:@"/dev/null"];
+    NSTask *screenSaver = [[NSTask alloc] init];
+    
+    [screenSaver setLaunchPath:@"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine"];
+    
+    
+    [screenSaver setStandardError:devnull];
+    [screenSaver setStandardInput:devnull];
+    [screenSaver setStandardOutput:devnull];
+    
+    [screenSaver launch];
+    /*
 	@try {
 		SystemEventsApplication *SEvents = [SBApplication applicationWithBundleIdentifier: @"com.apple.systemevents"];
 		
@@ -38,7 +51,7 @@
 			*errorString = NSLocalizedString(@"Failed stopping screen saver!", @"");
 		return NO;
 	}
-	
+	*/
 	return YES;
 }
 
@@ -60,8 +73,8 @@
 	return [NSArray arrayWithObjects:
 		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"option",
 			NSLocalizedString(@"Start screen saver", @""), @"description", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"option",
-			NSLocalizedString(@"Stop screen saver", @""), @"description", nil],
+		//[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], @"option",
+		//	NSLocalizedString(@"Stop screen saver", @""), @"description", nil],
 		nil];
 }
 
