@@ -1442,7 +1442,6 @@
 				/Applications/Mail.app,
 				"/System/Library/CoreServices/System Events.app",
 				/Applications/iTunes.app,
-				"/System/Library/CoreServices/Printer Setup Utility.app",
 				/Applications/Messages.app,
 			);
 			name = "Generate Script Bridge Headers";
