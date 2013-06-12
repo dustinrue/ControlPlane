@@ -3,6 +3,7 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 4/07/07.
+//  Modified by Vladimir Beloborodov (VladimirTechMan) on 12 June 2013.
 //
 
 #import "Action.h"
@@ -12,8 +13,11 @@
 	NSString *networkLocation;
 }
 
+- (id)initWithOption:(NSString *)option;
+- (id)init;
 - (id)initWithDictionary:(NSDictionary *)dict;
 - (void)dealloc;
+
 - (NSMutableDictionary *)dictionary;
 
 - (NSString *)description;
@@ -22,6 +26,5 @@
 + (NSString *)creationHelpText;
 
 + (NSArray *)limitedOptions;
-- (id)initWithOption:(NSString *)option;
 
 @end
