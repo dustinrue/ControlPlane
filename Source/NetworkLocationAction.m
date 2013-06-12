@@ -5,8 +5,10 @@
 //  Created by David Symonds on 4/07/07.
 //
 
+#import <SystemConfiguration/SCNetworkConfiguration.h>
 #import <SystemConfiguration/SCPreferences.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
+
 #import "NetworkLocationAction.h"
 
 
@@ -14,8 +16,21 @@
 
 #pragma mark Utility methods
 
-+ (NSDictionary *) getAllSets
-{
+static NSString* getCurrentLocationName() {
+	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
+	SCPreferencesLock(prefs, true);
+
+    SCNetworkSetRef currLoc = SCNetworkSetCopyCurrent(prefs);
+    NSString *locName = [[(NSString *) SCNetworkSetGetName(currLoc) copy] autorelease];
+    CFRelease(currLoc);
+
+    SCPreferencesUnlock(prefs);
+    CFRelease(prefs);
+
+    return locName;
+}
+
++ (NSDictionary *) getAllSets {
 	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
 	SCPreferencesLock(prefs, true);
 
@@ -29,8 +44,7 @@
 	return dict;
 }
 
-+ (NSString *)getCurrentSet
-{
++ (NSString *)getCurrentSet {
 	SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
 	SCPreferencesLock(prefs, true);
 
@@ -50,91 +64,90 @@
 
 #pragma mark -
 
-- (id)init
-{
-	if (!(self = [super init]))
+- (id)init {
+	if (!(self = [super init])) {
 		return nil;
+    }
 
 	networkLocation = [[NSString alloc] init];
 
 	return self;
 }
 
-- (id)initWithDictionary:(NSDictionary *)dict
-{
+- (id)initWithDictionary:(NSDictionary *)dict {
 	if (!(self = [super initWithDictionary:dict]))
 		return nil;
 
-	networkLocation = [[dict valueForKey:@"parameter"] copy];
+	networkLocation = [dict[@"parameter"] copy];
 
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[networkLocation release];
 
 	[super dealloc];
 }
 
-- (NSMutableDictionary *)dictionary
-{
+- (NSMutableDictionary *)dictionary {
 	NSMutableDictionary *dict = [super dictionary];
-
-	[dict setObject:[[networkLocation copy] autorelease] forKey:@"parameter"];
-
+    dict[@"parameter"] = [[networkLocation copy] autorelease];
 	return dict;
 }
 
-- (NSString *)description
-{
+- (NSString *)description {
 	return [NSString stringWithFormat:NSLocalizedString(@"Changing network location to '%@'.", @""),
 		networkLocation];
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
-	// Using SCPreferences* to change the location requires a setuid binary,
-	// so we just execute /usr/sbin/scselect to do the heavy lifting.
-	NSDictionary *all_sets = [[self class] getAllSets];
-	NSEnumerator *en = [all_sets keyEnumerator];
-	NSString *key;
-	NSDictionary *subdict;
-	while ((key = [en nextObject])) {
-		subdict = [all_sets valueForKey:key];
-		if ([networkLocation isEqualToString:[subdict valueForKey:@"UserDefinedName"]])
-			break;
-	}
-	if (!key) {
+- (BOOL)execute:(NSString **)errorString {
+    if ([networkLocation isEqualToString:getCurrentLocationName()]) {
+#ifdef DEBUG_MODE
+        NSLog(@"Network location is already set to '%@'", networkLocation);
+#endif
+        return YES;
+    }
+
+    __block NSString *locationId;
+
+	NSDictionary *allSets = [[self class] getAllSets];
+    [allSets enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *subdict, BOOL *stop) {
+        if ([networkLocation isEqualToString:[subdict valueForKey:@"UserDefinedName"]]) {
+            locationId = key;
+            *stop = YES;
+        }
+    }];
+
+	if (!locationId) {
 		*errorString = [NSString stringWithFormat:
 				NSLocalizedString(@"No network location named \"%@\" exists!", @"Action error message"),
 				networkLocation];
 		return NO;
 	}
 
-	NSArray *args = [NSArray arrayWithObject:key];
+    // Using SCPreferences* to change the location requires a setuid binary,
+	// so we just execute /usr/sbin/scselect to do the heavy lifting.
+	NSArray *args = [NSArray arrayWithObject:locationId];
 	NSTask *task = [NSTask launchedTaskWithLaunchPath:@"/usr/sbin/scselect" arguments:args];
 	[task waitUntilExit];
 	if ([task terminationStatus] != 0) {
 		*errorString = NSLocalizedString(@"Failed changing network location", @"Action error message");
 		return NO;
 	}
+
 	return YES;
 }
 
-+ (NSString *)helpText
-{
++ (NSString *)helpText {
 	return NSLocalizedString(@"The parameter for NetworkLocation actions is the name of the "
 				 "network location to select.", @"");
 }
 
-+ (NSString *)creationHelpText
-{
++ (NSString *)creationHelpText {
 	return NSLocalizedString(@"Changing network location to", @"");
 }
 
-+ (NSArray *)limitedOptions
-{
++ (NSArray *)limitedOptions {
 	NSMutableArray *loc_list = [NSMutableArray array];
 	NSEnumerator *en = [[[self class] getAllSets] objectEnumerator];
 	NSDictionary *set;
@@ -152,8 +165,7 @@
 	return opts;
 }
 
-- (id)initWithOption:(NSString *)option
-{
+- (id)initWithOption:(NSString *)option {
 	self = [super init];
 	[networkLocation autorelease];
 	networkLocation = [option copy];
