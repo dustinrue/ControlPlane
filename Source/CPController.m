@@ -1112,9 +1112,10 @@
 	[self setValue:toUUID forKey:@"currentContextUUID"];
 	[self setValue:ctxt_path forKey:@"currentContextName"];
 
-    Context *toCtxt = enteringWalk[[enteringWalk count] - 1];
+    Context *toCtxt = [contextsDataSource contextByUUID:toUUID];
+    
     [self setValue:[toCtxt iconColor] forKey:@"currentColorOfIcon"];
-
+    
     // Notify subscribed apps
     NSDictionary *userInfo = @{ @"context": ctxt_path };
     [dnc postNotificationName:notificationName object:notificationObject userInfo:userInfo deliverImmediately:YES];
