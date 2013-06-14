@@ -79,6 +79,11 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on the time of day and day of week.", @"");
+}
+
 - (NSMutableDictionary *)readFromPanel
 {
 	NSMutableDictionary *dict = [super readFromPanel];

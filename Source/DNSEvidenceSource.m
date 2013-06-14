@@ -98,6 +98,10 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
 	[super dealloc];
 }
 
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on the assigned DNS search domain and servers.", @"");
+}
+
 - (void)removeAllDataCollected {
     self.searchDomains = nil;
     self.dnsServers = nil;

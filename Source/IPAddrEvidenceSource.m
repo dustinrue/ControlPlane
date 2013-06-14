@@ -124,6 +124,11 @@ static void ipAddrChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on the IPv4 or IPv6 address assigned to your Mac.", @"");
+}
+
 - (void)removeAllDataCollected {
     self.stringIPv4Addresses = nil;
     self.packedIPv4Addresses = nil;

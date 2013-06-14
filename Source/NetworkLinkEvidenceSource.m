@@ -56,6 +56,10 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys,  void *i
 }
 
 
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on what network links are active on your Mac.  This can include LAN, WiFi or other network links available on your Mac.", @"");
+}
+
 - (NSArray *)enumerate
 {
     NSArray * services = [(NSArray *)SCNetworkServiceCopyAll(prefs) autorelease];

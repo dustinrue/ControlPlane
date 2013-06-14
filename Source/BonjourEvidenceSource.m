@@ -86,6 +86,9 @@
 }
 
 
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on advertised network services available on your network.", @"");
+}
 
 - (void)start {
 	if (running)

@@ -64,6 +64,11 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on the IPv4 or IPv6 address assigned to your Mac.", @"");
+}
+
 + (NSArray *)enumerate
 {
 	NSArray *all = [[NSHost currentHost] addresses];

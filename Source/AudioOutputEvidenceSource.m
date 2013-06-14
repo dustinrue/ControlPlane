@@ -35,6 +35,11 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	return self;
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on what audio output device is currently in use.", @"");
+}
+
 - (void)doRealUpdate
 {
 	UInt32 sourceID;

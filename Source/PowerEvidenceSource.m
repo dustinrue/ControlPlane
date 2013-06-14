@@ -33,6 +33,11 @@
 	return self;
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on what power source your Mac is currently running on.  Can include power adapter or battery.", @"");
+}
+
 - (void)doFullUpdate
 {
 	CFTypeRef blob = IOPSCopyPowerSourcesInfo();

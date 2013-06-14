@@ -30,6 +30,10 @@
 	//[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Allows you to define rules based on the active or foreground application.", @"");
+}
 - (void)doFullUpdate:(NSNotification *) notification {
     
     @synchronized(self) {

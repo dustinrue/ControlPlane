@@ -47,6 +47,11 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     return self;
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on your current location using OS X's Core Location framework.", @"");
+}
+
 - (void)awakeFromNib {
 
 	// show empty page

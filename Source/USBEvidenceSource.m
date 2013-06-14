@@ -54,6 +54,11 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on attached USB devices.", @"");
+}
+
 #pragma mark Utility methods
 
 // Returns a string, or the vendor_id in hexadecimal.

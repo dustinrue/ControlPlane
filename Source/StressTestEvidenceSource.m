@@ -25,6 +25,12 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Enable this evidence source to cause ControlPlane to assume a large number of evidence source changes are occuring.", @"");
+}
+
+
 - (void)start
 {
 	if (running)

@@ -30,6 +30,11 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on monitors attached to your Mac.", @"");
+}
+
 - (void)doUpdate
 {
 	CGDirectDisplayID displays[4];

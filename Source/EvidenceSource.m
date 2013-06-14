@@ -139,6 +139,11 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"No description provided", @"");
+}
+
 - (void)goingToSleep:(id)arg
 {
     goingToSleep = YES;
@@ -674,6 +679,16 @@
 	}
 
 	// Shouldn't get here!
+}
+
+- (NSString *)tableView:(NSTableView *)aTableView toolTipForCell:(NSCell *)aCell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation {
+    
+    NSString *col_id = [aTableColumn identifier];
+    
+    if ([col_id isEqualToString:@"name"]) {
+        return [[sources objectAtIndex:row] description];
+    }
+
 }
 
 @end

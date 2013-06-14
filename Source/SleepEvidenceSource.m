@@ -19,6 +19,11 @@
 	return self;
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules that are true when the system is entering sleep or when waking.", @"");
+}
+
 - (void) doRealUpdate {
 	[self setDataCollected:YES];
 }

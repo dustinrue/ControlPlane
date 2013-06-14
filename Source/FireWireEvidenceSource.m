@@ -57,6 +57,11 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on attached FireWire devices.", @"");
+}
+
 #pragma mark Utility methods
 
 // Returns GUID, or nil on failure/error.

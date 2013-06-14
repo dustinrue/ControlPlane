@@ -31,6 +31,10 @@
 }
 
 
+- (NSString *) description {
+    return NSLocalizedString(@"Create a rules based on what power adapter is currently connected to your portable mac based on its serial number", @"");
+}
+
 - (void)doFullUpdate {
     CFDictionaryRef powerAdapterInfo = IOPSCopyExternalPowerAdapterDetails();
     

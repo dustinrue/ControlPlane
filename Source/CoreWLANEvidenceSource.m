@@ -50,6 +50,11 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     [super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on what WiFi networks are available or connected to.", @"");
+}
+
 - (void)wakeFromSleep:(id)arg
 {
 	[super wakeFromSleep:arg];

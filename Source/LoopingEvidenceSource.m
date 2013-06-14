@@ -38,6 +38,11 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"No description provided", @"");
+}
+
 // Private
 - (void)loopTimerPoll:(NSTimer *)timer {
     dispatch_async(serialQueue, ^{

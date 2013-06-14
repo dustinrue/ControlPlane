@@ -18,6 +18,10 @@
 	return self;
 }
 
+- (NSString *) description {
+    return NSLocalizedString(@"No description provided", @"");
+}
+
 - (NSMutableDictionary *)readFromPanel
 {
 	NSMutableDictionary *dict = [super readFromPanel];

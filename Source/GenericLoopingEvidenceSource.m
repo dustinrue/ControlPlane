@@ -38,6 +38,7 @@
 	[super dealloc];
 }
 
+
 // Private
 - (void)loopTimerPoll:(NSTimer *)timer {
     dispatch_async(serialQueue, ^{

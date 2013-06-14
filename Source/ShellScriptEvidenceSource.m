@@ -44,6 +44,11 @@
 	return self;
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on your own shell script based evidence source.  Shell scripts must exit with status code 0 for success or 1 for failure.", @"");
+}
+
 - (void) setDefaultValues {
     [self setScriptInterval:@"10"];
     [self setCurrentFileName:NSLocalizedString(@"Please browse for a shell script...",@"")];

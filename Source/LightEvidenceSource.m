@@ -68,6 +68,11 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on the amount of ambient light if your Mac is equipped with ambient light sensors.", @"");
+}
+
 - (void)doUpdate
 {
 	[lock lock];

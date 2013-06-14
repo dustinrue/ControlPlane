@@ -73,6 +73,11 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on attached and nearby, discoverable bluetooth devices.", @"");
+}
+
 - (void)start
 {
 

@@ -28,6 +28,11 @@
 	[super dealloc];
 }
 
+
+- (NSString *) description {
+    return NSLocalizedString(@"Create rules based on whether or not an application is running.", @"");
+}
+
 - (void)doFullUpdate
 {
     NSArray *runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
