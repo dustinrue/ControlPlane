@@ -689,6 +689,7 @@
         return [[sources objectAtIndex:row] description];
     }
 
+    return nil; // no tool tip available
 }
 
 @end
