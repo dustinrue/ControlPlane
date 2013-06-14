@@ -8,6 +8,7 @@
 #import "ContextsDataSource.h"
 #import "CPController.h"
 #import "DSLogger.h"
+#import "SliderWithValue.h"
 
 @interface Context ()
 
@@ -134,6 +135,39 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 						 selector:@selector(triggerOutlineViewReloadData:)
 						     name:@"ContextsChangedNotification"
 						   object:self];
+    /*
+     IBOutlet NSButton *generalPreferencesEnableSwitching;
+     IBOutlet NSButton *generalPreferencesStartAtLogin;
+     IBOutlet NSButton *generalPreferencesUseNotifications;
+     IBOutlet NSButton *generalPreferencesCheckForUpdates;
+     IBOutlet NSButton *generalPreferencesHideFromStatusBar;
+     IBOutlet NSPopUpButton *generalPreferencesShowInStatusBar;
+     IBOutlet NSButton *generalPreferencesSwitchSmoothing;
+     IBOutlet NSButton *generalPreferencesRestorePreviousContext;
+     IBOutlet NSButton *generalPreferencesUseDefaultContextTextField;
+     IBOutlet NSTextField *generalPreferencesCRtSTextField;
+     IBOutlet SliderWithValue *generalPreferencesConfidenceSlider;
+     */
+    [generalPreferencesEnableSwitching setToolTip:NSLocalizedString(@"Check this option if you want ControlPlane to automatically switch to the context it is most confident about as configured by the 'Confidence required to switch' slider.", @"")];
+    
+    [generalPreferencesStartAtLogin setToolTip:NSLocalizedString(@"Check this option if you want ControlPlane to start when you login.", @"")];
+    
+    [generalPreferencesUseNotifications setToolTip:NSLocalizedString(@"Check this option if you want to ControlPlane to issue notifications.  If checked, Growl will be used on system's older than 10.8 and Notification Center will be used on systems 10.8 or newer.", @"")];
+    
+    [generalPreferencesCheckForUpdates setToolTip:NSLocalizedString(@"If checked, ControlPlane will check for updates when it starts.", @"")];
+    
+    [generalPreferencesHideFromStatusBar setToolTip:NSLocalizedString(@"If enabled ControlPlane's menu bar icon will be hidden after a period of time.  To make the icon visible again relaunch ControlPlane.", @"")];
+    
+    [generalPreferencesShowInStatusBar setToolTip:NSLocalizedString(@"Select the information you want shown in the menu bar", @"")];
+    
+    [generalPreferencesSwitchSmoothing setToolTip:NSLocalizedString(@"If enabled ControlPlane will allow two rule check cycles to be performed before switching to the most confident context.  Use this option if ControlPlane switches contexts too often or too quickly.", @"")];
+    
+    [generalPreferencesRestorePreviousContext setToolTip:NSLocalizedString(@"Enable this option if you want ControlPlane to move to context it was at before it was last quit.  This only affects ControlPlane's behavior when the app is started and it wasn't previously running.  To perform actions on sleep or wake use the Sleep/Wake Evidence Source.", @"")];
+    [generalPreferencesUseDefaultContextTextField setToolTip:NSLocalizedString(@"Enable this option to cause ControlPlane to move to the selected context when it is unable to determine a better context.", @"")];
+    
+    NSString *confidenceToolTip = NSLocalizedString(@"Based on the rules you configure, ControlPlane will calculate how confident it is that a given set of rules match the context they are configured for.  This slider defines how confident ControlPlane needs to be to switch to that context.",@"");
+    [generalPreferencesConfidenceSlider setToolTip:confidenceToolTip];
+    [generalPreferencesCRtSTextField setToolTip:confidenceToolTip];
 }
 
 // Private

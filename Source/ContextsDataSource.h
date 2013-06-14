@@ -28,13 +28,29 @@
 @end
 
 
+@class SliderWithValue;
+
 @interface ContextsDataSource : NSObject {
 	NSMutableDictionary *contexts;
 
+    IBOutlet NSButton *generalPreferencesEnableSwitching;
+    IBOutlet NSButton *generalPreferencesStartAtLogin;
+    IBOutlet NSButton *generalPreferencesUseNotifications;
+    IBOutlet NSButton *generalPreferencesCheckForUpdates;
+    IBOutlet NSButton *generalPreferencesHideFromStatusBar;
+    IBOutlet NSPopUpButton *generalPreferencesShowInStatusBar;
+    IBOutlet NSButton *generalPreferencesSwitchSmoothing;
+    IBOutlet NSButton *generalPreferencesRestorePreviousContext;
+    IBOutlet NSButton *generalPreferencesUseDefaultContextTextField;
+    IBOutlet NSTextField *generalPreferencesCRtSTextField;
+    IBOutlet SliderWithValue *generalPreferencesConfidenceSlider;
+    
+    
 	// shouldn't _really_ be here
 	IBOutlet NSOutlineView *outlineView;
 	Context *selection;
 
+    
 	IBOutlet NSWindow *prefsWindow;
 
 	IBOutlet NSPanel *newContextSheet;
