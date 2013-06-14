@@ -1216,7 +1216,7 @@
     DSLog(@"rules that match: %@", matchingRules);
 #endif
 
-    if (!changed && !self.forceOneFullUpdate) {
+    if (!changed && !self.forceOneFullUpdate && (smoothCounter == 0)) {
 #ifdef DEBUG_MODE
         DSLog(@"Same rule are matching as on previous check. No updates required.");
 #endif
@@ -1426,7 +1426,8 @@
 	if ([standardUserDefaults boolForKey:@"EnableSwitchSmoothing"]) {
 		if (smoothCounter == 0) {
 			smoothCounter = [standardUserDefaults integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
-		} else if (--smoothCounter == 0) {
+            return false;
+		} else if (--smoothCounter > 0) {
 #ifdef DEBUG_MODE
             DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessName);
 #endif
