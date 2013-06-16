@@ -32,7 +32,6 @@
 @property BOOL linkActive;
 @property(strong) NSString *interfaceBSDName;
 @property(strong) NSTimer *loopTimer;
-@property SCDynamicStoreContext ctxt;
 
 // For SystemConfiguration asynchronous notifications
 @property SCDynamicStoreRef store;
@@ -54,7 +53,6 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
-- (void) dumpData;
 - (void) getInterfaceStateInfo;
 
 @end
