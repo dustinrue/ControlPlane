@@ -120,20 +120,20 @@
 	
 	// TODO: spin these into the EvidenceSourceSetController?
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableAudioOutputEvidenceSource"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableBluetoothEvidenceSource"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableDNSEvidenceSource"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableFireWireEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO]  forKey:@"EnableBluetoothEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO]  forKey:@"EnableDNSEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO]  forKey:@"EnableFireWireEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableIPAddrEvidenceSource"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableLightEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO]  forKey:@"EnableLightEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableMonitorEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePowerEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableRunningApplicationEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableTimeOfDayEvidenceSource"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnableUSBEvidenceSource"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableCoreWLANEvidenceSource"];    
-    [appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"SleepEvidenceSource"];
-	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"CoreLocationSource"];
-	
+	[appDefaults setValue:[NSNumber numberWithBool:NO]  forKey:@"EnableCoreWLANEvidenceSource"];
+    [appDefaults setValue:[NSNumber numberWithBool:NO]  forKey:@"EnableSleep/WakeEvidenceSource"];
+	[appDefaults setValue:[NSNumber numberWithBool:NO]  forKey:@"EnableCoreLocationSource"];
+
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"UseDefaultContext"];
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePersistentContext"];
