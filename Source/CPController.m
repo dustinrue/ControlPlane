@@ -1392,6 +1392,7 @@
 - (BOOL)guessMeetsConfidenceRequirement:(NSArray *)guessArray {
     // if the guess dictionary is empty bail early
     if ([guessArray count] < 2) {
+        smoothCounter = 0;
         return false;
     }
 
@@ -1409,6 +1410,7 @@
 		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
         DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessName, guessConfidenceString);
 #endif
+        smoothCounter = 0;
         return false;
 	}
 
@@ -1417,15 +1419,19 @@
 		NSString *guessConfidenceString = [self getGuessConfidenceStringFrom:guessConf];
 		DSLog(@"Guessed '%@' (%@); already there.", guessName, guessConfidenceString);
 #endif
+        smoothCounter = 0;
 		return false;
 	}
-    
+
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
 	if ([standardUserDefaults boolForKey:@"EnableSwitchSmoothing"]) {
-		if (smoothCounter == 0) {
+		if (smoothCounter > 0) {
+            --smoothCounter;
+		} else {
 			smoothCounter = [standardUserDefaults integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
-            return false;
-		} else if (--smoothCounter > 0) {
+        }
+
+        if (smoothCounter > 0) {
 #ifdef DEBUG_MODE
             DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessName);
 #endif
