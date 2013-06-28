@@ -70,16 +70,20 @@
 
 #pragma mark -
 
-@interface CPController ()
+@interface CPController () {
+    NSNumberFormatter *numberFormatter;
+
+	NSInteger smoothCounter; // Switch smoothing state parameters
+}
+
+@property (copy,nonatomic,readwrite) NSString *candidateContextUUID; // Switch smoothing state parameters
 
 @property (retain,atomic,readwrite) NSArray *rules;
 @property (assign,atomic,readwrite) BOOL forceOneFullUpdate;
 
 @end
 
-@implementation CPController {
-    NSNumberFormatter *numberFormatter;
-}
+@implementation CPController
 
 #define STATUS_BAR_LINGER	10	// seconds before disappearing from menu bar
 #define CP_DISPLAY_ICON     0u
@@ -213,6 +217,7 @@
 
 - (void)dealloc {
     [_rules release];
+    [_candidateContextUUID release];
 
     [sbImageActive release];
     [sbImageInactive release];
@@ -1425,10 +1430,11 @@
 
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
 	if ([standardUserDefaults boolForKey:@"EnableSwitchSmoothing"]) {
-		if (smoothCounter > 0) {
+		if ((smoothCounter > 0) && [self.candidateContextUUID isEqualToString:guessUUID]) {
             --smoothCounter;
 		} else {
 			smoothCounter = [standardUserDefaults integerForKey:@"SmoothSwitchCount"];	// Make this customisable?
+            self.candidateContextUUID = guessUUID;
         }
 
         if (smoothCounter > 0) {
@@ -1437,6 +1443,8 @@
 #endif
             return false;
         }
+
+        self.candidateContextUUID = nil;
 	}
 
     return true;
