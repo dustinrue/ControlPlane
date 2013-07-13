@@ -75,6 +75,9 @@
 // Returns a friendly name to be used in the drop down menu
 - (NSString *) friendlyName;
 
+// Return true if the evidence source should be enabled for this model of Mac
++ (BOOL) isEvidenceSourceApplicableToModel:(NSString *) hwModel;
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////////

@@ -340,6 +340,12 @@
     return @"Not implemented";
 }
 
+// if the evidence source doesn't override this we assume
+// it is always true, thus the evidence source will be available
++ (BOOL) isEvidenceSourceApplicableToModel:(NSString *)hwModel {
+    return true;
+}
+
 - (void) screenSaverDidBecomeInActive:(NSNotification *)notification {
     
 }
@@ -396,6 +402,8 @@
 #import "ShellScriptEvidenceSource.h"
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
+
+#import "CPSystemInfo.h"
 
 #ifdef DEBUG_MODE
 #import "StressTestEvidenceSource.h"
@@ -470,17 +478,19 @@
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
 	}
 
-	// Instantiate all the evidence sources
+	// Instantiate all the evidence sources if they are supported on this device
 	NSMutableArray *srclist = [[NSMutableArray alloc] initWithCapacity:[classes count]];
     for (Class class in classes) {
-        @autoreleasepool {
-            EvidenceSource *src = [[class alloc] init];
-            if (!src) {
-                DSLog(@"%@ failed to init properly", class);
-                continue;
+        if ([class isEvidenceSourceApplicableToModel:[CPSystemInfo getHardwareModel]]) {
+            @autoreleasepool {
+                EvidenceSource *src = [[class alloc] init];
+                if (!src) {
+                    DSLog(@"%@ failed to init properly", class);
+                    continue;
+                }
+                [srclist addObject:src];
+                [src release];
             }
-            [srclist addObject:src];
-            [src release];
         }
     }
 
