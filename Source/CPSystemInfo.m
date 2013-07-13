@@ -15,18 +15,20 @@
 @implementation CPSystemInfo
 
 + (NSString *) getHardwareModel {
-    size_t len = 0;
-    sysctlbyname("hw.model", NULL, &len, NULL, 0);
-    if (len) {
-        char *model = malloc(len*sizeof(char));
-        sysctlbyname("hw.model", model, &len, NULL, 0);
-        NSString *hwModel = [NSString stringWithCString:model encoding:NSUTF8StringEncoding];
-        free(model);
-        
-        return hwModel;
+    static NSString *hwModel = nil;
+
+    if (!hwModel) {
+        size_t len = 0;
+        if (!sysctlbyname("hw.model", NULL, &len, NULL, 0) && len) {
+            char *model = malloc(len * sizeof(char));
+            if (!sysctlbyname("hw.model", model, &len, NULL, 0)) {
+                hwModel = [[NSString alloc] initWithUTF8String:model];
+            }
+            free(model);
+        }
     }
-    
-    return nil;
+
+    return hwModel;
 }
 
 @end
