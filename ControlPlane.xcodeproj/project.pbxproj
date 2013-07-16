@@ -19,6 +19,7 @@
 		7C6D945C1747A1F300D5B9C7 /* IPv4RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */; };
 		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
 		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
+		7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */; };
 		7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF034B17246B770098990F /* SearchDomainRule.xib */; };
 		7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF035C172471DD0098990F /* ServerAddressRule.xib */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
@@ -339,6 +340,8 @@
 		7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DNSEvidenceSource.m; path = Source/DNSEvidenceSource.m; sourceTree = "<group>"; };
 		7C8574EF16FB53180081659A /* ServerAddressRuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerAddressRuleType.h; path = Source/ServerAddressRuleType.h; sourceTree = "<group>"; };
 		7C8574F016FB53180081659A /* ServerAddressRuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerAddressRuleType.m; path = Source/ServerAddressRuleType.m; sourceTree = "<group>"; };
+		7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaptopLidEvidenceSource.m; path = Source/LaptopLidEvidenceSource.m; sourceTree = "<group>"; };
+		7CA6847A17947E2C00563601 /* LaptopLidEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LaptopLidEvidenceSource.h; path = Source/LaptopLidEvidenceSource.h; sourceTree = "<group>"; };
 		7CFF034A17246B770098990F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
 		7CFF03521724705D0098990F /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
 		7CFF0353172470640098990F /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
@@ -941,6 +944,8 @@
 				7C6D94551747A15300D5B9C7 /* IPAddrEvidenceSource */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
+				7CA6847A17947E2C00563601 /* LaptopLidEvidenceSource.h */,
+				7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */,
 				8D91F1F70C4772FF00D9FC0F /* LightEvidenceSource.h */,
 				8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */,
 				8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */,
@@ -1561,6 +1566,7 @@
 				7C6D945C1747A1F300D5B9C7 /* IPv4RuleType.m in Sources */,
 				7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */,
 				DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */,
+				7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

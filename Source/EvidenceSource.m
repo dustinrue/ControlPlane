@@ -391,6 +391,7 @@
 #import "DNSEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "IPAddrEvidenceSource.h"
+#import "LaptopLidEvidenceSource.h"
 #import "LightEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
@@ -433,6 +434,7 @@
                         [BonjourEvidenceSource class],	
 						[CoreLocationSource class],
                         [DNSEvidenceSource class],
+                        [LaptopLidEvidenceSource class],
 						[LightEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
 						[PowerEvidenceSource class],
