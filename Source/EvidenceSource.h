@@ -76,7 +76,7 @@
 - (NSString *) friendlyName;
 
 // Return true if the evidence source should be enabled for this model of Mac
-+ (BOOL) isEvidenceSourceApplicableToModel:(NSString *) hwModel;
++ (BOOL) isEvidenceSourceApplicableToSystem;
 
 @end
 

@@ -342,7 +342,7 @@
 
 // if the evidence source doesn't override this we assume
 // it is always true, thus the evidence source will be available
-+ (BOOL) isEvidenceSourceApplicableToModel:(NSString *)hwModel {
++ (BOOL) isEvidenceSourceApplicableToSystem {
     return true;
 }
 
@@ -392,6 +392,7 @@
 #import "FireWireEvidenceSource.h"
 #import "IPAddrEvidenceSource.h"
 #import "LightEvidenceSource.h"
+#import "LidPositionEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
 #import "PowerEvidenceSource.h"
@@ -426,6 +427,7 @@
                         [NetworkLinkEvidenceSource class],
                         [IPAddrEvidenceSource class],
                         [FireWireEvidenceSource class],
+                        [LidPositionEvidenceSource class],
                         [MonitorEvidenceSource class],
                         [USBEvidenceSource class],
 						[AudioOutputEvidenceSource class],
@@ -481,7 +483,7 @@
 	// Instantiate all the evidence sources if they are supported on this device
 	NSMutableArray *srclist = [[NSMutableArray alloc] initWithCapacity:[classes count]];
     for (Class class in classes) {
-        if ([class isEvidenceSourceApplicableToModel:[CPSystemInfo getHardwareModel]]) {
+        if ([class isEvidenceSourceApplicableToSystem]) {
             @autoreleasepool {
                 EvidenceSource *src = [[class alloc] init];
                 if (!src) {
