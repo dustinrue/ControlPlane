@@ -9,7 +9,6 @@
 
 @interface LaptopLidEvidenceSource : GenericEvidenceSource
 
-+ (BOOL)isEvidenceSourceApplicableToModel:(NSString *)hwModel;
 
 - (id)init;
 

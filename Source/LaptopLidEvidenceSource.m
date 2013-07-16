@@ -19,7 +19,7 @@ typedef NS_ENUM(int, LaptopLidStateType) {
 
 @implementation LaptopLidEvidenceSource
 
-+ (BOOL)isEvidenceSourceApplicableToModel:(NSString *)hwModel {
++ (BOOL)isEvidenceSourceApplicableToSystem {
     return ([LaptopLidEvidenceSource isLidClosed] != LaptopLidStateIsUnavailable);
 }
 

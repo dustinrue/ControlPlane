@@ -393,7 +393,7 @@
 #import "IPAddrEvidenceSource.h"
 #import "LaptopLidEvidenceSource.h"
 #import "LightEvidenceSource.h"
-#import "LidPositionEvidenceSource.h"
+#import "LaptopLidEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
 #import "PowerEvidenceSource.h"
@@ -428,7 +428,6 @@
                         [NetworkLinkEvidenceSource class],
                         [IPAddrEvidenceSource class],
                         [FireWireEvidenceSource class],
-                        [LidPositionEvidenceSource class],
                         [MonitorEvidenceSource class],
                         [USBEvidenceSource class],
 						[AudioOutputEvidenceSource class],
