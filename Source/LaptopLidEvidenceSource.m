@@ -33,7 +33,7 @@ typedef NS_ENUM(int, LaptopLidStateType) {
         }
     }
 
-    int isClosed = LaptopLidStateIsUnavailable;
+    LaptopLidStateType isClosed = LaptopLidStateIsUnavailable;
 
     CFBooleanRef state = (CFBooleanRef) IORegistryEntryCreateCFProperty(rootDomain, CFSTR(kAppleClamshellStateKey),
                                                                         kCFAllocatorDefault, 0);
