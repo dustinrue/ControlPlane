@@ -4,7 +4,8 @@
 //
 //  Created by Dustin Rue on 7/10/11.
 //  Copyright 2011 Dustin Rue. All rights reserved.
-//  
+//
+//  Bug fixes and improvements by Vladimir Beloborodov (VladimirTechMan) in Jul 2013.
 //
 
 #import <CoreWLAN/CoreWLAN.h>
@@ -16,19 +17,27 @@
 #pragma mark C callbacks
 
 static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
-
-    WiFiEvidenceSourceCoreWLAN *src = (WiFiEvidenceSourceCoreWLAN *) info;
-    [src getInterfaceStateInfo];
-
+    [(WiFiEvidenceSourceCoreWLAN *) info getInterfaceStateInfo];
 }
 
-@implementation WiFiEvidenceSourceCoreWLAN
+@interface WiFiEvidenceSourceCoreWLAN () {
+    NSLock *lock;
+	NSMutableArray *apList;
+}
 
-@synthesize currentInterface;
-@synthesize scanResults;
-@synthesize ssidString;
-@synthesize signalStrength;
-@synthesize macAddress;
+@property(atomic, readwrite, retain) CWInterface *currentInterface;
+@property(strong) NSDictionary *interfaceData;
+@property BOOL linkActive;
+@property(strong) NSString *interfaceBSDName;
+@property(strong) NSTimer *loopTimer;
+
+// For SystemConfiguration asynchronous notifications
+@property SCDynamicStoreRef store;
+@property CFRunLoopSourceRef runLoop;
+
+@end
+
+@implementation WiFiEvidenceSourceCoreWLAN
 
 - (id)init {
     self = [super init];
@@ -38,33 +47,24 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     
     lock = [[NSLock alloc] init];
 	apList = [[NSMutableArray alloc] init];
-	wakeUpCounter = 0;
 	
     return self;
 }
 
 - (void)dealloc {
+    [_currentInterface release];
     [lock release];
 	[apList release];
+
     [super dealloc];
 }
 
-- (NSString *) description {
+- (NSString *)description {
     return NSLocalizedString(@"Create rules based on what WiFi networks are available or connected to.", @"");
 }
 
-- (void)wakeFromSleep:(id)arg {
-	[super wakeFromSleep:arg];
-    
-	wakeUpCounter = 2;
-}
-
 - (bool)isWirelessAvailable {
-    if (self.currentInterface == nil) {
-        return NO;
-    }
-
-    return [self.currentInterface powerOn];
+    return (self.currentInterface && [self.currentInterface powerOn]);
 }
 
 - (void)doUpdate:(NSTimer *)timer {
@@ -75,8 +75,6 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (void)doUpdate {
-	NSArray *all_aps = nil;
-
     // first see if Wi-Fi is even turned on
     if (![self isWirelessAvailable]) {
         [self clearCollectedData];
@@ -90,57 +88,66 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         return;
     }
 
+	NSArray *allAps = nil;
+    
     // check to see if the interface is active
     if (!self.linkActive || [[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
         DSLog(@"WiFi link is inactive, doing full scan");
-        all_aps = [self scanForNetworks];
-    }
-    else {
+        allAps = [self scanForNetworks];
+    } else {
+        NSString *ssid = self.currentInterface.ssid, *bssid = self.currentInterface.bssid;
+        if ((ssid == nil) || (bssid == nil)) {
+            DSLog(@"WiFi interface is active, but is not participating in a network yet (or network SSID is bad)");
+            return;
+        }
+        
         DSLog(@"WiFi link is active, grabbing connection info");
-        all_aps = @[ @{ @"WiFi SSID": self.currentInterface.ssid, @"WiFi BSSID": self.currentInterface.bssid } ];
+        allAps = @[ @{ @"WiFi SSID": ssid, @"WiFi BSSID": bssid } ];
     }
 
     [self toggleUpdateLoop:nil];
+
 	[lock lock];
 
-    if ([apList mergeWith:all_aps]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
-    }
-    
+    BOOL isApListChanged = [apList mergeWith:allAps];
 	[self setDataCollected:[apList count] > 0];
 #ifdef DEBUG_MODE
 	//DSLog(@"%@ >> %@", [self class], apList);
 #endif
+
 	[lock unlock];
+
+    if (isApListChanged) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    }
 }
 
 - (NSMutableArray *)scanForNetworks {
-    
+    NSMutableArray *allAps = [NSMutableArray array];
+
     NSError *err = nil;
-    NSMutableArray *all_aps = [NSMutableArray array];
-    CWInterface *currentNetwork = nil;
+    NSSet *foundNetworks = [self.currentInterface scanForNetworksWithSSID:nil error:&err];
+    if (err) {
+        DSLog(@"Error: %@", err);
+        return allAps;
+    }
+
+    NSSortDescriptor *sortBySsid = [NSSortDescriptor sortDescriptorWithKey:@"ssid"
+                                                                 ascending:YES
+                                                                  selector:@selector(caseInsensitiveCompare:)];
+    NSArray *scanResults = [foundNetworks sortedArrayUsingDescriptors:@[ sortBySsid ]];
     
-    @synchronized(self) {
-        self.scanResults = [NSMutableArray arrayWithArray:[[self.currentInterface scanForNetworksWithName:nil error:&err] allObjects]];
-
-        if (err) {
-            DSLog(@"error: %@",err);
-        } else {
-            [self.scanResults sortUsingDescriptors:
-                @[ [[[NSSortDescriptor alloc] initWithKey:@"ssid"
-                                                ascending:YES
-                                                 selector:@selector(caseInsensitiveCompare:)] autorelease] ]];
-        }
-
-        for (currentNetwork in self.scanResults) {
-            [all_aps addObject:@{ @"WiFi SSID": [currentNetwork ssid], @"WiFi BSSID": [currentNetwork bssid] }];
+    for (CWNetwork *currentNetwork in scanResults) {
+        NSString *ssid = [currentNetwork ssid], *bssid = [currentNetwork bssid];
+        if ((ssid != nil) && (bssid != nil)) {
+            [allAps addObject:@{ @"WiFi SSID": ssid, @"WiFi BSSID": bssid }];
 #ifdef DEBUG_MODE
-            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", [currentNetwork ssid], [currentNetwork bssid], [currentNetwork rssiValue]);
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, [currentNetwork rssiValue]);
 #endif
         }
     }
     
-    return all_aps;
+    return allAps;
 }
 
 - (void)clearCollectedData {
@@ -291,7 +298,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         return NO;
     }
 
-    self.currentInterface = [CWInterface interfaceWithName:[supportedInterfaces objectAtIndex:0]];
+    self.currentInterface = [CWInterface interfaceWithName:supportedInterfaces[0]];
     self.interfaceBSDName = [self.currentInterface interfaceName];
 
 #ifdef DEBUG_MODE
