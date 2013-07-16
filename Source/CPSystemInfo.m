@@ -14,6 +14,7 @@
 
 @implementation CPSystemInfo
 
+
 + (NSString *) getHardwareModel {
     static NSString *hwModel = nil;
 
@@ -30,5 +31,11 @@
 
     return hwModel;
 }
+
++ (BOOL) isPortable {
+    return ([[[CPSystemInfo getHardwareModel] lowercaseString] rangeOfString:@"book"].location != NSNotFound);
+}
+
+// returns true
 
 @end
