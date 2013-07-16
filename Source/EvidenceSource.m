@@ -582,8 +582,9 @@
 	}
 }
 
-- (BOOL)ruleMatches:(NSMutableDictionary *)rule
-{
+- (RuleMatchStatusType)ruleMatches:(NSMutableDictionary *)rule {
+    RuleMatchStatusType result = RuleMatchStatusIsUnknown;
+
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	NSString *ruleType = [rule objectForKey:@"type"];
 	for (EvidenceSource *src in sources) {
@@ -591,17 +592,19 @@
 			continue;
 
         NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
-		BOOL enabled = [standardUserDefaults boolForKey:key];
-
-		if (enabled && [src doesRuleMatch:rule]) {
+		if ([standardUserDefaults boolForKey:key]) { // if enabled
 #if DEBUG_MODE
             DSLog(@"checking EvidenceSource %@ for matching rules", src);
 #endif
-            return YES;
+            if ([src doesRuleMatch:rule]) {
+                return RuleDoesMatch;
+            }
+
+            result = RuleDoesNotMatch;
         }
 	}
 
-	return NO;
+	return result;
 }
 
 - (NSEnumerator *)sourceEnumerator

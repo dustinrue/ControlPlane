@@ -863,13 +863,14 @@
 #ifdef DEBUG_MODE
         DSLog(@"checking rule %@", rule);
 #endif
-		BOOL isMatching = [evidenceSources ruleMatches:rule];
-        if (isMatching) {
+		RuleMatchStatusType isMatching = [evidenceSources ruleMatches:rule];
+        if (isMatching == RuleDoesMatch) {
 			[matchingRules addObject:rule];
         }
 
         NSNumber *recentStatus = rule[@"cachedStatus"];
-        if (!recentStatus || ([recentStatus boolValue] != isMatching)) {
+        RuleMatchStatusType wasMatching = (recentStatus) ? ([recentStatus intValue]) : (RuleMatchStatusIsUnknown);
+        if (wasMatching != isMatching) {
             rule[@"cachedStatus"] = @(isMatching);
             changed = YES;
         }

@@ -82,6 +82,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
+typedef NS_ENUM(int, RuleMatchStatusType) {
+    RuleMatchStatusIsUnknown = -1,
+    RuleDoesNotMatch = 0,
+    RuleDoesMatch = 1
+};
+
 @interface EvidenceSourceSetController : NSObject {
 	IBOutlet NSWindowController *prefsWindowController;
 	NSArray *sources;	// dictionary of EvidenceSource descendants (key is its name)
@@ -89,7 +95,7 @@
 
 - (EvidenceSource *)sourceWithName:(NSString *)name;
 - (void)startOrStopAll;
-- (BOOL)ruleMatches:(NSMutableDictionary *)rule;
+- (RuleMatchStatusType)ruleMatches:(NSMutableDictionary *)rule;
 - (NSEnumerator *)sourceEnumerator;
 
 @end

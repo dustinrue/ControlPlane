@@ -133,10 +133,11 @@
 + (BOOL)allowsReverseTransformation { return NO; }
 
 - (id)transformedValue:(id)theValue {
-    if (!theValue) {
+    RuleMatchStatusType status = (theValue) ? ([theValue intValue]) : (RuleMatchStatusIsUnknown);
+    if (status == RuleMatchStatusIsUnknown) {
         return  @"?";
     }
-    return ([theValue boolValue]) ? (@"\u2713") : (@"");
+    return (status == RuleDoesMatch) ? (@"\u2713") : (@"");
 }
 
 @end
