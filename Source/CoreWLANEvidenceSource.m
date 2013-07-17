@@ -23,6 +23,10 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 @interface WiFiEvidenceSourceCoreWLAN () {
     NSLock *lock;
 	NSMutableArray *apList;
+
+    // For SystemConfiguration asynchronous notifications
+    CFRunLoopSourceRef runLoop;
+    SCDynamicStoreRef store;
 }
 
 @property(atomic, readwrite, retain) CWInterface *currentInterface;
@@ -30,10 +34,6 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 @property BOOL linkActive;
 @property(strong) NSString *interfaceBSDName;
 @property(strong) NSTimer *loopTimer;
-
-// For SystemConfiguration asynchronous notifications
-@property SCDynamicStoreRef store;
-@property CFRunLoopSourceRef runLoop;
 
 @end
 
@@ -52,6 +52,8 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (void)dealloc {
+    [self doStop];
+    
     [_currentInterface release];
     [lock release];
 	[apList release];
@@ -216,11 +218,11 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 	return arr;
 }
 
-- (NSString *) friendlyName {
+- (NSString *)friendlyName {
     return NSLocalizedString(@"Nearby WiFi Network", @"");
 }
 
-- (void) startUpdateLoop {
+- (void)startUpdateLoop {
     if (self.loopTimer) {
         return;
     }
@@ -232,12 +234,12 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
                                                 repeats:YES];
 }
 
-- (void) stopUpdateLoop {
+- (void)stopUpdateLoop {
     [self.loopTimer invalidate];
     self.loopTimer = nil;
 }
 
-- (void) toggleUpdateLoop:(NSNotification *)notification {
+- (void)toggleUpdateLoop:(NSNotification *)notification {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"] || !self.linkActive) {
         [self startUpdateLoop];
     }
@@ -246,7 +248,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     }
 }
 
-- (void) start {
+- (void)start {
     if (running) {
         return;
     }
@@ -258,10 +260,12 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
     // attempt to get the current 
     if (![self getWiFiInterface]) {
+        [self doStop];
         return;
     }
     
     if (![self registerForAsyncNotifications]) {
+        [self doStop];
         return;
     }
     
@@ -274,16 +278,28 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     running = YES;
 }
 
-- (void) stop {
+- (void)stop {
     if (running) {
-        running = NO;
+        [self doStop];
     }
-    
-    [self clearCollectedData];
-    CFRunLoopRemoveSource(CFRunLoopGetCurrent(), _runLoop, kCFRunLoopCommonModes);
+}
 
+- (void)doStop {
     [self stopUpdateLoop];
-    
+    [self clearCollectedData];
+
+    if (runLoop) {
+        CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
+        CFRelease(runLoop);
+        runLoop = NULL;
+    }
+
+    if (store) {
+        CFRelease(store);
+        store = NULL;
+    }
+
+    running = NO;
 }
 
 - (BOOL) getWiFiInterface {
@@ -308,16 +324,23 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     return YES;
 }
 
-- (BOOL) registerForAsyncNotifications {
+- (BOOL)registerForAsyncNotifications {
 	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
-	self.store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), linkDataChanged, &ctxt);
+	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), linkDataChanged, &ctxt);
+    if (!store) {
+        return NO;
+    }
 
-	_runLoop = SCDynamicStoreCreateRunLoopSource(NULL, self.store, 0);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), _runLoop, kCFRunLoopCommonModes);
+	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
+    if (!runLoop) {
+        return NO;
+    }
+
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
+
 	NSArray *keys = @[ [NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", self.interfaceBSDName],
                        [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", self.interfaceBSDName] ];
-    
-	return SCDynamicStoreSetNotificationKeys(self.store, (CFArrayRef) keys, NULL);
+	return SCDynamicStoreSetNotificationKeys(store, (CFArrayRef) keys, NULL);
 }
 
 /*
@@ -329,15 +352,14 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 */
 
-- (void) getInterfaceStateInfo {
-
+- (void)getInterfaceStateInfo {
     NSDictionary *currentData = nil;
     
-    currentData = SCDynamicStoreCopyValue(self.store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", self.interfaceBSDName]);
+    currentData = SCDynamicStoreCopyValue(store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", self.interfaceBSDName]);
     [self setLinkActive:[[currentData valueForKey:@"Active"] boolValue]];
     [currentData release];
     
-    currentData = SCDynamicStoreCopyValue(self.store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", self.interfaceBSDName]);
+    currentData = SCDynamicStoreCopyValue(store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", self.interfaceBSDName]);
     [self setInterfaceData:currentData];
     [currentData release];
     
