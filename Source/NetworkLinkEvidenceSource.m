@@ -5,6 +5,7 @@
 //  Created by Mark Wallis on 25/07/07.
 //  Tweaks by David Symonds on 25/07/07.
 //  Changed by Ingvar Nedrebo 27/03/13
+//  Bug fixes and implementation improvements by Vladimir Beloborodov (VladimirTechMan) on 17 July 2013
 //
 
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -27,13 +28,18 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     }
 }
 
+@interface NetworkLinkEvidenceSource ()
+
+@property (atomic,retain,readwrite) NSSet *interfaces;
+
+@end
+
 @implementation NetworkLinkEvidenceSource {
-	NSLock *lock;
-	NSMutableArray *interfaces;
     BOOL didSleep;
 
     // To get network services
     SCPreferencesRef prefs;
+
 	// For SystemConfiguration asynchronous notifications
 	SCDynamicStoreRef store;
     dispatch_queue_t serialQueue;
@@ -45,8 +51,6 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 		return nil;
     }
 
-	lock = [[NSLock alloc] init];
-	interfaces = [[NSMutableArray alloc] init];
     didSleep = NO;
 
 	return self;
@@ -55,19 +59,17 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 - (void)dealloc {
     [self doStop];
     
-	[lock release];
-	[interfaces release];
+	[_interfaces release];
 
 	[super dealloc];
 }
-
 
 - (NSString *)description {
     return NSLocalizedString(@"Create rules based on what network links are active on your Mac.  This can include LAN, WiFi or other network links available on your Mac.", @"");
 }
 
-- (NSArray *)enumerate {
-    NSArray *services = [(NSArray *)SCNetworkServiceCopyAll(prefs) autorelease];
+- (NSSet *)enumerate {
+    NSArray *services = [(NSArray *) SCNetworkServiceCopyAll(prefs) autorelease];
 
     // For some connections, we get several Services with different ID
     // but same name (e.g. 'Ethernet'), presumably because they have
@@ -76,15 +78,13 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     // Service caused it.
 
     NSMutableDictionary *serviceState = [NSMutableDictionary dictionary];
-	NSEnumerator *e = [services objectEnumerator];
-    SCNetworkServiceRef service;
-    while (service = (SCNetworkServiceRef) [e nextObject]) {
-		NSString *serviceName = (NSString *) SCNetworkServiceGetName(service);
+    for (id service in services) {
+		NSString *serviceName = (NSString *) SCNetworkServiceGetName((SCNetworkServiceRef) service);
         if ([serviceState[serviceName] boolValue]) {
             continue;
         }
-
-		NSString *serviceID = (NSString *) SCNetworkServiceGetServiceID(service);
+        
+		NSString *serviceID = (NSString *) SCNetworkServiceGetServiceID((SCNetworkServiceRef) service);
         BOOL isActive = [self isProtocol:@"IPv4" activeForService:serviceID];
         if (!isActive) {
             isActive = [self isProtocol:@"IPv6" activeForService:serviceID];
@@ -92,21 +92,18 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
         serviceState[serviceName] = @(isActive);
     }
 
-	NSMutableArray *subset = [NSMutableArray array];
+	NSMutableSet *subset = [NSMutableSet set];
     for (NSString *name in serviceState) {
         NSString *opt = [serviceState[name] boolValue] ? @"+" : @"-";
         [subset addObject:[opt stringByAppendingString:name]];
     }
-	return subset;
+	return [NSSet setWithSet:subset];
 }
 
 - (void)doFullUpdate:(id)sender {
-    NSArray *inters = [self enumerate];
-    
-    [lock lock];
-    [interfaces setArray:inters];
-    [self setDataCollected:[interfaces count] > 0];
-    [lock unlock];
+    NSSet *inters = [self enumerate];
+    self.interfaces = inters;
+    [self setDataCollected:[inters count] > 0];
 }
 
 - (void) goingToSleep:(id)arg {
@@ -198,10 +195,8 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
         prefs = NULL;
     }
 
-	[lock lock];
-	[interfaces removeAllObjects];
+    self.interfaces = nil;
 	[self setDataCollected:NO];
-	[lock unlock];
 
 	running = NO;
 }
@@ -211,13 +206,7 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-	NSString *service = rule[@"parameter"];
-
-	[lock lock];
-    BOOL match = [interfaces containsObject:service];
-	[lock unlock];
-
-	return match;
+    return [self.interfaces containsObject:rule[@"parameter"]];
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type {
@@ -226,31 +215,28 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 
 - (NSArray *)getSuggestions {
 	NSMutableArray *arr = [NSMutableArray array];
-	NSArray *all = [(NSArray *)SCNetworkServiceCopyAll(prefs) autorelease];
+	NSArray *all = [(NSArray *) SCNetworkServiceCopyAll(prefs) autorelease];
 
     // See comments in -enumerate:
     NSMutableSet *alreadySeen = [NSMutableSet set];
-
-	NSEnumerator *en = [all objectEnumerator];
-    SCNetworkServiceRef service;
-	while ((service = (SCNetworkServiceRef) [en nextObject])) {
-		NSString *name = (NSString *) SCNetworkServiceGetName(service);
+    for (id service in all) {
+		NSString *name = (NSString *) SCNetworkServiceGetName((SCNetworkServiceRef) service);
         if ([alreadySeen containsObject:name]) {
             continue;
         }
-
+        
 		NSString *activeDesc = [NSString stringWithFormat:
                                 NSLocalizedString(@"%@ link active", @"In NetworkLinkEvidenceSource"), name];
 		NSString *inactiveDesc = [NSString stringWithFormat:
                                   NSLocalizedString(@"%@ link inactive", @"In NetworkLinkEvidenceSource"), name];
 		NSString *activeParam = [@"+" stringByAppendingString:name];
 		NSString *inactiveParam = [@"-" stringByAppendingString:name];
-
+        
 		[arr addObject:@{ @"type": @"NetworkLink", @"parameter": activeParam, @"description": activeDesc }];
 		[arr addObject:@{ @"type": @"NetworkLink", @"parameter": inactiveParam, @"description": inactiveDesc }];
-
+        
         [alreadySeen addObject:name];
-	}
+    }
 
     [arr sortUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)] ]];
 	return arr;
