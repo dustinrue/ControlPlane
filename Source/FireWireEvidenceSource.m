@@ -184,6 +184,29 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	IOObjectRelease(iterator);
 }
 
++ (BOOL) isFireWireAvailable {
+    kern_return_t kr;
+	io_iterator_t iterator = 0;
+    BOOL test = FALSE;
+    
+	// Create matching dictionary for I/O Kit enumeration
+	CFMutableDictionaryRef matchDict = IOServiceMatching("IOFireWireController");
+    
+	kr = IOServiceGetMatchingServices(kIOMasterPortDefault, matchDict, &iterator);
+    
+    if (kr != KERN_SUCCESS)
+        return test;
+    
+    // assume that if we have a valid iterator then
+    // we found a FW controller
+    if (IOIteratorIsValid(iterator)) {
+        test = TRUE;
+        IOObjectRelease(iterator);
+    }
+    
+    return test;
+}
+
 - (void)devRemoved:(io_iterator_t)iterator
 {
 	io_service_t device;
@@ -319,6 +342,10 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Attached FireWire Device", @"");
+}
+
++ (BOOL) isEvidenceSourceApplicableToSystem {
+    return [FireWireEvidenceSource isFireWireAvailable];
 }
 
 @end
