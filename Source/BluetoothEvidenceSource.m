@@ -10,6 +10,7 @@
 #import "DB.h"
 #import "DSLogger.h"
 #import "NSTimer+Invalidation.h"
+#import <IOBluetooth/objc/IOBluetoothHostController.h>
 
 #define EXPIRY_INTERVAL		((NSTimeInterval) 60)
 
@@ -530,5 +531,11 @@
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Bluetooth", @"");
+}
+
+// if the default controller doesn't come back with anything
+// then this model probably doesn't support Bluetooth
++ (BOOL) isEvidenceSourceApplicableToSystem {
+    return (([IOBluetoothHostController defaultController]) != nil);
 }
 @end
