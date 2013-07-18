@@ -43,17 +43,7 @@
 
 	lock = [[NSLock alloc] init];
 
-	// Find the IO service
-	kern_return_t kr;
-	io_service_t serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleLMUController"));
-	if (serviceObject) {
-		// Open the IO service
-		kr = IOServiceOpen(serviceObject, mach_task_self(), 0, &ioPort);
-		IOObjectRelease(serviceObject);
-	}
-
-	if (!serviceObject || (kr != KERN_SUCCESS))
-		ioPort = 0;
+    [self openAppleLMUController];
 
 	// We want this to update more regularly than every 10 seconds!
 	loopInterval = (NSTimeInterval) 1.5;
@@ -68,6 +58,21 @@
 	[super dealloc];
 }
 
+- (BOOL) openAppleLMUController {
+    // Find the IO service
+    kern_return_t kr = KERN_FAILURE;
+    io_service_t serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleLMUController"));
+    if (serviceObject) {
+        // Open the IO service
+        kr = IOServiceOpen(serviceObject, mach_task_self(), 0, &ioPort);
+        IOObjectRelease(serviceObject);
+    }
+
+    if (!serviceObject || (kr != KERN_SUCCESS))
+        ioPort = 0;
+    
+    return (kr == KERN_SUCCESS);
+}
 
 - (NSString *) description {
     return NSLocalizedString(@"Create rules based on the amount of ambient light if your Mac is equipped with ambient light sensors.", @"");
@@ -183,6 +188,14 @@
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Light Sensor", @"");
+}
+
++ (BOOL) isEvidenceSourceApplicableToSystem {
+    LightEvidenceSource *les = [[LightEvidenceSource alloc] init];
+    BOOL test = [les openAppleLMUController];
+    [les release];
+    
+    return test;
 }
 
 @end
