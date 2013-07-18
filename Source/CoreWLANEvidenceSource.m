@@ -367,4 +367,13 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     [self doUpdate];
 }
 
++ (BOOL) isEvidenceSourceApplicableToSystem {
+    WiFiEvidenceSourceCoreWLAN *wescwl = [[WiFiEvidenceSourceCoreWLAN alloc] init];
+    BOOL test = [wescwl getWiFiInterface];
+    
+    [wescwl release];
+    
+    return test;
+}
+
 @end
