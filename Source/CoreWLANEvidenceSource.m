@@ -9,31 +9,40 @@
 //
 
 #import <CoreWLAN/CoreWLAN.h>
-#import "CoreWLANEvidenceSource.h"
-#import "NSMutableArray+Merge.h"
 #import <SystemConfiguration/SystemConfiguration.h>
+#import "CoreWLANEvidenceSource.h"
 #import "DSLogger.h"
+
+
+static char * const queueIsStopped = "queueIsStopped";
+
 
 #pragma mark C callbacks
 
 static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
-    [(WiFiEvidenceSourceCoreWLAN *) info getInterfaceStateInfo];
+    if (dispatch_get_specific(queueIsStopped) != queueIsStopped) {
+        @autoreleasepool {
+            [(WiFiEvidenceSourceCoreWLAN *) info getInterfaceStateInfo];
+        }
+    }
 }
 
 @interface WiFiEvidenceSourceCoreWLAN () {
-    NSLock *lock;
-	NSMutableArray *apList;
+    NSTimer *loopTimer;
 
     // For SystemConfiguration asynchronous notifications
-    CFRunLoopSourceRef runLoop;
     SCDynamicStoreRef store;
+    dispatch_queue_t serialQueue;
 }
 
-@property(atomic, readwrite, retain) CWInterface *currentInterface;
-@property(strong) NSDictionary *interfaceData;
-@property BOOL linkActive;
-@property(strong) NSString *interfaceBSDName;
-@property(strong) NSTimer *loopTimer;
+@property (atomic, retain, readwrite) NSDictionary *networkSSIDs;
+@property (atomic, retain, readwrite) NSSet *networkBSSIDs;
+
+@property (atomic, retain, readwrite) CWInterface *currentInterface;
+@property (atomic, retain, readwrite) NSString *interfaceBSDName;
+@property (atomic, retain, readwrite) NSDictionary *interfaceData;
+
+@property (atomic) BOOL linkActive;
 
 @end
 
@@ -45,40 +54,121 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 		return nil;
     }
     
-    lock = [[NSLock alloc] init];
-	apList = [[NSMutableArray alloc] init];
-	
     return self;
 }
 
 - (void)dealloc {
     [self doStop];
-    
+
+    [_networkSSIDs release];
+    [_networkBSSIDs release];
     [_currentInterface release];
-    [lock release];
-	[apList release];
+    [_interfaceBSDName release];
+    [_interfaceData release];
+    [loopTimer release];
 
     [super dealloc];
+}
+
++ (BOOL) isEvidenceSourceApplicableToSystem {
+    WiFiEvidenceSourceCoreWLAN *wescwl = [[WiFiEvidenceSourceCoreWLAN alloc] init];
+    BOOL test = [wescwl getWiFiInterface];
+    [wescwl release];
+
+    return test;
+}
+
+- (void)start {
+    if (running) {
+        return;
+    }
+    
+    serialQueue = dispatch_queue_create("com.dustinrue.ControlPlane.CoreWLANEvidenceSource",
+                                        DISPATCH_QUEUE_SERIAL);
+    if (!serialQueue) {
+        [self doStop];
+        return;
+    }
+    
+    // attempt to get the current
+    if (![self getWiFiInterface]) {
+        [self doStop];
+        return;
+    }
+    
+    if (![self registerForAsyncNotifications]) {
+        [self doStop];
+        return;
+    }
+    
+    dispatch_async(serialQueue, ^{
+        if (dispatch_get_specific(queueIsStopped) != queueIsStopped) {
+            @autoreleasepool {
+                [self getInterfaceStateInfo];
+            }
+        }
+    });
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toggleUpdateLoop:)
+												 name:NSUserDefaultsDidChangeNotification
+											   object:nil];
+    
+    running = YES;
+}
+
+- (void)stop {
+    if (running) {
+        [self doStop];
+    }
+}
+
+- (void)doStop {
+    [self stopUpdateLoop:NO];
+    [self clearCollectedData];
+    
+    if (serialQueue) {
+        if (store) {
+            dispatch_suspend(serialQueue);
+            
+            SCDynamicStoreSetDispatchQueue(store, NULL);
+            
+            dispatch_queue_set_specific(serialQueue, queueIsStopped, queueIsStopped, NULL);
+            dispatch_resume(serialQueue);
+        }
+        
+        dispatch_release(serialQueue);
+        serialQueue = NULL;
+    }
+    
+    if (store) {
+        CFRelease(store);
+        store = NULL;
+    }
+    
+    running = NO;
 }
 
 - (NSString *)description {
     return NSLocalizedString(@"Create rules based on what WiFi networks are available or connected to.", @"");
 }
 
-- (bool)isWirelessAvailable {
-    return (self.currentInterface && [self.currentInterface powerOn]);
-}
-
 - (void)doUpdate:(NSTimer *)timer {
+    dispatch_async(serialQueue, ^{
+        if (dispatch_get_specific(queueIsStopped) != queueIsStopped) {
+            @autoreleasepool {
 #ifdef DEBUG_MODE
-    DSLog(@"timer fired");
+                DSLog(@"timer fired");
 #endif
-    [self doUpdate];
+                [self doUpdate];
+            }
+        }
+    });
 }
 
 - (void)doUpdate {
     // first see if Wi-Fi is even turned on
-    if (![self isWirelessAvailable]) {
+    if (![self.currentInterface powerOn]) {
         [self clearCollectedData];
         DSLog(@"WiFi disabled, no scan done");
         return;
@@ -90,73 +180,72 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         return;
     }
 
-	NSArray *allAps = nil;
-    
+    NSDictionary *newNetworkSSIDs = nil;
+
     // check to see if the interface is active
     if (!self.linkActive || [[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
         DSLog(@"WiFi link is inactive, doing full scan");
-        allAps = [self scanForNetworks];
+        newNetworkSSIDs = [self scanForNetworks];
     } else {
         NSString *ssid = self.currentInterface.ssid, *bssid = self.currentInterface.bssid;
         if ((ssid == nil) || (bssid == nil)) {
             DSLog(@"WiFi interface is active, but is not participating in a network yet (or network SSID is bad)");
             return;
         }
-        
+
         DSLog(@"WiFi link is active, grabbing connection info");
-        allAps = @[ @{ @"WiFi SSID": ssid, @"WiFi BSSID": bssid } ];
+        newNetworkSSIDs = @{ ssid: bssid };
     }
 
-    [self toggleUpdateLoop:nil];
-
-	[lock lock];
-
-    BOOL isApListChanged = [apList mergeWith:allAps];
-	[self setDataCollected:[apList count] > 0];
-#ifdef DEBUG_MODE
-	//DSLog(@"%@ >> %@", [self class], apList);
-#endif
-
-	[lock unlock];
-
-    if (isApListChanged) {
+    if (![self.networkSSIDs isEqualToDictionary:newNetworkSSIDs]) {
+        self.networkSSIDs = newNetworkSSIDs;
+        self.networkBSSIDs = (newNetworkSSIDs) ? ([NSSet setWithArray:[newNetworkSSIDs allValues]]) : (nil);
+        [self setDataCollected:[newNetworkSSIDs count] > 0];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+        
+#ifdef DEBUG_MODE
+        DSLog(@"%@ >> %@", [self class], newNetworkSSIDs);
+#endif
     }
 }
 
-- (NSMutableArray *)scanForNetworks {
-    NSMutableArray *allAps = [NSMutableArray array];
-
+- (NSDictionary *)scanForNetworks {
     NSError *err = nil;
     NSSet *foundNetworks = [self.currentInterface scanForNetworksWithSSID:nil error:&err];
     if (err) {
         DSLog(@"Error: %@", err);
-        return allAps;
+        return nil;
     }
 
-    NSSortDescriptor *sortBySsid = [NSSortDescriptor sortDescriptorWithKey:@"ssid"
-                                                                 ascending:YES
-                                                                  selector:@selector(caseInsensitiveCompare:)];
-    NSArray *scanResults = [foundNetworks sortedArrayUsingDescriptors:@[ sortBySsid ]];
-    
-    for (CWNetwork *currentNetwork in scanResults) {
+    NSMutableDictionary *ssids = [NSMutableDictionary dictionaryWithCapacity:[foundNetworks count]];
+
+    if (self.linkActive) {
+        NSString *ssid = self.currentInterface.ssid, *bssid = self.currentInterface.bssid;
+        if ((ssid != nil) && (bssid != nil)) {
+            ssids[ssid] = bssid;
+#ifdef DEBUG_MODE
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, [self.currentInterface rssiValue]);
+#endif
+        }
+    }
+
+    for (CWNetwork *currentNetwork in foundNetworks) {
         NSString *ssid = [currentNetwork ssid], *bssid = [currentNetwork bssid];
         if ((ssid != nil) && (bssid != nil)) {
-            [allAps addObject:@{ @"WiFi SSID": ssid, @"WiFi BSSID": bssid }];
+            ssids[ssid] = bssid;
 #ifdef DEBUG_MODE
             DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, [currentNetwork rssiValue]);
 #endif
         }
     }
-    
-    return allAps;
+
+    return [NSDictionary dictionaryWithDictionary:ssids];
 }
 
 - (void)clearCollectedData {
-	[lock lock];
-	[apList removeAllObjects];
+    self.networkSSIDs  = nil;
+    self.networkBSSIDs = nil;
 	[self setDataCollected:NO];
-	[lock unlock];
 }
 
 - (NSString *)name {
@@ -168,26 +257,13 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-	BOOL match = NO;
-	NSString *key = rule[@"type"];
 	NSString *param = rule[@"parameter"];
 
-	//[lock lock];
-    NSArray *tmp = [apList copy];
-	for (NSDictionary *dict in tmp) {
-		NSString *x = dict[key];
-#ifdef DEBUG_MODE
-        DSLog(@"checking to see if %@ matches", x);
-#endif
-		if ([param isEqualToString:x]) {
-			match = YES;
-			break;
-		}
+    if ([rule[@"type"] isEqualToString:@"WiFi BSSID"]) {
+        return [self.networkBSSIDs containsObject:param];
     }
-	//[lock unlock];
 
-    [tmp release];
-	return match;
+    return (self.networkSSIDs[param] != nil);
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type {
@@ -199,12 +275,13 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (NSArray *)getSuggestions {
-	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:(2 * [apList count])];
+    NSDictionary *networkSSIDs = self.networkSSIDs;
+    NSArray *sortedSSIDs = [[networkSSIDs allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
-	[lock lock];
+	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:(2 * [networkSSIDs count])];
 
-    for (NSDictionary *dict in apList) {
-		NSString *mac = dict[@"WiFi BSSID"], *ssid = dict[@"WiFi SSID"];
+    for (NSString *ssid in sortedSSIDs) {
+		NSString *mac = networkSSIDs[ssid];
 		[arr addObject: @{  @"type": @"WiFi BSSID",
                             @"parameter": mac,
                             @"description": [NSString stringWithFormat:@"%@ (%@)", mac, ssid] }];
@@ -212,9 +289,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
                             @"parameter": ssid,
                             @"description": ssid }];
     }
-    
-	[lock unlock];
-    
+
 	return arr;
 }
 
@@ -222,84 +297,41 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     return NSLocalizedString(@"Nearby WiFi Network", @"");
 }
 
-- (void)startUpdateLoop {
-    if (self.loopTimer) {
+- (void)startUpdateLoop:(BOOL)forceUpdate {
+    if (loopTimer) {
         return;
     }
 
-    self.loopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
+    loopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
                                                  target:self
                                                selector:@selector(doUpdate:)
                                                userInfo:nil
                                                 repeats:YES];
+    if (forceUpdate) {
+        [loopTimer fire];
+    }
 }
 
-- (void)stopUpdateLoop {
-    [self.loopTimer invalidate];
-    self.loopTimer = nil;
+- (void)stopUpdateLoop:(BOOL)forceUpdate {
+    if (loopTimer) {
+        if (forceUpdate) {
+            [loopTimer fire];
+        }
+        [loopTimer invalidate];
+
+        loopTimer = nil;
+    }
 }
 
 - (void)toggleUpdateLoop:(NSNotification *)notification {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"] || !self.linkActive) {
-        [self startUpdateLoop];
+    BOOL forceUpdate = (notification != nil);
+    if (!self.linkActive || [[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
+        [self startUpdateLoop:forceUpdate];
     }
     else {
-        [self stopUpdateLoop];
-    }
-}
-
-- (void)start {
-    if (running) {
-        return;
+        [self stopUpdateLoop:forceUpdate];
     }
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(toggleUpdateLoop:)
-												 name:NSUserDefaultsDidChangeNotification
-											   object:nil];
-
-    // attempt to get the current 
-    if (![self getWiFiInterface]) {
-        [self doStop];
-        return;
-    }
-    
-    if (![self registerForAsyncNotifications]) {
-        [self doStop];
-        return;
-    }
-    
-    [self getInterfaceStateInfo];
-    
-    [self doUpdate];
-    
-    [self toggleUpdateLoop:nil];
-
-    running = YES;
-}
-
-- (void)stop {
-    if (running) {
-        [self doStop];
-    }
-}
-
-- (void)doStop {
-    [self stopUpdateLoop];
-    [self clearCollectedData];
-
-    if (runLoop) {
-        CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
-        CFRelease(runLoop);
-        runLoop = NULL;
-    }
-
-    if (store) {
-        CFRelease(store);
-        store = NULL;
-    }
-
-    running = NO;
 }
 
 - (BOOL) getWiFiInterface {
@@ -330,13 +362,9 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     if (!store) {
         return NO;
     }
-
-	runLoop = SCDynamicStoreCreateRunLoopSource(NULL, store, 0);
-    if (!runLoop) {
+    if (!SCDynamicStoreSetDispatchQueue(store, serialQueue)) {
         return NO;
     }
-
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoop, kCFRunLoopCommonModes);
 
 	NSArray *keys = @[ [NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", self.interfaceBSDName],
                        [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", self.interfaceBSDName] ];
@@ -354,26 +382,21 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
 - (void)getInterfaceStateInfo {
     NSDictionary *currentData = nil;
-    
+
     currentData = SCDynamicStoreCopyValue(store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/Link", self.interfaceBSDName]);
     [self setLinkActive:[[currentData valueForKey:@"Active"] boolValue]];
     [currentData release];
-    
+
     currentData = SCDynamicStoreCopyValue(store, (CFStringRef)[NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", self.interfaceBSDName]);
     [self setInterfaceData:currentData];
     [currentData release];
-    
+
+    dispatch_async(dispatch_get_main_queue(), ^{ // ensure the timers are set on the main loop
+        [self toggleUpdateLoop:nil];
+    });
+
     //[self dumpData];
     [self doUpdate];
-}
-
-+ (BOOL) isEvidenceSourceApplicableToSystem {
-    WiFiEvidenceSourceCoreWLAN *wescwl = [[WiFiEvidenceSourceCoreWLAN alloc] init];
-    BOOL test = [wescwl getWiFiInterface];
-    
-    [wescwl release];
-    
-    return test;
 }
 
 @end

@@ -15,9 +15,7 @@
 - (id)init;
 - (void)dealloc;
 
-- (void)doUpdate;
 - (void)clearCollectedData;
-- (bool)isWirelessAvailable;
 
 - (NSString *)name;
 - (NSArray *)typesOfRulesMatched;
