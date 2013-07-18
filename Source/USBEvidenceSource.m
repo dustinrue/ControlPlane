@@ -221,17 +221,20 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 + (BOOL) isUSBAvailable {
 	io_iterator_t ohci_iterator = 0;
     io_iterator_t ehci_iterator = 0;
+    io_iterator_t xhci_iterator = 0;
     
     BOOL usbAvailable = FALSE;
     
 	// Create matching dictionary for I/O Kit enumeration, one for
-    // OHCI and EHCI
+    // OHCI (USB 1), EHCI (USB 2) and XHCI (USB 3)
 	CFMutableDictionaryRef ohci = IOServiceMatching("AppleUSBOHCI");
     CFMutableDictionaryRef ehci = IOServiceMatching("AppleUSBEHCI");
+    CFMutableDictionaryRef xhci = IOServiceMatching("AppleUSBXHCI");
     
     
 	IOServiceGetMatchingServices(kIOMasterPortDefault, ohci, &ohci_iterator);
   	IOServiceGetMatchingServices(kIOMasterPortDefault, ehci, &ehci_iterator);
+  	IOServiceGetMatchingServices(kIOMasterPortDefault, xhci, &xhci_iterator);
     
     // assume that if we have a valid iterator then
     // we found a USB controller
@@ -243,6 +246,11 @@ static void devRemoved(void *ref, io_iterator_t iterator)
     if (IOIteratorIsValid(ehci_iterator)){
         usbAvailable = TRUE;
         IOObjectRelease(ehci_iterator);
+    }
+    
+    if (IOIteratorIsValid(xhci_iterator)){
+        usbAvailable = TRUE;
+        IOObjectRelease(xhci_iterator);
     }
     
     return usbAvailable;
