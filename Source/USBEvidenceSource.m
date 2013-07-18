@@ -218,6 +218,36 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	IOObjectRelease(iterator);
 }
 
++ (BOOL) isUSBAvailable {
+	io_iterator_t ohci_iterator = 0;
+    io_iterator_t ehci_iterator = 0;
+    
+    BOOL usbAvailable = FALSE;
+    
+	// Create matching dictionary for I/O Kit enumeration, one for
+    // OHCI and EHCI
+	CFMutableDictionaryRef ohci = IOServiceMatching("AppleUSBOHCI");
+    CFMutableDictionaryRef ehci = IOServiceMatching("AppleUSBEHCI");
+    
+    
+	IOServiceGetMatchingServices(kIOMasterPortDefault, ohci, &ohci_iterator);
+  	IOServiceGetMatchingServices(kIOMasterPortDefault, ehci, &ehci_iterator);
+    
+    // assume that if we have a valid iterator then
+    // we found a USB controller
+    if (IOIteratorIsValid(ohci_iterator)) {
+        usbAvailable = TRUE;
+        IOObjectRelease(ohci_iterator);
+    }
+    
+    if (IOIteratorIsValid(ehci_iterator)){
+        usbAvailable = TRUE;
+        IOObjectRelease(ehci_iterator);
+    }
+    
+    return usbAvailable;
+}
+
 - (void)devRemoved:(io_iterator_t)iterator
 {
 	// When a USB device is removed, we usually don't get its details,
@@ -365,4 +395,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
     return NSLocalizedString(@"Attached USB Device", @"");
 }
 
++ (BOOL) isEvidenceSourceApplicableToSystem {
+    return [USBEvidenceSource isUSBAvailable];
+}
 @end
