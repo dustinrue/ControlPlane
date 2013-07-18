@@ -8,6 +8,7 @@
 
 #import "AttachedPowerAdapterEvidenceSource.h"
 #import "DSLogger.h"
+#import "CPSystemInfo.h"
 #import <IOKit/ps/IOPowerSources.h>
 
 @implementation AttachedPowerAdapterEvidenceSource
@@ -136,6 +137,10 @@
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Attached Power Adapter", @"");
+}
+
++ (BOOL) isEvidenceSourceApplicableToSystem {
+    return [CPSystemInfo isPortable];
 }
 
 @end
