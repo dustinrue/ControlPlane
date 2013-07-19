@@ -607,19 +607,17 @@
 	return result;
 }
 
-- (NSEnumerator *)sourceEnumerator
-{
+- (NSEnumerator *)sourceEnumerator {
 	return [sources objectEnumerator];
 }
 
 #pragma mark NSMenu delegates
 
-- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
-{
-	EvidenceSource *src = [self.runningSources objectAtIndex:index];
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel {
+	EvidenceSource *src = sources[index];
     NSString *friendlyName = [src friendlyName];
-	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add '%@' Rule...", @"Menu item"), friendlyName];
-	[item setTitle:title];
+	[item setTitle:[NSString stringWithFormat:NSLocalizedString(@"Add '%@' Rule...", @"Menu item"),
+                    friendlyName]];
 
     NSArray *typesOfRulesMatched = [src typesOfRulesMatched];
 	if ([typesOfRulesMatched count] > 1) {
@@ -645,11 +643,12 @@
 	[item bind:@"enabled" toObject:src withKeyPath:@"dataCollected" options:nil];
 	// TODO?: enabled2 -> NSUserDefaults.values.Enable%@EvidenceSource
 
+    [item setHidden:![src isRunning]];
+
 	return YES;
 }
 
-- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action
-{
+- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action {
 	// TODO: support keyboard menu jumping?
 	return NO;
 }
@@ -659,20 +658,12 @@
 // the '- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel'
 // call which is next
 - (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu {
-    NSMutableArray *localRunningSources = [NSMutableArray arrayWithCapacity:0];
-    
-    for (EvidenceSource *src in sources) {
-        if ([src isRunning])
-            [localRunningSources addObject:src];
-    }
-    self.runningSources = localRunningSources;
-	return [self.runningSources count];
+	return [sources count];
 }
 
 #pragma mark NSTableViewDataSource protocol methods
 
-- (NSUInteger)numberOfRowsInTableView:(NSTableView *)aTableView
-{
+- (NSUInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
 	return [sources count];
 }
 
