@@ -7,6 +7,7 @@
 //
 
 #import <CoreWLAN/CoreWLAN.h>
+#import "CoreWLANEvidenceSource.h"
 #import "ToggleWiFiAction.h"
 
 
@@ -59,6 +60,11 @@
 
 + (NSString *)menuCategory {
     return NSLocalizedString(@"Networking", @"");
+}
+
+// we cheat here and use CoreWLAN's "is applicable" routine
++ (BOOL) isActionApplicableToSystem {
+    return [WiFiEvidenceSourceCoreWLAN isEvidenceSourceApplicableToSystem];
 }
 
 @end
