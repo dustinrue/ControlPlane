@@ -616,7 +616,7 @@
 
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
-	EvidenceSource *src = [sources objectAtIndex:index];
+	EvidenceSource *src = [self.runningSources objectAtIndex:index];
     NSString *friendlyName = [src friendlyName];
 	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Add '%@' Rule...", @"Menu item"), friendlyName];
 	[item setTitle:title];
@@ -654,9 +654,19 @@
 	return NO;
 }
 
-- (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu
-{
-	return [sources count];
+// we're being asked how many items should be in the add new rule menu
+// we build a list of the running evidence sources which will be used in
+// the '- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel'
+// call which is next
+- (NSUInteger)numberOfItemsInMenu:(NSMenu *)menu {
+    NSMutableArray *localRunningSources = [NSMutableArray arrayWithCapacity:0];
+    
+    for (EvidenceSource *src in sources) {
+        if ([src isRunning])
+            [localRunningSources addObject:src];
+    }
+    self.runningSources = localRunningSources;
+	return [self.runningSources count];
 }
 
 #pragma mark NSTableViewDataSource protocol methods

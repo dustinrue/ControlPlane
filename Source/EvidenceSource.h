@@ -93,6 +93,8 @@ typedef NS_ENUM(int, RuleMatchStatusType) {
 	NSArray *sources;	// dictionary of EvidenceSource descendants (key is its name)
 }
 
+@property (retain) NSArray *runningSources;
+
 - (EvidenceSource *)sourceWithName:(NSString *)name;
 - (void)startOrStopAll;
 - (RuleMatchStatusType)ruleMatches:(NSMutableDictionary *)rule;
