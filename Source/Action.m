@@ -155,6 +155,10 @@
     return NO;
 }
 
++ (BOOL) isActionApplicableToSystem {
+    return YES;
+}
+
 + (NSString *)menuCategory {
     return @"";
 }
@@ -411,6 +415,10 @@
 
     
     for (id currentClass in classes) {
+        // check to see if this action is applicable to this system
+
+        if (![currentClass isActionApplicableToSystem])
+            continue;
         
         // if the object exists then we've seen this category before
         // and we simply want to add the class to the object we just found

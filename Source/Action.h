@@ -44,6 +44,10 @@
 + (BOOL) shouldWaitForScreensaverExit;
 + (BOOL) shouldWaitForScreenUnlock;
 
+// allows an action to define if it is applicable to the current
+// system
++ (BOOL) isActionApplicableToSystem;
+
 // Helpers
 - (BOOL)executeAppleScript:(NSString *)script;		// returns YES on success, NO on failure
 - (NSArray *)executeAppleScriptReturningListOfStrings:(NSString *)script;
