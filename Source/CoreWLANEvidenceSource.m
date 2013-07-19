@@ -318,6 +318,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
             [loopTimer fire];
         }
         [loopTimer invalidate];
+        [loopTimer release];
 
         loopTimer = nil;
     }
