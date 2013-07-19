@@ -20,6 +20,7 @@
 // match MacBook, MacBookPro and MacBookAir.
 + (BOOL) isPortable;
 
++ (SInt32) getOSVersion;
 
 
 @end
