@@ -7,6 +7,7 @@
 //
 
 #import "ToggleNotificationCenterAlertsAction.h"
+#import "CPSystemInfo.h"
 
 @implementation ToggleNotificationCenterAlertsAction
 
@@ -115,6 +116,18 @@
 
 + (NSString *)menuCategory {
     return NSLocalizedString(@"System Preferences", @"");
+}
+
++ (BOOL) isActionApplicableToSystem {
+
+    NSLog(@"%d", (int)[CPSystemInfo getOSVersion]);
+    if ([CPSystemInfo getOSVersion] >= MAC_OS_X_VERSION_10_8) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+
 }
 
 @end
