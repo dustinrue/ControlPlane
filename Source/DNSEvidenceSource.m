@@ -86,6 +86,8 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
         return nil;
     }
 
+    [self setDataCollected:YES];
+    
 	return self;
 }
 
@@ -105,7 +107,6 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
 - (void)removeAllDataCollected {
     self.searchDomains = nil;
     self.dnsServers = nil;
-    [self setDataCollected:NO];
 }
 
 - (void)enumerate {
@@ -142,7 +143,6 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
 
     self.searchDomains = (NSSet *) domains;
     self.dnsServers = (NSSet *) servers;
-    [self setDataCollected:(([servers count] > 0) || ([domains count] > 0))];
 }
 
 - (void)start {

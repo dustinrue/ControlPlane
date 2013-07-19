@@ -108,7 +108,9 @@ static void ipAddrChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *
     if (!self) {
         return nil;
     }
-
+    
+    [self setDataCollected:YES];
+    
 	return self;
 }
 
@@ -134,7 +136,6 @@ static void ipAddrChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *
     self.packedIPv4Addresses = nil;
     self.stringIPv6Addresses = nil;
     self.packedIPv6Addresses = nil;
-    [self setDataCollected:NO];
 }
 
 static BOOL isAllowedIPv4Address(PackedIPv4Address *ipv4) {
@@ -219,7 +220,6 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
     self.packedIPv4Addresses = packedIPv4Addresses;
     self.stringIPv6Addresses = stringIPv6Addresses;
     self.packedIPv6Addresses = packedIPv6Addresses;
-    [self setDataCollected:(([packedIPv4Addresses count] > 0) || ([packedIPv6Addresses count] > 0))];
 }
 
 - (void)start {
