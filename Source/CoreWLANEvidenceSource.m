@@ -163,8 +163,10 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (void)doUpdate {
+    CWInterface *currentInterface = self.currentInterface;
+
     // first see if Wi-Fi is even turned on
-    if (![self.currentInterface powerOn]) {
+    if (!currentInterface.powerOn) {
         [self clearCollectedData];
         DSLog(@"WiFi disabled, no scan done");
         return;
@@ -183,7 +185,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         DSLog(@"WiFi link is inactive, doing full scan");
         newNetworkSSIDs = [self scanForNetworks];
     } else {
-        NSString *ssid = self.currentInterface.ssid, *bssid = self.currentInterface.bssid;
+        NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
         if ((ssid == nil) || (bssid == nil)) {
             DSLog(@"WiFi interface is active, but is not participating in a network yet (or network SSID is bad)");
             return;
@@ -213,24 +215,25 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         return nil;
     }
 
-    NSMutableDictionary *ssids = [NSMutableDictionary dictionaryWithCapacity:[foundNetworks count]];
+    NSMutableDictionary *ssids = [NSMutableDictionary dictionaryWithCapacity:([foundNetworks count] + 1)];
 
     if (self.linkActive) {
-        NSString *ssid = self.currentInterface.ssid, *bssid = self.currentInterface.bssid;
+        CWInterface *currentInterface = self.currentInterface;
+        NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
         if ((ssid != nil) && (bssid != nil)) {
             ssids[ssid] = bssid;
 #ifdef DEBUG_MODE
-            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, [self.currentInterface rssiValue]);
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, currentInterface.rssiValue);
 #endif
         }
     }
 
     for (CWNetwork *currentNetwork in foundNetworks) {
-        NSString *ssid = [currentNetwork ssid], *bssid = [currentNetwork bssid];
+        NSString *ssid = currentNetwork.ssid, *bssid = currentNetwork.bssid;
         if ((ssid != nil) && (bssid != nil)) {
             ssids[ssid] = bssid;
 #ifdef DEBUG_MODE
-            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, [currentNetwork rssiValue]);
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, currentNetwork.rssiValue);
 #endif
         }
     }
@@ -324,8 +327,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     BOOL forceUpdate = (notification != nil);
     if (!self.linkActive || [[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
         [self startUpdateLoop:forceUpdate];
-    }
-    else {
+    } else {
         [self stopUpdateLoop:forceUpdate];
     }
 
@@ -338,7 +340,8 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     // for there to be more than one interface, yet this assumes there is just one
     
     if ([supportedInterfaces count] == 0) {
-        DSLog(NSLocalizedString(@"This Mac doesn't appear to have WiFi or your WiFi card has failed",@"The Mac does not have a Wifi/AirPort card or it has failed"));
+        DSLog(NSLocalizedString(@"This Mac doesn't appear to have WiFi or your WiFi card has failed",
+                                @"The Mac does not have a Wifi/AirPort card or it has failed"));
         self.currentInterface = nil;
         return NO;
     }
