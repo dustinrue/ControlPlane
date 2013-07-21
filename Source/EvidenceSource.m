@@ -44,12 +44,12 @@
 
 	// Get notified when we go to sleep, and wake from sleep
 	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(goingToSleep:)
+                                             selector:@selector(prepareToGoingToSleep:)
                                                  name:@"systemWillSleep"
                                                object:nil];
     
 	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(wakeFromSleep:)
+                                             selector:@selector(prepareToWakeFromSleep:)
                                                  name:@"systemDidWake"
                                                object:nil];
     
@@ -144,14 +144,27 @@
     return NSLocalizedString(@"No description provided", @"");
 }
 
-- (void)goingToSleep:(id)arg
-{
+// Private method to ensure goingToSleep: is always called on the main thread (loop)
+- (void)prepareToGoingToSleep:(id)arg {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self goingToSleep:arg];
+    });
+}
+
+- (void)goingToSleep:(id)arg {
     goingToSleep = YES;
 	if ([self isRunning]) {
 		DSLog(@"Stopping %@ for sleep.", [self class]);
 		startAfterSleep = YES;
 		[self stop];
 	} 
+}
+
+// Private method to ensure wakeFromSleep: is always called on the main thread (loop)
+- (void)prepareToWakeFromSleep:(id)arg {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self wakeFromSleep:arg];
+    });
 }
 
 - (void)wakeFromSleep:(id)arg
