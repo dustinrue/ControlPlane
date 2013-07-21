@@ -301,11 +301,11 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         return;
     }
 
-    loopTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
-                                                 target:self
-                                               selector:@selector(doUpdate:)
-                                               userInfo:nil
-                                                repeats:YES];
+    loopTimer = [[NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
+                                                  target:self
+                                                selector:@selector(doUpdate:)
+                                                userInfo:nil
+                                                 repeats:YES] retain];
     if (forceUpdate) {
         [loopTimer fire];
     }
