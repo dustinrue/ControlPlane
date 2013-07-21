@@ -33,8 +33,6 @@
 			*errorString = NSLocalizedString(@"Failed disabling FTP Service.", @"Act of turning off or disabling FTP Service failed");
 	}
     
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"SwipeScrollDirectionDidChangeNotification" object:nil userInfo:nil];
-    
 	return success;
 }
 
