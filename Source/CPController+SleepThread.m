@@ -32,12 +32,13 @@ static void powerAdapterChangedCallBack();
 	IONotificationPortRef notifyPort; 
 	io_object_t notifierObject; 
 	cp_controller = self;
-	
+
 	// register to receive system sleep notifications
 	root_port = IORegisterForSystemPower(self, &notifyPort, sleepCallBack, &notifierObject);
-	if (!root_port)
+	if (!root_port) {
 		DSLog(@"IORegisterForSystemPower failed");
-	
+    }
+
 	// add the notification port to the application runloop
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPort), kCFRunLoopCommonModes);
     powerAdapterChanged = IOPSNotificationCreateRunLoopSource(
@@ -50,22 +51,12 @@ static void powerAdapterChangedCallBack();
 	[pool release];
 }
 
-- (void) increaseActionsInProgress {
+- (void)increaseActionsInProgress {
 	OSAtomicIncrement32(&actionsInProgress);
 }
 
-- (void) decreaseActionsInProgress {
+- (void)decreaseActionsInProgress {
 	OSAtomicDecrement32(&actionsInProgress);
-}
-
-- (void)forceUpdateForReal {
-    [updatingLock lock];
-    // Call update for real (in case of smoothing, call twice)
-    [self doUpdateForReal];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
-        [self doUpdateForReal];
-    }
-    [updatingLock unlockWithCondition:0];
 }
 
 
@@ -74,30 +65,46 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
 			// entering sleep
+#ifdef DEBUG_MODE
 			DSLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
-			
-			// Hack: we need to do an extra check (2 if smoothing is enabled) right before sleeping
-			//		 otherwise the sleep rule won't be triggered
-			[NSThread sleepForTimeInterval:2];
+#endif
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
+            });
 
 #ifdef DEBUG_MODE
 			DSLog(@"Sleep callback: force calling doUpdateForReal");
 #endif
-			[cp_controller forceUpdateForReal];
-            
+
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [cp_controller->updatingLock lockWhenCondition:0];
+                    [cp_controller->updatingLock unlockWithCondition:1];
+                });
+            }
+
+            [cp_controller increaseActionsInProgress];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [cp_controller->updatingLock lockWhenCondition:0];
+                [cp_controller->updatingLock unlockWithCondition:1];
+                [cp_controller decreaseActionsInProgress];
+            });
+
 			// wait until all actions finish
 			while (actionsInProgress > 0) {
-				usleep(100);
+				usleep(200);
             }
-			
+
 			// Allow sleep
 			IOAllowPowerChange(root_port, (long)argument);
 			break;
 			
 		case kIOMessageSystemWillPowerOn:
 			DSLog(@"Sleep callback: waking up");
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
+            });
 			break;
 
 		case kIOMessageSystemHasPoweredOn:

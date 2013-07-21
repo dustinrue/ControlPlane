@@ -1477,36 +1477,34 @@
 }
 
 
-
 - (void)goingToSleep:(id)arg {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // clear the queued actions on sleep
-        // in case the machine woke up but the screen saver
-        // was never exited or the screen was never unlocked
-        // but then the machine went back to sleep
-        
-        // this might cause an issue with anyone who does an
-        // immediate action (not delayed at all) at sleep
-        [self setGoingToSleep:YES];
-        [screensaverActionArrivalQueue removeAllObjects];
-        [screensaverActionDepartureQueue removeAllObjects];
-        [screenLockActionDepartureQueue removeAllObjects];
-        [screenLockActionArrivalQueue removeAllObjects];
-        DSLog(@"Stopping update thread for sleep.");
-        [updatingTimer setFireDate:[NSDate distantFuture]];
-    });
+    // clear the queued actions on sleep
+    // in case the machine woke up but the screen saver
+    // was never exited or the screen was never unlocked
+    // but then the machine went back to sleep
+    
+    // this might cause an issue with anyone who does an
+    // immediate action (not delayed at all) at sleep
+    [self setGoingToSleep:YES];
+    [screensaverActionArrivalQueue removeAllObjects];
+    [screensaverActionDepartureQueue removeAllObjects];
+    [screenLockActionDepartureQueue removeAllObjects];
+    [screenLockActionArrivalQueue removeAllObjects];
+
+    DSLog(@"Stopping update thread for sleep.");
+    [updatingTimer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)wakeFromSleep:(id)arg{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self setGoingToSleep:NO];
-        DSLog(@"Starting update thread after sleep.");
-        [updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
-    });
+    [self setGoingToSleep:NO];
+    DSLog(@"Starting update thread after sleep.");
+    [updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
 }
+
 
 #pragma mark -
 #pragma mark Screen Saver Monitoring
+
 - (void) setScreenSaverActive:(NSNotification *) notification {
     [self setScreenSaverRunning:YES];
     DSLog(@"Screen saver is running");

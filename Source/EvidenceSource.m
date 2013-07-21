@@ -44,12 +44,12 @@
 
 	// Get notified when we go to sleep, and wake from sleep
 	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(prepareToGoingToSleep:)
+                                             selector:@selector(goingToSleep:)
                                                  name:@"systemWillSleep"
                                                object:nil];
     
 	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(prepareToWakeFromSleep:)
+                                             selector:@selector(wakeFromSleep:)
                                                  name:@"systemDidWake"
                                                object:nil];
     
@@ -140,15 +140,8 @@
 }
 
 
-- (NSString *) description {
+- (NSString *)description {
     return NSLocalizedString(@"No description provided", @"");
-}
-
-// Private method to ensure goingToSleep: is always called on the main thread (loop)
-- (void)prepareToGoingToSleep:(id)arg {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self goingToSleep:arg];
-    });
 }
 
 - (void)goingToSleep:(id)arg {
@@ -160,15 +153,7 @@
 	} 
 }
 
-// Private method to ensure wakeFromSleep: is always called on the main thread (loop)
-- (void)prepareToWakeFromSleep:(id)arg {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self wakeFromSleep:arg];
-    });
-}
-
-- (void)wakeFromSleep:(id)arg
-{
+- (void)wakeFromSleep:(id)arg {
     goingToSleep = NO;
 	if (startAfterSleep) {
 		DSLog(@"Starting %@ after sleep.", [self class]);
@@ -177,28 +162,23 @@
 	}
 }
 
-- (BOOL)matchesRulesOfType:(NSString *)type
-{
+- (BOOL)matchesRulesOfType:(NSString *)type {
 	return [[self typesOfRulesMatched] containsObject:type];
 }
 
-- (BOOL)dataCollected
-{
+- (BOOL)dataCollected {
 	return dataCollected;
 }
 
-- (void)setDataCollected:(BOOL)collected
-{
+- (void)setDataCollected:(BOOL)collected {
 	dataCollected = collected;
 }
 
-- (BOOL)isRunning
-{
+- (BOOL)isRunning {
 	return running;
 }
 
-- (void)setThreadNameFromClassName
-{
+- (void)setThreadNameFromClassName {
 	// Mac OS X 10.5 (Leopard) introduces -[NSThread setName:], which might make crash logs easier to read
 	NSThread *thr = [NSThread currentThread];
 	if ([thr respondsToSelector:@selector(setName:)])
