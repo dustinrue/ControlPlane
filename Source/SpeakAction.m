@@ -5,70 +5,95 @@
 //	Created by David Jennes on 02/09/11.
 //	Copyright 2011. All rights reserved.
 //
+//  Minor improvements by Vladimir Beloborodov (VladimirTechMan) on 21 July 2013.
+//
 
 #import "SpeakAction.h"
 
+@interface SpeakAction () {
+	NSString *text;
+}
+
+@property (atomic, retain, readwrite) NSSpeechSynthesizer *synth;
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success;
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didEncounterErrorAtIndex:(NSUInteger)characterIndex
+                 ofString:(NSString *)string message:(NSString *)message;
+
+@end
 
 @implementation SpeakAction
 
-- (id) init {
+- (id)init {
 	self = [super init];
 	if (!self)
 		return nil;
 	
 	text = [[NSString alloc] init];
-	synth = [[NSSpeechSynthesizer alloc] init];
 	
 	return self;
 }
 
-- (id) initWithDictionary: (NSDictionary *) dict {
+- (id)initWithDictionary:(NSDictionary *)dict {
 	self = [super initWithDictionary: dict];
 	if (!self)
 		return nil;
-	
-	text = [[dict valueForKey: @"parameter"] copy];
-	synth = [[NSSpeechSynthesizer alloc] init];
-	
+
+	text = [dict[@"parameter"] copy];
+
 	return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
 	[text release];
-	[synth release];
-	
+    [_synth release];
+
 	[super dealloc];
 }
 
-- (NSMutableDictionary *) dictionary {
+- (NSMutableDictionary *)dictionary {
 	NSMutableDictionary *dict = [super dictionary];
-	
-	[dict setObject:[[text copy] autorelease] forKey: @"parameter"];
-	
+    dict[@"parameter"] = [[text copy] autorelease];
 	return dict;
 }
 
-- (NSString *) description {
-	return [NSString stringWithFormat: NSLocalizedString(@"Speak text '%@'.", @""), text];
+- (NSString *)description {
+	return [NSString stringWithFormat:NSLocalizedString(@"Speak text '%@'.", @""), text];
 }
 
-- (BOOL) execute: (NSString **) errorString {
-	if ([synth startSpeakingString: text])
-		 return YES;
-	
-	*errorString = [NSString stringWithFormat: NSLocalizedString(@"Failed speaking '%@'.", @""), text];
-	return NO;
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success {
+    self.synth = nil;
 }
 
-+ (NSString *) helpText {
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didEncounterErrorAtIndex:(NSUInteger)characterIndex
+                 ofString:(NSString *)string message:(NSString *)message {
+    self.synth = nil;
+}
+
+- (BOOL)execute:(NSString **)errorString {
+    NSSpeechSynthesizer *synth = self.synth;
+    if (!synth) {
+        self.synth = synth = [[[NSSpeechSynthesizer alloc] init] autorelease];
+        [synth setDelegate:self];
+    }
+
+	BOOL success = [synth startSpeakingString:text];
+    if (!success) {
+        *errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed speaking '%@'.", @""), text];
+        self.synth = nil;
+    }
+	return success;
+}
+
++ (NSString *)helpText {
 	return NSLocalizedString(@"The parameter for the Speak action is the text to be spoken.", @"");
 }
 
-+ (NSString *) creationHelpText {
++ (NSString *)creationHelpText {
 	return NSLocalizedString(@"Speak text:", @"");
 }
 
-+ (NSString *) friendlyName {
++ (NSString *)friendlyName {
     return NSLocalizedString(@"Speak Phrase", @"");
 }
 

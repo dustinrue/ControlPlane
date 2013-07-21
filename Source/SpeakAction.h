@@ -5,14 +5,12 @@
 //	Created by David Jennes on 02/09/11.
 //	Copyright 2011. All rights reserved.
 //
+//  Minor improvements by Vladimir Beloborodov (VladimirTechMan) on 21 July 2013.
+//
 
 #import "Action.h"
 
-
-@interface SpeakAction : Action <ActionWithString> {
-	NSString *text;
-	NSSpeechSynthesizer *synth;
-}
+@interface SpeakAction: Action <ActionWithString, NSSpeechSynthesizerDelegate>
 
 - (id) initWithDictionary: (NSDictionary *) dict;
 - (void) dealloc;
