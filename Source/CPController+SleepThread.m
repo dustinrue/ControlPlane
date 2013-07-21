@@ -5,6 +5,8 @@
 //	Created by David Jennes on 05/09/11.
 //	Copyright 2011. All rights reserved.
 //
+//  Bug fix and code improvements by Vladimir Beloborodov (VladimirTechMan) on 21 July 2013.
+//
 
 #import "CPController+SleepThread.h"
 #import "DSLogger.h"
@@ -16,43 +18,39 @@
 
 
 // needed for sleep callback
-CPController *cp_controller = nil;
+CPController *cpController = nil;
 dispatch_group_t actionsInProgress;
-io_connect_t root_port = 0;
-CFRunLoopSourceRef powerAdapterChanged = nil;
-void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
+io_connect_t rootPort = 0;
+
+static void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
 static void powerAdapterChangedCallBack();
 
 
 @implementation CPController (SleepThread)
 
-- (void) monitorSleepThread: (id) arg {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+- (void)monitorSleepThread:(id)arg {
+    @autoreleasepool {
+        actionsInProgress = dispatch_group_create();
+        cpController = self;
 
-    actionsInProgress = dispatch_group_create();
-
-	IONotificationPortRef notifyPort; 
-	io_object_t notifierObject; 
-	cp_controller = self;
-
-	// register to receive system sleep notifications
-	root_port = IORegisterForSystemPower(self, &notifyPort, sleepCallBack, &notifierObject);
-	if (!root_port) {
-		DSLog(@"IORegisterForSystemPower failed");
+        // register to receive system sleep notifications
+        IONotificationPortRef notifyPort;
+        io_object_t notifierObject;
+        rootPort = IORegisterForSystemPower(self, &notifyPort, sleepCallBack, &notifierObject);
+        if (!rootPort) {
+            DSLog(@"IORegisterForSystemPower failed");
+        }
+        
+        // add the notification port to the application runloop
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPort), kCFRunLoopCommonModes);
+        
+        CFRunLoopSourceRef powerAdapterChanged = IOPSNotificationCreateRunLoopSource(powerAdapterChangedCallBack, NULL);
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
+        // run!
+        CFRunLoopRun();
+        
+        dispatch_release(actionsInProgress);
     }
-
-	// add the notification port to the application runloop
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPort), kCFRunLoopCommonModes);
-    powerAdapterChanged = IOPSNotificationCreateRunLoopSource(
-                                                           powerAdapterChangedCallBack,
-                                                           NULL);
-	
-    CFRunLoopAddSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
-	// run!
-	CFRunLoopRun();
-
-    dispatch_release(actionsInProgress);
-	[pool release];
 }
 
 - (void)increaseActionsInProgress {
@@ -64,7 +62,7 @@ static void powerAdapterChangedCallBack();
 }
 
 
-void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument) {
+static void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument) {
 	switch (messageType) {
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
@@ -83,22 +81,22 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
 
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [cp_controller->updatingLock lockWhenCondition:0];
-                    [cp_controller->updatingLock unlockWithCondition:1];
+                    [cpController->updatingLock lockWhenCondition:0];
+                    [cpController->updatingLock unlockWithCondition:1];
                 });
             }
 
-            [cp_controller increaseActionsInProgress];
+            [cpController increaseActionsInProgress];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [cp_controller->updatingLock lockWhenCondition:0];
-                [cp_controller->updatingLock unlockWithCondition:1];
-                [cp_controller decreaseActionsInProgress];
+                [cpController->updatingLock lockWhenCondition:0];
+                [cpController->updatingLock unlockWithCondition:1];
+                [cpController decreaseActionsInProgress];
             });
 
             dispatch_group_wait(actionsInProgress, DISPATCH_TIME_FOREVER);
 
 			// Allow sleep
-			IOAllowPowerChange(root_port, (long)argument);
+			IOAllowPowerChange(rootPort, (long)argument);
 			break;
 
 		case kIOMessageSystemWillPowerOn:
