@@ -17,7 +17,7 @@
 
 // needed for sleep callback
 CPController *cp_controller = nil;
-int32_t actionsInProgress = 0;
+dispatch_group_t actionsInProgress;
 io_connect_t root_port = 0;
 CFRunLoopSourceRef powerAdapterChanged = nil;
 void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
@@ -28,7 +28,9 @@ static void powerAdapterChangedCallBack();
 
 - (void) monitorSleepThread: (id) arg {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
+
+    actionsInProgress = dispatch_group_create();
+
 	IONotificationPortRef notifyPort; 
 	io_object_t notifierObject; 
 	cp_controller = self;
@@ -48,15 +50,17 @@ static void powerAdapterChangedCallBack();
     CFRunLoopAddSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
 	// run!
 	CFRunLoopRun();
+
+    dispatch_release(actionsInProgress);
 	[pool release];
 }
 
 - (void)increaseActionsInProgress {
-	OSAtomicIncrement32(&actionsInProgress);
+    dispatch_group_enter(actionsInProgress);
 }
 
 - (void)decreaseActionsInProgress {
-	OSAtomicDecrement32(&actionsInProgress);
+    dispatch_group_leave(actionsInProgress);
 }
 
 
@@ -91,15 +95,12 @@ void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, vo
                 [cp_controller decreaseActionsInProgress];
             });
 
-			// wait until all actions finish
-			while (actionsInProgress > 0) {
-				usleep(200);
-            }
+            dispatch_group_wait(actionsInProgress, DISPATCH_TIME_FOREVER);
 
 			// Allow sleep
 			IOAllowPowerChange(root_port, (long)argument);
 			break;
-			
+
 		case kIOMessageSystemWillPowerOn:
 			DSLog(@"Sleep callback: waking up");
             dispatch_async(dispatch_get_main_queue(), ^{
