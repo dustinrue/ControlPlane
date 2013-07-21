@@ -142,7 +142,6 @@
 		DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */; };
 		DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */; };
 		DACE6D4E159C055C00FEE37E /* com.dustinrue.CPHelperTool in Copy Launch Services */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
-		DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */; };
 		DADFF79715D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DADFF79615D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF2257E15ABD8CD003A8030 /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; };
@@ -557,8 +556,6 @@
 		DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Info.plist"; sourceTree = "<group>"; };
 		DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CPHelperTool-Launchd.plist"; sourceTree = "<group>"; };
 		DAD889A315D5F337009F30A3 /* NotificationCenterAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NotificationCenterAction.xcodeproj; path = NotificationCenterAction/NotificationCenterAction.xcodeproj; sourceTree = "<group>"; };
-		DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Merge.h"; path = "Source/NSMutableArray+Merge.h"; sourceTree = "<group>"; };
-		DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Merge.m"; path = "Source/NSMutableArray+Merge.m"; sourceTree = "<group>"; };
 		DADFF79515D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleNotificationCenterAlertsAction.h; path = Source/ToggleNotificationCenterAlertsAction.h; sourceTree = "<group>"; };
 		DADFF79615D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleNotificationCenterAlertsAction.m; path = Source/ToggleNotificationCenterAlertsAction.m; sourceTree = "<group>"; };
 		DAE893E414546897005FA13C /* ToggleFirewallAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFirewallAction.h; path = Source/ToggleFirewallAction.h; sourceTree = "<group>"; };
@@ -715,9 +712,9 @@
 				8D8155CE0C3A304E00228463 /* ContextsDataSource.m */,
 				DDAE0015141474DC00FDADE8 /* CPController+SleepThread.h */,
 				DDAE0016141474DC00FDADE8 /* CPController+SleepThread.m */,
-				8D90E51D0B71C4C9007D39FD /* CPController.h */,
 				DABF656417910AB600AA5B86 /* CPSystemInfo.h */,
 				DABF656517910AB600AA5B86 /* CPSystemInfo.m */,
+				8D90E51D0B71C4C9007D39FD /* CPController.h */,
 				8D90E51E0B71C4C9007D39FD /* CPController.m */,
 				8D8C9E320BBB89320074D5B3 /* DB.h */,
 				8D8C9E330BBB89320074D5B3 /* DB.m */,
@@ -729,8 +726,6 @@
 				DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */,
 				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
 				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
-				DAD98AD615746E5B003E5839 /* NSMutableArray+Merge.h */,
-				DAD98AD715746E5B003E5839 /* NSMutableArray+Merge.m */,
 				DAB1A7E015C3776D00CF65E8 /* CPNotifications.h */,
 				DAB1A7E115C3776D00CF65E8 /* CPNotifications.m */,
 			);
@@ -1547,7 +1542,6 @@
 				DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */,
 				DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */,
 				DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */,
-				DAD98AD815746E5B003E5839 /* NSMutableArray+Merge.m in Sources */,
 				DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */,
 				DAB1A7E215C3776D00CF65E8 /* CPNotifications.m in Sources */,
 				DADFF79715D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m in Sources */,
