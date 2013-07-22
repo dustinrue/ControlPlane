@@ -1,14 +1,14 @@
 //
-//	CPController+SleepThread.m
+//	CPController+SleepMonitor.m (former CPController+SleepThread.m)
 //	ControlPlane
 //
 //	Created by David Jennes on 05/09/11.
 //	Copyright 2011. All rights reserved.
 //
-//  Bug fix and code improvements by Vladimir Beloborodov (VladimirTechMan) on 21 July 2013.
+//  Bug fix and implementation improvements by Vladimir Beloborodov (VladimirTechMan) on 21-22 July 2013.
 //
 
-#import "CPController+SleepThread.h"
+#import "CPController+SleepMonitor.h"
 #import "DSLogger.h"
 
 #import <IOKit/pwr_mgt/IOPMLib.h>
@@ -19,19 +19,19 @@
 
 // needed for sleep callback
 CPController *cpController = nil;
-dispatch_group_t actionsInProgress;
+dispatch_group_t actionsInProgress = 0;
 io_connect_t rootPort = 0;
+CFRunLoopSourceRef powerAdapterChanged = NULL, powerPortNotification = NULL;
 
 static void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument);
 static void powerAdapterChangedCallBack();
 
+@implementation CPController (SleepMonitor)
 
-@implementation CPController (SleepThread)
-
-- (void)monitorSleepThread:(id)arg {
-    @autoreleasepool {
-        actionsInProgress = dispatch_group_create();
+- (void)startMonitoringSleepAndPowerNotifications {
+    if (!cpController) {
         cpController = self;
+        actionsInProgress = dispatch_group_create();
 
         // register to receive system sleep notifications
         IONotificationPortRef notifyPort;
@@ -40,16 +40,32 @@ static void powerAdapterChangedCallBack();
         if (!rootPort) {
             DSLog(@"IORegisterForSystemPower failed");
         }
-        
+
         // add the notification port to the application runloop
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notifyPort), kCFRunLoopCommonModes);
-        
-        CFRunLoopSourceRef powerAdapterChanged = IOPSNotificationCreateRunLoopSource(powerAdapterChangedCallBack, NULL);
+        powerPortNotification = IONotificationPortGetRunLoopSource(notifyPort);
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), powerPortNotification, kCFRunLoopCommonModes);
+
+        powerAdapterChanged = IOPSNotificationCreateRunLoopSource(powerAdapterChangedCallBack, NULL);
         CFRunLoopAddSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
-        // run!
-        CFRunLoopRun();
-        
-        dispatch_release(actionsInProgress);
+    }
+}
+
+- (void)stopMonitoringSleepAndPowerNotifications {
+    if (cpController) {
+        if (powerAdapterChanged) {
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
+            CFRelease(powerAdapterChanged);
+            powerAdapterChanged = NULL;
+        }
+        if (powerPortNotification) {
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerPortNotification, kCFRunLoopCommonModes);
+            powerPortNotification = NULL;
+        }
+        if (actionsInProgress) {
+            dispatch_release(actionsInProgress);
+            actionsInProgress = 0;
+        }
+        cpController = nil;
     }
 }
 
@@ -68,12 +84,10 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
 		case kIOMessageSystemWillSleep:
 			// entering sleep
 #ifdef DEBUG_MODE
-			DSLog(@"Sleep callback: going to sleep (isMainThread=%@, thread=%@)", [NSThread isMainThread] ? @"YES" : @"NO", [NSThread currentThread]);
+			DSLog(@"Sleep callback: going to sleep");
 #endif
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
-            });
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
 
 #ifdef DEBUG_MODE
 			DSLog(@"Sleep callback: force calling doUpdateForReal");
@@ -86,24 +100,20 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
                 });
             }
 
-            [cpController increaseActionsInProgress];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [cpController->updatingLock lockWhenCondition:0];
                 [cpController->updatingLock unlockWithCondition:1];
-                [cpController decreaseActionsInProgress];
+
+                dispatch_group_wait(actionsInProgress, DISPATCH_TIME_FOREVER);
+                
+                IOAllowPowerChange(rootPort, (long)argument); // Allow sleep
             });
 
-            dispatch_group_wait(actionsInProgress, DISPATCH_TIME_FOREVER);
-
-			// Allow sleep
-			IOAllowPowerChange(rootPort, (long)argument);
 			break;
 
 		case kIOMessageSystemWillPowerOn:
 			DSLog(@"Sleep callback: waking up");
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
-            });
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
 			break;
 
 		case kIOMessageSystemHasPoweredOn:

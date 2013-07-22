@@ -9,7 +9,7 @@
 #import "Action.h"
 #import "DSLogger.h"
 #import "CPController.h"
-#import "CPController+SleepThread.h"
+#import "CPController+SleepMonitor.h"
 #import "NetworkLocationAction.h"
 #import "NSTimer+Invalidation.h"
 #import "CPNotifications.h"
@@ -216,6 +216,8 @@
 }
 
 - (void)dealloc {
+    [self stopMonitoringSleepAndPowerNotifications];
+
     [_rules release];
     [_candidateContextUUID release];
 
@@ -497,10 +499,7 @@
 							 toTarget:self
 						   withObject:nil];
 
-	// sleep thread
-	[NSThread detachNewThreadSelector:@selector(monitorSleepThread:)
-							 toTarget:self
-						   withObject:nil];
+    [self startMonitoringSleepAndPowerNotifications];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
