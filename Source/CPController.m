@@ -1157,10 +1157,11 @@
 - (void)forceSwitch:(id)sender {
 	Context *ctxt = nil;
 	
-	if ([sender isKindOfClass:[Context class]])
+	if ([sender isKindOfClass:[Context class]]) {
 		ctxt = (Context *) sender;
-	else
+    } else {
 		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
+    }
 	
 	DSLog(@"going to %@", [ctxt name]);
 
@@ -1173,20 +1174,22 @@
 
     if (!forcedContextIsSticky) {
         self.forceOneFullUpdate = YES;
+        smoothCounter = 0;
     }
 }
 
-- (void) setStickyBit:(NSNotification *) notification {
+- (void)setStickyBit:(NSNotification *) notification {
     if (![self stickyContext]) {
         [self toggleSticky:self];
     }
 }
 
-- (void) unsetStickyBit:(NSNotification *) notification {
+- (void)unsetStickyBit:(NSNotification *) notification {
     if ([self stickyContext]) {
         [self toggleSticky:self];
     }
 }
+
 - (void)toggleSticky:(id)sender {
 	BOOL oldValue = forcedContextIsSticky;
 	forcedContextIsSticky = !oldValue;
@@ -1195,6 +1198,7 @@
 
     if (!forcedContextIsSticky) {
         self.forceOneFullUpdate = YES;
+        smoothCounter = 0;
     }
 }
 
