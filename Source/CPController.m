@@ -989,8 +989,7 @@
         // Sort by delay (ascending order)
         [actions sortUsingSelector:@selector(compareDelay:)];
 
-        Action *lastAction = actions[[actions count] - 1];
-        maxDelayValue = [[lastAction valueForKey:@"delay"] doubleValue];
+        maxDelayValue = [[[actions lastObject] valueForKey:@"delay"] doubleValue];
 
         [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
             return [[action valueForKey:@"delay"] doubleValue];
