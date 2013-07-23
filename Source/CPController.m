@@ -487,10 +487,10 @@
     [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
 
-    screensaverActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
-    screensaverActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
-    screenLockActionArrivalQueue = [[NSMutableArray arrayWithCapacity:0] retain];
-    screenLockActionDepartureQueue = [[NSMutableArray arrayWithCapacity:0] retain];
+    screensaverActionArrivalQueue = [[NSMutableArray array] retain];
+    screensaverActionDepartureQueue = [[NSMutableArray array] retain];
+    screenLockActionArrivalQueue = [[NSMutableArray array] retain];
+    screenLockActionDepartureQueue = [[NSMutableArray array] retain];
 
     [self registerForNotifications];
 
@@ -808,30 +808,6 @@
 - (void)doUpdate {
     updatingTimer = [updatingTimer checkAndInvalidate];
 
-    // cover any situations where there are queued items
-    // but the screen is not locked and the screen saver is not running
-    if (!screenLocked) {
-        if ([screenLockActionDepartureQueue count] > 0) {
-            [self scheduleActions:screenLockActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
-            [screenLockActionDepartureQueue removeAllObjects];
-        }
-        if ([screenLockActionArrivalQueue count] > 0) {
-            [self scheduleActions:screenLockActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
-            [screenLockActionArrivalQueue removeAllObjects];
-        }
-    }
-
-    if (!screenSaverRunning) {
-        if ([screensaverActionDepartureQueue count] > 0) {
-            [self scheduleActions:screensaverActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
-            [screensaverActionDepartureQueue removeAllObjects];
-        }
-        if ([screensaverActionArrivalQueue count] > 0) {
-            [self scheduleActions:screensaverActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
-            [screensaverActionArrivalQueue removeAllObjects];
-        }
-    }
-
 	// Check timer interval
 	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
 	if (intv > 0.1) {
@@ -1083,6 +1059,32 @@
     
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
+}
+
+- (void)processSpecialActionQueues {
+    // cover any situations where there are queued items
+    // but the screen is not locked and the screen saver is not running
+    if (!screenLocked) {
+        if ([screenLockActionDepartureQueue count] > 0) {
+            [self scheduleActions:screenLockActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+            [screenLockActionDepartureQueue removeAllObjects];
+        }
+        if ([screenLockActionArrivalQueue count] > 0) {
+            [self scheduleActions:screenLockActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
+            [screenLockActionArrivalQueue removeAllObjects];
+        }
+    }
+    
+    if (!screenSaverRunning) {
+        if ([screensaverActionDepartureQueue count] > 0) {
+            [self scheduleActions:screensaverActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
+            [screensaverActionDepartureQueue removeAllObjects];
+        }
+        if ([screensaverActionArrivalQueue count] > 0) {
+            [self scheduleActions:screensaverActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
+            [screensaverActionArrivalQueue removeAllObjects];
+        }
+    }
 }
 
 
@@ -1458,11 +1460,13 @@
     
 	while (!timeToDie) {
 		[updatingLock lockWhenCondition:1];
-        
+
 #ifdef DEBUG_MODE
         DSLog(@"**** DOING UPDATE LOOP ****");
 #endif
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
+        [self processSpecialActionQueues];
+
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
             if (!forcedContextIsSticky || self.forceOneFullUpdate) {
                 [self doUpdateForReal];
                 
@@ -1480,21 +1484,21 @@
 
 
 - (void)goingToSleep:(id)arg {
+    // this might cause an issue with anyone who does an
+    // immediate action (not delayed at all) at sleep
+    [self setGoingToSleep:YES];
+
+    DSLog(@"Stopping update thread for sleep.");
+    [updatingTimer setFireDate:[NSDate distantFuture]];
+
     // clear the queued actions on sleep
     // in case the machine woke up but the screen saver
     // was never exited or the screen was never unlocked
     // but then the machine went back to sleep
-    
-    // this might cause an issue with anyone who does an
-    // immediate action (not delayed at all) at sleep
-    [self setGoingToSleep:YES];
     [screensaverActionArrivalQueue removeAllObjects];
     [screensaverActionDepartureQueue removeAllObjects];
     [screenLockActionDepartureQueue removeAllObjects];
     [screenLockActionArrivalQueue removeAllObjects];
-
-    DSLog(@"Stopping update thread for sleep.");
-    [updatingTimer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)wakeFromSleep:(id)arg{
@@ -1513,11 +1517,8 @@
 }
 - (void) setScreenSaverInActive:(NSNotification *) notification {
     [self setScreenSaverRunning:NO];
-    [self scheduleActions:screensaverActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
-    [self scheduleActions:screensaverActionArrivalQueue   usingReverseDelays:NO  maxDelay:NULL];
-    [screensaverActionArrivalQueue removeAllObjects];
-    [screensaverActionDepartureQueue removeAllObjects];
     DSLog(@"Screen saver is not running");
+    [self doUpdate];
 }
 
 #pragma mark -
@@ -1531,11 +1532,8 @@
 
 - (void) setScreenLockInActive:(NSNotification *) notification {
     [self setScreenLocked:NO];
-    [self scheduleActions:screenLockActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
-    [self scheduleActions:screenLockActionArrivalQueue   usingReverseDelays:NO  maxDelay:NULL];
-    [screenLockActionDepartureQueue removeAllObjects];
-    [screenLockActionArrivalQueue removeAllObjects];
     DSLog(@"screen lock becoming inactive");
+    [self doUpdate];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
