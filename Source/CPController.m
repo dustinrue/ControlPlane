@@ -1495,10 +1495,14 @@
     // in case the machine woke up but the screen saver
     // was never exited or the screen was never unlocked
     // but then the machine went back to sleep
+    [updatingLock lock];
+
     [screensaverActionArrivalQueue removeAllObjects];
     [screensaverActionDepartureQueue removeAllObjects];
     [screenLockActionDepartureQueue removeAllObjects];
     [screenLockActionArrivalQueue removeAllObjects];
+
+    [updatingLock unlock];
 }
 
 - (void)wakeFromSleep:(id)arg{
