@@ -239,7 +239,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     }
 
     CWInterface *currentInterface = self.currentInterface;
-    if (self.linkActive && currentInterface.serviceActive) {
+    if (self.linkActive) {
         NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
         if ((ssid != nil) && (bssid != nil)) {
             ssids[ssid] = bssid;
