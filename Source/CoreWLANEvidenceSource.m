@@ -120,7 +120,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (void)doStop {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
     [self stopUpdateLoop:NO];
 
     if (serialQueue) {
@@ -236,8 +236,8 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         }
     }
 
-    if (self.linkActive) {
-        CWInterface *currentInterface = self.currentInterface;
+    CWInterface *currentInterface = self.currentInterface;
+    if (self.linkActive && currentInterface.serviceActive) {
         NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
         if ((ssid != nil) && (bssid != nil)) {
             ssids[ssid] = bssid;
