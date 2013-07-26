@@ -57,32 +57,31 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
 }
 
-- (void)start
-{
-	if (running)
+- (void)start {
+	if (running) {
 		return;
-    
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(doFullUpdate)
                                                  name:@"powerAdapterDidChangeNotification"
                                                object:nil];
-    
+
 	[self doFullUpdate];
-    
+
 	running = YES;
 }
 
-- (void)stop
-{
-	if (!running)
+- (void)stop {
+	if (!running) {
 		return;
-    
+    }
+
 	// remove notifications
-	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
-                                                                  name:nil
-                                                                object:nil];
-    
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"powerAdapterDidChangeNotification"
+                                                  object:nil];
+
 	[lock lock];
 	[self setDataCollected:NO];
 	[lock unlock];

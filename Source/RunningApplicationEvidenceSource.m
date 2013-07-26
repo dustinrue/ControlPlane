@@ -64,35 +64,38 @@
 	[apps release];
 }
 
-- (void)start
-{
-	if (running)
+- (void)start {
+	if (running) {
 		return;
+    }
 
 	// register for notifications
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-							       selector:@selector(doFullUpdate)
-								   name:NSWorkspaceDidLaunchApplicationNotification
-								 object:nil];
+                                                           selector:@selector(doFullUpdate)
+                                                               name:NSWorkspaceDidLaunchApplicationNotification
+                                                             object:nil];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
-							       selector:@selector(doFullUpdate)
-								   name:NSWorkspaceDidTerminateApplicationNotification
-								 object:nil];
+                                                           selector:@selector(doFullUpdate)
+                                                               name:NSWorkspaceDidTerminateApplicationNotification
+                                                             object:nil];
 
 	[self doFullUpdate];
 
 	running = YES;
 }
 
-- (void)stop
-{
-	if (!running)
+- (void)stop {
+	if (!running) {
 		return;
+    }
 
 	// remove notifications
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
-								      name:nil
-								    object:nil];
+                                                                  name:NSWorkspaceDidLaunchApplicationNotification
+                                                                object:nil];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
+                                                                  name:NSWorkspaceDidTerminateApplicationNotification
+                                                                object:nil];
 
 	[lock lock];
 	[applications removeAllObjects];

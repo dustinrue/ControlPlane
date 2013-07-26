@@ -56,25 +56,28 @@
 	
 }
 
-- (void)start
-{
-	if (running)
+- (void)start {
+	if (running) {
 		return;
+    }
     
 	// register for notifications
-    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(doFullUpdate:) name:NSWorkspaceDidActivateApplicationNotification object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+                                                           selector:@selector(doFullUpdate:)
+                                                               name:NSWorkspaceDidActivateApplicationNotification
+                                                             object:nil];
     
 	running = YES;
 }
 
-- (void)stop
-{
-	if (!running)
+- (void)stop {
+	if (!running) {
 		return;
-    
+    }
+
 	// remove notifications
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
-                                                                  name:nil
+                                                                  name:NSWorkspaceDidActivateApplicationNotification
                                                                 object:nil];
     
 	[self setDataCollected:NO];
