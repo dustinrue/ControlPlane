@@ -120,9 +120,9 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (void)doStop {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self stopUpdateLoop:NO];
-    [self clearCollectedData];
-    
+
     if (serialQueue) {
         if (store) {
             dispatch_suspend(serialQueue);
@@ -141,7 +141,9 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         CFRelease(store);
         store = NULL;
     }
-    
+
+    [self clearCollectedData];
+
     running = NO;
 }
 
@@ -171,7 +173,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         DSLog(@"WiFi disabled, no scan done");
         return;
     }
-
+    
     // check to see if the interface is busy, lets not check anything if it is
     if ([[self.interfaceData valueForKey:@"Busy"] boolValue]) {
         DSLog(@"WiFi is busy, not updating");
@@ -185,8 +187,15 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         DSLog(@"WiFi link is inactive, doing full scan");
         newNetworkSSIDs = [self scanForNetworks];
     } else {
+        if (!currentInterface.serviceActive) {
+            [self clearCollectedData];
+            DSLog(@"WiFi interface has no active service for it, not updating.");
+            return;
+        }
+
         NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
         if ((ssid == nil) || (bssid == nil)) {
+            [self clearCollectedData];
             DSLog(@"WiFi interface is active, but is not participating in a network yet (or network SSID is bad)");
             return;
         }
@@ -209,13 +218,23 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
 - (NSDictionary *)scanForNetworks {
     NSError *err = nil;
-    NSSet *foundNetworks = [self.currentInterface scanForNetworksWithSSID:nil error:&err];
+    NSSet *foundNetworks = [self.currentInterface scanForNetworksWithName:nil error:&err];
     if (err) {
         DSLog(@"Error: %@", err);
         return nil;
     }
 
     NSMutableDictionary *ssids = [NSMutableDictionary dictionaryWithCapacity:([foundNetworks count] + 1)];
+
+    for (CWNetwork *currentNetwork in foundNetworks) {
+        NSString *ssid = currentNetwork.ssid, *bssid = currentNetwork.bssid;
+        if ((ssid != nil) && (bssid != nil)) {
+            ssids[ssid] = bssid;
+#ifdef DEBUG_MODE
+            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, currentNetwork.rssiValue);
+#endif
+        }
+    }
 
     if (self.linkActive) {
         CWInterface *currentInterface = self.currentInterface;
@@ -224,16 +243,6 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
             ssids[ssid] = bssid;
 #ifdef DEBUG_MODE
             DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, currentInterface.rssiValue);
-#endif
-        }
-    }
-
-    for (CWNetwork *currentNetwork in foundNetworks) {
-        NSString *ssid = currentNetwork.ssid, *bssid = currentNetwork.bssid;
-        if ((ssid != nil) && (bssid != nil)) {
-            ssids[ssid] = bssid;
-#ifdef DEBUG_MODE
-            DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, currentNetwork.rssiValue);
 #endif
         }
     }
@@ -371,14 +380,14 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 	return SCDynamicStoreSetNotificationKeys(store, (CFArrayRef) keys, NULL);
 }
 
-/*
+#ifdef DEBUG_MODE
 - (void) dumpData {
-    BOOL isActive = [[self.interfaceData valueForKey:@"Busy"] boolValue];
-    DSLog(@"interface data %@", self.interfaceData);
-    DSLog(@"interface is %@", (isActive) ? @"busy":@"not busy");
-    DSLog(@"interface is %@", (self.linkActive) ? @"active":@"inactive");
+    BOOL isBusy = [[self.interfaceData valueForKey:@"Busy"] boolValue];
+    DSLog(@"Wi-Fi interface is %@", (isBusy) ? @"busy" : @"not busy");
+    DSLog(@"Wi-Fi interface is %@", (self.linkActive) ? @"active" : @"inactive");
+    DSLog(@"Wi-Fi interface data: %@", self.interfaceData);
 }
-*/
+#endif
 
 - (void)getInterfaceStateInfo {
     NSDictionary *currentData = nil;
@@ -391,12 +400,15 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     [self setInterfaceData:currentData];
     [currentData release];
 
+#ifdef DEBUG_MODE
+    [self dumpData];
+#endif
+
+    [self doUpdate];
+
     dispatch_async(dispatch_get_main_queue(), ^{ // ensure the timers are set on the main loop
         [self toggleUpdateLoop:nil];
     });
-
-    //[self dumpData];
-    [self doUpdate];
 }
 
 @end
