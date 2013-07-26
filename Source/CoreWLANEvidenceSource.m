@@ -120,7 +120,9 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (void)doStop {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSUserDefaultsDidChangeNotification
+                                                  object:nil];
     [self stopUpdateLoop:NO];
 
     if (serialQueue) {
@@ -383,8 +385,8 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 #ifdef DEBUG_MODE
 - (void) dumpData {
     BOOL isBusy = [[self.interfaceData valueForKey:@"Busy"] boolValue];
-    DSLog(@"Wi-Fi interface is %@", (isBusy) ? @"busy" : @"not busy");
     DSLog(@"Wi-Fi interface is %@", (self.linkActive) ? @"active" : @"inactive");
+    DSLog(@"Wi-Fi interface is %@", (isBusy) ? @"busy" : @"not busy");
     DSLog(@"Wi-Fi interface data: %@", self.interfaceData);
 }
 #endif
