@@ -210,7 +210,6 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         self.networkSSIDs = newNetworkSSIDs;
         self.networkBSSIDs = (newNetworkSSIDs) ? ([NSSet setWithArray:[newNetworkSSIDs allValues]]) : (nil);
         [self setDataCollected:[newNetworkSSIDs count] > 0];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
         
 #ifdef DEBUG_MODE
         DSLog(@"%@ >> %@", [self class], newNetworkSSIDs);
