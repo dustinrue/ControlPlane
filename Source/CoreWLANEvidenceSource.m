@@ -189,16 +189,15 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         DSLog(@"WiFi link is inactive, doing full scan");
         newNetworkSSIDs = [self scanForNetworks];
     } else {
-        if (!currentInterface.serviceActive) {
-            [self clearCollectedData];
-            DSLog(@"WiFi interface has no active service for it, not updating.");
-            return;
-        }
-
         NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
         if ((ssid == nil) || (bssid == nil)) {
             [self clearCollectedData];
             DSLog(@"WiFi interface is active, but is not participating in a network yet (or network SSID is bad)");
+            return;
+        }
+
+        if (!currentInterface.serviceActive) {
+            DSLog(@"WiFi interface has no active service for it, not updating.");
             return;
         }
 
