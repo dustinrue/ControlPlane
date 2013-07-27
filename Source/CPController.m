@@ -892,13 +892,13 @@
         }
 
         [self postUserNotification:title withMessage:msg];
-    }
 
-    for (Action *action in actions) {
-        [self increaseActionsInProgress];
-        [NSThread detachNewThreadSelector:@selector(doExecuteAction:)
-                                 toTarget:self
-                               withObject:action];
+        for (Action *action in actions) {
+            [self increaseActionsInProgress];
+            [NSThread detachNewThreadSelector:@selector(doExecuteAction:)
+                                     toTarget:self
+                                   withObject:action];
+        }
     }
 }
 
@@ -908,11 +908,9 @@
         return;
     }
 
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
     [self increaseActionsInProgress];
-    dispatch_after(popTime, queue, ^{
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^{
         @autoreleasepool {
             [self executeActions:actions];
             [self decreaseActionsInProgress];
