@@ -28,7 +28,8 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 @interface WiFiEvidenceSourceCoreWLAN () {
-    NSTimer *loopTimer;
+@private
+    dispatch_source_t pollingTimer;
 
     // For SystemConfiguration asynchronous notifications
     SCDynamicStoreRef store;
@@ -65,7 +66,6 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     [_currentInterface release];
     [_interfaceBSDName release];
     [_interfaceData release];
-    [loopTimer release];
 
     [super dealloc];
 }
@@ -151,19 +151,6 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
 - (NSString *)description {
     return NSLocalizedString(@"Create rules based on what WiFi networks are available or connected to.", @"");
-}
-
-- (void)doUpdate:(NSTimer *)timer {
-    dispatch_async(serialQueue, ^{
-        if (dispatch_get_specific(queueIsStopped) != queueIsStopped) {
-            @autoreleasepool {
-#ifdef DEBUG_MODE
-                DSLog(@"timer fired");
-#endif
-                [self doUpdate];
-            }
-        }
-    });
 }
 
 - (void)doUpdate {
@@ -300,30 +287,50 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     return NSLocalizedString(@"Nearby WiFi Network", @"");
 }
 
-- (void)startUpdateLoop:(BOOL)forceUpdate {
-    if (loopTimer) {
-        return;
-    }
-
-    loopTimer = [[NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
-                                                  target:self
-                                                selector:@selector(doUpdate:)
-                                                userInfo:nil
-                                                 repeats:YES] retain];
-    if (forceUpdate) {
-        [loopTimer fire];
+- (void)pollByTimer {
+    if (dispatch_get_specific(queueIsStopped) != queueIsStopped) {
+        @autoreleasepool {
+#ifdef DEBUG_MODE
+            DSLog(@"timer fired");
+#endif
+            [self doUpdate];
+        }
     }
 }
 
-- (void)stopUpdateLoop:(BOOL)forceUpdate {
-    if (loopTimer) {
-        if (forceUpdate) {
-            [loopTimer fire];
-        }
-        [loopTimer invalidate];
-        [loopTimer release];
+- (void)startUpdateLoop:(BOOL)forceUpdate {
+    if (pollingTimer) {
+        return;
+    }
 
-        loopTimer = nil;
+    pollingTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, serialQueue);
+    if (!pollingTimer) {
+        DSLog(@"Failed to create a timer source");
+        return;
+    }
+
+    const int64_t interval = (int64_t) (10 * NSEC_PER_SEC);
+    const int64_t leeway = (int64_t) (3 * NSEC_PER_SEC);
+    dispatch_time_t start = (forceUpdate) ? (DISPATCH_TIME_NOW) : (dispatch_time(DISPATCH_TIME_NOW, interval));
+    dispatch_source_set_timer(pollingTimer, start, interval, leeway);
+    dispatch_source_set_event_handler(pollingTimer, ^{
+        [self pollByTimer];
+    });
+
+    dispatch_resume(pollingTimer);
+}
+
+- (void)stopUpdateLoop:(BOOL)forceUpdate {
+    if (pollingTimer) {
+        dispatch_source_cancel(pollingTimer);
+        dispatch_release(pollingTimer);
+        pollingTimer = NULL;
+
+        if (forceUpdate) {
+            dispatch_async(serialQueue, ^{
+                [self pollByTimer];
+            });
+        }
     }
 }
 
@@ -401,7 +408,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
     [self doUpdate];
 
-    dispatch_async(dispatch_get_main_queue(), ^{ // ensure the timers are set on the main loop
+    dispatch_async(dispatch_get_main_queue(), ^{ // start/stop timers on the main loop to ensure synchronous changes
         [self toggleUpdateLoop:nil];
     });
 }
