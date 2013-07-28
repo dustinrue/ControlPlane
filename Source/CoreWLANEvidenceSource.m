@@ -196,11 +196,6 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
             return;
         }
 
-        if (!currentInterface.serviceActive) {
-            DSLog(@"WiFi interface has no active service for it, not updating.");
-            return;
-        }
-
         DSLog(@"WiFi link is active, grabbing connection info");
         newNetworkSSIDs = @{ ssid: bssid };
     }
