@@ -71,9 +71,16 @@
 #pragma mark -
 
 @interface CPController () {
+@private
     NSNumberFormatter *numberFormatter;
 
 	NSInteger smoothCounter; // Switch smoothing state parameters
+
+    // used to maintain a queue of actions that need
+    // to be performed after the screen saver quits AND/OR
+    // the screen is unlocked
+    NSMutableArray *screensaverActionQueue;
+    NSMutableArray *screenLockActionQueue;
 }
 
 @property (copy,nonatomic,readwrite) NSString *candidateContextUUID; // Switch smoothing state parameters
@@ -487,10 +494,8 @@
     [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
 
-    screensaverActionArrivalQueue = [[NSMutableArray array] retain];
-    screensaverActionDepartureQueue = [[NSMutableArray array] retain];
-    screenLockActionArrivalQueue = [[NSMutableArray array] retain];
-    screenLockActionDepartureQueue = [[NSMutableArray array] retain];
+    screensaverActionQueue = [[NSMutableArray array] retain];
+    screenLockActionQueue = [[NSMutableArray array] retain];
 
     [self registerForNotifications];
 
@@ -862,6 +867,7 @@
 	return matchingRules;
 }
 
+
 // (Private) in a new thread, execute Action immediately, growling upon failure
 // performs an individual action called by an executeAction* method and on
 // a new thread
@@ -877,29 +883,55 @@
     }
 }
 
++ (NSString *)joinComponentsFrom:(NSArray *)array atIndexes:(NSIndexSet *)indexes byString:(NSString *)separator {
+    NSMutableString *str = [NSMutableString string];
+    [array enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([str length]) {
+            [str appendString:separator];
+        }
+        [str appendString:[obj description]];
+    }];
+    return str;
+}
+
 // (Private) in a separate thread
 // Parameter is an NSArray of actions
-- (void)executeActions:(NSArray *)actions {
-    if ([actions count] > 0) {
+- (void)executeActionsFrom:(NSArray *)actions atIndexes:(NSIndexSet *)indexes {
+    if ([indexes count] > 0) {
         // Aggregate notification messages for all actions
-        NSString *title, *msg;
-        if ([actions count] == 1) {
+        NSString *title, *msg = [[self class] joinComponentsFrom:actions atIndexes:indexes byString:@"\n* "];
+        if ([indexes count] == 1) {
             title = NSLocalizedString(@"Performing Action", @"Growl message title");
-            msg = [actions[0] description];
         } else {
             title = NSLocalizedString(@"Performing Actions", @"Growl message title");
-            msg = [@"* " stringByAppendingString:[actions componentsJoinedByString:@"\n* "]];
+            msg = [@"* " stringByAppendingString:msg];
         }
 
         [self postUserNotification:title withMessage:msg];
 
-        for (Action *action in actions) {
+        [actions enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(Action *action, NSUInteger idx, BOOL *stop) {
             [self increaseActionsInProgress];
             [NSThread detachNewThreadSelector:@selector(doExecuteAction:)
                                      toTarget:self
                                    withObject:action];
-        }
+        }];
     }
+}
+
+- (void)executeActions:(NSArray *)actions {
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+    
+    [actions enumerateObjectsUsingBlock:^(Action *action, NSUInteger idx, BOOL *stop) {
+        if (screenLocked && [[action class] shouldWaitForScreenUnlock]) {
+            [screenLockActionQueue addObject:action];
+        } else if (screenSaverRunning && [[action class] shouldWaitForScreensaverExit]) {
+            [screensaverActionQueue addObject:action];
+        } else {
+            [indexes addIndex:idx];
+        }
+    }];
+    
+    [self executeActionsFrom:actions atIndexes:indexes];
 }
 
 - (void)executeActions:(NSArray *)actions withDelay:(NSTimeInterval)delay {
@@ -1014,15 +1046,7 @@
                 return;
             }
 
-            if (screenLocked && [[action class] shouldWaitForScreenUnlock]) {
-                [screenLockActionArrivalQueue addObject:action];
-            }
-            else if (screenSaverRunning && [[action class] shouldWaitForScreensaverExit]) {
-                [screensaverActionArrivalQueue addObject:action];
-            }
-            else {
-                [arrivalActions addObject:action];
-            }
+            [arrivalActions addObject:action];
         }];
     }
 
@@ -1040,15 +1064,7 @@
                 return;
             }
 
-            if (screenLocked && [[action class] shouldWaitForScreenUnlock]) {
-                [screenLockActionDepartureQueue addObject:action];
-            }
-            else if (screenSaverRunning && [[action class] shouldWaitForScreensaverExit]) {
-                [screensaverActionDepartureQueue addObject:action];
-            }
-            else {
-                [departureActions addObject:action];
-            }
+            [departureActions addObject:action];
         }];
     }
     
@@ -1062,26 +1078,14 @@
 - (void)processSpecialActionQueues {
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
-    if (!screenLocked) {
-        if ([screenLockActionDepartureQueue count] > 0) {
-            [self scheduleActions:screenLockActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
-            [screenLockActionDepartureQueue removeAllObjects];
-        }
-        if ([screenLockActionArrivalQueue count] > 0) {
-            [self scheduleActions:screenLockActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
-            [screenLockActionArrivalQueue removeAllObjects];
-        }
+    if (!screenLocked && ([screenLockActionQueue count] > 0)) {
+        [self executeActions:screenLockActionQueue];
+        [screenLockActionQueue removeAllObjects];
     }
-    
-    if (!screenSaverRunning) {
-        if ([screensaverActionDepartureQueue count] > 0) {
-            [self scheduleActions:screensaverActionDepartureQueue usingReverseDelays:YES maxDelay:NULL];
-            [screensaverActionDepartureQueue removeAllObjects];
-        }
-        if ([screensaverActionArrivalQueue count] > 0) {
-            [self scheduleActions:screensaverActionArrivalQueue usingReverseDelays:NO maxDelay:NULL];
-            [screensaverActionArrivalQueue removeAllObjects];
-        }
+
+    if (!screenSaverRunning && ([screensaverActionQueue count] > 0)) {
+        [self executeActions:screensaverActionQueue];
+        [screensaverActionQueue removeAllObjects];
     }
 }
 
@@ -1495,10 +1499,8 @@
     // but then the machine went back to sleep
     [updatingLock lock];
 
-    [screensaverActionArrivalQueue removeAllObjects];
-    [screensaverActionDepartureQueue removeAllObjects];
-    [screenLockActionDepartureQueue removeAllObjects];
-    [screenLockActionArrivalQueue removeAllObjects];
+    [screensaverActionQueue removeAllObjects];
+    [screenLockActionQueue removeAllObjects];
 
     [updatingLock unlock];
 }

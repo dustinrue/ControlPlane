@@ -37,15 +37,7 @@
     BOOL screenSaverRunning;
     BOOL screenLocked;
     
-    BOOL goingToSleep;
-    
-    // used to maintain a queue of actions that need
-    // to be performed after the screen saver quits AND/OR
-    // the screen is unlocked
-    NSMutableArray *screensaverActionArrivalQueue;
-    NSMutableArray *screensaverActionDepartureQueue;
-    NSMutableArray *screenLockActionArrivalQueue;
-    NSMutableArray *screenLockActionDepartureQueue;
+    BOOL goingToSleep;    
 }
 
 @property (readwrite) BOOL screenSaverRunning;
