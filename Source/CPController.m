@@ -57,10 +57,6 @@
 - (void)postUserNotification:(NSString *)title withMessage:(NSString *)message;
 - (void)contextsChanged:(NSNotification *)notification;
 
-- (void)doUpdateByTimer:(NSTimer *)theTimer;
-- (void)doUpdate;
-
-- (void)updateThread:(id)arg;
 - (void)goingToSleep:(id)arg;
 - (void)wakeFromSleep:(id)arg;
 
@@ -112,6 +108,10 @@
     // the screen is unlocked
     NSMutableArray *screenSaverActionQueue;
     NSMutableArray *screenLockActionQueue;
+
+    dispatch_queue_t updatingQueue;
+    dispatch_source_t updatingTimer;
+    int64_t updateInterval;
 }
 
 @property (copy,nonatomic,readwrite) NSString *candidateContextUUID; // Switch smoothing state parameters
@@ -216,10 +216,8 @@
 
 	sbItem = nil;
 	sbHideTimer = nil;
-	updatingTimer = nil;
 
 	updatingSwitchingLock = [[NSLock alloc] init];
-	updatingLock = [[NSConditionLock alloc] initWithCondition:0];
 	timeToDie = FALSE;
 	smoothCounter = 0;
 
@@ -238,6 +236,11 @@
     screenSaverActionQueue = [[NSMutableArray alloc] init];
     screenLockActionQueue = [[NSMutableArray alloc] init];
 
+    if (![self doInitUpdatingQueue]) {
+        [self release];
+        return nil;
+    }
+    
     NSArray *rulesInUserDefaults = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
     _rules = [[rulesInUserDefaults deepMutableCopy] retain];
 
@@ -248,6 +251,7 @@
 
 - (void)dealloc {
     [self stopMonitoringSleepAndPowerNotifications];
+    [self doReleaseUpdatingQueue];
 
     [_rules release];
     [_candidateContextUUID release];
@@ -260,7 +264,6 @@
 
     [numberFormatter release];
 	[updatingSwitchingLock release];
-	[updatingLock release];
 
 	[super dealloc];
 }
@@ -302,7 +305,7 @@
     [rules release];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self doUpdate];
+        [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
     });
 }
 
@@ -522,27 +525,12 @@
     [self setScreenSaverRunning:NO];
 
     [self registerForNotifications];
-
-	// update thread
-	[NSThread detachNewThreadSelector:@selector(updateThread:)
-							 toTarget:self
-						   withObject:nil];
-
     [self startMonitoringSleepAndPowerNotifications];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
         [evidenceSources startOrStopAll];
-
-        if (!updatingTimer) {
-            // Schedule a one-off timer (in 2s) to get initial data.
-            // Future recurring timers will be set automatically from there.
-            updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval)2
-                                                              target: self
-                                                            selector: @selector(doUpdateByTimer:)
-                                                            userInfo: nil
-                                                             repeats: NO] retain];
-        }
+        [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
     });
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -826,33 +814,6 @@
 }
 
 #pragma mark Rule matching and Action triggering
-
-- (void)doUpdateByTimer:(NSTimer *)theTimer {
-#ifdef DEBUG_MODE
-    DSLog(@"**** DOING UPDATE LOOP BY TIMER ****");
-#endif
-    [self doUpdate];
-}
-
-- (void)doUpdate {
-    updatingTimer = [updatingTimer checkAndInvalidate];
-
-	// Check timer interval
-	NSTimeInterval intv = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
-	if (intv > 0.1) {
-		updatingTimer = [[NSTimer scheduledTimerWithTimeInterval: intv
-														  target: self
-														selector: @selector(doUpdateByTimer:)
-														userInfo: nil
-														 repeats: NO] retain];
-	}
-
-    // if the (real) update is already in progress, don't block the main thread to be waiting for it:
-    // just postpone the update till the update timer fires again
-    if ([updatingLock tryLock]) {
-        [updatingLock unlockWithCondition:1];
-    }
-}
 
 - (NSArray *)getRulesThatMatchAndSetChangeFlag:(BOOL *)flag {
 	NSArray *rules = self.rules;
@@ -1487,58 +1448,29 @@
     return true;
 }
 
-- (void)updateThread:(id)arg {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-	while (!timeToDie) {
-		[updatingLock lockWhenCondition:1];
-
-#ifdef DEBUG_MODE
-        DSLog(@"**** DOING UPDATE LOOP ****");
-#endif
-        [self processSpecialActionQueues];
-
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
-            if (!forcedContextIsSticky || self.forceOneFullUpdate) {
-                [self doUpdateForReal];
-                
-                // Flush auto-release pool
-                [pool release];
-                pool = [[NSAutoreleasePool alloc] init];
-            }
-        }
-
-		[updatingLock unlockWithCondition:0];
-	}
-
-	[pool release];
-}
-
-
 - (void)goingToSleep:(id)arg {
     // this might cause an issue with anyone who does an
     // immediate action (not delayed at all) at sleep
     [self setGoingToSleep:YES];
 
     DSLog(@"Stopping update thread for sleep.");
-    [updatingTimer setFireDate:[NSDate distantFuture]];
+    [self suspendRegularUpdates];
 
     // clear the queued actions on sleep
     // in case the machine woke up but the screen saver
     // was never exited or the screen was never unlocked
     // but then the machine went back to sleep
-    [updatingLock lock];
-
-    [screenSaverActionQueue removeAllObjects];
-    [screenLockActionQueue removeAllObjects];
-
-    [updatingLock unlock];
+    dispatch_async(updatingQueue, ^{
+        [screenSaverActionQueue removeAllObjects];
+        [screenLockActionQueue removeAllObjects];
+    });
 }
 
 - (void)wakeFromSleep:(id)arg{
     [self setGoingToSleep:NO];
+
     DSLog(@"Starting update thread after sleep.");
-    [updatingTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2.0]];
+    [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
 }
 
 
@@ -1552,7 +1484,7 @@
 - (void) setScreenSaverInActive:(NSNotification *) notification {
     [self setScreenSaverRunning:NO];
     DSLog(@"Screen saver is not running");
-    [self doUpdate];
+    [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
 }
 
 #pragma mark -
@@ -1567,7 +1499,7 @@
 - (void) setScreenLockInActive:(NSNotification *) notification {
     [self setScreenLocked:NO];
     DSLog(@"screen lock becoming inactive");
-    [self doUpdate];
+    [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1612,6 +1544,12 @@
 
     // Check that the running evidence sources match the defaults
     if (!goingToSleep) {
+        int64_t currentUpdateInterval = [[self class] getUpdateInterval];
+        if (updateInterval != currentUpdateInterval) {
+            updateInterval  = currentUpdateInterval;
+            [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
+        }
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [evidenceSources startOrStopAll];
         });
@@ -1622,11 +1560,96 @@
 #pragma mark Evidence source change handling
 - (void) evidenceSourceDataDidChange:(NSNotification *)notification {
     dispatch_async(dispatch_get_main_queue(), ^{
-        // this will cause the updateThread to do it's work
 #ifdef DEBUG_MODE
-        DSLog(@"**** DOING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
+        DSLog(@"**** TRIGGERING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
+#endif
+        [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
+    });
+}
+
+
+#pragma mark -
+#pragma mark CPController Updating Queue and Timer
+
+const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
+
++ (int64_t)getUpdateInterval {
+	NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] floatForKey:@"UpdateInterval"];
+    if (interval < 0.1) {
+        interval = 0.1;
+    }
+    return (int64_t) (interval * NSEC_PER_SEC);
+}
+
+- (BOOL)doInitUpdatingQueue {
+    updatingQueue = dispatch_queue_create("com.dustinrue.ControlPlane.UpdateQueue", DISPATCH_QUEUE_SERIAL);
+    if (!updatingQueue) {
+        DSLog(@"Failed to create a GCD queue");
+        return NO;
+    }
+    
+    updateInterval = [[self class] getUpdateInterval];
+    
+    updatingTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, updatingQueue);
+    if (!updatingTimer) {
+        DSLog(@"Failed to create a GCD timer source");
+        return NO;
+    }
+    dispatch_source_set_event_handler(updatingTimer, ^{
+#ifdef DEBUG_MODE
+        DSLog(@"**** DOING UPDATE LOOP BY TIMER ****");
 #endif
         [self doUpdate];
+    });
+    
+    return YES;
+}
+
+- (void)doReleaseUpdatingQueue {
+    if (updatingTimer) {
+        dispatch_source_cancel(updatingTimer);
+        dispatch_release(updatingTimer);
+    }
+    if (updatingQueue) {
+        dispatch_release(updatingQueue);
+    }
+}
+
+- (void)suspendRegularUpdates {
+    dispatch_suspend(updatingTimer);
+}
+
+- (void)resumeRegularUpdates {
+    dispatch_resume(updatingTimer);
+}
+
+- (void)resumeRegularUpdatesWithDelay:(int64_t)nanoseconds {
+    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, nanoseconds);
+    dispatch_source_set_timer(updatingTimer, start, updateInterval, UPDATING_TIMER_LEEWAY);
+    dispatch_resume(updatingTimer);
+}
+
+- (void)shiftRegularUpdatesToStartAt:(dispatch_time_t)time {
+    dispatch_source_set_timer(updatingTimer, time, updateInterval, UPDATING_TIMER_LEEWAY);
+}
+
+- (void)doUpdate {
+    @autoreleasepool {
+        [self processSpecialActionQueues];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
+            if (!forcedContextIsSticky || self.forceOneFullUpdate) {
+                [self doUpdateForReal];
+            }
+        }
+    }
+}
+
+- (void)forceUpdate {
+    [self increaseActionsInProgress];
+    dispatch_async(updatingQueue, ^{
+        [self doUpdate];
+        [self decreaseActionsInProgress];
     });
 }
 
