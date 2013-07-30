@@ -16,6 +16,27 @@
 #import <libkern/OSAtomic.h>
 
 
+#pragma mark -
+#pragma mark NSArray Extensions
+
+@implementation NSArray (ComponentsAtIndexesJoinedByString)
+
+- (NSString *)componentsAtIndexes:(NSIndexSet *)indexes joinedByString:(NSString *)separator {
+    NSMutableString *str = [NSMutableString string];
+    [self enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([str length]) {
+            [str appendString:separator];
+        }
+        [str appendString:[obj description]];
+    }];
+    return str;
+}
+
+@end
+
+#pragma mark -
+#pragma mark CPController
+
 @interface CPController (Private)
 
 - (void)setStatusTitle:(NSString *)title;
@@ -79,7 +100,7 @@
     // used to maintain a queue of actions that need
     // to be performed after the screen saver quits AND/OR
     // the screen is unlocked
-    NSMutableArray *screensaverActionQueue;
+    NSMutableArray *screenSaverActionQueue;
     NSMutableArray *screenLockActionQueue;
 }
 
@@ -214,6 +235,9 @@
 	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
 	[numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
 
+    screenSaverActionQueue = [[NSMutableArray alloc] init];
+    screenLockActionQueue = [[NSMutableArray alloc] init];
+    
     NSArray *rulesInUserDefaults = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
     _rules = [[[self class] deepMutableCopyOfArray:rulesInUserDefaults] retain];
     
@@ -227,6 +251,9 @@
 
     [_rules release];
     [_candidateContextUUID release];
+
+    [screenLockActionQueue release];
+    [screenSaverActionQueue release];
 
     [sbImageActive release];
     [sbImageInactive release];
@@ -493,9 +520,6 @@
     // set default screen saver and screen lock status
     [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
-
-    screensaverActionQueue = [[NSMutableArray array] retain];
-    screenLockActionQueue = [[NSMutableArray array] retain];
 
     [self registerForNotifications];
 
@@ -899,7 +923,7 @@
 - (void)executeActionsFrom:(NSArray *)actions atIndexes:(NSIndexSet *)indexes {
     if ([indexes count] > 0) {
         // Aggregate notification messages for all actions
-        NSString *title, *msg = [[self class] joinComponentsFrom:actions atIndexes:indexes byString:@"\n* "];
+        NSString *title, *msg = [actions componentsAtIndexes:indexes joinedByString:@"\n* "];
         if ([indexes count] == 1) {
             title = NSLocalizedString(@"Performing Action", @"Growl message title");
         } else {
@@ -918,25 +942,27 @@
     }
 }
 
-- (void)executeActions:(NSArray *)actions {
+- (void)executeOrQueueActions:(NSArray *)actions {
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
-    
+
     [actions enumerateObjectsUsingBlock:^(Action *action, NSUInteger idx, BOOL *stop) {
         if (screenLocked && [[action class] shouldWaitForScreenUnlock]) {
             [screenLockActionQueue addObject:action];
-        } else if (screenSaverRunning && [[action class] shouldWaitForScreensaverExit]) {
-            [screensaverActionQueue addObject:action];
-        } else {
-            [indexes addIndex:idx];
+            return;
         }
+        if (screenSaverRunning && [[action class] shouldWaitForScreensaverExit]) {
+            [screenSaverActionQueue addObject:action];
+            return;
+        }
+        [indexes addIndex:idx];
     }];
-    
+
     [self executeActionsFrom:actions atIndexes:indexes];
 }
 
 - (void)executeActions:(NSArray *)actions withDelay:(NSTimeInterval)delay {
     if (delay == 0.0) {
-        [self executeActions:actions];
+        [self executeOrQueueActions:actions];
         return;
     }
 
@@ -944,7 +970,7 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
         @autoreleasepool {
-            [self executeActions:actions];
+            [self executeOrQueueActions:actions];
             [self decreaseActionsInProgress];
         }
     });
@@ -1079,13 +1105,17 @@
     // cover any situations where there are queued items
     // but the screen is not locked and the screen saver is not running
     if (!screenLocked && ([screenLockActionQueue count] > 0)) {
-        [self executeActions:screenLockActionQueue];
-        [screenLockActionQueue removeAllObjects];
+        NSArray *queue = screenLockActionQueue;
+        screenLockActionQueue = [[NSMutableArray alloc] init];
+        [self executeOrQueueActions:queue];
+        [queue release];
     }
 
-    if (!screenSaverRunning && ([screensaverActionQueue count] > 0)) {
-        [self executeActions:screensaverActionQueue];
-        [screensaverActionQueue removeAllObjects];
+    if (!screenSaverRunning && ([screenSaverActionQueue count] > 0)) {
+        NSArray *queue = screenSaverActionQueue;
+        screenSaverActionQueue = [[NSMutableArray alloc] init];
+        [self executeOrQueueActions:queue];
+        [queue release];
     }
 }
 
@@ -1499,7 +1529,7 @@
     // but then the machine went back to sleep
     [updatingLock lock];
 
-    [screensaverActionQueue removeAllObjects];
+    [screenSaverActionQueue removeAllObjects];
     [screenLockActionQueue removeAllObjects];
 
     [updatingLock unlock];
