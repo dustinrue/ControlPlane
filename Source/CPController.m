@@ -32,6 +32,16 @@
     return str;
 }
 
+- (NSMutableArray *)deepMutableCopy {
+    NSMutableArray *arrayMutableCopy = [NSMutableArray arrayWithCapacity:[self count]];
+    for (id obj in self) {
+        id objMutableCopy = [obj mutableCopy];
+        [arrayMutableCopy addObject:objMutableCopy];
+        [objMutableCopy release];
+    }
+    return arrayMutableCopy;
+}
+
 @end
 
 #pragma mark -
@@ -121,16 +131,6 @@
 @synthesize screenSaverRunning;
 @synthesize screenLocked;
 @synthesize goingToSleep;
-
-+ (NSMutableArray *)deepMutableCopyOfArray:(NSArray *)array {
-    NSMutableArray *arrayMutableCopy = [NSMutableArray arrayWithCapacity:[array count]];
-    for (id obj in array) {
-        id objMutableCopy = [obj mutableCopy];
-        [arrayMutableCopy addObject:objMutableCopy];
-        [objMutableCopy release];
-    }
-    return arrayMutableCopy;
-}
 
 + (void)initialize {
 	NSMutableDictionary *appDefaults = [NSMutableDictionary dictionary];
@@ -237,10 +237,10 @@
 
     screenSaverActionQueue = [[NSMutableArray alloc] init];
     screenLockActionQueue = [[NSMutableArray alloc] init];
-    
+
     NSArray *rulesInUserDefaults = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Rules"];
-    _rules = [[[self class] deepMutableCopyOfArray:rulesInUserDefaults] retain];
-    
+    _rules = [[rulesInUserDefaults deepMutableCopy] retain];
+
     _forceOneFullUpdate = YES;
     
 	return self;
@@ -274,7 +274,7 @@
 }
 
 - (NSArray *)activeRules {
-    return [[self class] deepMutableCopyOfArray:self.rules];
+    return [self.rules deepMutableCopy];
 }
 
 - (void)setActiveRules:(NSArray *)newRules {
@@ -306,7 +306,7 @@
     });
 }
 
-- (BOOL) stickyContext {
+- (BOOL)stickyContext {
 	return forcedContextIsSticky;
 }
 
@@ -459,7 +459,7 @@
  *
  * \return YES when settings have been imported
  */
-- (BOOL) importMarcoPoloSettings {
+- (BOOL)importMarcoPoloSettings {
 	NSString *oldDomain = @"au.id.symonds.MarcoPolo2";
 	NSDictionary *oldPrefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName: oldDomain];
 	
@@ -564,7 +564,7 @@
 
 #pragma mark Register for notifications
 
-- (void) registerForNotifications {
+- (void)registerForNotifications {
     // Register for notifications from evidence sources that their data has changed
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(evidenceSourceDataDidChange:)
@@ -1377,7 +1377,7 @@
  * @param NSDictionary list of guesses
  * @return NSDictionary the most confident guess
  */
-- (NSArray *) getMostConfidentContext:(NSDictionary *) guesses {
+- (NSArray *)getMostConfidentContext:(NSDictionary *) guesses {
 	__block NSString *guess = nil;
 	__block double guessConf = -1.0; // guaranteed to be less than any actual confidence value
 
