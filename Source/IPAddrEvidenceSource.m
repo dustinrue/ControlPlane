@@ -85,7 +85,6 @@ static void ipAddrChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *
             NSLog(@"ipAddrChange called with changedKeys:\n%@", changedKeys);
 #endif
             [(IPAddrEvidenceSource *) info enumerate];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
         }
     }
 }

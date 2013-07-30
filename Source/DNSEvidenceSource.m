@@ -32,7 +32,6 @@ static void dnsChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *inf
             NSLog(@"dnsChange called with changedKeys:\n%@", changedKeys);
 #endif
             [(DNSEvidenceSource *) info enumerate];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
         }
     }
 }

@@ -63,10 +63,10 @@
 	[self setDataCollected:YES];
 }
 
-- (void)start
-{
-	if (running)
+- (void)start {
+	if (running) {
 		return;
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(doFullUpdate)
@@ -77,10 +77,14 @@
 	running = YES;
 }
 
-- (void)stop
-{
-	if (!running)
+- (void)stop {
+	if (!running) {
 		return;
+    }
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"powerAdapterDidChangeNotification"
+                                                  object:nil];
 
 	status = nil;
 	[self setDataCollected:NO];

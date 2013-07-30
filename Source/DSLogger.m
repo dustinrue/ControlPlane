@@ -178,7 +178,7 @@ static DSLogger *sharedLogger = nil;
 	static const NSTimeInterval clusterThreshold = 0.5; // seconds
 
 	if (([date timeIntervalSinceDate:clusterStartDate] < clusterThreshold) && [func isEqualToString:lastFunction]) {
-		info = [@"\t" stringByAppendingString:info];
+		info = [@"\n\t" stringByAppendingString:info];
         date = nil;
     } else {
 		[clusterStartDate release];

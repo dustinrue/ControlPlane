@@ -23,7 +23,6 @@ static void linkChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
             NSLog(@"linkChange called with changedKeys:\n%@", changedKeys);
 #endif
             [(NetworkLinkEvidenceSource *) info doFullUpdate:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
         }
     }
 }

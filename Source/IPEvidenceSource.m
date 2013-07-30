@@ -29,7 +29,6 @@ static void ipChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info
 	// hold up the main thread, causing UI hanging.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [(IPEvidenceSource *) info doFullUpdate];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
     });
 }
 
