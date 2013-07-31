@@ -1587,9 +1587,7 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
         DSLog(@"Failed to create a GCD queue");
         return NO;
     }
-    
-    updateInterval = [[self class] getUpdateInterval];
-    
+
     updatingTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, updatingQueue);
     if (!updatingTimer) {
         DSLog(@"Failed to create a GCD timer source");
@@ -1601,7 +1599,10 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 #endif
         [self doUpdate];
     });
-    
+
+    updateInterval = [[self class] getUpdateInterval];
+    dispatch_source_set_timer(updatingTimer, DISPATCH_TIME_NOW, updateInterval, UPDATING_TIMER_LEEWAY);
+
     return YES;
 }
 
@@ -1624,7 +1625,7 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)resumeRegularUpdatesWithDelay:(int64_t)nanoseconds {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, nanoseconds), updatingQueue, ^(void){
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, nanoseconds), updatingQueue, ^{
         dispatch_resume(updatingTimer);
     });
 }
