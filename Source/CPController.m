@@ -109,6 +109,7 @@
     NSMutableArray *screenSaverActionQueue;
     NSMutableArray *screenLockActionQueue;
 
+    dispatch_queue_t concurrentActionQueue;
     dispatch_queue_t updatingQueue;
     dispatch_source_t updatingTimer;
     int64_t updateInterval;
@@ -853,15 +854,13 @@
 // (Private) in a new thread, execute Action immediately, growling upon failure
 // performs an individual action called by an executeAction* method and on
 // a new thread
-- (void)doExecuteAction:(id)arg {
+- (void)doExecuteAction:(Action *)action {
 	@autoreleasepool {
         NSString *errorString;
-        if (![(Action *) arg execute:&errorString]) {
+        if (![action execute:&errorString]) {
             NSString *title = NSLocalizedString(@"Failure", @"Growl message title");
             [self postUserNotification:title withMessage:errorString];
         }
-
-        [self decreaseActionsInProgress];
     }
 }
 
@@ -893,9 +892,10 @@
 
         [actions enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(Action *action, NSUInteger idx, BOOL *stop) {
             [self increaseActionsInProgress];
-            [NSThread detachNewThreadSelector:@selector(doExecuteAction:)
-                                     toTarget:self
-                                   withObject:action];
+            dispatch_async(concurrentActionQueue, ^{
+                [self doExecuteAction:action];
+                [self decreaseActionsInProgress];
+            });
         }];
     }
 }
@@ -926,7 +926,7 @@
 
     [self increaseActionsInProgress];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^{
+    dispatch_after(popTime, concurrentActionQueue, ^{
         @autoreleasepool {
             [self executeOrQueueActions:actions];
             [self decreaseActionsInProgress];
@@ -1583,6 +1583,11 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
         DSLog(@"Failed to create a GCD queue");
         return NO;
     }
+    concurrentActionQueue = dispatch_queue_create("com.dustinrue.ControlPlane.ActionQueue", DISPATCH_QUEUE_CONCURRENT);
+    if (!concurrentActionQueue) {
+        DSLog(@"Failed to create a GCD queue");
+        return NO;
+    }
 
     updatingTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, updatingQueue);
     if (!updatingTimer) {
@@ -1606,6 +1611,9 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
     if (updatingTimer) {
         dispatch_source_cancel(updatingTimer);
         dispatch_release(updatingTimer);
+    }
+    if (concurrentActionQueue) {
+        dispatch_release(concurrentActionQueue);
     }
     if (updatingQueue) {
         dispatch_release(updatingQueue);
