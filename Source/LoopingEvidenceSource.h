@@ -11,6 +11,7 @@
 
 @interface LoopingEvidenceSource : EvidenceSource {
 	NSTimeInterval loopInterval;
+    NSTimeInterval loopLeeway;
 }
 
 - (id)initWithNibNamed:(NSString *)name;

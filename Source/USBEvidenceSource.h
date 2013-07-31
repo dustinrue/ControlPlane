@@ -5,7 +5,7 @@
 //  Created by David Symonds on 29/03/07.
 //
 
-#import "GenericLoopingEvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 
 @interface USBEvidenceSource : GenericEvidenceSource {

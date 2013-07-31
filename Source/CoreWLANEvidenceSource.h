@@ -8,7 +8,7 @@
 //  Bug fixes and improvements by Vladimir Beloborodov (VladimirTechMan) in Jul 2013.
 //
 
-#import "GenericLoopingEvidenceSource.h"
+#import "GenericEvidenceSource.h"
 
 @interface WiFiEvidenceSourceCoreWLAN : GenericEvidenceSource
 

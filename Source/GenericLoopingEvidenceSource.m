@@ -8,11 +8,10 @@
 
 #import "DSLogger.h"
 #import "GenericLoopingEvidenceSource.h"
-#import "NSTimer+Invalidation.h"
 
 @implementation GenericLoopingEvidenceSource {
-	NSTimer *loopTimer;
     SEL doUpdateSelector;
+    dispatch_source_t loopTimer;
     dispatch_queue_t serialQueue;
 }
 
@@ -20,6 +19,7 @@
     self = [super init];
 	if (self) {
         loopInterval = (NSTimeInterval) 10;	// 10 seconds, by default
+        loopLeeway = (NSTimeInterval) 1;
         doUpdateSelector = NSSelectorFromString(@"doUpdate");
     }
 	return self;
@@ -39,15 +39,6 @@
 }
 
 
-// Private
-- (void)loopTimerPoll:(NSTimer *)timer {
-    dispatch_async(serialQueue, ^{
-        @autoreleasepool {
-            [self performSelector: doUpdateSelector];
-        }
-    });
-}
-
 - (void)start {
 	if (running) {
 		return;
@@ -60,19 +51,23 @@
         [self doStop];
         return;
     }
-    
+
     if (!serialQueue) {
         NSString *queueName = [[NSString alloc] initWithFormat:@"com.dustinrue.ControlPlane.%@",[self class]];
         serialQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
         [queueName release];
     }
-    
-	loopTimer = [[NSTimer scheduledTimerWithTimeInterval: loopInterval
-												  target: self
-												selector: @selector(loopTimerPoll:)
-												userInfo: nil
-												 repeats: YES] retain];
-    [loopTimer fire];
+
+    loopTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, serialQueue);
+    dispatch_source_set_event_handler(loopTimer, ^{
+        @autoreleasepool {
+            [self performSelector:doUpdateSelector];
+        }
+    });
+    dispatch_source_set_timer(loopTimer, DISPATCH_TIME_NOW,
+                              (int64_t) (loopInterval * NSEC_PER_SEC),
+                              (int64_t) (loopLeeway * NSEC_PER_SEC));
+    dispatch_resume(loopTimer);
 
 	running = YES;
 }
@@ -84,7 +79,11 @@
 }
 
 - (void)doStop {
-	loopTimer = [loopTimer checkAndInvalidate];
+    if (loopTimer) {
+        dispatch_source_cancel(loopTimer);
+        dispatch_release(loopTimer);
+        loopTimer = NULL;
+    }
 
 	SEL selector = NSSelectorFromString(@"clearCollectedData");
 	if ([self respondsToSelector: selector]) {

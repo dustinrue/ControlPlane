@@ -11,6 +11,7 @@
 
 @interface GenericLoopingEvidenceSource : GenericEvidenceSource {
 	NSTimeInterval loopInterval;
+    NSTimeInterval loopLeeway;
 }
 
 - (id)init;	// can be extended by descendant classes to change loopInterval
