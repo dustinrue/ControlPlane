@@ -1062,25 +1062,52 @@
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
 }
 
-- (void)processSpecialActionQueues {
-    // cover any situations where there are queued items
-    // but the screen is not locked and the screen saver is not running
-    if (!screenLocked && ([screenLockActionQueue count] > 0)) {
-        NSArray *queue = screenLockActionQueue;
-        screenLockActionQueue = [[NSMutableArray alloc] init];
-        [self executeOrQueueActions:queue];
-        [queue release];
-    }
+#pragma mark -
+#pragma mark Screen Saver Monitoring
 
-    if (!screenSaverRunning && ([screenSaverActionQueue count] > 0)) {
-        NSArray *queue = screenSaverActionQueue;
-        screenSaverActionQueue = [[NSMutableArray alloc] init];
-        [self executeOrQueueActions:queue];
-        [queue release];
-    }
+- (void) setScreenSaverActive:(NSNotification *) notification {
+    [self setScreenSaverRunning:YES];
+    DSLog(@"Screen saver is running");
+}
+
+- (void) setScreenSaverInActive:(NSNotification *) notification {
+    [self setScreenSaverRunning:NO];
+    DSLog(@"Screen saver is not running");
+
+    dispatch_async(updatingQueue, ^{
+        if ([screenSaverActionQueue count] > 0) {
+            NSArray *queue = screenSaverActionQueue;
+            screenSaverActionQueue = [[NSMutableArray alloc] init];
+            [self executeOrQueueActions:queue];
+            [queue release];
+        }
+    });
+}
+
+#pragma mark -
+#pragma mark Screen Lock Monitoring
+
+- (void) setScreenLockActive:(NSNotification *) notification {
+    [self setScreenLocked:YES];
+    DSLog(@"screen lock becoming active");
+}
+
+- (void) setScreenLockInActive:(NSNotification *) notification {
+    [self setScreenLocked:NO];
+    DSLog(@"screen lock becoming inactive");
+
+    dispatch_async(updatingQueue, ^{
+        if ([screenLockActionQueue count] > 0) {
+            NSArray *queue = screenLockActionQueue;
+            screenLockActionQueue = [[NSMutableArray alloc] init];
+            [self executeOrQueueActions:queue];
+            [queue release];
+        }
+    });
 }
 
 
+#pragma mark -
 #pragma mark Context switching
 
 - (void)performTransitionFrom:(NSString *)fromUUID to:(NSString *)toUUID withConfidenceMsg:(NSString *)confMsg {
@@ -1474,34 +1501,6 @@
 }
 
 
-#pragma mark -
-#pragma mark Screen Saver Monitoring
-
-- (void) setScreenSaverActive:(NSNotification *) notification {
-    [self setScreenSaverRunning:YES];
-    DSLog(@"Screen saver is running");
-}
-- (void) setScreenSaverInActive:(NSNotification *) notification {
-    [self setScreenSaverRunning:NO];
-    DSLog(@"Screen saver is not running");
-    [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
-}
-
-#pragma mark -
-#pragma mark Screen Lock Monitoring
-
-- (void) setScreenLockActive:(NSNotification *) notification {
-    [self setScreenLocked:YES];
-    DSLog(@"screen lock becoming active");
-    
-}
-
-- (void) setScreenLockInActive:(NSNotification *) notification {
-    [self setScreenLocked:NO];
-    DSLog(@"screen lock becoming inactive");
-    [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma mark -
@@ -1635,11 +1634,9 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)doUpdate {
-    @autoreleasepool {
-        [self processSpecialActionQueues];
-        
+    if (!forcedContextIsSticky || self.forceOneFullUpdate) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
-            if (!forcedContextIsSticky || self.forceOneFullUpdate) {
+            @autoreleasepool {
                 [self doUpdateForReal];
             }
         }
