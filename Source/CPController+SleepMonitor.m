@@ -94,15 +94,11 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
 #endif
 
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cpController->updatingLock lockWhenCondition:0];
-                    [cpController->updatingLock unlockWithCondition:1];
-                });
+                [cpController forceUpdate];
             }
 
             dispatch_async(dispatch_get_main_queue(), ^{
-                [cpController->updatingLock lockWhenCondition:0];
-                [cpController->updatingLock unlockWithCondition:1];
+                [cpController forceUpdate];
 
                 dispatch_group_wait(actionsInProgress, DISPATCH_TIME_FOREVER);
                 

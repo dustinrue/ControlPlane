@@ -25,9 +25,7 @@
 	BOOL forcedContextIsSticky;
 	NSMenuItem *stickForcedContextMenuItem;
 
-	NSTimer *updatingTimer;
 	NSLock *updatingSwitchingLock;
-	NSConditionLock *updatingLock;
 	BOOL timeToDie;
 
 	IBOutlet ContextsDataSource *contextsDataSource;
@@ -54,6 +52,9 @@
 - (void) forceSwitch: (id) sender;
 - (void) toggleSticky: (id) sender;
 
-- (void) doUpdateForReal;
+- (void)suspendRegularUpdates;
+- (void)resumeRegularUpdates;
+- (void)resumeRegularUpdatesWithDelay:(int64_t)nanoseconds;
+- (void)forceUpdate;
 
 @end
