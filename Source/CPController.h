@@ -25,9 +25,6 @@
 	BOOL forcedContextIsSticky;
 	NSMenuItem *stickForcedContextMenuItem;
 
-	NSLock *updatingSwitchingLock;
-	BOOL timeToDie;
-
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
 	IBOutlet NSWindow *prefsWindow;

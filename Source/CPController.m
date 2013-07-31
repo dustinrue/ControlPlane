@@ -217,8 +217,6 @@
 	sbItem = nil;
 	sbHideTimer = nil;
 
-	updatingSwitchingLock = [[NSLock alloc] init];
-	timeToDie = FALSE;
 	smoothCounter = 0;
 
 	// Set placeholder values
@@ -263,7 +261,6 @@
     [sbImageInactive release];
 
     [numberFormatter release];
-	[updatingSwitchingLock release];
 
 	[super dealloc];
 }
@@ -1128,8 +1125,6 @@
     NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
     NSString *notificationName   = [notificationObject stringByAppendingString:@".ContextChanged"];
 
-	[updatingSwitchingLock lock];
-
     [self triggerDepartureActionsOnWalk:leavingWalk];
 
 	// Update current context
@@ -1169,8 +1164,6 @@
 	}
 
     [self triggerArrivalActionsOnWalk:enteringWalk];
-
-	[updatingSwitchingLock unlock];
 }
 
 #pragma mark Force switching
@@ -1191,12 +1184,16 @@
 	int state = forcedContextIsSticky ? NSOnState : NSOffState;
 	[stickForcedContextMenuItem setState:state];
 
-	[self performTransitionFrom:currentContextUUID to:[ctxt uuid] withConfidenceMsg:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")];
-
-    if (!forcedContextIsSticky) {
-        self.forceOneFullUpdate = YES;
-        smoothCounter = 0;
-    }
+    dispatch_async(updatingQueue, ^{
+        [self performTransitionFrom:currentContextUUID
+                                 to:[ctxt uuid]
+                  withConfidenceMsg:NSLocalizedString(@"(forced)", @"Used when force-switching to a context")];
+        
+        if (!forcedContextIsSticky) {
+            self.forceOneFullUpdate = YES;
+            smoothCounter = 0;
+        }
+    });
 }
 
 - (void)setStickyBit:(NSNotification *) notification {
