@@ -1624,9 +1624,9 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)resumeRegularUpdatesWithDelay:(int64_t)nanoseconds {
-    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, nanoseconds);
-    dispatch_source_set_timer(updatingTimer, start, updateInterval, UPDATING_TIMER_LEEWAY);
-    dispatch_resume(updatingTimer);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, nanoseconds), updatingQueue, ^(void){
+        dispatch_resume(updatingTimer);
+    });
 }
 
 - (void)shiftRegularUpdatesToStartAt:(dispatch_time_t)time {
