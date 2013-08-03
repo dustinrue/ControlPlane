@@ -9,6 +9,7 @@
 #import "CPController.h"
 #import "DSLogger.h"
 #import "SliderWithValue.h"
+#import "SharedNumberFormatter.h"
 
 @interface Context ()
 
@@ -247,6 +248,20 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	[[NSUserDefaults standardUserDefaults] setObject:array forKey:@"Contexts"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)updateConfidencesFromGuesses:(NSDictionary *)guesses {
+    [contexts enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, Context *ctxt, BOOL *stop) {
+		NSNumber *conf = guesses[uuid];
+        ctxt.confidence = (conf) ? (conf) : (@0);
+    }];
+
+	// XXX: hackish -- but will be enough until 3.0
+    // don't force data update if we're editing a context name
+	NSOutlineView *olv = [self valueForKey:@"outlineView"];
+	if (![olv currentEditor]) {
+        [self triggerOutlineViewReloadData:nil];
+    }
 }
 
 #pragma mark -
@@ -591,7 +606,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if ([[tableColumn identifier] isEqualToString:@"context"]) {
 		return ctxt.name;
     } else if ([[tableColumn identifier] isEqualToString:@"confidence"]) {
-		return ctxt.confidence;
+        NSNumber *confidence = ctxt.confidence;
+        if ([confidence doubleValue] == 0.0) {
+            return @"";
+        }
+		return [[SharedNumberFormatter percentStyleFormatter] stringFromNumber:confidence];
     }
 	return nil;
 }
