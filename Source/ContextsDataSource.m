@@ -11,7 +11,9 @@
 #import "SliderWithValue.h"
 #import "SharedNumberFormatter.h"
 
-@interface Context ()
+@interface Context () {
+    NSColor *_iconColor;
+}
 
 // Transient
 @property (retain,nonatomic,readwrite) NSNumber *depth;
@@ -65,16 +67,25 @@
 	[super dealloc];
 }
 
+- (NSColor *)iconColor {
+    return (_iconColor) ? (_iconColor) : [NSColor blackColor];
+}
+
+- (void)setIconColor:(NSColor *)iconColor {
+    [_iconColor autorelease];
+    _iconColor = [iconColor copy];
+}
+
 - (BOOL)isRoot {
 	return ([self.parentUUID length] == 0);
 }
 
 - (NSDictionary *)dictionary {
-    if (!(self.iconColor) || [self.iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
+    if (!_iconColor || [_iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
         return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name };
     }
 
-    NSData *colorData = [NSArchiver archivedDataWithRootObject:(self.iconColor)];
+    NSData *colorData = [NSArchiver archivedDataWithRootObject:(_iconColor)];
     return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name, @"iconColor": colorData };
 }
 

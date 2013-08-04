@@ -114,6 +114,9 @@
     int64_t updateInterval;
 }
 
+@property (retain,atomic,readwrite) Context *currentContext;
+@property (retain,atomic,readwrite) NSString *currentContextPath;
+
 @property (copy,nonatomic,readwrite) NSString *candidateContextUUID; // Switch smoothing state parameters
 
 @property (retain,atomic,readwrite) NSArray *rules;
@@ -219,10 +222,6 @@
 
 	smoothCounter = 0;
 
-	// Set placeholder values
-	[self setValue:@"" forKey:@"currentContextUUID"];
-	[self setValue:@"?" forKey:@"currentContextName"];
-    
     [self setGoingToSleep:NO];
 
 	forcedContextIsSticky = NO;
@@ -256,11 +255,10 @@
     [sbImageActive release];
     [sbImageInactive release];
 
+    [_currentContextPath release];
+    [_currentContext release];
+    
 	[super dealloc];
-}
-
-- (NSString *)currentContextName {
-	return currentContextName;
 }
 
 - (ContextsDataSource *)contextsDataSource {
@@ -490,27 +488,6 @@
 			[self importVersion1Settings];
 	}
 
-	// Persistent contexts
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
-		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
-		Context *ctxt = [contextsDataSource contextByUUID:uuid];
-		if (ctxt) {
-			[self setValue:uuid forKey:@"currentContextUUID"];
-			[self setValue:[contextsDataSource pathFromRootTo:uuid] forKey:@"currentContextName"];
-            [self setValue:[ctxt iconColor] forKey:@"currentColorOfIcon"];
-
-			// Update force context menu
-			NSMenu *menu = [forceContextMenuItem submenu];
-			for (NSMenuItem *item in [menu itemArray]) {
-				NSString *rep = [item representedObject];
-				if (rep && [contextsDataSource contextByUUID:rep]) {
-                    BOOL ticked = ([rep isEqualToString:uuid]);
-                    [item setState:(ticked ? NSOnState : NSOffState)];
-                }
-			}
-		}
-	}
-
     // set default screen saver and screen lock status
     [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
@@ -524,9 +501,17 @@
         [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
     });
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self contextsChanged:nil];
+    [self rebuildForceContextMenu];
 
+	// Persistent contexts
+	Context *startContext = nil;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
+		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
+        startContext = [contextsDataSource contextByUUID:uuid];
+	}
+    [self changeCurrentContextTo:startContext];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
         // Set up status bar.
         [self showInStatusBar:self];
         [self startOrStopHidingFromStatusBar];
@@ -653,9 +638,9 @@
 
     NSImage *barImage = nil;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
-        if ([currentContextUUID length] > 0) {
-            NSColor *iconColor = (currentColorOfIcon) ? (currentColorOfIcon) : ([NSColor blackColor]);
-            [self changeActiveIconImageColorTo:iconColor];
+        Context *currentContext = self.currentContext;
+        if (currentContext) {
+            [self changeActiveIconImageColorTo:currentContext.iconColor];
             barImage = sbImageActive;
         } else {
             barImage = sbImageInactive;
@@ -691,11 +676,11 @@
 	[sbItem setHighlightMode:YES];
 
     [self updateMenuBarImage];
-    
+
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:currentContextName];
+        [self setStatusTitle:[self currentContextName]];
     }
-	
+
 	[sbItem setMenu:sbMenu];
 }
 
@@ -739,7 +724,7 @@
 - (void)updateMenuBarAndContextMenu {
     [self updateMenuBarImage];
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:currentContextName];
+        [self setStatusTitle:[self currentContextName]];
     }
 
     // Update force context menu
@@ -747,22 +732,13 @@
     for (NSMenuItem *item in [menu itemArray]) {
         NSString *rep = [item representedObject];
         if (rep && [contextsDataSource contextByUUID:rep]) {
-            BOOL ticked = ([rep isEqualToString:currentContextUUID]);
+            BOOL ticked = ([rep isEqualToString:self.currentContext.uuid]);
             [item setState:(ticked ? NSOnState : NSOffState)];
         }
     }
 }
 
-- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
-        [CPNotifications postNotification:[[title copy] autorelease] withMessage:[[message copy] autorelease]];
-    }
-}
-
-- (void)contextsChanged:(NSNotification *)notification {
-#ifdef DEBUG_MODE
-    DSLog(@"in contextChanged");
-#endif
+- (void)rebuildForceContextMenu {
 	// Fill in 'Force context' submenu
 	NSMenu *submenu = [[[NSMenu alloc] init] autorelease];
 	for (Context *ctxt in [contextsDataSource orderedTraversal]) {
@@ -773,7 +749,7 @@
 		[item setTarget:self];
 		[item setAction:@selector(forceSwitch:)];
 		[submenu addItem:item];
-
+        
 		item = [[item copy] autorelease];
 		[item setTitle:[NSString stringWithFormat:@"%@ (*)", [item title]]];
 		[item setKeyEquivalentModifierMask:NSAlternateKeyMask];
@@ -781,44 +757,49 @@
 		[item setAction:@selector(forceSwitchAndToggleSticky:)];
 		[submenu addItem:item];
 	}
+
 	[submenu addItem:[NSMenuItem separatorItem]];
-	{
-		// Stick menu item
-		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
-		[item setTitle:NSLocalizedString(@"Stick forced contexts", @"")];
-		[item setTarget:self];
-		[item setAction:@selector(toggleSticky:)];
-		// Binding won't work properly -- done correctly in forceSwitch:
-//		[item bind:@"value" toObject:self withKeyPath:@"forcedContextIsSticky" options:nil];
-		[item setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
-		[submenu addItem:item];
-		stickForcedContextMenuItem = item;
-	}
+
+    // Stick menu item
+    NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+    [item setTitle:NSLocalizedString(@"Stick forced contexts", @"")];
+    [item setTarget:self];
+    [item setAction:@selector(toggleSticky:)];
+    // Binding won't work properly -- done correctly in forceSwitch:
+    //		[item bind:@"value" toObject:self withKeyPath:@"forcedContextIsSticky" options:nil];
+    [item setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
+    [submenu addItem:item];
+    stickForcedContextMenuItem = item;
+
 	[forceContextMenuItem setSubmenu:submenu];
+}
 
-	// Update current context details
-	Context *ctxt = [contextsDataSource contextByUUID:currentContextUUID];
-	if (ctxt) {
-		[self setValue:[contextsDataSource pathFromRootTo:currentContextUUID] forKey:@"currentContextName"];
-        [self setValue:[ctxt iconColor] forKey:@"currentColorOfIcon"];
-	} else {
-		// Our current context was removed
-		[self setValue:@""  forKey:@"currentContextUUID"];
-		[self setValue:@"?" forKey:@"currentContextName"];
-        [self setValue:nil forKey:@"currentColorOfIcon"];
-	}
+- (void)contextsChanged:(NSNotification *)notification {
+#ifdef DEBUG_MODE
+    DSLog(@"in contextChanged");
+#endif
 
-    // Update menu bar (always do that in the main thread)
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateMenuBarImage];
-        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-            [self setStatusTitle:currentContextName];
-        }
+    [self rebuildForceContextMenu];
+
+    Context *currentContext = self.currentContext;
+    if (currentContext) {
+        currentContext = [contextsDataSource contextByUUID:currentContext.uuid];
+    }
+
+	// Update current context
+    dispatch_async(updatingQueue, ^{
+        [self changeCurrentContextTo:currentContext];
     });
 
     self.forceOneFullUpdate = YES;
 
 	// update other stuff?
+}
+
+- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
+        [CPNotifications postNotification:[[title copy] autorelease] withMessage:[[message copy] autorelease]];
+    }
 }
 
 #pragma mark Rule matching and Action triggering
@@ -1117,6 +1098,25 @@
 #pragma mark -
 #pragma mark Context switching
 
+- (NSString *)currentContextName {
+    Context *currentContext = self.currentContext;
+    return (currentContext) ? (currentContext.name) : (@"?");
+}
+
+- (void)changeCurrentContextTo:(Context *)context {
+    NSString *contextPath = (context) ? [contextsDataSource pathFromRootTo:context.uuid] : (@"?");
+
+    [self willChangeValueForKey:@"currentContextName"];
+    self.currentContext = context;
+    [self didChangeValueForKey:@"currentContextName"];
+
+    self.currentContextPath = contextPath;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateMenuBarAndContextMenu];
+    });
+}
+
 - (void)performTransitionToContext:(Context *)context
                  triggeredManually:(BOOL)isManuallyTriggered {
 #if DEBUG_MODE
@@ -1127,55 +1127,48 @@
     }
 #endif
 
-    NSArray *walks = [contextsDataSource walkFrom:currentContextUUID to:context.uuid];
+    NSArray *walks = [contextsDataSource walkFrom:self.currentContext.uuid to:context.uuid];
 	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
 
     [self triggerDepartureActionsOnWalk:leavingWalk];
 
-    [self postUserNotificationOnChangingContextTo:context triggeredManually:isManuallyTriggered];
     [self changeCurrentContextTo:context];
+    [self postNotificationsOnContextTransitionWhenForcedByUserIs:isManuallyTriggered];
 
     [self triggerArrivalActionsOnWalk:enteringWalk];
 }
 
-- (void)postUserNotificationOnChangingContextTo:(Context *)context
-                              triggeredManually:(BOOL)isManuallyTriggered {
+- (void)postNotificationsOnContextTransitionWhenForcedByUserIs:(BOOL)isManuallyTriggered {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
+        NSString *msg = [self getMesssageForChangingToContextWhenForcedByUserIs:isManuallyTriggered];
+        [self postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title") withMessage:msg];
+    }
+    
+    // Notify subscribed apps
+    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
+    NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
+    [dnc postNotificationName:[notificationObject stringByAppendingString:@".ContextChanged"]
+                       object:notificationObject
+                     userInfo:@{ @"context": self.currentContextPath }
+           deliverImmediately:YES];
+}
+
+- (NSString *)getMesssageForChangingToContextWhenForcedByUserIs:(BOOL)isManuallyTriggered {
     NSString *msgSuffix = nil;
     if (isManuallyTriggered) {
         msgSuffix = NSLocalizedString(@"(forced)", @"Used when force-switching to a context");
     } else {
+        NSNumber *confidence = self.currentContext.confidence;
+        NSString *percentage = [[SharedNumberFormatter percentStyleFormatter] stringFromNumber:confidence];
+
         NSString *suffixFmt = NSLocalizedString(@"with confidence %@", @"Appended to a context-change notification");
-        NSString *percentage = [[SharedNumberFormatter percentStyleFormatter] stringFromNumber:context.confidence];
         msgSuffix = [NSString stringWithFormat:suffixFmt, percentage];
     }
 
     NSString *fmt = NSLocalizedString(@"Changing to context '%@' %@.",
                                       @"First parameter is the context name, second parameter is the confidence value, "
                                       "or 'as default context'");
-	[self postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title")
-                   withMessage:[NSString stringWithFormat:fmt, context.name, msgSuffix]];
-}
-
-- (void)changeCurrentContextTo:(Context *)context {
-	NSString *contextUUID = context.uuid;
-	NSString *contextPath = [contextsDataSource pathFromRootTo:contextUUID];
-
-	// Update current context
-	[self setValue:contextUUID forKey:@"currentContextUUID"];
-	[self setValue:contextPath forKey:@"currentContextName"];
-    [self setValue:context.iconColor forKey:@"currentColorOfIcon"];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateMenuBarAndContextMenu];
-    });
-
-    // Notify subscribed apps
-    NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
-    NSString *notificationObject = [[NSBundle mainBundle] bundleIdentifier];
-    [dnc postNotificationName:[notificationObject stringByAppendingString:@".ContextChanged"]
-                       object:notificationObject
-                     userInfo:@{ @"context": contextPath }
-           deliverImmediately:YES];
+	return [NSString stringWithFormat:fmt, self.currentContextPath, msgSuffix];
 }
 
 
@@ -1417,7 +1410,7 @@
         return false;
 	}
 
-	if ([guessUUID isEqualToString:currentContextUUID]) {
+	if ([guessUUID isEqualToString:self.currentContext.uuid]) {
 #ifdef DEBUG_MODE
 		DSLog(@"Guessed '%@' (with confidence %@); already there.", guessContext.name, guessConf);
 #endif
@@ -1436,7 +1429,7 @@
 
         if (smoothCounter > 0) {
 #ifdef DEBUG_MODE
-            DSLog(@"Switch smoothing kicking in... (%@ != %@)", currentContextName, guessContext.name);
+            DSLog(@"Switch smoothing kicking in... (%@ != %@)", [self currentContextName], guessContext.name);
 #endif
             return false;
         }
@@ -1488,7 +1481,7 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
-		[[NSUserDefaults standardUserDefaults] setValue:currentContextUUID forKey:@"PersistentContext"];
+		[[NSUserDefaults standardUserDefaults] setValue:self.currentContext.uuid forKey:@"PersistentContext"];
 	}
 }
 
@@ -1505,7 +1498,7 @@
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
         [self setStatusTitle:nil];
     } else {
-        [self setStatusTitle:currentContextName];
+        [self setStatusTitle:[self currentContextName]];
     }
 
 #ifndef DEBUG_MODE
