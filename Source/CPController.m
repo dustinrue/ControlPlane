@@ -1117,7 +1117,8 @@
 #pragma mark -
 #pragma mark Context switching
 
-- (void)performTransitionToContext:(Context *)context triggeredManually:(BOOL)isManuallyTriggered {
+- (void)performTransitionToContext:(Context *)context
+                 triggeredManually:(BOOL)isManuallyTriggered {
 #if DEBUG_MODE
     // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
     // Allows you to test QuincyKit
@@ -1131,16 +1132,14 @@
 
     [self triggerDepartureActionsOnWalk:leavingWalk];
 
-    [self updateCurrentContextTo:context];
     [self postUserNotificationOnChangingContextTo:context triggeredManually:isManuallyTriggered];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateMenuBarAndContextMenu];
-    });
+    [self changeCurrentContextTo:context];
 
     [self triggerArrivalActionsOnWalk:enteringWalk];
 }
 
-- (void)postUserNotificationOnChangingContextTo:(Context *)context triggeredManually:(BOOL)isManuallyTriggered {
+- (void)postUserNotificationOnChangingContextTo:(Context *)context
+                              triggeredManually:(BOOL)isManuallyTriggered {
     NSString *msgSuffix = nil;
     if (isManuallyTriggered) {
         msgSuffix = NSLocalizedString(@"(forced)", @"Used when force-switching to a context");
@@ -1157,16 +1156,18 @@
                    withMessage:[NSString stringWithFormat:fmt, context.name, msgSuffix]];
 }
 
-- (void)updateCurrentContextTo:(Context *)context {
+- (void)changeCurrentContextTo:(Context *)context {
 	NSString *contextUUID = context.uuid;
 	NSString *contextPath = [contextsDataSource pathFromRootTo:contextUUID];
 
 	// Update current context
 	[self setValue:contextUUID forKey:@"currentContextUUID"];
 	[self setValue:contextPath forKey:@"currentContextName"];
+    [self setValue:context.iconColor forKey:@"currentColorOfIcon"];
 
-    Context *toCtxt = [contextsDataSource contextByUUID:contextUUID];
-    [self setValue:[toCtxt iconColor] forKey:@"currentColorOfIcon"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateMenuBarAndContextMenu];
+    });
 
     // Notify subscribed apps
     NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
@@ -1177,7 +1178,9 @@
            deliverImmediately:YES];
 }
 
-#pragma mark Force switching
+
+#pragma mark -
+#pragma mark Force context switching
 
 - (void)forceSwitch:(id)sender {
 	Context *ctxt = nil;
@@ -1235,8 +1238,8 @@
 }
 
 
-#pragma mark Thread stuff
-
+#pragma mark -
+#pragma mark Updating queue stuff
 
 // this method is the meat of ControlPlane, it is the engine that
 // determines if matching rules add up to the required confidence level
