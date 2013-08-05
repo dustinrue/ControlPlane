@@ -3,6 +3,7 @@
 //  ControlPlane
 //
 //  Created by Vladimir Beloborodov on July 15, 2013.
+//  Modified by Vladimir Beloborodov on August 05, 2013.
 //
 
 #import <IOKit/IOKitLib.h>
@@ -17,30 +18,44 @@ typedef NS_ENUM(int, LaptopLidStateType) {
     LaptopLidIsClosed = 1
 };
 
-@implementation LaptopLidEvidenceSource
-
-+ (BOOL)isEvidenceSourceApplicableToSystem {
-    return ([LaptopLidEvidenceSource isLidClosed] != LaptopLidStateIsUnavailable);
+static void onPMrootDomainChange(void *refcon, io_service_t service, uint32_t messageType, void *messageArgument) {
+    if (messageType == kIOPMMessageClamshellStateChange) {
+        const int isClamshellClosed = ((int) messageArgument & kClamshellStateBit);
+        *((LaptopLidStateType *) refcon) = (isClamshellClosed) ? (LaptopLidIsClosed) : (LaptopLidIsOpen);
+#ifdef DEBUG_MODE
+        DSLog(@"Laptop lid state has changed to %@.", (isClamshellClosed) ? (@"closed") : (@"open"));
+#endif
+    }
 }
 
+@interface LaptopLidEvidenceSource () {
+    LaptopLidStateType laptopLidState;
+
+    dispatch_queue_t serialQueue;
+    IONotificationPortRef notifyPort;
+    io_object_t notification;
+}
+
+@end
+
+@implementation LaptopLidEvidenceSource
+
 + (LaptopLidStateType)isLidClosed {
-    static io_registry_entry_t rootDomain = MACH_PORT_NULL;
-    if (rootDomain == MACH_PORT_NULL) {
-        rootDomain = IORegistryEntryFromPath(kIOMasterPortDefault,
-                                             kIOPowerPlane ":/IOPowerConnection/IOPMrootDomain");
-        if (rootDomain == MACH_PORT_NULL) {
-            return LaptopLidStateIsUnavailable;
+    LaptopLidStateType isClosed = LaptopLidStateIsUnavailable;
+
+    io_registry_entry_t rootDomain = IORegistryEntryFromPath(kIOMasterPortDefault,
+                                                             kIOPowerPlane ":/IOPowerConnection/IOPMrootDomain");
+
+    if (rootDomain != MACH_PORT_NULL) {
+        CFBooleanRef state = (CFBooleanRef) IORegistryEntryCreateCFProperty(rootDomain, CFSTR(kAppleClamshellStateKey),
+                                                                            kCFAllocatorDefault, 0);
+        if (state != NULL) {
+            isClosed = (LaptopLidStateType) CFBooleanGetValue(state);
+            CFRelease(state);
         }
     }
 
-    LaptopLidStateType isClosed = LaptopLidStateIsUnavailable;
-
-    CFBooleanRef state = (CFBooleanRef) IORegistryEntryCreateCFProperty(rootDomain, CFSTR(kAppleClamshellStateKey),
-                                                                        kCFAllocatorDefault, 0);
-    if (state != NULL) {
-        isClosed = (int) CFBooleanGetValue(state);
-        CFRelease(state);
-    }
+    IOObjectRelease(rootDomain);
 
 #ifdef DEBUG_MODE
     switch (isClosed) {
@@ -61,12 +76,66 @@ typedef NS_ENUM(int, LaptopLidStateType) {
     return isClosed;
 }
 
++ (BOOL)isEvidenceSourceApplicableToSystem {
+    return ([LaptopLidEvidenceSource isLidClosed] != LaptopLidStateIsUnavailable);
+}
+
 - (id)init {
     self = [super init];
 	if (self) {
-        [self setDataCollected:([LaptopLidEvidenceSource isLidClosed] != LaptopLidStateIsUnavailable)];
+        laptopLidState = LaptopLidStateIsUnavailable;
     }
 	return self;
+}
+
+- (void)dealloc {
+    if (serialQueue) {
+        [self doStop];
+    }
+    [super dealloc];
+}
+
+- (BOOL)setupLidStateNotification {
+    serialQueue = dispatch_queue_create("com.dustinrue.ControlPlane.LaptopLidEvidenceSource", DISPATCH_QUEUE_SERIAL);
+    if (!serialQueue) {
+        return NO;
+    }
+    dispatch_set_target_queue(serialQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0));
+
+    notifyPort = IONotificationPortCreate(kIOMasterPortDefault);
+    if (!notifyPort) {
+        return NO;
+    }
+    IONotificationPortSetDispatchQueue(notifyPort, serialQueue);
+
+    io_service_t pmRootDomain = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPMrootDomain"));
+    if (!pmRootDomain) {
+        return NO;
+    }
+
+    kern_return_t kr = IOServiceAddInterestNotification(notifyPort, pmRootDomain, kIOGeneralInterest,
+                                                        onPMrootDomainChange, &laptopLidState, &notification);
+    IOObjectRelease(pmRootDomain);
+
+    return (kr == KERN_SUCCESS);
+}
+
+- (void)removeLidStateNotificaiton {
+    if (notification) {
+        IOObjectRelease(notification);
+        notification = 0;
+    }
+    
+    if (notifyPort) {
+        IONotificationPortSetDispatchQueue(notifyPort, NULL);
+        IONotificationPortDestroy(notifyPort);
+        notifyPort = NULL;
+    }
+    
+    if (serialQueue) {
+        dispatch_release(serialQueue);
+        serialQueue = NULL;
+    }
 }
 
 - (NSString *)description {
@@ -74,10 +143,37 @@ typedef NS_ENUM(int, LaptopLidStateType) {
 }
 
 - (void)start {
+    if (running) {
+        return;
+    }
+
+    laptopLidState = [LaptopLidEvidenceSource isLidClosed];
+    if (laptopLidState == LaptopLidStateIsUnavailable) {
+        [self doStop];
+        return;
+    }
+
+    if (![self setupLidStateNotification]) {
+        DSLog(@"Failed to set up notificaitons for the laptop (clamshell) lid state");
+        [self doStop];
+        return;
+    }
+
+    [self setDataCollected:YES];
     running = YES;
 }
 
 - (void)stop {
+    if (running) {
+        [self doStop];
+    }
+}
+
+- (void)doStop {
+    [self removeLidStateNotificaiton];
+    laptopLidState = LaptopLidStateIsUnavailable;
+
+    [self setDataCollected:NO];
     running = NO;
 }
 
@@ -88,7 +184,7 @@ typedef NS_ENUM(int, LaptopLidStateType) {
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-	return ([rule[@"parameter"] intValue] == [LaptopLidEvidenceSource isLidClosed]);
+	return ([rule[@"parameter"] intValue] == laptopLidState);
 }
 
 - (NSString *)name {
