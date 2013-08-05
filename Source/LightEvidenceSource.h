@@ -8,13 +8,6 @@
 
 #import "LoopingEvidenceSource.h"
 
-enum {  
-	kGetSensorReadingID = 0,
-	kGetLEDBrightnessID = 1, 
-	kSetLEDBrightnessID = 2,
-	kSetLEDFadeID = 3,  
-}; 
-
 @interface LightEvidenceSource : LoopingEvidenceSource
 
 - (id)init;
