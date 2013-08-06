@@ -10,19 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <WebKit/WebKit.h>
 
-@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate> {
-	CLLocationManager *locationManager;
-	CLLocation *current, *selectedRule;
-	NSDate *startDate;
-	
-	// for custom panel
-	IBOutlet WebView *webView;
-	WebScriptObject *scriptObject;
-	NSString *address;
-	NSString *coordinates;
-	NSString *accuracy;
-	NSString *htmlTemplate;
-}
+@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate>
 
 - (id) init;
 - (void) dealloc;
