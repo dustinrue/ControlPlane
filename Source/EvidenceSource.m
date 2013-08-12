@@ -397,6 +397,7 @@
 #import "ShellScriptEvidenceSource.h"
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
+#import "HostAvailabilityEvidenceSource.h"
 
 #import "CPSystemInfo.h"
 
@@ -424,6 +425,7 @@
                         [MonitorEvidenceSource class],
                         [USBEvidenceSource class],
 						[AudioOutputEvidenceSource class],
+                        [HostAvailabilityEvidenceSource class],
 						[BluetoothEvidenceSource class],
                         [BonjourEvidenceSource class],	
 						[CoreLocationSource class],
