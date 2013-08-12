@@ -128,6 +128,8 @@
 		DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8E283E156BCAD50040FC35 /* ToggleRemoteLoginAction.m */; };
 		DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */; };
 		DA9957EA160D4BA300AB3C7A /* StressTestEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */; };
+		DAA26B0917AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA26B0817AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m */; };
+		DAA26B1517AB696100C585CF /* HostAvailability.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA26B0E17AB653000C585CF /* HostAvailability.xib */; };
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
 		DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
@@ -537,6 +539,15 @@
 		DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SampleESPlugin.xcodeproj; path = "Plugins/Evidence Source/SampleESPlugin/SampleESPlugin/SampleESPlugin.xcodeproj"; sourceTree = "<group>"; };
 		DA9957E8160D4BA300AB3C7A /* StressTestEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StressTestEvidenceSource.h; path = Source/StressTestEvidenceSource.h; sourceTree = "<group>"; };
 		DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StressTestEvidenceSource.m; path = Source/StressTestEvidenceSource.m; sourceTree = "<group>"; };
+		DAA26B0717AB4AAE00C585CF /* HostAvailabilityEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostAvailabilityEvidenceSource.h; path = Source/HostAvailabilityEvidenceSource.h; sourceTree = "<group>"; };
+		DAA26B0817AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostAvailabilityEvidenceSource.m; path = Source/HostAvailabilityEvidenceSource.m; sourceTree = "<group>"; };
+		DAA26B0D17AB653000C585CF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HostAvailability.xib; sourceTree = "<group>"; };
+		DAA26B0F17AB654200C585CF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
+		DAA26B1017AB654300C585CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/HostAvailability.xib; sourceTree = "<group>"; };
+		DAA26B1117AB654400C585CF /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/HostAvailability.xib; sourceTree = "<group>"; };
+		DAA26B1217AB654400C585CF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HostAvailability.xib; sourceTree = "<group>"; };
+		DAA26B1317AB654500C585CF /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
+		DAA26B1417AB654700C585CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
 		DAA9ABFE1595FDE700B84B05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		DAA9AC1915961CDF00B84B05 /* MessagesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesAction.h; path = Source/MessagesAction.h; sourceTree = "<group>"; };
 		DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesAction.m; path = Source/MessagesAction.m; sourceTree = "<group>"; };
@@ -936,6 +947,8 @@
 				7C8574EE16FB52C80081659A /* DNSEvidenceSource */,
 				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
 				8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */,
+				DAA26B0717AB4AAE00C585CF /* HostAvailabilityEvidenceSource.h */,
+				DAA26B0817AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m */,
 				7C6D94551747A15300D5B9C7 /* IPAddrEvidenceSource */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
@@ -1201,6 +1214,7 @@
 				DDA201641411C37300DE570E /* MainMenu.xib */,
 				7CFF034B17246B770098990F /* SearchDomainRule.xib */,
 				7CFF035C172471DD0098990F /* ServerAddressRule.xib */,
+				DAA26B0E17AB653000C585CF /* HostAvailability.xib */,
 				DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */,
 				DDA2013C1411C0FB00DE570E /* Localizable.strings */,
 				DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */,
@@ -1359,6 +1373,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAA26B1517AB696100C585CF /* HostAvailability.xib in Resources */,
 				DA4A629513E25C9D00CE976F /* Credits.html in Resources */,
 				DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */,
 				DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */,
@@ -1561,6 +1576,7 @@
 				7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */,
 				DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */,
 				7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */,
+				DAA26B0917AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1654,6 +1670,21 @@
 				7CFF03621724729A0098990F /* it */,
 			);
 			name = ServerAddressRule.xib;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DAA26B0E17AB653000C585CF /* HostAvailability.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAA26B0D17AB653000C585CF /* en */,
+				DAA26B0F17AB654200C585CF /* da-DK */,
+				DAA26B1017AB654300C585CF /* de */,
+				DAA26B1117AB654400C585CF /* fr */,
+				DAA26B1217AB654400C585CF /* it */,
+				DAA26B1317AB654500C585CF /* pt-BR */,
+				DAA26B1417AB654700C585CF /* pt-PT */,
+			);
+			name = HostAvailability.xib;
 			path = Resources;
 			sourceTree = "<group>";
 		};
