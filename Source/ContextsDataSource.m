@@ -9,8 +9,11 @@
 #import "CPController.h"
 #import "DSLogger.h"
 #import "SliderWithValue.h"
+#import "SharedNumberFormatter.h"
 
-@interface Context ()
+@interface Context () {
+    NSColor *_iconColor;
+}
 
 // Transient
 @property (retain,nonatomic,readwrite) NSNumber *depth;
@@ -64,16 +67,25 @@
 	[super dealloc];
 }
 
+- (NSColor *)iconColor {
+    return (_iconColor) ? (_iconColor) : [NSColor blackColor];
+}
+
+- (void)setIconColor:(NSColor *)iconColor {
+    [_iconColor autorelease];
+    _iconColor = [iconColor copy];
+}
+
 - (BOOL)isRoot {
 	return ([self.parentUUID length] == 0);
 }
 
 - (NSDictionary *)dictionary {
-    if (!(self.iconColor) || [self.iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
+    if (!_iconColor || [_iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
         return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name };
     }
 
-    NSData *colorData = [NSArchiver archivedDataWithRootObject:(self.iconColor)];
+    NSData *colorData = [NSArchiver archivedDataWithRootObject:(_iconColor)];
     return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name, @"iconColor": colorData };
 }
 
@@ -247,6 +259,20 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 	[[NSUserDefaults standardUserDefaults] setObject:array forKey:@"Contexts"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)updateConfidencesFromGuesses:(NSDictionary *)guesses {
+    [contexts enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, Context *ctxt, BOOL *stop) {
+		NSNumber *conf = guesses[uuid];
+        ctxt.confidence = (conf) ? (conf) : (@0);
+    }];
+
+	// XXX: hackish -- but will be enough until 3.0
+    // don't force data update if we're editing a context name
+	NSOutlineView *olv = [self valueForKey:@"outlineView"];
+	if (![olv currentEditor]) {
+        [self triggerOutlineViewReloadData:nil];
+    }
 }
 
 #pragma mark -
@@ -591,7 +617,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	if ([[tableColumn identifier] isEqualToString:@"context"]) {
 		return ctxt.name;
     } else if ([[tableColumn identifier] isEqualToString:@"confidence"]) {
-		return ctxt.confidence;
+        NSNumber *confidence = ctxt.confidence;
+        if ([confidence doubleValue] == 0.0) {
+            return @"";
+        }
+		return [[SharedNumberFormatter percentStyleFormatter] stringFromNumber:confidence];
     }
 	return nil;
 }

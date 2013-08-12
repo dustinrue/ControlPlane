@@ -18,9 +18,6 @@
 	NSImage *sbImageActive, *sbImageInactive;
 	NSTimer *sbHideTimer;
 
-	NSString *currentContextUUID, *currentContextName;
-    NSColor *currentColorOfIcon;
-
 	IBOutlet NSMenuItem *forceContextMenuItem;
 	BOOL forcedContextIsSticky;
 	NSMenuItem *stickForcedContextMenuItem;
@@ -35,6 +32,9 @@
     BOOL goingToSleep;    
 }
 
+@property (retain,atomic,readonly) NSString *currentContextName;
+@property (retain,atomic,readonly) NSString *currentContextPath;
+
 @property (readwrite) BOOL screenSaverRunning;
 @property (readwrite) BOOL screenLocked;
 @property (readwrite) BOOL goingToSleep;
@@ -42,7 +42,6 @@
 
 @property (copy,nonatomic,readwrite) NSArray *activeRules;
 
-- (NSString *) currentContextName;
 - (ContextsDataSource *) contextsDataSource;
 - (BOOL) stickyContext;
 

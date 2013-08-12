@@ -10,7 +10,17 @@
 #import "DSLogger.h"
 #import "JSONKit.h"
 
-@interface CoreLocationSource (Private)
+@interface CoreLocationSource () {
+	CLLocationManager *locationManager;
+	CLLocation *current, *selectedRule;
+	NSDate *startDate;
+	
+	// for custom panel
+	IBOutlet WebView *webView;
+	NSString *address;
+	NSString *coordinates;
+	NSString *accuracy;
+}
 
 - (void) updateMap;
 + (BOOL) geocodeAddress: (inout NSString **) address toLocation: (out CLLocation **) location;
@@ -21,6 +31,7 @@
 
 @end
 
+
 @implementation CoreLocationSource
 
 static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api/geocode/json?";
@@ -30,19 +41,14 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     if (!self)
         return nil;
     
-	locationManager = [CLLocationManager new];
-	locationManager.delegate = self;
-	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 	current = nil;
 	selectedRule = nil;
 	startDate = [[NSDate date] retain];
 	
 	// for custom panel
-	scriptObject = nil;
 	address = @"";
 	coordinates = @"0.0, 0.0";
 	accuracy = @"0 m";
-	htmlTemplate = @"";
 	
     return self;
 }
@@ -52,42 +58,55 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
     return NSLocalizedString(@"Create rules based on your current location using OS X's Core Location framework.", @"");
 }
 
-- (void)awakeFromNib {
-
-	// show empty page
-	[webView setFrameLoadDelegate: self];
-	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
-}
-
 - (void) dealloc {
-	[locationManager stopUpdatingLocation];
+	[self stop];
 	[locationManager release];
 	
 	[current release];
 	[selectedRule release];
+    [startDate release];
 	
 	[super dealloc];
 }
 
-- (void) start {
-	if (running)
+- (void)start {
+	if (running) {
 		return;
-	
+    }
+    
+    [webView setMaintainsBackForwardList:NO];
+    webView.frameLoadDelegate = self;
+    
+	locationManager = [CLLocationManager new];
+	locationManager.delegate = self;
+	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
 	[locationManager startUpdatingLocation];
+    
 	[self setDataCollected: YES];
-	[self performSelectorOnMainThread: @selector(updateMap) withObject: nil waitUntilDone: NO];
-	
+	[self performSelectorOnMainThread:@selector(updateMap) withObject:nil waitUntilDone:NO];
+    
 	running = YES;
 }
 
-- (void) stop {
-	if (!running)
+- (void)stop {
+	if (!running) {
 		return;
-	
-	[locationManager stopUpdatingLocation];
+    }
+    
+    if (locationManager) {
+        [locationManager stopUpdatingLocation];
+        locationManager.delegate = nil;
+        [locationManager release];
+        locationManager = nil;
+    }
+    
+    //[webView close];
+    webView.frameLoadDelegate = nil;
+	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
+    
 	[self setDataCollected: NO];
 	current = nil;
-	
+    
 	running = NO;
 }
 
@@ -95,9 +114,10 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	NSMutableDictionary *dict = [super readFromPanel];
 	
 	// store values
-	[dict setValue: coordinates forKey: @"parameter"];
-	if (![dict objectForKey: @"description"])
-		[dict setValue: address forKey: @"description"];
+	dict[@"parameter"] = coordinates;
+	if (!dict[@"description"]) {
+		dict[@"description"] = address;
+    }
 	
 	return dict;
 }
@@ -107,8 +127,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	NSString *add = @"";
 	
 	// do we already have settings?
-	if ([dict objectForKey:@"parameter"])
-		[CoreLocationSource convertText: [dict objectForKey:@"parameter"] toLocation: &selectedRule];
+	if (dict[@"parameter"])
+		[CoreLocationSource convertText:dict[@"parameter"] toLocation:&selectedRule];
 	else
 		selectedRule = [current copy];
 	
@@ -133,7 +153,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         // get coordinates of rule
         CLLocation *ruleLocation = nil;
         
-        if ([CoreLocationSource convertText: [rule objectForKey:@"parameter"] toLocation: &ruleLocation] && ruleLocation) {
+        if ([CoreLocationSource convertText:rule[@"parameter"] toLocation:&ruleLocation] && ruleLocation) {
             // match if distance is smaller than accuracy
             match = ([ruleLocation distanceFromLocation: current] <= current.horizontalAccuracy);
             [ruleLocation release];
@@ -214,8 +234,7 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 
 - (void) webView: (WebView *) sender didFinishLoadForFrame: (WebFrame *) frame {
 	if (frame == [frame findFrameNamed:@"_top"]) {
-		scriptObject = [sender windowScriptObject];
-		[scriptObject setValue: self forKey:@"cocoa"];
+		[[sender windowScriptObject] setValue: self forKey:@"cocoa"];
 	}
 }
 
@@ -247,10 +266,12 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	
 	// location
 	current = [newLocation copy];
+	CLLocationAccuracy acc = current.horizontalAccuracy;
+#ifdef DEBUG_MODE
 	CLLocationDegrees lat = current.coordinate.latitude;
 	CLLocationDegrees lon = current.coordinate.longitude;
-	CLLocationAccuracy acc = current.horizontalAccuracy;
 	DSLog(@"New location: (%f, %f) with accuracy %f", lat, lon, acc);
+#endif
 	
 	// store
 	[self setValue: [NSString stringWithFormat: @"%d m", (int) acc] forKey: @"accuracy"];
@@ -275,16 +296,20 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 - (void) updateMap {
 	// Get coordinates and replace placeholders with these
     NSString *htmlPath = [NSBundle.mainBundle pathForResource:@"CoreLocationMap" ofType:@"html"];
-	htmlTemplate = [NSString stringWithContentsOfFile: htmlPath encoding: NSUTF8StringEncoding error: NULL];
+	NSString *htmlTemplate = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:NULL];
     
+#ifdef DEBUG_MODE
     NSLog(@"htmlTemplate %@", htmlTemplate);
+#endif
 	NSString *htmlString = [NSString stringWithFormat: htmlTemplate,
 							(current ? current.coordinate.latitude : 0.0),
 							(current ? current.coordinate.longitude : 0.0),
 							(selectedRule ? selectedRule.coordinate.latitude : 0.0),
 							(selectedRule ? selectedRule.coordinate.longitude : 0.0),
 							(current ? current.horizontalAccuracy : 0.0)];
+#ifdef DEBUG_MODE
 	NSLog(@"htmlString is %@", htmlString);
+#endif
 	// Load the HTML in the WebView
 	[webView.mainFrame loadHTMLString: htmlString baseURL: nil];
 }
@@ -292,7 +317,9 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 + (BOOL) geocodeAddress: (NSString **) address toLocation: (CLLocation **) location {
 	NSString *param = [*address stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
 	NSString *url = [NSString stringWithFormat: @"%@address=%@&sensor=false", kGoogleAPIPrefix, param];
+#ifdef DEBUG_MODE
 	DSLog(@"%@", url);
+#endif
 	
 	// fetch and parse response
 	NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString: url]];
@@ -374,7 +401,9 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	// get values
 	lat = [[comp objectAtIndex: 0] doubleValue];
 	lon = [[comp objectAtIndex: 1] doubleValue];
+#ifdef DEBUG_MODE
     DSLog(@"lat/long of the rule is %f/%f", lat,lon);
+#endif
 	*location = [[CLLocation alloc] initWithLatitude: lat longitude: lon];
 	
 	return YES;

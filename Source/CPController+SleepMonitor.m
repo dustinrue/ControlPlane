@@ -96,12 +96,9 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
                 [cpController forceUpdate];
             }
+            [cpController forceUpdate];
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [cpController forceUpdate];
-
-                dispatch_group_wait(actionsInProgress, DISPATCH_TIME_FOREVER);
-                
+            dispatch_group_notify(actionsInProgress, dispatch_get_main_queue(), ^{
                 IOAllowPowerChange(rootPort, (long)argument); // Allow sleep
             });
 

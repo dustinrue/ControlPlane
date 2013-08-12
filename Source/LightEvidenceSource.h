@@ -3,30 +3,12 @@
 //  ControlPlane
 //
 //  Created by Rodrigo Damazio on 09/07/07.
+//  Some optimizations and refactoring by Vladimir Beloborodov (VladimirTechMan) on 05 August 2013.
 //
 
 #import "LoopingEvidenceSource.h"
 
-enum {  
-	kGetSensorReadingID = 0,
-	kGetLEDBrightnessID = 1, 
-	kSetLEDBrightnessID = 2,
-	kSetLEDFadeID = 3,  
-}; 
-
-
-
-@interface LightEvidenceSource : LoopingEvidenceSource {
-	NSLock *lock;
-	io_connect_t ioPort;
-	uint64_t leftLight, rightLight;
-	int maxLevel;
-
-	// For custom panel
-	NSString *currentLevel;		// bindable (e.g. "67%")
-	NSNumber *threshold;		// double: [0.0, 1.0]
-	NSNumber *aboveThreshold;	// bool
-}
+@interface LightEvidenceSource : LoopingEvidenceSource
 
 - (id)init;
 - (void)dealloc;

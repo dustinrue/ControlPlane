@@ -3,6 +3,7 @@
 //  ControlPlane
 //
 //  Created by Vladimir Beloborodov on July 15, 2013.
+//  Modified by Vladimir Beloborodov on August 05, 2013.
 //
 
 #import "GenericEvidenceSource.h"
@@ -11,6 +12,7 @@
 
 
 - (id)init;
+- (void)dealloc;
 
 - (void)start;
 - (void)stop;

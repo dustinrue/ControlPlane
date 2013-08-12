@@ -4,6 +4,7 @@
 #import "DSLogger.h"
 #import "PrefsWindowController.h"
 #import "NSTimer+Invalidation.h"
+#import "RuleType.h"
 
 // This is here to avoid IB's problem with unknown base classes
 @interface ActionTypeHelpTransformer : NSValueTransformer {}
@@ -597,8 +598,19 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 		// multiple evidence sources that match/suggest the same
 		// rule types (e.g. *MAC* rules!!!)
 	}
-	if (!src)
+	if (!src) {
 		return;
+    }
+
+    NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
+    if (![src isRunning] || ![[NSUserDefaults standardUserDefaults] boolForKey:key]) {
+        [RuleType alertWithMessage:NSLocalizedString(@"Evidence source for this rule is disabled",
+                                                     @"Shown when the user attempt to edit rule with disabled ES.")
+                   informativeText:NSLocalizedString(@"You need to enable the corresponding evidence source"
+                                                     " to be able to edit the rule",
+                                                     @"Shown when the user attempt to edit rule with disabled ES.")];
+        return;
+    }
 
 	[src setContextMenu:[contextsDataSource hierarchicalMenu]];
 

@@ -7,6 +7,7 @@
 //
 
 #import "SliderWithValue.h"
+#import "SharedNumberFormatter.h"
 
 @implementation ToolTipTextField
 
@@ -123,18 +124,11 @@ static NSTimer *hideToolTipTimer;
 
 @implementation SliderCellWithValue
 
-+ (NSString *)toolTipTextForValue:(double)value
-{
-	NSNumberFormatter *nf = [[[NSNumberFormatter alloc] init] autorelease];
-	[nf setFormatterBehavior:NSNumberFormatterBehavior10_4];
-	[nf setNumberStyle:NSNumberFormatterPercentStyle];
-	[nf setMinimumFractionDigits:1];
-	[nf setMaximumFractionDigits:1];
-
-	if (value == 0.0)
++ (NSString *)toolTipTextForValue:(double)value {
+	if (value == 0.0) {
 		value = 1e-6;	// HACK: the stupid number formatter leaves off the '%' if it's exactly zero!
-
-	return [nf stringFromNumber:[NSDecimalNumber numberWithDouble:value]];
+    }
+	return [[SharedNumberFormatter percentStyleFormatter] stringFromNumber:[NSDecimalNumber numberWithDouble:value]];
 }
 
 - (void)drawKnob:(NSRect)knobRect

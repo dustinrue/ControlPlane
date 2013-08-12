@@ -15,7 +15,7 @@
 @property (copy,nonatomic,readwrite) NSColor  *iconColor;
 
 // Transient
-@property (copy,nonatomic,readwrite) NSString *confidence;
+@property (copy,nonatomic,readwrite) NSNumber *confidence;
 @property (retain,nonatomic,readonly) NSNumber *depth;
 
 - (id)init;
@@ -61,6 +61,9 @@
 
 - (void)loadContexts;
 - (void)saveContexts:(id)arg;
+
+- (void)updateConfidencesFromGuesses:(NSDictionary *)guesses;
+
 - (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI;
 
 - (IBAction)newContextPromptingForName:(id)sender;
