@@ -113,6 +113,7 @@
 		DA5B020D1412BDFC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
 		DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
+		DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
 		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; };
 		DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -129,7 +130,6 @@
 		DA8E283F156BCAD50040FC35 /* ToggleRemoteLoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8E283E156BCAD50040FC35 /* ToggleRemoteLoginAction.m */; };
 		DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA922E9C144FC95200920B40 /* ToggleInternetSharingAction.m */; };
 		DA9957EA160D4BA300AB3C7A /* StressTestEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */; };
-		DAA26B0917AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA26B0817AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m */; };
 		DAA26B1517AB696100C585CF /* HostAvailability.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA26B0E17AB653000C585CF /* HostAvailability.xib */; };
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
@@ -517,6 +517,8 @@
 		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
 		DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHelperToolCommon.h; sourceTree = "<group>"; };
 		DA648AEF1412C17A00532B2C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		DA69D7E017BD04C30062FBBC /* HostAvailabilityEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostAvailabilityEvidenceSource.h; path = Source/HostAvailabilityEvidenceSource.h; sourceTree = "<group>"; };
+		DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostAvailabilityEvidenceSource.m; path = Source/HostAvailabilityEvidenceSource.m; sourceTree = "<group>"; };
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPBonjourResolver.h; path = Source/CPBonjourResolver.h; sourceTree = "<group>"; };
 		DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPBonjourResolver.m; path = Source/CPBonjourResolver.m; sourceTree = "<group>"; };
@@ -540,8 +542,6 @@
 		DA94BEDE15CA233400ED2AB2 /* SampleESPlugin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SampleESPlugin.xcodeproj; path = "Plugins/Evidence Source/SampleESPlugin/SampleESPlugin/SampleESPlugin.xcodeproj"; sourceTree = "<group>"; };
 		DA9957E8160D4BA300AB3C7A /* StressTestEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StressTestEvidenceSource.h; path = Source/StressTestEvidenceSource.h; sourceTree = "<group>"; };
 		DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StressTestEvidenceSource.m; path = Source/StressTestEvidenceSource.m; sourceTree = "<group>"; };
-		DAA26B0717AB4AAE00C585CF /* HostAvailabilityEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostAvailabilityEvidenceSource.h; path = Source/HostAvailabilityEvidenceSource.h; sourceTree = "<group>"; };
-		DAA26B0817AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostAvailabilityEvidenceSource.m; path = Source/HostAvailabilityEvidenceSource.m; sourceTree = "<group>"; };
 		DAA26B0D17AB653000C585CF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HostAvailability.xib; sourceTree = "<group>"; };
 		DAA26B0F17AB654200C585CF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
 		DAA26B1017AB654300C585CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/HostAvailability.xib; sourceTree = "<group>"; };
@@ -949,8 +949,8 @@
 				7C8574EE16FB52C80081659A /* DNSEvidenceSource */,
 				8DCBF48F0BE5622600A01414 /* FireWireEvidenceSource.h */,
 				8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */,
-				DAA26B0717AB4AAE00C585CF /* HostAvailabilityEvidenceSource.h */,
-				DAA26B0817AB4AAE00C585CF /* HostAvailabilityEvidenceSource.m */,
+				DA69D7E017BD04C30062FBBC /* HostAvailabilityEvidenceSource.h */,
+				DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */,
 				7C6D94551747A15300D5B9C7 /* IPAddrEvidenceSource */,
 				8D8C9EBA0BBB8DAC0074D5B3 /* IPEvidenceSource.h */,
 				8D8C9EBB0BBB8DAC0074D5B3 /* IPEvidenceSource.m */,
@@ -1570,6 +1570,7 @@
 				DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */,
 				7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */,
 				7CFEB27717AD852E0046D79B /* SharedNumberFormatter.m in Sources */,
+				DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

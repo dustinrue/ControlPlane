@@ -425,7 +425,7 @@
                         [MonitorEvidenceSource class],
                         [USBEvidenceSource class],
 						[AudioOutputEvidenceSource class],
-                        [HostAvailabilityEvidenceSource class],
+                        //[HostAvailabilityEvidenceSource class],
 						[BluetoothEvidenceSource class],
                         [BonjourEvidenceSource class],	
 						[CoreLocationSource class],
