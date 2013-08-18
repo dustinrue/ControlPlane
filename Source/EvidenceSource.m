@@ -413,7 +413,7 @@
 #endif
 
 @implementation EvidenceSourceSetController {
-    NSMutableDictionary *enabledSourcesForRuleTypes;
+    NSCache *enabledSourcesForRuleTypes;
 }
 
 - (id)init {
@@ -486,7 +486,6 @@
 
 	// Instantiate all the evidence sources if they are supported on this device
 	NSMutableArray *srcList = [[NSMutableArray alloc] initWithCapacity:[classes count]];
-    NSUInteger ruleTypesMaxCount = 0u;
     for (Class class in classes) {
         if ([class isEvidenceSourceApplicableToSystem]) {
             @autoreleasepool {
@@ -496,15 +495,14 @@
                     continue;
                 }
                 [srcList addObject:src];
-                ruleTypesMaxCount += [[src typesOfRulesMatched] count];
                 [src release];
             }
         }
     }
 
 	sources = srcList;
-    enabledSourcesForRuleTypes = [[NSMutableDictionary alloc] initWithCapacity:ruleTypesMaxCount];
-    
+    enabledSourcesForRuleTypes = [[NSCache alloc] init];
+
 	return self;
 }
 
@@ -567,8 +565,6 @@
 }
 
 - (void)startOrStopAll {
-    [enabledSourcesForRuleTypes removeAllObjects];
-
     // walk through all of the Evidence Sources that are enabled
     // and issue a start on each one
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -587,6 +583,8 @@
             }
         }
     }
+
+    [enabledSourcesForRuleTypes removeAllObjects];
 }
 
 - (NSIndexSet *)indexesOfEnabledSourcesForRuleType:(NSString *)ruleType {
@@ -607,9 +605,10 @@
 - (RuleMatchStatusType)ruleMatches:(NSMutableDictionary *)rule {
 	NSString *ruleType = rule[@"type"];
 
-    NSIndexSet *sourceIndexes = enabledSourcesForRuleTypes[ruleType];
+    NSIndexSet *sourceIndexes = [enabledSourcesForRuleTypes objectForKey:ruleType];
     if (!sourceIndexes) {
-        enabledSourcesForRuleTypes[ruleType] = sourceIndexes = [self indexesOfEnabledSourcesForRuleType:ruleType];
+        sourceIndexes = [self indexesOfEnabledSourcesForRuleType:ruleType];
+        [enabledSourcesForRuleTypes setObject:sourceIndexes forKey:ruleType];
     }
 
     __block RuleMatchStatusType result = RuleMatchStatusIsUnknown;
