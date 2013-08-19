@@ -75,9 +75,6 @@
 // Returns a friendly name to be used in the drop down menu
 - (NSString *) friendlyName;
 
-// Returns the name for the evidence soruce enablement key in user defaults
-- (NSString *)enablementKeyName;
-
 // Return true if the evidence source should be enabled for this model of Mac
 + (BOOL) isEvidenceSourceApplicableToSystem;
 
@@ -97,7 +94,7 @@ typedef NS_ENUM(int, RuleMatchStatusType) {
 }
 
 - (EvidenceSource *)sourceWithName:(NSString *)name;
-- (void)startOrStopAll;
+- (void)startEnabledEvidenceSources;
 - (RuleMatchStatusType)ruleMatches:(NSMutableDictionary *)rule;
 - (NSEnumerator *)sourceEnumerator;
 

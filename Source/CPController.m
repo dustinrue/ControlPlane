@@ -497,7 +497,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
-        [evidenceSources startOrStopAll];
+        [evidenceSources startEnabledEvidenceSources];
         [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
     });
 
@@ -1506,17 +1506,12 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
 
-    // Check that the running evidence sources match the defaults
     if (!goingToSleep) {
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
             updateInterval  = currentUpdateInterval;
             [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
         }
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [evidenceSources startOrStopAll];
-        });
     }
 }
 

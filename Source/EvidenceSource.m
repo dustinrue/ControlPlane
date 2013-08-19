@@ -564,27 +564,33 @@
 	return nil;
 }
 
-- (void)startOrStopAll {
+- (void)startEvidenceSource:(EvidenceSource *)src {
+    if (![src isRunning]) {
+        DSLog(@"Starting %@ evidence source", [src name]);
+        [src start];
+
+        [enabledSourcesForRuleTypes removeAllObjects]; // reset cache
+    }
+}
+
+- (void)stopEvidenceSource:(EvidenceSource *)src {
+    if ([src isRunning]) {
+        DSLog(@"Stopping %@ evidence source", [src name]);
+        [src stop];
+
+        [enabledSourcesForRuleTypes removeAllObjects]; // reset cache
+    }
+}
+
+- (void)startEnabledEvidenceSources {
     // walk through all of the Evidence Sources that are enabled
     // and issue a start on each one
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    @autoreleasepool {
-        for (EvidenceSource *src in sources) {
-            BOOL enabledByUser = [standardUserDefaults boolForKey:[src enablementKeyName]];
-
-            if ([src isRunning] != enabledByUser) {
-                if (enabledByUser) {
-                    DSLog(@"Starting %@ evidence source", [src name]);
-                    [src start];
-                } else {
-                    DSLog(@"Stopping %@ evidence source", [src name]);
-                    [src stop];
-                }
-            }
+    for (EvidenceSource *src in sources) {
+        if ([standardUserDefaults boolForKey:[src enablementKeyName]]) { // if enabled
+            [self startEvidenceSource:src];
         }
     }
-
-    [enabledSourcesForRuleTypes removeAllObjects];
 }
 
 - (NSIndexSet *)indexesOfEnabledSourcesForRuleType:(NSString *)ruleType {
@@ -710,9 +716,14 @@
    forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
 
 	NSString *col_id = [aTableColumn identifier];
-    
+
 	if ([@"enabled" isEqualToString:col_id]) {
         EvidenceSource *src = sources[rowIndex];
+        if ([anObject boolValue]) {
+            [self startEvidenceSource:src];
+        } else {
+            [self stopEvidenceSource:src];
+        }
 		[[NSUserDefaults standardUserDefaults] setValue:anObject forKey:[src enablementKeyName]];
 		return;
 	}
