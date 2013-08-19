@@ -848,7 +848,10 @@
 - (void)doExecuteAction:(Action *)action {
 	@autoreleasepool {
         NSString *errorString;
-        if (![action execute:&errorString]) {
+        BOOL success = [action execute:&errorString];
+        [self decreaseActionsInProgress];
+
+        if (!success) {
             NSString *title = NSLocalizedString(@"Failure", @"Growl message title");
             [self postUserNotification:title withMessage:errorString];
         }
@@ -883,10 +886,7 @@
 
         [actions enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(Action *action, NSUInteger idx, BOOL *stop) {
             [self increaseActionsInProgress];
-            dispatch_async(concurrentActionQueue, ^{
-                [self doExecuteAction:action];
-                [self decreaseActionsInProgress];
-            });
+            [NSThread detachNewThreadSelector:@selector(doExecuteAction:) toTarget:self withObject:action];
         }];
     }
 }
