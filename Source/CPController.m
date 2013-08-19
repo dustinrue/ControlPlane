@@ -858,17 +858,6 @@
     }
 }
 
-+ (NSString *)joinComponentsFrom:(NSArray *)array atIndexes:(NSIndexSet *)indexes byString:(NSString *)separator {
-    NSMutableString *str = [NSMutableString string];
-    [array enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([str length]) {
-            [str appendString:separator];
-        }
-        [str appendString:[obj description]];
-    }];
-    return str;
-}
-
 // (Private) in a separate thread
 // Parameter is an NSArray of actions
 - (void)executeActionsFrom:(NSArray *)actions atIndexes:(NSIndexSet *)indexes {
