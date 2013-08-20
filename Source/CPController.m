@@ -1490,6 +1490,8 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
 
+    self.forceOneFullUpdate = YES; // force updating (e.g. the default context settings could change)
+
     if (!goingToSleep) {
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
