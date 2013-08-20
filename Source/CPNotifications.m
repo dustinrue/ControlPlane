@@ -11,8 +11,13 @@
 
 @implementation CPNotifications
 
-+ (void) postNotification:(NSString *)title withMessage:(NSString *)message {
-    
++ (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
+        [CPNotifications postNotification:[[title copy] autorelease] withMessage:[[message copy] autorelease]];
+    }
+}
+
++ (void)postNotification:(NSString *)title withMessage:(NSString *)message {
     // use Notification Center if it is available
     if (NSClassFromString(@"NSUserNotification")) {
         NSUserNotification *notificationMessage = [[NSUserNotification alloc] init];

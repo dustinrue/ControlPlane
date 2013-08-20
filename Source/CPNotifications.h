@@ -11,6 +11,7 @@
 
 @interface CPNotifications : NSObject
 
-+ (void) postNotification:(NSString *)title withMessage:(NSString *)message;
++ (void)postNotification:(NSString *)title withMessage:(NSString *)message;
++ (void)postUserNotification:(NSString *)title withMessage:(NSString *)message;
 
 @end

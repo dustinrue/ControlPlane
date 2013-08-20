@@ -55,7 +55,6 @@
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
 - (void)doHideFromStatusBar:(BOOL)forced;
 
-- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message;
 - (void)contextsChanged:(NSNotification *)notification;
 
 - (void)goingToSleep:(id)arg;
@@ -796,12 +795,6 @@
 	// update other stuff?
 }
 
-- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
-        [CPNotifications postNotification:[[title copy] autorelease] withMessage:[[message copy] autorelease]];
-    }
-}
-
 #pragma mark Rule matching and Action triggering
 
 - (NSArray *)getRulesThatMatchAndSetChangeFlag:(BOOL *)flag {
@@ -853,7 +846,7 @@
 
         if (!success) {
             NSString *title = NSLocalizedString(@"Failure", @"Growl message title");
-            [self postUserNotification:title withMessage:errorString];
+            [CPNotifications postUserNotification:title withMessage:errorString];
         }
     }
 }
@@ -871,7 +864,7 @@
             msg = [@"* " stringByAppendingString:msg];
         }
 
-        [self postUserNotification:title withMessage:msg];
+        [CPNotifications postUserNotification:title withMessage:msg];
 
         [actions enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(Action *action, NSUInteger idx, BOOL *stop) {
             [self increaseActionsInProgress];
@@ -1130,7 +1123,8 @@
 - (void)postNotificationsOnContextTransitionWhenForcedByUserIs:(BOOL)isManuallyTriggered {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
         NSString *msg = [self getMesssageForChangingToContextWhenForcedByUserIs:isManuallyTriggered];
-        [self postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title") withMessage:msg];
+        [CPNotifications postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title")
+                                  withMessage:msg];
     }
     
     // Notify subscribed apps
