@@ -824,12 +824,13 @@
 	}
 
     if (changed) {
-        *flag = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self willChangeValueForKey:@"activeRules"];
             [self didChangeValueForKey:@"activeRules"];
         });
     }
+
+    *flag = changed;
 
 	return matchingRules;
 }
@@ -1245,9 +1246,9 @@
     NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
     DSLog(@"guesses %@", guesses);
 
-    [contextsDataSource updateConfidencesFromGuesses:guesses];
-
     [self applyDefaultContextTo:guesses];
+
+    [contextsDataSource updateConfidencesFromGuesses:guesses];
 
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if ([standardUserDefaults boolForKey:@"AllowMultipleActiveContexts"]) {
