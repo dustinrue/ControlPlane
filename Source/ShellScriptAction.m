@@ -117,6 +117,8 @@
             [CPNotifications postUserNotification:title withMessage:errorMsg];
             return;
         }
+
+        DSLog(@"Finished to execute '%@'", pathCopy);
     };
     
     [task launch];
