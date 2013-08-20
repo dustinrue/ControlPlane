@@ -614,9 +614,20 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (id)outlineView:(NSOutlineView *)olv objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
 	Context *ctxt = (Context *) item;
-	if ([[tableColumn identifier] isEqualToString:@"context"]) {
-		return ctxt.name;
-    } else if ([[tableColumn identifier] isEqualToString:@"confidence"]) {
+    NSString *columnId = [tableColumn identifier];
+	if ([@"context" isEqualToString:columnId]) {
+        NSString *name = ctxt.name;
+
+        NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+        if ([standardUserDefaults boolForKey:@"UseDefaultContext"]) {
+            NSString *uuid = [standardUserDefaults stringForKey:@"DefaultContext"];
+            if ([uuid isEqualToString:ctxt.uuid]) {
+                name = [name stringByAppendingString:@" (default)"];
+            }
+        }
+
+		return name;
+    } else if ([@"confidence" isEqualToString:columnId]) {
         NSNumber *confidence = ctxt.confidence;
         if ([confidence doubleValue] == 0.0) {
             return @"";
