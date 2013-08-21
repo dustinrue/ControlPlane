@@ -27,7 +27,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>55</string>
+	<string>56</string>
 	<key>CPCrashReportURL</key>
 	<string>http://crashreport.controlplaneapp.com/crash_v200.php</string>
 	<key>CPDonationURL</key>
@@ -70,7 +70,7 @@
 		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = "Developer ID Application: Dustin Rue"</string>
 	</dict>
 	<key>SUFeedURL</key>
-	<string>http://www.controlplaneapp.com/appcast-beta.xml</string>
+	<string>http://www.controlplaneapp.com/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUScheduledCheckInterval</key>
