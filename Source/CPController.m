@@ -1281,8 +1281,6 @@
         NSNumber *guessConfidence = guesses[uuid];
         if (!guessConfidence || ([guessConfidence doubleValue] < minConfidence)) {
             guesses[uuid] = @(minConfidence);
-            Context *defaultContext = [contextsDataSource contextByUUID:uuid];
-            defaultContext.confidence = @(minConfidence);
         }
     }
 }
@@ -1366,7 +1364,7 @@
     // one that satisfies the minimum confidence
     [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, NSNumber *conf, BOOL *stop) {
 	 	const double confindence = [conf doubleValue];
-		if (confindence >= guessConf) {
+		if (confindence > guessConf) {
             *stop = (confindence >= 1.0);
 			guessConf = confindence;
 			guessUUID = uuid;
