@@ -8,6 +8,7 @@
 //  Bug fix and implementation improvements by Vladimir Beloborodov (VladimirTechMan) on 21-22 July 2013.
 //
 
+#import "CPNotifications.h"
 #import "CPController+SleepMonitor.h"
 #import "DSLogger.h"
 
@@ -99,6 +100,16 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
             [cpController forceUpdate];
 
             dispatch_group_notify(actionsInProgress, dispatch_get_main_queue(), ^{
+                if (![cpController goingToSleep]) {
+                    DSLog(@"Some actions took too long to be fully executed before system sleep."
+                          " Thus they were resumed and completed on system wake-up.");
+
+                    NSString *title = NSLocalizedString(@"Information", @"Title for informational user messsages");
+                    NSString *msg = NSLocalizedString(@"Some actions took too long to finish before system sleep",
+                                                      @"Shown when some actions did not finish before system sleep");
+                    [CPNotifications postUserNotification:title withMessage:msg];
+                }
+
                 IOAllowPowerChange(rootPort, (long)argument); // Allow sleep
             });
 

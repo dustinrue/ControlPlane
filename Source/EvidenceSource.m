@@ -333,6 +333,13 @@
     return @"Not implemented";
 }
 
+- (NSString *)enablementKeyName {
+    NSMutableString *key = [NSMutableString stringWithString:@"Enable"];
+    [key appendString:[self name]];
+    [key appendString:@"EvidenceSource"];
+    return [NSString stringWithString:key];
+}
+
 // if the evidence source doesn't override this we assume
 // it is always true, thus the evidence source will be available
 + (BOOL) isEvidenceSourceApplicableToSystem {
@@ -405,10 +412,11 @@
 #import "StressTestEvidenceSource.h"
 #endif
 
-@implementation EvidenceSourceSetController
+@implementation EvidenceSourceSetController {
+    NSCache *enabledSourcesForRuleTypes;
+}
 
-- (id)init
-{
+- (id)init {
 	if (!(self = [super init])) {
 		return nil;
     }
@@ -477,7 +485,7 @@
 	}
 
 	// Instantiate all the evidence sources if they are supported on this device
-	NSMutableArray *srclist = [[NSMutableArray alloc] initWithCapacity:[classes count]];
+	NSMutableArray *srcList = [[NSMutableArray alloc] initWithCapacity:[classes count]];
     for (Class class in classes) {
         if ([class isEvidenceSourceApplicableToSystem]) {
             @autoreleasepool {
@@ -486,22 +494,24 @@
                     DSLog(@"%@ failed to init properly", class);
                     continue;
                 }
-                [srclist addObject:src];
+                [srcList addObject:src];
                 [src release];
             }
         }
     }
 
-	sources = srclist;
+	sources = srcList;
+    enabledSourcesForRuleTypes = [[NSCache alloc] init];
 
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     for (EvidenceSource *src in sources) {
         [src stop];
     }
+
+    [enabledSourcesForRuleTypes release];
 	[sources release];
 
 	[super dealloc];
@@ -545,8 +555,7 @@
     return (NSArray *)bundles;
 }
 
-- (EvidenceSource *)sourceWithName:(NSString *)name
-{
+- (EvidenceSource *)sourceWithName:(NSString *)name {
 	for (EvidenceSource *src in sources) {
 		if ([[src name] isEqualToString:name]) {
 			return src;
@@ -555,49 +564,75 @@
 	return nil;
 }
 
-- (void)startOrStopAll
-{
+- (void)startEvidenceSource:(EvidenceSource *)src {
+    if (![src isRunning]) {
+        DSLog(@"Starting %@ evidence source", [src name]);
+        [src start];
+
+        [enabledSourcesForRuleTypes removeAllObjects]; // reset cache
+    }
+}
+
+- (void)stopEvidenceSource:(EvidenceSource *)src {
+    if ([src isRunning]) {
+        DSLog(@"Stopping %@ evidence source", [src name]);
+        [src stop];
+
+        [enabledSourcesForRuleTypes removeAllObjects]; // reset cache
+    }
+}
+
+- (void)startEnabledEvidenceSources {
     // walk through all of the Evidence Sources that are enabled
     // and issue a start on each one
-	for (EvidenceSource *src in sources) {
-		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
-		BOOL enabledByUser = [[NSUserDefaults standardUserDefaults] boolForKey:key];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    for (EvidenceSource *src in sources) {
+        if ([standardUserDefaults boolForKey:[src enablementKeyName]]) { // if enabled
+            [self startEvidenceSource:src];
+        }
+    }
+}
 
-        if ([src isRunning] != enabledByUser) {
-            @autoreleasepool {
-                if (enabledByUser) {
-                    DSLog(@"Starting %@ evidence source", [src name]);
-                    [src start];
-                } else {
-                    DSLog(@"Stopping %@ evidence source", [src name]);
-                    [src stop];
-                }
+- (NSIndexSet *)indexesOfEnabledSourcesForRuleType:(NSString *)ruleType {
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    [sources enumerateObjectsUsingBlock:^(EvidenceSource *src, NSUInteger idx, BOOL *stop) {
+		if ([src matchesRulesOfType:ruleType]) {
+            if ([standardUserDefaults boolForKey:[src enablementKeyName]]) { // if enabled
+                [indexes addIndex:idx];
             }
         }
-	}
+    }];
+
+    return indexes;
 }
 
 - (RuleMatchStatusType)ruleMatches:(NSMutableDictionary *)rule {
-    RuleMatchStatusType result = RuleMatchStatusIsUnknown;
+	NSString *ruleType = rule[@"type"];
 
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	NSString *ruleType = [rule objectForKey:@"type"];
-	for (EvidenceSource *src in sources) {
-		if (![src isRunning] || ![src matchesRulesOfType:ruleType])
-			continue;
+    NSIndexSet *sourceIndexes = [enabledSourcesForRuleTypes objectForKey:ruleType];
+    if (!sourceIndexes) {
+        sourceIndexes = [self indexesOfEnabledSourcesForRuleType:ruleType];
+        [enabledSourcesForRuleTypes setObject:sourceIndexes forKey:ruleType];
+    }
 
-        NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
-		if ([standardUserDefaults boolForKey:key]) { // if enabled
+    __block RuleMatchStatusType result = RuleMatchStatusIsUnknown;
+    [sources enumerateObjectsAtIndexes:sourceIndexes options:0
+                            usingBlock:^(EvidenceSource *src, NSUInteger idx, BOOL *stop) {
+        if ([src isRunning]) {
 #if DEBUG_MODE
             DSLog(@"checking EvidenceSource %@ for matching rules", src);
 #endif
             if ([src doesRuleMatch:rule]) {
-                return RuleDoesMatch;
+                result = RuleDoesMatch;
+                *stop = YES;
+                return;
             }
-
+            
             result = RuleDoesNotMatch;
         }
-	}
+    }];
 
 	return result;
 }
@@ -662,16 +697,14 @@
 	return [sources count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
-{
-	EvidenceSource *src = [sources objectAtIndex:rowIndex];
-    NSString *friendlyName = [[sources objectAtIndex:rowIndex] friendlyName];
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+	EvidenceSource *src = sources[rowIndex];
+    NSString *friendlyName = [src friendlyName];
 	NSString *col_id = [aTableColumn identifier];
 
-	if ([col_id isEqualToString:@"enabled"]) {
-		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
-		return [[NSUserDefaults standardUserDefaults] valueForKey:key];
-	} else if ([col_id isEqualToString:@"name"]) {
+	if ([@"enabled" isEqualToString:col_id]) {
+		return [[NSUserDefaults standardUserDefaults] valueForKey:[src enablementKeyName]];
+	} else if ([@"name" isEqualToString:col_id]) {
 		return NSLocalizedString(friendlyName, @"Evidence source");
 	}
 
@@ -679,26 +712,32 @@
 	return nil;
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
-{
-	EvidenceSource *src = [sources objectAtIndex:rowIndex];
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject
+   forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+
 	NSString *col_id = [aTableColumn identifier];
 
-	if ([col_id isEqualToString:@"enabled"]) {
-		NSString *key = [NSString stringWithFormat:@"Enable%@EvidenceSource", [src name]];
-		[[NSUserDefaults standardUserDefaults] setValue:anObject forKey:key];
+	if ([@"enabled" isEqualToString:col_id]) {
+        EvidenceSource *src = sources[rowIndex];
+        if ([anObject boolValue]) {
+            [self startEvidenceSource:src];
+        } else {
+            [self stopEvidenceSource:src];
+        }
+		[[NSUserDefaults standardUserDefaults] setValue:anObject forKey:[src enablementKeyName]];
 		return;
 	}
 
 	// Shouldn't get here!
 }
 
-- (NSString *)tableView:(NSTableView *)aTableView toolTipForCell:(NSCell *)aCell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation {
-    
-    NSString *col_id = [aTableColumn identifier];
-    
-    if ([col_id isEqualToString:@"name"]) {
-        return [[sources objectAtIndex:row] description];
+- (NSString *)tableView:(NSTableView *)aTableView toolTipForCell:(NSCell *)aCell rect:(NSRectPointer)rect
+            tableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation {
+
+	NSString *col_id = [aTableColumn identifier];
+
+    if ([@"name" isEqualToString:col_id]) {
+        return [sources[row] description];
     }
 
     return nil; // no tool tip available

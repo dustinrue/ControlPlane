@@ -55,7 +55,6 @@
 - (void)hideFromStatusBar:(NSTimer *)theTimer;
 - (void)doHideFromStatusBar:(BOOL)forced;
 
-- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message;
 - (void)contextsChanged:(NSNotification *)notification;
 
 - (void)goingToSleep:(id)arg;
@@ -497,7 +496,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
-        [evidenceSources startOrStopAll];
+        [evidenceSources startEnabledEvidenceSources];
         [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
     });
 
@@ -796,12 +795,6 @@
 	// update other stuff?
 }
 
-- (void)postUserNotification:(NSString *)title withMessage:(NSString *)message {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
-        [CPNotifications postNotification:[[title copy] autorelease] withMessage:[[message copy] autorelease]];
-    }
-}
-
 #pragma mark Rule matching and Action triggering
 
 - (NSArray *)getRulesThatMatchAndSetChangeFlag:(BOOL *)flag {
@@ -831,12 +824,13 @@
 	}
 
     if (changed) {
-        *flag = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self willChangeValueForKey:@"activeRules"];
             [self didChangeValueForKey:@"activeRules"];
         });
     }
+
+    *flag = changed;
 
 	return matchingRules;
 }
@@ -848,22 +842,14 @@
 - (void)doExecuteAction:(Action *)action {
 	@autoreleasepool {
         NSString *errorString;
-        if (![action execute:&errorString]) {
+        BOOL success = [action execute:&errorString];
+        [self decreaseActionsInProgress];
+
+        if (!success) {
             NSString *title = NSLocalizedString(@"Failure", @"Growl message title");
-            [self postUserNotification:title withMessage:errorString];
+            [CPNotifications postUserNotification:title withMessage:errorString];
         }
     }
-}
-
-+ (NSString *)joinComponentsFrom:(NSArray *)array atIndexes:(NSIndexSet *)indexes byString:(NSString *)separator {
-    NSMutableString *str = [NSMutableString string];
-    [array enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([str length]) {
-            [str appendString:separator];
-        }
-        [str appendString:[obj description]];
-    }];
-    return str;
 }
 
 // (Private) in a separate thread
@@ -879,14 +865,11 @@
             msg = [@"* " stringByAppendingString:msg];
         }
 
-        [self postUserNotification:title withMessage:msg];
+        [CPNotifications postUserNotification:title withMessage:msg];
 
         [actions enumerateObjectsAtIndexes:indexes options:0 usingBlock:^(Action *action, NSUInteger idx, BOOL *stop) {
             [self increaseActionsInProgress];
-            dispatch_async(concurrentActionQueue, ^{
-                [self doExecuteAction:action];
-                [self decreaseActionsInProgress];
-            });
+            [NSThread detachNewThreadSelector:@selector(doExecuteAction:) toTarget:self withObject:action];
         }];
     }
 }
@@ -1141,7 +1124,8 @@
 - (void)postNotificationsOnContextTransitionWhenForcedByUserIs:(BOOL)isManuallyTriggered {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
         NSString *msg = [self getMesssageForChangingToContextWhenForcedByUserIs:isManuallyTriggered];
-        [self postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title") withMessage:msg];
+        [CPNotifications postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title")
+                                  withMessage:msg];
     }
     
     // Notify subscribed apps
@@ -1262,9 +1246,9 @@
     NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
     DSLog(@"guesses %@", guesses);
 
-    [contextsDataSource updateConfidencesFromGuesses:guesses];
-
     [self applyDefaultContextTo:guesses];
+
+    [contextsDataSource updateConfidencesFromGuesses:guesses];
 
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if ([standardUserDefaults boolForKey:@"AllowMultipleActiveContexts"]) {
@@ -1508,17 +1492,14 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
 
-    // Check that the running evidence sources match the defaults
+    self.forceOneFullUpdate = YES; // force updating (e.g. the default context settings could change)
+
     if (!goingToSleep) {
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
             updateInterval  = currentUpdateInterval;
             [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
         }
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [evidenceSources startOrStopAll];
-        });
     }
 }
 
