@@ -115,7 +115,7 @@
 		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
 		DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
-		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; };
+		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA80EC4C17681C5000EAEBFF /* libcups.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA80EC4B17681C5000EAEBFF /* libcups.dylib */; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; };
@@ -864,6 +864,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7C48611717C79ED80064D2A5 /* BonjourEvidenceSource */ = {
+			isa = PBXGroup;
+			children = (
+				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
+				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
+				DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */,
+				DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */,
+			);
+			name = BonjourEvidenceSource;
+			sourceTree = "<group>";
+		};
 		7C6D94551747A15300D5B9C7 /* IPAddrEvidenceSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -910,8 +921,6 @@
 			children = (
 				DA94BE8815CA1B0300ED2AB2 /* Plugins */,
 				8DE4C0C00C4EEE3E00511590 /* Concrete Evidence Sources */,
-				DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */,
-				DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */,
 				8D8C9CA30BBB74E70074D5B3 /* EvidenceSource.h */,
 				8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */,
 				8DE4C00E0C4EE60700511590 /* GenericEvidenceSource.h */,
@@ -940,8 +949,7 @@
 				8D27ECAE0C4456A300AE1929 /* AudioOutputEvidenceSource.m */,
 				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
-				8D1493F40C824B6D00D29FE8 /* BonjourEvidenceSource.h */,
-				8D1493F50C824B6D00D29FE8 /* BonjourEvidenceSource.m */,
+				7C48611717C79ED80064D2A5 /* BonjourEvidenceSource */,
 				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
