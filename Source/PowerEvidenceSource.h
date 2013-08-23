@@ -10,7 +10,6 @@
 
 @interface PowerEvidenceSource : GenericEvidenceSource {
 	NSString *status;
-	CFRunLoopSourceRef runLoopSource;
 }
 
 - (id)init;
