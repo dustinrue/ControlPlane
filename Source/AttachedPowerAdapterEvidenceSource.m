@@ -6,55 +6,55 @@
 //
 //
 
+#import <IOKit/ps/IOPowerSources.h>
+#import <IOKit/ps/IOPSKeys.h>
+
 #import "AttachedPowerAdapterEvidenceSource.h"
 #import "DSLogger.h"
 #import "CPSystemInfo.h"
-#import <IOKit/ps/IOPowerSources.h>
+
+
+@interface AttachedPowerAdapterEvidenceSource ()
+
+@property (strong,atomic) NSNumber *attachedPowerAdapter;
+
+@end
+
 
 @implementation AttachedPowerAdapterEvidenceSource
 
-@synthesize attachedPowerAdapter;
-
-- (id)init
-{
-	if (!(self = [super init]))
+- (id)init {
+	if (!(self = [super init])) {
 		return nil;
-    
-    attachedPowerAdapter = nil;
+    }
     
 	return self;
 }
 
-- (void)dealloc
-{
-    
+- (void)dealloc {
 	//[super dealloc];
 }
 
-
-- (NSString *) description {
-    return NSLocalizedString(@"Create a rules based on what power adapter is currently connected to your portable mac based on its serial number", @"");
+- (NSString *)description {
+    return NSLocalizedString(@"Create a rules based on what power adapter"
+                             " is currently connected to your portable mac based on its serial number", @"");
 }
 
-- (void)doFullUpdate {
+- (void)doFullUpdate:(NSNotification *)notification {
+    NSNumber *serialNumber = nil;
+
     CFDictionaryRef powerAdapterInfo = IOPSCopyExternalPowerAdapterDetails();
-    
-    if (powerAdapterInfo)
-        attachedPowerAdapter = [(__bridge NSDictionary *)powerAdapterInfo valueForKey:@"SerialNumber"];
-    else
-        attachedPowerAdapter = nil;
-    
-    if (attachedPowerAdapter) {
-        [self setDataCollected:YES];
-    }
-    else {
-        [self setDataCollected:NO];
-    }
-    
-    if (powerAdapterInfo)
+    if (powerAdapterInfo) {
+        serialNumber = ((__bridge NSDictionary *) powerAdapterInfo)[@kIOPSPowerAdapterSerialNumberKey];
         CFRelease(powerAdapterInfo);
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    }
+
+    self.attachedPowerAdapter = serialNumber;
+    [self setDataCollected:(serialNumber != nil)];
+
+    if (notification) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    }
 }
 
 - (void)start {
@@ -63,11 +63,11 @@
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(doFullUpdate)
+                                             selector:@selector(doFullUpdate:)
                                                  name:@"powerAdapterDidChangeNotification"
                                                object:nil];
 
-	[self doFullUpdate];
+	[self doFullUpdate:nil];
 
 	running = YES;
 }
@@ -82,63 +82,47 @@
                                                     name:@"powerAdapterDidChangeNotification"
                                                   object:nil];
 
-	[lock lock];
+    self.attachedPowerAdapter = nil;
 	[self setDataCollected:NO];
-	[lock unlock];
-    
+
 	running = NO;
 }
 
-- (NSString *)name
-{
+- (NSString *)name {
 	return @"AttachedPowerAdapter";
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-    NSString *param = [[rule valueForKey:@"parameter"] stringValue];
-    BOOL match = NO;
+    NSString *param = [rule[@"parameter"] stringValue];
+    NSString *currentAdapter = [[self.attachedPowerAdapter stringValue] copy];
 
-    NSString *currentAdapter = [[attachedPowerAdapter stringValue] copy];
-
-    if ([currentAdapter isEqualToString:param])
-        match = YES;
+    BOOL match = [currentAdapter isEqualToString:param];
 
    // [currentAdapter release];
 
     return match;
 }
 
-- (NSString *)getSuggestionLeadText:(NSString *)type
-{
+- (NSString *)getSuggestionLeadText:(NSString *)type {
 	return NSLocalizedString(@"The following application is active", @"In rule-adding dialog");
 }
 
-- (NSArray *)getSuggestions
-{
-    
-    [self doFullUpdate];
-	[lock lock];
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];
-    
-	
-    
-    [array addObject:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      @"AttachedPowerAdapter", @"type",
-      attachedPowerAdapter, @"parameter",
-      [NSString stringWithFormat:NSLocalizedString(@"Power adapter with serial: %@", @""), attachedPowerAdapter], @"description", nil]];
+- (NSArray *)getSuggestions {
+    [self doFullUpdate:nil];
 
-	[lock unlock];
-    
+    NSNumber *serialNum = self.attachedPowerAdapter;
+    NSString *descr = [NSString stringWithFormat:NSLocalizedString(@"Power adapter with serial: %@", @""), serialNum];
+    NSArray *array = @[ @{ @"type": @"AttachedPowerAdapter", @"parameter": serialNum, @"description": descr } ];
+
     DSLog(@"stuff %@", array);
 	return array;
 }
 
-- (NSString *) friendlyName {
+- (NSString *)friendlyName {
     return NSLocalizedString(@"Attached Power Adapter", @"");
 }
 
-+ (BOOL) isEvidenceSourceApplicableToSystem {
++ (BOOL)isEvidenceSourceApplicableToSystem {
     return [CPSystemInfo isPortable];
 }
 
