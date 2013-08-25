@@ -1498,7 +1498,7 @@
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
             updateInterval  = currentUpdateInterval;
-            [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
+            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC)];
         }
     }
 }
@@ -1510,7 +1510,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"**** TRIGGERING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
 #endif
-        [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
+        [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC)];
     });
 }
 
