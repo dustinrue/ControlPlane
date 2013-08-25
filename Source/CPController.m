@@ -1427,11 +1427,7 @@
 }
 
 - (void)goingToSleep:(id)arg {
-    // this might cause an issue with anyone who does an
-    // immediate action (not delayed at all) at sleep
-    [self setGoingToSleep:YES];
-
-    DSLog(@"Stopping update thread for sleep.");
+    DSLog(@"Stopping regular updates for sleep.");
     [self suspendRegularUpdates];
 
     // clear the queued actions on sleep
@@ -1442,12 +1438,16 @@
         [screenSaverActionQueue removeAllObjects];
         [screenLockActionQueue removeAllObjects];
     });
+
+    // this might cause an issue with anyone who does an
+    // immediate action (not delayed at all) at sleep
+    [self setGoingToSleep:YES];
 }
 
 - (void)wakeFromSleep:(id)arg {
     [self setGoingToSleep:NO];
 
-    DSLog(@"Starting update thread after sleep.");
+    DSLog(@"Starting regular updates after sleep.");
     [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
 }
 

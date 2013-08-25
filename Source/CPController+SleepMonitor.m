@@ -30,6 +30,13 @@ static void powerAdapterChangedCallBack();
 @implementation CPController (SleepMonitor)
 
 - (void)startMonitoringSleepAndPowerNotifications {
+    if (dispatch_get_current_queue() != dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self startMonitoringSleepAndPowerNotifications];
+        });
+        return;
+    }
+    
     if (!cpController) {
         cpController = self;
         actionsInProgress = dispatch_group_create();
@@ -52,6 +59,13 @@ static void powerAdapterChangedCallBack();
 }
 
 - (void)stopMonitoringSleepAndPowerNotifications {
+    if (dispatch_get_current_queue() != dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stopMonitoringSleepAndPowerNotifications];
+        });
+        return;
+    }
+    
     if (cpController) {
         if (powerAdapterChanged) {
             CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
@@ -83,6 +97,10 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
 	switch (messageType) {
 		case kIOMessageCanSystemSleep:
 		case kIOMessageSystemWillSleep:
+            if (cpController.goingToSleep) {
+                break;
+            }
+
 			// entering sleep
 #ifdef DEBUG_MODE
 			DSLog(@"Sleep callback: going to sleep");
@@ -100,7 +118,7 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
             [cpController forceUpdate];
 
             dispatch_group_notify(actionsInProgress, dispatch_get_main_queue(), ^{
-                if (![cpController goingToSleep]) {
+                if (!cpController.goingToSleep) {
                     DSLog(@"Some actions took too long to be fully executed before system sleep."
                           " Thus they were resumed and completed on system wake-up.");
 
@@ -116,8 +134,10 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
 			break;
 
 		case kIOMessageSystemWillPowerOn:
-			DSLog(@"Sleep callback: waking up");
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
+            if (cpController.goingToSleep) {
+                DSLog(@"Sleep callback: waking up");
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
+            }
 			break;
 
 		case kIOMessageSystemHasPoweredOn:
