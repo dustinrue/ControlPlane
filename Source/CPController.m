@@ -1444,7 +1444,7 @@
     });
 }
 
-- (void)wakeFromSleep:(id)arg{
+- (void)wakeFromSleep:(id)arg {
     [self setGoingToSleep:NO];
 
     DSLog(@"Starting update thread after sleep.");
@@ -1457,18 +1457,21 @@
 #pragma mark -
 #pragma mark NSApplication delegates
 
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
-{
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
     [self showInStatusBar:self];
     [self startOrStopHidingFromStatusBar];
 	return YES;
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
-		[[NSUserDefaults standardUserDefaults] setValue:self.currentContext.uuid forKey:@"PersistentContext"];
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [self suspendRegularUpdates];
+    
+	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if ([standardUserDefaults boolForKey:@"EnablePersistentContext"]) {
+		[standardUserDefaults setValue:self.currentContext.uuid forKey:@"PersistentContext"];
 	}
+
+    [evidenceSources stopAllRunningEvidenceSources];
 }
 
 - (void) showMainApplicationWindow {

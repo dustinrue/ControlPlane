@@ -95,6 +95,7 @@ typedef NS_ENUM(int, RuleMatchStatusType) {
 
 - (EvidenceSource *)sourceWithName:(NSString *)name;
 - (void)startEnabledEvidenceSources;
+- (void)stopAllRunningEvidenceSources;
 - (RuleMatchStatusType)ruleMatches:(NSMutableDictionary *)rule;
 - (NSEnumerator *)sourceEnumerator;
 

@@ -583,12 +583,18 @@
 }
 
 - (void)startEnabledEvidenceSources {
-    // walk through all of the Evidence Sources that are enabled
-    // and issue a start on each one
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     for (EvidenceSource *src in sources) {
         if ([standardUserDefaults boolForKey:[src enablementKeyName]]) { // if enabled
             [self startEvidenceSource:src];
+        }
+    }
+}
+
+- (void)stopAllRunningEvidenceSources {
+    for (EvidenceSource *src in sources) {
+        if ([src isRunning]) { // if enabled
+            [self stopEvidenceSource:src];
         }
     }
 }
