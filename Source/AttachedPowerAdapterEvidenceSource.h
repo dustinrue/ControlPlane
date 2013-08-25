@@ -8,11 +8,7 @@
 
 #import "GenericEvidenceSource.h"
 
-@interface AttachedPowerAdapterEvidenceSource : GenericEvidenceSource {
-    NSLock *lock;
-}
-
-@property (strong) NSNumber *attachedPowerAdapter;
+@interface AttachedPowerAdapterEvidenceSource : GenericEvidenceSource
 
 - (id)init;
 - (void)dealloc;
@@ -24,4 +20,5 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule;
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
+
 @end

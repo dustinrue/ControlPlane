@@ -3,14 +3,15 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 3/04/07.
-//  Minor improvements done by Vladimir Beloborodov (VladimirTechMan) on 20 Aug 2013.
+//  Reworked by Vladimir Beloborodov (VladimirTechMan) on 20-21 Aug 2013.
 //
 
-#import <cups/cups.h>
 #import "DefaultPrinterAction.h"
 #import "DSLogger.h"
 
-@implementation DefaultPrinterAction
+@implementation DefaultPrinterAction {
+	NSString *printerQueue;
+}
 
 - (id)init {
 	if (!(self = [super init])) {
@@ -50,40 +51,49 @@
 	return [NSString stringWithFormat:NSLocalizedString(@"Setting default printer to '%@'.", @""), printerQueue];
 }
 
-- (BOOL)execute:(NSString **)errorString {
-    NSCharacterSet *replaceThese = [NSCharacterSet characterSetWithCharactersInString:@" @-"];
-    const char *printer = [[[printerQueue componentsSeparatedByCharactersInSet:replaceThese]
-                                    componentsJoinedByString:@"_"] cStringUsingEncoding:NSUTF8StringEncoding];
-
-    DSLog(@"Attempting to set '%s' as default", printer);
-
-    cups_dest_t *dests = NULL;
-    int num_dests = cupsGetDests(&dests);
-    if (num_dests == 0 || !dests) {
-        DSLog(@"Failed to get the list of printers from the system");
-        NSString *fmt = NSLocalizedString(@"Couldn't set default printer to %@"
-                                          " (see the log for more details)", @"");
-        *errorString = [NSString stringWithFormat:fmt, printerQueue];
++ (BOOL)setDefaultPrinterByPrinterName:(NSString *)name {
+    CFArrayRef printers = NULL;
+    OSStatus result = PMServerCreatePrinterList(kPMServerLocal, &printers);
+    if (result != noErr) {
+        DSLog(@"Failed to get printer list (result code is %d)", result);
         return NO;
     }
 
-    char *instance = NULL;
-    cups_dest_t *dest = cupsGetDest(printer, instance, num_dests, dests);
-    if (!dest) {
-        DSLog(@"Cannot find '%s' in the list of printers known to the system", printer);
-        NSString *fmt = NSLocalizedString(@"Couldn't set default printer to %@"
-                                          " (see the log for more details)", @"");
-        *errorString = [NSString stringWithFormat:fmt, printerQueue];
-        return NO;
-    }
-
-    if (!dest->is_default) {
-        for (int j = 0; j < num_dests; j++) {
-            dests[j].is_default = 0;
+    PMPrinter matchingPrinter = NULL;
+    for (CFIndex i = 0, count = CFArrayGetCount(printers); i < count; ++i) {
+        PMPrinter printer = (PMPrinter) CFArrayGetValueAtIndex(printers, i);
+        CFStringRef printerName = PMPrinterGetName((PMPrinter) printer);
+        if ([name isEqualToString:(NSString *) printerName]) {
+            matchingPrinter = printer;
+            break;
         }
-        dest->is_default = 1;
-        
-        cupsSetDests(num_dests, dests);
+    }
+
+    if (!matchingPrinter) {
+        DSLog(@"Cannot find printer with name '%@' in your system", name);
+        CFRelease(printers);
+        return NO;
+    }
+
+    result = PMPrinterSetDefault(matchingPrinter);
+    if (result != noErr) {
+        DSLog(@"Error reported on attempt to set printer '%@' as default (result code is %d)", name, result);
+        CFRelease(printers);
+        return NO;
+    }
+
+    CFRelease(printers);
+    return YES;
+}
+
+- (BOOL)execute:(NSString **)errorString {
+    DSLog(@"Attempting to set '%@' as default", printerQueue);
+
+    if (![[self class] setDefaultPrinterByPrinterName:printerQueue]) {
+        NSString *fmt = NSLocalizedString(@"Couldn't set default printer to %@"
+                                          " (see the log for more details)", @"");
+        *errorString = [NSString stringWithFormat:fmt, printerQueue];
+        return NO;
     }
 
 	return YES;
@@ -104,7 +114,7 @@
 	NSMutableArray *opts = [NSMutableArray arrayWithCapacity:[printers count]];
 	
 	for (NSString *printer in printers) {
-		[opts addObject:@{ @"option": printer, @"description":printer }];
+		[opts addObject:@{ @"option":printer, @"description":printer }];
     }
 	
 	return opts;
@@ -117,7 +127,7 @@
 	return self;
 }
 
-+ (NSString *) friendlyName {
++ (NSString *)friendlyName {
     return NSLocalizedString(@"Default Printer", @"");
 }
 
