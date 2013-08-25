@@ -152,7 +152,7 @@
 - (void)doAddRule:(NSDictionary *)dict;
 - (void)doEditRule:(NSDictionary *)dict;
 - (void)updateLogBuffer:(NSTimer *)timer;
-- (void)onPrefsWindowClose;
+- (void)onPrefsWindowClose:(NSNotification *)notification;
 
 @end
 
@@ -315,7 +315,7 @@
 
 	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:9]];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPrefsWindowClose) name:NSWindowWillCloseNotification object:prefsWindow];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPrefsWindowClose:) name:NSWindowWillCloseNotification object:prefsWindow];
 }
 
 static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
@@ -346,7 +346,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
     return (NSValue *) [NSUnarchiver unarchiveObjectWithData:persistedSize];
 }
 
-- (void)onPrefsWindowClose {
+- (void)onPrefsWindowClose:(NSNotification *)notification {
     [self stopLogBufferTimer];
     [self persistCurrentViewSize];
 }
