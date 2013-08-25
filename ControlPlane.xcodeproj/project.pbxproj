@@ -73,7 +73,7 @@
 		8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */; };
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
 		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
-		8DBB44980C530F7600064010 /* DSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB44960C530F7600064010 /* DSLogger.m */; };
+		8DBB44980C530F7600064010 /* DSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB44960C530F7600064010 /* DSLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DC410FB0C64665E00393759 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.xib */; };
 		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };

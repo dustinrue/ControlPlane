@@ -9,7 +9,7 @@
 
 @interface DSLogger : NSObject
 
-@property (retain,atomic,readonly) NSDate *lastUpdatedAt;
+@property (strong,atomic,readonly) NSDate *lastUpdatedAt;
 
 + (void)initialize;
 
