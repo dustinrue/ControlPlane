@@ -677,7 +677,7 @@
     [self updateMenuBarImage];
 
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:[self currentContextName]];
+        [self setStatusTitle:[self currentContextPath]];
     }
 
 	[sbItem setMenu:sbMenu];
@@ -723,7 +723,7 @@
 - (void)updateMenuBarAndContextMenu {
     [self updateMenuBarImage];
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:[self currentContextName]];
+        [self setStatusTitle:[self currentContextPath]];
     }
 
     // Update force context menu
@@ -1487,7 +1487,7 @@
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
         [self setStatusTitle:nil];
     } else {
-        [self setStatusTitle:[self currentContextName]];
+        [self setStatusTitle:[self currentContextPath]];
     }
 
 #ifndef DEBUG_MODE
