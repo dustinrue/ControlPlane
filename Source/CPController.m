@@ -219,8 +219,7 @@
 	sbItem = nil;
 	sbHideTimer = nil;
 
-	smoothCounter = 0;
-
+	[self resetSwitchSmoothing];
     [self setGoingToSleep:NO];
 
 	forcedContextIsSticky = NO;
@@ -799,9 +798,9 @@
 
 - (NSArray *)getRulesThatMatchAndSetChangeFlag:(BOOL *)flag {
 	NSArray *rules = self.rules;
+
 #ifdef DEBUG_MODE
-    DSLog(@"number of rules %ld", [rules count]);
-    DSLog(@"rules list %@", rules);
+    DSLog(@"Rules list (%ld rules):\n%@", [rules count], rules);
 #endif
 	NSMutableArray *matchingRules = [NSMutableArray array];
     BOOL changed = NO;
@@ -942,35 +941,33 @@
 - (void)scheduleActions:(NSMutableArray *)actions
      usingReverseDelays:(BOOL)areReversed
                maxDelay:(NSTimeInterval *)maxDelay {
-
-	if ([actions count] == 0) {
-		return;
-    }
-
+    
     double maxDelayValue = 0.0;
-
-    if (!areReversed) {
-        // Sort by delay (ascending order)
-        [actions sortUsingSelector:@selector(compareDelay:)];
-
-        maxDelayValue = [[[actions lastObject] valueForKey:@"delay"] doubleValue];
-
-        [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
-            return [[action valueForKey:@"delay"] doubleValue];
-        }];
-    } else {
-        // Sort by delay (descending order)
-        [actions sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [obj2 compareDelay:obj1]; // reverse comparison
-        }];
-
-        maxDelayValue = [[actions[0] valueForKey:@"delay"] doubleValue];
-
-        [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
-            return (maxDelayValue - [[action valueForKey:@"delay"] doubleValue]);
-        }];
+    
+	if ([actions count] > 0) {
+        if (!areReversed) {
+            // Sort by delay (ascending order)
+            [actions sortUsingSelector:@selector(compareDelay:)];
+            
+            maxDelayValue = [[[actions lastObject] valueForKey:@"delay"] doubleValue];
+            
+            [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
+                return [[action valueForKey:@"delay"] doubleValue];
+            }];
+        } else {
+            // Sort by delay (descending order)
+            [actions sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [obj2 compareDelay:obj1]; // reverse comparison
+            }];
+            
+            maxDelayValue = [[actions[0] valueForKey:@"delay"] doubleValue];
+            
+            [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
+                return (maxDelayValue - [[action valueForKey:@"delay"] doubleValue]);
+            }];
+        }
     }
-
+    
     if (maxDelay) {
         *maxDelay = maxDelayValue;
     }
@@ -1000,7 +997,10 @@
             Action *action = [Action actionFromDictionary:actionParams];
             if (!action) {
                 DSLog(@"ERROR: %@",
-                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about,"
+                                        " you probably have a configured action that is no longer (or not yet)"
+                                        " supported by ControlPlane",
+                                        "ControlPlane was told to run an action that doesn't actually exist"));
                 return;
             }
 
@@ -1018,7 +1018,10 @@
             Action *action = [Action actionFromDictionary:actionParams];
             if (!action) {
                 DSLog(@"ERROR: %@",
-                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about,"
+                                        " you probably have a configured action that is no longer (or not yet)"
+                                        " supported by ControlPlane",
+                                        "ControlPlane was told to run an action that doesn't actually exist"));
                 return;
             }
 
@@ -1030,7 +1033,10 @@
     [self scheduleActions:departureActions usingReverseDelays:YES maxDelay:&maxDelay];
     
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
-	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
+    if (maxDelay > 0.0) {
+        DSLog(@"Delay switching context for %.2f secs to let all departure actions start", (float) maxDelay);
+        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
+    }
 }
 
 #pragma mark -
@@ -1060,12 +1066,12 @@
 
 - (void) setScreenLockActive:(NSNotification *) notification {
     [self setScreenLocked:YES];
-    DSLog(@"screen lock becoming active");
+    DSLog(@"Screen lock becoming active");
 }
 
 - (void) setScreenLockInActive:(NSNotification *) notification {
     [self setScreenLocked:NO];
-    DSLog(@"screen lock becoming inactive");
+    DSLog(@"Screen lock becoming inactive");
 
     dispatch_async(updatingQueue, ^{
         if ([screenLockActionQueue count] > 0) {
@@ -1089,9 +1095,11 @@
 - (void)changeCurrentContextTo:(Context *)context {
     NSString *contextPath = (context) ? [contextsDataSource pathFromRootTo:context.uuid] : (@"?");
 
-    [self willChangeValueForKey:@"currentContextName"];
     self.currentContext = context;
-    [self didChangeValueForKey:@"currentContextName"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self willChangeValueForKey:@"currentContextName"];
+        [self didChangeValueForKey:@"currentContextName"];
+    });
 
     self.currentContextPath = contextPath;
 
@@ -1113,12 +1121,18 @@
     NSArray *walks = [contextsDataSource walkFrom:self.currentContext.uuid to:context.uuid];
 	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
 
-    [self triggerDepartureActionsOnWalk:leavingWalk];
+    if ([leavingWalk count] > 0) {
+        DSLog(@"Triggering departure actions, if any, for '%@'", [self currentContextName]);
+        [self triggerDepartureActionsOnWalk:leavingWalk];
+    }
 
     [self changeCurrentContextTo:context];
     [self postNotificationsOnContextTransitionWhenForcedByUserIs:isManuallyTriggered];
 
-    [self triggerArrivalActionsOnWalk:enteringWalk];
+    if ([enteringWalk count] > 0) {
+        DSLog(@"Triggering arrival actions, if any, for '%@'", [self currentContextName]);
+        [self triggerArrivalActionsOnWalk:enteringWalk];
+    }
 }
 
 - (void)postNotificationsOnContextTransitionWhenForcedByUserIs:(BOOL)isManuallyTriggered {
@@ -1150,8 +1164,8 @@
     }
 
     NSString *fmt = NSLocalizedString(@"Changing to context '%@' %@.",
-                                      @"First parameter is the context name, second parameter is the confidence value, "
-                                      "or 'as default context'");
+                                      @"First parameter is the context name, second parameter is the confidence value,"
+                                      " or 'as default context'");
 	return [NSString stringWithFormat:fmt, self.currentContextPath, msgSuffix];
 }
 
@@ -1168,20 +1182,22 @@
 		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
     }
 	
-	DSLog(@"going to %@", [ctxt name]);
+	DSLog(@"Going to '%@'", [ctxt name]);
 
 	// Selecting any context in the force-context menu deselects the 'stick forced contexts' item,
 	// so we force it to be correct here.
 	int state = forcedContextIsSticky ? NSOnState : NSOffState;
 	[stickForcedContextMenuItem setState:state];
 
+    [self increaseActionsInProgress];
     dispatch_async(updatingQueue, ^{
         [self performTransitionToContext:ctxt triggeredManually:YES];
         
         if (!forcedContextIsSticky) {
             self.forceOneFullUpdate = YES;
-            smoothCounter = 0;
+            [self resetSwitchSmoothing];
         }
+        [self decreaseActionsInProgress];
     });
 }
 
@@ -1205,7 +1221,7 @@
 
     if (!forcedContextIsSticky) {
         self.forceOneFullUpdate = YES;
-        smoothCounter = 0;
+        [self resetSwitchSmoothing];
     }
 }
 
@@ -1229,27 +1245,26 @@
 #ifdef DEBUG_MODE
     DSLog(@"rules that match: %@", matchingRules);
 #endif
-
-    if (!changed && !self.forceOneFullUpdate && (smoothCounter == 0)) {
+    
+    if (!changed && (smoothCounter == 0) && !self.forceOneFullUpdate) {
 #ifdef DEBUG_MODE
-        DSLog(@"Same rule are matching as on previous check. No updates required.");
+        DSLog(@"Same rule are matching as on previous update. No further actions required.");
 #endif
         return;
     }
     self.forceOneFullUpdate = NO;
-
-    if (forcedContextIsSticky) {
-        return;
-    }
-
+    
     // of the configured contexts, which ones have rule hits?
     NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
-    DSLog(@"guesses %@", guesses);
-
     [self applyDefaultContextTo:guesses];
-
+    DSLog(@"Context guesses:\n%@", guesses);
+    
     [contextsDataSource updateConfidencesFromGuesses:guesses];
-
+    
+    if (forcedContextIsSticky) { // prevent switching contexts when the current one is forced and sticky
+        return;
+    }
+    
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if ([standardUserDefaults boolForKey:@"AllowMultipleActiveContexts"]) {
         const double minConfidence = (double) [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"];
@@ -1261,10 +1276,12 @@
         // use the older style of context matching
         // of the guesses, which one has the highest confidence rating?
         Context *guessContext = [self getMostConfidentContext:guesses];
-
+        
         if (guessContext && [self guessMeetsConfidenceRequirement:guessContext]) {
+            [self increaseActionsInProgress];
             dispatch_async(updatingQueue, ^{
                 [self performTransitionToContext:guessContext triggeredManually:NO];
+                [self decreaseActionsInProgress];
             });
         }
     }
@@ -1277,12 +1294,10 @@
     if ([standardUserDefaults boolForKey:@"UseDefaultContext"]) {
         NSString *uuid = [standardUserDefaults stringForKey:@"DefaultContext"];
         const double minConfidence = (double) [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"];
-
+        
         NSNumber *guessConfidence = guesses[uuid];
         if (!guessConfidence || ([guessConfidence doubleValue] < minConfidence)) {
             guesses[uuid] = @(minConfidence);
-            Context *defaultContext = [contextsDataSource contextByUUID:uuid];
-            defaultContext.confidence = @(minConfidence);
         }
     }
 }
@@ -1334,7 +1349,7 @@
 			unconfidenceValue = @([unconfidenceValue doubleValue] * (1.0 - mult));
 
 #ifdef DEBUG_MODE
-			DSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
+			DSLog(@"Crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
 #endif
 
 			guesses[uuidOfCurrentContext] = unconfidenceValue;
@@ -1366,7 +1381,7 @@
     // one that satisfies the minimum confidence
     [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, NSNumber *conf, BOOL *stop) {
 	 	const double confindence = [conf doubleValue];
-		if (confindence >= guessConf) {
+		if (confindence > guessConf) {
             *stop = (confindence >= 1.0);
 			guessConf = confindence;
 			guessUUID = uuid;
@@ -1383,7 +1398,7 @@
     NSString *guessUUID = guessContext.uuid;
     NSNumber *guessConf = guessContext.confidence;
 
-    DSLog(@"checking %@ (%@) with confidence %@", guessContext.name, guessUUID, guessConf);
+    DSLog(@"Checking '%@' (%@) with confidence %@", guessContext.name, guessUUID, guessConf);
 
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -1392,7 +1407,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessContext.name, guessConf);
 #endif
-        smoothCounter = 0;
+        [self resetSwitchSmoothing];
         return false;
 	}
 
@@ -1400,7 +1415,7 @@
 #ifdef DEBUG_MODE
 		DSLog(@"Guessed '%@' (with confidence %@); already there.", guessContext.name, guessConf);
 #endif
-        smoothCounter = 0;
+        [self resetSwitchSmoothing];
 		return false;
 	}
 
@@ -1415,21 +1430,31 @@
 
         if (smoothCounter > 0) {
 #ifdef DEBUG_MODE
-            DSLog(@"Switch smoothing kicking in... (%@ != %@)", [self currentContextName], guessContext.name);
+            DSLog(@"Switch smoothing kicking in... ('%@' != '%@')", [self currentContextName], guessContext.name);
 #endif
             return false;
         }
 
-        self.candidateContextUUID = nil;
+        [self resetSwitchSmoothing];
 	}
 
     return true;
 }
 
-- (void)goingToSleep:(id)arg {
-    DSLog(@"Stopping regular updates for sleep.");
-    [self suspendRegularUpdates];
+- (void)resetSwitchSmoothing {
+    smoothCounter = 0;
+    self.candidateContextUUID = nil;
+}
 
+- (void)goingToSleep:(id)arg {
+    if (self.goingToSleep) {
+        DSLog(@"WARNING: ControlPlane has received more than one notification in row about system sleep.");
+        return;
+    }
+    [self setGoingToSleep:YES];
+    
+    [self suspendRegularUpdates];
+    
     // clear the queued actions on sleep
     // in case the machine woke up but the screen saver
     // was never exited or the screen was never unlocked
@@ -1438,16 +1463,16 @@
         [screenSaverActionQueue removeAllObjects];
         [screenLockActionQueue removeAllObjects];
     });
-
-    // this might cause an issue with anyone who does an
-    // immediate action (not delayed at all) at sleep
-    [self setGoingToSleep:YES];
 }
 
 - (void)wakeFromSleep:(id)arg {
+    if (!self.goingToSleep) {
+        DSLog(@"WARNING: ControlPlane has received more than one notification in row about system wake-up.");
+        return;
+    }
     [self setGoingToSleep:NO];
-
-    DSLog(@"Starting regular updates after sleep.");
+    
+    [self resetSwitchSmoothing];
     [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
 }
 
@@ -1470,12 +1495,12 @@
     if ([standardUserDefaults boolForKey:@"EnablePersistentContext"]) {
 		[standardUserDefaults setValue:self.currentContext.uuid forKey:@"PersistentContext"];
 	}
-
+    
     [evidenceSources stopAllRunningEvidenceSources];
 }
 
 - (void) showMainApplicationWindow {
-	[prefsWindow makeFirstResponder: nil];
+	[prefsWindow makeFirstResponder:nil];
 }
 
 #pragma mark NSUserDefaults notifications
@@ -1501,20 +1526,26 @@
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
             updateInterval  = currentUpdateInterval;
-            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC)];
+            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC)];
         }
     }
 }
 
 #pragma mark -
 #pragma mark Evidence source change handling
-- (void) evidenceSourceDataDidChange:(NSNotification *)notification {
-    dispatch_async(dispatch_get_main_queue(), ^{
+- (void)evidenceSourceDataDidChange:(NSNotification *)notification {
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    if (dispatch_get_current_queue() != mainQueue) {
+        dispatch_async(mainQueue, ^{
+            [self evidenceSourceDataDidChange:notification];
+        });
+        return;
+    }
+
 #ifdef DEBUG_MODE
-        DSLog(@"**** TRIGGERING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
+        DSLog(@"**** TRIGGERING UPDATE BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
 #endif
-        [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC)];
-    });
+        [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC)];
 }
 
 
@@ -1575,15 +1606,18 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)suspendRegularUpdates {
+    DSLog(@"Suspending regular updates.");
     dispatch_suspend(updatingTimer);
 }
 
 - (void)resumeRegularUpdates {
+    DSLog(@"Resuming regular updates.");
     dispatch_resume(updatingTimer);
 }
 
 - (void)resumeRegularUpdatesWithDelay:(int64_t)nanoseconds {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, nanoseconds), updatingQueue, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, nanoseconds), dispatch_get_main_queue(), ^{
+        DSLog(@"Resuming regular updates.");
         dispatch_resume(updatingTimer);
     });
 }
@@ -1593,11 +1627,9 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)doUpdate {
-    if (!forcedContextIsSticky || self.forceOneFullUpdate) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
-            @autoreleasepool {
-                [self doUpdateForReal];
-            }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
+        @autoreleasepool {
+            [self doUpdateForReal];
         }
     }
 }
