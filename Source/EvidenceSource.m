@@ -145,21 +145,25 @@
 }
 
 - (void)goingToSleep:(id)arg {
-    goingToSleep = YES;
-	if ([self isRunning]) {
-		DSLog(@"Stopping %@ for sleep.", [self class]);
-		startAfterSleep = YES;
-		[self stop];
-	} 
+    if (!goingToSleep) {
+        goingToSleep = YES;
+        if ([self isRunning]) {
+            startAfterSleep = YES;
+            DSLog(@"Stopping %@ for sleep.", [self class]);
+            [self stop];
+        }
+    }
 }
 
 - (void)wakeFromSleep:(id)arg {
-    goingToSleep = NO;
-	if (startAfterSleep) {
-		DSLog(@"Starting %@ after sleep.", [self class]);
-		[self start];
-        startAfterSleep = NO;
-	}
+    if (goingToSleep) {
+        goingToSleep = NO;
+        if (startAfterSleep && ![self isRunning]) {
+            startAfterSleep = NO;
+            DSLog(@"Starting %@ after sleep.", [self class]);
+            [self start];
+        }
+    }
 }
 
 - (BOOL)matchesRulesOfType:(NSString *)type {
@@ -507,9 +511,7 @@
 }
 
 - (void)dealloc {
-    for (EvidenceSource *src in sources) {
-        [src stop];
-    }
+    [self stopAllRunningEvidenceSources];
 
     [enabledSourcesForRuleTypes release];
 	[sources release];

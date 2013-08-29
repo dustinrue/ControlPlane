@@ -177,9 +177,15 @@ static void onPMrootDomainChange(void *refcon, io_service_t service, uint32_t me
     running = NO;
 }
 
-- (void)goingToSleep:(NSNotification*)note {
+- (void)goingToSleep:(NSNotification *)note {
 #ifdef DEBUG_MODE
 	DSLog(@"goingToSleep: %@", [note name]);
+#endif
+}
+
+- (void)wakeFromSleep:(NSNotification *)note {
+#ifdef DEBUG_MODE
+	DSLog(@"wakeFromSleep: %@", [note name]);
 #endif
 }
 

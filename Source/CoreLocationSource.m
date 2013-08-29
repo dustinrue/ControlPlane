@@ -100,7 +100,6 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         locationManager = nil;
     }
     
-    //[webView close];
     webView.frameLoadDelegate = nil;
 	[webView.mainFrame loadHTMLString:@"" baseURL:NULL];
     
@@ -410,13 +409,25 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 }
 
 - (void)wakeFromSleep:(id)arg {
-    if (running)
-        [locationManager startUpdatingLocation];
+    if (goingToSleep) {
+        goingToSleep = NO;
+        if (startAfterSleep && ![self isRunning]) {
+            startAfterSleep = NO;
+            DSLog(@"Starting %@ after sleep.", [self class]);
+            [locationManager startUpdatingLocation];
+        }
+    }
 }
 
-- (void) goingToSleep:(id)arg {
-    if (running)
-        [locationManager stopUpdatingLocation];
+- (void)goingToSleep:(id)arg {
+    if (!goingToSleep) {
+        goingToSleep = YES;
+        if ([self isRunning]) {
+            startAfterSleep = YES;
+            DSLog(@"Stopping %@ for sleep.", [self class]);
+            [locationManager stopUpdatingLocation];
+        }
+    }
 }
 
 + (NSString *) convertLocationToText: (in CLLocation *) location {
