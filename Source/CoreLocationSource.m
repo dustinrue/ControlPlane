@@ -413,6 +413,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         goingToSleep = NO;
         if (startAfterSleep && ![self isRunning]) {
             startAfterSleep = NO;
+            running = YES;
+            
             DSLog(@"Starting %@ after sleep.", [self class]);
             [locationManager startUpdatingLocation];
         }
@@ -424,6 +426,8 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
         goingToSleep = YES;
         if ([self isRunning]) {
             startAfterSleep = YES;
+            running = NO;
+            
             DSLog(@"Stopping %@ for sleep.", [self class]);
             [locationManager stopUpdatingLocation];
         }
