@@ -1243,7 +1243,7 @@
     BOOL changed = NO;
     NSArray *matchingRules = [self getRulesThatMatchAndSetChangeFlag:&changed];
 #ifdef DEBUG_MODE
-    DSLog(@"rules that match: %@", matchingRules);
+    DSLog(@"Rules that match: %@", matchingRules);
 #endif
     
     if (!changed && (smoothCounter == 0) && !self.forceOneFullUpdate) {
@@ -1257,7 +1257,7 @@
     // of the configured contexts, which ones have rule hits?
     NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
     [self applyDefaultContextTo:guesses];
-    DSLog(@"Context guesses:\n%@", guesses);
+    DSLog(@"Context guesses: %@", guesses);
     
     [contextsDataSource updateConfidencesFromGuesses:guesses];
     
@@ -1526,7 +1526,7 @@
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
             updateInterval  = currentUpdateInterval;
-            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC)];
+            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC)];
         }
     }
 }
@@ -1541,11 +1541,11 @@
         });
         return;
     }
-
+    
 #ifdef DEBUG_MODE
-        DSLog(@"**** TRIGGERING UPDATE BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
+    DSLog(@"**** TRIGGERING UPDATE BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
 #endif
-        [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC)];
+    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC)];
 }
 
 
