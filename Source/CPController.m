@@ -3,7 +3,7 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
-//  Major rework by Vladimir Beloborodov (VladimirTechMan) in April-May 2013.
+//  Major rework by Vladimir Beloborodov (VladimirTechMan) in Q2-Q3 2013.
 //
 
 #import "Action.h"
@@ -48,65 +48,34 @@
 #pragma mark -
 #pragma mark CPController
 
-@interface CPController (Private)
-
-- (void)setStatusTitle:(NSString *)title;
-- (void)showInStatusBar:(id)sender;
-- (void)hideFromStatusBar:(NSTimer *)theTimer;
-- (void)doHideFromStatusBar:(BOOL)forced;
-
-- (void)contextsChanged:(NSNotification *)notification;
-
-- (void)goingToSleep:(id)arg;
-- (void)wakeFromSleep:(id)arg;
-
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
-- (void)applicationWillTerminate:(NSNotification *)aNotification;
-
-- (void)userDefaultsChanged:(NSNotification *)notification;
-
-- (void)importVersion1Settings;
-- (void)importVersion1SettingsFinish: (BOOL)rulesImported withActions: (BOOL)actionsImported andIPActions: (BOOL)ipActionsFound;
-
-- (void)forceSwitchAndToggleSticky:(id)sender;
-
-- (void)setMenuBarImage:(NSImage *)imageName;
-
-// ScreenSaver monitoring
-- (void) setScreenSaverActive:(NSNotification *) notification;
-- (void) setScreenSaverInActive:(NSNotification *) notification;
-
-// Screen lock monitoring
-- (void) setScreenLockActve:(NSNotification *) notification;
-- (void) setScreenLockInActive:(NSNotification *) notification;
-
-// Action Queue
-- (void) addActionToQueue:(id) action;
-
-
-// Evidence source monitoring
-- (void) evidenceSourceDataDidChange:(NSNotification *) notification;
-
-- (void) setStickyBit:(NSNotification *) notification;
-- (void) unsetStickyBit:(NSNotification *) notification;
-
-- (void) registerForNotifications;
-- (NSMutableDictionary *)getGuesses;
-
-@end
-
-#pragma mark -
-
 @interface CPController () {
 @private
-	NSInteger smoothCounter; // Switch smoothing state parameters
+	IBOutlet NSMenu *sbMenu;
+	NSStatusItem *sbItem;
+	NSImage *sbImageActive, *sbImageInactive;
+	NSTimer *sbHideTimer;
+    
+	IBOutlet NSMenuItem *forceContextMenuItem;
+	BOOL forcedContextIsSticky;
+	NSMenuItem *stickForcedContextMenuItem;
+    
+	IBOutlet ContextsDataSource *contextsDataSource;
+	IBOutlet EvidenceSourceSetController *evidenceSources;
+	IBOutlet NSWindow *prefsWindow;
+    
+    BOOL screenSaverRunning;
+    BOOL screenLocked;
+    
+    BOOL goingToSleep;
 
+	NSInteger smoothCounter; // Switch smoothing state parameters
+    
     // used to maintain a queue of actions that need
     // to be performed after the screen saver quits AND/OR
     // the screen is unlocked
     NSMutableArray *screenSaverActionQueue;
     NSMutableArray *screenLockActionQueue;
-
+    
     dispatch_queue_t concurrentActionQueue;
     dispatch_queue_t updatingQueue;
     dispatch_source_t updatingTimer;
@@ -121,7 +90,35 @@
 @property (retain,atomic,readwrite) NSArray *rules;
 @property (assign,atomic,readwrite) BOOL forceOneFullUpdate;
 
+- (void)setStatusTitle:(NSString *)title;
+- (void)showInStatusBar:(id)sender;
+- (void)hideFromStatusBar:(NSTimer *)theTimer;
+- (void)doHideFromStatusBar:(BOOL)forced;
+- (void)setMenuBarImage:(NSImage *)imageName;
+
+- (void)contextsChanged:(NSNotification *)notification;
+
+- (void)goingToSleep:(id)arg;
+- (void)wakeFromSleep:(id)arg;
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
+
+- (void)userDefaultsChanged:(NSNotification *)notification;
+
+// Evidence source monitoring
+- (void)evidenceSourceDataDidChange:(NSNotification *) notification;
+
+- (void)forceSwitchAndToggleSticky:(id)sender;
+- (void)setStickyBit:(NSNotification *) notification;
+- (void)unsetStickyBit:(NSNotification *) notification;
+
+- (void)registerForNotifications;
+
 @end
+
+
+#pragma mark -
 
 @implementation CPController
 
@@ -219,7 +216,7 @@
 	sbItem = nil;
 	sbHideTimer = nil;
 
-	[self resetSwitchSmoothing];
+	[self restartSwitchSmoothing];
     [self setGoingToSleep:NO];
 
 	forcedContextIsSticky = NO;
@@ -1195,7 +1192,7 @@
         
         if (!forcedContextIsSticky) {
             self.forceOneFullUpdate = YES;
-            [self resetSwitchSmoothing];
+            [self restartSwitchSmoothing];
         }
         [self decreaseActionsInProgress];
     });
@@ -1221,7 +1218,7 @@
 
     if (!forcedContextIsSticky) {
         self.forceOneFullUpdate = YES;
-        [self resetSwitchSmoothing];
+        [self restartSwitchSmoothing];
     }
 }
 
@@ -1407,7 +1404,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessContext.name, guessConf);
 #endif
-        [self resetSwitchSmoothing];
+        [self restartSwitchSmoothing];
         return false;
 	}
 
@@ -1415,7 +1412,7 @@
 #ifdef DEBUG_MODE
 		DSLog(@"Guessed '%@' (with confidence %@); already there.", guessContext.name, guessConf);
 #endif
-        [self resetSwitchSmoothing];
+        [self restartSwitchSmoothing];
 		return false;
 	}
 
@@ -1435,13 +1432,13 @@
             return false;
         }
 
-        [self resetSwitchSmoothing];
+        [self restartSwitchSmoothing];
 	}
 
     return true;
 }
 
-- (void)resetSwitchSmoothing {
+- (void)restartSwitchSmoothing {
     smoothCounter = 0;
     self.candidateContextUUID = nil;
 }
@@ -1472,7 +1469,7 @@
     }
     [self setGoingToSleep:NO];
     
-    [self resetSwitchSmoothing];
+    [self restartSwitchSmoothing];
     [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
 }
 
@@ -1526,7 +1523,7 @@
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
             updateInterval  = currentUpdateInterval;
-            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC)];
+            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC)];
         }
     }
 }

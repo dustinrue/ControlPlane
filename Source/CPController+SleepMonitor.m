@@ -96,6 +96,7 @@ static void sleepCallBack(void *refCon, io_service_t service, natural_t messageT
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
             
+            [cpController restartSwitchSmoothing];
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
                 [cpController forceUpdate];
             }
