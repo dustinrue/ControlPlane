@@ -58,12 +58,16 @@
          didRemoveService:(NSNetService *)netService
                moreComing:(BOOL)moreServicesComing {
     id <CPBonjourResolverDelegate> delegate = self.delegate;
+    if (!delegate) {
+        return;
+    }
+    
     if (![delegate respondsToSelector:@selector(netServiceBrowser:removedService:)]) {
         DSLog(@"Delegate is not compliant with CPBonjourResolverDelegate"
               " so you missed hearing about a service that went away");
         return;
     }
-
+    
     [delegate netServiceBrowser:self removedService:netService];
     [self.foundItems removeObject:netService];
 }
@@ -72,12 +76,16 @@
            didFindService:(NSNetService *)netService
                moreComing:(BOOL)moreServicesComing {
     id <CPBonjourResolverDelegate> delegate = self.delegate;
+    if (!delegate) {
+        return;
+    }
+    
     if (![delegate respondsToSelector:@selector(foundNewServiceFrom:withService:)]) {
         DSLog(@"Delegate is not compliant with CPBonjourResolverDelegate"
               " so you missed hearing about a service that is available");
         return;
     }
-
+    
     [self.foundItems addObject:netService];
     [delegate foundNewServiceFrom:self withService:netService];
 }
