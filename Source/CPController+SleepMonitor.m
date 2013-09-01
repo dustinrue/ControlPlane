@@ -8,6 +8,8 @@
 //  Bug fix and implementation improvements by Vladimir Beloborodov (VladimirTechMan) on 21-22 July 2013.
 //  Major rework done by Vladimir Beloborodov (VladimirTechMan) on 29 August 2913.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "CPNotifications.h"
 #import "CPController+SleepMonitor.h"
@@ -38,7 +40,7 @@ static void powerAdapterChangedCallBack();
         // register to receive system sleep notifications
         IONotificationPortRef notifyPort;
         io_object_t notifierObject;
-        rootPort = IORegisterForSystemPower(self, &notifyPort, sleepCallBack, &notifierObject);
+        rootPort = IORegisterForSystemPower((__bridge void *)(self), &notifyPort, sleepCallBack, &notifierObject);
         if (!rootPort) {
             DSLog(@"IORegisterForSystemPower failed");
         }

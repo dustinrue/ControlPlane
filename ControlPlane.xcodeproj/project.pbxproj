@@ -17,7 +17,7 @@
 		7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4855BF174941C500D8EB84 /* IPv6RuleType.m */; };
 		7C6D94591747A1BE00D5B9C7 /* IPAddrEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */; };
 		7C6D945C1747A1F300D5B9C7 /* IPv4RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */; };
-		7C73BDE217D09A4100EBFB80 /* SharedNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C73BDE117D09A4100EBFB80 /* SharedNumberFormatter.m */; };
+		7C73BDE217D09A4100EBFB80 /* SharedNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C73BDE117D09A4100EBFB80 /* SharedNumberFormatter.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
 		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
 		7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -39,10 +39,10 @@
 		8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */; };
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.png */; };
-		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; };
+		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D3BFFB10C61CA5300B9B910 /* WebKit.framework */; };
 		8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */; };
-		8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */; };
+		8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D481B070B6098DD0097CF9C /* IOKit.framework */; };
 		8D4DBDC30BE1E3C00024DEA0 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4DBDC20BE1E3C00024DEA0 /* gear.png */; };
 		8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */; };
@@ -137,7 +137,7 @@
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DAB1A7E215C3776D00CF65E8 /* CPNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB1A7E115C3776D00CF65E8 /* CPNotifications.m */; };
 		DABE3F6A16C44236004F5E63 /* OpenAndHideAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DABE3F6916C44236004F5E63 /* OpenAndHideAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DABF656517910AB600AA5B86 /* CPSystemInfo.m */; };
+		DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DABF656517910AB600AA5B86 /* CPSystemInfo.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
 		DAC817B1159BF95A0012ED43 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */; };
@@ -174,7 +174,7 @@
 		DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
-		DDAE0017141474DC00FDADE8 /* CPController+SleepMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepMonitor.m */; };
+		DDAE0017141474DC00FDADE8 /* CPController+SleepMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepMonitor.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
