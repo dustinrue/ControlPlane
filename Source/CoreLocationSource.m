@@ -12,7 +12,6 @@
 
 #import "CoreLocationSource.h"
 #import "DSLogger.h"
-#import "JSONKit.h"
 
 
 @implementation CLLocation (CustomExtensions)
@@ -338,7 +337,13 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	if (!jsonData) {
 		return NO;
     }
-	NSDictionary *data = [[JSONDecoder decoder] objectWithData: jsonData];
+	
+    NSError *error = nil;
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    if (!data) {
+        DSLog(@"Failed to decode JSON object: '%@'", [error localizedFailureReason]);
+        return NO;
+    }
 	
 	// check response status
 	if (![data[@"status"] isEqualToString:@"OK"]) {
@@ -370,7 +375,13 @@ static const NSString *kGoogleAPIPrefix = @"https://maps.googleapis.com/maps/api
 	if (!jsonData) {
 		return NO;
     }
-	NSDictionary *data = [[JSONDecoder decoder] objectWithData:jsonData];
+    
+    NSError *error = nil;
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    if (!data) {
+        DSLog(@"Failed to decode JSON object: '%@'", [error localizedFailureReason]);
+        return NO;
+    }
 	
 	// check response status
 	if (![data[@"status"] isEqualToString: @"OK"]) {

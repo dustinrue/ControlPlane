@@ -158,7 +158,6 @@
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
-		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
 		DD7D2539149C338300BE7C8B /* NSTimer+Invalidation.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
@@ -589,8 +588,6 @@
 		DD44B5A414142D4D0016BF6B /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD44B5A514142D4D0016BF6B /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
-		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Source/JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Source/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		DD6FCC681413EF6B0095E64F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DD7D2537149C338200BE7C8B /* NSTimer+Invalidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+Invalidation.h"; path = "Source/NSTimer+Invalidation.h"; sourceTree = "<group>"; };
 		DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+Invalidation.m"; path = "Source/NSTimer+Invalidation.m"; sourceTree = "<group>"; };
@@ -812,7 +809,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DD5BD20C141614CA007BA88C /* JSONKit */,
 				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
 				32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -1091,15 +1087,6 @@
 				DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */,
 			);
 			name = "Apple Private Frameworks";
-			sourceTree = "<group>";
-		};
-		DD5BD20C141614CA007BA88C /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				DD5BD209141614C4007BA88C /* JSONKit.h */,
-				DD5BD20A141614C4007BA88C /* JSONKit.m */,
-			);
-			name = JSONKit;
 			sourceTree = "<group>";
 		};
 		DD8274EB14114CFF0098FA6E /* Application Actions */ = {
@@ -1541,7 +1528,6 @@
 				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
 				DDAE0017141474DC00FDADE8 /* CPController+SleepMonitor.m in Sources */,
-				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
 				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
 				732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */,
