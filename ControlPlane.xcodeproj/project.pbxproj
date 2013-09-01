@@ -20,7 +20,7 @@
 		7C73BDE217D09A4100EBFB80 /* SharedNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C73BDE117D09A4100EBFB80 /* SharedNumberFormatter.m */; };
 		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
 		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
-		7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */; };
+		7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF034B17246B770098990F /* SearchDomainRule.xib */; };
 		7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF035C172471DD0098990F /* ServerAddressRule.xib */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
