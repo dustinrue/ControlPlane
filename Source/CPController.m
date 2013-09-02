@@ -266,31 +266,29 @@
 
 - (void)setActiveRules:(NSArray *)newRules {
     NSMutableArray *rules = [[NSMutableArray alloc] initWithCapacity:[newRules count]];
-
+    
     for (NSDictionary *ruleParams in newRules) {
         NSMutableDictionary *rule = [ruleParams mutableCopy];
-
+        
         // remove all previously cached data
         for (NSString *key in [rule allKeys]) {
             if ([key hasPrefix:@"cached"]) {
                 [rule removeObjectForKey:key];
             }
         }
-
+        
         [rules addObject:rule];
         [rule release];
     }
-
+    
     [[NSUserDefaults standardUserDefaults] setObject:rules forKey:@"Rules"];
-
+    
     self.rules = rules; // atomic
     self.forceOneFullUpdate = YES;
     
     [rules release];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
-    });
+    
+    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC)];
 }
 
 - (BOOL)stickyContext {
@@ -487,17 +485,17 @@
     [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
 
-    [self registerForNotifications];
     [self startMonitoringSleepAndPowerNotifications];
+    [self registerForNotifications];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
         [evidenceSources startEnabledEvidenceSources];
         [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
     });
-
+    
     [self rebuildForceContextMenu];
-
+    
 	// Persistent contexts
 	Context *startContext = nil;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
@@ -505,7 +503,7 @@
         startContext = [contextsDataSource contextByUUID:uuid];
 	}
     [self changeCurrentContextTo:startContext];
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         // Set up status bar.
         [self showInStatusBar:self];

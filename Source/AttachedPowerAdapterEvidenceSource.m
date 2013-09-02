@@ -4,6 +4,7 @@
 //
 //  Created by Dustin Rue on 8/27/12.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
 //
 
 #import <IOKit/ps/IOPowerSources.h>
@@ -27,12 +28,7 @@
 	if (!(self = [super init])) {
 		return nil;
     }
-    
 	return self;
-}
-
-- (void)dealloc {
-	//[super dealloc];
 }
 
 - (NSString *)description {
@@ -42,16 +38,16 @@
 
 - (void)doFullUpdate:(NSNotification *)notification {
     NSNumber *serialNumber = nil;
-
+    
     CFDictionaryRef powerAdapterInfo = IOPSCopyExternalPowerAdapterDetails();
     if (powerAdapterInfo) {
-        serialNumber = ((__bridge NSDictionary *) powerAdapterInfo)[@kIOPSPowerAdapterSerialNumberKey];
+        serialNumber = [((__bridge NSDictionary *) powerAdapterInfo)[@kIOPSPowerAdapterSerialNumberKey] copy];
         CFRelease(powerAdapterInfo);
     }
-
+    
     self.attachedPowerAdapter = serialNumber;
     [self setDataCollected:(serialNumber != nil)];
-
+    
     if (notification) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
     }
@@ -61,14 +57,14 @@
 	if (running) {
 		return;
     }
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(doFullUpdate:)
                                                  name:@"powerAdapterDidChangeNotification"
                                                object:nil];
-
+    
 	[self doFullUpdate:nil];
-
+    
 	running = YES;
 }
 
@@ -76,15 +72,15 @@
 	if (!running) {
 		return;
     }
-
+    
 	// remove notifications
 	[[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:@"powerAdapterDidChangeNotification"
                                                   object:nil];
-
+    
     self.attachedPowerAdapter = nil;
 	[self setDataCollected:NO];
-
+    
 	running = NO;
 }
 
@@ -95,12 +91,8 @@
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
     NSString *param = [rule[@"parameter"] stringValue];
     NSString *currentAdapter = [[self.attachedPowerAdapter stringValue] copy];
-
-    BOOL match = [currentAdapter isEqualToString:param];
-
-   // [currentAdapter release];
-
-    return match;
+    
+    return [currentAdapter isEqualToString:param];
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type {
@@ -109,11 +101,11 @@
 
 - (NSArray *)getSuggestions {
     [self doFullUpdate:nil];
-
+    
     NSNumber *serialNum = self.attachedPowerAdapter;
     NSString *descr = [NSString stringWithFormat:NSLocalizedString(@"Power adapter with serial: %@", @""), serialNum];
     NSArray *array = @[ @{ @"type": @"AttachedPowerAdapter", @"parameter": serialNum, @"description": descr } ];
-
+    
     DSLog(@"stuff %@", array);
 	return array;
 }
