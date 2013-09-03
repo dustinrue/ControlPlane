@@ -4,6 +4,7 @@
 //
 //  Created by Mark Wallis on 30/4/07.
 //  Tweaks by David Symonds on 30/4/07.
+//  Minor updates done by Vladimir Beloborodov (VladimirTechMan) on 25 Aug 2013.
 //
 
 #import <IOKit/IOKitLib.h>
@@ -13,54 +14,54 @@
 #import "CPSystemInfo.h"
 
 
-@interface PowerEvidenceSource (Private)
-
-- (void)doFullUpdate;
-
-@end
-
-
 #pragma mark -
 
-@implementation PowerEvidenceSource
+@implementation PowerEvidenceSource {
+	NSString *status;
+}
 
-- (id)init
-{
-	if (!(self = [super init]))
+- (id)init {
+    self = [super init];
+	if (!self) {
 		return nil;
-
-	status = nil;
+    }
 
 	return self;
 }
 
-
-- (NSString *) description {
-    return NSLocalizedString(@"Create rules based on what power source your Mac is currently running on.  Can include power adapter or battery.", @"");
+- (void)dealloc {
+    [status release];
+    [super dealloc];
 }
 
-- (void)doFullUpdate
-{
+- (NSString *)description {
+    return NSLocalizedString(@"Create rules based on what power source your Mac is currently running on."
+                             " Can include power adapter or battery.", @"");
+}
+
+- (void)doFullUpdate:(NSNotification *)notification {
 	CFTypeRef blob = IOPSCopyPowerSourcesInfo();
-	NSArray *list = (NSArray *) IOPSCopyPowerSourcesList(blob);
-	[list autorelease];
+	CFArrayRef list = IOPSCopyPowerSourcesList(blob);
 
-	BOOL onBattery = YES;
-	NSEnumerator *en = [list objectEnumerator];
-	CFTypeRef source;
-	while ((source = [en nextObject])) {
-		NSDictionary *dict = (NSDictionary *) IOPSGetPowerSourceDescription(blob, source);
+	__block BOOL onBattery = YES;
+    [(NSArray *) list enumerateObjectsUsingBlock:^(id source, NSUInteger idx, BOOL *stop) {
+		NSDictionary *dict = (NSDictionary *) IOPSGetPowerSourceDescription(blob, (CFTypeRef) source);
 
-		if ([[dict valueForKey:@kIOPSPowerSourceStateKey] isEqualToString:@kIOPSACPowerValue])
+		if ([dict[@kIOPSPowerSourceStateKey] isEqualToString:@kIOPSACPowerValue]) {
 			onBattery = NO;
-	}
+            *stop = YES;
+        }
+    }];
+
+    CFRelease(list);
 	CFRelease(blob);
 
-	if (onBattery)
-		status = @"Battery";
-	else
-		status = @"A/C";
+    status = (onBattery) ? (@"Battery") : (@"A/C");
 	[self setDataCollected:YES];
+
+    if (notification) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    }
 }
 
 - (void)start {
@@ -69,11 +70,11 @@
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(doFullUpdate)
+                                             selector:@selector(doFullUpdate:)
                                                  name:@"powerAdapterDidChangeNotification"
                                                object:nil];
     
-    [self doFullUpdate];
+    [self doFullUpdate:nil];
 	running = YES;
 }
 
@@ -92,38 +93,26 @@
 	running = NO;
 }
 
-- (NSString *)name
-{
+- (NSString *)name {
 	return @"Power";
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule
-{
-	if (!status)
-		return NO;
-	return [[rule objectForKey:@"parameter"] isEqualToString:status];
+- (BOOL)doesRuleMatch:(NSDictionary *)rule {
+	return status && [status isEqualToString:rule[@"parameter"]];
 }
 
-- (NSString *)getSuggestionLeadText:(NSString *)type
-{
+- (NSString *)getSuggestionLeadText:(NSString *)type {
 	return NSLocalizedString(@"Being powered by", @"In rule-adding dialog");
 }
 
-- (NSArray *)getSuggestions
-{
-	return [NSArray arrayWithObjects:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"Power", @"type",
-			@"Battery", @"parameter",
-			NSLocalizedString(@"Battery", @""), @"description", nil],
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			@"Power", @"type",
-			@"A/C", @"parameter",
-			NSLocalizedString(@"Power Adapter", @""), @"description", nil],
-		nil];
+- (NSArray *)getSuggestions {
+	return @[
+        @{ @"type": @"Power", @"parameter": @"Battery", @"description": NSLocalizedString(@"Battery", @"") },
+        @{ @"type": @"Power", @"parameter": @"A/C",     @"description": NSLocalizedString(@"Power Adapter", @"") },
+    ];
 }
 
-- (NSString *) friendlyName {
+- (NSString *)friendlyName {
     return NSLocalizedString(@"Power Source", @"");
 }
 

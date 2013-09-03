@@ -8,13 +8,9 @@
 #import <WebKit/WebView.h>
 
 
-@interface AboutPanel : NSObject {
-	NSPanel *panel;
-	IBOutlet WebView *webView;
-}
+@interface AboutPanel : NSObject
 
 - (id)init;
-- (void)dealloc;
 
 - (void)runPanel;
 

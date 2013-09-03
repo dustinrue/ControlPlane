@@ -11,7 +11,8 @@
 @interface DefaultPrinterAction : Action <ActionWithLimitedOptions>
 
 - (id)initWithDictionary:(NSDictionary *)dict;
-- (void)dealloc;
+- (id)initWithOption:(NSString *)option;
+
 - (NSMutableDictionary *)dictionary;
 
 - (NSString *)description;
@@ -20,6 +21,5 @@
 + (NSString *)creationHelpText;
 
 + (NSArray *)limitedOptions;
-- (id)initWithOption:(NSString *)option;
 
 @end

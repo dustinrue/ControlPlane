@@ -17,10 +17,10 @@
 		7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4855BF174941C500D8EB84 /* IPv6RuleType.m */; };
 		7C6D94591747A1BE00D5B9C7 /* IPAddrEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */; };
 		7C6D945C1747A1F300D5B9C7 /* IPv4RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */; };
+		7C73BDE217D09A4100EBFB80 /* SharedNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C73BDE117D09A4100EBFB80 /* SharedNumberFormatter.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7C8574EC16FB52AF0081659A /* DNSEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */; };
 		7C8574F116FB53180081659A /* ServerAddressRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8574F016FB53180081659A /* ServerAddressRuleType.m */; };
-		7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */; };
-		7CFEB27717AD852E0046D79B /* SharedNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFEB27617AD852D0046D79B /* SharedNumberFormatter.m */; };
+		7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF034B17246B770098990F /* SearchDomainRule.xib */; };
 		7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF035C172471DD0098990F /* ServerAddressRule.xib */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
@@ -39,10 +39,10 @@
 		8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */; };
 		8D38B66C0C49D50200290F47 /* SliderWithValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D38B66A0C49D50200290F47 /* SliderWithValue.m */; };
 		8D3A3D5F0C012565008EBF2A /* EvidenceSourcesPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.png */; };
-		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; };
+		8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3BFF3D0C61BE4500B9B910 /* AboutPanel.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D3BFFB10C61CA5300B9B910 /* WebKit.framework */; };
 		8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */; };
-		8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */; };
+		8D447DF90C3E65D000DAB17A /* ContextSelectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D447DF70C3E65CF00DAB17A /* ContextSelectionButton.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D481B070B6098DD0097CF9C /* IOKit.framework */; };
 		8D4DBDC30BE1E3C00024DEA0 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4DBDC20BE1E3C00024DEA0 /* gear.png */; };
 		8D4E5CB30C48AE9F0054A67C /* ContextsPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */; };
@@ -72,20 +72,20 @@
 		8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DA2F4130CE8630200F92D4D /* DesktopBackgroundAction.m */; };
 		8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */; };
 		8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8DB8917B0BB89BD8005347C2 /* oui.txt */; };
-		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; };
-		8DBB44980C530F7600064010 /* DSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB44960C530F7600064010 /* DSLogger.m */; };
+		8DBAFAFC0BDC3B7B00BE0747 /* ShellScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBAFAFA0BDC3B7B00BE0747 /* ShellScriptAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8DBB44980C530F7600064010 /* DSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB44960C530F7600064010 /* DSLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DC410FB0C64665E00393759 /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DC410FA0C64665E00393759 /* AboutPanel.xib */; };
 		8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DC4E7F90C178917007E7E41 /* MuteAction.m */; };
 		8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790C20BC28C4E00705346 /* MailSMTPServerAction.m */; };
 		8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCB43560C4DBABD00E71D28 /* FirewallRuleAction.m */; };
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
-		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; };
+		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
 		8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; };
 		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; };
 		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
-		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; };
+		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
 		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
@@ -114,10 +114,9 @@
 		DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
 		DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */; };
-		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; };
+		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		DA80EC4C17681C5000EAEBFF /* libcups.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA80EC4B17681C5000EAEBFF /* libcups.dylib */; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; };
 		DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */; };
 		DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA83A21E13D12A3200074503 /* cp-icon-active.icns */; };
@@ -137,8 +136,8 @@
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
 		DAB1A7E215C3776D00CF65E8 /* CPNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB1A7E115C3776D00CF65E8 /* CPNotifications.m */; };
-		DABE3F6A16C44236004F5E63 /* OpenAndHideAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DABE3F6916C44236004F5E63 /* OpenAndHideAction.m */; };
-		DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DABF656517910AB600AA5B86 /* CPSystemInfo.m */; };
+		DABE3F6A16C44236004F5E63 /* OpenAndHideAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DABE3F6916C44236004F5E63 /* OpenAndHideAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DABF656517910AB600AA5B86 /* CPSystemInfo.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DAC45F2014CDEC170007F5EF /* TimeMachineDestinationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */; };
 		DAC672FE152235E800F1C7A1 /* ToggleWebSharingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC672FD152235E800F1C7A1 /* ToggleWebSharingAction.m */; };
 		DAC817B1159BF95A0012ED43 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC817B0159BF95A0012ED43 /* ServiceManagement.framework */; };
@@ -151,14 +150,13 @@
 		DAF2F820150EE5960040DDC7 /* BWQuincyMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = DAF2F81B150EE5960040DDC7 /* BWQuincyMain.nib */; };
 		DAF2F821150EE5960040DDC7 /* BWQuincyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF2F81D150EE5960040DDC7 /* BWQuincyManager.m */; };
 		DAF2F822150EE5960040DDC7 /* Quincy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAF2F81E150EE5960040DDC7 /* Quincy-Info.plist */; };
-		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; };
+		DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DAFC0E4514788ACB00DA6139 /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DAFC0E4614788B0500DA6139 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB8911C0BB88D0B005347C2 /* IOBluetooth.framework */; };
 		DD06E811140C661700059764 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD06E810140C661600059764 /* AudioToolbox.framework */; };
 		DD3BAB8314163C6B000D5F88 /* CoreLocationRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3BAB8514163C6B000D5F88 /* CoreLocationRule.xib */; };
 		DD44B57E141417E40016BF6B /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44B57D141417E40016BF6B /* CoreServices.framework */; };
 		DD44B59F14142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD44B5A114142D2D0016BF6B /* CPHelperToolAuthorizationPrompts.strings */; };
-		DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5BD20A141614C4007BA88C /* JSONKit.m */; };
 		DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCC681413EF6B0095E64F /* CoreLocation.framework */; };
 		DD7D2539149C338300BE7C8B /* NSTimer+Invalidation.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */; };
 		DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD8274E5141147BB0098FA6E /* controlplane.icns */; };
@@ -167,7 +165,7 @@
 		DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F514116CC80098FA6E /* OpenURLAction.m */; };
 		DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274F81411748B0098FA6E /* LockKeychainAction.m */; };
 		DD8274FB141177750098FA6E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
-		DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274FD14117C580098FA6E /* SpeakAction.m */; };
+		DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8274FD14117C580098FA6E /* SpeakAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDA2013C1411C0FB00DE570E /* Localizable.strings */; };
 		DDA201441411C25A00DE570E /* GenericRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201461411C25A00DE570E /* GenericRule.xib */; };
 		DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA201501411C32F00DE570E /* IPRule.xib */; };
@@ -176,7 +174,7 @@
 		DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDA2016E1411C38D00DE570E /* TimeOfDayRule.xib */; };
 		DDAA9A181402FAAD00D4757E /* SleepEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAA9A171402FAAD00D4757E /* SleepEvidenceSource.m */; };
 		DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDAC3C54140D866200FBF29E /* ScriptingBridge.framework */; };
-		DDAE0017141474DC00FDADE8 /* CPController+SleepMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepMonitor.m */; };
+		DDAE0017141474DC00FDADE8 /* CPController+SleepMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAE0016141474DC00FDADE8 /* CPController+SleepMonitor.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
@@ -338,14 +336,14 @@
 		7C6D94581747A1BE00D5B9C7 /* IPAddrEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPAddrEvidenceSource.m; path = Source/IPAddrEvidenceSource.m; sourceTree = "<group>"; };
 		7C6D945A1747A1E400D5B9C7 /* IPv4RuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPv4RuleType.h; path = Source/IPv4RuleType.h; sourceTree = "<group>"; };
 		7C6D945B1747A1F300D5B9C7 /* IPv4RuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPv4RuleType.m; path = Source/IPv4RuleType.m; sourceTree = "<group>"; };
+		7C73BDE017D09A4100EBFB80 /* SharedNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedNumberFormatter.h; path = Source/SharedNumberFormatter.h; sourceTree = "<group>"; };
+		7C73BDE117D09A4100EBFB80 /* SharedNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNumberFormatter.m; path = Source/SharedNumberFormatter.m; sourceTree = "<group>"; };
 		7C8574EA16FB52AF0081659A /* DNSEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DNSEvidenceSource.h; path = Source/DNSEvidenceSource.h; sourceTree = "<group>"; };
 		7C8574EB16FB52AF0081659A /* DNSEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DNSEvidenceSource.m; path = Source/DNSEvidenceSource.m; sourceTree = "<group>"; };
 		7C8574EF16FB53180081659A /* ServerAddressRuleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerAddressRuleType.h; path = Source/ServerAddressRuleType.h; sourceTree = "<group>"; };
 		7C8574F016FB53180081659A /* ServerAddressRuleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerAddressRuleType.m; path = Source/ServerAddressRuleType.m; sourceTree = "<group>"; };
 		7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LaptopLidEvidenceSource.m; path = Source/LaptopLidEvidenceSource.m; sourceTree = "<group>"; };
 		7CA6847A17947E2C00563601 /* LaptopLidEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LaptopLidEvidenceSource.h; path = Source/LaptopLidEvidenceSource.h; sourceTree = "<group>"; };
-		7CFEB27517AD852D0046D79B /* SharedNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedNumberFormatter.h; sourceTree = "<group>"; };
-		7CFEB27617AD852D0046D79B /* SharedNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedNumberFormatter.m; sourceTree = "<group>"; };
 		7CFF034A17246B770098990F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
 		7CFF03521724705D0098990F /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SearchDomainRule.xib; sourceTree = "<group>"; };
 		7CFF0353172470640098990F /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/SearchDomainRule.xib"; sourceTree = "<group>"; };
@@ -589,8 +587,6 @@
 		DD44B5A414142D4D0016BF6B /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/CPHelperToolAuthorizationPrompts.strings"; sourceTree = "<group>"; };
 		DD44B5A514142D4D0016BF6B /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
 		DD44B5A614142D4D0016BF6B /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/CPHelperToolAuthorizationPrompts.strings; sourceTree = "<group>"; };
-		DD5BD209141614C4007BA88C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Source/JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		DD5BD20A141614C4007BA88C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Source/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		DD6FCC681413EF6B0095E64F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DD7D2537149C338200BE7C8B /* NSTimer+Invalidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+Invalidation.h"; path = "Source/NSTimer+Invalidation.h"; sourceTree = "<group>"; };
 		DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+Invalidation.m"; path = "Source/NSTimer+Invalidation.m"; sourceTree = "<group>"; };
@@ -668,7 +664,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA80EC4C17681C5000EAEBFF /* libcups.dylib in Frameworks */,
 				DAC817B1159BF95A0012ED43 /* ServiceManagement.framework in Frameworks */,
 				DA8E2833156B498A0040FC35 /* ApplicationServices.framework in Frameworks */,
 				8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */,
@@ -740,8 +735,8 @@
 				DD7D2538149C338300BE7C8B /* NSTimer+Invalidation.m */,
 				8D82F0A10AA81411009ADA44 /* PrefsWindowController.h */,
 				8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */,
-				7CFEB27517AD852D0046D79B /* SharedNumberFormatter.h */,
-				7CFEB27617AD852D0046D79B /* SharedNumberFormatter.m */,
+				7C73BDE017D09A4100EBFB80 /* SharedNumberFormatter.h */,
+				7C73BDE117D09A4100EBFB80 /* SharedNumberFormatter.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -812,7 +807,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DD5BD20C141614CA007BA88C /* JSONKit */,
 				8D8C9BA70BBB3AAC0074D5B3 /* Apple80211.h */,
 				32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -1091,15 +1085,6 @@
 				DAFC0E3D14788A5000DA6139 /* DisplayServices.framework */,
 			);
 			name = "Apple Private Frameworks";
-			sourceTree = "<group>";
-		};
-		DD5BD20C141614CA007BA88C /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				DD5BD209141614C4007BA88C /* JSONKit.h */,
-				DD5BD20A141614C4007BA88C /* JSONKit.m */,
-			);
-			name = JSONKit;
 			sourceTree = "<group>";
 		};
 		DD8274EB14114CFF0098FA6E /* Application Actions */ = {
@@ -1541,7 +1526,6 @@
 				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
 				DDAE0017141474DC00FDADE8 /* CPController+SleepMonitor.m in Sources */,
-				DD5BD20B141614C4007BA88C /* JSONKit.m in Sources */,
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
 				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
 				732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */,
@@ -1577,8 +1561,8 @@
 				7C4855C0174941C500D8EB84 /* IPv6RuleType.m in Sources */,
 				DABF656617910AB600AA5B86 /* CPSystemInfo.m in Sources */,
 				7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */,
-				7CFEB27717AD852E0046D79B /* SharedNumberFormatter.m in Sources */,
 				DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */,
+				7C73BDE217D09A4100EBFB80 /* SharedNumberFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1816,6 +1800,8 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1833,6 +1819,8 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1842,6 +1830,7 @@
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 					"\"$(SRCROOT)\"",
 				);
+				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;

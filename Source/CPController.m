@@ -3,7 +3,7 @@
 //  ControlPlane
 //
 //  Created by David Symonds on 1/02/07.
-//  Major rework by Vladimir Beloborodov (VladimirTechMan) in April-May 2013.
+//  Major rework by Vladimir Beloborodov (VladimirTechMan) in Q2-Q3 2013.
 //
 
 #import "Action.h"
@@ -48,65 +48,34 @@
 #pragma mark -
 #pragma mark CPController
 
-@interface CPController (Private)
-
-- (void)setStatusTitle:(NSString *)title;
-- (void)showInStatusBar:(id)sender;
-- (void)hideFromStatusBar:(NSTimer *)theTimer;
-- (void)doHideFromStatusBar:(BOOL)forced;
-
-- (void)contextsChanged:(NSNotification *)notification;
-
-- (void)goingToSleep:(id)arg;
-- (void)wakeFromSleep:(id)arg;
-
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
-- (void)applicationWillTerminate:(NSNotification *)aNotification;
-
-- (void)userDefaultsChanged:(NSNotification *)notification;
-
-- (void)importVersion1Settings;
-- (void)importVersion1SettingsFinish: (BOOL)rulesImported withActions: (BOOL)actionsImported andIPActions: (BOOL)ipActionsFound;
-
-- (void)forceSwitchAndToggleSticky:(id)sender;
-
-- (void)setMenuBarImage:(NSImage *)imageName;
-
-// ScreenSaver monitoring
-- (void) setScreenSaverActive:(NSNotification *) notification;
-- (void) setScreenSaverInActive:(NSNotification *) notification;
-
-// Screen lock monitoring
-- (void) setScreenLockActve:(NSNotification *) notification;
-- (void) setScreenLockInActive:(NSNotification *) notification;
-
-// Action Queue
-- (void) addActionToQueue:(id) action;
-
-
-// Evidence source monitoring
-- (void) evidenceSourceDataDidChange:(NSNotification *) notification;
-
-- (void) setStickyBit:(NSNotification *) notification;
-- (void) unsetStickyBit:(NSNotification *) notification;
-
-- (void) registerForNotifications;
-- (NSMutableDictionary *)getGuesses;
-
-@end
-
-#pragma mark -
-
 @interface CPController () {
 @private
-	NSInteger smoothCounter; // Switch smoothing state parameters
+	IBOutlet NSMenu *sbMenu;
+	NSStatusItem *sbItem;
+	NSImage *sbImageActive, *sbImageInactive;
+	NSTimer *sbHideTimer;
+    
+	IBOutlet NSMenuItem *forceContextMenuItem;
+	BOOL forcedContextIsSticky;
+	NSMenuItem *stickForcedContextMenuItem;
+    
+	IBOutlet ContextsDataSource *contextsDataSource;
+	IBOutlet EvidenceSourceSetController *evidenceSources;
+	IBOutlet NSWindow *prefsWindow;
+    
+    BOOL screenSaverRunning;
+    BOOL screenLocked;
+    
+    BOOL goingToSleep;
 
+	NSInteger smoothCounter; // Switch smoothing state parameters
+    
     // used to maintain a queue of actions that need
     // to be performed after the screen saver quits AND/OR
     // the screen is unlocked
     NSMutableArray *screenSaverActionQueue;
     NSMutableArray *screenLockActionQueue;
-
+    
     dispatch_queue_t concurrentActionQueue;
     dispatch_queue_t updatingQueue;
     dispatch_source_t updatingTimer;
@@ -121,7 +90,35 @@
 @property (retain,atomic,readwrite) NSArray *rules;
 @property (assign,atomic,readwrite) BOOL forceOneFullUpdate;
 
+- (void)setStatusTitle:(NSString *)title;
+- (void)showInStatusBar:(id)sender;
+- (void)hideFromStatusBar:(NSTimer *)theTimer;
+- (void)doHideFromStatusBar:(BOOL)forced;
+- (void)setMenuBarImage:(NSImage *)imageName;
+
+- (void)contextsChanged:(NSNotification *)notification;
+
+- (void)goingToSleep:(id)arg;
+- (void)wakeFromSleep:(id)arg;
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
+
+- (void)userDefaultsChanged:(NSNotification *)notification;
+
+// Evidence source monitoring
+- (void)evidenceSourceDataDidChange:(NSNotification *) notification;
+
+- (void)forceSwitchAndToggleSticky:(id)sender;
+- (void)setStickyBit:(NSNotification *) notification;
+- (void)unsetStickyBit:(NSNotification *) notification;
+
+- (void)registerForNotifications;
+
 @end
+
+
+#pragma mark -
 
 @implementation CPController
 
@@ -219,8 +216,7 @@
 	sbItem = nil;
 	sbHideTimer = nil;
 
-	smoothCounter = 0;
-
+	[self restartSwitchSmoothing];
     [self setGoingToSleep:NO];
 
 	forcedContextIsSticky = NO;
@@ -270,31 +266,29 @@
 
 - (void)setActiveRules:(NSArray *)newRules {
     NSMutableArray *rules = [[NSMutableArray alloc] initWithCapacity:[newRules count]];
-
+    
     for (NSDictionary *ruleParams in newRules) {
         NSMutableDictionary *rule = [ruleParams mutableCopy];
-
+        
         // remove all previously cached data
         for (NSString *key in [rule allKeys]) {
             if ([key hasPrefix:@"cached"]) {
                 [rule removeObjectForKey:key];
             }
         }
-
+        
         [rules addObject:rule];
         [rule release];
     }
-
+    
     [[NSUserDefaults standardUserDefaults] setObject:rules forKey:@"Rules"];
-
+    
     self.rules = rules; // atomic
     self.forceOneFullUpdate = YES;
     
     [rules release];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
-    });
+    
+    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC)];
 }
 
 - (BOOL)stickyContext {
@@ -491,17 +485,17 @@
     [self setScreenLocked:NO];
     [self setScreenSaverRunning:NO];
 
-    [self registerForNotifications];
     [self startMonitoringSleepAndPowerNotifications];
+    [self registerForNotifications];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
         [evidenceSources startEnabledEvidenceSources];
         [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
     });
-
+    
     [self rebuildForceContextMenu];
-
+    
 	// Persistent contexts
 	Context *startContext = nil;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
@@ -509,7 +503,7 @@
         startContext = [contextsDataSource contextByUUID:uuid];
 	}
     [self changeCurrentContextTo:startContext];
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         // Set up status bar.
         [self showInStatusBar:self];
@@ -677,7 +671,7 @@
     [self updateMenuBarImage];
 
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:[self currentContextName]];
+        [self setStatusTitle:[self currentContextPath]];
     }
 
 	[sbItem setMenu:sbMenu];
@@ -723,7 +717,7 @@
 - (void)updateMenuBarAndContextMenu {
     [self updateMenuBarImage];
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
-        [self setStatusTitle:[self currentContextName]];
+        [self setStatusTitle:[self currentContextPath]];
     }
 
     // Update force context menu
@@ -799,9 +793,9 @@
 
 - (NSArray *)getRulesThatMatchAndSetChangeFlag:(BOOL *)flag {
 	NSArray *rules = self.rules;
+
 #ifdef DEBUG_MODE
-    DSLog(@"number of rules %ld", [rules count]);
-    DSLog(@"rules list %@", rules);
+    DSLog(@"Rules list (%ld rules):\n%@", [rules count], rules);
 #endif
 	NSMutableArray *matchingRules = [NSMutableArray array];
     BOOL changed = NO;
@@ -942,35 +936,33 @@
 - (void)scheduleActions:(NSMutableArray *)actions
      usingReverseDelays:(BOOL)areReversed
                maxDelay:(NSTimeInterval *)maxDelay {
-
-	if ([actions count] == 0) {
-		return;
-    }
-
+    
     double maxDelayValue = 0.0;
-
-    if (!areReversed) {
-        // Sort by delay (ascending order)
-        [actions sortUsingSelector:@selector(compareDelay:)];
-
-        maxDelayValue = [[[actions lastObject] valueForKey:@"delay"] doubleValue];
-
-        [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
-            return [[action valueForKey:@"delay"] doubleValue];
-        }];
-    } else {
-        // Sort by delay (descending order)
-        [actions sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [obj2 compareDelay:obj1]; // reverse comparison
-        }];
-
-        maxDelayValue = [[actions[0] valueForKey:@"delay"] doubleValue];
-
-        [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
-            return (maxDelayValue - [[action valueForKey:@"delay"] doubleValue]);
-        }];
+    
+	if ([actions count] > 0) {
+        if (!areReversed) {
+            // Sort by delay (ascending order)
+            [actions sortUsingSelector:@selector(compareDelay:)];
+            
+            maxDelayValue = [[[actions lastObject] valueForKey:@"delay"] doubleValue];
+            
+            [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
+                return [[action valueForKey:@"delay"] doubleValue];
+            }];
+        } else {
+            // Sort by delay (descending order)
+            [actions sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [obj2 compareDelay:obj1]; // reverse comparison
+            }];
+            
+            maxDelayValue = [[actions[0] valueForKey:@"delay"] doubleValue];
+            
+            [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
+                return (maxDelayValue - [[action valueForKey:@"delay"] doubleValue]);
+            }];
+        }
     }
-
+    
     if (maxDelay) {
         *maxDelay = maxDelayValue;
     }
@@ -1000,7 +992,10 @@
             Action *action = [Action actionFromDictionary:actionParams];
             if (!action) {
                 DSLog(@"ERROR: %@",
-                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about,"
+                                        " you probably have a configured action that is no longer (or not yet)"
+                                        " supported by ControlPlane",
+                                        "ControlPlane was told to run an action that doesn't actually exist"));
                 return;
             }
 
@@ -1018,7 +1013,10 @@
             Action *action = [Action actionFromDictionary:actionParams];
             if (!action) {
                 DSLog(@"ERROR: %@",
-                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about, you probably have a configured action that is no longer (or not yet) supported by ControlPlane", "ControlPlane was told to run an action that doesn't actually exist"));
+                      NSLocalizedString(@"ControlPlane attempted to perform action it doesn't know about,"
+                                        " you probably have a configured action that is no longer (or not yet)"
+                                        " supported by ControlPlane",
+                                        "ControlPlane was told to run an action that doesn't actually exist"));
                 return;
             }
 
@@ -1030,7 +1028,10 @@
     [self scheduleActions:departureActions usingReverseDelays:YES maxDelay:&maxDelay];
     
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
-	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
+    if (maxDelay > 0.0) {
+        DSLog(@"Delay switching context for %.2f secs to let all departure actions start", (float) maxDelay);
+        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
+    }
 }
 
 #pragma mark -
@@ -1060,12 +1061,12 @@
 
 - (void) setScreenLockActive:(NSNotification *) notification {
     [self setScreenLocked:YES];
-    DSLog(@"screen lock becoming active");
+    DSLog(@"Screen lock becoming active");
 }
 
 - (void) setScreenLockInActive:(NSNotification *) notification {
     [self setScreenLocked:NO];
-    DSLog(@"screen lock becoming inactive");
+    DSLog(@"Screen lock becoming inactive");
 
     dispatch_async(updatingQueue, ^{
         if ([screenLockActionQueue count] > 0) {
@@ -1089,9 +1090,11 @@
 - (void)changeCurrentContextTo:(Context *)context {
     NSString *contextPath = (context) ? [contextsDataSource pathFromRootTo:context.uuid] : (@"?");
 
-    [self willChangeValueForKey:@"currentContextName"];
     self.currentContext = context;
-    [self didChangeValueForKey:@"currentContextName"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self willChangeValueForKey:@"currentContextName"];
+        [self didChangeValueForKey:@"currentContextName"];
+    });
 
     self.currentContextPath = contextPath;
 
@@ -1113,12 +1116,18 @@
     NSArray *walks = [contextsDataSource walkFrom:self.currentContext.uuid to:context.uuid];
 	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
 
-    [self triggerDepartureActionsOnWalk:leavingWalk];
+    if ([leavingWalk count] > 0) {
+        DSLog(@"Triggering departure actions, if any, for '%@'", [self currentContextName]);
+        [self triggerDepartureActionsOnWalk:leavingWalk];
+    }
 
     [self changeCurrentContextTo:context];
     [self postNotificationsOnContextTransitionWhenForcedByUserIs:isManuallyTriggered];
 
-    [self triggerArrivalActionsOnWalk:enteringWalk];
+    if ([enteringWalk count] > 0) {
+        DSLog(@"Triggering arrival actions, if any, for '%@'", [self currentContextName]);
+        [self triggerArrivalActionsOnWalk:enteringWalk];
+    }
 }
 
 - (void)postNotificationsOnContextTransitionWhenForcedByUserIs:(BOOL)isManuallyTriggered {
@@ -1150,8 +1159,8 @@
     }
 
     NSString *fmt = NSLocalizedString(@"Changing to context '%@' %@.",
-                                      @"First parameter is the context name, second parameter is the confidence value, "
-                                      "or 'as default context'");
+                                      @"First parameter is the context name, second parameter is the confidence value,"
+                                      " or 'as default context'");
 	return [NSString stringWithFormat:fmt, self.currentContextPath, msgSuffix];
 }
 
@@ -1168,20 +1177,22 @@
 		ctxt = [contextsDataSource contextByUUID:[sender representedObject]];
     }
 	
-	DSLog(@"going to %@", [ctxt name]);
+	DSLog(@"Going to '%@'", [ctxt name]);
 
 	// Selecting any context in the force-context menu deselects the 'stick forced contexts' item,
 	// so we force it to be correct here.
 	int state = forcedContextIsSticky ? NSOnState : NSOffState;
 	[stickForcedContextMenuItem setState:state];
 
+    [self increaseActionsInProgress];
     dispatch_async(updatingQueue, ^{
         [self performTransitionToContext:ctxt triggeredManually:YES];
         
         if (!forcedContextIsSticky) {
             self.forceOneFullUpdate = YES;
-            smoothCounter = 0;
+            [self restartSwitchSmoothing];
         }
+        [self decreaseActionsInProgress];
     });
 }
 
@@ -1205,7 +1216,7 @@
 
     if (!forcedContextIsSticky) {
         self.forceOneFullUpdate = YES;
-        smoothCounter = 0;
+        [self restartSwitchSmoothing];
     }
 }
 
@@ -1227,29 +1238,28 @@
     BOOL changed = NO;
     NSArray *matchingRules = [self getRulesThatMatchAndSetChangeFlag:&changed];
 #ifdef DEBUG_MODE
-    DSLog(@"rules that match: %@", matchingRules);
+    DSLog(@"Rules that match: %@", matchingRules);
 #endif
-
-    if (!changed && !self.forceOneFullUpdate && (smoothCounter == 0)) {
+    
+    if (!changed && (smoothCounter == 0) && !self.forceOneFullUpdate) {
 #ifdef DEBUG_MODE
-        DSLog(@"Same rule are matching as on previous check. No updates required.");
+        DSLog(@"Same rule are matching as on previous update. No further actions required.");
 #endif
         return;
     }
     self.forceOneFullUpdate = NO;
-
-    if (forcedContextIsSticky) {
-        return;
-    }
-
+    
     // of the configured contexts, which ones have rule hits?
     NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
-    DSLog(@"guesses %@", guesses);
-
     [self applyDefaultContextTo:guesses];
-
+    DSLog(@"Context guesses: %@", guesses);
+    
     [contextsDataSource updateConfidencesFromGuesses:guesses];
-
+    
+    if (forcedContextIsSticky) { // prevent switching contexts when the current one is forced and sticky
+        return;
+    }
+    
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if ([standardUserDefaults boolForKey:@"AllowMultipleActiveContexts"]) {
         const double minConfidence = (double) [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"];
@@ -1261,10 +1271,12 @@
         // use the older style of context matching
         // of the guesses, which one has the highest confidence rating?
         Context *guessContext = [self getMostConfidentContext:guesses];
-
+        
         if (guessContext && [self guessMeetsConfidenceRequirement:guessContext]) {
+            [self increaseActionsInProgress];
             dispatch_async(updatingQueue, ^{
                 [self performTransitionToContext:guessContext triggeredManually:NO];
+                [self decreaseActionsInProgress];
             });
         }
     }
@@ -1277,7 +1289,7 @@
     if ([standardUserDefaults boolForKey:@"UseDefaultContext"]) {
         NSString *uuid = [standardUserDefaults stringForKey:@"DefaultContext"];
         const double minConfidence = (double) [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"];
-
+        
         NSNumber *guessConfidence = guesses[uuid];
         if (!guessConfidence || ([guessConfidence doubleValue] < minConfidence)) {
             guesses[uuid] = @(minConfidence);
@@ -1332,7 +1344,7 @@
 			unconfidenceValue = @([unconfidenceValue doubleValue] * (1.0 - mult));
 
 #ifdef DEBUG_MODE
-			DSLog(@"crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
+			DSLog(@"Crediting '%@' (d=%d|%d) with %.5f\t-> %@", [currentContext name], depth, base_depth, mult, unconfidenceValue);
 #endif
 
 			guesses[uuidOfCurrentContext] = unconfidenceValue;
@@ -1381,7 +1393,7 @@
     NSString *guessUUID = guessContext.uuid;
     NSNumber *guessConf = guessContext.confidence;
 
-    DSLog(@"checking %@ (%@) with confidence %@", guessContext.name, guessUUID, guessConf);
+    DSLog(@"Checking '%@' (%@) with confidence %@", guessContext.name, guessUUID, guessConf);
 
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -1390,7 +1402,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessContext.name, guessConf);
 #endif
-        smoothCounter = 0;
+        [self restartSwitchSmoothing];
         return false;
 	}
 
@@ -1398,7 +1410,7 @@
 #ifdef DEBUG_MODE
 		DSLog(@"Guessed '%@' (with confidence %@); already there.", guessContext.name, guessConf);
 #endif
-        smoothCounter = 0;
+        [self restartSwitchSmoothing];
 		return false;
 	}
 
@@ -1413,25 +1425,31 @@
 
         if (smoothCounter > 0) {
 #ifdef DEBUG_MODE
-            DSLog(@"Switch smoothing kicking in... (%@ != %@)", [self currentContextName], guessContext.name);
+            DSLog(@"Switch smoothing kicking in... ('%@' != '%@')", [self currentContextName], guessContext.name);
 #endif
             return false;
         }
 
-        self.candidateContextUUID = nil;
+        [self restartSwitchSmoothing];
 	}
 
     return true;
 }
 
+- (void)restartSwitchSmoothing {
+    smoothCounter = 0;
+    self.candidateContextUUID = nil;
+}
+
 - (void)goingToSleep:(id)arg {
-    // this might cause an issue with anyone who does an
-    // immediate action (not delayed at all) at sleep
+    if (self.goingToSleep) {
+        DSLog(@"WARNING: ControlPlane has received more than one notification in row about system sleep.");
+        return;
+    }
     [self setGoingToSleep:YES];
-
-    DSLog(@"Stopping update thread for sleep.");
+    
     [self suspendRegularUpdates];
-
+    
     // clear the queued actions on sleep
     // in case the machine woke up but the screen saver
     // was never exited or the screen was never unlocked
@@ -1442,10 +1460,14 @@
     });
 }
 
-- (void)wakeFromSleep:(id)arg{
+- (void)wakeFromSleep:(id)arg {
+    if (!self.goingToSleep) {
+        DSLog(@"WARNING: ControlPlane has received more than one notification in row about system wake-up.");
+        return;
+    }
     [self setGoingToSleep:NO];
-
-    DSLog(@"Starting update thread after sleep.");
+    
+    [self restartSwitchSmoothing];
     [self resumeRegularUpdatesWithDelay:(2 * NSEC_PER_SEC)];
 }
 
@@ -1455,22 +1477,25 @@
 #pragma mark -
 #pragma mark NSApplication delegates
 
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
-{
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
     [self showInStatusBar:self];
     [self startOrStopHidingFromStatusBar];
 	return YES;
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
-		[[NSUserDefaults standardUserDefaults] setValue:self.currentContext.uuid forKey:@"PersistentContext"];
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [self suspendRegularUpdates];
+    
+	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if ([standardUserDefaults boolForKey:@"EnablePersistentContext"]) {
+		[standardUserDefaults setValue:self.currentContext.uuid forKey:@"PersistentContext"];
 	}
+    
+    [evidenceSources stopAllRunningEvidenceSources];
 }
 
 - (void) showMainApplicationWindow {
-	[prefsWindow makeFirstResponder: nil];
+	[prefsWindow makeFirstResponder:nil];
 }
 
 #pragma mark NSUserDefaults notifications
@@ -1482,7 +1507,7 @@
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] == CP_DISPLAY_ICON) {
         [self setStatusTitle:nil];
     } else {
-        [self setStatusTitle:[self currentContextName]];
+        [self setStatusTitle:[self currentContextPath]];
     }
 
 #ifndef DEBUG_MODE
@@ -1496,20 +1521,26 @@
         int64_t currentUpdateInterval = [[self class] getUpdateInterval];
         if (updateInterval != currentUpdateInterval) {
             updateInterval  = currentUpdateInterval;
-            [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
+            [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC)];
         }
     }
 }
 
 #pragma mark -
 #pragma mark Evidence source change handling
-- (void) evidenceSourceDataDidChange:(NSNotification *)notification {
-    dispatch_async(dispatch_get_main_queue(), ^{
+- (void)evidenceSourceDataDidChange:(NSNotification *)notification {
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    if (dispatch_get_current_queue() != mainQueue) {
+        dispatch_async(mainQueue, ^{
+            [self evidenceSourceDataDidChange:notification];
+        });
+        return;
+    }
+    
 #ifdef DEBUG_MODE
-        DSLog(@"**** TRIGGERING UPDATE LOOP BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
+    DSLog(@"**** TRIGGERING UPDATE BECAUSE EVIDENCE SOURCE DATA CHANGED ****");
 #endif
-        [self shiftRegularUpdatesToStartAt:DISPATCH_TIME_NOW];
-    });
+    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC)];
 }
 
 
@@ -1570,15 +1601,18 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)suspendRegularUpdates {
+    DSLog(@"Suspending regular updates.");
     dispatch_suspend(updatingTimer);
 }
 
 - (void)resumeRegularUpdates {
+    DSLog(@"Resuming regular updates.");
     dispatch_resume(updatingTimer);
 }
 
 - (void)resumeRegularUpdatesWithDelay:(int64_t)nanoseconds {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, nanoseconds), updatingQueue, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, nanoseconds), dispatch_get_main_queue(), ^{
+        DSLog(@"Resuming regular updates.");
         dispatch_resume(updatingTimer);
     });
 }
@@ -1588,11 +1622,9 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)doUpdate {
-    if (!forcedContextIsSticky || self.forceOneFullUpdate) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
-            @autoreleasepool {
-                [self doUpdateForReal];
-            }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
+        @autoreleasepool {
+            [self doUpdateForReal];
         }
     }
 }

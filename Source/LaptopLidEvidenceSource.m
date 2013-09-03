@@ -5,6 +5,8 @@
 //  Created by Vladimir Beloborodov on July 15, 2013.
 //  Modified by Vladimir Beloborodov on August 05, 2013.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import <IOKit/IOKitLib.h>
 #import <IOKit/pwr_mgt/IOPM.h>
@@ -92,7 +94,6 @@ static void onPMrootDomainChange(void *refcon, io_service_t service, uint32_t me
     if (serialQueue) {
         [self doStop];
     }
-    [super dealloc];
 }
 
 - (BOOL)setupLidStateNotification {
@@ -177,9 +178,15 @@ static void onPMrootDomainChange(void *refcon, io_service_t service, uint32_t me
     running = NO;
 }
 
-- (void)goingToSleep:(NSNotification*)note {
+- (void)goingToSleep:(NSNotification *)note {
 #ifdef DEBUG_MODE
 	DSLog(@"goingToSleep: %@", [note name]);
+#endif
+}
+
+- (void)wakeFromSleep:(NSNotification *)note {
+#ifdef DEBUG_MODE
+	DSLog(@"wakeFromSleep: %@", [note name]);
 #endif
 }
 

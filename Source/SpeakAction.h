@@ -13,7 +13,6 @@
 @interface SpeakAction: Action <ActionWithString, NSSpeechSynthesizerDelegate>
 
 - (id) initWithDictionary: (NSDictionary *) dict;
-- (void) dealloc;
 - (NSMutableDictionary *) dictionary;
 
 - (NSString *) description;

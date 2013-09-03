@@ -7,6 +7,8 @@
 //
 //  Minor improvements by Vladimir Beloborodov (VladimirTechMan) on 21 July 2013.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "SpeakAction.h"
 
@@ -14,7 +16,7 @@
 	NSString *text;
 }
 
-@property (atomic, retain, readwrite) NSSpeechSynthesizer *synth;
+@property (strong,atomic,readwrite) NSSpeechSynthesizer *synth;
 
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success;
 - (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didEncounterErrorAtIndex:(NSUInteger)characterIndex
@@ -26,8 +28,9 @@
 
 - (id)init {
 	self = [super init];
-	if (!self)
+	if (!self) {
 		return nil;
+    }
 	
 	text = [[NSString alloc] init];
 	
@@ -36,24 +39,18 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
 	self = [super initWithDictionary: dict];
-	if (!self)
+	if (!self) {
 		return nil;
+    }
 
 	text = [dict[@"parameter"] copy];
 
 	return self;
 }
 
-- (void)dealloc {
-	[text release];
-    [_synth release];
-
-	[super dealloc];
-}
-
 - (NSMutableDictionary *)dictionary {
 	NSMutableDictionary *dict = [super dictionary];
-    dict[@"parameter"] = [[text copy] autorelease];
+    dict[@"parameter"] = [text copy];
 	return dict;
 }
 
@@ -73,10 +70,10 @@
 - (BOOL)execute:(NSString **)errorString {
     NSSpeechSynthesizer *synth = self.synth;
     if (!synth) {
-        self.synth = synth = [[[NSSpeechSynthesizer alloc] init] autorelease];
+        self.synth = synth = [[NSSpeechSynthesizer alloc] init];
         [synth setDelegate:self];
     }
-
+    
 	BOOL success = [synth startSpeakingString:text];
     if (!success) {
         *errorString = [NSString stringWithFormat:NSLocalizedString(@"Failed speaking '%@'.", @""), text];

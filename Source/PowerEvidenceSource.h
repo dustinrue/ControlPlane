@@ -3,14 +3,13 @@
 //  ControlPlane
 //
 //  Created by Mark Wallis on 30/4/07.
+//  Minor updates done by Vladimir Beloborodov (VladimirTechMan) on 25 Aug 2013.
 //
 
 #import "GenericEvidenceSource.h"
 
 
-@interface PowerEvidenceSource : GenericEvidenceSource {
-	NSString *status;
-}
+@interface PowerEvidenceSource : GenericEvidenceSource
 
 - (id)init;
 

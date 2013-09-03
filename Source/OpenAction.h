@@ -8,18 +8,15 @@
 #import "Action.h"
 
 
-@interface OpenAction : Action <ActionWithFileParameter> {
-	NSString *path;
-}
+@interface OpenAction : Action <ActionWithFileParameter>
 
 - (id)initWithDictionary:(NSDictionary *)dict;
-- (void)dealloc;
+- (id)initWithFile:(NSString *)file;
+
 - (NSMutableDictionary *)dictionary;
 
 - (NSString *)description;
 - (BOOL)execute:(NSString **)errorString;
-
-- (id)initWithFile:(NSString *)file;
 
 - (NSWorkspaceLaunchOptions)launchOptions;
 

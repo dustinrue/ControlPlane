@@ -6,6 +6,9 @@
 //	Copyright 2011. All rights reserved.
 //
 //  Bug fix and implementation improvements by Vladimir Beloborodov (VladimirTechMan) on 21-22 July 2013.
+//  Major rework done by Vladimir Beloborodov (VladimirTechMan) on 29 August 2913.
+//
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
 //
 
 #import "CPNotifications.h"
@@ -37,29 +40,29 @@ static void powerAdapterChangedCallBack();
         // register to receive system sleep notifications
         IONotificationPortRef notifyPort;
         io_object_t notifierObject;
-        rootPort = IORegisterForSystemPower(self, &notifyPort, sleepCallBack, &notifierObject);
+        rootPort = IORegisterForSystemPower((__bridge void *)(self), &notifyPort, sleepCallBack, &notifierObject);
         if (!rootPort) {
             DSLog(@"IORegisterForSystemPower failed");
         }
 
         // add the notification port to the application runloop
         powerPortNotification = IONotificationPortGetRunLoopSource(notifyPort);
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), powerPortNotification, kCFRunLoopCommonModes);
+        CFRunLoopAddSource(CFRunLoopGetMain(), powerPortNotification, kCFRunLoopCommonModes);
 
         powerAdapterChanged = IOPSNotificationCreateRunLoopSource(powerAdapterChangedCallBack, NULL);
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
+        CFRunLoopAddSource(CFRunLoopGetMain(), powerAdapterChanged, kCFRunLoopCommonModes);
     }
 }
 
 - (void)stopMonitoringSleepAndPowerNotifications {
     if (cpController) {
         if (powerAdapterChanged) {
-            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerAdapterChanged, kCFRunLoopCommonModes);
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), powerAdapterChanged, kCFRunLoopCommonModes);
             CFRelease(powerAdapterChanged);
             powerAdapterChanged = NULL;
         }
         if (powerPortNotification) {
-            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerPortNotification, kCFRunLoopCommonModes);
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), powerPortNotification, kCFRunLoopCommonModes);
             powerPortNotification = NULL;
         }
         if (actionsInProgress) {
@@ -79,57 +82,60 @@ static void powerAdapterChangedCallBack();
 }
 
 
+static void powerAdapterChangedCallBack() {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"powerAdapterDidChangeNotification" object:nil];
+}
+
 static void sleepCallBack(void *refCon, io_service_t service, natural_t messageType, void *argument) {
 	switch (messageType) {
 		case kIOMessageCanSystemSleep:
+            // ControlPlane does not veto an idle system sleep. But any other app may still cancel it.
+            IOAllowPowerChange(rootPort, (long)argument);
+            break;
+            
 		case kIOMessageSystemWillSleep:
-			// entering sleep
-#ifdef DEBUG_MODE
-			DSLog(@"Sleep callback: going to sleep");
-#endif
-
+			DSLog(@"System sleep callback: going to sleep");
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:@"systemWillSleep" object:nil];
-
-#ifdef DEBUG_MODE
-			DSLog(@"Sleep callback: force calling doUpdateForReal");
-#endif
-
+            
+            [cpController restartSwitchSmoothing];
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
                 [cpController forceUpdate];
             }
             [cpController forceUpdate];
-
+            
             dispatch_group_notify(actionsInProgress, dispatch_get_main_queue(), ^{
-                if (![cpController goingToSleep]) {
-                    DSLog(@"Some actions took too long to be fully executed before system sleep."
-                          " Thus they were resumed and completed on system wake-up.");
-
-                    NSString *title = NSLocalizedString(@"Information", @"Title for informational user messsages");
-                    NSString *msg = NSLocalizedString(@"Some actions took too long to finish before system sleep",
-                                                      @"Shown when some actions did not finish before system sleep");
-                    [CPNotifications postUserNotification:title withMessage:msg];
-                }
-
-                IOAllowPowerChange(rootPort, (long)argument); // Allow sleep
+                IOAllowPowerChange(rootPort, (long)argument);
+#ifdef DEBUG_MODE
+                DSLog(@"System sleep callback: Allowed power change on system sleep");
+#endif
             });
-
+            
 			break;
-
+            
 		case kIOMessageSystemWillPowerOn:
-			DSLog(@"Sleep callback: waking up");
+            // System h/w and drivers are not (guaranteed to be) ready at this point yet.
+            // Wait until kIOMessageSystemHasPoweredOn.
+			break;
+            
+		case kIOMessageSystemHasPoweredOn:
+            if (dispatch_group_wait(actionsInProgress, DISPATCH_TIME_NOW) != 0) {
+                DSLog(@"Some actions took too long to be fully executed before system sleep."
+                      " Thus they were resumed and completed on system wake-up.");
+                
+                NSString *title = NSLocalizedString(@"Information", @"Title for informational user messsages");
+                NSString *msg = NSLocalizedString(@"Some actions took too long to finish before system sleep",
+                                                  @"Shown when some actions did not finish before system sleep");
+                [CPNotifications postUserNotification:title withMessage:msg];
+            }
+            
+            DSLog(@"System sleep callback: waking up");
             [[NSNotificationCenter defaultCenter] postNotificationName:@"systemDidWake" object:nil];
 			break;
-
-		case kIOMessageSystemHasPoweredOn:
-			break;
-
+            
 		default:
 			break;
 	}
-}
-
-static void powerAdapterChangedCallBack() {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"powerAdapterDidChangeNotification" object:nil];
 }
 
 @end
