@@ -83,6 +83,9 @@ static void powerAdapterChangedCallBack();
 
 
 static void powerAdapterChangedCallBack() {
+#ifdef DEBUG_MODE
+    DSLog(@"System notification on power adapter change");
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:@"powerAdapterDidChangeNotification" object:nil];
 }
 
