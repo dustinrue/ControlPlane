@@ -70,7 +70,7 @@
 		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = "Developer ID Application: Dustin Rue"</string>
 	</dict>
 	<key>SUFeedURL</key>
-	<string>http://www.controlplaneapp.com/appcast.xml</string>
+	<string>http://www.controlplaneapp.com/appcast-beta.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUScheduledCheckInterval</key>
