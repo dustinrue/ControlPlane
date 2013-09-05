@@ -294,7 +294,7 @@
     
     [rules release];
     
-    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC)];
+    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC)];
 }
 
 - (BOOL)stickyContext {
