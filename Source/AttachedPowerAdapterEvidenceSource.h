@@ -10,8 +10,6 @@
 
 @interface AttachedPowerAdapterEvidenceSource : GenericEvidenceSource
 
-- (id)init;
-
 - (void)start;
 - (void)stop;
 

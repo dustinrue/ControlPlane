@@ -13,6 +13,7 @@
 #import "AttachedPowerAdapterEvidenceSource.h"
 #import "DSLogger.h"
 #import "CPSystemInfo.h"
+#import "CPNotifications.h"
 
 
 @interface AttachedPowerAdapterEvidenceSource ()
@@ -24,13 +25,6 @@
 
 @implementation AttachedPowerAdapterEvidenceSource
 
-- (id)init {
-	if (!(self = [super init])) {
-		return nil;
-    }
-	return self;
-}
-
 - (NSString *)description {
     return NSLocalizedString(@"Create a rules based on what power adapter"
                              " is currently connected to your portable mac based on its serial number", @"");
@@ -41,15 +35,44 @@
     
     CFDictionaryRef powerAdapterInfo = IOPSCopyExternalPowerAdapterDetails();
     if (powerAdapterInfo) {
-        serialNumber = [((__bridge NSDictionary *) powerAdapterInfo)[@kIOPSPowerAdapterSerialNumberKey] copy];
+        CFNumberRef serialNumberRef = CFDictionaryGetValue(powerAdapterInfo, CFSTR(kIOPSPowerAdapterSerialNumberKey));
+        serialNumber = [((__bridge NSNumber *) serialNumberRef) copy];
+        if (serialNumber == nil) {
+            DSLog(@"WARNING: Power adapter details are available, but don't contain the adapter's serial number.");
+        }
+        
         CFRelease(powerAdapterInfo);
     }
+    else {
+        CFTypeRef blob = IOPSCopyPowerSourcesInfo();
+        if (blob) {
+            NSString *powerSourceType = (__bridge NSString *) IOPSGetProvidingPowerSourceType(blob);
+            if ([powerSourceType isEqualToString:@kIOPSACPowerValue]) {
+                DSLog(@"WARNING: System is on AC power, but cannot provide power adapter details"
+                      " due to an internal error.");
+                
+                NSString *title = NSLocalizedString(@"Cannot get power adapter S/N",
+                                                    @"Title to warn users on failed attempts to get power adapter S/N");
+                NSString *msg = NSLocalizedString(@"It is an internal system error."
+                                                  " Try to re-plug the MagSafe connector.",
+                                                  @"Shown when CP cannot get details about the attached power adapter");
+                [CPNotifications postUserNotification:title withMessage:msg];
+            }
+            
+            CFRelease(blob);
+        }
+        else {
+            DSLog(@"WARNING: Failed to get a copy of power sources info.");
+        }
+    }
     
-    self.attachedPowerAdapter = serialNumber;
-    [self setDataCollected:(serialNumber != nil)];
-    
-    if (notification) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    NSNumber *attachedPowerAdapter = self.attachedPowerAdapter;
+    if (!attachedPowerAdapter || ![serialNumber isEqualToNumber:attachedPowerAdapter]) {
+        self.attachedPowerAdapter = serialNumber;
+        [self setDataCollected:(serialNumber != nil)];
+        if (notification) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+        }
     }
 }
 
@@ -58,14 +81,13 @@
 		return;
     }
     
+	running = YES;
+	[self doFullUpdate:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(doFullUpdate:)
                                                  name:@"powerAdapterDidChangeNotification"
                                                object:nil];
-    
-	[self doFullUpdate:nil];
-    
-	running = YES;
 }
 
 - (void)stop {
@@ -89,10 +111,8 @@
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-    NSString *param = [rule[@"parameter"] stringValue];
-    NSString *currentAdapter = [[self.attachedPowerAdapter stringValue] copy];
-    
-    return [currentAdapter isEqualToString:param];
+    NSNumber *attachedPowerAdapter = self.attachedPowerAdapter;
+    return (attachedPowerAdapter && [((NSNumber *) rule[@"parameter"]) isEqualToNumber:attachedPowerAdapter]);
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type {
@@ -106,7 +126,9 @@
     NSString *descr = [NSString stringWithFormat:NSLocalizedString(@"Power adapter with serial: %@", @""), serialNum];
     NSArray *array = @[ @{ @"type": @"AttachedPowerAdapter", @"parameter": serialNum, @"description": descr } ];
     
+#ifdef DEBUG_MODE
     DSLog(@"stuff %@", array);
+#endif
 	return array;
 }
 

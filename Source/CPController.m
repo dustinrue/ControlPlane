@@ -199,10 +199,16 @@
 }
 
 - (void)changeActiveIconImageColorTo:(NSColor *)color {
-    [sbImageActive lockFocus];
-    [color set];
-    NSRectFillUsingOperation((NSRect) {NSZeroPoint, sbImageActive.size}, NSCompositeSourceIn);
-    [sbImageActive unlockFocus];
+    @try {
+        [sbImageActive lockFocus];
+        [color set];
+        NSRectFillUsingOperation((NSRect) {NSZeroPoint, sbImageActive.size}, NSCompositeSourceIn);
+        [sbImageActive unlockFocus];
+        [sbImageActive recache];
+    }
+    @catch (NSException *e) {
+        DSLog(@"Failed to change the color of status bar icon");
+    }
 }
 
 - (id)init {
@@ -288,7 +294,7 @@
     
     [rules release];
     
-    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC)];
+    [self shiftRegularUpdatesToStartAt:dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC)];
 }
 
 - (BOOL)stickyContext {
