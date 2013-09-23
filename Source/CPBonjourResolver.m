@@ -13,11 +13,6 @@
 #import "CPBonjourResolver.h"
 #import "DSLogger.h"
 
-@interface CPBonjourResolver ()
-
-@property (strong) NSMutableArray *foundItems;
-
-@end
 
 @implementation CPBonjourResolver {
     NSNetServiceBrowser *networkBrowser;
@@ -25,17 +20,15 @@
 
 #pragma mark -
 #pragma mark init/dealloc
-- (id) init {
+- (id)init {
     self = [super init];
     if (!self) {
         return nil;
     }
-
+    
     networkBrowser = [[NSNetServiceBrowser alloc] init];
     [networkBrowser scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-
-    _foundItems = [[NSMutableArray alloc] init];
-
+    
     return self;
 }
 
@@ -49,13 +42,12 @@
 
 - (void)stop {
     [networkBrowser stop];
-    [self.foundItems removeAllObjects];
 }
 
 #pragma mark -
 #pragma mark NSNetServiceBrowser delegates
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-         didRemoveService:(NSNetService *)netService
+         didRemoveService:(NSNetService * __autoreleasing)netService
                moreComing:(BOOL)moreServicesComing {
     id <CPBonjourResolverDelegate> delegate = self.delegate;
     if (!delegate) {
@@ -69,11 +61,10 @@
     }
     
     [delegate netServiceBrowser:self removedService:netService];
-    [self.foundItems removeObject:netService];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser
-           didFindService:(NSNetService *)netService
+           didFindService:(NSNetService * __autoreleasing)netService
                moreComing:(BOOL)moreServicesComing {
     id <CPBonjourResolverDelegate> delegate = self.delegate;
     if (!delegate) {
@@ -86,7 +77,6 @@
         return;
     }
     
-    [self.foundItems addObject:netService];
     [delegate foundNewServiceFrom:self withService:netService];
 }
 
