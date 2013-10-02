@@ -60,14 +60,17 @@
     if (!self) {
         return nil;
     }
-
+    
     servicesUpdatesSerialQueue = dispatch_queue_create(ES_QUEUE_PREFIX ".ServicesUpdates", DISPATCH_QUEUE_SERIAL);
+    dispatch_set_target_queue(servicesUpdatesSerialQueue, dispatch_get_main_queue());
+    
     browsersUpdatesSerialQueue = dispatch_queue_create(ES_QUEUE_PREFIX ".BrowsersUpdates", DISPATCH_QUEUE_SERIAL);
-
+    dispatch_set_target_queue(browsersUpdatesSerialQueue, dispatch_get_main_queue());
+    
     if (!servicesUpdatesSerialQueue || !browsersUpdatesSerialQueue) {
         self = nil;
     }
-
+    
 	return self;
 }
 
