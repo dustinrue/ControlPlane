@@ -493,6 +493,7 @@
 
     [self startMonitoringSleepAndPowerNotifications];
     [self registerForNotifications];
+    self.activeContexts = [NSMutableArray arrayWithCapacity:0];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
@@ -521,7 +522,12 @@
             [NSApp activateIgnoringOtherApps:YES];
             [prefsWindow makeKeyAndOrderFront:self];
         }
+        [self updateActiveContextsMenuTitle];
+        [self updateActiveContextsMenuList];
     });
+    
+    // hide the current context menu item for now
+    [self.currentContextNameMenuItem setHidden:YES];
 }
 
 
@@ -726,7 +732,7 @@
         [self setStatusTitle:[self currentContextPath]];
     }
 
-    // Update force context menu
+    // Update force context menu items (set if they are ticked)
     NSMenu *menu = [forceContextMenuItem submenu];
     for (NSMenuItem *item in [menu itemArray]) {
         NSString *rep = [item representedObject];
@@ -771,6 +777,43 @@
     stickForcedContextMenuItem = item;
 
 	[forceContextMenuItem setSubmenu:submenu];
+}
+
+- (void) updateActiveContextsMenuTitle {
+    if ([self.activeContexts count] > 1)
+        self.activeContextsMenuHeader = @"Active Contexts";
+    else
+        self.activeContextsMenuHeader = @"Active Context";
+    
+    
+}
+
+- (void) updateActiveContextsMenuList {
+    NSArray *currentMenuItems = [sbMenu itemArray];
+    
+    // look for menu items tagged "99"
+    for (NSMenuItem *menuItem in currentMenuItems) {
+        if ([menuItem tag] == 99)
+            [sbMenu removeItem:menuItem];
+    }
+    
+    // insert all active contexts
+    if ([self.activeContexts count] == 0) {
+        NSMenuItem *currentContextMenuItem = [[[NSMenuItem alloc] initWithTitle:@"?" action:nil keyEquivalent:@""] autorelease];
+        [currentContextMenuItem setTag:99];
+        [currentContextMenuItem setIndentationLevel:1];
+        [currentContextMenuItem setEnabled:NO];
+        [sbMenu insertItem:currentContextMenuItem atIndex:1];
+    }
+    else {
+        for (Context *context in self.activeContexts) {
+            NSMenuItem *currentContextMenuItem = [[[NSMenuItem alloc] initWithTitle:context.name action:nil keyEquivalent:@""] autorelease];
+            [currentContextMenuItem setTag:99];
+            [currentContextMenuItem setIndentationLevel:1];
+            [currentContextMenuItem setEnabled:NO];
+            [sbMenu insertItem:currentContextMenuItem atIndex:1];
+        }
+    }
 }
 
 - (void)contextsChanged:(NSNotification *)notification {
@@ -1118,6 +1161,12 @@
         kill( getpid(), SIGABRT );
     }
 #endif
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.activeContexts removeObject:[contextsDataSource contextByUUID:self.currentContext.uuid]];
+        [self.activeContexts addObject:context];
+        [self updateActiveContextsMenuList];
+        [self updateActiveContextsMenuTitle];
+    });
 
     NSArray *walks = [contextsDataSource walkFrom:self.currentContext.uuid to:context.uuid];
 	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
@@ -1266,9 +1315,8 @@
         return;
     }
     
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    if ([standardUserDefaults boolForKey:@"AllowMultipleActiveContexts"]) {
-        const double minConfidence = (double) [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"];
+    if ([self useMultipleActiveContexts]) {
+        const double minConfidence = (double) [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"];
         [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, NSNumber *aGuess, BOOL *stop) {
             DSLog(@"currentGuess %@ should be %@", uuid,
                   ([aGuess doubleValue] >= minConfidence) ? @"enabled" : @"disabled");
@@ -1641,6 +1689,10 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
         [self doUpdate];
         [self decreaseActionsInProgress];
     });
+}
+
+- (BOOL) useMultipleActiveContexts {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"AllowMultipleActiveContexts"];
 }
 
 @end

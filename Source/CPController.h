@@ -15,11 +15,15 @@
 
 @property (retain,atomic,readonly) NSString *currentContextName;
 @property (retain,atomic,readonly) NSString *currentContextPath;
+@property (retain,atomic) NSString *activeContextsMenuHeader;
 
 @property (readwrite) BOOL screenSaverRunning;
 @property (readwrite) BOOL screenLocked;
 @property (readwrite) BOOL goingToSleep;
-@property (strong) NSArray *activeContexts;
+@property (strong) NSMutableArray *activeContexts;
+@property (assign) IBOutlet NSMenuItem *activeContextsMenuItem;
+@property (assign) IBOutlet NSMenuItem *currentContextNameMenuItem;
+@property (assign) IBOutlet NSMenuItem *activeContextsMenuDivider;
 
 @property (copy,nonatomic,readwrite) NSArray *activeRules;
 
