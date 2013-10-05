@@ -64,7 +64,6 @@
                 <outlet property="currentContextNameMenuItem" destination="529" id="BWP-hy-r3h"/>
                 <outlet property="evidenceSources" destination="1511" id="1513"/>
                 <outlet property="forceContextMenuItem" destination="1560" id="1650"/>
-                <outlet property="newStickForcedContextMenuItem" destination="suU-j9-6JB" id="5IT-se-SNV"/>
                 <outlet property="prefsWindow" destination="910" id="1742"/>
                 <outlet property="sbMenu" destination="390" id="393"/>
                 <outlet property="stickForcedContextMenuItem" destination="suU-j9-6JB" id="vtA-DM-acj"/>
