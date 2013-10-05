@@ -1219,7 +1219,6 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				DD7CD9B0140EDBA90037463E /* Generate Script Bridge Headers */,
 				8D11072C0486CEB800E47090 /* Sources */,
-				8DEF43B20BAA072400F87273 /* Index Help */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				8D2073870B86AB5100D61A9E /* Copy Frameworks */,
 				DA5B01E51412B85600E19C50 /* CopyFiles */,
@@ -1421,22 +1420,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "\nif [ ! -f ${PROJECT_DIR}/Resources/oui.txt ]; then\n\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-oui.sh\n\nfi\n\nif [ ! -f ${PROJECT_DIR}/Resources/usb-vendors.txt ]; then\n\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-usb-data.sh\n\nfi";
-		};
-		8DEF43B20BAA072400F87273 /* Index Help */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Resources/ControlPlane Help/index.html",
-			);
-			name = "Index Help";
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/ControlPlane Help/ControlPlane Help idx",
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "/Applications/Help\\ Indexer.app/Contents/MacOS/Help\\ Indexer $TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Resources/ControlPlane\\ Help/ -TigerIndexing YES -Tokenizer 1 -UseRemoteRoot NO -IndexAnchors YES -MinTermLength 3";
 		};
 		DD7CD9B0140EDBA90037463E /* Generate Script Bridge Headers */ = {
 			isa = PBXShellScriptBuildPhase;
