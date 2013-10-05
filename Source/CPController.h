@@ -20,7 +20,7 @@
 @property (readwrite) BOOL screenSaverRunning;
 @property (readwrite) BOOL screenLocked;
 @property (readwrite) BOOL goingToSleep;
-@property (strong) NSMutableArray *activeContexts;
+@property (strong) NSMutableSet *activeContexts;
 @property (assign) IBOutlet NSMenuItem *activeContextsMenuItem;
 @property (assign) IBOutlet NSMenuItem *currentContextNameMenuItem;
 @property (assign) IBOutlet NSMenuItem *activeContextsMenuDivider;

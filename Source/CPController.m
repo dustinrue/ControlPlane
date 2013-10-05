@@ -493,7 +493,7 @@
 
     [self startMonitoringSleepAndPowerNotifications];
     [self registerForNotifications];
-    self.activeContexts = [NSMutableArray arrayWithCapacity:0];
+    self.activeContexts = [NSMutableSet setWithCapacity:0];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
@@ -1136,6 +1136,24 @@
     return (currentContext) ? (currentContext.name) : (@"?");
 }
 
+- (void) activateContext:(Context *) context {
+    [self.activeContexts addObject:context];
+    DSLog(@"Triggering arrival actions, if any, for '%@'", [self currentContextName]);
+    [self triggerArrivalActionsOnWalk:[NSArray arrayWithObject:context]];
+    [self updateActiveContextsMenuTitle];
+    [self updateActiveContextsMenuList];
+}
+
+- (void) deactivateContext:(Context *) context {
+    if (context != nil) {
+        [self.activeContexts removeObject:context];
+        DSLog(@"Triggering departure actions, if any, for '%@'", [self currentContextName]);
+        [self triggerDepartureActionsOnWalk:[NSArray arrayWithObject:context]];
+    }
+    [self updateActiveContextsMenuTitle];
+    [self updateActiveContextsMenuList];
+}
+
 - (void)changeCurrentContextTo:(Context *)context {
     NSString *contextPath = (context) ? [contextsDataSource pathFromRootTo:context.uuid] : (@"?");
 
@@ -1162,7 +1180,9 @@
     }
 #endif
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.activeContexts removeObject:[contextsDataSource contextByUUID:self.currentContext.uuid]];
+        if (self.currentContext != nil)
+             [self.activeContexts removeObject:[contextsDataSource contextByUUID:self.currentContext.uuid]];
+        
         [self.activeContexts addObject:context];
         [self updateActiveContextsMenuList];
         [self updateActiveContextsMenuTitle];
@@ -1306,7 +1326,10 @@
     
     // of the configured contexts, which ones have rule hits?
     NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
-    [self applyDefaultContextTo:guesses];
+    
+    if (![self useMultipleActiveContexts])
+        [self applyDefaultContextTo:guesses];
+    
     DSLog(@"Context guesses: %@", guesses);
     
     [contextsDataSource updateConfidencesFromGuesses:guesses];
@@ -1316,11 +1339,63 @@
     }
     
     if ([self useMultipleActiveContexts]) {
-        const double minConfidence = (double) [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"];
-        [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, NSNumber *aGuess, BOOL *stop) {
-            DSLog(@"currentGuess %@ should be %@", uuid,
-                  ([aGuess doubleValue] >= minConfidence) ? @"enabled" : @"disabled");
-        }];
+
+        NSMutableSet *activeContexts = [NSMutableSet setWithCapacity:0];
+        Context *currentContext;
+        NSArray *allKeys = [guesses allKeys];
+        for (NSString *key in allKeys) {
+            currentContext = [contextsDataSource contextByUUID:key];
+            if ([self guessMeetsConfidenceRequirement:currentContext])
+                [activeContexts addObject:currentContext];
+            
+        }
+        
+        // apply the default context *only* if no other contexts apply
+        if ([activeContexts count] == 0) {
+            [self applyDefaultContextTo:guesses];
+            [contextsDataSource updateConfidencesFromGuesses:guesses];
+            [activeContexts addObject:[self getMostConfidentContext:guesses]];
+        }
+        
+        // remove contexts that are already active
+        [activeContexts minusSet:self.activeContexts];
+        
+        // the contexts in this NSSet need to be made active, in addition to any that
+        // already are
+        for (currentContext in activeContexts) {
+            [self activateContext:currentContext];
+        }
+        
+        // of the currently active contexts, which ones shouldn't be?
+        NSMutableSet *deactivate = [NSMutableSet setWithSet:self.activeContexts];
+        [deactivate minusSet:activeContexts];
+
+        
+        NSLog(@"deactivating %@", deactivate);
+        NSLog(@"currently active %@", self.activeContexts);
+        
+        for (currentContext in deactivate) {
+            [self deactivateContext:currentContext];
+        }
+        /*
+         [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, NSNumber *aGuess, BOOL *stop) {
+         DSLog(@"currentGuess %@ should be %@", uuid,
+         ([aGuess doubleValue] >= minConfidence) ? @"enabled" : @"disabled");
+         }];
+         */
+        Context *guessContext = [self getMostConfidentContext:guesses];
+        
+        if (guessContext && [self guessMeetsConfidenceRequirement:guessContext]) {
+            [self increaseActionsInProgress];
+            dispatch_async(updatingQueue, ^{
+                [self performTransitionToContext:guessContext triggeredManually:NO];
+                [self decreaseActionsInProgress];
+            });
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self updateMenuBarAndContextMenu];
+        });
+       
     } else {
         // use the older style of context matching
         // of the guesses, which one has the highest confidence rating?
@@ -1457,16 +1532,18 @@
         DSLog(@"Guess of '%@' isn't confident enough: only %@.", guessContext.name, guessConf);
 #endif
         [self restartSwitchSmoothing];
-        return false;
+        return NO;
 	}
 
+    /* we don't care if we're already at the context
 	if ([guessUUID isEqualToString:self.currentContext.uuid]) {
 #ifdef DEBUG_MODE
 		DSLog(@"Guessed '%@' (with confidence %@); already there.", guessContext.name, guessConf);
 #endif
         [self restartSwitchSmoothing];
-		return false;
+		return NO;
 	}
+     */
 
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
 	if ([standardUserDefaults boolForKey:@"EnableSwitchSmoothing"]) {
