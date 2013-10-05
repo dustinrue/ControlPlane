@@ -1444,16 +1444,16 @@
 			files = (
 			);
 			inputPaths = (
-				/Applications/Mail.app,
-				/Applications/iTunes.app,
-				/Applications/Messages.app,
+				"com.apple.mail:Mail",
+				"com.apple.iTunes:iTunes",
+				"com.apple.iChat:Messages",
 			);
 			name = "Generate Script Bridge Headers";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\nset > /tmp/stuff\nif [ \"${DERIVED_FILES_DIR}\" == \"\" ]; then\n  DERIVED_FILES_DIR=\"/tmp\"\nfi\n\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i)\"\n    if [ ! -d $appFile ]; then\n        continue\n    fi\n    filename=$(basename \"$appFile\")\n    base=${filename%.[^.]*}\n    echo \"Attempting to get CFBundleIdentifier for ${appFile}/Contents/Info\"\n    bundleid=`defaults -host localhost read \"$appFile/Contents/Info\" CFBundleIdentifier`\n    echo $bundleid >> /tmp/stuff\n    defaults -host localhost read \"$appFile/Contents/Info.plist\" CFBundleIdentifier >> /tmp/stuff\n    sdef \"$appFile\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$base\" --bundleid `defaults -host localhost read \"$appFile/Contents/Info.plist\" CFBundleIdentifier`\ndone";
+			shellScript = "\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 2)\"\n    bundleid=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 1)\"\n    if [ ! -d $appFile ]; then\n        continue\n    fi\n\n    sdef \"$appFile\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename ${appFile} --bundleid ${bundleid}\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
