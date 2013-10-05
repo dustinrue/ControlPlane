@@ -865,6 +865,10 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
                                                          selector: @selector(updateLogBuffer:)
                                                          userInfo: nil
                                                           repeats: YES] retain];
+        
+        if ([logBufferTimer respondsToSelector:@selector(setTolerance:)])
+            [logBufferTimer setTolerance:(NSTimeInterval) 1];
+            
         [logBufferTimer fire];
     }
 }

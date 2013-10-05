@@ -96,6 +96,9 @@
                                                userInfo:nil
                                                 repeats:YES];
     
+    if ([holdTimer respondsToSelector:@selector(setTolerance:)])
+        [holdTimer setTolerance:(NSTimeInterval) 5];
+    
     // this timer will fire every 10 (seconds?) to clean up entries
     
 	cleanupTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 10
@@ -103,6 +106,9 @@
                                                   selector:@selector(cleanupTimerPoll:)
                                                   userInfo:nil
                                                    repeats:YES];
+    
+    if ([cleanupTimer respondsToSelector:@selector(setTolerance:)])
+        [cleanupTimer setTolerance:(NSTimeInterval) 3];
     
     // need to register for bluetooth connect notifications, but we need to delay it
     // until everything is loaded or we'll dead lock, not sure why
