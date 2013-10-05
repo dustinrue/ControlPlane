@@ -1453,7 +1453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 2)\"\n    bundleid=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 1)\"\n    if [ ! -d $appFile ]; then\n        continue\n    fi\n\n    sdef \"$appFile\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename ${appFile} --bundleid ${bundleid}\ndone";
+			shellScript = "\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 2)\"\n    bundleid=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 1)\"\n\n\n    sdef \"/Applications/$appFile.app\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename ${appFile} --bundleid ${bundleid}\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
