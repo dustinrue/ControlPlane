@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1060" defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -64,8 +64,10 @@
                 <outlet property="currentContextNameMenuItem" destination="529" id="BWP-hy-r3h"/>
                 <outlet property="evidenceSources" destination="1511" id="1513"/>
                 <outlet property="forceContextMenuItem" destination="1560" id="1650"/>
+                <outlet property="newStickForcedContextMenuItem" destination="suU-j9-6JB" id="5IT-se-SNV"/>
                 <outlet property="prefsWindow" destination="910" id="1742"/>
                 <outlet property="sbMenu" destination="390" id="393"/>
+                <outlet property="stickForcedContextMenuItem" destination="suU-j9-6JB" id="vtA-DM-acj"/>
             </connections>
         </customObject>
         <menu title="Menu" id="390" userLabel="StatusbarMenu">
@@ -85,6 +87,12 @@
                 <menuItem isSeparatorItem="YES" id="IPN-Pc-BDF"/>
                 <menuItem title="Force context" id="1560">
                     <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                </menuItem>
+                <menuItem title="Stick forced contexts" id="suU-j9-6JB">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="toggleSticky:" target="389" id="Owo-kj-80I"/>
+                    </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" title=" " id="528">
                     <modifierMask key="keyEquivalentModifierMask" command="YES"/>
@@ -201,7 +209,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="*Item1*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="941" id="1843">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="939">
                             <items>
                                 <menuItem title="*Item1*" state="on" id="941"/>
@@ -209,8 +217,8 @@
                         </menu>
                     </popUpButtonCell>
                     <connections>
-                        <binding destination="288" name="enabled" keyPath="values.UseDefaultContext" id="1700"/>
                         <binding destination="288" name="selectedObject" keyPath="values.DefaultContext" id="1705"/>
+                        <binding destination="288" name="enabled" keyPath="values.UseDefaultContext" id="1700"/>
                     </connections>
                 </popUpButton>
                 <button toolTip="If ControlPlan is unable to determine the correct context based on your rules, ControlPlane will use this context." id="937">
@@ -297,20 +305,20 @@
                 <popUpButton verticalHuggingPriority="750" id="1916">
                     <rect key="frame" x="57" y="151" width="100" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="icon" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="1917">
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="1917">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="1918">
                             <items>
-                                <menuItem title="icon" state="on" id="1921"/>
+                                <menuItem title="icon" id="1921"/>
                             </items>
                         </menu>
                     </popUpButtonCell>
                     <connections>
                         <action selector="menuBarDisplayOptionChanged:" target="320" id="2047"/>
                         <binding destination="2006" name="content" keyPath="arrangedObjects" id="2020"/>
-                        <binding destination="2006" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="2020" id="2021"/>
                         <binding destination="2006" name="contentValues" keyPath="arrangedObjects.description" previousBinding="2021" id="2022"/>
+                        <binding destination="2006" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="2020" id="2021"/>
                         <binding destination="288" name="selectedIndex" keyPath="values.menuBarOption" previousBinding="2022" id="2023"/>
                     </connections>
                 </popUpButton>
@@ -575,7 +583,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <popUpButtonCell key="cell" type="push" title="*Item1*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1668" id="1862">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="1666">
                             <items>
                                 <menuItem title="*Item1*" state="on" id="1668"/>
@@ -611,8 +619,8 @@
                     </popUpButtonCell>
                     <connections>
                         <binding destination="1488" name="content" keyPath="arrangedObjects" id="1496"/>
-                        <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1496" id="1508"/>
                         <binding destination="1488" name="contentValues" keyPath="arrangedObjects.description" previousBinding="1508" id="1509"/>
+                        <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1496" id="1508"/>
                         <binding destination="513" name="selectedObject" keyPath="selection.when" previousBinding="1509" id="1510"/>
                     </connections>
                 </popUpButton>
@@ -849,7 +857,7 @@ IA
                                             </binding>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn identifier="delay" width="121.369140625" minWidth="10" maxWidth="1000" id="1012">
+                                    <tableColumn identifier="delay" width="121.869140625" minWidth="10" maxWidth="1000" id="1012">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Delay">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -942,18 +950,18 @@ IA
                     <rect key="frame" x="20" y="48" width="425" height="194"/>
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     <clipView key="contentView" id="MYX-4y-5BU">
-                        <rect key="frame" x="1" y="1" width="423" height="192"/>
+                        <rect key="frame" x="1" y="1" width="408" height="192"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textView editable="NO" importsGraphics="NO" richText="NO" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1736">
-                                <rect key="frame" x="0.0" y="0.0" width="423" height="192"/>
+                                <rect key="frame" x="0.0" y="0.0" width="408" height="192"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="minSize" width="423" height="192"/>
-                                <size key="maxSize" width="423" height="10000000"/>
+                                <size key="minSize" width="408" height="192"/>
+                                <size key="maxSize" width="425" height="10000000"/>
                                 <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="minSize" width="423" height="192"/>
-                                <size key="maxSize" width="423" height="10000000"/>
+                                <size key="minSize" width="408" height="192"/>
+                                <size key="maxSize" width="425" height="10000000"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1185,7 +1193,7 @@ IA
                         <autoresizingMask key="autoresizingMask"/>
                         <popUpButtonCell key="cell" type="push" title="*Item1*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1596" id="1873">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="1594">
                                 <items>
                                     <menuItem title="*Item1*" state="on" id="1596"/>
@@ -1226,7 +1234,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <popUpButtonCell key="cell" type="push" title="*Arrival*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1616" id="1876">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="1613">
                                 <items>
                                     <menuItem title="*Arrival*" state="on" id="1616"/>
@@ -1235,8 +1243,8 @@ Gw
                         </popUpButtonCell>
                         <connections>
                             <binding destination="1488" name="content" keyPath="arrangedObjects" id="1620"/>
-                            <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1620" id="1624"/>
                             <binding destination="1488" name="contentValues" keyPath="arrangedObjects.description" previousBinding="1624" id="1625"/>
+                            <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1620" id="1624"/>
                             <binding destination="320" name="selectedObject" keyPath="newActionWindowWhen" previousBinding="1625" id="1626"/>
                         </connections>
                     </popUpButton>

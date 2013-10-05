@@ -24,6 +24,7 @@
 @property (assign) IBOutlet NSMenuItem *activeContextsMenuItem;
 @property (assign) IBOutlet NSMenuItem *currentContextNameMenuItem;
 @property (assign) IBOutlet NSMenuItem *activeContextsMenuDivider;
+@property (assign) IBOutlet NSMenuItem *stickForcedContextMenuItem;
 
 @property (copy,nonatomic,readwrite) NSArray *activeRules;
 
@@ -31,7 +32,7 @@
 - (BOOL)stickyContext;
 
 - (void)forceSwitch: (id) sender;
-- (void)toggleSticky: (id) sender;
+- (IBAction)toggleSticky: (id) sender;
 
 - (void)restartSwitchSmoothing;
 

@@ -57,7 +57,7 @@
     
 	IBOutlet NSMenuItem *forceContextMenuItem;
 	BOOL forcedContextIsSticky;
-	NSMenuItem *stickForcedContextMenuItem;
+	//NSMenuItem *stickForcedContextMenuItem;
     
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet EvidenceSourceSetController *evidenceSources;
@@ -266,6 +266,7 @@
 	return contextsDataSource;
 }
 
+
 - (NSArray *)activeRules {
     return [self.rules deepMutableCopy];
 }
@@ -300,6 +301,7 @@
 - (BOOL)stickyContext {
 	return forcedContextIsSticky;
 }
+
 
 - (void)importVersion1Settings {
 	CFStringRef oldDomain = CFSTR("au.id.symonds.MarcoPolo");
@@ -644,8 +646,9 @@
     NSImage *barImage = nil;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
         Context *currentContext = self.currentContext;
-        if (currentContext) {
-            [self changeActiveIconImageColorTo:currentContext.iconColor];
+        if ([self.activeContexts count] > 0 || currentContext) {
+            if (![self useMultipleActiveContexts])
+                [self changeActiveIconImageColorTo:currentContext.iconColor];
             barImage = sbImageActive;
         } else {
             barImage = sbImageInactive;
@@ -763,19 +766,6 @@
 		[submenu addItem:item];
 	}
 
-	[submenu addItem:[NSMenuItem separatorItem]];
-
-    // Stick menu item
-    NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
-    [item setTitle:NSLocalizedString(@"Stick forced contexts", @"")];
-    [item setTarget:self];
-    [item setAction:@selector(toggleSticky:)];
-    // Binding won't work properly -- done correctly in forceSwitch:
-    //		[item bind:@"value" toObject:self withKeyPath:@"forcedContextIsSticky" options:nil];
-    [item setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
-    [submenu addItem:item];
-    stickForcedContextMenuItem = item;
-
 	[forceContextMenuItem setSubmenu:submenu];
 }
 
@@ -803,14 +793,14 @@
         [currentContextMenuItem setTag:99];
         [currentContextMenuItem setIndentationLevel:1];
         [currentContextMenuItem setEnabled:NO];
+
         [sbMenu insertItem:currentContextMenuItem atIndex:1];
     }
     else {
         for (Context *context in self.activeContexts) {
-            NSMenuItem *currentContextMenuItem = [[[NSMenuItem alloc] initWithTitle:context.name action:nil keyEquivalent:@""] autorelease];
+            NSMenuItem *currentContextMenuItem = [[[NSMenuItem alloc] initWithTitle:context.name action:@selector(deactivateContextByName:) keyEquivalent:@""] autorelease];
             [currentContextMenuItem setTag:99];
             [currentContextMenuItem setIndentationLevel:1];
-            [currentContextMenuItem setEnabled:NO];
             [sbMenu insertItem:currentContextMenuItem atIndex:1];
         }
     }
@@ -1154,6 +1144,10 @@
     [self updateActiveContextsMenuList];
 }
 
+- (void) deactivateContextByName:(NSMenuItem *) sender {
+    [self deactivateContext:[contextsDataSource contextByName:sender.title]];
+}
+
 - (void)changeCurrentContextTo:(Context *)context {
     NSString *contextPath = (context) ? [contextsDataSource pathFromRootTo:context.uuid] : (@"?");
 
@@ -1258,7 +1252,7 @@
 	// Selecting any context in the force-context menu deselects the 'stick forced contexts' item,
 	// so we force it to be correct here.
 	int state = forcedContextIsSticky ? NSOnState : NSOffState;
-	[stickForcedContextMenuItem setState:state];
+    [self.stickForcedContextMenuItem setState:state];
 
     [self increaseActionsInProgress];
     dispatch_async(updatingQueue, ^{
@@ -1274,24 +1268,24 @@
 
 - (void)setStickyBit:(NSNotification *) notification {
     if (![self stickyContext]) {
-        [self toggleSticky:self];
+        [self toggleSticky:self.stickForcedContextMenuItem];
     }
 }
 
 - (void)unsetStickyBit:(NSNotification *) notification {
     if ([self stickyContext]) {
-        [self toggleSticky:self];
+        [self toggleSticky:self.stickForcedContextMenuItem];
     }
 }
 
-- (void)toggleSticky:(id)sender {
+- (IBAction)toggleSticky:(id)sender {
 	BOOL oldValue = forcedContextIsSticky;
 	forcedContextIsSticky = !oldValue;
 
-	[stickForcedContextMenuItem setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
+  	[sender setState:(forcedContextIsSticky ? NSOnState : NSOffState)];
 
     if (!forcedContextIsSticky) {
-        self.forceOneFullUpdate = YES;
+        [self setForceOneFullUpdate:YES];
         [self restartSwitchSmoothing];
     }
 }

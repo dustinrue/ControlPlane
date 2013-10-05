@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1060" defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -67,6 +67,7 @@
                 <outlet property="forceContextMenuItem" destination="1560" id="1650"/>
                 <outlet property="prefsWindow" destination="910" id="1742"/>
                 <outlet property="sbMenu" destination="390" id="393"/>
+                <outlet property="stickForcedContextMenuItem" destination="EEP-gV-nJp" id="6up-Lc-vs7"/>
             </connections>
         </customObject>
         <menu title="Menü" id="390" userLabel="StatusbarMenu">
@@ -85,6 +86,12 @@
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="e4U-iz-rNQ"/>
                 <menuItem title="Umgebung erzwingen" id="1560"/>
+                <menuItem title="Stick forced contexts" id="EEP-gV-nJp">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="toggleSticky:" target="389" id="jjN-cY-IHq"/>
+                    </connections>
+                </menuItem>
                 <menuItem isSeparatorItem="YES" title=" " id="528">
                     <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                 </menuItem>
@@ -215,7 +222,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="*Item1*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="941" id="1821">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="939">
                             <items>
                                 <menuItem title="*Item1*" state="on" id="941"/>
@@ -223,8 +230,8 @@
                         </menu>
                     </popUpButtonCell>
                     <connections>
-                        <binding destination="288" name="enabled" keyPath="values.UseDefaultContext" id="1700"/>
                         <binding destination="288" name="selectedObject" keyPath="values.DefaultContext" id="1705"/>
+                        <binding destination="288" name="enabled" keyPath="values.UseDefaultContext" id="1700"/>
                     </connections>
                 </popUpButton>
                 <button id="937">
@@ -311,19 +318,19 @@
                 <popUpButton verticalHuggingPriority="750" id="1892">
                     <rect key="frame" x="17" y="157" width="100" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="icon" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="1897">
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="1897">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="1898">
                             <items>
-                                <menuItem title="icon" state="on" id="1899"/>
+                                <menuItem title="icon" id="1899"/>
                             </items>
                         </menu>
                     </popUpButtonCell>
                     <connections>
                         <binding destination="1900" name="content" keyPath="arrangedObjects" id="1920"/>
-                        <binding destination="1900" name="contentObjects" keyPath="selection.option" previousBinding="1920" id="1929"/>
                         <binding destination="1900" name="contentValues" keyPath="arrangedObjects.description" previousBinding="1929" id="1935"/>
+                        <binding destination="1900" name="contentObjects" keyPath="selection.option" previousBinding="1920" id="1929"/>
                         <binding destination="288" name="selectedIndex" keyPath="values.menuBarOption" previousBinding="1935" id="1936"/>
                     </connections>
                 </popUpButton>
@@ -552,7 +559,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                     <popUpButtonCell key="cell" type="push" title="*Item1*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1668" id="1840">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="1666">
                             <items>
                                 <menuItem title="*Item1*" state="on" id="1668"/>
@@ -588,8 +595,8 @@
                     </popUpButtonCell>
                     <connections>
                         <binding destination="1488" name="content" keyPath="arrangedObjects" id="1496"/>
-                        <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1496" id="1508"/>
                         <binding destination="1488" name="contentValues" keyPath="arrangedObjects.description" previousBinding="1508" id="1509"/>
+                        <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1496" id="1508"/>
                         <binding destination="513" name="selectedObject" keyPath="selection.when" previousBinding="1509" id="1510"/>
                     </connections>
                 </popUpButton>
@@ -826,7 +833,7 @@ IA
                                             </binding>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn identifier="delay" width="121.369140625" minWidth="10" maxWidth="1000" id="1012">
+                                    <tableColumn identifier="delay" width="121.869140625" minWidth="10" maxWidth="1000" id="1012">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Verzögerung">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -918,18 +925,18 @@ IA
                     <rect key="frame" x="20" y="48" width="425" height="156"/>
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     <clipView key="contentView" id="c62-tZ-htN">
-                        <rect key="frame" x="1" y="1" width="423" height="154"/>
+                        <rect key="frame" x="1" y="1" width="408" height="154"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textView editable="NO" importsGraphics="NO" richText="NO" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1736">
-                                <rect key="frame" x="0.0" y="0.0" width="423" height="154"/>
+                                <rect key="frame" x="0.0" y="0.0" width="408" height="154"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="minSize" width="423" height="154"/>
-                                <size key="maxSize" width="423" height="10000000"/>
+                                <size key="minSize" width="408" height="154"/>
+                                <size key="maxSize" width="425" height="10000000"/>
                                 <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <size key="minSize" width="423" height="154"/>
-                                <size key="maxSize" width="423" height="10000000"/>
+                                <size key="minSize" width="408" height="154"/>
+                                <size key="maxSize" width="425" height="10000000"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1063,11 +1070,11 @@ IA
                     <rect key="frame" x="20" y="20" width="349" height="261"/>
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     <clipView key="contentView" id="NYM-mG-co9">
-                        <rect key="frame" x="1" y="17" width="347" height="243"/>
+                        <rect key="frame" x="1" y="17" width="332" height="228"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="1883" id="1546">
-                                <rect key="frame" x="0.0" y="0.0" width="347" height="243"/>
+                                <rect key="frame" x="0.0" y="0.0" width="332" height="228"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1085,7 +1092,7 @@ IA
                                         </buttonCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
-                                    <tableColumn identifier="name" editable="NO" width="292" minWidth="100" maxWidth="1000" id="1548">
+                                    <tableColumn identifier="name" editable="NO" width="277" minWidth="100" maxWidth="1000" id="1548">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1107,11 +1114,11 @@ IA
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
                     <scroller key="horizontalScroller" verticalHuggingPriority="750" id="1884">
-                        <rect key="frame" x="1" y="244" width="347" height="16"/>
+                        <rect key="frame" x="1" y="245" width="332" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" id="1882">
-                        <rect key="frame" x="332" y="17" width="16" height="243"/>
+                        <rect key="frame" x="333" y="17" width="15" height="228"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <tableHeaderView key="headerView" id="1883">
@@ -1161,7 +1168,7 @@ IA
                         <autoresizingMask key="autoresizingMask"/>
                         <popUpButtonCell key="cell" type="push" title="*Item1*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1596" id="1851">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="1594">
                                 <items>
                                     <menuItem title="*Item1*" state="on" id="1596"/>
@@ -1202,7 +1209,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <popUpButtonCell key="cell" type="push" title="*Arrival*" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1616" id="1854">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="1613">
                                 <items>
                                     <menuItem title="*Arrival*" state="on" id="1616"/>
@@ -1211,8 +1218,8 @@ Gw
                         </popUpButtonCell>
                         <connections>
                             <binding destination="1488" name="content" keyPath="arrangedObjects" id="1620"/>
-                            <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1620" id="1624"/>
                             <binding destination="1488" name="contentValues" keyPath="arrangedObjects.description" previousBinding="1624" id="1625"/>
+                            <binding destination="1488" name="contentObjects" keyPath="arrangedObjects.option" previousBinding="1620" id="1624"/>
                             <binding destination="320" name="selectedObject" keyPath="newActionWindowWhen" previousBinding="1625" id="1626"/>
                         </connections>
                     </popUpButton>
