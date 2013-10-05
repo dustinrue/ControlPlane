@@ -1138,7 +1138,7 @@
 
 - (void) activateContext:(Context *) context {
     [self.activeContexts addObject:context];
-    DSLog(@"Triggering arrival actions, if any, for '%@'", [self currentContextName]);
+    DSLog(@"Triggering arrival actions, if any, for '%@'", context.name);
     [self triggerArrivalActionsOnWalk:[NSArray arrayWithObject:context]];
     [self updateActiveContextsMenuTitle];
     [self updateActiveContextsMenuList];
@@ -1147,7 +1147,7 @@
 - (void) deactivateContext:(Context *) context {
     if (context != nil) {
         [self.activeContexts removeObject:context];
-        DSLog(@"Triggering departure actions, if any, for '%@'", [self currentContextName]);
+        DSLog(@"Triggering departure actions, if any, for '%@'", context.name);
         [self triggerDepartureActionsOnWalk:[NSArray arrayWithObject:context]];
     }
     [self updateActiveContextsMenuTitle];
@@ -1179,6 +1179,7 @@
         kill( getpid(), SIGABRT );
     }
 #endif
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.currentContext != nil)
              [self.activeContexts removeObject:[contextsDataSource contextByUUID:self.currentContext.uuid]];
@@ -1345,53 +1346,58 @@
         NSArray *allKeys = [guesses allKeys];
         for (NSString *key in allKeys) {
             currentContext = [contextsDataSource contextByUUID:key];
-            if ([self guessMeetsConfidenceRequirement:currentContext])
+            if ([self guessMeetsConfidenceRequirement:currentContext]) {
+                NSLog(@"%@ meets requirements", currentContext.name);
                 [activeContexts addObject:currentContext];
+            }
+            else {
+                NSLog(@"%@ does not meet requirements", currentContext.name);
+            }
             
         }
         
         // apply the default context *only* if no other contexts apply
-        if ([activeContexts count] == 0) {
-            [self applyDefaultContextTo:guesses];
-            [contextsDataSource updateConfidencesFromGuesses:guesses];
-            [activeContexts addObject:[self getMostConfidentContext:guesses]];
+        if ([activeContexts count] == 0 && [self.activeContexts count] == 0) {
+            //[self applyDefaultContextTo:guesses];
+            //[contextsDataSource updateConfidencesFromGuesses:guesses];
+            //[activeContexts addObject:[self getMostConfidentContext:guesses]];
         }
-        
-        // remove contexts that are already active
-        [activeContexts minusSet:self.activeContexts];
-        
-        // the contexts in this NSSet need to be made active, in addition to any that
-        // already are
-        for (currentContext in activeContexts) {
-            [self activateContext:currentContext];
-        }
+        NSLog(@"Active %@", self.activeContexts);
+        NSLog(@"Activating before %@", activeContexts);
         
         // of the currently active contexts, which ones shouldn't be?
         NSMutableSet *deactivate = [NSMutableSet setWithSet:self.activeContexts];
         [deactivate minusSet:activeContexts];
+        
+        // remove contexts that are already active
+        [activeContexts minusSet:self.activeContexts];
+        
+        NSLog(@"Activating %@", activeContexts);
+        // the contexts in this NSSet need to be made active, in addition to any that
+        // already are
+        for (currentContext in activeContexts) {
+            [self increaseActionsInProgress];
+            dispatch_async(updatingQueue, ^{
+                [self activateContext:currentContext];
+                [self decreaseActionsInProgress];
+            });
+            
+        }
+        
+        
 
         
         NSLog(@"deactivating %@", deactivate);
         NSLog(@"currently active %@", self.activeContexts);
         
         for (currentContext in deactivate) {
-            [self deactivateContext:currentContext];
-        }
-        /*
-         [guesses enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, NSNumber *aGuess, BOOL *stop) {
-         DSLog(@"currentGuess %@ should be %@", uuid,
-         ([aGuess doubleValue] >= minConfidence) ? @"enabled" : @"disabled");
-         }];
-         */
-        Context *guessContext = [self getMostConfidentContext:guesses];
-        
-        if (guessContext && [self guessMeetsConfidenceRequirement:guessContext]) {
             [self increaseActionsInProgress];
             dispatch_async(updatingQueue, ^{
-                [self performTransitionToContext:guessContext triggeredManually:NO];
+                [self deactivateContext:currentContext];
                 [self decreaseActionsInProgress];
             });
         }
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateMenuBarAndContextMenu];
         });
