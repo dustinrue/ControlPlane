@@ -1453,7 +1453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\nset > /tmp/stuff\nif [ \"${DERIVED_FILES_DIR}\" == \"\" ]; then\n  DERIVED_FILES_DIR=\"/tmp\"\nfi\n\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i)\"\n    if [ ! -d $appFile ]; then\n        continue\n    fi\n    filename=$(basename \"$appFile\")\n    base=${filename%.[^.]*}\n    bundleid=`defaults read \"$appFile/Contents/Info\" CFBundleIdentifier`\n    echo $bundleid >> /tmp/stuff\n    defaults read \"$appFile/Contents/Info\" CFBundleIdentifier >> /tmp/stuff\n    sdef \"$appFile\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$base\" --bundleid `defaults read \"$appFile/Contents/Info\" CFBundleIdentifier`\ndone";
+			shellScript = "#\nset > /tmp/stuff\nif [ \"${DERIVED_FILES_DIR}\" == \"\" ]; then\n  DERIVED_FILES_DIR=\"/tmp\"\nfi\n\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i)\"\n    if [ ! -d $appFile ]; then\n        continue\n    fi\n    filename=$(basename \"$appFile\")\n    base=${filename%.[^.]*}\n    echo \"Attempting to get CFBundleIdentifier for ${appFile}/Contents/Info\"\n    bundleid=`defaults read \"$appFile/Contents/Info\" CFBundleIdentifier`\n    echo $bundleid >> /tmp/stuff\n    defaults read \"$appFile/Contents/Info.plist\" CFBundleIdentifier >> /tmp/stuff\n    sdef \"$appFile\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$base\" --bundleid `defaults read \"$appFile/Contents/Info.plist\" CFBundleIdentifier`\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
