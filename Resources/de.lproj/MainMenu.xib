@@ -907,7 +907,7 @@ IA
             </connections>
         </customObject>
         <customView autoresizesSubviews="NO" id="1394" userLabel="AdvancedPrefs">
-            <rect key="frame" x="0.0" y="0.0" width="465" height="389"/>
+            <rect key="frame" x="0.0" y="0.0" width="465" height="410"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <button verticalHuggingPriority="750" id="1740">
@@ -926,7 +926,7 @@ IA
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     <clipView key="contentView" id="c62-tZ-htN">
                         <rect key="frame" x="1" y="1" width="408" height="154"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView editable="NO" importsGraphics="NO" richText="NO" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1736">
                                 <rect key="frame" x="0.0" y="0.0" width="408" height="154"/>
@@ -946,19 +946,19 @@ IA
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="1880">
-                        <rect key="frame" x="408" y="1" width="16" height="154"/>
+                        <rect key="frame" x="409" y="1" width="15" height="154"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
                 <box autoresizesSubviews="NO" titlePosition="noTitle" id="1398">
-                    <rect key="frame" x="17" y="208" width="431" height="84"/>
+                    <rect key="frame" x="17" y="208" width="431" height="105"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <view key="contentView">
-                        <rect key="frame" x="2" y="2" width="427" height="80"/>
+                        <rect key="frame" x="2" y="2" width="427" height="101"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button id="1425">
-                                <rect key="frame" x="13" y="7" width="400" height="18"/>
+                                <rect key="frame" x="13" y="30" width="400" height="18"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <buttonCell key="cell" type="check" title="Auch bei bestehender Verbindung nach Funknetzwerken suchen" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="1844">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -969,7 +969,7 @@ IA
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" id="1429">
-                                <rect key="frame" x="16" y="54" width="268" height="13"/>
+                                <rect key="frame" x="16" y="77" width="268" height="13"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Zeitintervall zwischen erneuten Regeluntersuchungen:" id="1845">
                                     <font key="font" size="10" name="LucidaGrande"/>
@@ -978,7 +978,7 @@ IA
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" id="1430">
-                                <rect key="frame" x="14" y="27" width="272" height="21"/>
+                                <rect key="frame" x="14" y="50" width="272" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <sliderCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="20" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="1846">
                                     <font key="font" size="12" name="Helvetica"/>
@@ -988,7 +988,7 @@ IA
                                 </connections>
                             </slider>
                             <textField verticalHuggingPriority="750" id="1431">
-                                <rect key="frame" x="292" y="31" width="119" height="13"/>
+                                <rect key="frame" x="292" y="54" width="119" height="13"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="20 Sekunden" id="1847">
                                     <font key="font" size="10" name="LucidaGrande"/>
@@ -1003,6 +1003,21 @@ IA
                                     </binding>
                                 </connections>
                             </textField>
+                            <button id="mNx-tQ-hui">
+                                <rect key="frame" x="13" y="10" width="190" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Enable Multiple Active Contexts" bezelStyle="regularSquare" imagePosition="left" controlSize="small" inset="2" id="QqR-DX-a0E">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="288" name="value" keyPath="values.AllowMultipleActiveContexts" id="AZT-pb-e33">
+                                        <dictionary key="options">
+                                            <bool key="NSValidatesImmediately" value="YES"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
@@ -1018,7 +1033,7 @@ IA
                     </connections>
                 </box>
                 <textField verticalHuggingPriority="750" id="1397">
-                    <rect key="frame" x="17" y="318" width="431" height="51"/>
+                    <rect key="frame" x="17" y="339" width="431" height="51"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="1843">
                         <font key="font" metaFont="system"/>
@@ -1028,7 +1043,7 @@ IA
                     </textFieldCell>
                 </textField>
                 <button id="1396">
-                    <rect key="frame" x="18" y="296" width="106" height="18"/>
+                    <rect key="frame" x="18" y="317" width="106" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Verstanden." bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1842">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>

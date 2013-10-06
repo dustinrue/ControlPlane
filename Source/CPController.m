@@ -531,6 +531,7 @@
     
     // hide the current context menu item for now
     [self.currentContextNameMenuItem setHidden:YES];
+    [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"AllowMultipleActiveContexts" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 
@@ -1834,5 +1835,20 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 
 - (BOOL) defaultContextIsActive {
     return [self.activeContexts containsObject:[self getDefaultContext]];
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    switch ([keyPath isEqualToString:@"AllowMultipleActiveContexts"]) {
+        case YES:
+            self.currentContext = nil;
+            [self.stickyActiveContexts removeAllObjects];
+            [self changeActiveContextsBasedOnGuesses:[NSMutableDictionary dictionary]];
+            [self.activeContexts removeAllObjects];
+            [self forceOneFullUpdate];
+            break;
+            
+        default:
+            break;
+    }
 }
 @end
