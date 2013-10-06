@@ -21,6 +21,7 @@
 @property (readwrite) BOOL screenLocked;
 @property (readwrite) BOOL goingToSleep;
 @property (strong) NSMutableSet *activeContexts;
+@property (strong) NSMutableSet *stickyActiveContexts;
 @property (assign) IBOutlet NSMenuItem *activeContextsMenuItem;
 @property (assign) IBOutlet NSMenuItem *currentContextNameMenuItem;
 @property (assign) IBOutlet NSMenuItem *activeContextsMenuDivider;

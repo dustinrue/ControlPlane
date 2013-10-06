@@ -496,6 +496,7 @@
     [self startMonitoringSleepAndPowerNotifications];
     [self registerForNotifications];
     self.activeContexts = [NSMutableSet setWithCapacity:0];
+    self.stickyActiveContexts = [NSMutableSet setWithCapacity:0];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
@@ -755,7 +756,13 @@
 		[item setIndentationLevel:[ctxt.depth intValue]];
 		[item setRepresentedObject:ctxt.uuid];
 		[item setTarget:self];
-		[item setAction:@selector(forceSwitch:)];
+        if ([self useMultipleActiveContexts]) {
+            [item setAction:@selector(activateContextByMenuClick:)];
+            [item setRepresentedObject:ctxt];
+        }
+        else
+            [item setAction:@selector(forceSwitch:)];
+        
 		[submenu addItem:item];
         
 		item = [[item copy] autorelease];
@@ -771,9 +778,9 @@
 
 - (void) updateActiveContextsMenuTitle {
     if ([self.activeContexts count] > 1)
-        self.activeContextsMenuHeader = @"Active Contexts";
+        self.activeContextsMenuHeader = NSLocalizedString(@"Active Contexts", @"");
     else
-        self.activeContextsMenuHeader = @"Active Context";
+        self.activeContextsMenuHeader = NSLocalizedString(@"Active Context", @"");
 }
 
 - (void) updateActiveContextsMenuList {
@@ -796,9 +803,22 @@
     }
     else {
         for (Context *context in self.activeContexts) {
-            NSMenuItem *currentContextMenuItem = [[[NSMenuItem alloc] initWithTitle:context.name action:@selector(deactivateContextByName:) keyEquivalent:@""] autorelease];
+            NSMenuItem *currentContextMenuItem = nil;
+
+            if ([self.stickyActiveContexts containsObject:context]) {
+                currentContextMenuItem = [[[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"%@*", context.name] action:@selector(deactivateContextByMenuClick:) keyEquivalent:@""] autorelease];
+                
+                [currentContextMenuItem setToolTip:NSLocalizedString(@"Context is Sticky, click to deactivate context", @"")];
+            }
+            else {
+                currentContextMenuItem = [[[NSMenuItem alloc] initWithTitle:context.name action:@selector(deactivateContextByMenuClick:) keyEquivalent:@""] autorelease];
+                [currentContextMenuItem setToolTip:NSLocalizedString(@"Click to deactivate context", @"")];
+            }
+            
             [currentContextMenuItem setTag:99];
             [currentContextMenuItem setIndentationLevel:1];
+            [currentContextMenuItem setRepresentedObject:context];
+
             [sbMenu insertItem:currentContextMenuItem atIndex:1];
         }
     }
@@ -1142,8 +1162,24 @@
     [self updateActiveContextsMenuList];
 }
 
-- (void) deactivateContextByName:(NSMenuItem *) sender {
-    [self deactivateContext:[contextsDataSource contextByName:sender.title]];
+- (void) activateContextByMenuClick:(NSMenuItem *) sender {
+    //[self triggerArrivalActionsOnWalk:[NSArray arrayWithObject:[contextsDataSource contextByName:sender.title]]];
+    if (forcedContextIsSticky)
+        [self.stickyActiveContexts addObject:sender.representedObject];
+    
+    [self activateContext:sender.representedObject];
+    
+}
+
+- (void) deactivateContextByMenuClick:(NSMenuItem *) sender {
+    //[self triggerDepartureActionsOnWalk:[NSArray arrayWithObject:[contextsDataSource contextByName:sender.title]]];
+
+    if (forcedContextIsSticky && [self.stickyActiveContexts containsObject:sender.representedObject])
+        [self.stickyActiveContexts removeObject:sender.representedObject];
+    
+    [self deactivateContext:sender.representedObject];
+    
+    
 }
 
 - (void)changeCurrentContextTo:(Context *)context {
@@ -1203,7 +1239,7 @@
 - (void)postNotificationsOnContextTransitionWhenForcedByUserIs:(BOOL)isManuallyTriggered {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableGrowl"]) {
         NSString *msg = [self getMesssageForChangingToContextWhenForcedByUserIs:isManuallyTriggered];
-        [CPNotifications postUserNotification:NSLocalizedString(@"Changing Context", @"Growl message title")
+        [CPNotifications postUserNotification:NSLocalizedString(@"Activating Context", @"Growl message title")
                                   withMessage:msg];
     }
     
@@ -1228,7 +1264,7 @@
         msgSuffix = [NSString stringWithFormat:suffixFmt, percentage];
     }
 
-    NSString *fmt = NSLocalizedString(@"Changing to context '%@' %@.",
+    NSString *fmt = NSLocalizedString(@"Activating context '%@' %@.",
                                       @"First parameter is the context name, second parameter is the confidence value,"
                                       " or 'as default context'");
 	return [NSString stringWithFormat:fmt, self.currentContextPath, msgSuffix];
@@ -1287,6 +1323,7 @@
     if (!forcedContextIsSticky) {
         [self setForceOneFullUpdate:YES];
         [self restartSwitchSmoothing];
+        [self.stickyActiveContexts removeAllObjects];
     }
 }
 
@@ -1393,6 +1430,9 @@
     // of the currently active contexts, which ones shouldn't be?
     NSMutableSet *deactivate = [NSMutableSet setWithSet:self.activeContexts];
     [deactivate minusSet:newActiveContexts];
+    
+    // but don't remove sticky active contexts
+    [deactivate minusSet:self.stickyActiveContexts];
     
     // now remove contexts that are already active
     NSMutableSet *activate = [NSMutableSet setWithSet:newActiveContexts];
