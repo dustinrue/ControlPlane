@@ -1322,6 +1322,10 @@
     // of the configured contexts, which ones have rule hits?
     NSMutableDictionary *guesses = [self getGuessesForRules:matchingRules];
     
+    // Don't include the default context yet because
+    // under multiple active contexts it'll show as active
+    // when it shouldn't (default context always meets minimum
+    // confidence required)
     if (![self useMultipleActiveContexts])
         [self applyDefaultContextTo:guesses];
     
@@ -1371,9 +1375,9 @@
     
     // apply the default context *only* if no other contexts apply
     if ([newActiveContexts count] == 0 && [self.activeContexts count] == 0) {
-        //[self applyDefaultContextTo:guesses];
-        //[contextsDataSource updateConfidencesFromGuesses:guesses];
-        //[activeContexts addObject:[self getMostConfidentContext:guesses]];
+        [self applyDefaultContextTo:guesses];
+        [contextsDataSource updateConfidencesFromGuesses:guesses];
+        [newActiveContexts addObject:[self getMostConfidentContext:guesses]];
     }
     
 #ifdef DEBUG_MODE
