@@ -774,8 +774,6 @@
         self.activeContextsMenuHeader = @"Active Contexts";
     else
         self.activeContextsMenuHeader = @"Active Context";
-    
-    
 }
 
 - (void) updateActiveContextsMenuList {
@@ -1173,16 +1171,18 @@
         kill( getpid(), SIGABRT );
     }
 #endif
-
+    
+    if (self.currentContext != nil) {
+        [self.activeContexts removeObject:[contextsDataSource contextByUUID:self.currentContext.uuid]];
+    }
+    
+    [self.activeContexts addObject:context];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.currentContext != nil)
-             [self.activeContexts removeObject:[contextsDataSource contextByUUID:self.currentContext.uuid]];
-        
-        [self.activeContexts addObject:context];
         [self updateActiveContextsMenuList];
         [self updateActiveContextsMenuTitle];
     });
-
+    
     NSArray *walks = [contextsDataSource walkFrom:self.currentContext.uuid to:context.uuid];
 	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
 
@@ -1334,68 +1334,7 @@
     }
     
     if ([self useMultipleActiveContexts]) {
-
-        NSMutableSet *activeContexts = [NSMutableSet setWithCapacity:0];
-        Context *currentContext;
-        NSArray *allKeys = [guesses allKeys];
-        for (NSString *key in allKeys) {
-            currentContext = [contextsDataSource contextByUUID:key];
-            if ([self guessMeetsConfidenceRequirement:currentContext]) {
-                NSLog(@"%@ meets requirements", currentContext.name);
-                [activeContexts addObject:currentContext];
-            }
-            else {
-                NSLog(@"%@ does not meet requirements", currentContext.name);
-            }
-            
-        }
-        
-        // apply the default context *only* if no other contexts apply
-        if ([activeContexts count] == 0 && [self.activeContexts count] == 0) {
-            //[self applyDefaultContextTo:guesses];
-            //[contextsDataSource updateConfidencesFromGuesses:guesses];
-            //[activeContexts addObject:[self getMostConfidentContext:guesses]];
-        }
-        NSLog(@"Active %@", self.activeContexts);
-        NSLog(@"Activating before %@", activeContexts);
-        
-        // of the currently active contexts, which ones shouldn't be?
-        NSMutableSet *deactivate = [NSMutableSet setWithSet:self.activeContexts];
-        [deactivate minusSet:activeContexts];
-        
-        // remove contexts that are already active
-        [activeContexts minusSet:self.activeContexts];
-        
-        NSLog(@"Activating %@", activeContexts);
-        // the contexts in this NSSet need to be made active, in addition to any that
-        // already are
-        for (currentContext in activeContexts) {
-            [self increaseActionsInProgress];
-            dispatch_async(updatingQueue, ^{
-                [self activateContext:currentContext];
-                [self decreaseActionsInProgress];
-            });
-            
-        }
-        
-        
-
-        
-        NSLog(@"deactivating %@", deactivate);
-        NSLog(@"currently active %@", self.activeContexts);
-        
-        for (currentContext in deactivate) {
-            [self increaseActionsInProgress];
-            dispatch_async(updatingQueue, ^{
-                [self deactivateContext:currentContext];
-                [self decreaseActionsInProgress];
-            });
-        }
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateMenuBarAndContextMenu];
-        });
-       
+        [self changeActiveContextsBasedOnGuesses:guesses];
     } else {
         // use the older style of context matching
         // of the guesses, which one has the highest confidence rating?
@@ -1409,6 +1348,64 @@
             });
         }
     }
+}
+
+- (void)changeActiveContextsBasedOnGuesses:(NSMutableDictionary *)guesses {
+    NSMutableSet *newActiveContexts = [NSMutableSet set];
+    
+    double minConfidence = [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"];
+    [guesses enumerateKeysAndObjectsUsingBlock:^(id key, NSNumber *confidence, BOOL *stop) {
+        if ([confidence doubleValue] < minConfidence) {
+#ifdef DEBUG_MODE
+            NSLog(@"%@ does not meet requirements", [contextsDataSource contextByUUID:key].name);
+#endif
+            return;
+        }
+        
+        Context *context = [contextsDataSource contextByUUID:key];
+#ifdef DEBUG_MODE
+        NSLog(@"%@ meets requirements", context.name);
+#endif
+        [newActiveContexts addObject:context];
+    }];
+    
+    // apply the default context *only* if no other contexts apply
+    if ([newActiveContexts count] == 0 && [self.activeContexts count] == 0) {
+        //[self applyDefaultContextTo:guesses];
+        //[contextsDataSource updateConfidencesFromGuesses:guesses];
+        //[activeContexts addObject:[self getMostConfidentContext:guesses]];
+    }
+    
+#ifdef DEBUG_MODE
+    DSLog(@"Previously active %@", self.activeContexts);
+    DSLog(@"Activating before %@", newActiveContexts);
+#endif
+    
+    // of the currently active contexts, which ones shouldn't be?
+    NSMutableSet *deactivate = [NSMutableSet setWithSet:self.activeContexts];
+    [deactivate minusSet:newActiveContexts];
+    
+    // now remove contexts that are already active
+    NSMutableSet *activate = [NSMutableSet setWithSet:newActiveContexts];
+    [activate minusSet:self.activeContexts];
+    
+    [self.activeContexts setSet:newActiveContexts];
+    
+    DSLog(@"Activating %@", activate);
+    [self triggerArrivalActionsOnWalk:[activate allObjects]];
+    
+    DSLog(@"Deactivating %@", deactivate);
+    [self triggerDepartureActionsOnWalk:[deactivate allObjects]];
+    
+#ifdef DEBUG_MODE
+    DSLog(@"Currently active %@", self.activeContexts);
+#endif
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateActiveContextsMenuTitle];
+        [self updateActiveContextsMenuList];
+        [self updateMenuBarAndContextMenu];
+    });
 }
 
 // If configured to use a default context, add it here
