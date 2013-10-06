@@ -1354,6 +1354,10 @@
     }
 }
 
+#pragma mark Multiple Active Contexts
+/**
+ * Multiple Active Context Routine
+ */
 - (void)changeActiveContextsBasedOnGuesses:(NSMutableDictionary *)guesses {
     NSMutableSet *newActiveContexts = [NSMutableSet set];
     
@@ -1361,20 +1365,21 @@
     [guesses enumerateKeysAndObjectsUsingBlock:^(id key, NSNumber *confidence, BOOL *stop) {
         if ([confidence doubleValue] < minConfidence) {
 #ifdef DEBUG_MODE
-            NSLog(@"%@ does not meet requirements", [contextsDataSource contextByUUID:key].name);
+            DSLog(@"%@ does not meet requirements", [contextsDataSource contextByUUID:key].name);
 #endif
             return;
         }
         
         Context *context = [contextsDataSource contextByUUID:key];
 #ifdef DEBUG_MODE
-        NSLog(@"%@ meets requirements", context.name);
+        DSLog(@"%@ meets requirements", context.name);
 #endif
         [newActiveContexts addObject:context];
     }];
     
     // apply the default context *only* if no other contexts apply
-    if ([newActiveContexts count] == 0 && [self.activeContexts count] == 0) {
+    // and the user has enabled the option
+    if ([self useDefaultContext] && ([self.activeContexts count] == 0 || [self defaultContextIsActive])) {
         [self applyDefaultContextTo:guesses];
         [contextsDataSource updateConfidencesFromGuesses:guesses];
         [newActiveContexts addObject:[self getMostConfidentContext:guesses]];
@@ -1395,6 +1400,8 @@
     
     [self.activeContexts setSet:newActiveContexts];
     
+
+    
     DSLog(@"Activating %@", activate);
     [self triggerArrivalActionsOnWalk:[activate allObjects]];
     
@@ -1404,6 +1411,10 @@
 #ifdef DEBUG_MODE
     DSLog(@"Currently active %@", self.activeContexts);
 #endif
+    // immediately re-evaluate guesses if we've deactivated all contexts
+    // and use default context option is on
+    if ([self useDefaultContext] && [self.activeContexts count] == 0)
+        [self changeActiveContextsBasedOnGuesses:guesses];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateActiveContextsMenuTitle];
@@ -1415,10 +1426,10 @@
 // If configured to use a default context, add it here
 // and set the confidence value to exactly the minimum required
 - (void)applyDefaultContextTo:(NSMutableDictionary *)guesses {
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    if ([standardUserDefaults boolForKey:@"UseDefaultContext"]) {
-        NSString *uuid = [standardUserDefaults stringForKey:@"DefaultContext"];
-        const double minConfidence = (double) [standardUserDefaults floatForKey:@"MinimumConfidenceRequired"];
+    
+    if ([self useDefaultContext]) {
+        NSString *uuid = [self getDefaultContext];
+        const double minConfidence = (double) [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumConfidenceRequired"];
         
         NSNumber *guessConfidence = guesses[uuid];
         if (!guessConfidence || ([guessConfidence doubleValue] < minConfidence)) {
@@ -1773,4 +1784,15 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"AllowMultipleActiveContexts"];
 }
 
+- (BOOL) useDefaultContext {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"];
+}
+
+- (NSString *) getDefaultContext {
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
+}
+
+- (BOOL) defaultContextIsActive {
+    return [self.activeContexts containsObject:[self getDefaultContext]];
+}
 @end
