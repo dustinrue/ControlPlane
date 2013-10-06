@@ -1547,7 +1547,7 @@
         return NO;
 	}
 
-    /* we don't care if we're already at the context
+    
 	if ([guessUUID isEqualToString:self.currentContext.uuid]) {
 #ifdef DEBUG_MODE
 		DSLog(@"Guessed '%@' (with confidence %@); already there.", guessContext.name, guessConf);
@@ -1555,7 +1555,7 @@
         [self restartSwitchSmoothing];
 		return NO;
 	}
-     */
+    
 
     // the smoothing feature is designed to prevent ControlPlane from flapping between contexts
 	if ([standardUserDefaults boolForKey:@"EnableSwitchSmoothing"]) {
