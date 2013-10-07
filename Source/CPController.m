@@ -784,10 +784,11 @@
 }
 
 - (void) updateActiveContextsMenuTitle {
-    if ([self.activeContexts count] > 1)
-        self.activeContextsMenuHeader = NSLocalizedString(@"Active Contexts", @"");
-    else
-        self.activeContextsMenuHeader = NSLocalizedString(@"Active Context", @"");
+    if ([self.activeContexts count] > 1) {
+        self.activeContextsMenuHeader = NSLocalizedString(@"Active Contexts:", @"");
+    } else {
+        self.activeContextsMenuHeader = NSLocalizedString(@"Active Context:", @"");
+    }
 }
 
 - (void) updateActiveContextsMenuList {
