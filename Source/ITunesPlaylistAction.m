@@ -108,7 +108,7 @@
 		
 	} @catch (NSException *e) {
 		DSLog(@"Exception: %@", e);
-		options = [NSArray array];
+		options = [NSMutableArray array];
 	}
 	
 	return options;
