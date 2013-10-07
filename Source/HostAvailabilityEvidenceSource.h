@@ -12,7 +12,7 @@
 @interface HostAvailabilityEvidenceSource : EvidenceSource
 
 @property (assign) SCNetworkReachabilityRef monitoredHost;
-@property (retain) NSDictionary *monitoredHosts;
+@property (retain) NSMutableDictionary *monitoredHosts;
 @property (assign) BOOL hostIsReachable;
 @property (assign) IBOutlet NSComboBox *hostOrIp;
 

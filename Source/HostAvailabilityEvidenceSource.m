@@ -7,6 +7,7 @@
 //
 
 #import "HostAvailabilityEvidenceSource.h"
+#import "DSLogger.h"
 
 
 @implementation HostAvailabilityEvidenceSource
@@ -27,7 +28,7 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 #endif
     NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
     
-    BOOL hostIsReachable = (flags & kSCNetworkFlagsReachable) ? YES:NO;
+    BOOL hostIsReachable = ((flags & kSCNetworkFlagsReachable && flags & kSCNetworkFlagsTransientConnection) || (flags & kSCNetworkFlagsReachable && flags & kSCNetworkFlagsIsDirect)) ? YES:NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hostAvailabilityChanged" object:@{@"target" : [NSValue value:&target withObjCType:@encode(void *)], @"availability" : [NSNumber numberWithBool:hostIsReachable]}];
     
     [autoreleasePool release];
@@ -39,7 +40,7 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 		return nil;
     
 
-    self.monitoredHosts = [NSDictionary dictionary];
+    self.monitoredHosts = [NSMutableDictionary dictionary];
     
 	return self;
 }
@@ -49,19 +50,17 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
     @synchronized(self) {
         NSDictionary *data = [context object];
         
-        NSArray *allKeys = [self.monitoredHosts allKeys];
-        
-        for (NSString *currentKey in allKeys) {
-            NSValue *currentTarget = self.monitoredHosts[currentKey][@"target"];
+        [self.monitoredHosts enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            NSValue *currentTarget = obj[@"target"];
             if ([currentTarget isEqualTo:data[@"target"]]) {
                 NSMutableDictionary *mutableMonitoredHosts = [self.monitoredHosts mutableCopy];
-                [mutableMonitoredHosts setObject:@{@"available" : data[@"availability"], @"target" : currentTarget} forKey:currentKey];
+                [mutableMonitoredHosts setObject:@{@"available" : data[@"availability"], @"target" : currentTarget} forKey:key];
                 self.monitoredHosts = mutableMonitoredHosts;
                 [mutableMonitoredHosts release];
             }
-        }
+        }];
     }
-    
+    return;
 }
 
 - (void) start {
@@ -88,10 +87,16 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
     NSMutableDictionary *mutableMonitoredHosts = [self.monitoredHosts mutableCopy];
     SCNetworkReachabilityRef monitoredHost = SCNetworkReachabilityCreateWithName(CFAllocatorGetDefault(), [hostToMonitor cStringUsingEncoding:NSUTF8StringEncoding]);
     
-    if (SCNetworkReachabilitySetCallback(monitoredHost, HostAvailabilityReachabilityCallBack, NULL))
+    if (SCNetworkReachabilitySetCallback(monitoredHost, HostAvailabilityReachabilityCallBack, NULL)) {
         if (SCNetworkReachabilityScheduleWithRunLoop(monitoredHost, CFRunLoopGetMain(), kCFRunLoopDefaultMode)) {
+            DSLog(@"monitoring host %@", hostToMonitor);
             [mutableMonitoredHosts setObject:@{@"available" : [NSNumber numberWithBool:NO], @"target" : [NSValue value:&monitoredHost withObjCType:@encode(void *)]} forKey:hostToMonitor];
         }
+        else {
+            DSLog(@"failed to monitor host %@", hostToMonitor);
+        }
+    }
+    
     self.monitoredHosts = mutableMonitoredHosts;
     [mutableMonitoredHosts release];
 
@@ -111,7 +116,19 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 }
 
 - (void) stop {
-    
+    [self.monitoredHosts enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSValue *encodedMonitoredHost = obj[@"target"];
+        SCNetworkReachabilityRef monitoredHost;
+        [encodedMonitoredHost getValue:&monitoredHost];
+        if (SCNetworkReachabilityUnscheduleFromRunLoop(monitoredHost, CFRunLoopGetMain(), kCFRunLoopDefaultMode))
+            DSLog(@"stopped monitoring %@", key);
+        else
+            DSLog(@"failed to stop monitoring %@", key);
+    }];
+    [self.monitoredHosts removeAllObjects];
+    self.dataCollected = NO;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    running = NO;
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type
