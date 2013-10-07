@@ -1064,7 +1064,7 @@
     [self scheduleActions:arrivalActions usingReverseDelays:NO maxDelay:NULL];
 }
 
-- (void)triggerDepartureActionsOnWalk:(NSArray *)walk {
+- (void)triggerDepartureActionsOnWalk:(NSArray *)walk usingReverseDelays:(BOOL)areDelaysReversed {
     NSMutableArray *departureActions = [NSMutableArray array];
     for (Context *ctxt in walk) {
         [self enumerateEnabledActionsForContext:ctxt on:@"Departure" usingBlock:^(NSDictionary *actionParams) {
@@ -1083,10 +1083,10 @@
     }
     
     NSTimeInterval maxDelay = 0.0;
-    [self scheduleActions:departureActions usingReverseDelays:YES maxDelay:&maxDelay];
+    [self scheduleActions:departureActions usingReverseDelays:areDelaysReversed maxDelay:&maxDelay];
     
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
-    if (maxDelay > 0.0) {
+    if (areDelaysReversed && (maxDelay > 0.0)) {
         DSLog(@"Delay switching context for %.2f secs to let all departure actions start", (float) maxDelay);
         [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
     }
@@ -1157,7 +1157,7 @@
     if (context != nil) {
         [self.activeContexts removeObject:context];
         DSLog(@"Triggering departure actions, if any, for '%@'", context.name);
-        [self triggerDepartureActionsOnWalk:[NSArray arrayWithObject:context]];
+        [self triggerDepartureActionsOnWalk:[NSArray arrayWithObject:context] usingReverseDelays:NO];
     }
     [self updateActiveContextsMenuTitle];
     [self updateActiveContextsMenuList];
@@ -1222,15 +1222,19 @@
     
     NSArray *walks = [contextsDataSource walkFrom:self.currentContext.uuid to:context.uuid];
 	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
-
+    
     if ([leavingWalk count] > 0) {
         DSLog(@"Triggering departure actions, if any, for '%@'", [self currentContextName]);
-        [self triggerDepartureActionsOnWalk:leavingWalk];
+        
+        // Originally CP was implemented so that deactivating the current (single) active context
+        // was done with departure actions being triggered based on their _reverse_ delays.
+        // We now have to keep supporting that original logic for backward compatibility.
+        [self triggerDepartureActionsOnWalk:leavingWalk usingReverseDelays:YES];
     }
-
+    
     [self changeCurrentContextTo:context];
     [self postNotificationsOnContextTransitionWhenForcedByUserIs:isManuallyTriggered];
-
+    
     if ([enteringWalk count] > 0) {
         DSLog(@"Triggering arrival actions, if any, for '%@'", [self currentContextName]);
         [self triggerArrivalActionsOnWalk:enteringWalk];
@@ -1447,7 +1451,7 @@
     [self triggerArrivalActionsOnWalk:[activate allObjects]];
     
     DSLog(@"Deactivating %@", deactivate);
-    [self triggerDepartureActionsOnWalk:[deactivate allObjects]];
+    [self triggerDepartureActionsOnWalk:[deactivate allObjects] usingReverseDelays:NO];
     
 #ifdef DEBUG_MODE
     DSLog(@"Currently active %@", self.activeContexts);
