@@ -87,6 +87,9 @@
 
 @property (copy,nonatomic,readwrite) NSString *candidateContextUUID; // Switch smoothing state parameters
 
+@property (strong,nonatomic,readwrite) NSMutableSet *candidateContextsToActivate;
+@property (strong,nonatomic,readwrite) NSMutableSet *candidateContextsToDeactivate;
+
 @property (retain,atomic,readwrite) NSArray *rules;
 @property (assign,atomic,readwrite) BOOL forceOneFullUpdate;
 
@@ -497,7 +500,10 @@
     [self registerForNotifications];
     self.activeContexts = [NSMutableSet setWithCapacity:0];
     self.stickyActiveContexts = [NSMutableSet setWithCapacity:0];
-
+    
+    self.candidateContextsToActivate   = [NSMutableSet set];
+    self.candidateContextsToDeactivate = [NSMutableSet set];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         // Start up evidence sources that should be started
         [evidenceSources startEnabledEvidenceSources];
@@ -778,10 +784,11 @@
 }
 
 - (void) updateActiveContextsMenuTitle {
-    if ([self.activeContexts count] > 1)
-        self.activeContextsMenuHeader = NSLocalizedString(@"Active Contexts", @"");
-    else
-        self.activeContextsMenuHeader = NSLocalizedString(@"Active Context", @"");
+    if ([self.activeContexts count] > 1) {
+        self.activeContextsMenuHeader = NSLocalizedString(@"Active Contexts:", @"");
+    } else {
+        self.activeContextsMenuHeader = NSLocalizedString(@"Active Context:", @"");
+    }
 }
 
 - (void) updateActiveContextsMenuList {
@@ -1064,7 +1071,7 @@
     [self scheduleActions:arrivalActions usingReverseDelays:NO maxDelay:NULL];
 }
 
-- (void)triggerDepartureActionsOnWalk:(NSArray *)walk {
+- (void)triggerDepartureActionsOnWalk:(NSArray *)walk usingReverseDelays:(BOOL)areDelaysReversed {
     NSMutableArray *departureActions = [NSMutableArray array];
     for (Context *ctxt in walk) {
         [self enumerateEnabledActionsForContext:ctxt on:@"Departure" usingBlock:^(NSDictionary *actionParams) {
@@ -1083,10 +1090,10 @@
     }
     
     NSTimeInterval maxDelay = 0.0;
-    [self scheduleActions:departureActions usingReverseDelays:YES maxDelay:&maxDelay];
+    [self scheduleActions:departureActions usingReverseDelays:areDelaysReversed maxDelay:&maxDelay];
     
 	// Finally, we have to sleep this thread, so we don't return until we're ready to change contexts.
-    if (maxDelay > 0.0) {
+    if (areDelaysReversed && (maxDelay > 0.0)) {
         DSLog(@"Delay switching context for %.2f secs to let all departure actions start", (float) maxDelay);
         [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:maxDelay]];
     }
@@ -1157,7 +1164,7 @@
     if (context != nil) {
         [self.activeContexts removeObject:context];
         DSLog(@"Triggering departure actions, if any, for '%@'", context.name);
-        [self triggerDepartureActionsOnWalk:[NSArray arrayWithObject:context]];
+        [self triggerDepartureActionsOnWalk:[NSArray arrayWithObject:context] usingReverseDelays:NO];
     }
     [self updateActiveContextsMenuTitle];
     [self updateActiveContextsMenuList];
@@ -1222,15 +1229,19 @@
     
     NSArray *walks = [contextsDataSource walkFrom:self.currentContext.uuid to:context.uuid];
 	NSArray *leavingWalk = walks[0], *enteringWalk = walks[1];
-
+    
     if ([leavingWalk count] > 0) {
         DSLog(@"Triggering departure actions, if any, for '%@'", [self currentContextName]);
-        [self triggerDepartureActionsOnWalk:leavingWalk];
+        
+        // Originally CP was implemented so that deactivating the current (single) active context
+        // was done with departure actions being triggered based on their _reverse_ delays.
+        // We now have to keep supporting that original logic for backward compatibility.
+        [self triggerDepartureActionsOnWalk:leavingWalk usingReverseDelays:YES];
     }
-
+    
     [self changeCurrentContextTo:context];
     [self postNotificationsOnContextTransitionWhenForcedByUserIs:isManuallyTriggered];
-
+    
     if ([enteringWalk count] > 0) {
         DSLog(@"Triggering arrival actions, if any, for '%@'", [self currentContextName]);
         [self triggerArrivalActionsOnWalk:enteringWalk];
@@ -1439,23 +1450,63 @@
     NSMutableSet *activate = [NSMutableSet setWithSet:newActiveContexts];
     [activate minusSet:self.activeContexts];
     
-    [self.activeContexts setSet:newActiveContexts];
+    // Switch smoothing for multiple active contexts.
+    // It ensures that a context to be activated/deactivated survives two consequtive updates.
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableSwitchSmoothing"]) {
+        // switch smoothing for activated contexts
+        NSMutableSet *newCandidatesToActivate = [NSMutableSet setWithSet:activate];
+        [newCandidatesToActivate minusSet:self.candidateContextsToActivate];
+        
+        [activate intersectSet:self.candidateContextsToActivate];
+        
+        [self.candidateContextsToActivate setSet:newCandidatesToActivate];
+#ifdef DEBUG_MODE
+        DSLog(@"Candidates for activation %@", self.candidateContextsToActivate);
+#endif
+        
+        // switch smoothing for deactivated contexts
+        NSMutableSet *newCandidatesToDeactivate = [NSMutableSet setWithSet:deactivate];
+        [newCandidatesToDeactivate minusSet:self.candidateContextsToDeactivate];
+        
+        [deactivate intersectSet:self.candidateContextsToDeactivate];
+        
+        [self.candidateContextsToDeactivate setSet:newCandidatesToDeactivate];
+#ifdef DEBUG_MODE
+        DSLog(@"Candidates for deactivation %@", self.candidateContextsToDeactivate);
+#endif
+        
+        if (([newCandidatesToActivate count] == 0) && ([newCandidatesToDeactivate count] == 0)) {
+            smoothCounter = 0;
+        } else {
+            smoothCounter = 1;
+        }
+    }
     
-
+    if (([activate count] == 0) && ([deactivate count] == 0)) { // no change
+        return;
+    }
     
-    DSLog(@"Activating %@", activate);
-    [self triggerArrivalActionsOnWalk:[activate allObjects]];
+    [self.activeContexts minusSet:deactivate];
+    [self.activeContexts unionSet:activate];
     
-    DSLog(@"Deactivating %@", deactivate);
-    [self triggerDepartureActionsOnWalk:[deactivate allObjects]];
+    if ([activate count] > 0) {
+        DSLog(@"Activating contexts: %@", activate);
+        [self triggerArrivalActionsOnWalk:[activate allObjects]];
+    }
+    
+    if ([deactivate count] > 0) {
+        DSLog(@"Deactivating contexts: %@", deactivate);
+        [self triggerDepartureActionsOnWalk:[deactivate allObjects] usingReverseDelays:NO];
+    }
     
 #ifdef DEBUG_MODE
     DSLog(@"Currently active %@", self.activeContexts);
 #endif
     // immediately re-evaluate guesses if we've deactivated all contexts
     // and use default context option is on
-    if ([self useDefaultContext] && [self.activeContexts count] == 0)
+    if ([self useDefaultContext] && [self.activeContexts count] == 0) {
         [self changeActiveContextsBasedOnGuesses:guesses];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateActiveContextsMenuTitle];
@@ -1623,6 +1674,8 @@
 - (void)restartSwitchSmoothing {
     smoothCounter = 0;
     self.candidateContextUUID = nil;
+    [self.candidateContextsToActivate removeAllObjects];
+    [self.candidateContextsToDeactivate removeAllObjects];
 }
 
 - (void)goingToSleep:(id)arg {
