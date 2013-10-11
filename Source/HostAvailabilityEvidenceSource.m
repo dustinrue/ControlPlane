@@ -127,7 +127,7 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
     }];
     [self.monitoredHosts removeAllObjects];
     self.dataCollected = NO;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"hostAvailabilityChanged" object:nil];
     running = NO;
 }
 
