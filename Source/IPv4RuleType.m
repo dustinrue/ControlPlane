@@ -5,6 +5,8 @@
 //  Created by VladimirTechMan on 18 Apr 2013.
 //
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import <arpa/inet.h>
 #import "IPAddrEvidenceSource.h"
@@ -74,7 +76,7 @@
             return YES;
         }
     } else {
-        cachedParams = [[[CachedIPv4RuleParams alloc] init] autorelease];
+        cachedParams = [[CachedIPv4RuleParams alloc] init];
         if (![self parseParamsOf:rule toNetAddr:&(cachedParams->subnet) andMask:&(cachedParams->mask)]) {
             return NO; // corrupted rule
         }

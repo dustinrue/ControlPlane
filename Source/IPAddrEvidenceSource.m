@@ -4,6 +4,8 @@
 //
 //  Created by Vladimir Beloborodov on 18 Apr 2013.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import <arpa/inet.h>
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -23,7 +25,6 @@
     self = [super init];
     if (self) {
         if (inet_pton(AF_INET, [description UTF8String], &ipAddr) != 1) {
-            [self release];
             return nil;
         }
     }
@@ -44,7 +45,6 @@
     self = [super init];
     if (self) {
         if (inet_pton(AF_INET6, [description UTF8String], &ipAddr) != 1) {
-            [self release];
             return nil;
         }
     }
@@ -84,7 +84,7 @@ static void ipAddrChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *
 #ifdef DEBUG_MODE
             NSLog(@"ipAddrChange called with changedKeys:\n%@", changedKeys);
 #endif
-            [(IPAddrEvidenceSource *) info enumerate];
+            [(__bridge IPAddrEvidenceSource *) info enumerate];
         }
     }
 }
@@ -115,14 +115,6 @@ static void ipAddrChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *
 
 - (void)dealloc {
     [self doStop];
-
-    [_stringIPv4Addresses release];
-    [_packedIPv4Addresses release];
-    
-    [_stringIPv6Addresses release];
-    [_packedIPv6Addresses release];
-    
-	[super dealloc];
 }
 
 
@@ -161,7 +153,6 @@ static BOOL isAllowedIPv6Address(PackedIPv6Address *ipv6) {
             if (isAllowedIPv4Address(packedAddr)) {
                 block(addr, packedAddr);
             }
-            [packedAddr release];
         }
     }
 }
@@ -174,7 +165,6 @@ static BOOL isAllowedIPv6Address(PackedIPv6Address *ipv6) {
             if (isAllowedIPv6Address(packedAddr)) {
                 block(addr, packedAddr);
             }
-            [packedAddr release];
         }
     }
 }
@@ -185,7 +175,8 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
 
 - (void)enumerate {
     NSArray *ipKeyPatterns = @[ @"State:/Network/Interface/[^/]+/IPv." ];
-    NSDictionary *dict = (NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) ipKeyPatterns);
+    NSDictionary *dict = (__bridge NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL,
+                                                                              (__bridge CFArrayRef) ipKeyPatterns);
     if (!dict) {
         [self removeAllDataCollected];
         return;
@@ -234,7 +225,9 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
     }
 
 	// Register for asynchronous notifications
-	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
+    // {version, info, retain, release, copyDescription}
+	SCDynamicStoreContext ctxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
+
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), ipAddrChange, &ctxt);
     if (!store) {
         [self doStop];
@@ -247,7 +240,7 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
     }
 
     NSArray *ipKeyPatterns = @[ @"State:/Network/Interface/[^/]+/IPv." ];
-	if (!SCDynamicStoreSetNotificationKeys(store, NULL, (CFArrayRef) ipKeyPatterns)) {
+	if (!SCDynamicStoreSetNotificationKeys(store, NULL, (__bridge CFArrayRef) ipKeyPatterns)) {
         [self doStop];
         return;
     }

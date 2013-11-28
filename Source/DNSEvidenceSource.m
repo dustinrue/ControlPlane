@@ -4,6 +4,8 @@
 //
 //  Created by Vladimir Beloborodov on 08/03/2013.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "DNSEvidenceSource.h"
@@ -31,7 +33,7 @@ static void dnsChange(SCDynamicStoreRef store, CFArrayRef changedKeys, void *inf
 #ifdef DEBUG_MODE
             NSLog(@"dnsChange called with changedKeys:\n%@", changedKeys);
 #endif
-            [(DNSEvidenceSource *) info enumerate];
+            [(__bridge DNSEvidenceSource *) info enumerate];
         }
     }
 }
@@ -92,14 +94,9 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
 
 - (void)dealloc {
     [self doStop];
-
-	[_searchDomains release];
-    [_dnsServers release];
-
-	[super dealloc];
 }
 
-- (NSString *) description {
+- (NSString *)description {
     return NSLocalizedString(@"Create rules based on the assigned DNS search domain and servers.", @"");
 }
 
@@ -110,7 +107,8 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
 
 - (void)enumerate {
     NSArray *dnsKeyPatterns = @[ @"S....:/Network/Service/[^/]+/DNS" ]; // Setup or State keys
-    NSDictionary *dict = (NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL, (CFArrayRef) dnsKeyPatterns);
+    NSDictionary *dict = (__bridge NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL,
+                                                                              (__bridge CFArrayRef) dnsKeyPatterns);
     if (!dict) {
         [self removeAllDataCollected];
         return;
@@ -156,7 +154,8 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
     }
 
 	// Register for asynchronous notifications
-	SCDynamicStoreContext ctxt = {0, self, NULL, NULL, NULL}; // {version, info, retain, release, copyDescription}
+    // {version, info, retain, release, copyDescription}
+	SCDynamicStoreContext ctxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
 	store = SCDynamicStoreCreate(NULL, CFSTR("ControlPlane"), dnsChange, &ctxt);
     if (!store) {
         [self doStop];
@@ -169,7 +168,7 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
     }
 
     NSArray *dnsKeyPatterns = @[ @"S....:/Network/Service/[^/]+/DNS" ]; // Setup or State keys
-	if (!SCDynamicStoreSetNotificationKeys(store, NULL, (CFArrayRef) dnsKeyPatterns)) {
+	if (!SCDynamicStoreSetNotificationKeys(store, NULL, (__bridge CFArrayRef) dnsKeyPatterns)) {
         [self doStop];
         return;
     }

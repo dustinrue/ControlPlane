@@ -11,7 +11,6 @@
 @interface ServerAddressRuleType : RuleType
 
 + (NSString *)panelNibName;
-- (void)dealloc;
 
 - (NSString *)name;
 

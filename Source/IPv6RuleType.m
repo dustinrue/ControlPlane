@@ -5,6 +5,8 @@
 //  Created by VladimirTechMan on 19 Apr 2013.
 //
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import <arpa/inet.h>
 #import "IPAddrEvidenceSource.h"
@@ -89,7 +91,7 @@ static BOOL areEqualIPv6Subnetworks(const struct in6_addr *addr,
             return YES;
         }
     } else {
-        cachedParams = [[[CachedIPv6RuleParams alloc] init] autorelease];
+        cachedParams = [[CachedIPv6RuleParams alloc] init];
         if (![self parseParamsOf:rule toNetworkAddress:&(cachedParams->addr)
                                        andPrefixLength:&(cachedParams->prefixLen)]) {
             return NO; // corrupted rule

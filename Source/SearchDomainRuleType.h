@@ -11,7 +11,6 @@
 @interface SearchDomainRuleType : RuleType
 
 + (NSString *)panelNibName;
-- (void)dealloc;
 
 - (NSString *)name;
 

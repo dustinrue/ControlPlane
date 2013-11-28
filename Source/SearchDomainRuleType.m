@@ -5,6 +5,8 @@
 //  Created by VladimirTechMan on 03/03/2013.
 //
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "DNSEvidenceSource.h"
 #import "SearchDomainRuleType.h"
@@ -18,10 +20,6 @@
 
 + (NSString *)panelNibName {
     return @"SearchDomainRule";
-}
-
-- (void)dealloc {
-    [super dealloc];
 }
 
 - (NSString *)name {
