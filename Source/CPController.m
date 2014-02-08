@@ -744,6 +744,18 @@
 - (void)updateMenuBarAndContextMenu {
     [self updateMenuBarImage];
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_ICON) {
+        if ([self useMultipleActiveContexts]) {
+            /*int x=0;
+             NSMutableString *_joinedContextPaths = [NSMutableString string]; //..shortcut for:  [[[NSMutableString alloc] initWithString:@""] autorelease];
+             for (Context *context in self.activeContexts) {
+                if (x++!=0) [_joinedContextPaths appendString: @" + "];
+                [_joinedContextPaths appendString:context.name]; //[contextsDataSource pathFromRootTo:context.uuid]];
+             }
+             self.currentContextPath=_joinedContextPaths;*/
+            NSSortDescriptor *sortKey=[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:TRUE];
+            NSArray *keyArray=[NSArray arrayWithObject:sortKey];
+            self.currentContextPath=[[self.activeContexts sortedArrayUsingDescriptors:keyArray] componentsJoinedByString:@" + "]; // sans context-paths, to conserve space. perhaps we'll add a pref to switch it on (above).
+        }
         [self setStatusTitle:[self currentContextPath]];
     }
 
