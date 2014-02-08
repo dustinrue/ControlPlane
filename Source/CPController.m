@@ -1502,18 +1502,30 @@
         return;
     }
     
+	if ([activate count] > 0) {
+		NSMutableSet *alreadyActiveWalks = [NSMutableSet set];
+		NSMutableSet *activateWalks = [NSMutableSet set];
+		for (Context *context in self.activeContexts)
+			[alreadyActiveWalks addObjectsFromArray:[contextsDataSource walkToRoot:context.uuid]];
+		for (Context *context in activate) {
+			[activateWalks addObjectsFromArray:[contextsDataSource walkToRoot:context.uuid]];
+			DSLog(@"Activating context: '%@'", [contextsDataSource pathFromRootTo:context.uuid]);
+		}
+        [activateWalks minusSet:alreadyActiveWalks];
+        [self triggerArrivalActionsOnWalk:[activateWalks allObjects]];
+	}
+    
+	if ([deactivate count] > 0) {
+		NSMutableSet *deactivateWalks = [NSMutableSet set];
+		for (Context *context in deactivate) {
+			[deactivateWalks addObjectsFromArray:[contextsDataSource walkToRoot:context.uuid]];
+			DSLog(@"Deactivating context: '%@'", [contextsDataSource pathFromRootTo:context.uuid]);
+		}
+		[self triggerDepartureActionsOnWalk:[deactivateWalks allObjects] usingReverseDelays:NO];
+	}
+    
     [self.activeContexts minusSet:deactivate];
     [self.activeContexts unionSet:activate];
-    
-    if ([activate count] > 0) {
-        DSLog(@"Activating contexts: %@", activate);
-        [self triggerArrivalActionsOnWalk:[activate allObjects]];
-    }
-    
-    if ([deactivate count] > 0) {
-        DSLog(@"Deactivating contexts: %@", deactivate);
-        [self triggerDepartureActionsOnWalk:[deactivate allObjects] usingReverseDelays:NO];
-    }
     
 #ifdef DEBUG_MODE
     DSLog(@"Currently active %@", self.activeContexts);
