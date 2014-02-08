@@ -657,6 +657,10 @@
         if ([self.activeContexts count] > 0 || currentContext) {
             if (![self useMultipleActiveContexts])
                 [self changeActiveIconImageColorTo:currentContext.iconColor];
+            else if ([self.activeContexts count] == 1) {
+                Context *singleContext = [[self.activeContexts allObjects] objectAtIndex:0];
+                [self changeActiveIconImageColorTo:singleContext.iconColor];
+            }
             barImage = sbImageActive;
         } else {
             barImage = sbImageInactive;
