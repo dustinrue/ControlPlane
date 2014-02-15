@@ -1516,11 +1516,18 @@
 	}
     
 	if ([deactivate count] > 0) {
+		NSMutableSet *remainingActive = [NSMutableSet setWithSet:self.activeContexts];
+		NSMutableSet *remainingActiveWalks = [NSMutableSet set];
 		NSMutableSet *deactivateWalks = [NSMutableSet set];
+        [remainingActive minusSet:deactivate];
+        [remainingActive unionSet:activate];
+		for (Context *context in remainingActive)
+			[remainingActiveWalks addObjectsFromArray:[contextsDataSource walkToRoot:context.uuid]];
 		for (Context *context in deactivate) {
 			[deactivateWalks addObjectsFromArray:[contextsDataSource walkToRoot:context.uuid]];
 			DSLog(@"Deactivating context: '%@'", [contextsDataSource pathFromRootTo:context.uuid]);
 		}
+        [deactivateWalks minusSet:remainingActiveWalks]; // don't trigger parent-departure if other siblings/children are still active
 		[self triggerDepartureActionsOnWalk:[deactivateWalks allObjects] usingReverseDelays:NO];
 	}
     
