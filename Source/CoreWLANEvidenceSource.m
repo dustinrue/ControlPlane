@@ -111,6 +111,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 											   object:nil];
     
     running = YES;
+    self.currentNetworkIsSecure = NO;
 }
 
 - (void)stop {
@@ -185,6 +186,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
         DSLog(@"WiFi link is active, grabbing connection info");
         newNetworkSSIDs = @{ ssid: bssid };
+        self.currentNetworkIsSecure = (currentInterface.security == kCWSecurityNone || currentInterface.security == kCWSecurityUnknown) ? NO:YES;
     }
 
     if (![self.networkSSIDs isEqualToDictionary:newNetworkSSIDs]) {
@@ -223,6 +225,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
         if ((ssid != nil) && (bssid != nil)) {
             ssids[ssid] = bssid;
+            self.currentNetworkIsSecure = (currentInterface.security == kCWSecurityNone || currentInterface.security == kCWSecurityUnknown) ? NO:YES;
 #ifdef DEBUG_MODE
             DSLog(@"found ssid %@ with bssid %@ and RSSI %ld", ssid, bssid, currentInterface.rssiValue);
 #endif
@@ -243,7 +246,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (NSArray *)typesOfRulesMatched {
-	return @[ @"WiFi BSSID", @"WiFi SSID" ];
+	return @[ @"WiFi BSSID", @"WiFi SSID", @"WiFi Security" ];
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
@@ -253,12 +256,20 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         return [self.networkBSSIDs containsObject:param];
     }
 
+    if ([rule[@"type"] isEqualToString:@"WiFi Security"]) {
+        return self.currentNetworkIsSecure;
+    }
+
     return (self.networkSSIDs[param] != nil);
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type {
 	if ([type isEqualToString:@"WiFi BSSID"]) {
 		return NSLocalizedString(@"A WiFi access point with a BSSID of", @"In rule-adding dialog");
+    }
+    
+    if ([type isEqualToString:@"WiFi Security"]) {
+        return NSLocalizedString(@"Current WiFi network is:", @"In rule-adding dialog");
     }
 
     return NSLocalizedString(@"A WiFi access point with an SSID of", @"In rule-adding dialog");
@@ -279,6 +290,14 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
                             @"parameter": ssid,
                             @"description": ssid }];
     }
+    
+    [arr addObject: @{  @"type": @"WiFi Security",
+                        @"parameter": @"Secure",
+                        @"description": @"Secure"}];
+    [arr addObject: @{  @"type": @"WiFi Security",
+                        @"parameter": @"Not Secure",
+                        @"description": @"Not Secure"}];
+     
 
 	return arr;
 }

@@ -12,6 +12,9 @@
 
 @interface WiFiEvidenceSourceCoreWLAN : GenericEvidenceSource
 
+
+@property BOOL currentNetworkIsSecure;
+
 - (id)init;
 - (void)dealloc;
 
@@ -23,5 +26,6 @@
 - (NSString *)getSuggestionLeadText:(NSString *)type;
 - (NSArray *)getSuggestions;
 - (void) getInterfaceStateInfo;
+
 
 @end
