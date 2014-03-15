@@ -119,8 +119,10 @@
 // as far as I know we don't know how to deal with attached UPS systems on
 // non portable Macs, so lets assume this evidence source only works with
 // laptops
+/*
 + (BOOL) isEvidenceSourceApplicableToSystem {
     return [CPSystemInfo isPortable];
 }
+ */
 
 @end
