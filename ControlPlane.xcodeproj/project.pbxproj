@@ -88,6 +88,12 @@
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
+		96454D3F18C3E6BE004F64E7 /* ActionsPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3918C3E6BE004F64E7 /* ActionsPrefs@2x.png */; };
+		96454D4018C3E6BE004F64E7 /* AdvancedPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3A18C3E6BE004F64E7 /* AdvancedPrefs@2x.png */; };
+		96454D4118C3E6BE004F64E7 /* ContextsPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3B18C3E6BE004F64E7 /* ContextsPrefs@2x.png */; };
+		96454D4218C3E6BE004F64E7 /* EvidenceSourcesPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3C18C3E6BE004F64E7 /* EvidenceSourcesPrefs@2x.png */; };
+		96454D4318C3E6BE004F64E7 /* GeneralPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3D18C3E6BE004F64E7 /* GeneralPrefs@2x.png */; };
+		96454D4418C3E6BE004F64E7 /* RulesPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3E18C3E6BE004F64E7 /* RulesPrefs@2x.png */; };
 		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
 		DA0CAE6516C4813600EDE2C5 /* PreventDisplaySleepAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */; };
 		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -472,6 +478,12 @@
 		8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QuitApplicationAction.m; path = Source/QuitApplicationAction.m; sourceTree = "<group>"; };
 		8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnmountAction.h; path = Source/UnmountAction.h; sourceTree = "<group>"; };
 		8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmountAction.m; path = Source/UnmountAction.m; sourceTree = "<group>"; };
+		96454D3918C3E6BE004F64E7 /* ActionsPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ActionsPrefs@2x.png"; path = "Resources/ActionsPrefs@2x.png"; sourceTree = "<group>"; };
+		96454D3A18C3E6BE004F64E7 /* AdvancedPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AdvancedPrefs@2x.png"; path = "Resources/AdvancedPrefs@2x.png"; sourceTree = "<group>"; };
+		96454D3B18C3E6BE004F64E7 /* ContextsPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ContextsPrefs@2x.png"; path = "Resources/ContextsPrefs@2x.png"; sourceTree = "<group>"; };
+		96454D3C18C3E6BE004F64E7 /* EvidenceSourcesPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EvidenceSourcesPrefs@2x.png"; path = "Resources/EvidenceSourcesPrefs@2x.png"; sourceTree = "<group>"; };
+		96454D3D18C3E6BE004F64E7 /* GeneralPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "GeneralPrefs@2x.png"; path = "Resources/GeneralPrefs@2x.png"; sourceTree = "<group>"; };
+		96454D3E18C3E6BE004F64E7 /* RulesPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RulesPrefs@2x.png"; path = "Resources/RulesPrefs@2x.png"; sourceTree = "<group>"; };
 		DA04D57015DC119E004B9E1C /* ToggleContextStickinessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleContextStickinessAction.h; path = Source/ToggleContextStickinessAction.h; sourceTree = "<group>"; };
 		DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleContextStickinessAction.m; path = Source/ToggleContextStickinessAction.m; sourceTree = "<group>"; };
 		DA0CAE6316C4813600EDE2C5 /* PreventDisplaySleepAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreventDisplaySleepAction.h; path = Source/PreventDisplaySleepAction.h; sourceTree = "<group>"; };
@@ -819,8 +831,11 @@
 			children = (
 				DAA9ABFE1595FDE700B84B05 /* README.md */,
 				8D232FB30BD9D507006A3963 /* ActionsPrefs.png */,
+				96454D3918C3E6BE004F64E7 /* ActionsPrefs@2x.png */,
 				8D185DC50BF428CF00A06B03 /* AdvancedPrefs.png */,
+				96454D3A18C3E6BE004F64E7 /* AdvancedPrefs@2x.png */,
 				8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */,
+				96454D3B18C3E6BE004F64E7 /* ContextsPrefs@2x.png */,
 				DA4A629213E2546800CE976F /* ControlPlane Help */,
 				DD8274E5141147BB0098FA6E /* controlplane.icns */,
 				DDE1B067140438DB006564A6 /* ControlPlane.sdef */,
@@ -831,8 +846,10 @@
 				DA4A629413E25C9D00CE976F /* Credits.html */,
 				DA16392513D4B14A00E3F421 /* dsa_pub.pem */,
 				8D3A3D5E0C012564008EBF2A /* EvidenceSourcesPrefs.png */,
+				96454D3C18C3E6BE004F64E7 /* EvidenceSourcesPrefs@2x.png */,
 				8D4DBDC20BE1E3C00024DEA0 /* gear.png */,
 				8D232F7F0BD9D228006A3963 /* GeneralPrefs.png */,
+				96454D3D18C3E6BE004F64E7 /* GeneralPrefs@2x.png */,
 				DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				DDFF423014156B0A0047D311 /* location.png */,
@@ -842,6 +859,7 @@
 				8D1A455A0BA00DE2004A6BC4 /* plus-8.png */,
 				8D9AE3780BE0D11800D4D4E4 /* plus-arrow.png */,
 				8D232FB40BD9D507006A3963 /* RulesPrefs.png */,
+				96454D3E18C3E6BE004F64E7 /* RulesPrefs@2x.png */,
 				DA83A22613D1430000074503 /* usb-vendors.txt */,
 			);
 			name = Resources;
@@ -1364,8 +1382,10 @@
 				DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */,
 				DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */,
 				8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */,
+				96454D4418C3E6BE004F64E7 /* RulesPrefs@2x.png in Resources */,
 				8D1A455C0BA00DE2004A6BC4 /* plus-8.png in Resources */,
 				8DB8917C0BB89BD8005347C2 /* oui.txt in Resources */,
+				96454D4218C3E6BE004F64E7 /* EvidenceSourcesPrefs@2x.png in Resources */,
 				8D232F800BD9D228006A3963 /* GeneralPrefs.png in Resources */,
 				8D232FB50BD9D507006A3963 /* ActionsPrefs.png in Resources */,
 				8D232FB60BD9D507006A3963 /* RulesPrefs.png in Resources */,
@@ -1381,6 +1401,7 @@
 				DA4A629313E2546800CE976F /* ControlPlane Help in Resources */,
 				DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */,
 				DAF2F820150EE5960040DDC7 /* BWQuincyMain.nib in Resources */,
+				96454D4018C3E6BE004F64E7 /* AdvancedPrefs@2x.png in Resources */,
 				DD8274E6141147BB0098FA6E /* controlplane.icns in Resources */,
 				DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */,
 				DDA201441411C25A00DE570E /* GenericRule.xib in Resources */,
@@ -1395,11 +1416,14 @@
 				DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */,
 				73A5092F14849405007D22B5 /* ShellScriptRule.xib in Resources */,
 				DAF2F822150EE5960040DDC7 /* Quincy-Info.plist in Resources */,
+				96454D3F18C3E6BE004F64E7 /* ActionsPrefs@2x.png in Resources */,
 				DAA9ABFF1595FDE700B84B05 /* README.md in Resources */,
 				DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */,
+				96454D4118C3E6BE004F64E7 /* ContextsPrefs@2x.png in Resources */,
 				DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */,
 				7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */,
 				7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */,
+				96454D4318C3E6BE004F64E7 /* GeneralPrefs@2x.png in Resources */,
 				7C4855BB17493B7200D8EB84 /* IPv6AddrRule.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
