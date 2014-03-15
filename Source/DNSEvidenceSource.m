@@ -63,7 +63,7 @@ static BOOL addDNSSearchDomainsToSet(NSDictionary *dict, NSString *dnsKey, NSMut
 
 static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSet *servers) {
     NSArray *serverAddresses = dict[dnsKey][(NSString *) kSCPropNetDNSServerAddresses];
-    if (serverAddresses) {
+    if ([serverAddresses isKindOfClass:[NSArray class]] && [serverAddresses count] > 0) {
         [servers addObjectsFromArray:serverAddresses];
         return YES;
     }
