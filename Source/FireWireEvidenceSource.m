@@ -184,6 +184,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
 	IOObjectRelease(iterator);
 }
 
+/*
 + (BOOL) isFireWireAvailable {
     kern_return_t kr;
 	io_iterator_t iterator = 0;
@@ -206,6 +207,7 @@ static void devRemoved(void *ref, io_iterator_t iterator)
     
     return test;
 }
+ */
 
 - (void)devRemoved:(io_iterator_t)iterator
 {
@@ -344,8 +346,11 @@ static void devRemoved(void *ref, io_iterator_t iterator)
     return NSLocalizedString(@"Attached FireWire Device", @"");
 }
 
+/* bring this check back when we can respond to
+   a thunderbolt firewire adapter being inserted at run time
 + (BOOL) isEvidenceSourceApplicableToSystem {
     return [FireWireEvidenceSource isFireWireAvailable];
 }
+ */
 
 @end
