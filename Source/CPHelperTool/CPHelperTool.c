@@ -523,13 +523,23 @@ static OSStatus DoEnableSMBFileSharing (AuthorizationRef         auth,
     
     retValue = system(command);
     
+    
+    // get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+	
     if (!retValue) {
-        
-        sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
+        // if Mavericks or greater
+        if ((major == 10 && minor >= 9) || major >= 11) {
+            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePathMavericks);
+
+        }
+        else {
+            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
+        }
         retValue = system(command);
     }
-    
-	
 	
 	return retValue;
 }
@@ -557,8 +567,20 @@ static OSStatus DoDisableSMBFileSharing (AuthorizationRef         auth,
     retValue = system(command);
     
 
+    // get system version
+	SInt32 major = 0, minor = 0;
+	Gestalt(gestaltSystemVersionMajor, &major);
+    Gestalt(gestaltSystemVersionMinor, &minor);
+	
     if (!retValue) {
-        sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
+        // if Mavericks or greater
+        if ((major == 10 && minor >= 9) || major >= 11) {
+            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePathMavericks);
+            
+        }
+        else {
+            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
+        }
         retValue = system(command);
     }
     

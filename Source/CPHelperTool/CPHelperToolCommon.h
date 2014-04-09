@@ -12,7 +12,7 @@
 #import "BetterAuthorizationSampleLib.h"
 
 // Helper tool version
-#define kCPHelperToolVersionNumber              23
+#define kCPHelperToolVersionNumber              24
 
 // Commands
 #define kCPHelperToolGetVersionCommand              "GetVersion"
@@ -51,6 +51,7 @@
 
 #define kCPHelperToolSMBPrefsFilePath               "/Library/Preferences/SystemConfiguration/com.apple.smb.server"
 #define kCPHelperToolSMBSyncToolFilePath            "/usr/libexec/samba/smb-sync-preferences"
+#define kCPHelperToolSMBSyncToolFilePathMavericks   "/usr/libexec/smb-sync-preferences"
 
 #define kCPHelperToolFileSharingStatusKey           "Disabled"
 #define kCPHelperToolFilesharingConfigResponse      "sharingStatus"
