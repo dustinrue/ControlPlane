@@ -249,6 +249,7 @@
 		[[ruleContext selectedItem] representedObject], @"context",
 		[NSNumber numberWithDouble:[ruleConfidenceSlider doubleValue]], @"confidence",
 		[[self typesOfRulesMatched] objectAtIndex:0], @"type",
+        [NSNumber numberWithInteger:[self.negateRule state]], @"negate",
 		nil];
 
 	if (oldDescription)
@@ -278,6 +279,10 @@
 		if (desc && ([desc length] > 0))
 			oldDescription = [desc retain];
 	}
+    
+    if ([dict objectForKey:@"negate"]) {
+        [self.negateRule setState:[[dict valueForKey:@"negate"] integerValue]];
+    }
 }
 
 

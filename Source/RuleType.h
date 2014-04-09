@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign, readonly) EvidenceSource *evidenceSource; // weak
 @property (nonatomic, retain, readonly) NSPanel *panel;
+@property (assign) IBOutlet NSButton *negateRule;
 
 // To be implemented by descendant classes.
 + (NSString *)panelNibName;

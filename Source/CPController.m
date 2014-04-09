@@ -885,7 +885,7 @@
 #ifdef DEBUG_MODE
         DSLog(@"checking rule %@", rule);
 #endif
-		RuleMatchStatusType isMatching = [evidenceSources ruleMatches:rule];
+		RuleMatchStatusType isMatching = ([[rule valueForKey:@"negate"] integerValue] == 1) ? ![evidenceSources ruleMatches:rule]:[evidenceSources ruleMatches:rule];
         if (isMatching == RuleDoesMatch) {
 			[matchingRules addObject:rule];
         }

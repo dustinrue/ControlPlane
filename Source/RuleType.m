@@ -93,6 +93,7 @@
 - (void)readFromPanelInto:(NSMutableDictionary *)rule {
     rule[@"context"] = [[ruleContext selectedItem] representedObject];
     rule[@"confidence"] = @([ruleConfidenceSlider doubleValue]);
+    rule[@"negate"] = [NSNumber numberWithInteger:[self.negateRule state]];
 }
 
 - (NSString *)getDefaultDescription:(NSDictionary *)rule {
@@ -120,6 +121,10 @@
 	if (confidence) {
 		[ruleConfidenceSlider setDoubleValue:[confidence doubleValue]];
 	}
+    
+    if (rule[@"negate"]) {
+        [self.negateRule setState:[rule[@"negate"] integerValue]];
+    }
 }
 
 @end

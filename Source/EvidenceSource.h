@@ -22,6 +22,7 @@
     BOOL screenIsLocked;
 }
 
+@property (assign) IBOutlet NSButton *negateRule;
 @property (readwrite) BOOL screenIsLocked;
 
 + (NSPanel *)getPanelFromNibNamed:(NSString *)name instantiatedWithOwner:(id)owner;
