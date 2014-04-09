@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1060" defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
@@ -45,6 +45,7 @@
                 <outlet property="generalPrefsView" destination="901" id="923"/>
                 <outlet property="logBufferView" destination="1736" id="1738"/>
                 <outlet property="menuBarDisplayOptionsController" destination="2006" id="2007"/>
+                <outlet property="multipleActiveContextsNotification" destination="awc-Q4-nn3" id="nv7-cR-Ctx"/>
                 <outlet property="newActionContext" destination="1593" id="1662"/>
                 <outlet property="newActionLimitedOptionsController" destination="1460" id="1461"/>
                 <outlet property="newActionWindow" destination="1588" id="1605"/>
@@ -1644,6 +1645,69 @@ Gw
             <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
             <autoresizingMask key="autoresizingMask"/>
         </view>
+        <window identifier="MultipleContextsNotification" title="Multiple Active Contexts Now Available!" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" id="awc-Q4-nn3">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="575" y="510" width="692" height="344"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <view key="contentView" id="01W-7E-uRY">
+                <rect key="frame" x="0.0" y="0.0" width="692" height="344"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="YdN-ey-rPD">
+                        <rect key="frame" x="18" y="120" width="656" height="204"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" id="uaP-3S-J8E">
+                            <font key="font" metaFont="system"/>
+                            <mutableString key="title">You can now enable the multiple active contexts option in Advanced Preferences!
+
+Multiple active contexts greatly simplifies your ControlPlane configuration by allowing you to create any number of independent contexts, rules and actions without the need for duplicate nested contexts and actions. Want to perform an action when a USB mouse is attached while at work or at home? A single context, rule and action will take care of it at any location!
+
+Multiple active contexts will become the default mode in a future release of ControlPlane but you can go ahead and switch to it right away if you'd like. Keep in mind you may need to modify your ControlPlane configuration, particularly if you are have nested contexts, in order to get the most out of this new mode. Remember to report any issues or just provide feedback via the ControlPlane Support menu option.</mutableString>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="r7u-tn-REF">
+                        <rect key="frame" x="596" y="13" width="82" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="No" bezelStyle="rounded" alignment="center" refusesFirstResponder="YES" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rct-Z7-i0Q">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="closeMultipleActiveContextsAlert:" target="320" id="dUV-5V-IkM"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="uxA-jG-ZxR">
+                        <rect key="frame" x="514" y="13" width="82" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Yes" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="F4m-Zq-qOg">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="enableMultipleActiveContexts:" target="320" id="Gzp-XC-Zpp"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="1dV-0b-mt2">
+                        <rect key="frame" x="96" y="23" width="418" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Would you like to enable the multiple active contexts option now?" id="5TN-Wb-Qxj">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+        </window>
     </objects>
     <resources>
         <image name="gear" width="23" height="25"/>

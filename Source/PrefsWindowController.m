@@ -316,6 +316,10 @@
 	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:9]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPrefsWindowClose:) name:NSWindowWillCloseNotification object:prefsWindow];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"userHasSeenMultipleActiveContextsNotification"]) {
+        [self.multipleActiveContextsNotification makeKeyAndOrderFront:self];
+    }
 }
 
 static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
@@ -389,6 +393,17 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 }
 
 - (IBAction)menuBarDisplayOptionChanged:(id)sender {
+}
+
+- (IBAction)enableMultipleActiveContexts:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"AllowMultipleActiveContexts"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"userHasSeenMultipleActiveContextsNotification"];
+    [self.multipleActiveContextsNotification close];
+}
+
+- (IBAction)closeMultipleActiveContextsAlert:(id)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"userHasSeenMultipleActiveContextsNotification"];
+    [self.multipleActiveContextsNotification close];
 }
 
 
