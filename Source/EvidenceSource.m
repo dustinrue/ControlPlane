@@ -397,6 +397,7 @@
 #import "AudioOutputEvidenceSource.h"
 #import "BluetoothEvidenceSource.h"
 #import "BonjourEvidenceSource.h"
+#import "ContextEvidenceSource.h"
 #import "DNSEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
 #import "HostAvailabilityEvidenceSource.h"
@@ -436,6 +437,7 @@
                         [StressTestEvidenceSource class],
 #endif
                         [ActiveApplicationEvidenceSource class],
+                        [ContextEvidenceSource class],
                         [AttachedPowerAdapterEvidenceSource class],
                         [NetworkLinkEvidenceSource class],
                         [IPAddrEvidenceSource class],
@@ -479,6 +481,7 @@
 		NSLocalizedString(@"Bluetooth", @"Evidence source");
 		NSLocalizedString(@"Bonjour", @"Evidence source");
 		NSLocalizedString(@"CoreLocation", @"Evidence source");
+        NSLocalizedString(@"Context", @"Evidence Source");
 		NSLocalizedString(@"FireWire", @"Evidence source");
 		NSLocalizedString(@"DNS", @"Evidence source");
 		NSLocalizedString(@"IPAddr", @"Evidence source");

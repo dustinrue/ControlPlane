@@ -95,6 +95,7 @@
 		96454D4318C3E6BE004F64E7 /* GeneralPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3D18C3E6BE004F64E7 /* GeneralPrefs@2x.png */; };
 		96454D4418C3E6BE004F64E7 /* RulesPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3E18C3E6BE004F64E7 /* RulesPrefs@2x.png */; };
 		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
+		DA07C11018FE04A3008FE8B5 /* ContextEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07C10F18FE04A3008FE8B5 /* ContextEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA0CAE6516C4813600EDE2C5 /* PreventDisplaySleepAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */; };
 		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
@@ -486,6 +487,8 @@
 		96454D3E18C3E6BE004F64E7 /* RulesPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RulesPrefs@2x.png"; path = "Resources/RulesPrefs@2x.png"; sourceTree = "<group>"; };
 		DA04D57015DC119E004B9E1C /* ToggleContextStickinessAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleContextStickinessAction.h; path = Source/ToggleContextStickinessAction.h; sourceTree = "<group>"; };
 		DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleContextStickinessAction.m; path = Source/ToggleContextStickinessAction.m; sourceTree = "<group>"; };
+		DA07C10E18FE04A3008FE8B5 /* ContextEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextEvidenceSource.h; path = Source/ContextEvidenceSource.h; sourceTree = "<group>"; };
+		DA07C10F18FE04A3008FE8B5 /* ContextEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextEvidenceSource.m; path = Source/ContextEvidenceSource.m; sourceTree = "<group>"; };
 		DA0CAE6316C4813600EDE2C5 /* PreventDisplaySleepAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreventDisplaySleepAction.h; path = Source/PreventDisplaySleepAction.h; sourceTree = "<group>"; };
 		DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreventDisplaySleepAction.m; path = Source/PreventDisplaySleepAction.m; sourceTree = "<group>"; };
 		DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttachedPowerAdapterEvidenceSource.m; path = Source/AttachedPowerAdapterEvidenceSource.m; sourceTree = "<group>"; };
@@ -962,6 +965,8 @@
 				8D8C9CE40BBB7BE00074D5B3 /* BluetoothEvidenceSource.h */,
 				8D8C9CE50BBB7BE00074D5B3 /* BluetoothEvidenceSource.m */,
 				7C48611717C79ED80064D2A5 /* BonjourEvidenceSource */,
+				DA07C10E18FE04A3008FE8B5 /* ContextEvidenceSource.h */,
+				DA07C10F18FE04A3008FE8B5 /* ContextEvidenceSource.m */,
 				DDAE004B141521EF00FDADE8 /* CoreLocationSource.h */,
 				DDAE004C141521EF00FDADE8 /* CoreLocationSource.m */,
 				DA83A21B13D0FE8F00074503 /* CoreWLANEvidenceSource.h */,
@@ -1495,6 +1500,7 @@
 				8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */,
 				8DC4E7FD0C178917007E7E41 /* MuteAction.m in Sources */,
 				8DC4E8000C17891D007E7E41 /* MailSMTPServerAction.m in Sources */,
+				DA07C11018FE04A3008FE8B5 /* ContextEvidenceSource.m in Sources */,
 				8D71CAEF0C17BA7900E56526 /* ToggleableAction.m in Sources */,
 				8D71CB790C17C01700E56526 /* ScreenSaverPasswordAction.m in Sources */,
 				8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */,

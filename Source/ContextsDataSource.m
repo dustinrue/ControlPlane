@@ -503,6 +503,10 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [contexts allKeys];
 }
 
+- (NSDictionary *) getAllContexts {
+    return contexts;
+}
+
 // Private
 - (void)orderedTraversalFrom:(NSString *)uuid into:(NSMutableArray *)array {
 	Context *current = [contexts objectForKey:uuid];

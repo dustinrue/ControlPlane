@@ -41,5 +41,6 @@
 - (void)resumeRegularUpdates;
 - (void)resumeRegularUpdatesWithDelay:(int64_t)nanoseconds;
 - (void)forceUpdate;
++ (NSSet *) sharedActiveContexts;
 
 @end

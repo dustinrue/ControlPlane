@@ -80,6 +80,7 @@
 - (NSArray *)walkFrom:(NSString *)src_uuid to:(NSString *)dst_uuid;
 - (NSString *)pathFromRootTo:(NSString *)uuid;
 - (NSMenu *)hierarchicalMenu;
+- (NSDictionary *) getAllContexts;
 
 - (void)triggerOutlineViewReloadData:(NSNotification *)notification;
 

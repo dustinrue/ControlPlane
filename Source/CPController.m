@@ -130,6 +130,8 @@
 #define CP_DISPLAY_CONTEXT  1u
 #define CP_DISPLAY_BOTH     2u
 
+static NSSet *sharedActiveContexts = nil;
+
 @synthesize screenSaverRunning;
 @synthesize screenLocked;
 @synthesize goingToSleep;
@@ -189,6 +191,25 @@
 
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
     
+}
+
++ (NSSet *) sharedActiveContexts {
+
+    
+    if (!sharedActiveContexts) {
+        NSLog(@"wut");
+        sharedActiveContexts = [NSSet set];
+    }
+    
+    NSLog(@"%@", sharedActiveContexts);
+    
+    return sharedActiveContexts;
+}
+
++ (void) setSharedActiveContexts:(NSSet *) newActiveContexts {
+    sharedActiveContexts = newActiveContexts;
+    NSLog(@"%@", sharedActiveContexts);
+    return;
 }
 
 // Helper: Load a named image, and scale it to be suitable for menu bar use.
@@ -1174,6 +1195,8 @@
     [self triggerArrivalActionsOnWalk:[NSArray arrayWithObject:context]];
     [self updateActiveContextsMenuTitle];
     [self updateActiveContextsMenuList];
+    [CPController setSharedActiveContexts:self.activeContexts];
+    
 }
 
 - (void) deactivateContext:(Context *) context {
@@ -1184,6 +1207,9 @@
     }
     [self updateActiveContextsMenuTitle];
     [self updateActiveContextsMenuList];
+
+    [CPController setSharedActiveContexts:self.activeContexts];
+
 }
 
 - (void) activateContextByMenuClick:(NSMenuItem *) sender {
@@ -1262,6 +1288,7 @@
         DSLog(@"Triggering arrival actions, if any, for '%@'", [self currentContextName]);
         [self triggerArrivalActionsOnWalk:enteringWalk];
     }
+    [CPController setSharedActiveContexts:self.activeContexts];
 }
 
 - (void)postNotificationsOnContextTransitionWhenForcedByUserIs:(BOOL)isManuallyTriggered {
@@ -1547,6 +1574,7 @@
         [self updateActiveContextsMenuTitle];
         [self updateActiveContextsMenuList];
         [self updateMenuBarAndContextMenu];
+        [CPController setSharedActiveContexts:self.activeContexts];
     });
 }
 
@@ -1933,6 +1961,7 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
             [self changeActiveContextsBasedOnGuesses:[NSMutableDictionary dictionary]];
             [self.activeContexts removeAllObjects];
             [self forceOneFullUpdate];
+            [CPController setSharedActiveContexts:self.activeContexts];
             break;
             
         default:
