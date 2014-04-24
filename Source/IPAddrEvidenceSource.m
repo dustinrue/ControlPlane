@@ -193,6 +193,10 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
     NSMutableArray *stringIPv6Addresses = [NSMutableArray array], *packedIPv6Addresses = [NSMutableArray array];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *ipParams, BOOL *stop) {
+        if (![ipParams isKindOfClass:[NSDictionary class]]) {
+            return;
+        }
+        
         BOOL isIPv4 = [key hasSuffix:@"4"];
         CFStringRef addressesKey = (isIPv4) ? (kSCPropNetIPv4Addresses) : (kSCPropNetIPv6Addresses);
         
