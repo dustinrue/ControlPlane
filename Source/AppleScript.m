@@ -14,7 +14,7 @@
 // current context property
 
 - (NSString *) currentContext {
-	return [[NSApp delegate] currentContextPath];
+	return [[NSApp delegate] currentContextAsString];
 }
 
 - (void) setCurrentContext: (NSString*) newContext {
