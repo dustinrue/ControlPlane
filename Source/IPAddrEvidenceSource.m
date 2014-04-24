@@ -148,10 +148,12 @@ static BOOL isAllowedIPv6Address(PackedIPv6Address *ipv6) {
 - (void)enumerateIPv4Addresses:(NSArray *)addresses
                     usingBlock:(void (^)(NSString *strIPAddr, PackedIPv4Address *ipAddr))block {
     for (NSString *addr in addresses) {
-        PackedIPv4Address *packedAddr = [[PackedIPv4Address alloc] initWithString:addr];
-        if (packedAddr) {
-            if (isAllowedIPv4Address(packedAddr)) {
-                block(addr, packedAddr);
+        if ([addr isKindOfClass:[NSString class]]) {
+            PackedIPv4Address *packedAddr = [[PackedIPv4Address alloc] initWithString:addr];
+            if (packedAddr != nil) {
+                if (isAllowedIPv4Address(packedAddr)) {
+                    block(addr, packedAddr);
+                }
             }
         }
     }
@@ -160,10 +162,12 @@ static BOOL isAllowedIPv6Address(PackedIPv6Address *ipv6) {
 - (void)enumerateIPv6Addresses:(NSArray *)addresses
                     usingBlock:(void (^)(NSString *strIPAddr, PackedIPv6Address *ipAddr))block {
     for (NSString *addr in addresses) {
-        PackedIPv6Address *packedAddr = [[PackedIPv6Address alloc] initWithString:addr];
-        if (packedAddr) {
-            if (isAllowedIPv6Address(packedAddr)) {
-                block(addr, packedAddr);
+        if ([addr isKindOfClass:[NSString class]]) {
+            PackedIPv6Address *packedAddr = [[PackedIPv6Address alloc] initWithString:addr];
+            if (packedAddr != nil) {
+                if (isAllowedIPv6Address(packedAddr)) {
+                    block(addr, packedAddr);
+                }
             }
         }
     }
@@ -177,35 +181,44 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
     NSArray *ipKeyPatterns = @[ @"State:/Network/Interface/[^/]+/IPv." ];
     NSDictionary *dict = (__bridge NSDictionary *) SCDynamicStoreCopyMultiple(store, NULL,
                                                                               (__bridge CFArrayRef) ipKeyPatterns);
-    if (!dict) {
+    if ((dict == nil) || ![dict isKindOfClass:[NSDictionary class]]) {
         [self removeAllDataCollected];
+        if (dict != nil) {
+            CFRelease((CFDictionaryRef) dict);
+        }
         return;
     }
-
+    
     NSMutableArray *stringIPv4Addresses = [NSMutableArray array], *packedIPv4Addresses = [NSMutableArray array];
     NSMutableArray *stringIPv6Addresses = [NSMutableArray array], *packedIPv6Addresses = [NSMutableArray array];
-
+    
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *ipParams, BOOL *stop) {
-        NSArray *addresses = ipParams[@"Addresses"];
-
-        if ([key hasSuffix:@"4"]) { // IPv4
+        BOOL isIPv4 = [key hasSuffix:@"4"];
+        CFStringRef addressesKey = (isIPv4) ? (kSCPropNetIPv4Addresses) : (kSCPropNetIPv6Addresses);
+        
+        NSArray *addresses = ipParams[(__bridge NSString *)addressesKey];
+        if ((addresses == nil) || ![addresses isKindOfClass:[NSArray class]]) {
+            return;
+        }
+        
+        if (isIPv4) {
             [self enumerateIPv4Addresses:addresses usingBlock:^(NSString *strIPAddr, PackedIPv4Address *ipAddr) {
                 [stringIPv4Addresses addObject:strIPAddr];
                 [packedIPv4Addresses addObject:ipAddr];
             }];
-        } else { // IPv6
+        } else {
             [self enumerateIPv6Addresses:addresses usingBlock:^(NSString *strIPAddr, PackedIPv6Address *ipAddr) {
                 [stringIPv6Addresses addObject:strIPAddr];
                 [packedIPv6Addresses addObject:ipAddr];
             }];
         }
     }];
-
+    
     CFRelease((CFDictionaryRef) dict);
-
+    
     [stringIPv4Addresses sortUsingComparator:descendingSorter];
     [stringIPv6Addresses sortUsingComparator:descendingSorter];
-
+    
     self.stringIPv4Addresses = stringIPv4Addresses;
     self.packedIPv4Addresses = packedIPv4Addresses;
     self.stringIPv6Addresses = stringIPv6Addresses;
