@@ -5,6 +5,8 @@
 //  Created by David Symonds on 15/07/07.
 //  Large chunks from http://www.cocoadev.com/index.pl?ToolTip
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "SliderWithValue.h"
 #import "SharedNumberFormatter.h"
@@ -21,14 +23,14 @@
 
 @end
 
+
 #pragma mark -
 
 static ToolTip *sharedToolTip = nil;
 
-@interface ToolTip (Private)
+@interface ToolTip ()
 
 - (void)setString:(NSString *)string atPoint:(NSPoint)point;
-
 
 @end
 
@@ -36,34 +38,34 @@ static ToolTip *sharedToolTip = nil;
 
 + (void)setString:(NSString *)string atPoint:(NSPoint)point
 {
-	if (!sharedToolTip)
+	if (sharedToolTip == nil) {
 		sharedToolTip = [[ToolTip alloc] init];
+    }
 
 	[sharedToolTip setString:string atPoint:point];
 }
 
 + (void)releaseToolTip
 {
-	if (sharedToolTip) {
-		[sharedToolTip release];
-		sharedToolTip = nil;
-	}
+    sharedToolTip = nil;
 }
 
 - (id)init
 {
-	if (!(self = [super init]))
+	self = [super init];
+    if (self == nil) {
 		return nil;
-
+    }
+    
 	// These size are not really import, just the relation between the two...
 	NSRect contentRect = { { 100, 100 }, { 100, 20 } };
 	NSRect textFieldFrame = { { 0, 0 }, { 100, 20 } };
-
+    
 	window = [[NSWindow alloc] initWithContentRect:contentRect
-					     styleMask:NSBorderlessWindowMask
-					       backing:NSBackingStoreBuffered
-						 defer:YES];
-
+                                         styleMask:NSBorderlessWindowMask
+                                           backing:NSBackingStoreBuffered
+                                             defer:YES];
+    
 	[window setOpaque:NO];
 	[window setAlphaValue:0.80];
 	[window setBackgroundColor:[NSColor colorWithDeviceRed:1.0 green:0.96 blue:0.76 alpha:1.0]];
@@ -71,7 +73,7 @@ static ToolTip *sharedToolTip = nil;
 	[window setLevel:NSStatusWindowLevel];
 	[window setReleasedWhenClosed:YES];
 	[window orderFront:nil];
-
+    
 	textField = [[ToolTipTextField alloc] initWithFrame:textFieldFrame];
 	[textField setEditable:NO];
 	[textField setSelectable:NO];
@@ -82,20 +84,11 @@ static ToolTip *sharedToolTip = nil;
 	[textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 	[textField setFont:[NSFont toolTipsFontOfSize:[NSFont systemFontSize]]];
 	[[window contentView] addSubview:textField];
-
+    
 	[textField setStringValue:@" "]; // Just having at least 1 char to allow the next message...
-	textAttributes = [[[textField attributedStringValue] attributesAtIndex:0 effectiveRange:nil] retain];
-
+	textAttributes = [[textField attributedStringValue] attributesAtIndex:0 effectiveRange:nil];
+    
 	return self;
-}
-
-- (void)dealloc
-{
-	[textAttributes release];
-    [textField release];
-	[window release];
-
-	[super dealloc];
 }
 
 - (void)setString:(NSString *)string atPoint:(NSPoint)point
@@ -111,11 +104,12 @@ static ToolTip *sharedToolTip = nil;
 
 @end
 
+
 #pragma mark -
 
 static NSTimer *hideToolTipTimer;
 
-@interface SliderCellWithValue (Private)
+@interface SliderCellWithValue ()
 
 - (void) hideToolTip:(NSTimer *)theTimer;
 - (void) doHideToolTip;
@@ -135,8 +129,9 @@ static NSTimer *hideToolTipTimer;
 {
 	[super drawKnob:knobRect];
 
-	if (![self isHighlighted] || ([[NSApp currentEvent] window] != [[self controlView] window]))
+	if (![self isHighlighted] || ([[NSApp currentEvent] window] != [[self controlView] window])) {
 		return;
+    }
 
 	if ([[self controlView] isKindOfClass:[NSTableView class]]) {
 		// If this cell is used as an NSTableView column cell, we get these drawKnob: events even when
@@ -145,19 +140,21 @@ static NSTimer *hideToolTipTimer;
 		NSEvent *event = [NSApp currentEvent];
 		NSPoint pt = [tv convertPoint:[event locationInWindow] fromView:[[event window] contentView]];
 		//int col = [tv columnAtPoint:pt];
-		if ((pt.x < knobRect.origin.x) || (pt.x > knobRect.origin.x + knobRect.size.width))
+		if ((pt.x < knobRect.origin.x) || (pt.x > knobRect.origin.x + knobRect.size.width)) {
 			return;
+        }
 	}
 
 	NSEventType eventType = [[NSApp currentEvent] type];
 
 	BOOL draw = NO;
-	if ((eventType == NSLeftMouseDown) && !sharedToolTip)
+	if ((eventType == NSLeftMouseDown) && (sharedToolTip == nil)) {
 		draw = YES;
-	else if ((eventType == NSLeftMouseUp) && sharedToolTip)
+    } else if ((eventType == NSLeftMouseUp) && (sharedToolTip != nil)) {
 		draw = NO;
-	else if (sharedToolTip)
+    } else if (sharedToolTip != nil) {
 		draw = YES;
+    }
 
 	if (draw) {
 		NSRect r1 = [[self controlView] convertRect:knobRect toView:nil];
@@ -166,14 +163,14 @@ static NSTimer *hideToolTipTimer;
 		p1.x += bump;
 		p1.y += bump;
 		[ToolTip setString:[[self class] toolTipTextForValue:[self doubleValue]] atPoint:p1];
-        if (!hideToolTipTimer) {
-            hideToolTipTimer = [[NSTimer scheduledTimerWithTimeInterval: 5
+        if (hideToolTipTimer == nil) {
+            hideToolTipTimer = [NSTimer scheduledTimerWithTimeInterval: 5
                                                                  target: self
                                                                selector: @selector(hideToolTip:)
                                                                userInfo: nil
-                                                                repeats: NO] retain];
+                                                                repeats: NO];
         }
-	} else if (!draw && sharedToolTip) {
+	} else if (!draw && (sharedToolTip != nil)) {
         [self doHideToolTip];
     }
 		
@@ -181,24 +178,21 @@ static NSTimer *hideToolTipTimer;
 
 - (void) hideToolTip:(NSTimer *)theTimer {
     [self doHideToolTip];
-    if (hideToolTipTimer) {
-        [hideToolTipTimer release];
-        hideToolTipTimer = nil;
-    }
+    hideToolTipTimer = nil;
 }
 
 - (void) doHideToolTip {
-    if (sharedToolTip) {
+    if (sharedToolTip != nil) {
         [ToolTip releaseToolTip];
     }
-    
 }
 
 @end
 
+
 #pragma mark -
 
-@interface SliderWithValue (Private)
+@interface SliderWithValue ()
 
 - (void)doUpdate:(id)sender;
 
@@ -208,8 +202,9 @@ static NSTimer *hideToolTipTimer;
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if (!(self = [super initWithCoder:decoder]))
+	if (!(self = [super initWithCoder:decoder])) {
 		return nil;
+    }
 
 	[self setContinuous:YES];
 	[self setTarget:self];
@@ -224,10 +219,11 @@ static NSTimer *hideToolTipTimer;
 	//NSLog(@"cell is %@", [[self cell] class]);
 	NSPoint point = [[theEvent window] convertBaseToScreen:[theEvent locationInWindow]];
 
-	if ([theEvent type] == NSLeftMouseUp)
+	if ([theEvent type] == NSLeftMouseUp) {
 		[ToolTip releaseToolTip];
-	else
+    } else {
 		[ToolTip setString:[SliderCellWithValue toolTipTextForValue:[self doubleValue]] atPoint:point];
+    }
 }
 
 @end
