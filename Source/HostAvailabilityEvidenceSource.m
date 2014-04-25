@@ -7,6 +7,7 @@
 //
 
 #import "HostAvailabilityEvidenceSource.h"
+#import "RuleType.h"
 #import "DSLogger.h"
 
 
@@ -45,8 +46,8 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 	return self;
 }
 
-- (void) hostAvailabilityHasChanged:(NSNotification *) context {
-    
+- (void) hostAvailabilityHasChanged:(NSNotification *) context
+{
     @synchronized(self) {
         NSDictionary *data = [context object];
         
@@ -63,8 +64,8 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
     return;
 }
 
-- (void) start {
-    
+- (void) start
+{
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hostAvailabilityHasChanged:)
                                                  name:@"hostAvailabilityChanged"
@@ -83,7 +84,8 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
     return;
 }
 
-- (void) addMonitoredHost:(NSString *) hostToMonitor {
+- (void) addMonitoredHost:(NSString *) hostToMonitor
+{
     NSMutableDictionary *mutableMonitoredHosts = [self.monitoredHosts mutableCopy];
     SCNetworkReachabilityRef monitoredHost = SCNetworkReachabilityCreateWithName(CFAllocatorGetDefault(), [hostToMonitor cStringUsingEncoding:NSUTF8StringEncoding]);
     
@@ -102,20 +104,43 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 
 }
 
+- (IBAction)closeSheetWithOK:(id)sender
+{
+    if ([self validatePanelParams]) {
+        [super closeSheetWithOK:sender];
+    }
+}
+
+- (BOOL)validatePanelParams
+{
+    NSString *param = [self.hostOrIp stringValue];
+    param = [param stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    [self.hostOrIp setStringValue:param];
+    
+    if ([param length] == 0) {
+        [RuleType alertOnInvalidParamValueWith:NSLocalizedString(@"Host name cannot be empty", @"")];
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (NSMutableDictionary *)readFromPanel
 {
-	NSMutableDictionary *dict = [super readFromPanel];
+    NSMutableDictionary *dict = [super readFromPanel];
     
     NSString *param = [self.hostOrIp stringValue];
 	[dict setValue:param forKey:@"parameter"];
-	if (![dict objectForKey:@"description"])
+	if (![dict objectForKey:@"description"]) {
 		[dict setValue:param forKey:@"description"];
+    }
     
     [self addMonitoredHost:param];
 	return dict;
 }
 
-- (void) stop {
+- (void) stop
+{
     [self.monitoredHosts enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSValue *encodedMonitoredHost = obj[@"target"];
         SCNetworkReachabilityRef monitoredHost;
@@ -139,19 +164,21 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 - (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type
 {
 	[super writeToPanel:dict usingType:type];
-    
-	
 }
 
-- (BOOL)doesRuleMatch:(NSDictionary *)rule {
+- (BOOL)doesRuleMatch:(NSDictionary *)rule
+{
     return [self.monitoredHosts[rule[@"parameter"]][@"available"] boolValue];
 }
 
-- (NSString *) name {
+- (NSString *) name
+{
     return @"HostAvailability";
 }
 
-- (NSString *) friendlyName {
+- (NSString *) friendlyName
+{
     return @"Host Availability";
 }
+
 @end
