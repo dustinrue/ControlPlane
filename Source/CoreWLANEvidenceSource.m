@@ -238,6 +238,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 - (void)clearCollectedData {
     self.networkSSIDs  = nil;
     self.networkBSSIDs = nil;
+    self.currentNetworkIsSecure = NO;
 	[self setDataCollected:NO];
 }
 
@@ -251,15 +252,19 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
 	NSString *param = rule[@"parameter"];
-
+    
     if ([rule[@"type"] isEqualToString:@"WiFi BSSID"]) {
         return [self.networkBSSIDs containsObject:param];
     }
-
+    
     if ([rule[@"type"] isEqualToString:@"WiFi Security"]) {
-        return self.currentNetworkIsSecure;
+        if (!self.linkActive) {
+            return NO;
+        }
+        BOOL isSecure = self.currentNetworkIsSecure;
+        return ([param isEqualToString:@"Secure"]) ? (isSecure) : (!isSecure);
     }
-
+    
     return (self.networkSSIDs[param] != nil);
 }
 
