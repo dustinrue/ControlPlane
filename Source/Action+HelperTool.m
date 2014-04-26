@@ -243,8 +243,8 @@ BOOL installHelperToolUsingSMJobBless(void) {
         {
             NSLog(@"Failed to install privileged helper: %@", [error description]);
             NSRunAlertPanel(@"Error",
-                            [NSString stringWithFormat:@"Failed to install privileged helper: %@", [error description]],
-                            @"OK", nil, nil);
+                            @"Failed to install privileged helper: %@",
+                            @"OK", nil, nil, [error description]);
             return NO;
         }
         else
