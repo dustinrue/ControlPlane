@@ -23,6 +23,7 @@
 		7CA6847717947E2200563601 /* LaptopLidEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6847617947E2200563601 /* LaptopLidEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7CFF034917246B770098990F /* SearchDomainRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF034B17246B770098990F /* SearchDomainRule.xib */; };
 		7CFF035A172471DD0098990F /* ServerAddressRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CFF035C172471DD0098990F /* ServerAddressRule.xib */; };
+		835B9DBA1913046400E646B0 /* ConnectBluetoothDeviceAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 835B9DB91913046400E646B0 /* ConnectBluetoothDeviceAction.m */; };
 		8D01634F0C029913004AD8DB /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D01634D0C029913004AD8DB /* DNDArrayController.m */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -365,6 +366,8 @@
 		7CFF0360172472980098990F /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
 		7CFF0361172472990098990F /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/ServerAddressRule.xib"; sourceTree = "<group>"; };
 		7CFF03621724729A0098990F /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/ServerAddressRule.xib; sourceTree = "<group>"; };
+		835B9DB81913046400E646B0 /* ConnectBluetoothDeviceAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectBluetoothDeviceAction.h; path = Source/ConnectBluetoothDeviceAction.h; sourceTree = "<group>"; };
+		835B9DB91913046400E646B0 /* ConnectBluetoothDeviceAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectBluetoothDeviceAction.m; path = Source/ConnectBluetoothDeviceAction.m; sourceTree = "<group>"; };
 		8D01634C0C029913004AD8DB /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DNDArrayController.h; path = Source/DNDArrayController.h; sourceTree = "<group>"; };
 		8D01634D0C029913004AD8DB /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DNDArrayController.m; path = Source/DNDArrayController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -1148,6 +1151,8 @@
 		DD8274ED14114D620098FA6E /* System Actions */ = {
 			isa = PBXGroup;
 			children = (
+				835B9DB81913046400E646B0 /* ConnectBluetoothDeviceAction.h */,
+				835B9DB91913046400E646B0 /* ConnectBluetoothDeviceAction.m */,
 				8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */,
 				8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */,
 				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
@@ -1525,6 +1530,7 @@
 				8D3BFF3F0C61BE4500B9B910 /* AboutPanel.m in Sources */,
 				8DB1EF240C6C60A300586F84 /* MailIMAPServerAction.m in Sources */,
 				8D1493F70C824B6D00D29FE8 /* BonjourEvidenceSource.m in Sources */,
+				835B9DBA1913046400E646B0 /* ConnectBluetoothDeviceAction.m in Sources */,
 				8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */,
 				8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */,
 				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,

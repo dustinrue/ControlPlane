@@ -221,6 +221,7 @@
 
 #pragma mark -
 
+#import "ConnectBluetoothDeviceAction.h"
 #import "DefaultBrowserAction.h"
 #import "DefaultPrinterAction.h"
 #import "DesktopBackgroundAction.h"
@@ -285,6 +286,7 @@
     Gestalt(gestaltSystemVersionMinor, &minor);
     
 	classes = [[NSMutableArray alloc] initWithObjects:
+			   [ConnectBluetoothDeviceAction class],
 			   [DefaultBrowserAction class],
                [DefaultPrinterAction class],
 			   [DesktopBackgroundAction class],
@@ -369,6 +371,7 @@
     
 	if (NO) {
 		// Purely for the benefit of 'genstrings'
+		NSLocalizedString(@"ConnectBluetoothDevice", @"Action type");
 		NSLocalizedString(@"DefaultBrowser", @"Action type");
         NSLocalizedString(@"DefaultPrinter", @"Action type");
 		NSLocalizedString(@"DesktopBackground", @"Action type");
