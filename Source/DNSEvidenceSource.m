@@ -44,22 +44,23 @@ static BOOL addDNSSearchDomainsToSet(NSDictionary *dict, NSString *dnsKey, NSMut
         return NO;
     }
     
-    BOOL isAnyValueAdded = NO;
+    NSUInteger domainsOriginalCount = [domains count];
     
     id domainName = dnsParams[(NSString *)kSCPropNetDNSDomainName];
     if ((domainName != nil) && [domainName isKindOfClass:[NSString class]]) {
         [domains addObject:domainName];
-        isAnyValueAdded = YES;
     }
     
     id searchDomains = dnsParams[(NSString *)kSCPropNetDNSSearchDomains];
     if (searchDomains != nil) {
         if ([searchDomains isKindOfClass:[NSArray class]]) {
-            [domains addObjectsFromArray:searchDomains];
-            isAnyValueAdded = YES;
+            [searchDomains enumerateObjectsUsingBlock:^(id domain, NSUInteger idx, BOOL *stop) {
+                if ([domain isKindOfClass:[NSString class]]) {
+                    [domains addObject:domain];
+                }
+            }];
         } else if ([searchDomains isKindOfClass:[NSString class]]) {
             [domains addObject:searchDomains];
-            isAnyValueAdded = YES;
         } else {
 #ifdef DEBUG_MODE
             NSLog(@"Unexpected value type of property \"%@\" for key \"%@/\". Value object: %@.",
@@ -68,6 +69,7 @@ static BOOL addDNSSearchDomainsToSet(NSDictionary *dict, NSString *dnsKey, NSMut
         }
     }
     
+    BOOL isAnyValueAdded = ([domains count] != domainsOriginalCount);
     return isAnyValueAdded;
 }
 
@@ -77,16 +79,18 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
         return NO;
     }
     
-    BOOL isAnyValueAdded = NO;
+    NSUInteger serversOriginalCount = [servers count];
     
     id serverAddresses = dnsParams[(NSString *)kSCPropNetDNSServerAddresses];
     if (serverAddresses != nil) {
         if ([serverAddresses isKindOfClass:[NSArray class]]) {
-            [servers addObjectsFromArray:serverAddresses];
-            isAnyValueAdded = YES;
+            [serverAddresses enumerateObjectsUsingBlock:^(id server, NSUInteger idx, BOOL *stop) {
+                if ([server isKindOfClass:[NSString class]]) {
+                    [servers addObject:server];
+                }
+            }];
         } else if ([serverAddresses isKindOfClass:[NSString class]]) {
             [servers addObject:serverAddresses];
-            isAnyValueAdded = YES;
         } else {
 #ifdef DEBUG_MODE
             NSLog(@"Unexpected value type of property \"%@\" for key \"%@/\". Value object: %@.",
@@ -95,6 +99,7 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
         }
     }
     
+    BOOL isAnyValueAdded = ([servers count] != serversOriginalCount);
     return isAnyValueAdded;
 }
 
