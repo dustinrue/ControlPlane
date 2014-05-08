@@ -512,6 +512,8 @@ static NSSet *sharedActiveContexts = nil;
 			// otherwise import from the old 1.x version
 			[self importVersion1Settings];
 	}
+    
+    [self sanitizeUserDefaults];
 
     // set default screen saver and screen lock status
     [self setScreenLocked:NO];
@@ -533,13 +535,8 @@ static NSSet *sharedActiveContexts = nil;
     
     [self rebuildForceContextMenu];
     
-	// Persistent contexts
-	Context *startContext = nil;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
-		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
-        startContext = [contextsDataSource contextByUUID:uuid];
-	}
-    [self changeCurrentContextTo:startContext];
+	// Set the persistent context, if any
+    [self changeCurrentContextTo:[self getPersistentContext]];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         // Set up status bar.
@@ -559,6 +556,20 @@ static NSSet *sharedActiveContexts = nil;
     // hide the current context menu item for now
     [self.currentContextNameMenuItem setHidden:YES];
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"AllowMultipleActiveContexts" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)sanitizeUserDefaults
+{
+    // if a default context is specified, check that it actually exists
+    if ([self useDefaultContext]) {
+        NSString *defaultContextUUID = [self getDefaultContext];
+        Context *defaultContext = [contextsDataSource contextByUUID:defaultContextUUID];
+        if (defaultContext == nil) {
+            // if the specified default context does not exist anymore, remove it from the user defaults
+            [[NSUserDefaults standardUserDefaults] setValue:@NO forKey:@"UseDefaultContext"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"DefaultContext"];
+        }
+    }
 }
 
 
@@ -1937,23 +1948,33 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
     });
 }
 
-- (BOOL) useMultipleActiveContexts {
+- (BOOL)useMultipleActiveContexts {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"AllowMultipleActiveContexts"];
 }
 
-- (BOOL) useDefaultContext {
+- (BOOL)useDefaultContext {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"UseDefaultContext"];
 }
 
-- (NSString *) getDefaultContext {
+- (NSString *)getDefaultContext {
     return [[NSUserDefaults standardUserDefaults] stringForKey:@"DefaultContext"];
 }
 
-- (BOOL) defaultContextIsActive {
+- (BOOL)defaultContextIsActive {
     return [self.activeContexts containsObject:[self getDefaultContext]];
 }
 
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (Context *)getPersistentContext
+{
+	Context *context = nil;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnablePersistentContext"]) {
+		NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:@"PersistentContext"];
+        context = [contextsDataSource contextByUUID:uuid];
+	}
+    return context;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     switch ([keyPath isEqualToString:@"AllowMultipleActiveContexts"]) {
         case YES:
             self.currentContext = nil;
