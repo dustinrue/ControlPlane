@@ -26,8 +26,8 @@
     SCPreferencesRef prefs = SCPreferencesCreate(NULL, CFSTR("ControlPlane"), NULL);
 	SCPreferencesLock(prefs, true);
 
-	CFDictionaryRef cfDict = (CFDictionaryRef) SCPreferencesGetValue(prefs, kSCPrefSets);
-    if (cfDict) {
+	CFPropertyListRef cfDict = (CFDictionaryRef) SCPreferencesGetValue(prefs, kSCPrefSets);
+    if ((cfDict != NULL) && (CFGetTypeID(cfDict) == CFDictionaryGetTypeID())) {
         dict = [NSDictionary dictionaryWithDictionary:(__bridge NSDictionary *)cfDict];
     }
 
@@ -97,13 +97,15 @@
 
 	NSDictionary *allSets = [[self class] getAllSets];
     [allSets enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *subdict, BOOL *stop) {
-        id userDefinedName = subdict[(NSString *)kSCPropUserDefinedName];
-        if ( (userDefinedName != nil)
-             && [userDefinedName isKindOfClass:[NSString class]]
-             && [userDefinedName isEqualToString:networkLocation] )
-        {
-            networkSetId = key;
-            *stop = YES;
+        if ([subdict isKindOfClass:[NSDictionary class]]) {
+            id userDefinedName = subdict[(NSString *)kSCPropUserDefinedName];
+            if ( (userDefinedName != nil)
+                && [userDefinedName isKindOfClass:[NSString class]]
+                && [userDefinedName isEqualToString:networkLocation] )
+            {
+                networkSetId = key;
+                *stop = YES;
+            }
         }
     }];
 
@@ -139,9 +141,11 @@
     NSMutableArray *networkLocationNames = [NSMutableArray arrayWithCapacity:[allSets count]];
 
     [allSets enumerateKeysAndObjectsUsingBlock:^(id key, NSDictionary *set, BOOL *stop) {
-        id userDefinedName = set[(NSString *)kSCPropUserDefinedName];
-        if ((userDefinedName != nil) && [userDefinedName isKindOfClass:[NSString class]]) {
-            [networkLocationNames addObject:userDefinedName];
+        if ([set isKindOfClass:[NSDictionary class]]) {
+            id userDefinedName = set[(NSString *)kSCPropUserDefinedName];
+            if ((userDefinedName != nil) && [userDefinedName isKindOfClass:[NSString class]]) {
+                [networkLocationNames addObject:userDefinedName];
+            }
         }
     }];
 	[networkLocationNames sortUsingSelector:@selector(localizedCompare:)];
