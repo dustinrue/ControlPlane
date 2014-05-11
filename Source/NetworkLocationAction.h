@@ -16,7 +16,6 @@
 - (id)initWithOption:(NSString *)option;
 - (id)init;
 - (id)initWithDictionary:(NSDictionary *)dict;
-- (void)dealloc;
 
 - (NSMutableDictionary *)dictionary;
 

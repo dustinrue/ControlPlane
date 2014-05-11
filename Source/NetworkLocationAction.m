@@ -4,6 +4,9 @@
 //
 //  Created by David Symonds on 4/07/07.
 //  Modified by Vladimir Beloborodov (VladimirTechMan) on 12 June 2013.
+//  Modified by Vladimir Beloborodov (VladimirTechMan) on 11 May 2014.
+//
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
 //
 
 #import <SystemConfiguration/SCNetworkConfiguration.h>
@@ -25,7 +28,7 @@
 
 	CFDictionaryRef cfDict = (CFDictionaryRef) SCPreferencesGetValue(prefs, kSCPrefSets);
     if (cfDict) {
-        dict = [NSDictionary dictionaryWithDictionary:(NSDictionary *) cfDict];
+        dict = [NSDictionary dictionaryWithDictionary:(__bridge NSDictionary *)cfDict];
     }
 
 	SCPreferencesUnlock(prefs);
@@ -52,15 +55,9 @@
 	return [self initWithOption:dict[@"parameter"]];
 }
 
-- (void)dealloc {
-	[networkLocation release];
-
-	[super dealloc];
-}
-
 - (NSMutableDictionary *)dictionary {
 	NSMutableDictionary *dict = [super dictionary];
-    dict[@"parameter"] = [[networkLocation copy] autorelease];
+    dict[@"parameter"] = [networkLocation copy];
 	return dict;
 }
 
@@ -77,7 +74,8 @@
     
     SCNetworkSetRef currentSet = SCNetworkSetCopyCurrent(prefs);
     if (currentSet) {
-        result = [(NSString *) SCNetworkSetGetName(currentSet) isEqualToString:networkLocation];
+        NSString *currentNetworkName = (__bridge NSString *)SCNetworkSetGetName(currentSet);
+        result = [currentNetworkName isEqualToString:networkLocation];
         CFRelease(currentSet);
     }
     
@@ -99,7 +97,11 @@
 
 	NSDictionary *allSets = [[self class] getAllSets];
     [allSets enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *subdict, BOOL *stop) {
-        if ([networkLocation isEqualToString:subdict[@"UserDefinedName"]]) {
+        id userDefinedName = subdict[(NSString *)kSCPropUserDefinedName];
+        if ( (userDefinedName != nil)
+             && [userDefinedName isKindOfClass:[NSString class]]
+             && [userDefinedName isEqualToString:networkLocation] )
+        {
             networkSetId = key;
             *stop = YES;
         }
@@ -125,7 +127,7 @@
 
 + (NSString *)helpText {
 	return NSLocalizedString(@"The parameter for NetworkLocation actions is the name of the "
-				 "network location to select.", @"");
+                             "network location to select.", @"");
 }
 
 + (NSString *)creationHelpText {
@@ -137,7 +139,10 @@
     NSMutableArray *networkLocationNames = [NSMutableArray arrayWithCapacity:[allSets count]];
 
     [allSets enumerateKeysAndObjectsUsingBlock:^(id key, NSDictionary *set, BOOL *stop) {
-		[networkLocationNames addObject:set[@"UserDefinedName"]];
+        id userDefinedName = set[(NSString *)kSCPropUserDefinedName];
+        if ((userDefinedName != nil) && [userDefinedName isKindOfClass:[NSString class]]) {
+            [networkLocationNames addObject:userDefinedName];
+        }
     }];
 	[networkLocationNames sortUsingSelector:@selector(localizedCompare:)];
 
@@ -149,7 +154,7 @@
 	return opts;
 }
 
-+ (NSString *) friendlyName {
++ (NSString *)friendlyName {
     return NSLocalizedString(@"Network Location", @"");
 }
 
