@@ -763,109 +763,128 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 
 #pragma mark Login Item Routines
 
-- (NSURL *) appPath {
+- (NSURL *)appPath
+{
     return [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
 }
 
-- (void) startAtLogin {
+- (void)startAtLogin
+{
     LSSharedFileListRef loginItemList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst,
-                                  NULL, NULL, (CFURLRef)[self appPath], NULL, NULL);
-    CFRelease(loginItemList);
+    if (loginItemList != NULL) {
 #ifdef DEBUG_MODE
-    DSLog(@"adding ControlPlane to startup items");
+        DSLog(@"Adding ControlPlane to startup items");
 #endif
+        
+        LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst,
+                                      NULL, NULL, (CFURLRef)[self appPath], NULL, NULL);
+        CFRelease(loginItemList);
+    }
 }
 
-- (void) disableStartAtLogin {
+- (void) disableStartAtLogin
+{
     NSURL *appPath = [self appPath];
     
     // Creates shared file list reference to be used for changing list and reading its various properties.
     LSSharedFileListRef loginItemList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    if (loginItemList == NULL) {
+        return;
+    }
     
-    // represents a found start up item
-
-    // check to see if ControlPlane is already listed in Start Up Items
-    if (loginItemList) {
-        UInt32 seedValue = 0;
-        
-        // take a snapshot of the list creating an array out of it
-        NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItemList, &seedValue)) autorelease];
+    // take a snapshot of the list creating an array out of it
+    UInt32 seedValue = 0;
+    CFArrayRef currentLoginItems = LSSharedFileListCopySnapshot(loginItemList, &seedValue);
+    
+    if (currentLoginItems != NULL) {
+        const UInt32 resolveFlags = (kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes);
         
         // walk the array looking for an entry that belongs to us
-        for (id currentLoginItem in currentLoginItems) {
+        for (id currentLoginItem in (NSArray *)currentLoginItems) {
             LSSharedFileListItemRef itemToCheck = (LSSharedFileListItemRef)currentLoginItem;
             
-            UInt32 resolveFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
+            BOOL startupItemFound = NO;
             CFURLRef pathOfCurrentItem = NULL;
-            OSStatus err = LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL);
+            if (LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL) == noErr) {
+                startupItemFound = (pathOfCurrentItem != NULL) && CFEqual(pathOfCurrentItem, appPath);
+            }
             
-            if (err == noErr) {
-                BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
+            if (pathOfCurrentItem != NULL) {
                 CFRelease(pathOfCurrentItem);
-                
-                if (startupItemFound) {
+            }
+            
+            if (startupItemFound) {
 #ifdef DEBUG_MODE
-                    DSLog(@"removing ControlPlan from startup items");
+                DSLog(@"Removing ControlPlan from startup items");
 #endif
-                    LSSharedFileListItemRemove(loginItemList, itemToCheck);
-                }
+                
+                LSSharedFileListItemRemove(loginItemList, itemToCheck);
+                break;
             }
         }
-		
-		CFRelease(loginItemList);
+        
+        CFRelease(currentLoginItems);
     }
+    
+    CFRelease(loginItemList);
 }
 
 
 
-- (BOOL) willStartAtLogin:(NSURL *)appPath {
+- (BOOL)willStartAtLogin:(NSURL *)appPath
+{
+    if (appPath == NULL) {
+        return NO;
+    }
     
     // Creates shared file list reference to be used for changing list and reading its various properties.
     LSSharedFileListRef loginItemList = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    if (loginItemList == NULL) {
+        return NO;
+    }
     
-
     // check to see if ControlPlane is already listed in Start Up Items
-    if (loginItemList) {
-        UInt32 seedValue = 0;
-        
-        // take a snapshot of the list creating an array out of it
-        NSArray *currentLoginItems = [NSMakeCollectable(LSSharedFileListCopySnapshot(loginItemList, &seedValue)) autorelease];
+    BOOL isControlPlaneListed = NO;
+    
+    // take a snapshot of the list creating an array out of it
+    UInt32 seedValue = 0;
+    CFArrayRef currentLoginItems = LSSharedFileListCopySnapshot(loginItemList, &seedValue);
+    
+    if (currentLoginItems != NULL) {
+        const UInt32 resolveFlags = (kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes);
         
         // walk the array looking for an entry that belongs to us
-        for (id currentLoginItem in currentLoginItems) {
+        for (id currentLoginItem in (NSArray *)currentLoginItems) {
             LSSharedFileListItemRef itemToCheck = (LSSharedFileListItemRef)currentLoginItem;
-    
-            UInt32 resolveFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
-            CFURLRef pathOfCurrentItem = NULL;
-            OSStatus err = LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL);
             
-            if (err == noErr) {
-                BOOL startupItemFound = CFEqual(pathOfCurrentItem,appPath);
+            CFURLRef pathOfCurrentItem = NULL;
+            if (LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL) == noErr) {
+                isControlPlaneListed = (pathOfCurrentItem != NULL) && CFEqual(pathOfCurrentItem, appPath);
+            }
+            if (pathOfCurrentItem != NULL) {
                 CFRelease(pathOfCurrentItem);
-                
-                if (startupItemFound) {
-                    CFRelease(loginItemList);
-                    return TRUE;
-                }
+            }
+            
+            if (isControlPlaneListed) {
+                break;
             }
         }
         
-        CFRelease(loginItemList);
+        CFRelease(currentLoginItems);
     }
+    
+    CFRelease(loginItemList);
 	
-    return FALSE;
+    return isControlPlaneListed;
 }
 
-- (IBAction) toggleStartAtLoginAction:(id)sender {
-  
-
+- (IBAction)toggleStartAtLoginAction:(id)sender
+{
     if ([self willStartAtLogin:[self appPath]]) {
         [self disableStartAtLogin];
     }
     else {
         [self startAtLogin];
-        
     }
     [startAtLoginStatus setState:[self willStartAtLogin:[self appPath]] ? 1:0];
 }
