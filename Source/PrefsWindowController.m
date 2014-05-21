@@ -532,16 +532,12 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 
 #pragma mark Toolbar delegates
 
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)groupId willBeInsertedIntoToolbar:(BOOL)flag
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
+     itemForItemIdentifier:(NSString *)groupId
+ willBeInsertedIntoToolbar:(BOOL)flag
 {
-	NSEnumerator *en = [prefsGroups objectEnumerator];
-	NSDictionary *group;
-
-	while ((group = [en nextObject])) {
-		if ([group[@"name"] isEqualToString:groupId])
-			break;
-	}
-	if (!group) {
+	NSDictionary *group = [self groupById:groupId];
+	if (group == nil) {
 		NSLog(@"Oops! toolbar delegate is trying to use '%@' as an ID!", groupId);
 		return nil;
 	}
@@ -556,7 +552,8 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	return item;
 }
 
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[prefsGroups count]];
 
 	for (NSDictionary *group in prefsGroups) {
@@ -566,11 +563,13 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	return array;
 }
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
 	return [self toolbarAllowedItemIdentifiers:toolbar];
 }
 
-- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
+{
 	return [self toolbarAllowedItemIdentifiers:toolbar];
 }
 
