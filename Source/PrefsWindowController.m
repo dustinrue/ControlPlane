@@ -318,11 +318,14 @@
 
 	[logBufferView setFont:[NSFont fontWithName:@"Monaco" size:9]];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPrefsWindowClose:) name:NSWindowWillCloseNotification object:prefsWindow];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onPrefsWindowClose:)
+                                                 name:NSWindowWillCloseNotification
+                                               object:prefsWindow];
     
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"userHasSeenMultipleActiveContextsNotification"];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"userHasSeenMultipleActiveContextsNotification"]) {
-        [self.multipleActiveContextsNotification makeKeyAndOrderFront:self];
+        NSWindow *multipleActiveContextsNotification = self.multipleActiveContextsNotification;
+        [multipleActiveContextsNotification makeKeyAndOrderFront:self];
     }
 }
 
@@ -401,12 +404,16 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 - (IBAction)enableMultipleActiveContexts:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"AllowMultipleActiveContexts"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"userHasSeenMultipleActiveContextsNotification"];
-    [self.multipleActiveContextsNotification close];
+    
+    NSWindow *multipleActiveContextsNotification = self.multipleActiveContextsNotification;
+    [multipleActiveContextsNotification close];
 }
 
 - (IBAction)closeMultipleActiveContextsAlert:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"userHasSeenMultipleActiveContextsNotification"];
-    [self.multipleActiveContextsNotification close];
+    
+    NSWindow *multipleActiveContextsNotification = self.multipleActiveContextsNotification;
+    [multipleActiveContextsNotification close];
 }
 
 
