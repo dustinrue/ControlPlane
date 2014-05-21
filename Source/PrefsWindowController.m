@@ -185,8 +185,6 @@
 	if (!(self = [super init]))
 		return nil;
 
-	blankPrefsView = [[NSView alloc] init];
-
 	newActionWindowParameterViewCurrentControl = nil;
 
 	[self setValue:@NO forKey:@"logBufferPaused"];
@@ -420,7 +418,8 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 
 #pragma mark Prefs group switching
 
-- (NSMutableDictionary *)groupById:(NSString *)groupId {
+- (NSMutableDictionary *)groupById:(NSString *)groupId
+{
 	for (NSMutableDictionary *group in prefsGroups) {
 		if ([group[@"name"] isEqualToString:groupId]) {
 			return group;
@@ -429,22 +428,26 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	return nil;
 }
 
-- (float)toolbarHeight {
+- (float)toolbarHeight
+{
 	NSRect contentRect;
 
 	contentRect = [NSWindow contentRectForFrameRect:[prefsWindow frame] styleMask:[prefsWindow styleMask]];
 	return (NSHeight(contentRect) - NSHeight([[prefsWindow contentView] frame]));
 }
 
-- (float)titleBarHeight {
+- (float)titleBarHeight
+{
 	return [prefsWindow frame].size.height - [[prefsWindow contentView] frame].size.height - [self toolbarHeight];
 }
 
-- (void)switchToViewFromToolbar:(NSToolbarItem *)item {
+- (void)switchToViewFromToolbar:(NSToolbarItem *)item
+{
 	[self switchToView:[item itemIdentifier]];
 }
 
-- (void)switchToView:(NSString *)groupId {
+- (void)switchToView:(NSString *)groupId
+{
 	NSDictionary *group = [self groupById:groupId];
 	if (!group) {
 		NSLog(@"Bad prefs group '%@' to switch to!", groupId);
@@ -478,10 +481,11 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
             size.height = minSize.height;
         }
     }
-
+    
+	NSView *blankPrefsView = [[NSView alloc] init];
 	[prefsWindow setContentView:blankPrefsView];
 	[prefsWindow setTitle:[@"ControlPlane - " stringByAppendingString:group[@"display_name"]]];
-
+    
 	BOOL resizeableWidth  = [group[@"resizeableWidth"]  boolValue];
     BOOL resizeableHeight = [group[@"resizeableHeight"] boolValue];
     [self resizeWindowToSize:size withMinSize:minSize
@@ -500,8 +504,8 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 - (void)resizeWindowToSize:(NSSize)size
                withMinSize:(NSSize)minSize
              limitMaxWidth:(BOOL)limitMaxWidth
-            limitMaxHeight:(BOOL)limitMaxHeight {
-
+            limitMaxHeight:(BOOL)limitMaxHeight
+{
 	float tbHeight = [self toolbarHeight];
 	float newWidth  = size.width;
 	float newHeight = size.height;
@@ -908,7 +912,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 #pragma mark Miscellaneous
 
 - (void)startLogBufferTimer {
-    if (!logBufferTimer) {
+    if (logBufferTimer == nil) {
         logBufferTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)0.5
                                                           target:self
                                                         selector:@selector(updateLogBuffer:)
@@ -923,7 +927,12 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 }
 
 - (void)stopLogBufferTimer {
-    logBufferTimer = [logBufferTimer checkAndInvalidate];
+    if (logBufferTimer != nil) {
+        if (logBufferTimer.isValid) {
+            [logBufferTimer invalidate];
+        }
+        logBufferTimer = nil;
+    }
 }
 
 - (void)updateLogBuffer:(NSTimer *)timer {

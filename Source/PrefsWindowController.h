@@ -9,7 +9,7 @@
 	IBOutlet NSView *generalPrefsView, *contextsPrefsView, *evidenceSourcesPrefsView,
 			*rulesPrefsView, *actionsPrefsView, *advancedPrefsView;
 	NSString *currentPrefsGroup;
-	NSView *currentPrefsView, *blankPrefsView;
+	NSView *currentPrefsView;
 	NSArray *prefsGroups;
 	NSToolbar *prefsToolbar;
 
