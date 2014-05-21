@@ -59,7 +59,7 @@
 		8D75A6200BE6F68B0069DF3F /* ToggleBluetoothAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D75A61E0BE6F68B0069DF3F /* ToggleBluetoothAction.m */; };
 		8D8155D00C3A304E00228463 /* ContextsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8155CE0C3A304E00228463 /* ContextsDataSource.m */; };
 		8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D82F05B0AA811CE009ADA44 /* SystemConfiguration.framework */; };
-		8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */; };
+		8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F0A20AA81411009ADA44 /* PrefsWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8D88FE2A0C534737007A14D6 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D88FE290C534737007A14D6 /* pause.png */; };
 		8D8C9BAB0BBB3ADB0074D5B3 /* Apple80211.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D8C9BA90BBB3ADB0074D5B3 /* Apple80211.framework */; };
 		8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8C9CA40BBB74E70074D5B3 /* EvidenceSource.m */; };

@@ -1,3 +1,8 @@
+//
+//  Modified by VladimirTechMan (Vladimir Beloborodov) on 21 May 2014. Switching the code to ARC.
+//
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "AboutPanel.h"
 #import "Action.h"
@@ -147,7 +152,7 @@
 
 @interface PrefsWindowController ()
 
-@property (retain,nonatomic,readwrite) NSDate *logBufferUnchangedSince;
+@property (nonatomic,strong) NSDate *logBufferUnchangedSince;
 
 - (void)doAddRule:(NSDictionary *)dict;
 - (void)doEditRule:(NSDictionary *)dict;
@@ -160,23 +165,23 @@
 
 @implementation PrefsWindowController
 
-
 + (void)initialize
 {
 	// Register value transformers
-	[NSValueTransformer setValueTransformer:[[[ActionTypeHelpTransformer alloc] init] autorelease]
+	[NSValueTransformer setValueTransformer:[[ActionTypeHelpTransformer alloc] init]
 					forName:@"ActionTypeHelpTransformer"];
-	[NSValueTransformer setValueTransformer:[[[DelayValueTransformer alloc] init] autorelease]
+	[NSValueTransformer setValueTransformer:[[DelayValueTransformer alloc] init]
 					forName:@"DelayValueTransformer"];
-	[NSValueTransformer setValueTransformer:[[[LocalizeTransformer alloc] init] autorelease]
+	[NSValueTransformer setValueTransformer:[[LocalizeTransformer alloc] init]
 					forName:@"LocalizeTransformer"];
-	[NSValueTransformer setValueTransformer:[[[WhenLocalizeTransformer alloc] init] autorelease]
+	[NSValueTransformer setValueTransformer:[[WhenLocalizeTransformer alloc] init]
 					forName:@"WhenLocalizeTransformer"];
-	[NSValueTransformer setValueTransformer:[[[RuleStatusResultTransformer alloc] init] autorelease]
+	[NSValueTransformer setValueTransformer:[[RuleStatusResultTransformer alloc] init]
                     forName:@"RuleStatusResultTransformer"];
 }
 
-- (id)init {
+- (id)init
+{
 	if (!(self = [super init]))
 		return nil;
 
@@ -187,25 +192,23 @@
 	[self setValue:@NO forKey:@"logBufferPaused"];
 	logBufferTimer = nil;
     
-    _logBufferUnchangedSince = [[NSDate distantPast] retain];
+    _logBufferUnchangedSince = [NSDate distantPast];
 
 	return self;
 }
 
-- (void)dealloc {
-    [_logBufferUnchangedSince release];
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-	[blankPrefsView release];
-	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
 	// Evil!
-	[NSValueTransformer setValueTransformer:[[[ContextNameTransformer alloc] init:contextsDataSource] autorelease]
+	[NSValueTransformer setValueTransformer:[[ContextNameTransformer alloc] init:contextsDataSource]
 					forName:@"ContextNameTransformer"];
 
-	prefsGroups = [[NSArray arrayWithObjects:
+	prefsGroups = @[
 		[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			@"General", @"name",
 			NSLocalizedString(@"General", "Preferences section"), @"display_name",
@@ -243,7 +246,7 @@
 			@"AdvancedPrefs", @"icon",
             @YES, @"resizeableHeight",
 			advancedPrefsView, @"view", nil],
-		nil] retain];
+		];
 
 	// Store initial sizes of each prefs NSView as their "minimum" size
 	for (NSMutableDictionary *group in prefsGroups) {
@@ -317,6 +320,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPrefsWindowClose:) name:NSWindowWillCloseNotification object:prefsWindow];
     
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"userHasSeenMultipleActiveContextsNotification"];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"userHasSeenMultipleActiveContextsNotification"]) {
         [self.multipleActiveContextsNotification makeKeyAndOrderFront:self];
     }
@@ -363,14 +367,13 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	}
 }
 
-- (IBAction)runAbout:(id)sender {
+- (IBAction)runAbout:(id)sender
+{
 	[NSApp activateIgnoringOtherApps:YES];
 #if 0
-	[NSApp orderFrontStandardAboutPanelWithOptions:
-		[NSDictionary dictionaryWithObject:@"" forKey:@"Version"]];
+	[NSApp orderFrontStandardAboutPanelWithOptions:@{ @"Version": @"" }];
 #else
-	AboutPanel *ctl = [[[AboutPanel alloc] init] autorelease];
-
+	AboutPanel *ctl = [[AboutPanel alloc] init];
 	[ctl runPanel];
 #endif
 }
@@ -540,7 +543,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	[item setTarget:self];
 	[item setAction:@selector(switchToViewFromToolbar:)];
 
-	return [item autorelease];
+	return item;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
@@ -674,7 +677,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 
 		NSRect frame = [newActionWindowParameterView bounds];
 		frame.size.height = 26;		// HACK!
-		NSPopUpButton *pub = [[[NSPopUpButton alloc] initWithFrame:frame pullsDown:NO] autorelease];
+		NSPopUpButton *pub = [[NSPopUpButton alloc] initWithFrame:frame pullsDown:NO];
 		// Bindings:
 		[pub bind:@"content" toObject:loC withKeyPath:@"arrangedObjects" options:nil];
 		[pub bind:@"contentValues" toObject:loC withKeyPath:@"arrangedObjects.description" options:nil];
@@ -695,7 +698,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 		if ([panel runModal] != NSOKButton)
 			return;
 		NSString *filename = [[panel URL] path];
-		Action *action = [[[klass alloc] initWithFile:filename] autorelease];
+		Action *action = [[klass alloc] initWithFile:filename];
 
 		NSMutableDictionary *actionDictionary = [action dictionary];
 		[actionsController addObject:actionDictionary];
@@ -704,7 +707,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
 		NSRect frame = [newActionWindowParameterView bounds];
 		frame.size.height = 22;		// HACK!
-		NSTextField *tf = [[[NSTextField alloc] initWithFrame:frame] autorelease];
+		NSTextField *tf = [[NSTextField alloc] initWithFrame:frame];
 		[tf setStringValue:@""];	// TODO: sensible initialisation?
 
 		if (newActionWindowParameterViewCurrentControl)
@@ -718,7 +721,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	}
 
 	// Worst-case fallback: just make a new action, and select it:
-	Action *action = [[[[sender representedObject] alloc] init] autorelease];
+	Action *action = [[[sender representedObject] alloc] init];
 	NSMutableDictionary *actionDictionary = [action dictionary];
 
 	[actionsController addObject:actionDictionary];
@@ -730,7 +733,6 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	Class klass = [Action classForType:newActionType];
 	Action *tmp_action = [[klass alloc] init];
 	NSMutableDictionary *dict = [tmp_action dictionary];
-	[tmp_action release];
 
 	// Pull parameter out of the right type of UI control
 	NSString *param, *desc = nil;
@@ -776,8 +778,14 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
         DSLog(@"Adding ControlPlane to startup items");
 #endif
         
-        LSSharedFileListInsertItemURL(loginItemList, kLSSharedFileListItemBeforeFirst,
-                                      NULL, NULL, (CFURLRef)[self appPath], NULL, NULL);
+        LSSharedFileListItemRef newItem = LSSharedFileListInsertItemURL(loginItemList,
+                                                                        kLSSharedFileListItemBeforeFirst,
+                                                                        NULL, NULL,
+                                                                        (__bridge CFURLRef)[self appPath],
+                                                                        NULL, NULL);
+        if (newItem != NULL) {
+            CFRelease(newItem);
+        }
         CFRelease(loginItemList);
     }
 }
@@ -800,13 +808,14 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
         const UInt32 resolveFlags = (kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes);
         
         // walk the array looking for an entry that belongs to us
-        for (id currentLoginItem in (NSArray *)currentLoginItems) {
-            LSSharedFileListItemRef itemToCheck = (LSSharedFileListItemRef)currentLoginItem;
+        for (id currentLoginItem in (__bridge NSArray *)currentLoginItems) {
+            LSSharedFileListItemRef itemToCheck = (__bridge LSSharedFileListItemRef)currentLoginItem;
             
             BOOL startupItemFound = NO;
             CFURLRef pathOfCurrentItem = NULL;
             if (LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL) == noErr) {
-                startupItemFound = (pathOfCurrentItem != NULL) && CFEqual(pathOfCurrentItem, appPath);
+                startupItemFound = ((pathOfCurrentItem != NULL)
+                                    && CFEqual(pathOfCurrentItem, (__bridge CFURLRef)appPath));
             }
             
             if (pathOfCurrentItem != NULL) {
@@ -828,8 +837,6 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
     
     CFRelease(loginItemList);
 }
-
-
 
 - (BOOL)willStartAtLogin:(NSURL *)appPath
 {
@@ -854,12 +861,13 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
         const UInt32 resolveFlags = (kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes);
         
         // walk the array looking for an entry that belongs to us
-        for (id currentLoginItem in (NSArray *)currentLoginItems) {
-            LSSharedFileListItemRef itemToCheck = (LSSharedFileListItemRef)currentLoginItem;
+        for (id currentLoginItem in (__bridge NSArray *)currentLoginItems) {
+            LSSharedFileListItemRef itemToCheck = (__bridge LSSharedFileListItemRef)currentLoginItem;
             
             CFURLRef pathOfCurrentItem = NULL;
             if (LSSharedFileListItemResolve(itemToCheck, resolveFlags, &pathOfCurrentItem, NULL) == noErr) {
-                isControlPlaneListed = (pathOfCurrentItem != NULL) && CFEqual(pathOfCurrentItem, appPath);
+                isControlPlaneListed = ((pathOfCurrentItem != NULL)
+                                        && CFEqual(pathOfCurrentItem, (__bridge CFURLRef)appPath));
             }
             if (pathOfCurrentItem != NULL) {
                 CFRelease(pathOfCurrentItem);
@@ -894,11 +902,11 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 
 - (void)startLogBufferTimer {
     if (!logBufferTimer) {
-        logBufferTimer = [[NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 0.5
-                                                           target: self
-                                                         selector: @selector(updateLogBuffer:)
-                                                         userInfo: nil
-                                                          repeats: YES] retain];
+        logBufferTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)0.5
+                                                          target:self
+                                                        selector:@selector(updateLogBuffer:)
+                                                        userInfo:nil
+                                                         repeats:YES];
         
         if ([logBufferTimer respondsToSelector:@selector(setTolerance:)])
             [logBufferTimer setTolerance:(NSTimeInterval) 1];

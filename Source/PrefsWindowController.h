@@ -13,14 +13,12 @@
 	NSArray *prefsGroups;
 	NSToolbar *prefsToolbar;
 
-    
 	IBOutlet EvidenceSourceSetController *evidenceSources;
 	IBOutlet ContextsDataSource *contextsDataSource;
 	IBOutlet NSArrayController *rulesController, *actionsController;
 	IBOutlet NSArrayController *whenActionController;
     IBOutlet NSArrayController *menuBarDisplayOptionsController;
 
-    
 	// Selection controls for rules/actions
 	IBOutlet ContextSelectionButton *defaultContextButton;
 	IBOutlet ContextSelectionButton *editActionContextButton;
@@ -50,10 +48,8 @@
 - (IBAction)menuBarDisplayOptionChanged:(id)sender;
 - (IBAction)enableMultipleActiveContexts:(id)sender;
 - (IBAction)closeMultipleActiveContextsAlert:(id)sender;
-@property (assign) IBOutlet NSWindow *multipleActiveContextsNotification;
 
-
-
+@property (nonatomic,weak) IBOutlet NSWindow *multipleActiveContextsNotification;
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item;
 - (void)switchToView:(NSString *)identifier;
