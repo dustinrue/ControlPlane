@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Growl/Growl.h>
 
 @interface CPNotifications : NSObject
 

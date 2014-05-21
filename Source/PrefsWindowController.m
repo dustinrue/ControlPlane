@@ -8,7 +8,6 @@
 #import "Action.h"
 #import "DSLogger.h"
 #import "PrefsWindowController.h"
-#import "NSTimer+Invalidation.h"
 #import "RuleType.h"
 
 // This is here to avoid IB's problem with unknown base classes
