@@ -10,15 +10,13 @@
 
 @interface RuleType : NSObject
 
-@property (nonatomic, assign, readonly) EvidenceSource *evidenceSource; // weak
-@property (nonatomic, retain, readonly) NSPanel *panel;
-@property (assign) IBOutlet NSButton *negateRule;
+@property (nonatomic,weak,readonly) EvidenceSource *evidenceSource; // weak
+@property (nonatomic,retain,readonly) NSPanel *panel;
 
 // To be implemented by descendant classes.
 + (NSString *)panelNibName;
 
 - (id)initWithEvidenceSource:(EvidenceSource *)src;
-- (void)dealloc;
 
 // To be implemented by descendant classes.
 - (NSString *)name;

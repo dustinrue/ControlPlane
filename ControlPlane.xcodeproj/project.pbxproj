@@ -10,7 +10,7 @@
 		732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
 		73A5092F14849405007D22B5 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A5092714849405007D22B5 /* ShellScriptRule.xib */; };
-		7C42F30216FB8960000EE57B /* RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30116FB8960000EE57B /* RuleType.m */; };
+		7C42F30216FB8960000EE57B /* RuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30116FB8960000EE57B /* RuleType.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7C42F30716FB9519000EE57B /* SearchDomainRuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30616FB9518000EE57B /* SearchDomainRuleType.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7C42F30A16FB9D47000EE57B /* MultiRuleEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C42F30916FB9D47000EE57B /* MultiRuleEvidenceSource.m */; };
 		7C4855BB17493B7200D8EB84 /* IPv6AddrRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C4855BD17493B7200D8EB84 /* IPv6AddrRule.xib */; };

@@ -4,34 +4,43 @@
 //
 //  Created by VladimirTechMan on 03/03/2013.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
 //
 
 #import "EvidenceSource.h"
 #import "RuleType.h"
 
-@implementation RuleType {
-    // for each rule panel
-    IBOutlet NSPopUpButton *ruleContext;
-    IBOutlet NSSlider *ruleConfidenceSlider;
-}
+@interface RuleType ()
 
-+ (void)alertWithMessage:(NSString *)msg informativeText:(NSString *)infoText {
-    NSAlert *alert = [[NSAlert new] autorelease];
+@property (nonatomic,weak) IBOutlet NSPopUpButton *ruleContext;
+@property (nonatomic,weak) IBOutlet NSSlider *ruleConfidenceSlider;
+@property (nonatomic,weak) IBOutlet NSButton *negateRule;
+
+@end
+
+@implementation RuleType
+
++ (void)alertWithMessage:(NSString *)msg informativeText:(NSString *)infoText
+{
+    NSAlert *alert = [NSAlert new];
     [alert setMessageText:msg];
     [alert setInformativeText:infoText];
     [alert runModal];
 }
 
-+ (void)alertOnInvalidParamValueWith:(NSString *)msg {
++ (void)alertOnInvalidParamValueWith:(NSString *)msg
+{
     [self alertWithMessage:msg informativeText:NSLocalizedString(@"Provide a valid parameter value", @"")];
 }
 
-+ (NSString *)panelNibName {
++ (NSString *)panelNibName
+{
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
 }
 
-- (id)initWithEvidenceSource:(EvidenceSource *)src {
+- (id)initWithEvidenceSource:(EvidenceSource *)src
+{
 	if ([[self class] isEqualTo:[RuleType class]]) {
 		[NSException raise:@"Abstract Class Exception"
                     format:@"Error, attempting to instantiate RuleType directly."];
@@ -44,86 +53,99 @@
     }
 
     self = [super init];
-    if (!self) {
+    if (self == nil) {
         return nil;
     }
 
     _evidenceSource = src;
-    _panel = [[EvidenceSource getPanelFromNibNamed:nibName instantiatedWithOwner:self] retain];
-    if (!_panel) {
-        [self release];
+    _panel = [EvidenceSource getPanelFromNibNamed:nibName instantiatedWithOwner:self];
+    if (_panel == nil) {
+        self = nil;
         return nil;
     }
 
     return self;
 }
 
-- (void)dealloc {
-    [_panel release];
-
-    [super dealloc];
-}
-
-- (BOOL)validatePanelParams {
+- (BOOL)validatePanelParams
+{
     return YES;
 }
 
-- (IBAction)closeSheetWithOK:(id)sender {
+- (IBAction)closeSheetWithOK:(id)sender
+{
     if ([self validatePanelParams]) {
         [NSApp endSheet:self.panel returnCode:NSOKButton];
         [self.panel orderOut:nil];
     }
 }
 
-- (IBAction)closeSheetWithCancel:(id)sender {
+- (IBAction)closeSheetWithCancel:(id)sender
+{
 	[NSApp endSheet:self.panel returnCode:NSCancelButton];
 	[self.panel orderOut:nil];
 }
 
-- (NSString *)name {
+- (NSString *)name
+{
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
 }
 
-- (BOOL)doesRuleMatch:(NSMutableDictionary *)rule {
+- (BOOL)doesRuleMatch:(NSMutableDictionary *)rule
+{
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }
 
-- (void)readFromPanelInto:(NSMutableDictionary *)rule {
-    rule[@"context"] = [[ruleContext selectedItem] representedObject];
-    rule[@"confidence"] = @([ruleConfidenceSlider doubleValue]);
-    rule[@"negate"] = [NSNumber numberWithInteger:[self.negateRule state]];
+- (void)readFromPanelInto:(NSMutableDictionary *)rule
+{
+    NSPopUpButton *strongRuleContext = self.ruleContext;
+    NSSlider *strongRuleConfidenceSlider = self.ruleConfidenceSlider;
+    NSButton *strongNegateRule = self.negateRule;
+    
+    rule[@"context"] = [[strongRuleContext selectedItem] representedObject];
+    rule[@"confidence"] = @([strongRuleConfidenceSlider doubleValue]);
+    rule[@"negate"] = [NSNumber numberWithInteger:[strongNegateRule state]];
 }
 
-- (NSString *)getDefaultDescription:(NSDictionary *)rule {
+- (NSString *)getDefaultDescription:(NSDictionary *)rule
+{
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
 }
 
-- (BOOL)canAutoupdateDescription:(NSString *)description ofRule:(NSDictionary *)rule {
+- (BOOL)canAutoupdateDescription:(NSString *)description ofRule:(NSDictionary *)rule
+{
     return [description isEqualToString:[self getDefaultDescription:rule]];
 }
 
-- (void)setContextMenu:(NSMenu *)menu {
-    [ruleContext setMenu:menu];
+- (void)setContextMenu:(NSMenu *)menu
+{
+    NSPopUpButton *strongRuleContext = self.ruleContext;
+    [strongRuleContext setMenu:menu];
 }
 
-- (void)writeToPanel:(NSDictionary *)rule {
+- (void)writeToPanel:(NSDictionary *)rule
+{
     // Set up context selector
     id context = rule[@"context"];
-	if (context) {
-		[ruleContext selectItemAtIndex:[ruleContext indexOfItemWithRepresentedObject:context]];
-	}
-
-    // Set up confidence slider
-    id confidence = rule[@"confidence"];
-	if (confidence) {
-		[ruleConfidenceSlider setDoubleValue:[confidence doubleValue]];
+	if (context != nil) {
+        NSPopUpButton *strongRuleContext = self.ruleContext;
+		[strongRuleContext selectItemAtIndex:[strongRuleContext indexOfItemWithRepresentedObject:context]];
 	}
     
-    if (rule[@"negate"]) {
-        [self.negateRule setState:[rule[@"negate"] integerValue]];
+    // Set up confidence slider
+    id confidence = rule[@"confidence"];
+	if (confidence != nil) {
+        NSSlider *strongRuleConfidenceSlider = self.ruleConfidenceSlider;
+		[strongRuleConfidenceSlider setDoubleValue:[confidence doubleValue]];
+	}
+    
+    id negate = rule[@"negate"];
+    if (negate != nil) {
+        NSButton *strongNegateRule = self.negateRule;
+        [strongNegateRule setState:[negate integerValue]];
     }
 }
 
