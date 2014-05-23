@@ -4,6 +4,10 @@
 //
 //  Created by David Symonds on 3/07/07.
 //
+//  Modified by VladimirTechMan (Vladimir Beloborodov) on 23 May 2014. The code is reworked for ARC.
+//
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "ContextsDataSource.h"
 #import "CPController.h"
@@ -11,36 +15,38 @@
 #import "SliderWithValue.h"
 #import "SharedNumberFormatter.h"
 
-@interface Context () {
-    NSColor *_iconColor;
-}
+@interface Context ()
 
 // Transient
-@property (retain,nonatomic,readwrite) NSNumber *depth;
+@property (nonatomic,strong,readwrite) NSNumber *depth;
 
 @end
 
 @implementation Context
 
-@synthesize uuid = _uuid;
+@synthesize iconColor = _iconColor;
 
-- (id)init {
-	if (!(self = [super init])) {
+- (id)init
+{
+	self = [super init];
+    if (self == nil) {
 		return nil;
     }
-
+    
 	CFUUIDRef ref = CFUUIDCreate(NULL);
-	_uuid = (NSString *) CFUUIDCreateString(NULL, ref);
+	_uuid = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, ref);
 	CFRelease(ref);
-
+    
 	_parentUUID = [[NSString alloc] init];
 	_name = [_uuid copy];
-
+    
 	return self;
 }
 
-- (id)initWithDictionary:(NSDictionary *)dict {
-	if (!(self = [super init])) {
+- (id)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+	if (self == nil) {
 		return nil;
     }
 
@@ -49,39 +55,31 @@
 	_name = [dict[@"name"] copy];
 
     NSData *colorData = dict[@"iconColor"];
-    if (colorData) {
+    if (colorData != nil) {
         _iconColor = [(NSColor *) [NSUnarchiver unarchiveObjectWithData:colorData] copy];
     }
 
 	return self;
 }
 
-- (void)dealloc {
-	[_depth release];
-    [_confidence release];
-    [_iconColor release];
-	[_name release];
-	[_parentUUID release];
-    [_uuid release];
-
-	[super dealloc];
+- (NSColor *)iconColor
+{
+    return (_iconColor != nil) ? (_iconColor) : [NSColor blackColor];
 }
 
-- (NSColor *)iconColor {
-    return (_iconColor) ? (_iconColor) : [NSColor blackColor];
-}
-
-- (void)setIconColor:(NSColor *)iconColor {
-    [_iconColor autorelease];
+- (void)setIconColor:(NSColor *)iconColor
+{
     _iconColor = [iconColor copy];
 }
 
-- (BOOL)isRoot {
+- (BOOL)isRoot
+{
 	return ([self.parentUUID length] == 0);
 }
 
-- (NSDictionary *)dictionary {
-    if (!_iconColor || [_iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
+- (NSDictionary *)dictionary
+{
+    if ((_iconColor == nil) || [_iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
         return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name };
     }
 
@@ -89,64 +87,86 @@
     return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name, @"iconColor": colorData };
 }
 
-- (NSComparisonResult)compare:(Context *)ctxt {
+- (NSComparisonResult)compare:(Context *)ctxt
+{
 	return [self.name compare:[ctxt name]];
 }
 
 // Used by -[ContextsDataSource pathFromRootTo:]
-- (NSString *)description {
+- (NSString *)description
+{
 	return self.name;
 }
 
 @end
 
+
 #pragma mark -
 #pragma mark -
 
-@interface ContextsDataSource (Private)
+@implementation ContextsDataSource {
+	NSMutableDictionary *contexts;
+    
+    __weak IBOutlet NSButton *generalPreferencesEnableSwitching;
+    __weak IBOutlet NSButton *generalPreferencesStartAtLogin;
+    __weak IBOutlet NSButton *generalPreferencesUseNotifications;
+    __weak IBOutlet NSButton *generalPreferencesCheckForUpdates;
+    __weak IBOutlet NSButton *generalPreferencesHideFromStatusBar;
+    __weak IBOutlet NSPopUpButton *generalPreferencesShowInStatusBar;
+    __weak IBOutlet NSButton *generalPreferencesSwitchSmoothing;
+    __weak IBOutlet NSButton *generalPreferencesRestorePreviousContext;
+    __weak IBOutlet NSButton *generalPreferencesUseDefaultContextTextField;
+    __weak IBOutlet NSTextField *generalPreferencesCRtSTextField;
+    __weak IBOutlet SliderWithValue *generalPreferencesConfidenceSlider;
+    
+	// shouldn't _really_ be here
+	__weak IBOutlet NSOutlineView *outlineView;
+	Context *selection;
+    
+	__weak IBOutlet NSWindow *prefsWindow;
+    
+	__weak IBOutlet NSPanel *newContextSheet;
+	__weak IBOutlet NSTextField *newContextSheetName;
+    __weak IBOutlet NSColorWell *newContextSheetColor;
+    __weak IBOutlet NSButton *newContextSheetColorPreviewEnabled;
+}
 
-- (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-
-@end
-
-@implementation ContextsDataSource
-
-+ (void)initialize {
++ (void)initialize
+{
 	[self exposeBinding:@"selection"];	// outlineView selection binding proxy
 }
 
-- (id)init {
-	if (!(self = [super init]))
+- (id)init
+{
+	self = [super init];
+    if (self == nil) {
 		return nil;
+    }
 
 	contexts = [[NSMutableDictionary alloc] init];
 	[self loadContexts];
 
 	// Make sure we get to save out the contexts
 	[[NSNotificationCenter defaultCenter] addObserver:self
-						 selector:@selector(saveContexts:)
-						     name:NSApplicationWillTerminateNotification
-						   object:nil];
+                                             selector:@selector(saveContexts:)
+                                                 name:NSApplicationWillTerminateNotification
+                                               object:nil];
 
 	return self;
 }
 
-- (void)dealloc {
-	[contexts release];
-
-	[super dealloc];
-}
-
 static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
 	// register for drag and drop
-	[outlineView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
-
+    NSOutlineView *strongOutlineView = outlineView;
+	[strongOutlineView registerForDraggedTypes:[NSArray arrayWithObject:MovedRowsType]];
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self
-						 selector:@selector(triggerOutlineViewReloadData:)
-						     name:@"ContextsChangedNotification"
-						   object:self];
+                                             selector:@selector(triggerOutlineViewReloadData:)
+                                                 name:@"ContextsChangedNotification"
+                                               object:self];
     /*
      IBOutlet NSButton *generalPreferencesEnableSwitching;
      IBOutlet NSButton *generalPreferencesStartAtLogin;
@@ -160,32 +180,47 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
      IBOutlet NSTextField *generalPreferencesCRtSTextField;
      IBOutlet SliderWithValue *generalPreferencesConfidenceSlider;
      */
-    [generalPreferencesEnableSwitching setToolTip:NSLocalizedString(@"Check this option if you want ControlPlane to automatically switch to the context it is most confident about as configured by the 'Confidence required to switch' slider.", @"")];
+    NSButton *strongGeneralPreferencesEnableSwitching = generalPreferencesEnableSwitching;
+    [strongGeneralPreferencesEnableSwitching setToolTip:NSLocalizedString(@"Check this option if you want ControlPlane to automatically switch to the context it is most confident about as configured by the 'Confidence required to switch' slider.", @"")];
     
-    [generalPreferencesStartAtLogin setToolTip:NSLocalizedString(@"Check this option if you want ControlPlane to start when you login.", @"")];
+    NSButton *strongGeneralPreferencesStartAtLogin = generalPreferencesStartAtLogin;
+    [strongGeneralPreferencesStartAtLogin setToolTip:NSLocalizedString(@"Check this option if you want ControlPlane to start when you login.", @"")];
     
-    [generalPreferencesUseNotifications setToolTip:NSLocalizedString(@"Check this option if you want to ControlPlane to issue notifications.  If checked, Growl will be used on system's older than 10.8 and Notification Center will be used on systems 10.8 or newer.", @"")];
+    NSButton *strongGeneralPreferencesUseNotifications = generalPreferencesUseNotifications;
+    [strongGeneralPreferencesUseNotifications setToolTip:NSLocalizedString(@"Check this option if you want to ControlPlane to issue notifications.  If checked, Growl will be used on system's older than 10.8 and Notification Center will be used on systems 10.8 or newer.", @"")];
     
-    [generalPreferencesCheckForUpdates setToolTip:NSLocalizedString(@"If checked, ControlPlane will check for updates when it starts.", @"")];
+    NSButton *strongGeneralPreferencesCheckForUpdates = generalPreferencesCheckForUpdates;
+    [strongGeneralPreferencesCheckForUpdates setToolTip:NSLocalizedString(@"If checked, ControlPlane will check for updates when it starts.", @"")];
     
-    [generalPreferencesHideFromStatusBar setToolTip:NSLocalizedString(@"If enabled ControlPlane's menu bar icon will be hidden after a period of time.  To make the icon visible again relaunch ControlPlane.", @"")];
+    NSButton *strongGeneralPreferencesHideFromStatusBar = generalPreferencesHideFromStatusBar;
+    [strongGeneralPreferencesHideFromStatusBar setToolTip:NSLocalizedString(@"If enabled ControlPlane's menu bar icon will be hidden after a period of time.  To make the icon visible again relaunch ControlPlane.", @"")];
     
-    [generalPreferencesShowInStatusBar setToolTip:NSLocalizedString(@"Select the information you want shown in the menu bar", @"")];
+    NSPopUpButton *strongGeneralPreferencesShowInStatusBar = generalPreferencesShowInStatusBar;
+    [strongGeneralPreferencesShowInStatusBar setToolTip:NSLocalizedString(@"Select the information you want shown in the menu bar", @"")];
     
-    [generalPreferencesSwitchSmoothing setToolTip:NSLocalizedString(@"If enabled ControlPlane will allow two rule check cycles to be performed before switching to the most confident context.  Use this option if ControlPlane switches contexts too often or too quickly.", @"")];
+    NSButton *strongGeneralPreferencesSwitchSmoothing = generalPreferencesSwitchSmoothing;
+    [strongGeneralPreferencesSwitchSmoothing setToolTip:NSLocalizedString(@"If enabled ControlPlane will allow two rule check cycles to be performed before switching to the most confident context.  Use this option if ControlPlane switches contexts too often or too quickly.", @"")];
     
-    [generalPreferencesRestorePreviousContext setToolTip:NSLocalizedString(@"Enable this option if you want ControlPlane to move to context it was at before it was last quit.  This only affects ControlPlane's behavior when the app is started and it wasn't previously running.  To perform actions on sleep or wake use the Sleep/Wake Evidence Source.", @"")];
-    [generalPreferencesUseDefaultContextTextField setToolTip:NSLocalizedString(@"Enable this option to cause ControlPlane to move to the selected context when it is unable to determine a better context.", @"")];
+    NSButton *strongGeneralPreferencesRestorePreviousContext = generalPreferencesRestorePreviousContext;
+    [strongGeneralPreferencesRestorePreviousContext setToolTip:NSLocalizedString(@"Enable this option if you want ControlPlane to move to context it was at before it was last quit.  This only affects ControlPlane's behavior when the app is started and it wasn't previously running.  To perform actions on sleep or wake use the Sleep/Wake Evidence Source.", @"")];
+    
+    NSButton *strongGeneralPreferencesUseDefaultContextTextField = generalPreferencesUseDefaultContextTextField;
+    [strongGeneralPreferencesUseDefaultContextTextField setToolTip:NSLocalizedString(@"Enable this option to cause ControlPlane to move to the selected context when it is unable to determine a better context.", @"")];
     
     NSString *confidenceToolTip = NSLocalizedString(@"Based on the rules you configure, ControlPlane will calculate how confident it is that a given set of rules match the context they are configured for.  This slider defines how confident ControlPlane needs to be to switch to that context.",@"");
-    [generalPreferencesConfidenceSlider setToolTip:confidenceToolTip];
-    [generalPreferencesCRtSTextField setToolTip:confidenceToolTip];
+    
+    SliderWithValue *strongGeneralPreferencesConfidenceSlider = generalPreferencesConfidenceSlider;
+    [strongGeneralPreferencesConfidenceSlider setToolTip:confidenceToolTip];
+    
+    NSTextField *strongGeneralPreferencesCRtSTextField = generalPreferencesCRtSTextField;
+    [strongGeneralPreferencesCRtSTextField setToolTip:confidenceToolTip];
 }
 
 // Private
-- (void)postContextsChangedNotification {
+- (void)postContextsChangedNotification
+{
 	[self saveContexts:self];		// make sure they're saved
-
+    
     @try {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ContextsChangedNotification" object:self];    
     }
@@ -229,13 +264,13 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 #pragma mark -
 
-- (void)loadContexts {
+- (void)loadContexts
+{
 	[contexts removeAllObjects];
 
 	for (NSDictionary *dict in [[NSUserDefaults standardUserDefaults] objectForKey:@"Contexts"]) {
 		Context *ctxt = [[Context alloc] initWithDictionary:dict];
 		[contexts setValue:ctxt forKey:[ctxt uuid]];
-		[ctxt release];
     }
 
 	// Check consistency of parent UUIDs; drop the parent UUID if it is invalid
@@ -264,13 +299,13 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (void)updateConfidencesFromGuesses:(NSDictionary *)guesses {
     [contexts enumerateKeysAndObjectsUsingBlock:^(NSString *uuid, Context *ctxt, BOOL *stop) {
 		NSNumber *conf = guesses[uuid];
-        ctxt.confidence = (conf) ? (conf) : (@0);
+        ctxt.confidence = (conf != nil) ? (conf) : (@0);
     }];
 
 	// XXX: hackish -- but will be enough until 3.0
     // don't force data update if we're editing a context name
 	NSOutlineView *olv = [self valueForKey:@"outlineView"];
-	if (![olv currentEditor]) {
+	if ([olv currentEditor] == nil) {
         [self triggerOutlineViewReloadData:nil];
     }
 }
@@ -278,42 +313,54 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark -
 #pragma mark Context creation via sheet
 
-- (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI {
-	Context *ctxt = [[[Context alloc] init] autorelease];
+- (Context *)createContextWithName:(NSString *)name fromUI:(BOOL)fromUI
+{
+	NSOutlineView *strongOutlineView = outlineView;
+    
+    Context *ctxt = [[Context alloc] init];
     ctxt.name = name;
     if (fromUI) {
-        ctxt.iconColor = [newContextSheetColor color];
+        NSColorWell *strongNewContextSheetColor = newContextSheetColor;
+        ctxt.iconColor = [strongNewContextSheetColor color];
     }
-
+    
 	// Look for parent
-	if (fromUI && ([outlineView selectedRow] >= 0)) {
-        ctxt.parentUUID = [(Context *) [outlineView itemAtRow:[outlineView selectedRow]] uuid];
+	if (fromUI && ([strongOutlineView selectedRow] >= 0)) {
+        ctxt.parentUUID = [(Context *)[strongOutlineView itemAtRow:[strongOutlineView selectedRow]] uuid];
     } else {
         ctxt.parentUUID = @"";
     }
-
+    
     contexts[ctxt.uuid] = ctxt;
-
+    
 	[self recomputeTransientData];
 	[self postContextsChangedNotification];
-
+    
 	if (fromUI) {
         if (![ctxt isRoot]) {
-			[outlineView expandItem:contexts[ctxt.parentUUID]];
+			[strongOutlineView expandItem:contexts[ctxt.parentUUID]];
         }
-		[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[outlineView rowForItem:ctxt]] byExtendingSelection:NO];
+		[strongOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:[strongOutlineView rowForItem:ctxt]]
+                       byExtendingSelection:NO];
 		[self outlineViewSelectionDidChange:nil];
-	} else
-		[outlineView reloadData];
-
+	} else {
+		[strongOutlineView reloadData];
+    }
+    
 	return ctxt;
 }
 
 - (IBAction)newContextPromptingForName:(id)sender {
-	[newContextSheetName setStringValue:NSLocalizedString(@"New context", @"Default value for new context names")];
-	[newContextSheetName selectText:nil];
-    [newContextSheetColor setColor:[NSColor blackColor]];
-    [newContextSheetColorPreviewEnabled setIntValue:0];
+    NSTextField *strongNewContextSheetName = newContextSheetName;
+	[strongNewContextSheetName setStringValue:NSLocalizedString(@"New context",
+                                                                @"Default value for new context names")];
+	[strongNewContextSheetName selectText:nil];
+    
+    NSColorWell *strongNewContextSheetColor = newContextSheetColor;
+    [strongNewContextSheetColor setColor:[NSColor blackColor]];
+    
+    NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
+    [strongNewContextSheetColorPreviewEnabled setIntValue:0];
 
 	[NSApp beginSheet:newContextSheet
 	   modalForWindow:prefsWindow
@@ -324,42 +371,53 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 // Triggered by OK button
 - (IBAction)newContextSheetAccepted:(id)sender {
-	[NSApp endSheet:newContextSheet returnCode:NSOKButton];
-	[newContextSheet orderOut:nil];
+	NSPanel *strongNewContextSheet = newContextSheet;
+    [NSApp endSheet:strongNewContextSheet returnCode:NSOKButton];
+	[strongNewContextSheet orderOut:nil];
 }
 
 // Triggered by cancel button
 - (IBAction)newContextSheetRejected:(id)sender {
-	[NSApp endSheet:newContextSheet returnCode:NSCancelButton];
-	[newContextSheet orderOut:nil];
+	NSPanel *strongNewContextSheet = newContextSheet;
+	[NSApp endSheet:strongNewContextSheet returnCode:NSCancelButton];
+	[strongNewContextSheet orderOut:nil];
 }
 
-// Private
-- (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if ([newContextSheetColorPreviewEnabled intValue]) {
-        [newContextSheetColorPreviewEnabled setIntValue:0];
+- (void)newContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
+    if ([strongNewContextSheetColorPreviewEnabled intValue]) {
+        [strongNewContextSheetColorPreviewEnabled setIntValue:0];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewFinished" object:nil];
     }
-
+    
 	if (returnCode != NSOKButton) {
 		return;
     }
-
-	[self createContextWithName:[newContextSheetName stringValue] fromUI:YES];
+    
+    NSTextField *strongNewContextSheetName = newContextSheetName;
+	[self createContextWithName:[strongNewContextSheetName stringValue] fromUI:YES];
 }
 
-- (IBAction)editSelectedContext:(id)sender {
-	NSInteger row = [outlineView selectedRow];
+- (IBAction)editSelectedContext:(id)sender
+{
+    NSOutlineView *strongOutlineView = outlineView;
+	NSInteger row = [strongOutlineView selectedRow];
 	if (row < 0) {
 		return;
     }
 
-	Context *ctxt = (Context *) [outlineView itemAtRow:row];
+	Context *ctxt = (Context *)[strongOutlineView itemAtRow:row];
 
-	[newContextSheetName setStringValue:ctxt.name];
-	[newContextSheetName selectText:nil];
-    [newContextSheetColor setColor:(ctxt.iconColor) ? (ctxt.iconColor) : ([NSColor blackColor])];
-    [newContextSheetColorPreviewEnabled setIntValue:0];
+    NSTextField *strongNewContextSheetName = newContextSheetName;
+	[strongNewContextSheetName setStringValue:ctxt.name];
+	[strongNewContextSheetName selectText:nil];
+    
+    NSColorWell *strongNewContextSheetColor = newContextSheetColor;
+    [strongNewContextSheetColor setColor:(ctxt.iconColor) ? (ctxt.iconColor) : ([NSColor blackColor])];
+    
+    NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
+    [strongNewContextSheetColorPreviewEnabled setIntValue:0];
 
 	[NSApp beginSheet:newContextSheet
 	   modalForWindow:prefsWindow
@@ -368,31 +426,37 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	      contextInfo:nil];
 }
 
-- (void)editContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if ([newContextSheetColorPreviewEnabled intValue]) {
-        [newContextSheetColorPreviewEnabled setIntValue:0];
+- (void)editContextSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    NSOutlineView *strongOutlineView = outlineView;
+    NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
+    if ([strongNewContextSheetColorPreviewEnabled intValue]) {
+        [strongNewContextSheetColorPreviewEnabled setIntValue:0];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewFinished" object:nil];
     }
-
+    
 	if (returnCode != NSOKButton) {
 		return;
     }
-
-	NSInteger row = [outlineView selectedRow];
+    
+	NSInteger row = [strongOutlineView selectedRow];
 	if (row < 0) {
 		return;
     }
-
-	Context *ctxt = (Context *) [outlineView itemAtRow:row];
-    ctxt.name = [newContextSheetName stringValue];
-    ctxt.iconColor = [newContextSheetColor color];
-
+    
+	Context *ctxt = (Context *)[strongOutlineView itemAtRow:row];
+    
+    NSTextField *strongNewContextSheetName = newContextSheetName;
+    ctxt.name = [strongNewContextSheetName stringValue];
+    
+    NSColorWell *strongNewContextSheetColor = newContextSheetColor;
+    ctxt.iconColor = [strongNewContextSheetColor color];
+    
 	[self postContextsChangedNotification];
 }
 
 #pragma mark -
 
-// Private
 - (NSArray *)childrenOfContext:(NSString *)uuid {
 	if (!uuid) {
 		uuid = @"";
@@ -411,22 +475,20 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return arr;
 }
 
-// Private: Make sure you call [outlineView reloadData] after this!
 - (void)removeContextRecursively:(NSString *)uuid {
-	NSEnumerator *en = [[self childrenOfContext:uuid] objectEnumerator];
-	Context *ctxt;
-	while ((ctxt = [en nextObject]))
+	for (Context *ctxt in [self childrenOfContext:uuid]) {
 		[self removeContextRecursively:[ctxt uuid]];
+    }
 
 	[contexts removeObjectForKey:uuid];
 }
 
-// Private
 - (void)removeContextAfterAlert:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	Context *ctxt = (Context *) contextInfo;
+	Context *ctxt = (__bridge Context *)contextInfo;
 
-	if (returnCode != NSAlertFirstButtonReturn)
+	if (returnCode != NSAlertFirstButtonReturn) {
 		return;		// cancelled
+    }
 
 	[self removeContextRecursively:[ctxt uuid]];
 
@@ -436,34 +498,40 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 - (IBAction)onIconColorChange:(id)sender {
-    if ([newContextSheetColorPreviewEnabled intValue]) {
+    NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
+    if ([strongNewContextSheetColorPreviewEnabled intValue]) {
+        NSColorWell *strongNewContextSheetColor = newContextSheetColor;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewRequested"
                                                             object:nil
-                                                          userInfo:@{ @"color": [newContextSheetColor color] }];
+                                                          userInfo:@{ @"color": [strongNewContextSheetColor color] }];
     }
 }
 
 - (IBAction)onColorPreviewModeChange:(id)sender {
-    if ([newContextSheetColorPreviewEnabled intValue]) {
+    NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
+    if ([strongNewContextSheetColorPreviewEnabled intValue]) {
+        NSColorWell *strongNewContextSheetColor = newContextSheetColor;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewRequested"
                                                             object:nil
-                                                          userInfo:@{ @"color": [newContextSheetColor color] }];
+                                                          userInfo:@{ @"color": [strongNewContextSheetColor color] }];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"iconColorPreviewFinished" object:nil];
     }
 }
 
-- (IBAction)removeContext:(id)sender {
-	NSInteger row = [outlineView selectedRow];
+- (IBAction)removeContext:(id)sender
+{
+    NSOutlineView *strongOutlineView = outlineView;
+	NSInteger row = [strongOutlineView selectedRow];
 	if (row < 0) {
 		return;
     }
 
-	Context *ctxt = (Context *) [outlineView itemAtRow:row];
+	Context *ctxt = (Context *)[strongOutlineView itemAtRow:row];
 
 	if ([[self childrenOfContext:[ctxt uuid]] count] > 0) {
 		// Warn about destroying child contexts
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		NSAlert *alert = [[NSAlert alloc] init];
 		[alert setAlertStyle:NSWarningAlertStyle];
 		[alert setMessageText:NSLocalizedString(@"Removing this context will also remove its child contexts!", "")];
 		[alert setInformativeText:NSLocalizedString(@"This action is not undoable!", @"")];
@@ -473,7 +541,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		[alert beginSheetModalForWindow:prefsWindow
 				  modalDelegate:self
 				 didEndSelector:@selector(removeContextAfterAlert:returnCode:contextInfo:)
-				    contextInfo:ctxt];
+				    contextInfo:(__bridge void *)ctxt];
 		return;
 	}
 
@@ -581,10 +649,11 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return [rev_walk componentsJoinedByString:@"/"];
 }
 
-- (NSMenu *)hierarchicalMenu {
-	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+- (NSMenu *)hierarchicalMenu
+{
+	NSMenu *menu = [[NSMenu alloc] init];
 	for (Context *ctxt in [self orderedTraversal]) {
-		NSMenuItem *item = [[[NSMenuItem alloc] init] autorelease];
+		NSMenuItem *item = [[NSMenuItem alloc] init];
 		[item setTitle:ctxt.name];
 		[item setIndentationLevel:[ctxt.depth intValue]];
 		[item setRepresentedObject:ctxt.uuid];
@@ -644,8 +713,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (void)outlineView:(NSOutlineView *)olv
      setObjectValue:(id)object
      forTableColumn:(NSTableColumn *)tableColumn
-             byItem:(id)item {
-
+             byItem:(id)item
+{
 	if (![[tableColumn identifier] isEqualToString:@"context"])
 		return;
 
@@ -681,8 +750,8 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (NSDragOperation)outlineView:(NSOutlineView *)olv
                   validateDrop:(id <NSDraggingInfo>)info
                   proposedItem:(id)item
-            proposedChildIndex:(int)index {
-
+            proposedChildIndex:(int)index
+{
 	// Only support internal drags (i.e. moves)
 	if ([info draggingSource] != outlineView)
 		return NSDragOperationNone;
@@ -712,15 +781,18 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 #pragma mark NSOutlineView delegate methods
 
 - (void)triggerOutlineViewReloadData:(NSNotification *)notification {
-	[outlineView reloadData];
+    NSOutlineView *strongOutlineView = outlineView;
+	[strongOutlineView reloadData];
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
 	Context *ctxt = nil;
-	NSInteger row = [outlineView selectedRow];
-	if (row >= 0)
-		ctxt = [outlineView itemAtRow:[outlineView selectedRow]];
-
+    NSOutlineView *strongOutlineView = outlineView;
+	NSInteger row = [strongOutlineView selectedRow];
+	if (row >= 0) {
+		ctxt = [strongOutlineView itemAtRow:[strongOutlineView selectedRow]];
+    }
+    
 	[self setValue:ctxt forKey:@"selection"];
 }
 
