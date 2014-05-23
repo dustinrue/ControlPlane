@@ -8,9 +8,7 @@
 #import "ContextsDataSource.h"
 
 
-@interface ContextSelectionButton : NSPopUpButton {
-	ContextsDataSource *contextsDataSource;
-}
+@interface ContextSelectionButton : NSPopUpButton
 
 - (void)setContextsDataSource:(ContextsDataSource *)dataSource;
 

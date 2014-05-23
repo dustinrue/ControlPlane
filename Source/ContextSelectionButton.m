@@ -7,23 +7,8 @@
 
 #import "ContextSelectionButton.h"
 
-
-@interface ContextSelectionButton (Private) 
-
-- (void)selectionChanged:(NSNotification *)notification;
-
-@end
-
-@implementation ContextSelectionButton
-
-- (id)init
-{
-	if (!(self = [super init]))
-		return nil;
-
-	contextsDataSource = nil;
-
-	return self;
+@implementation ContextSelectionButton {
+	ContextsDataSource *contextsDataSource;
 }
 
 - (void)setSelectedObject:(id)arg
@@ -55,8 +40,9 @@
 							      object:[self menu]];
 	}
 	[self setMenu:[contextsDataSource hierarchicalMenu]];
-	if (lastUUID)
+	if (lastUUID != nil) {
 		[self selectItemAtIndex:[self indexOfItemWithRepresentedObject:lastUUID]];
+    }
 	[[NSNotificationCenter defaultCenter] addObserver:self
 						 selector:@selector(selectionChanged:)
 						     name:NSMenuDidSendActionNotification

@@ -4,13 +4,11 @@
 //
 //  Created by David Symonds on 26/04/07.
 //
+//  Modified by VladimirTechMan (Vladimir Beloborodov) on 22 May 2014.
+//
 
+@interface PopButton : NSButton
 
-@interface PopButton : NSButton {
-	NSMenu *menu;
-}
-
-- (NSMenu *)menu;
-- (void)setMenu:(NSMenu *)theMenu;
+@property (nonatomic,strong) NSMenu *menu;
 
 @end
