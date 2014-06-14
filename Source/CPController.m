@@ -197,7 +197,6 @@ static NSSet *sharedActiveContexts = nil;
 
     
     if (!sharedActiveContexts) {
-        NSLog(@"wut");
         sharedActiveContexts = [NSSet set];
     }
     
@@ -1406,7 +1405,6 @@ static NSSet *sharedActiveContexts = nil;
 // determines if matching rules add up to the required confidence level
 // and initiates a switch from one context to another
 
-// TODO: allow multiple contexts to be active at once
 - (void)doUpdateForReal {
     BOOL changed = NO;
     NSArray *matchingRules = [self getRulesThatMatchAndSetChangeFlag:&changed];
@@ -1436,13 +1434,16 @@ static NSSet *sharedActiveContexts = nil;
     
     [contextsDataSource updateConfidencesFromGuesses:guesses];
     
-    if (forcedContextIsSticky) { // prevent switching contexts when the current one is forced and sticky
-        return;
-    }
+    
     
     if ([self useMultipleActiveContexts]) {
         [self changeActiveContextsBasedOnGuesses:guesses];
     } else {
+        // prevent switching contexts when the current one is forced and sticky
+        // this only makes sense for single active context mode
+        if (forcedContextIsSticky) {
+            return;
+        }
         // use the older style of context matching
         // of the guesses, which one has the highest confidence rating?
         Context *guessContext = [self getMostConfidentContext:guesses];
