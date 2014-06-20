@@ -13,9 +13,9 @@
 
 - (NSString *) description {
 	if (turnOn)
-		return NSLocalizedString(@"Preventing display sleep.", @"");
+		return NSLocalizedString(@"Preventing system sleep.", @"");
 	else
-		return NSLocalizedString(@"Allowing display sleep.", @"");
+		return NSLocalizedString(@"Allowing system sleep.", @"");
 }
 
 - (BOOL) execute: (NSString **) errorString {
@@ -27,7 +27,7 @@
     PreventSystemSleepActionStorage *assertionIdStorage = [PreventSystemSleepActionStorage sharedStorage];
     
     
-    if (turnOn && ![assertionIdStorage assertionID]) {
+    if (turnOn && ![assertionIdStorage assertionID] > 0) {
         //  NOTE: IOPMAssertionCreateWithName limits the string to 128 characters.
         CFStringRef reasonForActivity= CFSTR("ControlPlane is preventing system sleep");
         
@@ -38,11 +38,13 @@
         
         [assertionIdStorage setAssertionID:assertionID];
     }
-    else if (!turnOn && [assertionIdStorage assertionID]) {
+    else if (!turnOn && [assertionIdStorage assertionID] > 0) {
         assertionID = [assertionIdStorage assertionID];
         
         if (assertionID)
             success = IOPMAssertionRelease(assertionID);
+        
+        [assertionIdStorage setAssertionID:0];
     }
 	
 	
