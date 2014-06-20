@@ -406,6 +406,7 @@
 #import "LightEvidenceSource.h"
 #import "LaptopLidEvidenceSource.h"
 #import "MonitorEvidenceSource.h"
+#import "MountedVolumeEvidenceSource.h"
 #import "NetworkLinkEvidenceSource.h"
 #import "PowerEvidenceSource.h"
 #import "RunningApplicationEvidenceSource.h"
@@ -452,6 +453,7 @@
                         [DNSEvidenceSource class],
                         [LaptopLidEvidenceSource class],
 						[LightEvidenceSource class],
+                        [MountedVolumeEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
 						[PowerEvidenceSource class],
 						[RunningApplicationEvidenceSource class],

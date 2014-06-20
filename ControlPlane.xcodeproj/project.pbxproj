@@ -139,6 +139,7 @@
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
 		DAAA7FAB1953DE0500C06DBB /* PreventSystemSleepAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAA7FA91953DE0500C06DBB /* PreventSystemSleepAction.m */; };
+		DAAA7FAE1953E2C500C06DBB /* MountedVolumeEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAA7FAD1953E2C500C06DBB /* MountedVolumeEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
@@ -565,6 +566,8 @@
 		DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesAction.m; path = Source/MessagesAction.m; sourceTree = "<group>"; };
 		DAAA7FA91953DE0500C06DBB /* PreventSystemSleepAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreventSystemSleepAction.m; path = Source/PreventSystemSleepAction.m; sourceTree = "<group>"; };
 		DAAA7FAA1953DE0500C06DBB /* PreventSystemSleepAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreventSystemSleepAction.h; path = Source/PreventSystemSleepAction.h; sourceTree = "<group>"; };
+		DAAA7FAC1953E2C500C06DBB /* MountedVolumeEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MountedVolumeEvidenceSource.h; path = Source/MountedVolumeEvidenceSource.h; sourceTree = "<group>"; };
+		DAAA7FAD1953E2C500C06DBB /* MountedVolumeEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MountedVolumeEvidenceSource.m; path = Source/MountedVolumeEvidenceSource.m; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
 		DAB1A7E015C3776D00CF65E8 /* CPNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPNotifications.h; path = Source/CPNotifications.h; sourceTree = "<group>"; };
@@ -983,6 +986,8 @@
 				8D91F1F80C4772FF00D9FC0F /* LightEvidenceSource.m */,
 				8D5684B20C38711D00881E32 /* MonitorEvidenceSource.h */,
 				8D5684B30C38711D00881E32 /* MonitorEvidenceSource.m */,
+				DAAA7FAC1953E2C500C06DBB /* MountedVolumeEvidenceSource.h */,
+				DAAA7FAD1953E2C500C06DBB /* MountedVolumeEvidenceSource.m */,
 				8D2BAAAA0C56E26100A50777 /* NetworkLinkEvidenceSource.h */,
 				8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */,
 				8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */,
@@ -1547,6 +1552,7 @@
 				DA922E9D144FC95200920B40 /* ToggleInternetSharingAction.m in Sources */,
 				739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */,
 				732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */,
+				DAAA7FAE1953E2C500C06DBB /* MountedVolumeEvidenceSource.m in Sources */,
 				DD7D2539149C338300BE7C8B /* NSTimer+Invalidation.m in Sources */,
 				DA461C0C14C33E3C0019594A /* NSString+ShellScriptHelper.m in Sources */,
 				DA49AF6C14C3E0AB00D03D6A /* TogglePrinterSharingAction.m in Sources */,
