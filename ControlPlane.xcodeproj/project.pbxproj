@@ -138,6 +138,7 @@
 		DAA26B1517AB696100C585CF /* HostAvailability.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAA26B0E17AB653000C585CF /* HostAvailability.xib */; };
 		DAA9ABFF1595FDE700B84B05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAA9ABFE1595FDE700B84B05 /* README.md */; };
 		DAA9AC1B15961CDF00B84B05 /* MessagesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */; };
+		DAAA7FAB1953DE0500C06DBB /* PreventSystemSleepAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAA7FA91953DE0500C06DBB /* PreventSystemSleepAction.m */; };
 		DAAF16B11412D8A200F5D915 /* com.dustinrue.CPHelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; };
 		DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */; };
 		DAAF16B714131CDE00F5D915 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
@@ -562,6 +563,8 @@
 		DAA9ABFE1595FDE700B84B05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		DAA9AC1915961CDF00B84B05 /* MessagesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesAction.h; path = Source/MessagesAction.h; sourceTree = "<group>"; };
 		DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesAction.m; path = Source/MessagesAction.m; sourceTree = "<group>"; };
+		DAAA7FA91953DE0500C06DBB /* PreventSystemSleepAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreventSystemSleepAction.m; path = Source/PreventSystemSleepAction.m; sourceTree = "<group>"; };
+		DAAA7FAA1953DE0500C06DBB /* PreventSystemSleepAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreventSystemSleepAction.h; path = Source/PreventSystemSleepAction.h; sourceTree = "<group>"; };
 		DAAF16B41413174400F5D915 /* ToggleTimeMachineAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTimeMachineAction.h; path = Source/ToggleTimeMachineAction.h; sourceTree = "<group>"; };
 		DAAF16B51413174400F5D915 /* ToggleTimeMachineAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTimeMachineAction.m; path = Source/ToggleTimeMachineAction.m; sourceTree = "<group>"; };
 		DAB1A7E015C3776D00CF65E8 /* CPNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPNotifications.h; path = Source/CPNotifications.h; sourceTree = "<group>"; };
@@ -1163,6 +1166,8 @@
 				8D6762150C3B8D8D000B63EC /* NetworkLocationAction.m */,
 				DA0CAE6316C4813600EDE2C5 /* PreventDisplaySleepAction.h */,
 				DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */,
+				DAAA7FAA1953DE0500C06DBB /* PreventSystemSleepAction.h */,
+				DAAA7FA91953DE0500C06DBB /* PreventSystemSleepAction.m */,
 				8D71CB760C17C01700E56526 /* ScreenSaverPasswordAction.h */,
 				8D71CB770C17C01700E56526 /* ScreenSaverPasswordAction.m */,
 				8D3C85120CDD8546009DBCD9 /* ScreenSaverStartAction.h */,
@@ -1531,6 +1536,7 @@
 				DD8274F314115EE50098FA6E /* StartTimeMachineAction.m in Sources */,
 				DD8274F614116CC90098FA6E /* OpenURLAction.m in Sources */,
 				DD8274F91411748C0098FA6E /* LockKeychainAction.m in Sources */,
+				DAAA7FAB1953DE0500C06DBB /* PreventSystemSleepAction.m in Sources */,
 				DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */,
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
 				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,

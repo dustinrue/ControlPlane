@@ -241,6 +241,7 @@
 #import "OpenAndHideAction.h"
 #import "OpenURLAction.h"
 #import "PreventDisplaySleepAction.h"
+#import "PreventSystemSleepAction.h"
 #import "QuitApplicationAction.h"
 #import "ScreenSaverPasswordAction.h"
 #import "ScreenSaverStartAction.h"
@@ -304,6 +305,7 @@
 			   [OpenURLAction class],
 			   [QuitApplicationAction class],
                [PreventDisplaySleepAction class],
+               [PreventSystemSleepAction class],
 			   [ScreenSaverPasswordAction class],
 			   [ScreenSaverStartAction class],
 			   [ScreenSaverTimeAction class],
