@@ -28,18 +28,18 @@
     PreventDisplaySleepActionStorage *assertionIdStorage = [PreventDisplaySleepActionStorage sharedStorage];
     
     
-    if (turnOn) {
+    if (turnOn && ![assertionIdStorage assertionID]) {
         //  NOTE: IOPMAssertionCreateWithName limits the string to 128 characters.
         CFStringRef reasonForActivity= CFSTR("ControlPlane is preventing display sleep");
         
-        
+
         
         success = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
                                                        kIOPMAssertionLevelOn, reasonForActivity, &assertionID);
         
         [assertionIdStorage setAssertionID:assertionID];
     }
-    else {
+    else if (!turnOn && [assertionIdStorage assertionID]) {
         assertionID = [assertionIdStorage assertionID];
         
         if (assertionID)
