@@ -61,9 +61,9 @@
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:[contexts count]];
     
 	[contexts enumerateKeysAndObjectsUsingBlock:^(id key, Context *obj, BOOL *stop) {
-        NSLog(@"%@ - %@", key, [obj name]);
+
 		NSString *identifier = [obj name];
-        NSLog(@"Identifier %@", identifier);
+
 		NSString *desc = [obj name];
 		[array addObject:
          [NSDictionary dictionaryWithObjectsAndKeys:
