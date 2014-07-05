@@ -221,6 +221,7 @@
 
 #pragma mark -
 
+#import "ConnectBluetoothDeviceAction.h"
 #import "DefaultBrowserAction.h"
 #import "DefaultPrinterAction.h"
 #import "DesktopBackgroundAction.h"
@@ -286,6 +287,7 @@
     Gestalt(gestaltSystemVersionMinor, &minor);
     
 	classes = [[NSMutableArray alloc] initWithObjects:
+               [ConnectBluetoothDeviceAction class],
 			   [DefaultBrowserAction class],
                [DefaultPrinterAction class],
 			   [DesktopBackgroundAction class],

@@ -100,6 +100,7 @@
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
 		DA1E59D21673A039002D256D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1E59D11673A039002D256D /* Growl.framework */; };
 		DA1E59D41673A2F7002D256D /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DA1E59D11673A039002D256D /* Growl.framework */; };
+		DA2523BD1968601400F717FC /* ConnectBluetoothDeviceAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2523BC1968601400F717FC /* ConnectBluetoothDeviceAction.m */; };
 		DA2B4381152161C800E94A1D /* ToggleTFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */; };
 		DA2B4385152161D900E94A1D /* ToggleFTPAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2B4384152161D900E94A1D /* ToggleFTPAction.m */; };
 		DA312CA3156DD42E009C1389 /* BWQuincyUI.m in Sources */ = {isa = PBXBuildFile; fileRef = DA312CA2156DD42E009C1389 /* BWQuincyUI.m */; };
@@ -500,6 +501,8 @@
 		DA146F7F143F3C4000906DBF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CoreLocationRule.xib; sourceTree = "<group>"; };
 		DA16392513D4B14A00E3F421 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
 		DA1E59D11673A039002D256D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
+		DA2523BB1968601400F717FC /* ConnectBluetoothDeviceAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectBluetoothDeviceAction.h; path = Source/ConnectBluetoothDeviceAction.h; sourceTree = "<group>"; };
+		DA2523BC1968601400F717FC /* ConnectBluetoothDeviceAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectBluetoothDeviceAction.m; path = Source/ConnectBluetoothDeviceAction.m; sourceTree = "<group>"; };
 		DA2B437F152161C800E94A1D /* ToggleTFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleTFTPAction.h; path = Source/ToggleTFTPAction.h; sourceTree = "<group>"; };
 		DA2B4380152161C800E94A1D /* ToggleTFTPAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleTFTPAction.m; path = Source/ToggleTFTPAction.m; sourceTree = "<group>"; };
 		DA2B4383152161D900E94A1D /* ToggleFTPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleFTPAction.h; path = Source/ToggleFTPAction.h; sourceTree = "<group>"; };
@@ -1151,6 +1154,8 @@
 		DD8274ED14114D620098FA6E /* System Actions */ = {
 			isa = PBXGroup;
 			children = (
+				DA2523BB1968601400F717FC /* ConnectBluetoothDeviceAction.h */,
+				DA2523BC1968601400F717FC /* ConnectBluetoothDeviceAction.m */,
 				8DF5A45E0BC239B100CBEB4B /* DefaultPrinterAction.h */,
 				8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */,
 				8DA2F4120CE8630200F92D4D /* DesktopBackgroundAction.h */,
@@ -1523,6 +1528,7 @@
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
 				8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */,
 				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
+				DA2523BD1968601400F717FC /* ConnectBluetoothDeviceAction.m in Sources */,
 				8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */,
 				8DBB44980C530F7600064010 /* DSLogger.m in Sources */,
 				8D2BAAAD0C56E26200A50777 /* NetworkLinkEvidenceSource.m in Sources */,
