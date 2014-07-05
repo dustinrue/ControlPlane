@@ -49,7 +49,7 @@
 	
 	
 	// result
-	if (success != kIOReturnSuccess) {
+	if (success != kIOReturnSuccess && [assertionIdStorage assertionID] != 0) {
 		*errorString = @"Unable to enable/disable system sleep.";
 		return NO;
 	} else
@@ -92,8 +92,10 @@ static PreventSystemSleepActionStorage *sharedStorage;
 
 + (id) sharedStorage {
     @synchronized(self) {
-        if(sharedStorage == nil)
+        if(sharedStorage == nil) {
             sharedStorage = [[super allocWithZone:NULL] init];
+            sharedStorage.assertionID = 0;
+        }
     }
     return sharedStorage;
 }
