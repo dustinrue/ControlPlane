@@ -1792,6 +1792,7 @@ static NSSet *sharedActiveContexts = nil;
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
     [self showInStatusBar:self];
     [self startOrStopHidingFromStatusBar];
+    [prefsWindow makeKeyAndOrderFront:self];
 	return YES;
 }
 
