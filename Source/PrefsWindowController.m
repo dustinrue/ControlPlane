@@ -753,6 +753,7 @@ static NSString * const sizeParamPrefix = @"NSView Size Preferences/";
 	} else if ([klass conformsToProtocol:@protocol(ActionWithString)]) {
 		NSTextField *tf = (NSTextField *) newActionWindowParameterViewCurrentControl;
 		param = [tf stringValue];
+        desc = [tf stringValue];
 	} else {
 		NSLog(@"PANIC! Don't know how to get parameter!!!");
 		return;
