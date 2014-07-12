@@ -783,9 +783,7 @@ static NSSet *sharedActiveContexts = nil;
                 [_joinedContextPaths appendString:context.name]; //[contextsDataSource pathFromRootTo:context.uuid]];
              }
              self.currentContextPath=_joinedContextPaths;*/
-            NSSortDescriptor *sortKey=[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:TRUE];
-            NSArray *keyArray=[NSArray arrayWithObject:sortKey];
-            self.currentContextPath=[[self.activeContexts sortedArrayUsingDescriptors:keyArray] componentsJoinedByString:@" + "]; // sans context-paths, to conserve space. perhaps we'll add a pref to switch it on (above).
+            self.currentContextPath=[self currentContextAsString];
         }
         [self setStatusTitle:[self currentContextPath]];
     }
@@ -1989,6 +1987,18 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
             
         default:
             break;
+    }
+}
+
+- (NSString*) currentContextAsString {
+    if ([self useMultipleActiveContexts]) {
+        NSSortDescriptor *sortKey=[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:TRUE];
+        NSArray *keyArray=[NSArray arrayWithObject:sortKey];
+        NSArray* aca = [self.activeContexts sortedArrayUsingDescriptors:keyArray];
+        NSString* acas = [aca componentsJoinedByString:@" + "];
+        return acas;
+    } else {
+        return self.currentContextPath;
     }
 }
 @end
