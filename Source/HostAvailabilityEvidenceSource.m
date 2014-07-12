@@ -29,7 +29,7 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 #endif
     NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
     
-    BOOL hostIsReachable = ((flags & kSCNetworkFlagsReachable && flags & kSCNetworkFlagsTransientConnection) || (flags & kSCNetworkFlagsReachable && flags & kSCNetworkFlagsIsDirect)) ? YES:NO;
+    BOOL hostIsReachable = (flags & kSCNetworkFlagsReachable && !(flags & kSCNetworkFlagsTransientConnection)) ? YES:NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hostAvailabilityChanged" object:@{@"target" : [NSValue value:&target withObjCType:@encode(void *)], @"availability" : [NSNumber numberWithBool:hostIsReachable]}];
     
     [autoreleasePool release];
