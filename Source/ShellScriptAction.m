@@ -125,7 +125,7 @@
             return;
         }
         
-        DSLog(@"Finished to execute '%@'", pathCopy);
+        DSLog(@"Finished executing '%@'", pathCopy);
     };
     
     [task launch];
