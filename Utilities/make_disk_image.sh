@@ -38,7 +38,7 @@ fi
 codesign -v -vv $APP
 codesign -s "Developer ID Application: Dustin Rue" -vv $APP/Contents/Library/LaunchServices/com.dustinrue.CPHelperTool || exit 1
 codesign -s "Developer ID Application: Dustin Rue" -vv $APP/Contents/Library/LaunchServices/CPHelperInstallTool || exit 1
-codesign --deep -s "Developer ID Application: Dustin Rue" -vv $APP || exit 1
+codesign --deep -fs "Developer ID Application: Dustin Rue" -vv $APP/Contents/MacOS/ControlPlane || exit 1
 codesign -v -vv $APP
 
 # Create an initial disk image (32 megs)
