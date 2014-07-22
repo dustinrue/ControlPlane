@@ -46,7 +46,7 @@
         [volumeList setValue:mountedVolume forKey:mountedVolume];
     }
     
-    NSLog(@"%@", volumeList);
+    
     self.mountedVolumes = volumeList;
 
     if ([self.mountedVolumes count] > 0) {
@@ -55,7 +55,7 @@
     else {
         dataCollected = NO;
     }
-    NSLog(@"%@", self.mountedVolumes);
+
 }
 
 
@@ -82,7 +82,7 @@
 
 - (NSArray *)getSuggestions {
 
-    NSLog(@"%@", self.mountedVolumes);
+
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:[self.mountedVolumes count]];
     
 	[self.mountedVolumes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
