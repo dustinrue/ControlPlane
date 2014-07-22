@@ -200,14 +200,11 @@ static NSSet *sharedActiveContexts = nil;
         sharedActiveContexts = [NSSet set];
     }
     
-    NSLog(@"%@", sharedActiveContexts);
-    
     return sharedActiveContexts;
 }
 
 + (void) setSharedActiveContexts:(NSSet *) newActiveContexts {
     sharedActiveContexts = newActiveContexts;
-    NSLog(@"%@", sharedActiveContexts);
     return;
 }
 
