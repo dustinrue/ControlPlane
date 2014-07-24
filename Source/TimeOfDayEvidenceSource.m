@@ -152,6 +152,9 @@
 	if (![self parseParameter:[rule valueForKey:@"parameter"] intoDay:&day startTime:&startT endTime:&endT])
 		return NO;
 
+	if ([startT earlierDate:endT] == endT)  //cross-midnight rule
+		endT = [endT dateByAddingTimeInterval:(24 * 60 * 60)]; // +24 hours
+		
 	// Check day first
 	NSInteger dow = [now dayOfWeek];	// 0=Sunday, 1=Monday, etc.
 	if ([day isEqualToString:@"Any day"]) {
