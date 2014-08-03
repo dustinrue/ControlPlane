@@ -13,7 +13,7 @@
     BOOL goingToSleep;
 
 	// Sheet hooks
-	NSPanel *panel;
+	__unsafe_unretained NSPanel *panel;
 	IBOutlet NSPopUpButton *ruleContext;
 	IBOutlet NSSlider *ruleConfidenceSlider;
 	NSString *oldDescription;

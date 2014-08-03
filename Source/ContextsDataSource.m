@@ -123,7 +123,7 @@
 	__weak IBOutlet NSOutlineView *outlineView;
 	Context *selection;
     
-	__weak IBOutlet NSWindow *prefsWindow;
+	__unsafe_unretained IBOutlet NSWindow *prefsWindow;
     
 	__weak IBOutlet NSPanel *newContextSheet;
 	__weak IBOutlet NSTextField *newContextSheetName;
