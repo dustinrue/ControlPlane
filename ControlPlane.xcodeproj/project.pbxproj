@@ -534,6 +534,12 @@
 		DA648AEF1412C17A00532B2C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		DA69D7E017BD04C30062FBBC /* HostAvailabilityEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HostAvailabilityEvidenceSource.h; path = Source/HostAvailabilityEvidenceSource.h; sourceTree = "<group>"; };
 		DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HostAvailabilityEvidenceSource.m; path = Source/HostAvailabilityEvidenceSource.m; sourceTree = "<group>"; };
+		DA71076A199676A4002FCCC4 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/HostAvailability.xib; sourceTree = "<group>"; };
+		DA71076B199676B3002FCCC4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/HostAvailability.xib; sourceTree = "<group>"; };
+		DA71076C199676B6002FCCC4 /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
+		DA71076D199676B9002FCCC4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HostAvailability.xib; sourceTree = "<group>"; };
+		DA71076E199676BC002FCCC4 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
+		DA71076F199676BF002FCCC4 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPBonjourResolver.h; path = Source/CPBonjourResolver.h; sourceTree = "<group>"; };
 		DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPBonjourResolver.m; path = Source/CPBonjourResolver.m; sourceTree = "<group>"; };
@@ -558,12 +564,6 @@
 		DA9957E8160D4BA300AB3C7A /* StressTestEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StressTestEvidenceSource.h; path = Source/StressTestEvidenceSource.h; sourceTree = "<group>"; };
 		DA9957E9160D4BA300AB3C7A /* StressTestEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StressTestEvidenceSource.m; path = Source/StressTestEvidenceSource.m; sourceTree = "<group>"; };
 		DAA26B0D17AB653000C585CF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HostAvailability.xib; sourceTree = "<group>"; };
-		DAA26B0F17AB654200C585CF /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "da-DK"; path = "da-DK.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
-		DAA26B1017AB654300C585CF /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/HostAvailability.xib; sourceTree = "<group>"; };
-		DAA26B1117AB654400C585CF /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/HostAvailability.xib; sourceTree = "<group>"; };
-		DAA26B1217AB654400C585CF /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HostAvailability.xib; sourceTree = "<group>"; };
-		DAA26B1317AB654500C585CF /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-BR"; path = "pt-BR.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
-		DAA26B1417AB654700C585CF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/HostAvailability.xib"; sourceTree = "<group>"; };
 		DAA9ABFE1595FDE700B84B05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		DAA9AC1915961CDF00B84B05 /* MessagesAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessagesAction.h; path = Source/MessagesAction.h; sourceTree = "<group>"; };
 		DAA9AC1A15961CDF00B84B05 /* MessagesAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessagesAction.m; path = Source/MessagesAction.m; sourceTree = "<group>"; };
@@ -1693,12 +1693,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				DAA26B0D17AB653000C585CF /* en */,
-				DAA26B0F17AB654200C585CF /* da-DK */,
-				DAA26B1017AB654300C585CF /* de */,
-				DAA26B1117AB654400C585CF /* fr */,
-				DAA26B1217AB654400C585CF /* it */,
-				DAA26B1317AB654500C585CF /* pt-BR */,
-				DAA26B1417AB654700C585CF /* pt-PT */,
+				DA71076A199676A4002FCCC4 /* de */,
+				DA71076B199676B3002FCCC4 /* fr */,
+				DA71076C199676B6002FCCC4 /* da-DK */,
+				DA71076D199676B9002FCCC4 /* it */,
+				DA71076E199676BC002FCCC4 /* pt-BR */,
+				DA71076F199676BF002FCCC4 /* pt-PT */,
 			);
 			name = HostAvailability.xib;
 			path = Resources;
