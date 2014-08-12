@@ -195,7 +195,7 @@
     NSMutableArray *shebangArgs = [scriptName interpreterFromFile];
 	if (shebangArgs && [shebangArgs count] > 0) {
 		// get interpreter
-		interpreter = [shebangArgs objectAtIndex: 0];
+		interpreter = [[[shebangArgs objectAtIndex: 0] retain] autorelease];
 		[shebangArgs removeObjectAtIndex: 0];
 		
 		// and it's parameters
