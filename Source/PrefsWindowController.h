@@ -49,7 +49,7 @@
 - (IBAction)enableMultipleActiveContexts:(id)sender;
 - (IBAction)closeMultipleActiveContextsAlert:(id)sender;
 
-@property (nonatomic,weak) IBOutlet NSWindow *multipleActiveContextsNotification;
+@property (nonatomic,assign) IBOutlet NSWindow *multipleActiveContextsNotification;
 
 - (void)switchToViewFromToolbar:(NSToolbarItem *)item;
 - (void)switchToView:(NSString *)identifier;
