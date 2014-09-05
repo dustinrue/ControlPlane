@@ -52,14 +52,14 @@
                              identifier, @"identifier", name, @"name", nil]];
 	}
 
-	[lock lock];
-	[applications setArray:apps];
-	[self setDataCollected:[applications count] > 0];
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
-#ifdef DEBUG_MODE
-	DSLog(@"Running apps:\n%@", applications);
-#endif
-	[lock unlock];
+	@synchronized(self) {
+        [applications setArray:apps];
+        [self setDataCollected:[applications count] > 0];
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"evidenceSourceDataDidChange" object:nil];
+    #ifdef DEBUG_MODE
+        DSLog(@"Running apps:\n%@", applications);
+    #endif
+    }
 	
 	[apps release];
 }
@@ -69,7 +69,7 @@
 		return;
     }
 
-	// register for notifications
+	/* register for notifications
 	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
                                                            selector:@selector(doFullUpdate)
                                                                name:NSWorkspaceDidLaunchApplicationNotification
@@ -78,7 +78,13 @@
                                                            selector:@selector(doFullUpdate)
                                                                name:NSWorkspaceDidTerminateApplicationNotification
                                                              object:nil];
+     */
+    
+    [[NSWorkspace sharedWorkspace] addObserver:self forKeyPath:@"runningApplications" options:NSKeyValueObservingOptionNew context:nil];
 
+    /*
+     The system does not post this notification for background apps or for apps that have the LSUIElement key in their Info.plist file. If you want to know when all apps (including background apps) are launched or terminated, use key-value observing to monitor the value returned by the runningApplications method.
+     */
 	[self doFullUpdate];
 
 	running = YES;
@@ -157,6 +163,11 @@
 
 - (NSString *) friendlyName {
     return NSLocalizedString(@"Running Application", @"");
+}
+
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    [self doFullUpdate];
+    return;
 }
 
 @end
