@@ -1481,7 +1481,10 @@ static NSSet *sharedActiveContexts = nil;
     if ([self useDefaultContext] && ([self.activeContexts count] == 0 || [self defaultContextIsActive])) {
         [self applyDefaultContextTo:guesses];
         [contextsDataSource updateConfidencesFromGuesses:guesses];
-        [newActiveContexts addObject:[self getMostConfidentContext:guesses]];
+        if ([self getMostConfidentContext:guesses] != nil)
+            [newActiveContexts addObject:[self getMostConfidentContext:guesses]];
+        else
+            DSLog(@"couldn't use default context because getMostConfidentContext returned nil");
     }
     
 #ifdef DEBUG_MODE
