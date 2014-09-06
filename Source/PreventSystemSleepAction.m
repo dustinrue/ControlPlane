@@ -33,7 +33,7 @@
         
         
         
-        success = IOPMAssertionCreateWithName(kIOPMAssertionTypePreventSystemSleep,
+        success = IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleSystemSleep,
                                               kIOPMAssertionLevelOn, reasonForActivity, &assertionID);
         
         [assertionIdStorage setAssertionID:assertionID];
