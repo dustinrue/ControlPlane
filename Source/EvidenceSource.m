@@ -400,7 +400,7 @@
 #import "ContextEvidenceSource.h"
 #import "DNSEvidenceSource.h"
 #import "FireWireEvidenceSource.h"
-#import "HostAvailabilityEvidenceSource.h"
+//#import "HostAvailabilityEvidenceSource.h"
 #import "IPAddrEvidenceSource.h"
 #import "LaptopLidEvidenceSource.h"
 #import "LightEvidenceSource.h"
@@ -446,7 +446,7 @@
                         [MonitorEvidenceSource class],
                         [USBEvidenceSource class],
 						[AudioOutputEvidenceSource class],
-                        [HostAvailabilityEvidenceSource class],
+                        //[HostAvailabilityEvidenceSource class],
 						[BluetoothEvidenceSource class],
                         [BonjourEvidenceSource class],	
 						[CoreLocationSource class],
