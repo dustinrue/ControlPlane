@@ -18,7 +18,6 @@
 @interface ShellScriptEvidenceSource (Private)
 
 - (void) fileBrowseSheetFinished:(NSWindow*)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void) scriptTimer:(NSTimer *)theTimer;
 - (void) runScript:(NSString *)scriptName;
 - (void) doUpdate:(NSTimer *)theTimer;
 - (void) stopAllTasks;
@@ -120,6 +119,17 @@
         [self stopAllTasks];
         myTasks = [[tmpRules copy] retain];
         [tmpRules release];
+        if ([scriptResults count] > 0) {
+            [scriptResults release];
+        }
+        
+        
+        scriptResults = [[NSMutableDictionary alloc] initWithCapacity:[myTasks count]];
+        
+        // set that none of the tasks have a success result
+        for (NSDictionary * aTask in myTasks) {
+            [scriptResults setValue: [NSNumber numberWithBool: NO] forKey:[aTask valueForKey:@"parameter"]];
+        }
     }
 
     
@@ -148,31 +158,24 @@
             // refusing to do an interval of less than 5 seconds
             continue;
         }
-        tmp = [NSTimer scheduledTimerWithTimeInterval:interval
-                                               target:self
-                                             selector:@selector(scriptTimer:)
-                                             userInfo:[currentTask valueForKey:@"parameter"]
-                                              repeats:YES];
+        NSMethodSignature *taskSignature = [self methodSignatureForSelector:@selector(runScript:)];
+        DSLog(@"%@", taskSignature);
+        NSInvocation *taskInvocation = [NSInvocation invocationWithMethodSignature:taskSignature];
+        [taskInvocation setTarget:self];
+        [taskInvocation setSelector:@selector(runScript:)];
+        NSString *taskArgument = [currentTask valueForKey:@"parameter"];
+        [taskInvocation setArgument:&taskArgument atIndex:2];
+        
+        tmp = [NSTimer scheduledTimerWithTimeInterval:interval invocation:taskInvocation repeats:YES];
+
         [taskTimers setObject:tmp forKey:[currentTask valueForKey:@"parameter"]];
-        [self runScript:[currentTask valueForKey:@"parameter"]];
+        [taskInvocation invoke];
     }
 
-    if ([scriptResults count] > 0) {
-        [scriptResults release];
-    }
     
-
-    scriptResults = [[NSMutableDictionary alloc] initWithCapacity:[myTasks count]];
-    
-    // set that none of the tasks have a success result
-    for (NSDictionary * aTask in myTasks) {
-        [scriptResults setValue: [NSNumber numberWithBool: NO] forKey:[aTask valueForKey:@"parameter"]];
-    }
 }
 
-- (void) scriptTimer:(NSTimer *)theTimer {
-    [self runScript:(NSString *)[theTimer userInfo]];
-}
+
 
 - (void) runScript:(NSString *)scriptName {
 
@@ -265,6 +268,11 @@
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
+    [self getRuleList];
+    DSLog(@"timers: %@", taskTimers);
+    [taskTimers enumerateKeysAndObjectsUsingBlock:^(id key, NSTimer * obj, BOOL *stop) {
+        DSLog(@"timer info: %f", [obj timeInterval]);
+    }];
     return [[scriptResults valueForKey:[rule valueForKey:@"parameter"]] boolValue];
 }
 
