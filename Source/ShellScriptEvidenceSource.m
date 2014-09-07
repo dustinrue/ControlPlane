@@ -72,6 +72,11 @@
     // rules can be configured immediately
     [self setDataCollected:true];
     running = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(getRuleList)
+												 name:NSUserDefaultsDidChangeNotification
+											   object:nil];
 }
 
 - (void)stop {        
@@ -81,6 +86,8 @@
 
     [self setDataCollected: NO];
     running = NO;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
 }
 
 - (void)stopAllTasks {
@@ -268,11 +275,6 @@
 }
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule {
-    [self getRuleList];
-    DSLog(@"timers: %@", taskTimers);
-    [taskTimers enumerateKeysAndObjectsUsingBlock:^(id key, NSTimer * obj, BOOL *stop) {
-        DSLog(@"timer info: %f", [obj timeInterval]);
-    }];
     return [[scriptResults valueForKey:[rule valueForKey:@"parameter"]] boolValue];
 }
 
@@ -335,8 +337,6 @@
 // If this evidence source is running it wants to immediately
 // fetch rules so the tasks can be started
 - (BOOL)isRunning {
-    if (running) 
-        [self getRuleList];
 	return running;
 }
 
