@@ -15,7 +15,7 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-	if (![self isEnabled] || (_menu == nil)) {
+	if (![self isEnabled] || (self.menu == nil)) {
 		return;
     }
     
@@ -32,7 +32,7 @@
                                         pressure:[theEvent pressure]];
     
 	[self highlight:YES];
-	[NSMenu popUpContextMenu:_menu withEvent:event forView:self];
+	[NSMenu popUpContextMenu:self.menu withEvent:event forView:self];
 	[self highlight:NO];
 }
 

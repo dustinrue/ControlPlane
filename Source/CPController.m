@@ -211,7 +211,6 @@ static NSSet *sharedActiveContexts = nil;
 // Helper: Load a named image, and scale it to be suitable for menu bar use.
 - (NSImage *)prepareImageForMenubar:(NSString *)name {
 	NSImage *img = [NSImage imageNamed:name];
-	[img setScalesWhenResized:YES];
     // TODO: provide images for retina displays
 	[img setSize:NSMakeSize(18, 18)];
 

@@ -14,7 +14,7 @@
 // current context property
 
 - (NSString *) currentContext {
-	return [[NSApp delegate] currentContextAsString];
+	return [(CPController *)[NSApp delegate] currentContextAsString];
 }
 
 - (void) setCurrentContext: (NSString*) newContext {
@@ -30,7 +30,7 @@
 // sticky property
 
 - (NSNumber *) sticky {
-	return [NSNumber numberWithBool: [[NSApp delegate] stickyContext]];
+	return [NSNumber numberWithBool: [(CPController *)[NSApp delegate] stickyContext]];
 }
 
 - (void) setSticky: (NSNumber *) sticky {
