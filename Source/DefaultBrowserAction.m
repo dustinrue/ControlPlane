@@ -22,6 +22,7 @@
 		return nil;
 	
 	app = [[NSString alloc] init];
+    [self setControlPlaneAsURLHandler];
 	
 	return self;
 }
@@ -32,6 +33,8 @@
 		return nil;
 	
 	app = [[dict valueForKey: @"parameter"] copy];
+    [self setControlPlaneAsURLHandler];
+
 	
 	return self;
 }
@@ -42,6 +45,7 @@
 		return nil;
 	
 	app = [option copy];
+    [self setControlPlaneAsURLHandler];
 	
 	return self;
 }
@@ -49,6 +53,22 @@
 - (void) dealloc {
 	[app release];
 	[super dealloc];
+}
+
+- (void) setControlPlaneAsURLHandler {
+    NSString *currentSystemBrowser = (NSString *)LSCopyDefaultHandlerForURLScheme((CFStringRef) @"http");
+    
+    if (![[currentSystemBrowser lowercaseString] isEqualToString:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:NSLocalizedString(@"You are adding or have triggered a Default Browser Action but ControlPlane is not currently set as the system wide default web browser. For the Default Browser Action feature to work properly ControlPlane must be set as the system's default web browser. ControlPlane will take the URL and then pass it to the browser of your choice. You may be asked to confirm this choice if you are using OS X 10.10 (Yosemite) or higher. Please select 'Use ControlPlane' if prompted." , @"")];
+        [alert runModal];
+        [alert release];
+        LSSetDefaultHandlerForURLScheme((CFStringRef) @"http", (CFStringRef) [[NSBundle mainBundle] bundleIdentifier]);
+        LSSetDefaultHandlerForURLScheme((CFStringRef) @"https", (CFStringRef) [[NSBundle mainBundle] bundleIdentifier]);
+        LSSetDefaultRoleHandlerForContentType(kUTTypeHTML, kLSRolesViewer, (CFStringRef) [[NSBundle mainBundle] bundleIdentifier]);
+        LSSetDefaultRoleHandlerForContentType(kUTTypeURL, kLSRolesViewer, (CFStringRef) [[NSBundle mainBundle] bundleIdentifier]);
+    }
+    [currentSystemBrowser release];
 }
 
 - (NSMutableDictionary *) dictionary {
@@ -64,16 +84,11 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	OSStatus httpResult = LSSetDefaultHandlerForURLScheme((CFStringRef) @"http", (CFStringRef) app);
-	OSStatus httpsResult = LSSetDefaultHandlerForURLScheme((CFStringRef) @"https", (CFStringRef) app);
-	OSStatus htmlResult = LSSetDefaultRoleHandlerForContentType(kUTTypeHTML, kLSRolesViewer, (CFStringRef) app);
-	OSStatus urlResult = LSSetDefaultRoleHandlerForContentType(kUTTypeURL, kLSRolesViewer, (CFStringRef) app);
-	
-	if (httpResult || httpsResult || htmlResult || urlResult) {
-		*errorString = NSLocalizedString(@"Couldn't set default browser '%@'!", @"In DefaultBrowserAction");
-		return NO;
-	} else
-		return YES;
+    [[NSUserDefaults standardUserDefaults] setValue:app forKey:@"currentDefaultBrowser"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    return YES;
+    
 }
 
 + (NSString *) helpText {
@@ -98,6 +113,8 @@
 	for (NSUInteger i = 0; i < total; ++i) {
 		NSString *bundleID = [handlers objectAtIndex: i];
 		
+        if ([[bundleID lowercaseString] isEqualToString:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]])
+            continue;
 		[options addObject: [NSDictionary dictionaryWithObjectsAndKeys:
 							 bundleID, @"option",
 							 [self idToName: bundleID], @"description", nil]];
@@ -118,6 +135,18 @@
 
 + (NSString *)menuCategory {
     return NSLocalizedString(@"Web", @"");
+}
+
+- (void)handleURL:(NSString *)url {
+    NSString *browser = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentDefaultBrowser"];
+
+    
+    if (!browser) {
+        browser = @"com.apple.Safari";
+    }
+
+    NSArray *urls = [NSArray arrayWithObject:[NSURL URLWithString:url]];
+    [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:browser options:NSWorkspaceLaunchDefault additionalEventParamDescriptor:nil launchIdentifiers:nil];
 }
 
 @end

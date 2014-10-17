@@ -551,6 +551,8 @@ static NSSet *sharedActiveContexts = nil;
     // hide the current context menu item for now
     [self.currentContextNameMenuItem setHidden:YES];
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:@"AllowMultipleActiveContexts" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 }
 
 - (void)sanitizeUserDefaults
@@ -1999,5 +2001,22 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
     } else {
         return self.currentContextPath;
     }
+}
+
+- (void)handleURLEvent:(NSAppleEventDescriptor*)event withReplyEvent:(NSAppleEventDescriptor*)replyEvent {
+    NSBundle *requestedAppBundle = [NSBundle bundleWithPath:@"/Applications/Google Chrome.app"];
+    
+    // if the requestedAppBundle comes back nil then
+    // they are either specifying that an actual file (not an app) be opened
+
+        NSString *bundleId = [requestedAppBundle bundleIdentifier];
+
+    NSLog(@"%@", bundleId);
+    NSString *calledURL = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
+    NSLog(@"%@", calledURL);
+    Action *defaultBrowserAction = [Action actionFromDictionary:@{@"type" : @"DefaultBrowser"}];
+    
+    [defaultBrowserAction handleURL:calledURL];
+    return;
 }
 @end

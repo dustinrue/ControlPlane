@@ -27,6 +27,7 @@
 - (void)dealloc;
 - (NSMutableDictionary *)dictionary;
 + (NSString *)helpTextForActionOfType:(NSString *)type;
+- (void) handleURL:(NSString *)url;
 
 - (NSComparisonResult)compareDelay:(Action *)other;
 
