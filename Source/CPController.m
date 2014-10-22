@@ -248,7 +248,7 @@ static NSSet *sharedActiveContexts = nil;
         [sbImageActive recache];
     }
     @catch (NSException *e) {
-        DSLog(@"Failed to change the color of status bar icon %@", e);
+        DSLog(@"Failed to change the color of status bar icon");
     }
 }
 
