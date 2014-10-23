@@ -742,7 +742,7 @@ static NSSet *sharedActiveContexts = nil;
         Context *currentContext = self.currentContext;
         if ([self.activeContexts count] > 0 || currentContext) {
             if (![self useMultipleActiveContexts])
-                [self changeActiveIconImageColorTo:currentContext.iconColor];
+                [self changeActiveIconImageColorTo:[currentContext.iconColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
             else if ([self.activeContexts count] == 1) {
                 Context *singleContext = [[self.activeContexts allObjects] objectAtIndex:0];
                 [self changeActiveIconImageColorTo:[singleContext.iconColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
@@ -755,7 +755,7 @@ static NSSet *sharedActiveContexts = nil;
 
 
     [self setMenuBarImage:barImage];
-    [self changeActiveIconImageColorTo:[[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
+    //[self changeActiveIconImageColorTo:[[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
     
 }
 
@@ -769,7 +769,7 @@ static NSSet *sharedActiveContexts = nil;
     @try {
         
         [sbItem setImage:image];
-        [self changeActiveIconImageColorTo:[[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
+        //[self changeActiveIconImageColorTo:[[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
     }
     @catch (NSException *exception) {
         DSLog(@"failed to set the menubar icon to %@ with error %@. Please alert ControlPlane Developers!", [image name], [exception reason]);
