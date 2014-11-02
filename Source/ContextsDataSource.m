@@ -106,29 +106,30 @@
 
 @implementation ContextsDataSource {
 	NSMutableDictionary *contexts;
-    
-    __weak IBOutlet NSButton *generalPreferencesEnableSwitching;
-    __weak IBOutlet NSButton *generalPreferencesStartAtLogin;
-    __weak IBOutlet NSButton *generalPreferencesUseNotifications;
-    __weak IBOutlet NSButton *generalPreferencesCheckForUpdates;
-    __weak IBOutlet NSButton *generalPreferencesHideFromStatusBar;
-    __weak IBOutlet NSPopUpButton *generalPreferencesShowInStatusBar;
-    __weak IBOutlet NSButton *generalPreferencesSwitchSmoothing;
-    __weak IBOutlet NSButton *generalPreferencesRestorePreviousContext;
-    __weak IBOutlet NSButton *generalPreferencesUseDefaultContextTextField;
-    __weak IBOutlet NSTextField *generalPreferencesCRtSTextField;
-    __weak IBOutlet SliderWithValue *generalPreferencesConfidenceSlider;
+    // 10.7 can't use weak references to most of the items below
+    // so we use __unsafe_unretained instead
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesEnableSwitching;
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesStartAtLogin;
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesUseNotifications;
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesCheckForUpdates;
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesHideFromStatusBar;
+    __unsafe_unretained IBOutlet NSPopUpButton *generalPreferencesShowInStatusBar;
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesSwitchSmoothing;
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesRestorePreviousContext;
+    __unsafe_unretained IBOutlet NSButton *generalPreferencesUseDefaultContextTextField;
+    __unsafe_unretained IBOutlet NSTextField *generalPreferencesCRtSTextField;
+    __unsafe_unretained IBOutlet SliderWithValue *generalPreferencesConfidenceSlider;
     
 	// shouldn't _really_ be here
-	__weak IBOutlet NSOutlineView *outlineView;
+	__unsafe_unretained IBOutlet NSOutlineView *outlineView;
 	Context *selection;
     
 	__unsafe_unretained IBOutlet NSWindow *prefsWindow;
     
-	__weak IBOutlet NSPanel *newContextSheet;
-	__weak IBOutlet NSTextField *newContextSheetName;
-    __weak IBOutlet NSColorWell *newContextSheetColor;
-    __weak IBOutlet NSButton *newContextSheetColorPreviewEnabled;
+	__unsafe_unretained IBOutlet NSPanel *newContextSheet;
+	__unsafe_unretained IBOutlet NSTextField *newContextSheetName;
+    __unsafe_unretained IBOutlet NSColorWell *newContextSheetColor;
+    __unsafe_unretained IBOutlet NSButton *newContextSheetColorPreviewEnabled;
 }
 
 + (void)initialize
