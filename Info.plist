@@ -23,7 +23,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.4</string>
+	<string>1.5.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>67</string>
+	<string>68</string>
 	<key>CPCrashReportURL</key>
 	<string>http://crashreport.controlplaneapp.com/crash_v200.php</string>
 	<key>CPDonationURL</key>
