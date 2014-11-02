@@ -516,29 +516,30 @@ static OSStatus DoEnableSMBFileSharing (AuthorizationRef         auth,
 	assert(request  != NULL);
 	assert(response != NULL);
 	
-	char command[256];
+	char sync_command[256];
+    char enable_command[256];
 	int retValue = 0;
-    
-    sprintf(command, "/usr/bin/defaults write %s 'EnabledServices' -array 'disk'", kCPHelperToolSMBPrefsFilePath);
-    
-    retValue = system(command);
     
     
     // get system version
-	SInt32 major = 0, minor = 0;
-	Gestalt(gestaltSystemVersionMajor, &major);
+    SInt32 major = 0, minor = 0;
+    Gestalt(gestaltSystemVersionMajor, &major);
     Gestalt(gestaltSystemVersionMinor, &minor);
-	
+    
+    
+    if ((major == 10 && minor >= 9) || major >= 11) {
+        sprintf(enable_command, "/bin/launchctl load -F /System/Library/LaunchDaemons/%s.plist", kCPHelperToolSMBDServiceName);
+        sprintf(sync_command, "%s", kCPHelperToolSMBSyncToolFilePathMavericks);
+    }
+    else {
+        sprintf(enable_command, "/usr/bin/defaults write %s 'EnabledServices' -array 'disk'", kCPHelperToolSMBPrefsFilePath);
+        sprintf(sync_command, "%s", kCPHelperToolSMBSyncToolFilePath);
+    }
+    
+    retValue = system(enable_command);
+    
     if (!retValue) {
-        // if Mavericks or greater
-        if ((major == 10 && minor >= 9) || major >= 11) {
-            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePathMavericks);
-
-        }
-        else {
-            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
-        }
-        retValue = system(command);
+        retValue = system(sync_command);
     }
 	
 	return retValue;
@@ -554,37 +555,33 @@ static OSStatus DoDisableSMBFileSharing (AuthorizationRef         auth,
 	assert(request  != NULL);
 	assert(response != NULL);
 	
-	char command[256];
-    char param[256];
-	int retValue = 0;
+    char sync_command[256];
+    char disable_command[256];
+    int retValue = 0;
     
-    CFStringRef parameter = (CFStringRef) CFDictionaryGetValue(request, CFSTR("param"));
     
-    if (!CFStringGetCString(parameter, param, sizeof(param) - 1, kCFStringEncodingUTF8))
-        return BASErrnoToOSStatus(EINVAL);
-    
-    sprintf(command, "/usr/bin/defaults delete %s 'EnabledServices'", kCPHelperToolSMBPrefsFilePath);
-    retValue = system(command);
-    
-
     // get system version
-	SInt32 major = 0, minor = 0;
-	Gestalt(gestaltSystemVersionMajor, &major);
+    SInt32 major = 0, minor = 0;
+    Gestalt(gestaltSystemVersionMajor, &major);
     Gestalt(gestaltSystemVersionMinor, &minor);
-	
-    if (!retValue) {
-        // if Mavericks or greater
-        if ((major == 10 && minor >= 9) || major >= 11) {
-            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePathMavericks);
-            
-        }
-        else {
-            sprintf(command, "%s", kCPHelperToolSMBSyncToolFilePath);
-        }
-        retValue = system(command);
+    
+    
+    if ((major == 10 && minor >= 9) || major >= 11) {
+        sprintf(disable_command, "/bin/launchctl unload -F /System/Library/LaunchDaemons/%s.plist", kCPHelperToolSMBDServiceName);
+        sprintf(sync_command, "%s", kCPHelperToolSMBSyncToolFilePathMavericks);
+    }
+    else {
+        sprintf(disable_command, "/usr/bin/defaults delete %s 'EnabledServices'", kCPHelperToolSMBPrefsFilePath);
+        sprintf(sync_command, "%s", kCPHelperToolSMBSyncToolFilePath);
     }
     
-	return retValue;
+    retValue = system(disable_command);
+    
+    if (!retValue) {
+        retValue = system(sync_command);
+    }
+    
+    return retValue;
 }
 
 
