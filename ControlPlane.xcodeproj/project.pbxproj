@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D6857041A2046FD00803A34 /* NFCMirrorEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6857031A2046FD00803A34 /* NFCMirrorEvidenceSource.m */; };
 		732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
 		73A5092F14849405007D22B5 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A5092714849405007D22B5 /* ShellScriptRule.xib */; };
@@ -307,6 +308,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlPlane_Prefix.pch; path = Source/ControlPlane_Prefix.pch; sourceTree = "<group>"; };
+		6D6857021A2046FD00803A34 /* NFCMirrorEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NFCMirrorEvidenceSource.h; path = Source/NFCMirrorEvidenceSource.h; sourceTree = "<group>"; };
+		6D6857031A2046FD00803A34 /* NFCMirrorEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NFCMirrorEvidenceSource.m; path = Source/NFCMirrorEvidenceSource.m; sourceTree = "<group>"; };
 		732A58DD1484300A0011019C /* ShellScriptEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellScriptEvidenceSource.h; path = Source/ShellScriptEvidenceSource.h; sourceTree = "<group>"; };
 		732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellScriptEvidenceSource.m; path = Source/ShellScriptEvidenceSource.m; sourceTree = "<group>"; };
 		732A58E91484311C0011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
@@ -1011,6 +1014,8 @@
 				8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */,
 				8D35A34C0BBBA0CB006ACBB0 /* USBEvidenceSource.h */,
 				8D35A34D0BBBA0CB006ACBB0 /* USBEvidenceSource.m */,
+				6D6857021A2046FD00803A34 /* NFCMirrorEvidenceSource.h */,
+				6D6857031A2046FD00803A34 /* NFCMirrorEvidenceSource.m */,
 			);
 			name = "Concrete Evidence Sources";
 			sourceTree = "<group>";
@@ -1493,6 +1498,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D6857041A2046FD00803A34 /* NFCMirrorEvidenceSource.m in Sources */,
 				DAF2257E15ABD8CD003A8030 /* DisplayBrightnessAction.m in Sources */,
 				DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */,
 				DAF36ECA143E7C5700350991 /* CoreLocationSource.m in Sources */,
