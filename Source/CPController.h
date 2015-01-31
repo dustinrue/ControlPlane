@@ -11,7 +11,7 @@
 #import "BWQuincyManager.h"
 
 
-@interface CPController : NSObject <BWQuincyManagerDelegate>
+@interface CPController : NSObject <BWQuincyManagerDelegate, NSApplicationDelegate>
 
 @property (retain,atomic,readonly) NSString *currentContextName;
 @property (retain,atomic,readonly) NSString *currentContextPath;

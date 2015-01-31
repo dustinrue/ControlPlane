@@ -2066,19 +2066,33 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor*)event withReplyEvent:(NSAppleEventDescriptor*)replyEvent {
-    NSBundle *requestedAppBundle = [NSBundle bundleWithPath:@"/Applications/Google Chrome.app"];
+    //NSBundle *requestedAppBundle = [NSBundle bundleWithPath:@"/Applications/Google Chrome.app"];
     
     // if the requestedAppBundle comes back nil then
     // they are either specifying that an actual file (not an app) be opened
 
-        NSString *bundleId = [requestedAppBundle bundleIdentifier];
+    //NSString *bundleId = [requestedAppBundle bundleIdentifier];
 
-    NSLog(@"%@", bundleId);
+    //NSLog(@"%@", bundleId);
     NSString *calledURL = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
     NSLog(@"%@", calledURL);
     Action *defaultBrowserAction = [Action actionFromDictionary:@{@"type" : @"DefaultBrowser"}];
     
     [defaultBrowserAction handleURL:calledURL];
     return;
+}
+
+- (void) application:(NSApplication *)sender openFiles:(NSArray *)filenames {
+
+    Action *defaultBrowserAction = [Action actionFromDictionary:@{@"type" : @"DefaultBrowser"}];
+
+    [filenames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+        NSString *url = [NSString stringWithFormat:@"file://%@", obj];
+        NSLog(@"opening %@", url);
+        [defaultBrowserAction handleURL:url];
+    }];
+    
+
 }
 @end
