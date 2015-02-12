@@ -2075,7 +2075,6 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 
     //NSLog(@"%@", bundleId);
     NSString *calledURL = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
-    NSLog(@"%@", calledURL);
     Action *defaultBrowserAction = [Action actionFromDictionary:@{@"type" : @"DefaultBrowser"}];
     
     [defaultBrowserAction handleURL:calledURL];
@@ -2089,7 +2088,6 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
     [filenames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 
         NSString *url = [NSString stringWithFormat:@"file://%@", obj];
-        NSLog(@"opening %@", url);
         [defaultBrowserAction handleURL:url];
     }];
     

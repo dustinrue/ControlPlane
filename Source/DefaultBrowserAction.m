@@ -149,8 +149,10 @@
     if (!browser) {
         browser = @"com.apple.Safari";
     }
+    NSString *decoded = [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    NSArray *urls = [NSArray arrayWithObject:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    NSArray *urls = [NSArray arrayWithObject:[NSURL URLWithString:[decoded stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+
     [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:browser options:NSWorkspaceLaunchDefault additionalEventParamDescriptor:nil launchIdentifiers:nil];
 }
 
