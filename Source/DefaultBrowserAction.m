@@ -149,9 +149,17 @@
     if (!browser) {
         browser = @"com.apple.Safari";
     }
-    NSString *decoded = [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString *decodedURL = [url stringByRemovingPercentEncoding];
+    NSString *newURL = (NSString *)CFURLCreateStringByAddingPercentEscapes(
+                                                                           NULL,
+                                                                           (CFStringRef)decodedURL,
+                                                                           (CFStringRef)@"#",
+                                                                           (CFStringRef)@" ",
+                                                                           kCFStringEncodingUTF8 );
+    NSArray *urls = [NSArray arrayWithObject:[NSURL URLWithString:newURL]];
+    [newURL release];
 
-    NSArray *urls = [NSArray arrayWithObject:[NSURL URLWithString:[decoded stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 
     [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:browser options:NSWorkspaceLaunchDefault additionalEventParamDescriptor:nil launchIdentifiers:nil];
 }
