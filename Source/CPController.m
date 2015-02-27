@@ -582,6 +582,8 @@ static NSSet *sharedActiveContexts = nil;
     [self changeCurrentContextTo:[self getPersistentContext]];
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
+        
         // Set up status bar.
         [self showInStatusBar:self];
         [self startOrStopHidingFromStatusBar];
