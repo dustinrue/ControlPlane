@@ -52,7 +52,7 @@
 @private
 	IBOutlet NSMenu *sbMenu;
 	NSStatusItem *sbItem;
-	NSImage *sbImageActive, *sbImageInactive;
+    NSImage *sbImageTemplate;
 	NSTimer *sbHideTimer;
     
 	IBOutlet NSMenuItem *forceContextMenuItem;
@@ -217,65 +217,25 @@ static NSSet *sharedActiveContexts = nil;
 	return img;
 }
 
-+(NSColor *)reversedColorFromOriginal:(NSColor*)originalColor {
-    return [NSColor colorWithRed:(1.0-[originalColor redComponent]) green:(1.0-[originalColor greenComponent]) blue:(1.0-[originalColor blueComponent]) alpha:[originalColor alphaComponent]];
-}
-
 - (void) interfaceThemeDidChange {
-    [self changeActiveIconImageColorTo:self.currentContext.iconColor];
-    [self changeInActiveIconImageColorTo:[[NSColor darkGrayColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
+    //[self changeActiveIconImageColorTo:self.currentContext.iconColor];
+    //[self changeInActiveIconImageColorTo:[[NSColor darkGrayColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
 }
 
-- (void)changeActiveIconImageColorTo:(NSColor *)color {
-    @try {
-        
-        NSString *theme = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:NSGlobalDomain] valueForKey:@"AppleInterfaceStyle"];
-        
-        if ([theme isEqualToString:@"Dark"] && ([color isEqualTo:[[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]] || (!self.currentContext.iconColor))) {
-            if (!color && [theme isEqualToString:@"Dark"])
-                color = [[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-            color = [CPController reversedColorFromOriginal:color];
+- (NSImage *)tintedIconImage:(NSImage *)image withTint:(NSColor *)color {
+    if ((image != nil) && [image isTemplate]) {
+        if ((color != nil) && ([color alphaComponent] > 0.0) && ![color isEqualTo:[NSColor blackColor]]) {
+            NSImage *tintedImage = [[image copy] autorelease];
+            [tintedImage setTemplate:NO];
+            [tintedImage lockFocus];
+            [[color colorUsingColorSpaceName:NSCalibratedRGBColorSpace] set];
+            NSRectFillUsingOperation((NSRect) {NSZeroPoint, tintedImage.size}, NSCompositeSourceIn);
+            [tintedImage unlockFocus];
+            return tintedImage;
         }
-        else if ((!self.currentContext.iconColor)) {
-            color = [[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-        }
-        
+    }
     
-        [sbImageActive lockFocus];
-        [color set];
-        NSRectFillUsingOperation((NSRect) {NSZeroPoint, sbImageActive.size}, NSCompositeSourceIn);
-        [sbImageActive unlockFocus];
-        [sbImageActive recache];
-    }
-    @catch (NSException *e) {
-        DSLog(@"Failed to change the color of status bar icon");
-    }
-}
-
-- (void)changeInActiveIconImageColorTo:(NSColor *)color {
-    @try {
-        
-        NSString *theme = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:NSGlobalDomain] valueForKey:@"AppleInterfaceStyle"];
-        
-        if ([theme isEqualToString:@"Dark"] && ([color isEqualTo:[[NSColor darkGrayColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]] || (!self.currentContext.iconColor))) {
-            if (!color && [theme isEqualToString:@"Dark"])
-                color = [[NSColor darkGrayColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-            color = [CPController reversedColorFromOriginal:color];
-        }
-        else if ((!self.currentContext.iconColor)) {
-            color = [[NSColor darkGrayColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-        }
-        
-        
-        [sbImageInactive lockFocus];
-        [color set];
-        NSRectFillUsingOperation((NSRect) {NSZeroPoint, sbImageActive.size}, NSCompositeSourceIn);
-        [sbImageInactive unlockFocus];
-        [sbImageInactive recache];
-    }
-    @catch (NSException *e) {
-        DSLog(@"Failed to change the color of status bar icon %@", e);
-    }
+    return image;
 }
 
 - (id)init {
@@ -283,8 +243,8 @@ static NSSet *sharedActiveContexts = nil;
 		return nil;
     }
 
-	sbImageActive   = [[self prepareImageForMenubar:@"cp-icon-active"]   retain];
-	sbImageInactive = [[self prepareImageForMenubar:@"cp-icon-inactive"] retain];
+	sbImageTemplate = [[self prepareImageForMenubar:@"cp-icon"] retain];
+    [sbImageTemplate setTemplate:YES];
 
 	sbItem = nil;
 	sbHideTimer = nil;
@@ -320,8 +280,7 @@ static NSSet *sharedActiveContexts = nil;
     [screenLockActionQueue release];
     [screenSaverActionQueue release];
 
-    [sbImageActive release];
-    [sbImageInactive release];
+    [sbImageTemplate release];
 
     [_currentContextPath release];
     [_currentContext release];
@@ -698,9 +657,6 @@ static NSSet *sharedActiveContexts = nil;
                                                  name:@"AppleInterfaceThemeChangedNotification"
                                                object:nil];
     
-    
-    
-    
 }
 
 
@@ -725,56 +681,55 @@ static NSSet *sharedActiveContexts = nil;
 
 - (void)updateMenuBarImageOnIconColorPreviewNotification:(NSNotification *)notification {
     NSDictionary *userInfo = [notification userInfo];
-    if (userInfo) {
+    if (userInfo != nil) {
         NSColor *color = userInfo[@"color"];
-        [self changeActiveIconImageColorTo:((color) ? (color) : ([[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]))];
-        [self setMenuBarImage:sbImageActive];
+        NSImage *barImage = [self tintedIconImage:sbImageTemplate withTint:color];
+        [self setMenuBarImage:barImage];
     } else {
         [self updateMenuBarImage];
     }
 }
 
 - (void)updateMenuBarImage {
-	if (!sbItem) {
+    if (sbItem == nil) {
 		return;
     }
-
+    
     NSImage *barImage = nil;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
-        Context *currentContext = self.currentContext;
-        if ([self.activeContexts count] > 0 || currentContext) {
-            if (![self useMultipleActiveContexts])
-                [self changeActiveIconImageColorTo:[currentContext.iconColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
-            else if ([self.activeContexts count] == 1) {
-                Context *singleContext = [[self.activeContexts allObjects] objectAtIndex:0];
-                [self changeActiveIconImageColorTo:[singleContext.iconColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
+        NSColor *iconColor = nil;
+        
+        const BOOL usingMultipleActiveContexts = [self useMultipleActiveContexts];
+        if (usingMultipleActiveContexts && ([self.activeContexts count] > 0)) {
+            if ([self.activeContexts count] == 1) {
+                Context *singleContext = [self.activeContexts anyObject];
+                iconColor = singleContext.iconColor;
             }
-            barImage = sbImageActive;
+        } else if (!usingMultipleActiveContexts && (self.currentContext != nil)) {
+            iconColor = self.currentContext.iconColor;
         } else {
-            barImage = sbImageInactive;
+            iconColor = [NSColor darkGrayColor]; // inactive icon color
         }
+        
+        barImage = [self tintedIconImage:sbImageTemplate withTint:iconColor];
     }
-
-
-    [self setMenuBarImage:barImage];
-    //[self changeActiveIconImageColorTo:[[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
     
+    [self setMenuBarImage:barImage];
 }
 
 - (void)setMenuBarImage:(NSImage *)image {
     // if the menu bar item has been hidden sbItem will have been released
     // and we should not attempt to update the image
-    if (!sbItem) {
+    if (sbItem == nil) {
         return;
     }
-
+    
     @try {
-        
         [sbItem setImage:image];
-        //[self changeActiveIconImageColorTo:[[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace]];
     }
     @catch (NSException *exception) {
-        DSLog(@"failed to set the menubar icon to %@ with error %@. Please alert ControlPlane Developers!", [image name], [exception reason]);
+        DSLog(@"failed to set the menubar icon to %@ with error %@. Please alert ControlPlane Developers!",
+              [image name], [exception reason]);
         [self setStatusTitle:@"Failed to set icon"];
     }
 }

@@ -64,7 +64,7 @@
 
 - (NSColor *)iconColor
 {
-    return (_iconColor != nil) ? (_iconColor) : [NSColor blackColor];
+    return (_iconColor != nil) ? (_iconColor) : [NSColor clearColor];
 }
 
 - (void)setIconColor:(NSColor *)iconColor
@@ -79,7 +79,7 @@
 
 - (NSDictionary *)dictionary
 {
-    if ((_iconColor == nil) || [_iconColor isEqualTo:[NSColor blackColor]]) { // black is the default value
+    if ((_iconColor == nil) || ([_iconColor alphaComponent] == 0.0)) { // clear is the default value
         return @{ @"uuid": self.uuid, @"parent": self.parentUUID, @"name": self.name };
     }
 
@@ -358,7 +358,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[strongNewContextSheetName selectText:nil];
     
     NSColorWell *strongNewContextSheetColor = newContextSheetColor;
-    [strongNewContextSheetColor setColor:[NSColor blackColor]];
+    [strongNewContextSheetColor setColor:[NSColor clearColor]];
     
     NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
     [strongNewContextSheetColorPreviewEnabled setIntValue:0];
@@ -415,7 +415,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[strongNewContextSheetName selectText:nil];
     
     NSColorWell *strongNewContextSheetColor = newContextSheetColor;
-    [strongNewContextSheetColor setColor:(ctxt.iconColor) ? (ctxt.iconColor) : ([NSColor blackColor])];
+    [strongNewContextSheetColor setColor:(ctxt.iconColor) ? (ctxt.iconColor) : ([NSColor clearColor])];
     
     NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
     [strongNewContextSheetColorPreviewEnabled setIntValue:0];
