@@ -64,7 +64,7 @@
 
 - (NSColor *)iconColor
 {
-    return (_iconColor != nil) ? (_iconColor) : [NSColor clearColor];
+    return (_iconColor != nil) ? (_iconColor) : [NSColor blackColor];
 }
 
 - (void)setIconColor:(NSColor *)iconColor
@@ -358,7 +358,7 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	[strongNewContextSheetName selectText:nil];
     
     NSColorWell *strongNewContextSheetColor = newContextSheetColor;
-    [strongNewContextSheetColor setColor:[NSColor clearColor]];
+    [strongNewContextSheetColor setColor:[NSColor blackColor]];
     
     NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
     [strongNewContextSheetColorPreviewEnabled setIntValue:0];
@@ -409,17 +409,18 @@ static NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
     }
 
 	Context *ctxt = (Context *)[strongOutlineView itemAtRow:row];
-
+    
     NSTextField *strongNewContextSheetName = newContextSheetName;
 	[strongNewContextSheetName setStringValue:ctxt.name];
 	[strongNewContextSheetName selectText:nil];
     
     NSColorWell *strongNewContextSheetColor = newContextSheetColor;
-    [strongNewContextSheetColor setColor:(ctxt.iconColor) ? (ctxt.iconColor) : ([NSColor clearColor])];
+    NSColor *color = (ctxt.iconColor != nil) ? (ctxt.iconColor) : ([NSColor blackColor]);
+    [strongNewContextSheetColor setColor:color];
     
     NSButton *strongNewContextSheetColorPreviewEnabled = newContextSheetColorPreviewEnabled;
     [strongNewContextSheetColorPreviewEnabled setIntValue:0];
-
+    
 	[NSApp beginSheet:newContextSheet
 	   modalForWindow:prefsWindow
 	    modalDelegate:self
