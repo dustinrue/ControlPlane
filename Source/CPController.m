@@ -936,7 +936,10 @@ static NSSet *sharedActiveContexts = nil;
 #ifdef DEBUG_MODE
         DSLog(@"checking rule %@", rule);
 #endif
-		RuleMatchStatusType isMatching = ([[rule valueForKey:@"negate"] integerValue] == 1) ? ![evidenceSources ruleMatches:rule]:[evidenceSources ruleMatches:rule];
+        RuleMatchStatusType isMatching = [evidenceSources ruleMatches:rule];
+        if (([rule[@"negate"] integerValue] == 1) && (isMatching != RuleMatchStatusIsUnknown)) {
+            isMatching = (isMatching == RuleDoesMatch) ? (RuleDoesNotMatch) : (RuleDoesMatch);
+        }
         if (isMatching == RuleDoesMatch) {
 			[matchingRules addObject:rule];
         }
@@ -1959,9 +1962,7 @@ const int64_t UPDATING_TIMER_LEEWAY = (int64_t) (0.5 * NSEC_PER_SEC);
 
 - (void)doUpdate {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Enabled"]) {
-        @autoreleasepool {
-            [self doUpdateForReal];
-        }
+        [self doUpdateForReal];
     }
 }
 
