@@ -697,14 +697,19 @@ static NSSet *sharedActiveContexts = nil;
     
     NSImage *barImage = nil;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"menuBarOption"] != CP_DISPLAY_CONTEXT) {
-        NSColor *iconColor = nil;
+        __block NSColor *iconColor = nil;
         
         const BOOL usingMultipleActiveContexts = [self useMultipleActiveContexts];
         if (usingMultipleActiveContexts && ([self.activeContexts count] > 0)) {
-            if ([self.activeContexts count] == 1) {
-                Context *singleContext = [self.activeContexts anyObject];
-                iconColor = singleContext.iconColor;
-            }
+            [self.activeContexts enumerateObjectsUsingBlock:^(Context *context, BOOL *stop) {
+                NSColor *contextIconColor = context.iconColor;
+                if (iconColor == nil) {
+                    iconColor = contextIconColor;
+                } else if ((contextIconColor.alphaComponent > 0.0) && ![contextIconColor isEqualTo:iconColor]) {
+                    iconColor = nil;
+                    *stop = YES;
+                }
+            }];
         } else if (!usingMultipleActiveContexts && (self.currentContext != nil)) {
             iconColor = self.currentContext.iconColor;
         } else {
