@@ -116,7 +116,7 @@
 }
 
 - (NSString *)getSuggestionLeadText:(NSString *)type {
-	return NSLocalizedString(@"The following application is active", @"In rule-adding dialog");
+	return NSLocalizedString(@"The following power adapter is attached", @"In rule-adding dialog");
 }
 
 - (NSArray *)getSuggestions {
