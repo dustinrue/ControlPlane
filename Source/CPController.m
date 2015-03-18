@@ -970,7 +970,7 @@ static NSSet *sharedActiveContexts = nil;
 // a new thread
 - (void)doExecuteAction:(Action *)action {
 	@autoreleasepool {
-        NSString *errorString;
+        NSString *errorString = nil;
         BOOL success = [action execute:&errorString];
         [self decreaseActionsInProgress];
 
