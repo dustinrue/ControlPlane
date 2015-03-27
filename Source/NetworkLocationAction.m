@@ -52,7 +52,15 @@
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	return [self initWithOption:dict[@"parameter"]];
+    self = [super initWithDictionary: dict];
+    if (!self) {
+        return nil;
+    }
+    
+
+    networkLocation = dict[@"parameter"];
+    
+    return self;
 }
 
 - (NSMutableDictionary *)dictionary {
