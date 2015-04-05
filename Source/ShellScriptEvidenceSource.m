@@ -200,7 +200,7 @@
     
     [task setArguments:args];
     
-    NSString *interpreter = nil;
+    NSString *interpreter = @"";
     
     NSMutableArray *shebangArgs = [scriptName interpreterFromFile];
 	if (shebangArgs && [shebangArgs count] > 0) {
