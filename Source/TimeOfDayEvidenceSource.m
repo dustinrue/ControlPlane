@@ -172,6 +172,10 @@
 			return NO;
 	}
 
+    if (startT == (id)[NSNull null] || endT == (id)[NSNull null]) {
+        NSLog(@"can't cope with a null startT or endT, returning false");
+        return false;
+    }
 	NSCalendar *cal = [NSCalendar currentCalendar];
 	NSDateComponents *startC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startT];
 	NSDateComponents *endC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:endT];
