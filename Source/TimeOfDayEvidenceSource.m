@@ -7,8 +7,9 @@
 
 #import "TimeOfDayEvidenceSource.h"
 #import "DSLogger.h"
+#import "RuleType.h"
 
-@interface TimeOfDayEvidenceSource (Private)
+@interface TimeOfDayEvidenceSource ()
 
 // Returns NO on failure
 - (BOOL)parseParameter:(NSString *)parameter intoDay:(NSString **)day startTime:(NSDate **)startT endTime:(NSDate **)endT;
@@ -25,13 +26,18 @@
     if ([arr count] != 3) {
         return NO;
     }
-
+    
     *day = arr[0];
+    
 	*startT = [formatter dateFromString:arr[1]];
+    if (startT == nil) {
+        DSLog(@"Cannot parse value \"%@\" of parameter \"Start time\" in a \"Time of day\" rule.", arr[1]);
+        return NO;
+    }
+    
 	*endT = [formatter dateFromString:arr[2]];
-
-    if ((startT == nil) || (endT == nil)) {
-        DSLog(@"Error when parsing parameters in \"Time of day\" rule.");
+    if (endT == nil) {
+        DSLog(@"Cannot parse value \"%@\" of parameter \"End time\" in a \"Time of day\" rule.", arr[2]);
         return NO;
     }
     
@@ -89,18 +95,42 @@
     return NSLocalizedString(@"Create rules based on the time of day and day of week.", @"");
 }
 
+- (IBAction)closeSheetWithOK:(id)sender
+{
+    if ([self validatePanelParams]) {
+        [super closeSheetWithOK:sender];
+    }
+}
+
+- (BOOL)validatePanelParams
+{
+    NSString *startT = [formatter stringFromDate:startTime];
+    if (startT == nil) {
+        [RuleType alertOnInvalidParamValueWith:NSLocalizedString(@"Start time format is not correct", @"")];
+        return NO;
+    }
+    
+    NSString *endT = [formatter stringFromDate:endTime];
+    if (endT == nil) {
+        [RuleType alertOnInvalidParamValueWith:NSLocalizedString(@"End time format is not correct", @"")];
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (NSMutableDictionary *)readFromPanel
 {
 	NSMutableDictionary *dict = [super readFromPanel];
-
+    NSString *param = [NSString stringWithFormat:@"%@,%@,%@", selectedDay,
+                       [formatter stringFromDate:startTime], [formatter stringFromDate:endTime]];
+    
 	// Make formatter for description of times
 	NSDateFormatter *fmt = [[[NSDateFormatter alloc] init] autorelease];
 	[fmt setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[fmt setDateStyle:NSDateFormatterNoStyle];
 	[fmt setTimeStyle:NSDateFormatterShortStyle];
 
-	NSString *param = [NSString stringWithFormat:@"%@,%@,%@", selectedDay,
-		[formatter stringFromDate:startTime], [formatter stringFromDate:endTime]];
 	// TODO: improve description?
 	NSString *desc = [NSString stringWithFormat:@"%@ %@-%@", selectedDay,
 		[fmt stringFromDate:startTime], [fmt stringFromDate:endTime]];
@@ -158,7 +188,9 @@
     }
 
     if (startT == (id)[NSNull null] || endT == (id)[NSNull null]) {
-        NSLog(@"can't cope with a null startT or endT, returning false");
+#if DEBUG_MODE
+        DSLog(@"Cannot cope with a null startT or endT, returning false");
+#endif
         return NO;
     }
 
