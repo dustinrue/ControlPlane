@@ -6,7 +6,7 @@
 //
 
 #import "TimeOfDayEvidenceSource.h"
-
+#import "DSLogger.h"
 
 @interface TimeOfDayEvidenceSource (Private)
 
@@ -22,23 +22,28 @@
 - (BOOL)parseParameter:(NSString *)parameter intoDay:(NSString **)day startTime:(NSDate **)startT endTime:(NSDate **)endT
 {
 	NSArray *arr = [parameter componentsSeparatedByString:@","];
-	if ([arr count] != 3)
-		return NO;
+    if ([arr count] != 3) {
+        return NO;
+    }
 
-	*day = [arr objectAtIndex:0];
-	// TODO: check day is an element in our list?
+    *day = arr[0];
+	*startT = [formatter dateFromString:arr[1]];
+	*endT = [formatter dateFromString:arr[2]];
 
-	*startT = [formatter dateFromString:[arr objectAtIndex:1]];
-	*endT = [formatter dateFromString:[arr objectAtIndex:2]];
-	// TODO: check parsing? (maybe by re-encoding string, and comparing)
-
+    if ((startT == nil) || (endT == nil)) {
+        DSLog(@"Error when parsing parameters in \"Time of day\" rule.");
+        return NO;
+    }
+    
 	return YES;
 }
 
 - (id)init
 {
-	if (!(self = [super initWithNibNamed:@"TimeOfDayRule"]))
-		return nil;
+    self = [super initWithNibNamed:@"TimeOfDayRule"];
+    if (self == nil) {
+        return nil;
+    }
 
 	// Create formatter for reading/writing times ("HH:MM" only)
 	formatter = [[NSDateFormatter alloc] init];
@@ -145,16 +150,27 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	NSString *day;
-	NSDate *startT, *endT;
-	NSCalendarDate *now = [NSCalendarDate calendarDate];
+	NSString *day = nil;
+	NSDate *startT = nil, *endT = nil;
 
-	if (![self parseParameter:[rule valueForKey:@"parameter"] intoDay:&day startTime:&startT endTime:&endT])
-		return NO;
+    if (![self parseParameter:rule[@"parameter"] intoDay:&day startTime:&startT endTime:&endT]) {
+        return NO;
+    }
 
-	if ([startT earlierDate:endT] == endT)  //cross-midnight rule
-		endT = [endT dateByAddingTimeInterval:(24 * 60 * 60)]; // +24 hours
-		
+    if (startT == (id)[NSNull null] || endT == (id)[NSNull null]) {
+        NSLog(@"can't cope with a null startT or endT, returning false");
+        return NO;
+    }
+
+    if ([startT earlierDate:endT] == endT) {  //cross-midnight rule
+        endT = [endT dateByAddingTimeInterval:(24 * 60 * 60)]; // +24 hours
+        if (endT == nil) {
+            return NO;
+        }
+    }
+    
+    NSCalendarDate *now = [NSCalendarDate calendarDate];
+    
 	// Check day first
 	NSInteger dow = [now dayOfWeek];	// 0=Sunday, 1=Monday, etc.
 	if ([day isEqualToString:@"Any day"]) {
@@ -172,10 +188,6 @@
 			return NO;
 	}
 
-    if (startT == (id)[NSNull null] || endT == (id)[NSNull null]) {
-        NSLog(@"can't cope with a null startT or endT, returning false");
-        return false;
-    }
 	NSCalendar *cal = [NSCalendar currentCalendar];
 	NSDateComponents *startC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startT];
 	NSDateComponents *endC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:endT];
@@ -192,7 +204,7 @@
 	return YES;
 }
 
-- (NSString *) friendlyName {
+- (NSString *)friendlyName {
     return NSLocalizedString(@"Time Of Day", @"");
 }
 
