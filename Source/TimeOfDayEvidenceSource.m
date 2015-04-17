@@ -219,11 +219,11 @@
 		if (![day isEqualToString:day_name[dow]])
 			return NO;
 	}
-
+    
 	NSCalendar *cal = [NSCalendar currentCalendar];
-	NSDateComponents *startC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startT];
-	NSDateComponents *endC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:endT];
-
+	NSDateComponents *startC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:startT];
+	NSDateComponents *endC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:endT];
+    
 	// Test with startT
 	if (([now hourOfDay] < [startC hour]) ||
 	    (([now hourOfDay] == [startC hour]) && ([now minuteOfHour] < [startC minute])))
