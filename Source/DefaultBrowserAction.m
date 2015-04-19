@@ -155,7 +155,7 @@
                                                                            NULL,
                                                                            (CFStringRef)decodedURL,
                                                                            (CFStringRef)@"#",
-                                                                           (CFStringRef)@" &",
+                                                                           (CFStringRef)@" ",
                                                                            kCFStringEncodingUTF8 );
     NSArray *urls = [NSArray arrayWithObject:[NSURL URLWithString:newURL]];
     [newURL release];

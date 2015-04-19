@@ -6,9 +6,10 @@
 //
 
 #import "TimeOfDayEvidenceSource.h"
+#import "DSLogger.h"
+#import "RuleType.h"
 
-
-@interface TimeOfDayEvidenceSource (Private)
+@interface TimeOfDayEvidenceSource ()
 
 // Returns NO on failure
 - (BOOL)parseParameter:(NSString *)parameter intoDay:(NSString **)day startTime:(NSDate **)startT endTime:(NSDate **)endT;
@@ -22,23 +23,33 @@
 - (BOOL)parseParameter:(NSString *)parameter intoDay:(NSString **)day startTime:(NSDate **)startT endTime:(NSDate **)endT
 {
 	NSArray *arr = [parameter componentsSeparatedByString:@","];
-	if ([arr count] != 3)
-		return NO;
-
-	*day = [arr objectAtIndex:0];
-	// TODO: check day is an element in our list?
-
-	*startT = [formatter dateFromString:[arr objectAtIndex:1]];
-	*endT = [formatter dateFromString:[arr objectAtIndex:2]];
-	// TODO: check parsing? (maybe by re-encoding string, and comparing)
-
+    if ([arr count] != 3) {
+        return NO;
+    }
+    
+    *day = arr[0];
+    
+	*startT = [formatter dateFromString:arr[1]];
+    if (startT == nil) {
+        DSLog(@"Cannot parse value \"%@\" of parameter \"Start time\" in a \"Time of day\" rule.", arr[1]);
+        return NO;
+    }
+    
+	*endT = [formatter dateFromString:arr[2]];
+    if (endT == nil) {
+        DSLog(@"Cannot parse value \"%@\" of parameter \"End time\" in a \"Time of day\" rule.", arr[2]);
+        return NO;
+    }
+    
 	return YES;
 }
 
 - (id)init
 {
-	if (!(self = [super initWithNibNamed:@"TimeOfDayRule"]))
-		return nil;
+    self = [super initWithNibNamed:@"TimeOfDayRule"];
+    if (self == nil) {
+        return nil;
+    }
 
 	// Create formatter for reading/writing times ("HH:MM" only)
 	formatter = [[NSDateFormatter alloc] init];
@@ -84,18 +95,42 @@
     return NSLocalizedString(@"Create rules based on the time of day and day of week.", @"");
 }
 
+- (IBAction)closeSheetWithOK:(id)sender
+{
+    if ([self validatePanelParams]) {
+        [super closeSheetWithOK:sender];
+    }
+}
+
+- (BOOL)validatePanelParams
+{
+    NSString *startT = [formatter stringFromDate:startTime];
+    if (startT == nil) {
+        [RuleType alertOnInvalidParamValueWith:NSLocalizedString(@"Start time format is not correct", @"")];
+        return NO;
+    }
+    
+    NSString *endT = [formatter stringFromDate:endTime];
+    if (endT == nil) {
+        [RuleType alertOnInvalidParamValueWith:NSLocalizedString(@"End time format is not correct", @"")];
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (NSMutableDictionary *)readFromPanel
 {
 	NSMutableDictionary *dict = [super readFromPanel];
-
+    NSString *param = [NSString stringWithFormat:@"%@,%@,%@", selectedDay,
+                       [formatter stringFromDate:startTime], [formatter stringFromDate:endTime]];
+    
 	// Make formatter for description of times
 	NSDateFormatter *fmt = [[[NSDateFormatter alloc] init] autorelease];
 	[fmt setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[fmt setDateStyle:NSDateFormatterNoStyle];
 	[fmt setTimeStyle:NSDateFormatterShortStyle];
 
-	NSString *param = [NSString stringWithFormat:@"%@,%@,%@", selectedDay,
-		[formatter stringFromDate:startTime], [formatter stringFromDate:endTime]];
 	// TODO: improve description?
 	NSString *desc = [NSString stringWithFormat:@"%@ %@-%@", selectedDay,
 		[fmt stringFromDate:startTime], [fmt stringFromDate:endTime]];
@@ -145,16 +180,29 @@
 
 - (BOOL)doesRuleMatch:(NSDictionary *)rule
 {
-	NSString *day;
-	NSDate *startT, *endT;
-	NSCalendarDate *now = [NSCalendarDate calendarDate];
+	NSString *day = nil;
+	NSDate *startT = nil, *endT = nil;
 
-	if (![self parseParameter:[rule valueForKey:@"parameter"] intoDay:&day startTime:&startT endTime:&endT])
-		return NO;
+    if (![self parseParameter:rule[@"parameter"] intoDay:&day startTime:&startT endTime:&endT]) {
+        return NO;
+    }
 
-	if ([startT earlierDate:endT] == endT)  //cross-midnight rule
-		endT = [endT dateByAddingTimeInterval:(24 * 60 * 60)]; // +24 hours
-		
+    if (startT == (id)[NSNull null] || endT == (id)[NSNull null]) {
+#if DEBUG_MODE
+        DSLog(@"Cannot cope with a null startT or endT, returning false");
+#endif
+        return NO;
+    }
+
+    if ([startT earlierDate:endT] == endT) {  //cross-midnight rule
+        endT = [endT dateByAddingTimeInterval:(24 * 60 * 60)]; // +24 hours
+        if (endT == nil) {
+            return NO;
+        }
+    }
+    
+    NSCalendarDate *now = [NSCalendarDate calendarDate];
+    
 	// Check day first
 	NSInteger dow = [now dayOfWeek];	// 0=Sunday, 1=Monday, etc.
 	if ([day isEqualToString:@"Any day"]) {
@@ -171,11 +219,11 @@
 		if (![day isEqualToString:day_name[dow]])
 			return NO;
 	}
-
+    
 	NSCalendar *cal = [NSCalendar currentCalendar];
-	NSDateComponents *startC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startT];
-	NSDateComponents *endC = [cal components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:endT];
-
+	NSDateComponents *startC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:startT];
+	NSDateComponents *endC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:endT];
+    
 	// Test with startT
 	if (([now hourOfDay] < [startC hour]) ||
 	    (([now hourOfDay] == [startC hour]) && ([now minuteOfHour] < [startC minute])))
@@ -188,7 +236,7 @@
 	return YES;
 }
 
-- (NSString *) friendlyName {
+- (NSString *)friendlyName {
     return NSLocalizedString(@"Time Of Day", @"");
 }
 
