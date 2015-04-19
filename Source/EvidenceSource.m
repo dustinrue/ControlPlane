@@ -417,6 +417,7 @@
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
 #import "HostAvailabilityEvidenceSource.h"
+#import "RemoteDesktopEvidenceSource.h"
 
 #import "CPSystemInfo.h"
 
@@ -456,6 +457,7 @@
                         [MountedVolumeEvidenceSource class],
 						[WiFiEvidenceSourceCoreWLAN class],
 						[PowerEvidenceSource class],
+                        [RemoteDesktopEvidenceSource class],
 						[RunningApplicationEvidenceSource class],
                         [ShellScriptEvidenceSource class],
 						[SleepEvidenceSource class],
@@ -491,6 +493,7 @@
 		NSLocalizedString(@"Monitor", @"Evidence source");
 		NSLocalizedString(@"NetworkLink", @"Evidence source");
 		NSLocalizedString(@"Power", @"Evidence source");
+        NSLocalizedString(@"RemoteDesktop", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
         NSLocalizedString(@"Shell Script", @"Evidence source");
 		NSLocalizedString(@"Sleep/Wake", @"Evidence source");

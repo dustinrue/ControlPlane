@@ -123,6 +123,7 @@
 		DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		DA7A0C171AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0C161AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m */; };
 		DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA83A21C13D0FE8F00074503 /* CoreWLANEvidenceSource.m */; };
@@ -543,6 +544,8 @@
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPBonjourResolver.h; path = Source/CPBonjourResolver.h; sourceTree = "<group>"; };
 		DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPBonjourResolver.m; path = Source/CPBonjourResolver.m; sourceTree = "<group>"; };
+		DA7A0C151AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteDesktopEvidenceSource.h; path = Source/RemoteDesktopEvidenceSource.h; sourceTree = "<group>"; };
+		DA7A0C161AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteDesktopEvidenceSource.m; path = Source/RemoteDesktopEvidenceSource.m; sourceTree = "<group>"; };
 		DA7EAF4515D9F7F2008DF67C /* ActiveApplicationEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActiveApplicationEvidenceSource.h; path = Source/ActiveApplicationEvidenceSource.h; sourceTree = "<group>"; };
 		DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActiveApplicationEvidenceSource.m; path = Source/ActiveApplicationEvidenceSource.m; sourceTree = "<group>"; };
 		DA7EAF5A19F2EB2800DF6F54 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -999,6 +1002,8 @@
 				8D2BAAAB0C56E26100A50777 /* NetworkLinkEvidenceSource.m */,
 				8DCBF4FC0BE5B11F00A01414 /* PowerEvidenceSource.h */,
 				8DCBF4FD0BE5B11F00A01414 /* PowerEvidenceSource.m */,
+				DA7A0C151AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.h */,
+				DA7A0C161AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m */,
 				8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */,
 				8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */,
 				732A58DD1484300A0011019C /* ShellScriptEvidenceSource.h */,
@@ -1503,6 +1508,7 @@
 				8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */,
 				8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */,
 				8D8C9CE70BBB7BE00074D5B3 /* BluetoothEvidenceSource.m in Sources */,
+				DA7A0C171AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m in Sources */,
 				8D8C9E350BBB89320074D5B3 /* DB.m in Sources */,
 				8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */,
 				8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */,
