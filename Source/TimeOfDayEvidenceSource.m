@@ -4,6 +4,8 @@
 //
 //  Created by David Symonds on 20/07/07.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "TimeOfDayEvidenceSource.h"
 #import "DSLogger.h"
