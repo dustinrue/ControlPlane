@@ -83,13 +83,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[formatter release];
-
-	[super dealloc];
-}
-
 
 - (NSString *) description {
     return NSLocalizedString(@"Create rules based on the time of day and day of week.", @"");
@@ -126,7 +119,7 @@
                        [formatter stringFromDate:startTime], [formatter stringFromDate:endTime]];
     
 	// Make formatter for description of times
-	NSDateFormatter *fmt = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
 	[fmt setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[fmt setDateStyle:NSDateFormatterNoStyle];
 	[fmt setTimeStyle:NSDateFormatterShortStyle];
