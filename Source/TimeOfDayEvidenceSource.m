@@ -189,13 +189,6 @@
         return NO;
     }
 
-    if ([startT earlierDate:endT] == endT) {  //cross-midnight rule
-        endT = [endT dateByAddingTimeInterval:(24 * 60 * 60)]; // +24 hours
-        if (endT == nil) {
-            return NO;
-        }
-    }
-    
     NSCalendarDate *now = [NSCalendarDate calendarDate];
     
 	// Check day first
@@ -215,20 +208,31 @@
 			return NO;
 	}
     
+    // normalize now, start, end as full date+times on today's date
+    // formatter originally initialized them at referenceDate (2000/1/1 00:00)
 	NSCalendar *cal = [NSCalendar currentCalendar];
-	NSDateComponents *startC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:startT];
-	NSDateComponents *endC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:endT];
-    
-	// Test with startT
-	if (([now hourOfDay] < [startC hour]) ||
-	    (([now hourOfDay] == [startC hour]) && ([now minuteOfHour] < [startC minute])))
-		return NO;
-	// Test with endT
-	if (([now hourOfDay] > [endC hour]) ||
-	    (([now hourOfDay] == [endC hour]) && ([now minuteOfHour] > [endC minute])))
-		return NO;
+    NSDate *nowT = [NSDate date];
+    NSTimeInterval fuzz = fabs([[formatter dateFromString:@"00:00"] timeIntervalSinceReferenceDate]); // WTH is this negative?
+    NSDate *midnight = [cal dateFromComponents:[cal components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:nowT]];
+    NSDate *startTT = [midnight dateByAddingTimeInterval:([startT timeIntervalSinceReferenceDate] + fuzz)];
+    NSDate *endTT = [midnight dateByAddingTimeInterval:([endT timeIntervalSinceReferenceDate] + fuzz)];
 
-	return YES;
+    switch ([startTT compare:endTT])
+    {
+        case NSOrderedAscending:
+        case NSOrderedSame:
+            // start and stop times are in the same day
+            if ([nowT earlierDate:startTT] == startTT && [nowT laterDate:endTT] == endTT)
+               return YES;
+            break;
+        case NSOrderedDescending:
+            // start and stop times are in different days (cross-midnight)
+            if ([nowT earlierDate:startTT] == startTT || [nowT laterDate:endTT] == endTT)
+               return YES;
+            break;
+    }
+
+    return NO;
 }
 
 - (NSString *)friendlyName {
