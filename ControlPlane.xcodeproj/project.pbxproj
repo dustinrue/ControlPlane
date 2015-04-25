@@ -80,7 +80,7 @@
 		8DCBE96C0C1A7ECE008260EF /* MountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBE96A0C1A7ECE008260EF /* MountAction.m */; };
 		8DD790AD0BC28A9F00705346 /* OpenAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD790AB0BC28A9F00705346 /* OpenAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DE13F0E0C460E1700AEC949 /* FireWireEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCBF4900BE5622600A01414 /* FireWireEvidenceSource.m */; };
-		8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */; };
+		8DE428FC0C5084D00073499A /* TimeOfDayEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE428FA0C5084D00073499A /* TimeOfDayEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4C00F0C4EE60700511590 /* GenericEvidenceSource.m */; };
 		8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */; };
 		8DF5A4180BC2353D00CBEB4B /* Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A4160BC2353D00CBEB4B /* Action.m */; };
@@ -1931,7 +1931,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ControlPlane;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
@@ -1991,7 +1991,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = ControlPlane;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;

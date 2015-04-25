@@ -18,7 +18,6 @@
 }
 
 - (id)init;
-- (void)dealloc;
 
 - (NSMutableDictionary *)readFromPanel;
 - (void)writeToPanel:(NSDictionary *)dict usingType:(NSString *)type;

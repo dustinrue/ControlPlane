@@ -4,6 +4,7 @@
 //
 //  Created by Dustin Rue on 6/19/14.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
 //
 
 #import "MountedVolumeEvidenceSource.h"
