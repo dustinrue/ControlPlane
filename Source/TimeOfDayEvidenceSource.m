@@ -4,6 +4,8 @@
 //
 //  Created by David Symonds on 20/07/07.
 //
+//  IMPORTANT: This code is intended to be compiled for the ARC mode
+//
 
 #import "TimeOfDayEvidenceSource.h"
 #import "DSLogger.h"
@@ -83,13 +85,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[formatter release];
-
-	[super dealloc];
-}
-
 
 - (NSString *) description {
     return NSLocalizedString(@"Create rules based on the time of day and day of week.", @"");
@@ -126,7 +121,7 @@
                        [formatter stringFromDate:startTime], [formatter stringFromDate:endTime]];
     
 	// Make formatter for description of times
-	NSDateFormatter *fmt = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
 	[fmt setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[fmt setDateStyle:NSDateFormatterNoStyle];
 	[fmt setTimeStyle:NSDateFormatterShortStyle];
@@ -194,13 +189,6 @@
         return NO;
     }
 
-    if ([startT earlierDate:endT] == endT) {  //cross-midnight rule
-        endT = [endT dateByAddingTimeInterval:(24 * 60 * 60)]; // +24 hours
-        if (endT == nil) {
-            return NO;
-        }
-    }
-    
     NSCalendarDate *now = [NSCalendarDate calendarDate];
     
 	// Check day first
@@ -224,16 +212,15 @@
 	NSDateComponents *startC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:startT];
 	NSDateComponents *endC = [cal components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:endT];
     
-	// Test with startT
-	if (([now hourOfDay] < [startC hour]) ||
-	    (([now hourOfDay] == [startC hour]) && ([now minuteOfHour] < [startC minute])))
-		return NO;
-	// Test with endT
-	if (([now hourOfDay] > [endC hour]) ||
-	    (([now hourOfDay] == [endC hour]) && ([now minuteOfHour] > [endC minute])))
-		return NO;
-
-	return YES;
+    const NSInteger hourNow = [now hourOfDay], minuteNow = [now minuteOfHour];
+    BOOL hasStarted = (hourNow > [startC hour]) || ( (hourNow == [startC hour]) && (minuteNow >= [startC minute]) );
+    BOOL hasEnded   = (hourNow > [endC hour])   || ( (hourNow == [endC hour])   && (minuteNow >= [endC minute]) );
+    
+    if ([startT earlierDate:endT] == endT) {  //cross-midnight rule
+        return (hasStarted || !hasEnded);
+    }
+    
+	return (hasStarted && !hasEnded);
 }
 
 - (NSString *)friendlyName {
