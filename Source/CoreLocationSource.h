@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <WebKit/WebKit.h>
 
-@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate>
+@interface CoreLocationSource : EvidenceSource <CLLocationManagerDelegate,WebFrameLoadDelegate>
 
 - (id)init;
 - (void)dealloc;
