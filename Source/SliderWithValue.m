@@ -158,7 +158,7 @@ static NSTimer *hideToolTipTimer;
 
 	if (draw) {
 		NSRect r1 = [[self controlView] convertRect:knobRect toView:nil];
-		NSPoint p1 = [[[self controlView] window] convertBaseToScreen:r1.origin];
+		NSPoint p1 = [[[self controlView] window] convertRectToScreen:r1].origin;
 		float bump = [self knobThickness] / 2;
 		p1.x += bump;
 		p1.y += bump;
@@ -217,7 +217,9 @@ static NSTimer *hideToolTipTimer;
 {
 	NSEvent *theEvent = [NSApp currentEvent];
 	//NSLog(@"cell is %@", [[self cell] class]);
-	NSPoint point = [[theEvent window] convertBaseToScreen:[theEvent locationInWindow]];
+    NSRect r1 = NSMakeRect([theEvent locationInWindow].x, [theEvent locationInWindow].y, 0, 0);
+
+	NSPoint point = [[theEvent window] convertRectToScreen:r1].origin;
 
 	if ([theEvent type] == NSLeftMouseUp) {
 		[ToolTip releaseToolTip];

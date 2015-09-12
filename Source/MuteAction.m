@@ -55,9 +55,9 @@
 	}
 	
 	// mute/unmute
-	UInt32 size = sizeof(UInt32);
-	UInt32 mute = !turnOn;
-	status = AudioHardwareServiceSetPropertyData(deviceID, &property, 0, NULL, size, &mute);
+    UInt32 mute = (turnOn) ? 0:1;
+
+    status = AudioObjectSetPropertyData(deviceID, &property, 0, NULL, sizeof(UInt32), &mute);
 	
 	// result
 	if (status) {
@@ -104,7 +104,7 @@
 	else {
 		// get the default output
 		size = sizeof(deviceID);
-		status = AudioHardwareServiceGetPropertyData(kAudioObjectSystemObject, &property, 0, NULL, &size, &deviceID);
+        status = AudioObjectGetPropertyData(kAudioObjectSystemObject, &property, 0, NULL, &size, &deviceID);
 		
 		if (status)
 			NSLog(@"Cannot find default output device!");

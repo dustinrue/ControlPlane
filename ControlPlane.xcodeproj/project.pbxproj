@@ -117,7 +117,7 @@
 		DA5B01F61412BB0D00E19C50 /* BetterAuthorizationSampleLibInstallTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */; };
 		DA5B020A1412BBF200E19C50 /* CPHelperTool.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B02091412BBF200E19C50 /* CPHelperTool.c */; };
 		DA5B020C1412BDEF00E19C50 /* CPHelperToolCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */; };
-		DA5B020D1412BDFC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
+		DA5C34621BA478150023FF41 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */; };
 		DA648AEE1412C15D00532B2C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8274FA141177750098FA6E /* Security.framework */; };
 		DA648AF11412C19800532B2C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA648AEF1412C17A00532B2C /* CoreFoundation.framework */; };
 		DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */; };
@@ -1321,7 +1321,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0700;
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
 						DevelopmentTeam = YV4RHGCYFA;
@@ -1618,7 +1618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA5B020D1412BDFC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
+				DA5C34621BA478150023FF41 /* BetterAuthorizationSampleLib.c in Sources */,
 				DA5B020A1412BBF200E19C50 /* CPHelperTool.c in Sources */,
 				DA5B020C1412BDEF00E19C50 /* CPHelperToolCommon.c in Sources */,
 			);
@@ -1854,6 +1854,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
@@ -1877,6 +1878,7 @@
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -1897,6 +1899,7 @@
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
@@ -1908,6 +1911,7 @@
 				GCC_ENABLE_SSE41_EXTENSIONS = YES;
 				GCC_ENABLE_SSE42_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/ControlPlane_Prefix.pch;
@@ -1973,6 +1977,7 @@
 				GCC_ENABLE_SSE42_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/ControlPlane_Prefix.pch;
 				GCC_STRICT_ALIASING = YES;
@@ -2010,6 +2015,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
@@ -2019,6 +2025,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};

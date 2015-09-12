@@ -217,6 +217,10 @@
 	return list;
 }
 
+- (void) handleURL:(NSString *)url {
+    NSLog(@"Not implemented");
+}
+
 @end
 
 #pragma mark -

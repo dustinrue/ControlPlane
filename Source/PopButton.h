@@ -9,6 +9,6 @@
 
 @interface PopButton : NSButton
 
-@property (nonatomic,strong) NSMenu *menu;
+//@property (strong) NSMenu *menu;
 
 @end
