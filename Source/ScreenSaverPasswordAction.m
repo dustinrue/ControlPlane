@@ -33,8 +33,10 @@
 	// not sure this does or why it must be called...anyone? (DBR)
 	if (success) {
 		CFMessagePortRef port = CFMessagePortCreateRemote(NULL, CFSTR("com.apple.loginwindow.notify"));
-		success = (CFMessagePortSendRequest(port, 500, 0, 0, 0, 0, 0) == kCFMessagePortSuccess);
-		CFRelease(port);
+        if (port) {
+            success = (CFMessagePortSendRequest(port, 500, 0, 0, 0, 0, 0) == kCFMessagePortSuccess);
+            CFRelease(port);
+        }
 	}
 
 	if (!success) {
