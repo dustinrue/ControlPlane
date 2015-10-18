@@ -11,6 +11,7 @@
 
 @interface AudioOutputEvidenceSource : GenericEvidenceSource {
 	AudioDeviceID deviceID;
+    AudioDeviceID builtinDeviceID;
 	UInt32 source;
 }
 

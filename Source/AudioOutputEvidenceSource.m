@@ -105,7 +105,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	if (running)
 		return;
 
-	// Register listener
+	// Register listener for the default output device
 	UInt32 sz = sizeof(deviceID);
 	AudioObjectPropertyAddress address = {
 		kAudioHardwarePropertyDefaultSystemOutputDevice,
@@ -117,6 +117,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 		NSLog(@"%s >> AudioHardwareGetProperty failed!", __PRETTY_FUNCTION__);
 		return;
 	}
+    NSLog(@"current device id %u", (unsigned int) deviceID);
 	
 	address.mSelector = kAudioHardwarePropertyDefaultSystemOutputDevice;
 	
@@ -125,7 +126,48 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 		return;
 	}
     
-    AudioDeviceID defaultDevice = 0;
+    // Register a lister for the built in audio device
+    
+    // we need to find the built in device first
+    AudioObjectPropertyAddress availableDeviceSearch = {
+        kAudioHardwarePropertyDevices,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster,
+    };
+    
+    UInt32 propertySize;
+    
+    if (AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &availableDeviceSearch, 0, NULL, &propertySize) != noErr) {
+        NSLog(@"%s >> Unable to get property data size while getting available audio output devices", __PRETTY_FUNCTION__);
+        return;
+    }
+    
+    int deviceCount = propertySize / sizeof(AudioDeviceID);
+    AudioDeviceID *audioDevices = (AudioDeviceID *)malloc(propertySize);
+    builtinDeviceID = 0;
+    OSStatus error = noErr;
+    
+    error = AudioObjectGetPropertyData(kAudioObjectSystemObject, &availableDeviceSearch, 0, NULL, &propertySize, audioDevices);
+    if (error == noErr) {
+        propertySize = sizeof(CFStringRef);
+        // for each of the audio deviceds we were given, check to see if it is named
+        // Built-in Output
+        for (int i = 0; i <= deviceCount; i++) {
+            NSString *result;
+            availableDeviceSearch.mSelector = kAudioDevicePropertyDeviceNameCFString;
+            error = AudioObjectGetPropertyData(audioDevices[i], &availableDeviceSearch, 0, NULL, &propertySize, &result);
+            if (error == noErr && [result isEqualToString:@"Built-in Output"]) {
+                builtinDeviceID = audioDevices[i];
+                break;
+            }
+        }
+
+    }
+    if (builtinDeviceID == 0) {
+        NSLog(@"%s >> Failed to find built in audio device", __PRETTY_FUNCTION__);
+        return;
+    }
+    NSLog(@"built in device id %u", (unsigned int) builtinDeviceID);
     UInt32 defaultSize = sizeof(AudioDeviceID);
     
     AudioObjectPropertyAddress defaultAddr = {
@@ -134,7 +176,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
         kAudioObjectPropertyElementMaster
     };
     
-    if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &defaultAddr, 0, NULL, &defaultSize, &defaultDevice) != noErr) {
+    if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &defaultAddr, 0, NULL, &defaultSize, &builtinDeviceID) != noErr) {
         NSLog(@"%s >> AudioHardwareGetProperty failed!", __PRETTY_FUNCTION__);
         return;
     }
@@ -145,7 +187,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
         kAudioObjectPropertyElementMaster
     };
     
-    if (AudioObjectAddPropertyListener(defaultDevice, &sourceAddr, &sourceChange, self) != noErr) {
+    if (AudioObjectAddPropertyListener(builtinDeviceID, &sourceAddr, &sourceChange, self) != noErr) {
         NSLog(@"%s >> AudioDeviceAddPropertyListener failed!", __PRETTY_FUNCTION__);
         return;
     }
