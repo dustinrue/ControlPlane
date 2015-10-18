@@ -124,6 +124,32 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 		NSLog(@"%s >> AudioDeviceAddPropertyListener failed!", __PRETTY_FUNCTION__);
 		return;
 	}
+    
+    AudioDeviceID defaultDevice = 0;
+    UInt32 defaultSize = sizeof(AudioDeviceID);
+    
+    AudioObjectPropertyAddress defaultAddr = {
+        kAudioHardwarePropertyDefaultOutputDevice,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster
+    };
+    
+    if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &defaultAddr, 0, NULL, &defaultSize, &defaultDevice) != noErr) {
+        NSLog(@"%s >> AudioHardwareGetProperty failed!", __PRETTY_FUNCTION__);
+        return;
+    }
+    
+    AudioObjectPropertyAddress sourceAddr = {
+        kAudioDevicePropertyDataSource,
+        kAudioDevicePropertyScopeOutput,
+        kAudioObjectPropertyElementMaster
+    };
+    
+    if (AudioObjectAddPropertyListener(defaultDevice, &sourceAddr, &sourceChange, self) != noErr) {
+        NSLog(@"%s >> AudioDeviceAddPropertyListener failed!", __PRETTY_FUNCTION__);
+        return;
+    }
+
 
 	[self doRealUpdate];
 
