@@ -12,8 +12,8 @@
 
 
 static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
-			     const AudioObjectPropertyAddress *inPropertyID, void *inClientData)
-{
+			     const AudioObjectPropertyAddress *inPropertyID, void *inClientData) {
+    
 	AudioOutputEvidenceSource *src = (AudioOutputEvidenceSource *) inClientData;
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -42,6 +42,22 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 
 - (void)doRealUpdate
 {
+    
+    UInt32 sz2 = sizeof(deviceID);
+    AudioObjectPropertyAddress address2 = {
+        kAudioHardwarePropertyDefaultOutputDevice,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster
+    };
+    
+    if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &address2, 0, NULL, &sz2, &deviceID) != noErr) {
+        NSLog(@"%s >> AudioHardwareGetProperty failed!", __PRETTY_FUNCTION__);
+        return;
+    }
+    NSLog(@"current device id %u", (unsigned int) deviceID);
+    
+    
+    
 	UInt32 sourceID;
 	UInt32 sz = sizeof(sourceID);
 	
@@ -51,9 +67,9 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 		0
 	};
 	
-	if (AudioObjectGetPropertyData(deviceID, &address, 0, NULL, &sz, &sourceID) != noErr) {
+    if (AudioObjectGetPropertyData((builtinDeviceID == deviceID) ? builtinDeviceID:deviceID, &address, 0, NULL, &sz, &sourceID) != noErr) {
 		NSLog(@"%@ >> AudioDeviceGetProperty failed!", [self class]);
-		return;
+        sourceID = kIOAudioOutputPortSubTypeExternalSpeaker;
 	}
 	source = sourceID;
 	[self setDataCollected:YES];
@@ -106,9 +122,10 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 		return;
 
 	// Register listener for the default output device
+    // This one detects when the audio source has changed at all
 	UInt32 sz = sizeof(deviceID);
 	AudioObjectPropertyAddress address = {
-		kAudioHardwarePropertyDefaultSystemOutputDevice,
+		kAudioHardwarePropertyDefaultOutputDevice,
 		kAudioObjectPropertyScopeGlobal,
 		kAudioObjectPropertyElementMaster
 	};
@@ -119,7 +136,7 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	}
     NSLog(@"current device id %u", (unsigned int) deviceID);
 	
-	address.mSelector = kAudioHardwarePropertyDefaultSystemOutputDevice;
+	address.mSelector = kAudioHardwarePropertyDefaultOutputDevice;
 	
 	if (AudioObjectAddPropertyListener(kAudioObjectSystemObject, &address, &sourceChange, self) != noErr) {
 		NSLog(@"%s >> AudioDeviceAddPropertyListener failed!", __PRETTY_FUNCTION__);
@@ -127,6 +144,8 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 	}
     
     // Register a lister for the built in audio device
+    // this one is able to detect when the built in audio
+    // device has changed from headphones to internal
     
     // we need to find the built in device first
     AudioObjectPropertyAddress availableDeviceSearch = {
@@ -163,24 +182,15 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
         }
 
     }
+    free(audioDevices);
+    
     if (builtinDeviceID == 0) {
         NSLog(@"%s >> Failed to find built in audio device", __PRETTY_FUNCTION__);
         return;
     }
     NSLog(@"built in device id %u", (unsigned int) builtinDeviceID);
-    UInt32 defaultSize = sizeof(AudioDeviceID);
     
-    AudioObjectPropertyAddress defaultAddr = {
-        kAudioHardwarePropertyDefaultOutputDevice,
-        kAudioObjectPropertyScopeGlobal,
-        kAudioObjectPropertyElementMaster
-    };
-    
-    if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &defaultAddr, 0, NULL, &defaultSize, &builtinDeviceID) != noErr) {
-        NSLog(@"%s >> AudioHardwareGetProperty failed!", __PRETTY_FUNCTION__);
-        return;
-    }
-    
+
     AudioObjectPropertyAddress sourceAddr = {
         kAudioDevicePropertyDataSource,
         kAudioDevicePropertyScopeOutput,
@@ -204,13 +214,18 @@ static OSStatus sourceChange(AudioObjectID inDevice, UInt32 inChannel,
 		return;
 	
 	AudioObjectPropertyAddress address = {
-		kAudioHardwarePropertyDefaultSystemOutputDevice,
+		kAudioHardwarePropertyDefaultOutputDevice,
 		kAudioObjectPropertyScopeGlobal,
 		kAudioObjectPropertyElementMaster
 	};
 	
 	// Unregister listener; I don't know what we could do if this fails ...
 	AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &address, &sourceChange, self);
+    
+    address.mSelector =kAudioDevicePropertyDataSource;
+    address.mScope = kAudioDevicePropertyScopeOutput;
+    address.mElement = kAudioObjectPropertyElementMaster;
+    AudioObjectRemovePropertyListener(builtinDeviceID, &address, &sourceChange, self);
 
 	source = 0;
 	[self setDataCollected:NO];
