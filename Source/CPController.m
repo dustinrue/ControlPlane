@@ -174,6 +174,7 @@ static NSSet *sharedActiveContexts = nil;
 	[appDefaults setValue:@"" forKey:@"DefaultContext"];
 	[appDefaults setValue:[NSNumber numberWithBool:YES] forKey:@"EnablePersistentContext"];
 	[appDefaults setValue:@"" forKey:@"PersistentContext"];
+  [appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"EnableNFCMirrorEvidenceSource"];
 
 	// Advanced
 	[appDefaults setValue:[NSNumber numberWithBool:NO] forKey:@"ShowAdvancedPreferences"];

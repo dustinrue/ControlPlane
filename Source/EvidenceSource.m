@@ -412,6 +412,7 @@
 #import "RunningApplicationEvidenceSource.h"
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
+#import "NFCMirrorEvidenceSource.h"
 #import "CoreWLANEvidenceSource.h"
 #import "ShellScriptEvidenceSource.h"
 #import "SleepEvidenceSource.h"
@@ -446,6 +447,7 @@
                         [FireWireEvidenceSource class],
                         [MonitorEvidenceSource class],
                         [USBEvidenceSource class],
+						            [NFCMirrorEvidenceSource class],
 						[AudioOutputEvidenceSource class],
                         //[HostAvailabilityEvidenceSource class],
 						[BluetoothEvidenceSource class],
@@ -499,6 +501,7 @@
 		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
 		NSLocalizedString(@"USB", @"Evidence source");
+    NSLocalizedString(@"NFC Mirror", @"Evidence source");
         NSLocalizedString(@"WiFi using CoreWLAN", @"Evidence source");
 	}
 
