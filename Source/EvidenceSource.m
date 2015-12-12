@@ -413,6 +413,7 @@
 #import "TimeOfDayEvidenceSource.h"
 #import "USBEvidenceSource.h"
 #import "CoreWLANEvidenceSource.h"
+#import "ScreenLockEvidenceSource.h"
 #import "ShellScriptEvidenceSource.h"
 #import "SleepEvidenceSource.h"
 #import "CoreLocationSource.h"
@@ -459,6 +460,7 @@
 						[PowerEvidenceSource class],
                         [RemoteDesktopEvidenceSource class],
 						[RunningApplicationEvidenceSource class],
+                        [ScreenLockEvidenceSource class],
                         [ShellScriptEvidenceSource class],
 						[SleepEvidenceSource class],
 						[TimeOfDayEvidenceSource class],
@@ -495,6 +497,7 @@
 		NSLocalizedString(@"Power", @"Evidence source");
         NSLocalizedString(@"RemoteDesktop", @"Evidence source");
 		NSLocalizedString(@"RunningApplication", @"Evidence source");
+        NSLocalizedString(@"ScreenLock", @"Evidence source");
         NSLocalizedString(@"Shell Script", @"Evidence source");
 		NSLocalizedString(@"Sleep/Wake", @"Evidence source");
 		NSLocalizedString(@"TimeOfDay", @"Evidence source");
