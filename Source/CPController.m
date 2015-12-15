@@ -1093,7 +1093,7 @@ static NSSet *sharedActiveContexts = nil;
             maxDelayValue = [[actions[0] valueForKey:@"delay"] doubleValue];
             
             [self scheduleOrderedActions:actions usingDelayProvider:^(Action *action) {
-                return (maxDelayValue - [[action valueForKey:@"delay"] doubleValue]);
+                return [[action valueForKey:@"delay"] doubleValue]; // Roy: delay does not work... why?//(maxDelayValue - [[action valueForKey:@"delay"] doubleValue]);
             }];
         }
     }

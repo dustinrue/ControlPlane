@@ -200,7 +200,7 @@
     
     [task setArguments:args];
     
-    NSString *interpreter = nil;
+    NSString *interpreter = @"";
     
     NSMutableArray *shebangArgs = [scriptName interpreterFromFile];
 	if (shebangArgs && [shebangArgs count] > 0) {
@@ -239,10 +239,12 @@
     [task setCurrentDirectoryPath:NSHomeDirectory()];
     
     // set error, input and output to dev null or NSTask will never
-    // notice that the script has ended.  
+    // notice that the script has ended.
+    NSPipe *pipe = [NSPipe pipe];
     [task setStandardError:devnull];
     [task setStandardInput:devnull];
-    [task setStandardOutput:devnull];
+    [task setStandardOutput:pipe];
+    NSFileHandle *file = [pipe fileHandleForReading];
     
     [task launch];
     
@@ -252,7 +254,11 @@
     DSLog(@"task ended");
 #endif
     
-    if ([task terminationStatus] != 0) {
+    NSData *result = [file readDataToEndOfFile];
+    NSString *resultString = [[NSString alloc] initWithData:result encoding: NSUTF8StringEncoding];
+    BOOL succes = [resultString isEqualToString:@"0\n"];
+    
+    if ([task terminationStatus] != 0 || !succes) {
 #if DEBUG_MODE
         DSLog(@"script reported fail");
 #endif
@@ -268,6 +274,9 @@
         [task release];
         [args release];
     }
+    
+    [resultString release];
+    //[result release];
 }
 
 - (NSString *)name {
