@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		640E7DC01C1C983400045672 /* ScreenLockEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 640E7DBF1C1C983400045672 /* ScreenLockEvidenceSource.m */; };
 		732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
 		73A5092F14849405007D22B5 /* ShellScriptRule.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A5092714849405007D22B5 /* ShellScriptRule.xib */; };
@@ -308,6 +309,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlPlane_Prefix.pch; path = Source/ControlPlane_Prefix.pch; sourceTree = "<group>"; };
+		640E7DBE1C1C983400045672 /* ScreenLockEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenLockEvidenceSource.h; path = Source/ScreenLockEvidenceSource.h; sourceTree = "<group>"; };
+		640E7DBF1C1C983400045672 /* ScreenLockEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenLockEvidenceSource.m; path = Source/ScreenLockEvidenceSource.m; sourceTree = "<group>"; };
 		732A58DD1484300A0011019C /* ShellScriptEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellScriptEvidenceSource.h; path = Source/ShellScriptEvidenceSource.h; sourceTree = "<group>"; };
 		732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShellScriptEvidenceSource.m; path = Source/ShellScriptEvidenceSource.m; sourceTree = "<group>"; };
 		732A58E91484311C0011019C /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/CoreLocationRule.xib"; sourceTree = "<group>"; };
@@ -1006,6 +1009,8 @@
 				DA7A0C161AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m */,
 				8D341CD00C0459D0008A7B4F /* RunningApplicationEvidenceSource.h */,
 				8D341CD10C0459D0008A7B4F /* RunningApplicationEvidenceSource.m */,
+				640E7DBE1C1C983400045672 /* ScreenLockEvidenceSource.h */,
+				640E7DBF1C1C983400045672 /* ScreenLockEvidenceSource.m */,
 				732A58DD1484300A0011019C /* ShellScriptEvidenceSource.h */,
 				732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */,
 				DDAA9A161402FAAD00D4757E /* SleepEvidenceSource.h */,
@@ -1548,6 +1553,7 @@
 				8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */,
 				8D3C85150CDD8546009DBCD9 /* ScreenSaverStartAction.m in Sources */,
 				8DA2F4150CE8630200F92D4D /* DesktopBackgroundAction.m in Sources */,
+				640E7DC01C1C983400045672 /* ScreenLockEvidenceSource.m in Sources */,
 				8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */,
 				DA8B17351149AD0C00417D4F /* LightEvidenceSource.m in Sources */,
 				DA83A21D13D0FE8F00074503 /* CoreWLANEvidenceSource.m in Sources */,
