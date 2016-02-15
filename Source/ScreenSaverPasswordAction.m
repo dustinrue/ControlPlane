@@ -6,6 +6,8 @@
 //
 
 #import "ScreenSaverPasswordAction.h"
+#import "DSLogger.h"
+#import "CPNotifications.h"
 
 
 @implementation ScreenSaverPasswordAction
@@ -18,10 +20,10 @@
 		return NSLocalizedString(@"Disabling screen saver password.", @"");
 }
 
-- (BOOL)execute:(NSString **)errorString
-{
+- (BOOL)execute:(NSString **)errorString {
+    /*
 	BOOL success;
-	
+    
 	NSNumber *val = [NSNumber numberWithBool:turnOn];
 	CFPreferencesSetValue(CFSTR("askForPassword"), (CFPropertyListRef) val,
 				  CFSTR("com.apple.screensaver"),
@@ -38,11 +40,30 @@
             CFRelease(port);
         }
 	}
+    */
+    NSTask *task = [[NSTask alloc] init];
+    if (turnOn)
+        [task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"enable_screensaver" ofType:@"sh"]];
+    else
+        [task setLaunchPath:[[NSBundle mainBundle] pathForResource:@"disable_screensaver" ofType:@"sh"]];
+    
+    [task setStandardOutput:[NSPipe pipe]];
+    [task setStandardInput:[NSPipe pipe]];
+    
+    task.terminationHandler = ^(NSTask *terminatedTask) {
+        int terminationStatus = terminatedTask.terminationStatus;
+        if (terminationStatus != 0) {
+            DSLog(@"Failed to toggle screensaver password. (script terminated with a non-zero status '%d')",
+                  terminationStatus);
+            NSString *title = NSLocalizedString(@"Failure", @"Growl message title");
+            NSString *errorMsg = NSLocalizedString(@"Failed executing shell script! (see log for details)", @"");
+            [CPNotifications postUserNotification:title withMessage:errorMsg];
+            return;
+        }
+    };
+    
+    [task launch];
 
-	if (!success) {
-		*errorString = NSLocalizedString(@"Failed toggling screen saver password!", @"");
-		return NO;
-	}
 	return YES;
 }
 

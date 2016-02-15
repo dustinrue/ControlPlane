@@ -124,6 +124,8 @@
 		DA69D7E217BD04C30062FBBC /* HostAvailabilityEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA69D7E117BD04C30062FBBC /* HostAvailabilityEvidenceSource.m */; };
 		DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA72BF9313CD317B002D27DD /* CoreWLAN.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		DA72BFF615019D8C003072C6 /* CPBonjourResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		DA78A07D1C721FB100D4D0B2 /* enable_screensaver.sh in Resources */ = {isa = PBXBuildFile; fileRef = DA78A07C1C721FB100D4D0B2 /* enable_screensaver.sh */; };
+		DA78A0811C721FB900D4D0B2 /* disable_screensaver.sh in Resources */ = {isa = PBXBuildFile; fileRef = DA78A0801C721FB900D4D0B2 /* disable_screensaver.sh */; };
 		DA7A0C171AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7A0C161AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m */; };
 		DA7EAF4715D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7EAF4615D9F7F2008DF67C /* ActiveApplicationEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA812E83140681D2006869F7 /* AppleScript.m in Sources */ = {isa = PBXBuildFile; fileRef = DA812E82140681D2006869F7 /* AppleScript.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -547,6 +549,8 @@
 		DA72BF9313CD317B002D27DD /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreWLAN.framework; sourceTree = DEVELOPER_DIR; };
 		DA72BFF415019D8C003072C6 /* CPBonjourResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPBonjourResolver.h; path = Source/CPBonjourResolver.h; sourceTree = "<group>"; };
 		DA72BFF515019D8C003072C6 /* CPBonjourResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPBonjourResolver.m; path = Source/CPBonjourResolver.m; sourceTree = "<group>"; };
+		DA78A07C1C721FB100D4D0B2 /* enable_screensaver.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = enable_screensaver.sh; sourceTree = "<group>"; };
+		DA78A0801C721FB900D4D0B2 /* disable_screensaver.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = disable_screensaver.sh; sourceTree = "<group>"; };
 		DA7A0C151AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteDesktopEvidenceSource.h; path = Source/RemoteDesktopEvidenceSource.h; sourceTree = "<group>"; };
 		DA7A0C161AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteDesktopEvidenceSource.m; path = Source/RemoteDesktopEvidenceSource.m; sourceTree = "<group>"; };
 		DA7EAF4515D9F7F2008DF67C /* ActiveApplicationEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActiveApplicationEvidenceSource.h; path = Source/ActiveApplicationEvidenceSource.h; sourceTree = "<group>"; };
@@ -846,11 +850,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DA78A07C1C721FB100D4D0B2 /* enable_screensaver.sh */,
 				DAA9ABFE1595FDE700B84B05 /* README.md */,
 				8D232FB30BD9D507006A3963 /* ActionsPrefs.png */,
 				96454D3918C3E6BE004F64E7 /* ActionsPrefs@2x.png */,
 				8D185DC50BF428CF00A06B03 /* AdvancedPrefs.png */,
 				96454D3A18C3E6BE004F64E7 /* AdvancedPrefs@2x.png */,
+				DA78A0801C721FB900D4D0B2 /* disable_screensaver.sh */,
 				8D4E5CB20C48AE9F0054A67C /* ContextsPrefs.png */,
 				96454D3B18C3E6BE004F64E7 /* ContextsPrefs@2x.png */,
 				DA4A629213E2546800CE976F /* ControlPlane Help */,
@@ -1413,6 +1419,7 @@
 				DAA26B1517AB696100C585CF /* HostAvailability.xib in Resources */,
 				DA4A629513E25C9D00CE976F /* Credits.html in Resources */,
 				DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */,
+				DA78A07D1C721FB100D4D0B2 /* enable_screensaver.sh in Resources */,
 				DA83A22113D13C8300074503 /* cp-icon-inactive.icns in Resources */,
 				DA83A21F13D12A3200074503 /* cp-icon-active.icns in Resources */,
 				8D1A455B0BA00DE2004A6BC4 /* minus-8.png in Resources */,
@@ -1440,6 +1447,7 @@
 				DDA2013A1411C0FB00DE570E /* Localizable.strings in Resources */,
 				DDA201441411C25A00DE570E /* GenericRule.xib in Resources */,
 				DDA2014E1411C32F00DE570E /* IPRule.xib in Resources */,
+				DA78A0811C721FB900D4D0B2 /* disable_screensaver.sh in Resources */,
 				DDA201581411C35700DE570E /* LightRule.xib in Resources */,
 				DDA201621411C37300DE570E /* MainMenu.xib in Resources */,
 				DDA2016C1411C38D00DE570E /* TimeOfDayRule.xib in Resources */,
