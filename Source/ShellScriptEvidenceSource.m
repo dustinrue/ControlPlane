@@ -256,9 +256,17 @@
     
     NSData *result = [file readDataToEndOfFile];
     NSString *resultString = [[NSString alloc] initWithData:result encoding: NSUTF8StringEncoding];
-    BOOL succes = [resultString isEqualToString:@"0\n"];
     
-    if ([task terminationStatus] != 0 || !succes) {
+    BOOL success = NO;
+    
+    if ([resultString isEqualToString:@""]) {
+        success = ([task terminationReason]) ? YES:NO;
+    }
+    else {
+        success = [resultString isEqualToString:@"0\n"];
+    }
+    
+    if ([task terminationStatus] != 0 || !success) {
 #if DEBUG_MODE
         DSLog(@"script reported fail");
 #endif
