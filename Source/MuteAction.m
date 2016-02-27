@@ -12,6 +12,7 @@
 @interface MuteAction (Private)
 
 - (AudioDeviceID) outputDeviceID;
+- (AudioDeviceID) outputHardwareDeviceID;
 
 @end
 
@@ -25,7 +26,7 @@
 }
 
 - (BOOL) execute: (NSString **) errorString {
-	AudioDeviceID deviceID = [self outputDeviceID];
+	AudioDeviceID deviceID = [self outputHardwareDeviceID];
 	
 	// init
 	OSStatus status = noErr;
@@ -56,9 +57,9 @@
 	
 	// mute/unmute
     UInt32 mute = (turnOn) ? 0:1;
+    AudioDeviceID deviceID2 = [self outputDeviceID];
+    status = AudioObjectSetPropertyData(deviceID2, &property, 0, NULL, sizeof(UInt32), &mute);
 
-    status = AudioObjectSetPropertyData(deviceID, &property, 0, NULL, sizeof(UInt32), &mute);
-	
 	// result
 	if (status) {
 		*errorString = @"Unable to set volume for output device.";
@@ -111,6 +112,31 @@
 	}
 	
 	return deviceID;
+}
+- (AudioDeviceID) outputHardwareDeviceID {
+  AudioDeviceID deviceID = kAudioObjectUnknown;
+  
+  // init
+  UInt32 size = 0;
+  OSStatus status = noErr;
+  AudioObjectPropertyAddress property;
+  property.mScope = kAudioObjectPropertyScopeGlobal;
+  property.mElement = kAudioObjectPropertyElementMaster;
+  property.mSelector = kAudioHardwarePropertyDefaultOutputDevice;
+  
+  // are there audio properties
+  if (!AudioHardwareServiceHasProperty(kAudioObjectSystemObject, &property))
+    NSLog(@"Cannot find default output device!");
+  else {
+    // get the default output
+    size = sizeof(deviceID);
+    status = AudioHardwareServiceGetPropertyData(kAudioObjectSystemObject, &property, 0, NULL, &size, &deviceID);
+    
+    if (status)
+      NSLog(@"Cannot find default output device!");
+  }
+  
+  return deviceID;
 }
 
 + (NSString *) friendlyName {
