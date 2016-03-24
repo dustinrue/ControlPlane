@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5DCCE0BB1CA4870100FACF9F /* ScrollBarsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCCE0BA1CA4870100FACF9F /* ScrollBarsAction.m */; };
 		640E7DC01C1C983400045672 /* ScreenLockEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 640E7DBF1C1C983400045672 /* ScreenLockEvidenceSource.m */; };
 		732A58DF1484300A0011019C /* ShellScriptEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 732A58DE1484300A0011019C /* ShellScriptEvidenceSource.m */; };
 		739492E2146B8018003C94DE /* DisplaySleepTimeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 739492E1146B8018003C94DE /* DisplaySleepTimeAction.m */; };
@@ -308,6 +309,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* ControlPlane_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlPlane_Prefix.pch; path = Source/ControlPlane_Prefix.pch; sourceTree = "<group>"; };
+		5DCCE0B91CA4870100FACF9F /* ScrollBarsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollBarsAction.h; path = Source/ScrollBarsAction.h; sourceTree = "<group>"; };
+		5DCCE0BA1CA4870100FACF9F /* ScrollBarsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollBarsAction.m; path = Source/ScrollBarsAction.m; sourceTree = "<group>"; };
 		640E7DBE1C1C983400045672 /* ScreenLockEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScreenLockEvidenceSource.h; path = Source/ScreenLockEvidenceSource.h; sourceTree = "<group>"; };
 		640E7DBF1C1C983400045672 /* ScreenLockEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenLockEvidenceSource.m; path = Source/ScreenLockEvidenceSource.m; sourceTree = "<group>"; };
 		732A58DD1484300A0011019C /* ShellScriptEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShellScriptEvidenceSource.h; path = Source/ShellScriptEvidenceSource.h; sourceTree = "<group>"; };
@@ -1174,6 +1177,8 @@
 				8D3C85130CDD8546009DBCD9 /* ScreenSaverStartAction.m */,
 				8DE4EE440C4B2A6F00A5B559 /* ScreenSaverTimeAction.h */,
 				8DE4EE450C4B2A6F00A5B559 /* ScreenSaverTimeAction.m */,
+				5DCCE0B91CA4870100FACF9F /* ScrollBarsAction.h */,
+				5DCCE0BA1CA4870100FACF9F /* ScrollBarsAction.m */,
 				DD8274F114115EE40098FA6E /* StartTimeMachineAction.h */,
 				DD8274F214115EE40098FA6E /* StartTimeMachineAction.m */,
 				8D75A61D0BE6F68B0069DF3F /* ToggleBluetoothAction.h */,
@@ -1502,6 +1507,7 @@
 				8D82F0A30AA81411009ADA44 /* PrefsWindowController.m in Sources */,
 				8D90E51F0B71C4C9007D39FD /* CPController.m in Sources */,
 				8D8C9CA60BBB74E70074D5B3 /* EvidenceSource.m in Sources */,
+				5DCCE0BB1CA4870100FACF9F /* ScrollBarsAction.m in Sources */,
 				8D8C9CE70BBB7BE00074D5B3 /* BluetoothEvidenceSource.m in Sources */,
 				DA7A0C171AE3F5A90063CDDC /* RemoteDesktopEvidenceSource.m in Sources */,
 				8D8C9E350BBB89320074D5B3 /* DB.m in Sources */,

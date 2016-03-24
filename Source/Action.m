@@ -251,6 +251,7 @@
 #import "ScreenSaverPasswordAction.h"
 #import "ScreenSaverStartAction.h"
 #import "ScreenSaverTimeAction.h"
+#import "ScrollBarsAction.h"
 #import "ShellScriptAction.h"
 #import "SpeakAction.h"
 #import "StartTimeMachineAction.h"
@@ -315,6 +316,7 @@
 			   [ScreenSaverPasswordAction class],
 			   [ScreenSaverStartAction class],
 			   [ScreenSaverTimeAction class],
+			   [ScrollBarsAction class],
 			   [ShellScriptAction class],
 			   [SpeakAction class],
 			   [StartTimeMachineAction class],
@@ -398,6 +400,7 @@
 		NSLocalizedString(@"ScreenSaverPassword", @"Action type");
 		NSLocalizedString(@"ScreenSaverStart", @"Action type");
 		NSLocalizedString(@"ScreenSaverTime", @"Action type");
+		NSLocalizedString(@"ScrollBars", @"Action type");
 		NSLocalizedString(@"ShellScript", @"Action type");
 		NSLocalizedString(@"Speak", @"Action type");
 		NSLocalizedString(@"StartTimeMachine", @"Action type");
