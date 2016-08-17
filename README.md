@@ -16,7 +16,7 @@ An example of how to use ControlPlane may include disabling the screensaver pass
 How to Get ControlPlane
 -----------------------
 
-You can download the most recent version of ControlPlane from <http://www.macupdate.com/app/mac/39644/controlplane>.  Once installed you will be automatically notified of any new updates that become available.
+You can download the most recent version of ControlPlane from [the ControlPlane website](http://www.controlplaneapp.com). Once installed you will be automatically notified of any new updates that become available.
 
 Building ControlPlane from Source
 ---------------------------------
