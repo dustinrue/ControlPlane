@@ -113,6 +113,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
 	<key>OSAScriptingDefinition</key>
 	<string>ControlPlane.sdef</string>
 	<key>SMPrivilegedExecutables</key>
