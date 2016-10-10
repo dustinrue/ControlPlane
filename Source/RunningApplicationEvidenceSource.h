@@ -9,7 +9,6 @@
 
 
 @interface RunningApplicationEvidenceSource : GenericEvidenceSource {
-	NSLock *lock;
 	NSMutableArray *applications;
 }
 

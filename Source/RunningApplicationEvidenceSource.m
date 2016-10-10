@@ -103,11 +103,10 @@
                                                                   name:NSWorkspaceDidTerminateApplicationNotification
                                                                 object:nil];
 
-	[lock lock];
-	[applications removeAllObjects];
-	[self setDataCollected:NO];
-	[lock unlock];
-
+    @synchronized (self) {
+        [applications removeAllObjects];
+        [self setDataCollected:NO];
+    }
 	running = NO;
 }
 
@@ -121,17 +120,16 @@
 	NSString *param = [rule valueForKey:@"parameter"];
 	BOOL match = NO;
 
-	[lock lock];
-	NSEnumerator *en = [applications objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [en nextObject])) {
-		if ([[dict valueForKey:@"identifier"] isEqualToString:param]) {
-			match = YES;
-			break;
-		}
-	}
-	[lock unlock];
-
+    @synchronized (self) {
+        NSEnumerator *en = [applications objectEnumerator];
+        NSDictionary *dict;
+        while ((dict = [en nextObject])) {
+            if ([[dict valueForKey:@"identifier"] isEqualToString:param]) {
+                match = YES;
+                break;
+            }
+        }
+    }
 	return match;
 }
 
@@ -142,22 +140,22 @@
 
 - (NSArray *)getSuggestions
 {
-	[lock lock];
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[applications count]];
-
-	NSEnumerator *en = [applications objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [en nextObject])) {
-		NSString *identifier = [dict valueForKey:@"identifier"];
-		NSString *desc = [NSString stringWithFormat:@"%@ (%@)", [dict valueForKey:@"name"], identifier];
-		[array addObject:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-				@"RunningApplication", @"type",
-				identifier, @"parameter",
-				desc, @"description", nil]];
-	}
-	[lock unlock];
-
+    NSMutableArray *array;
+    @synchronized (self) {
+        array = [NSMutableArray arrayWithCapacity:[applications count]];
+        
+        NSEnumerator *en = [applications objectEnumerator];
+        NSDictionary *dict;
+        while ((dict = [en nextObject])) {
+            NSString *identifier = [dict valueForKey:@"identifier"];
+            NSString *desc = [NSString stringWithFormat:@"%@ (%@)", [dict valueForKey:@"name"], identifier];
+            [array addObject:
+             [NSDictionary dictionaryWithObjectsAndKeys:
+              @"RunningApplication", @"type",
+              identifier, @"parameter",
+              desc, @"description", nil]];
+        }
+    }
 	return array;
 }
 
