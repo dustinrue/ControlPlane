@@ -27,7 +27,7 @@
     PreventSystemSleepActionStorage *assertionIdStorage = [PreventSystemSleepActionStorage sharedStorage];
     
     
-    if (turnOn && ![assertionIdStorage assertionID] > 0) {
+    if (turnOn && !([assertionIdStorage assertionID] > 0)) {
         //  NOTE: IOPMAssertionCreateWithName limits the string to 128 characters.
         CFStringRef reasonForActivity= CFSTR("ControlPlane is preventing system sleep");
         

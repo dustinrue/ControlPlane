@@ -188,7 +188,7 @@ static BOOL isValidIPv6Address(NSString *value) {
     [addressComboBox setStringValue:ipAddress];
 
     NSString *len = rule[@"parameter.prefixLength"];
-    [prefixLengthTextField setStringValue:((len) ? (len) : (@"128"))];
+    [prefixLengthTextField setStringValue:((len) ? (len) : (NSLocalizedString(@"128", @"128")))];
 }
 
 @end

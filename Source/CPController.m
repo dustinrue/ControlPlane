@@ -15,6 +15,8 @@
 #import "CPNotifications.h"
 #import "SharedNumberFormatter.h"
 #import <libkern/OSAtomic.h>
+#import <HockeySDK/HockeySDK.h>
+
 
 
 #pragma mark -
@@ -328,6 +330,12 @@ static NSSet *sharedActiveContexts = nil;
 	return forcedContextIsSticky;
 }
 
+- (void) applicationDidFinishLaunching:(NSNotification *)notification {
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"fe18dcf4b5fd47a0bf75e0b49321ea93"];
+    // Do some additional configuration if needed here
+    [[BITHockeyManager sharedHockeyManager] startManager];
+
+}
 
 - (void)importVersion1Settings {
 	CFStringRef oldDomain = CFSTR("au.id.symonds.MarcoPolo");
@@ -499,10 +507,7 @@ static NSSet *sharedActiveContexts = nil;
 #ifdef DEBUG_MODE
 	NSLog(@"did super awake from nib");
 #endif
-    // Configures the crash reporter
-    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CPCrashReportURL"]];
-    [[BWQuincyManager sharedQuincyManager] setCompanyName:@"ControlPlane developers"];
-    [[BWQuincyManager sharedQuincyManager] setDelegate:self];
+
 	
 	// If there aren't any contexts defined, nor rules, nor actions, import settings
 	if (([[[NSUserDefaults standardUserDefaults] arrayForKey:@"Contexts"] count] == 0) &&
@@ -1223,6 +1228,13 @@ static NSSet *sharedActiveContexts = nil;
 }
 
 - (void) activateContext:(Context *) context {
+    // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
+    // Allows you to test QuincyKit
+    
+    if ([context.name isEqualToString:@"Developer Crash"]) {
+        kill( getpid(), SIGABRT );
+    }
+    
     [self.activeContexts addObject:context];
     DSLog(@"Triggering arrival actions, if any, for '%@'", context.name);
     [self triggerArrivalActionsOnWalk:[NSArray arrayWithObject:context]];
@@ -1247,6 +1259,7 @@ static NSSet *sharedActiveContexts = nil;
 
 - (void) activateContextByMenuClick:(NSMenuItem *) sender {
     //[self triggerArrivalActionsOnWalk:[NSArray arrayWithObject:[contextsDataSource contextByName:sender.title]]];
+    
     if (forcedContextIsSticky)
         [self.stickyActiveContexts addObject:sender.representedObject];
     
@@ -1283,13 +1296,8 @@ static NSSet *sharedActiveContexts = nil;
 
 - (void)performTransitionToContext:(Context *)context
                  triggeredManually:(BOOL)isManuallyTriggered {
-#if DEBUG_MODE
-    // Create context named 'Developer Crash' and CP will crash when moving to it if using a DEBUG build
-    // Allows you to test QuincyKit
-    if ([context.name isEqualToString:@"Developer Crash"]) {
-        kill( getpid(), SIGABRT );
-    }
-#endif
+
+
     
     if (self.currentContext != nil) {
         [self.activeContexts removeObject:[contextsDataSource contextByUUID:self.currentContext.uuid]];

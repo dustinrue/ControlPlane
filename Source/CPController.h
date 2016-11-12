@@ -8,10 +8,9 @@
 
 #import "ContextsDataSource.h"
 #import "EvidenceSource.h"
-#import "BWQuincyManager.h"
 
 
-@interface CPController : NSObject <BWQuincyManagerDelegate, NSApplicationDelegate>
+@interface CPController : NSObject <NSApplicationDelegate>
 
 @property (retain,atomic,readonly) NSString *currentContextName;
 @property (retain,atomic,readonly) NSString *currentContextPath;

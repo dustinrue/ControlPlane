@@ -202,7 +202,7 @@ static BOOL isValidIPv4NetworkMask(NSString *value) {
     }
 
     [netmaskComboBox addItemsWithObjectValues:netmasks];
-    [netmaskComboBox setStringValue:netMask];
+    [netmaskComboBox setStringValue:NSLocalizedString(netMask, @"netmask")];
 }
 
 @end

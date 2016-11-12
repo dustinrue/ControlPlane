@@ -46,6 +46,11 @@ static void HostAvailabilityReachabilityCallBack(SCNetworkReachabilityRef target
 	return self;
 }
 
+- (void) dealloc {
+    [_monitoredHosts release];
+    [super dealloc];
+}
+
 - (void) hostAvailabilityHasChanged:(NSNotification *) context
 {
     @synchronized(self) {

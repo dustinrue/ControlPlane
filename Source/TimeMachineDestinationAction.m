@@ -34,7 +34,7 @@
 
 - (void)dealloc
 {
-    
+    [destinationVolumePath release];
 	[super dealloc];
 }
 
