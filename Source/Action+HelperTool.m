@@ -242,9 +242,12 @@ BOOL installHelperToolUsingSMJobBless(void) {
         if (!blessHelperWithLabel(kPRIVILEGED_HELPER_LABEL, &error))
         {
             NSLog(@"Failed to install privileged helper: %@", [error description]);
-            NSRunAlertPanel(@"Error",
-                            @"Failed to install privileged helper: %@",
-                            @"OK", nil, nil, [error description]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSRunAlertPanel(@"Error",
+                                @"Failed to install privileged helper: %@",
+                                @"OK", nil, nil, [error description]);
+            });
+            
             return NO;
         }
         else
