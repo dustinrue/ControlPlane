@@ -112,6 +112,14 @@
     ];
 }
 
+- (void) goingToSleep:(id)arg {
+    [self stop];
+}
+
+- (void) wakeFromSleep:(id)arg {
+    [self start];
+}
+
 - (NSString *)friendlyName {
     return NSLocalizedString(@"Power Source", @"");
 }

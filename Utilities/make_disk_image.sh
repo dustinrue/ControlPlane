@@ -81,6 +81,7 @@ rm "$IMG.sparseimage"
 if [ "$1" == "release" ]; then
         . cp_pm_env.sh
         ls -l "$IMG.dmg"
+        echo $PRIVATE_KEY
         ruby "$SIGNING_SCRIPT" "$IMG.dmg" "$PRIVATE_KEY" 
         mv "$IMG.dmg" "$IMGDEST"
 fi
