@@ -95,6 +95,7 @@
 		96454D4418C3E6BE004F64E7 /* RulesPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3E18C3E6BE004F64E7 /* RulesPrefs@2x.png */; };
 		DA04D57215DC119E004B9E1C /* ToggleContextStickinessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */; };
 		DA07C11018FE04A3008FE8B5 /* ContextEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA07C10F18FE04A3008FE8B5 /* ContextEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		DA0A3BA91E91E7B300AAD604 /* ToggleAutomaticSwitchingAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0A3BA81E91E7B300AAD604 /* ToggleAutomaticSwitchingAction.m */; };
 		DA0CAE6516C4813600EDE2C5 /* PreventDisplaySleepAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */; };
 		DA0E648615EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DA16392613D4B14A00E3F421 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DA16392513D4B14A00E3F421 /* dsa_pub.pem */; };
@@ -495,6 +496,8 @@
 		DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleContextStickinessAction.m; path = Source/ToggleContextStickinessAction.m; sourceTree = "<group>"; };
 		DA07C10E18FE04A3008FE8B5 /* ContextEvidenceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextEvidenceSource.h; path = Source/ContextEvidenceSource.h; sourceTree = "<group>"; };
 		DA07C10F18FE04A3008FE8B5 /* ContextEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContextEvidenceSource.m; path = Source/ContextEvidenceSource.m; sourceTree = "<group>"; };
+		DA0A3BA71E91E7B300AAD604 /* ToggleAutomaticSwitchingAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToggleAutomaticSwitchingAction.h; path = Source/ToggleAutomaticSwitchingAction.h; sourceTree = "<group>"; };
+		DA0A3BA81E91E7B300AAD604 /* ToggleAutomaticSwitchingAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToggleAutomaticSwitchingAction.m; path = Source/ToggleAutomaticSwitchingAction.m; sourceTree = "<group>"; };
 		DA0CAE6316C4813600EDE2C5 /* PreventDisplaySleepAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreventDisplaySleepAction.h; path = Source/PreventDisplaySleepAction.h; sourceTree = "<group>"; };
 		DA0CAE6416C4813600EDE2C5 /* PreventDisplaySleepAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreventDisplaySleepAction.m; path = Source/PreventDisplaySleepAction.m; sourceTree = "<group>"; };
 		DA0E648515EC665000E77ABF /* AttachedPowerAdapterEvidenceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttachedPowerAdapterEvidenceSource.m; path = Source/AttachedPowerAdapterEvidenceSource.m; sourceTree = "<group>"; };
@@ -1140,6 +1143,8 @@
 				DAC45F1F14CDEC170007F5EF /* TimeMachineDestinationAction.m */,
 				DA04D57015DC119E004B9E1C /* ToggleContextStickinessAction.h */,
 				DA04D57115DC119E004B9E1C /* ToggleContextStickinessAction.m */,
+				DA0A3BA71E91E7B300AAD604 /* ToggleAutomaticSwitchingAction.h */,
+				DA0A3BA81E91E7B300AAD604 /* ToggleAutomaticSwitchingAction.m */,
 			);
 			name = "Application Actions";
 			sourceTree = "<group>";
@@ -1537,6 +1542,7 @@
 				8DE4EE470C4B2A6F00A5B559 /* ScreenSaverTimeAction.m in Sources */,
 				8DCB43580C4DBABD00E71D28 /* FirewallRuleAction.m in Sources */,
 				8DE4C0110C4EE60700511590 /* GenericEvidenceSource.m in Sources */,
+				DA0A3BA91E91E7B300AAD604 /* ToggleAutomaticSwitchingAction.m in Sources */,
 				8D643C680C4EF197006D8ECC /* GenericLoopingEvidenceSource.m in Sources */,
 				8D643CDD0C4EF6FD006D8ECC /* LoopingEvidenceSource.m in Sources */,
 				DA2523BD1968601400F717FC /* ConnectBluetoothDeviceAction.m in Sources */,
