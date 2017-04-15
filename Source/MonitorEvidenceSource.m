@@ -11,6 +11,8 @@
 
 @implementation MonitorEvidenceSource
 
+#define ANY_ADDITIONAL_MONITOR_SERIAL @"any-additional-monitor"
+
 - (id)init
 {
 	if (!(self = [super init]))
@@ -113,12 +115,16 @@
 	NSEnumerator *en = [monitors objectEnumerator];
 	NSDictionary *mon;
 	NSString *serial = [rule valueForKey:@"parameter"];
-	while ((mon = [en nextObject])) {
-		if ([[mon valueForKey:@"serial"] isEqualToString:serial]) {
-			match = YES;
-			break;
-		}
-	}
+    if ((1 < [monitors count]) && [serial isEqualToString:ANY_ADDITIONAL_MONITOR_SERIAL]) {
+        match = YES;
+    } else {
+        while ((mon = [en nextObject])) {
+            if ([[mon valueForKey:@"serial"] isEqualToString:serial]) {
+                match = YES;
+                break;
+            }
+        }
+    }
 	[lock unlock];
 
 	return match;
@@ -135,6 +141,13 @@
 
 	[lock lock];
 	NSEnumerator *en = [monitors objectEnumerator];
+
+    // add any monitor by default
+    [arr addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                    @"Monitor", @"type",
+                    ANY_ADDITIONAL_MONITOR_SERIAL, @"parameter",
+                    NSLocalizedString(@"Any additional monitor", @"In getSuggestions"), @"description", nil]];
+
 	NSDictionary *mon;
 	while ((mon = [en nextObject])) {
 		NSString *name = [mon valueForKey:@"name"];
