@@ -290,7 +290,6 @@ static NSComparator descendingSorter = ^NSComparisonResult(id obj1, id obj2) {
             dispatch_resume(serialQueue);
         }
 
-        dispatch_release(serialQueue);
         serialQueue = NULL;
     }
 
