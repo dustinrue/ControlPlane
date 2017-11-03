@@ -21,37 +21,9 @@
 
 - (BOOL) execute: (NSString **) errorString {
     
-    NSFileHandle *devnull = [NSFileHandle fileHandleForWritingAtPath:@"/dev/null"];
-    NSTask *screenSaver = [[NSTask alloc] init];
+    if(![[NSWorkspace sharedWorkspace] launchApplication:@"ScreenSaverEngine.app"])
+        NSLog(@"ScreenSaverEngine failed to launch");
     
-    [screenSaver setLaunchPath:@"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine"];
-    
-    
-    [screenSaver setStandardError:devnull];
-    [screenSaver setStandardInput:devnull];
-    [screenSaver setStandardOutput:devnull];
-    
-    [screenSaver launch];
-    /*
-	@try {
-		SystemEventsApplication *SEvents = [SBApplication applicationWithBundleIdentifier: @"com.apple.systemevents"];
-		
-		// start/stop
-		if (turnOn)
-			[SEvents.currentScreenSaver start];
-		else
-			[SEvents.currentScreenSaver stop];
-		
-	} @catch (NSException *e) {
-		DSLog(@"Exception: %@", e);
-		if (turnOn)
-			*errorString = NSLocalizedString(@"Failed starting screen saver!", @"");
-		else
-			*errorString = NSLocalizedString(@"Failed stopping screen saver!", @"");
-		return NO;
-	}
-	*/
-    [screenSaver release];
 	return YES;
 }
 
