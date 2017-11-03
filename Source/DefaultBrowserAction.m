@@ -61,7 +61,7 @@
     if (![[currentSystemBrowser lowercaseString] isEqualToString:[[[NSBundle mainBundle] bundleIdentifier] lowercaseString]]) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:NSLocalizedString(@"You are adding or have triggered a Default Browser Action but ControlPlane is not currently set as the system wide default web browser. For the Default Browser Action feature to work properly ControlPlane must be set as the system's default web browser. ControlPlane will take the URL and then pass it to the browser of your choice. You may be asked to confirm this choice if you are using OS X 10.10 (Yosemite) or higher. Please select 'Use ControlPlane' if prompted." , @"")];
-        [alert runModal];
+        [self performSelectorOnMainThread:@selector(runModal) withObject:alert waitUntilDone:false];
         [alert release];
         
         LSSetDefaultHandlerForURLScheme((CFStringRef) @"https", (CFStringRef) [[NSBundle mainBundle] bundleIdentifier]);
