@@ -47,6 +47,10 @@ static ToolTip *sharedToolTip = nil;
 
 + (void)releaseToolTip
 {
+    if (sharedToolTip != nil && sharedToolTip->window != nil) {
+        [sharedToolTip->window close];
+    }
+
     sharedToolTip = nil;
 }
 
@@ -71,7 +75,7 @@ static ToolTip *sharedToolTip = nil;
 	[window setBackgroundColor:[NSColor colorWithDeviceRed:1.0 green:0.96 blue:0.76 alpha:1.0]];
 	[window setHasShadow:YES];
 	[window setLevel:NSStatusWindowLevel];
-	[window setReleasedWhenClosed:YES];
+	[window setReleasedWhenClosed:NO];
 	[window orderFront:nil];
     
 	textField = [[ToolTipTextField alloc] initWithFrame:textFieldFrame];
