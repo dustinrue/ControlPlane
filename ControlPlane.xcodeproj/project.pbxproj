@@ -157,7 +157,7 @@
 		DACCA0A11DD7A48B007F7373 /* HockeySDK.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = DACCA09F1DD7A309007F7373 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DACE6D4A159BFC1D00FEE37E /* CPHelperTool-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D48159BFC1D00FEE37E /* CPHelperTool-Info.plist */; };
 		DACE6D4B159BFC1D00FEE37E /* CPHelperTool-Launchd.plist in Resources */ = {isa = PBXBuildFile; fileRef = DACE6D49159BFC1D00FEE37E /* CPHelperTool-Launchd.plist */; };
-		DACE6D4E159C055C00FEE37E /* com.dustinrue.CPHelperTool in Copy Launch Services */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		DACE6D4E159C055C00FEE37E /* com.brhcode.CPHelperTool in Copy Launch Services */ = {isa = PBXBuildFile; fileRef = DA5B01FB1412BB1700E19C50 /* com.brhcode.CPHelperTool */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DADFF79715D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DADFF79615D96CBC00DEF412 /* ToggleNotificationCenterAlertsAction.m */; };
 		DAE893EE1454FFFB005FA13C /* ToggleFirewallAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE893E514546897005FA13C /* ToggleFirewallAction.m */; };
 		DAF2257E15ABD8CD003A8030 /* DisplayBrightnessAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DD827506141188880098FA6E /* DisplayBrightnessAction.m */; };
@@ -295,7 +295,7 @@
 			dstPath = Contents/Library/LaunchServices;
 			dstSubfolderSpec = 1;
 			files = (
-				DACE6D4E159C055C00FEE37E /* com.dustinrue.CPHelperTool in Copy Launch Services */,
+				DACE6D4E159C055C00FEE37E /* com.brhcode.CPHelperTool in Copy Launch Services */,
 			);
 			name = "Copy Launch Services";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,7 +531,7 @@
 		DA5B01EB1412BA6700E19C50 /* BetterAuthorizationSampleLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterAuthorizationSampleLib.h; sourceTree = "<group>"; };
 		DA5B01F21412BAEC00E19C50 /* BetterAuthorizationSampleLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLib.c; sourceTree = "<group>"; };
 		DA5B01F41412BAF400E19C50 /* BetterAuthorizationSampleLibInstallTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLibInstallTool.c; sourceTree = "<group>"; };
-		DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = com.dustinrue.CPHelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA5B01FB1412BB1700E19C50 /* com.brhcode.CPHelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = com.brhcode.CPHelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B02091412BBF200E19C50 /* CPHelperTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperTool.c; sourceTree = "<group>"; };
 		DA5B020B1412BDEF00E19C50 /* CPHelperToolCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CPHelperToolCommon.c; sourceTree = "<group>"; };
 		DA5B020E1412BE4F00E19C50 /* CPHelperToolCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPHelperToolCommon.h; sourceTree = "<group>"; };
@@ -812,7 +812,7 @@
 			children = (
 				DA1204DA13D0E5C800CDA091 /* ControlPlane.app */,
 				DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */,
-				DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */,
+				DA5B01FB1412BB1700E19C50 /* com.brhcode.CPHelperTool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1284,9 +1284,9 @@
 			productReference = DA5B01D71412B6A700E19C50 /* CPHelperInstallTool */;
 			productType = "com.apple.product-type.tool";
 		};
-		DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */ = {
+		DA5B01FA1412BB1700E19C50 /* com.brhcode.CPHelperTool */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "com.dustinrue.CPHelperTool" */;
+			buildConfigurationList = DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "com.brhcode.CPHelperTool" */;
 			buildPhases = (
 				DA5B01F71412BB1700E19C50 /* Sources */,
 				DA5B01F81412BB1700E19C50 /* Frameworks */,
@@ -1296,9 +1296,9 @@
 			);
 			dependencies = (
 			);
-			name = com.dustinrue.CPHelperTool;
+			name = com.brhcode.CPHelperTool;
 			productName = CPHelperTool;
-			productReference = DA5B01FB1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
+			productReference = DA5B01FB1412BB1700E19C50 /* com.brhcode.CPHelperTool */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -1308,10 +1308,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0920;
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
-						DevelopmentTeam = YV4RHGCYFA;
+						ProvisioningStyle = Automatic;
+					};
+					DA5B01D61412B6A700E19C50 = {
+						DevelopmentTeam = Z7R62JH5A8;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1366,7 +1369,7 @@
 			targets = (
 				8D1107260486CEB800E47090 /* ControlPlane */,
 				DA5B01D61412B6A700E19C50 /* CPHelperInstallTool */,
-				DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */,
+				DA5B01FA1412BB1700E19C50 /* com.brhcode.CPHelperTool */,
 			);
 		};
 /* End PBXProject section */
@@ -1635,7 +1638,7 @@
 		};
 		DA5B02071412BB3A00E19C50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA5B01FA1412BB1700E19C50 /* com.dustinrue.CPHelperTool */;
+			target = DA5B01FA1412BB1700E19C50 /* com.brhcode.CPHelperTool */;
 			targetProxy = DA5B02061412BB3A00E19C50 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1845,7 +1848,9 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
@@ -1858,8 +1863,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brhcode.ControlPlane;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1871,7 +1877,9 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
@@ -1885,8 +1893,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.brhcode.ControlPlane;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
@@ -1897,12 +1906,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1964,12 +1979,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2027,9 +2048,12 @@
 		DA5B01DF1412B6A700E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z7R62JH5A8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brhcode.CPHelperInstallTool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -2037,9 +2061,12 @@
 		DA5B01E01412B6A700E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z7R62JH5A8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brhcode.CPHelperInstallTool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -2116,7 +2143,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "com.dustinrue.CPHelperTool" */ = {
+		DA5B02021412BB1800E19C50 /* Build configuration list for PBXNativeTarget "com.brhcode.CPHelperTool" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA5B02031412BB1800E19C50 /* Debug */,
