@@ -86,11 +86,12 @@ enum {
 	// COMMENTS(jbeker) below is the observed max value on a 15" Late 2013 Macbook Pro
 	// This value is ridiculous and results in a much smaller
 	// useful value range.
-	const double kMaxLightValue = 4294967295.0;
+    const double kClosedLightValue = 4294967295.0;
+    const double kMaxLightValue = 67092480.0;;
 
     const double avg = (left + right) / 2; // determine average value from the two sensors
     
-    if (avg == kMaxLightValue) {
+    if (avg == kClosedLightValue) {
         return 0; // COMMENTS(jbeker) on a 15" Late 2013 Macbook Pro it returns max value when the laptop is shut
     } else {
         return (avg / kMaxLightValue); // normalize
