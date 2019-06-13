@@ -83,13 +83,19 @@ enum {
 // Returns value in [0.0, 1.0]
 - (double)levelFromRawLeft:(uint64_t)left andRight:(uint64_t)right {
 	// FIXME(rdamazio): This value is probably incorrect
-	// COMMENTS(dustinrue) below is the observed max value on a 13" unibody MacBook (Late 2008)
+	// COMMENTS(jbeker) below is the observed max value on a 15" Late 2013 Macbook Pro
 	// This value is ridiculous and results in a much smaller
 	// useful value range.
-	const double kMaxLightValue = 67092480.0;
+    const double kClosedLightValue = 4294967295.0;
+    const double kMaxLightValue = 67092480.0;;
 
     const double avg = (left + right) / 2; // determine average value from the two sensors
-	return (avg / kMaxLightValue); // normalize
+    
+    if (avg == kClosedLightValue) {
+        return 0; // COMMENTS(jbeker) on a 15" Late 2013 Macbook Pro it returns max value when the laptop is shut
+    } else {
+        return (avg / kMaxLightValue); // normalize
+    }
 }
 
 - (void)doUpdate {
