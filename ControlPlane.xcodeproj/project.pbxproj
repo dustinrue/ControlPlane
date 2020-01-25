@@ -87,6 +87,9 @@
 		8DF5A4610BC239B100CBEB4B /* DefaultPrinterAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF5A45F0BC239B100CBEB4B /* DefaultPrinterAction.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8DFA46170CC33E46003EAC16 /* QuitApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */; };
 		8DFD0DA60CEBBC8A00E79049 /* UnmountAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */; };
+		945888BA23DCE9BF000DE1C6 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945888B923DCE9BF000DE1C6 /* NetworkExtension.framework */; };
+		945888BC23DCEB5D000DE1C6 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945888BB23DCEB5C000DE1C6 /* CoreWLAN.framework */; };
+		945888BD23DCEBA4000DE1C6 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 945888BB23DCEB5C000DE1C6 /* CoreWLAN.framework */; };
 		96454D3F18C3E6BE004F64E7 /* ActionsPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3918C3E6BE004F64E7 /* ActionsPrefs@2x.png */; };
 		96454D4018C3E6BE004F64E7 /* AdvancedPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3A18C3E6BE004F64E7 /* AdvancedPrefs@2x.png */; };
 		96454D4118C3E6BE004F64E7 /* ContextsPrefs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96454D3B18C3E6BE004F64E7 /* ContextsPrefs@2x.png */; };
@@ -189,7 +192,6 @@
 		DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DDAEFFFA1414714F00FDADE8 /* Action+HelperTool.m */; };
 		DDC3C2A21412A82000655F34 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */; };
 		DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */; };
-		DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */; };
 		DDE1B068140438DB006564A6 /* ControlPlane.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DDE1B067140438DB006564A6 /* ControlPlane.sdef */; };
 		DDF4E595141588E80028DF4A /* CoreLocationMap.html in Resources */ = {isa = PBXBuildFile; fileRef = DDF4E594141588E80028DF4A /* CoreLocationMap.html */; };
 		DDFF423114156B0A0047D311 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = DDFF423014156B0A0047D311 /* location.png */; };
@@ -485,6 +487,9 @@
 		8DFA46150CC33E46003EAC16 /* QuitApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QuitApplicationAction.m; path = Source/QuitApplicationAction.m; sourceTree = "<group>"; };
 		8DFD0DA30CEBBC8A00E79049 /* UnmountAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnmountAction.h; path = Source/UnmountAction.h; sourceTree = "<group>"; };
 		8DFD0DA40CEBBC8A00E79049 /* UnmountAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UnmountAction.m; path = Source/UnmountAction.m; sourceTree = "<group>"; };
+		945888B823DCE8FF000DE1C6 /* ControlPlane.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ControlPlane.entitlements; sourceTree = "<group>"; };
+		945888B923DCE9BF000DE1C6 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		945888BB23DCEB5C000DE1C6 /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = System/Library/Frameworks/CoreWLAN.framework; sourceTree = SDKROOT; };
 		96454D3918C3E6BE004F64E7 /* ActionsPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ActionsPrefs@2x.png"; path = "Resources/ActionsPrefs@2x.png"; sourceTree = "<group>"; };
 		96454D3A18C3E6BE004F64E7 /* AdvancedPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AdvancedPrefs@2x.png"; path = "Resources/AdvancedPrefs@2x.png"; sourceTree = "<group>"; };
 		96454D3B18C3E6BE004F64E7 /* ContextsPrefs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ContextsPrefs@2x.png"; path = "Resources/ContextsPrefs@2x.png"; sourceTree = "<group>"; };
@@ -679,8 +684,6 @@
 		DDC3C2A11412A82000655F34 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "Growl Registration Ticket.growlRegDict"; path = "Resources/Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultBrowserAction.h; path = Source/DefaultBrowserAction.h; sourceTree = "<group>"; };
 		DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultBrowserAction.m; path = Source/DefaultBrowserAction.m; sourceTree = "<group>"; };
-		DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesPlaylistAction.h; path = Source/ITunesPlaylistAction.h; sourceTree = "<group>"; };
-		DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITunesPlaylistAction.m; path = Source/ITunesPlaylistAction.m; sourceTree = "<group>"; };
 		DDE1B067140438DB006564A6 /* ControlPlane.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ControlPlane.sdef; path = Resources/ControlPlane.sdef; sourceTree = "<group>"; };
 		DDF4E594141588E80028DF4A /* CoreLocationMap.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = CoreLocationMap.html; path = Resources/CoreLocationMap.html; sourceTree = "<group>"; };
 		DDFF423014156B0A0047D311 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location.png; path = Resources/location.png; sourceTree = "<group>"; };
@@ -700,14 +703,17 @@
 				DD6FCC691413EF6B0095E64F /* CoreLocation.framework in Frameworks */,
 				DA72BF9413CD317B002D27DD /* CoreWLAN.framework in Frameworks */,
 				DAFC0E4514788ACB00DA6139 /* DisplayServices.framework in Frameworks */,
+				945888BC23DCEB5D000DE1C6 /* CoreWLAN.framework in Frameworks */,
 				DA2479B21C664CEC00063E8E /* Sparkle.framework in Frameworks */,
 				DAFC0E4614788B0500DA6139 /* IOBluetooth.framework in Frameworks */,
 				DACCA0A01DD7A309007F7373 /* HockeySDK.framework in Frameworks */,
 				8D481B0A0B6098DD0097CF9C /* IOKit.framework in Frameworks */,
+				945888BA23DCE9BF000DE1C6 /* NetworkExtension.framework in Frameworks */,
 				DDAC3C55140D866200FBF29E /* ScriptingBridge.framework in Frameworks */,
 				DD8274FB141177750098FA6E /* Security.framework in Frameworks */,
 				8D82F06D0AA811CE009ADA44 /* SystemConfiguration.framework in Frameworks */,
 				8D3BFFB20C61CA5300B9B910 /* WebKit.framework in Frameworks */,
+				945888BD23DCEBA4000DE1C6 /* CoreWLAN.framework in Frameworks */,
 				DA4411A514EE03C9005E7B3B /* MapKit.framework in Frameworks */,
 				DA1E59D21673A039002D256D /* Growl.framework in Frameworks */,
 			);
@@ -820,6 +826,7 @@
 		29B97314FDCFA39411CA2CEA /* ControlPlane */ = {
 			isa = PBXGroup;
 			children = (
+				945888B823DCE8FF000DE1C6 /* ControlPlane.entitlements */,
 				DA5B01E91412BA6700E19C50 /* HelperTool */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -885,6 +892,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				945888BB23DCEB5C000DE1C6 /* CoreWLAN.framework */,
+				945888B923DCE9BF000DE1C6 /* NetworkExtension.framework */,
 				DACCA09F1DD7A309007F7373 /* HockeySDK.framework */,
 				DA7EAF5E19F2EB4600DF6F54 /* QuartzCore.framework */,
 				DA7EAF5A19F2EB2800DF6F54 /* CoreGraphics.framework */,
@@ -1114,8 +1123,6 @@
 			children = (
 				DDDF1C291411D49300DB0018 /* DefaultBrowserAction.h */,
 				DDDF1C2A1411D49300DB0018 /* DefaultBrowserAction.m */,
-				DDDF1C2D1411E07F00DB0018 /* ITunesPlaylistAction.h */,
-				DDDF1C2E1411E07F00DB0018 /* ITunesPlaylistAction.m */,
 				8DB1EF210C6C60A300586F84 /* MailIMAPServerAction.h */,
 				8DB1EF220C6C60A300586F84 /* MailIMAPServerAction.m */,
 				DD8274EE141154780098FA6E /* MailIntervalAction.h */,
@@ -1308,10 +1315,10 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
-						DevelopmentTeam = YV4RHGCYFA;
+						DevelopmentTeam = FC6FD6T7UY;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1460,7 +1467,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "\nif [ ! -f ${PROJECT_DIR}/Resources/oui.txt ]; then\n\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-oui.sh\n\nfi\n\nif [ ! -f ${PROJECT_DIR}/Resources/usb-vendors.txt ]; then\n\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-usb-data.sh\n\nfi";
+			shellScript = "\nif [ ! -f ${PROJECT_DIR}/Resources/oui.txt ]; then\n\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-oui.sh\n\nfi\n\nif [ ! -f ${PROJECT_DIR}/Resources/usb-vendors.txt ]; then\n\n    cd ${PROJECT_DIR}/Utilities\n    . ./update-usb-data.sh\n\nfi\n";
 		};
 		DACCA09E1DD7A2D4007F7373 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1473,7 +1480,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "FILE=\"${SRCROOT}/HockeySDK-Mac/BuildAgent\"\nif [ -f \"$FILE\" ]; then\n\"$FILE\"\nfi";
+			shellScript = "FILE=\"${SRCROOT}/HockeySDK-Mac/BuildAgent\"\nif [ -f \"$FILE\" ]; then\n\"$FILE\"\nfi\n";
 		};
 		DD7CD9B0140EDBA90037463E /* Generate Script Bridge Headers */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1482,7 +1489,6 @@
 			);
 			inputPaths = (
 				"com.apple.mail:Mail",
-				"com.apple.iTunes:iTunes",
 				"com.apple.iChat:Messages",
 			);
 			name = "Generate Script Bridge Headers";
@@ -1490,7 +1496,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 2)\"\n    bundleid=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 1)\"\n\n\n    sdef \"/Applications/$appFile.app\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename ${appFile} --bundleid ${bundleid}\ndone";
+			shellScript = "\nmkdir -p $DERIVED_FILES_DIR\nfor (( i=0; i < $SCRIPT_INPUT_FILE_COUNT; i++ )); do\n    \n    appFile=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 2)\"\n    bundleid=\"$(eval echo \\$SCRIPT_INPUT_FILE_$i | cut -d ':' -f 1)\"\n\n\n    sdef \"/System/Applications/$appFile.app\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename ${appFile} --bundleid ${bundleid}\ndone\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1562,7 +1568,6 @@
 				DAAA7FAB1953DE0500C06DBB /* PreventSystemSleepAction.m in Sources */,
 				DD8274FE14117C590098FA6E /* SpeakAction.m in Sources */,
 				DDDF1C2B1411D49300DB0018 /* DefaultBrowserAction.m in Sources */,
-				DDDF1C2F1411E08000DB0018 /* ITunesPlaylistAction.m in Sources */,
 				DA5B01F31412BAEC00E19C50 /* BetterAuthorizationSampleLib.c in Sources */,
 				DAAF16B61413174400F5D915 /* ToggleTimeMachineAction.m in Sources */,
 				DDAEFFFB1414714F00FDADE8 /* Action+HelperTool.m in Sources */,
@@ -1841,11 +1846,15 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_ENTITLEMENTS = ControlPlane.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FC6FD6T7UY;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
@@ -1855,7 +1864,8 @@
 					"$(PROJECT_DIR)/HockeySDK-Mac",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
@@ -1867,11 +1877,15 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_ENTITLEMENTS = ControlPlane.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FC6FD6T7UY;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
@@ -1882,7 +1896,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
@@ -1897,12 +1912,20 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1950,7 +1973,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ControlPlane;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -1964,12 +1987,20 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2014,7 +2045,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = ControlPlane;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -2027,7 +2058,8 @@
 		DA5B01DF1412B6A700E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2037,7 +2069,8 @@
 		DA5B01E01412B6A700E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dustinrue.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2047,9 +2080,10 @@
 		DA5B02031412BB1800E19C50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INFOPLIST_FILE = "CPHelperTool-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,
@@ -2068,9 +2102,10 @@
 		DA5B02041412BB1800E19C50 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INFOPLIST_FILE = "CPHelperTool-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,

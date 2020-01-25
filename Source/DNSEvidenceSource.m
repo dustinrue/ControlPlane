@@ -233,7 +233,7 @@ static BOOL addDNSServersToSet(NSDictionary *dict, NSString *dnsKey, NSMutableSe
             dispatch_resume(serialQueue);
         }
 
-        dispatch_release(serialQueue);
+        //dispatch_release(serialQueue);
         serialQueue = NULL;
     }
 

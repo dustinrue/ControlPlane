@@ -134,7 +134,7 @@ static void onPMrootDomainChange(void *refcon, io_service_t service, uint32_t me
     }
     
     if (serialQueue) {
-        dispatch_release(serialQueue);
+        //dispatch_release(serialQueue);
         serialQueue = NULL;
     }
 }

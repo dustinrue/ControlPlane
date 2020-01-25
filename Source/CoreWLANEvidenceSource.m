@@ -11,6 +11,7 @@
 #import <CoreWLAN/CoreWLAN.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "CoreWLANEvidenceSource.h"
+#import "CoreLocationSource.h"
 #import "DSLogger.h"
 
 
@@ -27,7 +28,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     }
 }
 
-@interface WiFiEvidenceSourceCoreWLAN () {
+@interface WiFiEvidenceSourceCoreWLAN (){
 @private
     dispatch_source_t pollingTimer;
 
@@ -42,6 +43,8 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 @property (atomic, retain, readwrite) CWInterface *currentInterface;
 @property (atomic, retain, readwrite) NSString *interfaceBSDName;
 @property (atomic, retain, readwrite) NSDictionary *interfaceData;
+
+@property (atomic, retain, readwrite) CLLocationManager *locManager;
 
 @property (atomic) BOOL linkActive;
 
@@ -71,7 +74,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 + (BOOL) isEvidenceSourceApplicableToSystem {
-    return ([[CWInterface interfaceNames] count] > 0);
+    return ([[CWWiFiClient interfaceNames] count] > 0);
 }
 
 - (void)start {
@@ -157,6 +160,8 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 - (void)doUpdate {
     CWInterface *currentInterface = self.currentInterface;
 
+    DSLog(@"doUpdate called...");
+    
     // first see if Wi-Fi is even turned on
     if (!currentInterface.powerOn) {
         [self clearCollectedData];
@@ -174,10 +179,12 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 
     // check to see if the interface is active
     if (!self.linkActive || [[NSUserDefaults standardUserDefaults] boolForKey:@"WiFiAlwaysScans"]) {
-        DSLog(@"WiFi link is inactive, doing full scan");
+        DSLog(@"WiFi link is inactive or WIFI Always Scans is enabled, doing full scan");
         newNetworkSSIDs = [self scanForNetworks];
     } else {
         NSString *ssid = currentInterface.ssid, *bssid = currentInterface.bssid;
+        DSLog(@"ssid=%@", ssid);
+        DSLog(@"bssid=%@]", bssid);
         if ((ssid == nil) || (bssid == nil)) {
             [self clearCollectedData];
             DSLog(@"WiFi interface is active, but is not participating in a network yet (or network SSID is bad)");
@@ -369,7 +376,12 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
 }
 
 - (BOOL) getWiFiInterface {
-    NSArray *supportedInterfaces = [[CWInterface interfaceNames] allObjects];
+    self.locManager = [CLLocationManager new];
+    self.locManager.delegate = self;
+    [self.locManager requestAlwaysAuthorization];
+    
+    
+    NSArray *supportedInterfaces = [CWWiFiClient interfaceNames] ;
     
     // get a list of supported Wi-Fi interfaces.  It is unlikely, but still possible,
     // for there to be more than one interface, yet this assumes there is just one
@@ -381,7 +393,7 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
         return NO;
     }
 
-    self.currentInterface = [CWInterface interfaceWithName:supportedInterfaces[0]];
+    self.currentInterface = [[CWWiFiClient sharedWiFiClient] interface];
     self.interfaceBSDName = [self.currentInterface interfaceName];
 
 #ifdef DEBUG_MODE
@@ -435,6 +447,11 @@ static void linkDataChanged(SCDynamicStoreRef store, CFArrayRef changedKeys, voi
     dispatch_async(dispatch_get_main_queue(), ^{ // start/stop timers on the main loop to ensure synchronous changes
         [self toggleUpdateLoop:nil];
     });
+}
+
+- (void) locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    DSLog(@"Authorization status changed");
+    [self doUpdate];
 }
 
 @end

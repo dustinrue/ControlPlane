@@ -46,7 +46,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.6</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -72,6 +72,14 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location information is used to switch contexts automatically</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location information is used to switch contexts automatically</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location information is used to switch contexts automatically</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Location information is used to switch contexts automatically</string>
 	<key>CFBundleVersion</key>
 	<string>79</string>
 	<key>CPCrashReportURL</key>
@@ -120,7 +128,7 @@
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>com.dustinrue.CPHelperTool</key>
-		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = "Developer ID Application: Dustin Rue"</string>
+		<string>identifier com.dustinrue.CPHelperTool and certificate leaf[subject.CN] = &quot;Developer ID Application: Dustin Rue&quot;</string>
 	</dict>
 	<key>SUFeedURL</key>
 	<string>https://www.controlplaneapp.com/appcast.xml</string>

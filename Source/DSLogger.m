@@ -134,7 +134,7 @@ static DSLogger *sharedLogger = nil;
 
 - (void)dealloc {
     if (serialQueue) {
-        dispatch_release(serialQueue);
+        //dispatch_release(serialQueue);
     }
 }
 

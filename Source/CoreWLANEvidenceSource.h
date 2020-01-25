@@ -9,8 +9,9 @@
 //
 
 #import "GenericEvidenceSource.h"
+#import "CoreLocationSource.h"
 
-@interface WiFiEvidenceSourceCoreWLAN : GenericEvidenceSource
+@interface WiFiEvidenceSourceCoreWLAN : GenericEvidenceSource <CLLocationManagerDelegate>
 
 
 @property BOOL currentNetworkIsSecure;

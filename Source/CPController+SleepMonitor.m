@@ -66,7 +66,7 @@ static void powerAdapterChangedCallBack();
             powerPortNotification = NULL;
         }
         if (actionsInProgress) {
-            dispatch_release(actionsInProgress);
+            
             actionsInProgress = 0;
         }
         cpController = nil;
