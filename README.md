@@ -1,6 +1,11 @@
 ControlPlane
 ============
 
+Looking for new maintainer
+--------------------------
+
+This project is looking for a new maintainer. If this is you please contact me via twitter @dustinrue.
+
 What is ControlPlane
 --------------------
 
