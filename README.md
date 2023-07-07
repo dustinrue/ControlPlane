@@ -1,6 +1,13 @@
 ControlPlane
 ============
 
+Try these alternatives
+----------------------
+
+Thank you @gouldenstein for these suggestions:
+
+https://github.com/dustinrue/ControlPlane/issues/518#issue-1635500278
+
 Looking for new maintainer
 --------------------------
 
