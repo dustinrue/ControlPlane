@@ -36,6 +36,9 @@ struct ContentView: View {
                         }
                         if let err = parser.error, parser.modelAvailable {
                             errorView(message: err)
+                            if let raw = parser.rawResponse {
+                                rawResponseView(raw)
+                            }
                         }
                     }
                 }
@@ -169,6 +172,25 @@ struct ContentView: View {
         .padding()
         .background(.red.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func rawResponseView(_ text: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Label("Raw model response", systemImage: "doc.plaintext")
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+            ScrollView(.vertical) {
+                Text(text)
+                    .font(.system(.caption, design: .monospaced))
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(10)
+            }
+            .frame(maxHeight: 300)
+            .background(.quaternary.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
     }
 
     // MARK: - Result

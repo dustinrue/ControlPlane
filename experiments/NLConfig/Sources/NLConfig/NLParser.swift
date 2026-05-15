@@ -43,6 +43,7 @@ class NLParser: ObservableObject {
     @Published var result: ParsedConfig?
     @Published var isLoading = false
     @Published var error: String?
+    @Published var rawResponse: String?   // always set after a successful model call
     @Published var modelAvailable: Bool = false
 
     init() {
@@ -70,6 +71,7 @@ class NLParser: ObservableObject {
         isLoading = true
         result = nil
         error = nil
+        rawResponse = nil
 
         if #available(macOS 26, *) {
             do {
@@ -80,6 +82,7 @@ class NLParser: ObservableObject {
                 // The system prompt dictates the JSON shape; we decode it ourselves.
                 let response = try await session.respond(to: input)
                 let text = response.content
+                rawResponse = text        // always capture before attempting decode
                 result = try decodeConfig(from: text)
             } catch let decodeError as DecodingError {
                 self.error = "JSON parse error: \(decodeError.localizedDescription)"
