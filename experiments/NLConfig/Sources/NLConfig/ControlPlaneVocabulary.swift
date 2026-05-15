@@ -145,11 +145,24 @@ enum ControlPlaneVocabulary {
     For actions marked (NO config entries), configEntries MUST be an empty array [].
     Never invent config keys. Use only the exact keys listed above.
 
+    configEntries is an array of JSON objects, each with exactly two string fields: "key" and "value".
+    CORRECT:   "configEntries": [{"key": "state", "value": "off"}]
+    WRONG:     "configEntries": ["state": "off"]      ← not valid JSON
+    WRONG:     "configEntries": {"state": "off"}      ← object, not array
+
     ACTION TRIGGERS:
       onActivate   — fires when the profile becomes active
       onDeactivate — fires when the profile becomes inactive
 
+    ONLY ADD RULES AND ACTIONS THE USER EXPLICITLY ASKED FOR.
+    Do not invent conditions or effects. If the user only names a profile with no
+    conditions or actions, return empty arrays for both rules and actions.
+
     WORKED EXAMPLES:
+
+    Input: "create a profile called Work"
+    → No rules (none requested), no actions (none requested)
+    → explanation: "An empty Work profile with no rules or actions. Add rules and actions to make it activate automatically."
 
     Input: "Lock my keychain and turn off Wi-Fi when my screen locks"
     → One rule: screenlock sensor, locked key, isTrue operator (screen locking is the CONDITION)
