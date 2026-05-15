@@ -35,8 +35,10 @@ struct ContentView: View {
                         }
                         if let err = parser.error, parser.modelAvailable {
                             errorView(message: err)
-                            if let raw = parser.rawResponse {
-                                rawResponseView(raw)
+                            if let attempt = parser.decodedAttempt {
+                                rawResponseView(attempt, label: "Text sent to JSON decoder")
+                            } else if let raw = parser.rawResponse {
+                                rawResponseView(raw, label: "Raw model response")
                             }
                         }
                     }
@@ -171,9 +173,9 @@ struct ContentView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    private func rawResponseView(_ text: String) -> some View {
+    private func rawResponseView(_ text: String, label: String = "Raw model response") -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Label("Raw model response", systemImage: "doc.plaintext")
+            Label(label, systemImage: "doc.plaintext")
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundStyle(.secondary)

@@ -43,7 +43,8 @@ class NLParser: ObservableObject {
     @Published var result: ParsedConfig?
     @Published var isLoading = false
     @Published var error: String?
-    @Published var rawResponse: String?   // always set after a successful model call
+    @Published var rawResponse: String?      // exact text from the model
+    @Published var decodedAttempt: String?   // text we actually fed to the JSON decoder
     @Published var modelAvailable: Bool = false
 
     init() {
@@ -72,6 +73,7 @@ class NLParser: ObservableObject {
         result = nil
         error = nil
         rawResponse = nil
+        decodedAttempt = nil
 
         if #available(macOS 26, *) {
             do {
@@ -98,9 +100,11 @@ class NLParser: ObservableObject {
 
     // MARK: - JSON extraction
 
-    /// Strips optional markdown code fences and decodes the JSON the model returns.
+    /// Extracts JSON from the model response and decodes it.
+    /// Records the cleaned text in `decodedAttempt` so failures can be debugged.
     private func decodeConfig(from text: String) throws -> ParsedConfig {
-        let cleaned = stripCodeFences(text)
+        let cleaned = extractJSON(from: text)
+        decodedAttempt = cleaned
         guard let data = cleaned.data(using: .utf8) else {
             throw NSError(domain: "NLConfig", code: 1,
                           userInfo: [NSLocalizedDescriptionKey: "Could not encode model response as UTF-8"])
@@ -108,17 +112,14 @@ class NLParser: ObservableObject {
         return try JSONDecoder().decode(ParsedConfig.self, from: data)
     }
 
-    private func stripCodeFences(_ text: String) -> String {
+    /// Three-stage extraction: code fences → brace scan → raw fallback.
+    private func extractJSON(from text: String) -> String {
+        // Stage 1: strip markdown code fences (```json ... ``` or ``` ... ```)
         var s = text.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        // The model sometimes prefaces with prose before the code fence.
-        // Find the first ``` anywhere in the response and discard everything before it.
         if let fenceStart = s.range(of: "```") {
-            // Also find the closing fence (last ```)
             if let fenceEnd = s.range(of: "```", options: .backwards),
                fenceEnd.lowerBound != fenceStart.lowerBound {
                 let inner = s[fenceStart.upperBound..<fenceEnd.lowerBound]
-                // Drop optional language tag (e.g. "json\n") on the first line
                 if let newline = inner.firstIndex(of: "\n") {
                     s = String(inner[inner.index(after: newline)...])
                 } else {
@@ -127,6 +128,15 @@ class NLParser: ObservableObject {
                 s = s.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
+
+        // Stage 2: if the result doesn't start with { find the outermost braces.
+        // This handles any residual preamble or suffix the model added.
+        if !s.hasPrefix("{") {
+            if let start = s.firstIndex(of: "{"), let end = s.lastIndex(of: "}") {
+                s = String(s[start...end])
+            }
+        }
+
         return s
     }
 
