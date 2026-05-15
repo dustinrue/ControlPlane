@@ -258,13 +258,31 @@ Actions intentionally NOT ported (require private APIs, are obsolete, or need su
 FTP/TFTP/WebSharing (removed from macOS), `ToggleNotificationCenterAlertsAction`
 (Focus mode now, completely different API).
 
-## Pending / planned work
+## Issue tracking
 
-See `docs/rules-engine.md` for the full rules engine design. Outstanding items:
+All features, bugs, and planned work are tracked as GitHub issues at
+https://github.com/dustinrue/ControlPlane/issues.
 
-- GUI for profile/rule/action management (no UI exists yet beyond the menu bar)
-- `cpctl profiles active` — show currently active profiles with confidence scores
-- Per-profile action configuration via `cpctl actions add`
-- `cpctl rules list/add/remove/update` — already implemented in the socket handler,
-  needs cpctl commands wired up completely
-- Evaluator registry exposed via `cpctl evaluators list`
+### Label conventions
+
+| Label | Meaning |
+|-------|---------|
+| `roadmap` | Officially planned — committed items managed in this codebase. These are the source of truth for what Claude should be working toward. |
+| `feature-request` + `needs-review` | Community suggestions not yet committed to — do not treat these as active work items unless `roadmap` is also applied. |
+| `area: sensors` / `area: actions` / `area: rules` / `area: profiles` / `area: ui` / `area: core` | Component the issue relates to. |
+
+When starting a session, check open `roadmap` issues to understand current priorities.
+Do not confuse `feature-request`-only issues with committed work — they require explicit
+acceptance (adding the `roadmap` label and removing `needs-review`) before implementation.
+
+### Current roadmap
+
+| Issue | Title |
+|-------|-------|
+| [#521](https://github.com/dustinrue/ControlPlane/issues/521) | Manual profile override |
+| [#522](https://github.com/dustinrue/ControlPlane/issues/522) | Auto-update mechanism |
+| [#523](https://github.com/dustinrue/ControlPlane/issues/523) | Code signing and notarization |
+| [#524](https://github.com/dustinrue/ControlPlane/issues/524) | Database migration support |
+| [#525](https://github.com/dustinrue/ControlPlane/issues/525) | GUI — profile, rule, and action management |
+
+See `docs/rules-engine.md` for the rules engine design reference.
