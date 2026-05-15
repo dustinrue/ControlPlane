@@ -108,32 +108,64 @@ enum ControlPlaneVocabulary {
     For a single definitive rule, use weight 1.0 and threshold 1.0.
     For "requires two things to agree", use weight ~0.6 each, threshold 0.75.
 
-    ACTIONS (id → config keys):
-      com.controlplane.action.open             path (string)
-      com.controlplane.action.openurl          url (string)
-      com.controlplane.action.openandhide      path (string)
-      com.controlplane.action.quitapplication  bundleIdentifier (string), force (bool string "true"/"false")
-      com.controlplane.action.shellscript      scriptPath (string), arguments (string)
-      com.controlplane.action.shortcut         shortcutID (string), shortcutName (string)
-      com.controlplane.action.speak            text (string), voice (string, optional)
-      com.controlplane.action.mountvolume      serverURL (string, e.g. "smb://nas/share")
-      com.controlplane.action.unmountvolume    volumePath (string)
-      com.controlplane.action.desktopbackground imagePath (string), screen ("all" or "main")
+    CRITICAL DISTINCTION — RULES vs ACTIONS:
+    Rules describe the environmental CONDITIONS that cause a profile to activate.
+    Actions describe WHAT HAPPENS (the effects) once the profile is active.
+
+    A rule is NEVER an effect. Ask yourself: "Is this something the world does,
+    or something ControlPlane should do?" If ControlPlane should do it → action.
+
+    Examples of things that are ACTIONS, not rules:
+      "turn off Wi-Fi"        → togglewifi action (state="off"), NOT a wifi rule
+      "open an app"           → open action, NOT a runningapplication rule
+      "lock the keychain"     → lockkeychain action, NOT a screenlock rule
+      "mount a volume"        → mountvolume action, NOT a mountedvolume rule
+      "quit an app"           → quitapplication action, NOT a runningapplication rule
+
+    ACTIONS (id → EXACT config key names — use only these keys, no others):
+      com.controlplane.action.open             path
+      com.controlplane.action.openurl          url
+      com.controlplane.action.openandhide      path
+      com.controlplane.action.quitapplication  bundleIdentifier, force ("true" or "false")
+      com.controlplane.action.shellscript      scriptPath, arguments
+      com.controlplane.action.shortcut         shortcutID, shortcutName
+      com.controlplane.action.speak            text, voice (optional)
+      com.controlplane.action.mountvolume      serverURL  (e.g. "smb://nas/share")
+      com.controlplane.action.unmountvolume    volumePath
+      com.controlplane.action.desktopbackground  imagePath, screen ("all" or "main")
       com.controlplane.action.togglewifi       state ("on" or "off")
-      com.controlplane.action.starttimemachine (no config)
+      com.controlplane.action.starttimemachine (NO config entries)
       com.controlplane.action.preventdisplaysleep  state ("on" or "off")
       com.controlplane.action.preventsystemsleep   state ("on" or "off")
-      com.controlplane.action.startscreensaver (no config)
-      com.controlplane.action.lockkeychain     (no config)
-      com.controlplane.action.networklocation  locationName (string)
-      com.controlplane.action.defaultprinter   printerName (string)
+      com.controlplane.action.startscreensaver (NO config entries)
+      com.controlplane.action.lockkeychain     (NO config entries)
+      com.controlplane.action.networklocation  locationName
+      com.controlplane.action.defaultprinter   printerName
+
+    For actions marked (NO config entries), configEntries MUST be an empty array [].
+    Never invent config keys. Use only the exact keys listed above.
 
     ACTION TRIGGERS:
       onActivate   — fires when the profile becomes active
       onDeactivate — fires when the profile becomes inactive
 
+    WORKED EXAMPLES:
+
+    Input: "Lock my keychain and turn off Wi-Fi when my screen locks"
+    → One rule: screenlock sensor, locked key, isTrue operator (screen locking is the CONDITION)
+    → Two onActivate actions: lockkeychain (no config), togglewifi (state="off")
+    → No rule for Wi-Fi — "turn off Wi-Fi" is an effect, not a condition
+
+    Input: "Open Spotify when my AirPods connect"
+    → One rule: bluetooth sensor, devices key, contains operator, comparandValue "AirPods"
+    → One onActivate action: open (path="/Applications/Spotify.app")
+
+    Input: "Mount my NAS when I connect to my home Wi-Fi"
+    → One rule: wifi sensor, ssid key, equals operator, comparandValue "HomeNetwork" (assumption)
+    → One onActivate action: mountvolume (serverURL="smb://nas/share") (assumption for URL)
+
     OUTPUT FORMAT:
-    Return a JSON object with these exact fields:
+    Return ONLY the JSON object below. No prose before or after. No markdown fences.
     {
       "profileName": "short descriptive name",
       "confidenceThreshold": 1.0,
