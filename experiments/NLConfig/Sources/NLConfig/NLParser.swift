@@ -3,63 +3,35 @@ import FoundationModels
 
 // MARK: - Output schema
 
-/// Structured output schema for the model.
-/// @Generable tells Foundation Models to produce valid JSON matching this shape.
-@Generable
-struct ParsedConfig {
-    @Guide(description: "Short descriptive profile name")
+/// Structured output schema.
+/// Plain Codable structs — avoids @Generable macros so this can build with CLI tools.
+/// The system prompt describes the exact JSON shape; we decode the model's string response.
+struct ParsedConfig: Decodable {
     var profileName: String
-
-    @Guide(description: "Confidence threshold 0.1–1.0; use 1.0 for single-rule profiles")
     var confidenceThreshold: Double
-
-    @Guide(description: "Plain English explanation of what this configuration does")
     var explanation: String
-
-    @Guide(description: "Assumptions made about ambiguous parts of the request")
     var assumptions: [String]
-
     var rules: [ParsedRule]
     var actions: [ParsedAction]
 }
 
-@Generable
-struct ParsedRule {
-    @Guide(description: "Human-readable label for this rule")
+struct ParsedRule: Decodable {
     var name: String
-
-    @Guide(description: "Sensor identifier, e.g. com.controlplane.sensors.wifi")
     var sensorID: String
-
-    @Guide(description: "Reading key within the sensor snapshot, e.g. ssid")
     var readingKey: String
-
-    @Guide(description: "Operator identifier, e.g. equals, greaterThan, isTrue")
     var operatorID: String
-
-    @Guide(description: "Comparand value as a string; booleans as 'true'/'false'")
     var comparandValue: String
-
-    @Guide(description: "Confidence weight 0.1–1.0; use 1.0 for a single definitive rule")
     var weight: Double
-
-    @Guide(description: "True to invert the match — rule fires when condition is ABSENT")
     var negate: Bool
 }
 
-@Generable
-struct ParsedAction {
-    @Guide(description: "Action plugin identifier, e.g. com.controlplane.action.open")
+struct ParsedAction: Decodable {
     var actionID: String
-
-    @Guide(description: "onActivate or onDeactivate")
     var trigger: String
-
     var configEntries: [ConfigEntry]
 }
 
-@Generable
-struct ConfigEntry {
+struct ConfigEntry: Decodable {
     var key: String
     var value: String
 }
@@ -78,7 +50,7 @@ class NLParser: ObservableObject {
     }
 
     private func checkAvailability() {
-        if #available(macOS 15.4, *) {
+        if #available(macOS 26, *) {
             switch SystemLanguageModel.default.availability {
             case .available:
                 modelAvailable = true
@@ -87,7 +59,7 @@ class NLParser: ObservableObject {
                 modelAvailable = false
             }
         } else {
-            error = "Foundation Models requires macOS 15.4 or later."
+            error = "Foundation Models requires macOS 26 or later."
             modelAvailable = false
         }
     }
@@ -99,27 +71,59 @@ class NLParser: ObservableObject {
         result = nil
         error = nil
 
-        if #available(macOS 15.4, *) {
+        if #available(macOS 26, *) {
             do {
                 let session = LanguageModelSession(
                     instructions: ControlPlaneVocabulary.systemPrompt
                 )
-                let response = try await session.respond(
-                    to: input,
-                    generating: ParsedConfig.self
-                )
-                result = response.content
+                // Use unstructured string response — @Generable macros require Xcode toolchain.
+                // The system prompt dictates the JSON shape; we decode it ourselves.
+                let response = try await session.respond(to: input)
+                let text = response.content
+                result = try decodeConfig(from: text)
+            } catch let decodeError as DecodingError {
+                self.error = "JSON parse error: \(decodeError.localizedDescription)"
             } catch {
                 self.error = "Model error: \(error.localizedDescription)"
             }
         } else {
-            error = "Foundation Models requires macOS 15.4 or later."
+            error = "Foundation Models requires macOS 26 or later."
         }
 
         isLoading = false
     }
 
-    @available(macOS 15.4, *)
+    // MARK: - JSON extraction
+
+    /// Strips optional markdown code fences and decodes the JSON the model returns.
+    private func decodeConfig(from text: String) throws -> ParsedConfig {
+        let cleaned = stripCodeFences(text)
+        guard let data = cleaned.data(using: .utf8) else {
+            throw NSError(domain: "NLConfig", code: 1,
+                          userInfo: [NSLocalizedDescriptionKey: "Could not encode model response as UTF-8"])
+        }
+        return try JSONDecoder().decode(ParsedConfig.self, from: data)
+    }
+
+    private func stripCodeFences(_ text: String) -> String {
+        var s = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        // Strip ```json ... ``` or ``` ... ```
+        if s.hasPrefix("```") {
+            if let end = s.range(of: "```", options: .backwards), end.lowerBound != s.startIndex {
+                let inner = s[s.index(s.startIndex, offsetBy: 3)..<end.lowerBound]
+                // Drop optional language tag on first line
+                if let newline = inner.firstIndex(of: "\n") {
+                    s = String(inner[inner.index(after: newline)...])
+                } else {
+                    s = String(inner)
+                }
+                s = s.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+        }
+        return s
+    }
+
+    @available(macOS 26, *)
     private func unavailabilityReason(
         _ reason: SystemLanguageModel.Availability.UnavailableReason
     ) -> String {
