@@ -128,4 +128,4 @@ The original Objective-C ControlPlane is preserved on the [`master`](https://git
 
 ## License
 
-MIT
+GNU General Public License v2.0 — see [LICENSE](LICENSE) for the full text.
