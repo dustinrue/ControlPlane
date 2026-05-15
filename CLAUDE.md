@@ -258,6 +258,18 @@ Actions intentionally NOT ported (require private APIs, are obsolete, or need su
 FTP/TFTP/WebSharing (removed from macOS), `ToggleNotificationCenterAlertsAction`
 (Focus mode now, completely different API).
 
+## Branching model
+
+- **`main`** is always stable. Never commit feature work directly to `main`.
+- Feature branches: `feature/<issue-number>-<short-description>` (e.g. `feature/525-gui-profiles`)
+- Bug fix branches: `fix/<issue-number>-<short-description>`
+- All work merges to `main` via pull request — even maintainer work on non-trivial changes.
+
+This applies to every session. Before writing code, check out a branch. Before ending a
+session, ensure the branch is pushed and a PR is open or the work is committed to the branch.
+
+---
+
 ## Issue tracking
 
 All features, bugs, and planned work are tracked as GitHub issues at
@@ -286,3 +298,4 @@ acceptance (adding the `roadmap` label and removing `needs-review`) before imple
 | [#525](https://github.com/dustinrue/ControlPlane/issues/525) | GUI — profile, rule, and action management |
 
 See `docs/rules-engine.md` for the rules engine design reference.
+See `CONTRIBUTING.md` for the full workflow, label definitions, and PR checklist.
