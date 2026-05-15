@@ -2,14 +2,24 @@ import Foundation
 import IOBluetooth
 import ControlPlaneSDK
 
-public final class BluetoothSensor: BaseSensor {
+/// Sensor that observes Bluetooth hardware state using IOBluetooth.
+///
+/// Always emits: powered, devices, per-device MAC readings.
+/// Connect/disconnect notifications handle real-time updates for devices
+/// and device-presence keys. The 30-second poll loop (needed to catch
+/// power-state changes that notifications miss) only runs when at least
+/// one rule references a Bluetooth key. When no rules use this sensor
+/// the poll loop is stopped, eliminating unnecessary background wakeups.
+public final class BluetoothSensor: BaseSensor, DynamicKeySensor {
 
     public override var pluginIdentifier: String  { "com.controlplane.sensors.bluetooth" }
     public override var pluginDisplayName: String { "Bluetooth" }
 
     private var connectNotification: IOBluetoothUserNotification?
     private var deviceDisconnectNotifications: [IOBluetoothUserNotification] = []
+    private var initTask: Task<Void, Never>?
     private var pollTask: Task<Void, Never>?
+    private var monitoredKeys: Set<String> = []
 
     public override required init() {
         super.init()
@@ -23,8 +33,8 @@ public final class BluetoothSensor: BaseSensor {
     public override func start() async {
         // Defer the first IOBluetooth access by 2 seconds so the app is fully
         // running and the TCC permission dialog can be presented to the user.
-        // Subsequent updates happen on the 30-second poll cycle.
-        pollTask = Task { [weak self] in
+        // The poll loop is NOT started here — setMonitoredKeys drives that.
+        initTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: 2_000_000_000)
             guard !Task.isCancelled, let self else { return }
             await MainActor.run {
@@ -34,15 +44,12 @@ public final class BluetoothSensor: BaseSensor {
                 )
             }
             self.refreshSnapshot()
-            while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: 30_000_000_000)
-                guard !Task.isCancelled else { return }
-                self.refreshSnapshot()
-            }
         }
     }
 
     public override func stop() async {
+        initTask?.cancel()
+        initTask = nil
         pollTask?.cancel()
         pollTask = nil
         await MainActor.run {
@@ -52,6 +59,34 @@ public final class BluetoothSensor: BaseSensor {
             deviceDisconnectNotifications.removeAll()
         }
         publishInactive()
+    }
+
+    // MARK: - DynamicKeySensor
+
+    /// Called by the backend after every rule change.
+    /// Starts the poll loop when any rule references a Bluetooth key;
+    /// stops it when no rules do.
+    public func setMonitoredKeys(_ keys: [String]) {
+        let wasMonitoring = !monitoredKeys.isEmpty
+        let nowMonitoring = !keys.isEmpty
+        monitoredKeys = Set(keys)
+
+        guard wasMonitoring != nowMonitoring else { return }
+
+        if nowMonitoring {
+            print("[BluetoothSensor] rules reference Bluetooth keys — starting poll loop")
+            pollTask = Task { [weak self] in
+                while !Task.isCancelled {
+                    try? await Task.sleep(nanoseconds: 30_000_000_000)
+                    guard !Task.isCancelled else { return }
+                    self?.refreshSnapshot()
+                }
+            }
+        } else {
+            print("[BluetoothSensor] no rules reference Bluetooth keys — stopping poll loop")
+            pollTask?.cancel()
+            pollTask = nil
+        }
     }
 
     @objc private func deviceConnected(_ notification: IOBluetoothUserNotification, device: IOBluetoothDevice) {
