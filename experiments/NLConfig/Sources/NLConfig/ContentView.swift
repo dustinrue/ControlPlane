@@ -3,7 +3,6 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var parser = NLParser()
     @State private var input = ""
-    @FocusState private var inputFocused: Bool
 
     private let examples = [
         "Start Chrome when I connect my LG monitor",
@@ -46,7 +45,6 @@ struct ContentView: View {
             }
         }
         .frame(minWidth: 800, minHeight: 700)
-        .onAppear { inputFocused = true }
     }
 
     // MARK: - Sections
@@ -92,7 +90,6 @@ struct ContentView: View {
                           text: $input)
                     .textFieldStyle(.roundedBorder)
                     .font(.body)
-                    .focused($inputFocused)
                     .disabled(!parser.modelAvailable)
                     .onSubmit { submit() }
 
