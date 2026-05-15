@@ -31,6 +31,17 @@ actor RuleEngine {
     // MARK: - Evaluation
 
     /// Re-evaluate all rules against the provided snapshots and update `currentActiveProfiles`.
+    ///
+    /// Confidence is computed using a multiplicative inverse (unconfidence) model:
+    ///
+    ///     unconfidence = ∏(1 − weight)  for each matching rule
+    ///     profile confidence = 1 − unconfidence
+    ///
+    /// This mirrors the original ControlPlane algorithm. Two rules each with weight 0.6
+    /// produce combined confidence 1 − (0.4 × 0.4) = 0.84, rather than a raw sum of 1.2.
+    ///
+    /// Rules with `negate = true` have their raw match result inverted before contributing
+    /// to confidence: they match (and add weight) when the sensor condition is *absent*.
     @discardableResult
     func evaluate(snapshots: [SensorSnapshot]) async throws -> [ActiveProfile] {
         let rules = try await ruleStore.list()
@@ -39,9 +50,12 @@ actor RuleEngine {
         // Index snapshots by sensor ID for O(1) lookup.
         let snapshotIndex = Dictionary(uniqueKeysWithValues: snapshots.map { ($0.sensorID, $0) })
 
-        // Accumulate confidence per profile ID, recording each rule's match result.
-        var confidence: [UUID: Double] = [:]
+        // Track "unconfidence" per profile (starts at 1.0 = fully unconfident).
+        // For each matching rule: unconfidence *= (1 − rule.weight)
+        // Final confidence = 1 − unconfidence
+        var unconfidence: [UUID: Double] = [:]
         var ruleMatches: [UUID: Bool] = [:]
+
         for rule in rules where rule.enabled {
             guard let snapshot = snapshotIndex[rule.sensorID] else { continue }
             let reading = snapshot.readings.first(where: { $0.key == rule.readingKey })?.value
@@ -51,17 +65,22 @@ actor RuleEngine {
                 continue
             }
 
-            let matched = evaluator.evaluate(reading: reading, operatorID: rule.operatorID, comparand: rule.comparand)
+            let rawMatch = evaluator.evaluate(reading: reading, operatorID: rule.operatorID, comparand: rule.comparand)
+            // Apply negation: a negated rule contributes when the condition is absent.
+            let matched = rule.negate ? !rawMatch : rawMatch
             ruleMatches[rule.id] = matched
+
             if matched {
-                confidence[rule.profileID, default: 0] += rule.weight
+                let current = unconfidence[rule.profileID, default: 1.0]
+                unconfidence[rule.profileID] = current * (1.0 - rule.weight)
             }
         }
         currentRuleMatches = ruleMatches
 
-        // Filter profiles that meet their threshold.
+        // Convert unconfidence → confidence and filter profiles that meet their threshold.
         let profileIndex = Dictionary(uniqueKeysWithValues: profiles.map { ($0.id, $0) })
-        let active = confidence.compactMap { (profileID, score) -> ActiveProfile? in
+        let active = unconfidence.compactMap { (profileID, unc) -> ActiveProfile? in
+            let score = 1.0 - unc
             guard let profile = profileIndex[profileID],
                   score >= profile.confidenceThreshold else { return nil }
             return ActiveProfile(profile: profile, confidence: score)

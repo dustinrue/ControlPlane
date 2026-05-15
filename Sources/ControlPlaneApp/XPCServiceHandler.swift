@@ -251,7 +251,8 @@ final class RequestHandler {
             operatorID:  req.operatorID,
             comparand:   req.comparand,
             evaluatorID: req.evaluatorID,
-            weight:      req.weight
+            weight:      req.weight,
+            negate:      req.negate
         )
         await backend.refreshDynamicSensorKeys()
         return try encoder.encode(rule)
@@ -268,6 +269,7 @@ final class RequestHandler {
             comparand:   req.comparand,
             evaluatorID: req.evaluatorID,
             weight:      req.weight,
+            negate:      req.negate,
             enabled:     req.enabled
         )
         await backend.refreshDynamicSensorKeys()

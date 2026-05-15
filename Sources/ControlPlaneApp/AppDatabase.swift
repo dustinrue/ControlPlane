@@ -124,6 +124,13 @@ final class AppDatabase {
             }
         }
 
+        migrator.registerMigration("v6_rule_negation") { db in
+            // Add the negate flag to existing rules; defaults to false (no change in behaviour).
+            try db.alter(table: "rules") { t in
+                t.add(column: "negate", .boolean).notNull().defaults(to: false)
+            }
+        }
+
         try migrator.migrate(dbQueue)
     }
 
