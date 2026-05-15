@@ -260,8 +260,7 @@ FTP/TFTP/WebSharing (removed from macOS), `ToggleNotificationCenterAlertsAction`
 
 ## Pending / planned work
 
-See the plan file at `~/.claude/plans/wobbly-jumping-hollerith.md` for the full rules
-engine design. Outstanding items:
+See `docs/rules-engine.md` for the full rules engine design. Outstanding items:
 
 - GUI for profile/rule/action management (no UI exists yet beyond the menu bar)
 - `cpctl profiles active` — show currently active profiles with confidence scores
