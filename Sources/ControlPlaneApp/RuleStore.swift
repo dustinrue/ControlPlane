@@ -20,7 +20,8 @@ actor RuleStore {
         operatorID: String,
         comparand: ObservationValue,
         evaluatorID: String = "com.controlplane.evaluator.basic",
-        weight: Double = 1.0
+        weight: Double = 1.0,
+        negate: Bool = false
     ) async throws -> Rule {
         let rule = Rule(
             name: name,
@@ -30,7 +31,8 @@ actor RuleStore {
             operatorID: operatorID,
             comparand: comparand,
             evaluatorID: evaluatorID,
-            weight: weight
+            weight: weight,
+            negate: negate
         )
         let record = RuleRecord(rule)
         try await db.dbQueue.write { db in
@@ -58,6 +60,7 @@ actor RuleStore {
         comparand: ObservationValue,
         evaluatorID: String,
         weight: Double,
+        negate: Bool,
         enabled: Bool
     ) async throws -> Rule {
         let existing = try await get(id)
@@ -71,6 +74,7 @@ actor RuleStore {
             comparand: comparand,
             evaluatorID: evaluatorID,
             weight: weight,
+            negate: negate,
             enabled: enabled,
             createdAt: existing.createdAt,
             updatedAt: Date()
@@ -126,6 +130,7 @@ private struct RuleRecord: Codable, FetchableRecord, PersistableRecord {
     var comparandValue: String
     var evaluatorId: String
     var weight: Double
+    var negate: Bool
     var enabled: Bool
     var createdAt: String
     var updatedAt: String
@@ -143,6 +148,7 @@ private struct RuleRecord: Codable, FetchableRecord, PersistableRecord {
         comparandValue = rule.comparand.valueString
         evaluatorId = rule.evaluatorID
         weight = rule.weight
+        negate = rule.negate
         enabled = rule.enabled
         createdAt = Self.iso.string(from: rule.createdAt)
         updatedAt = Self.iso.string(from: rule.updatedAt)
@@ -160,6 +166,7 @@ private struct RuleRecord: Codable, FetchableRecord, PersistableRecord {
             comparand: comparand,
             evaluatorID: evaluatorId,
             weight: weight,
+            negate: negate,
             enabled: enabled,
             createdAt: Self.iso.date(from: createdAt) ?? Date(),
             updatedAt: Self.iso.date(from: updatedAt) ?? Date()

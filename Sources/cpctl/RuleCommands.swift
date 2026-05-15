@@ -58,10 +58,11 @@ struct RulesList: AsyncParsableCommand {
             return
         }
 
-        print("\(col("ID", 36))  \(col("NAME", 20))  \(col("SENSOR", 28))  \(col("KEY", 16))  \(col("OP", 10))  \(col("COMPARAND", 20))  WT    EN   MATCH")
-        print(String(repeating: "-", count: 160))
+        print("\(col("ID", 36))  \(col("NAME", 20))  \(col("SENSOR", 28))  \(col("KEY", 16))  \(col("OP", 10))  \(col("COMPARAND", 20))  WT    NEG  EN   MATCH")
+        print(String(repeating: "-", count: 168))
         for r in rules {
             let en    = r.enabled ? "yes" : "no"
+            let neg   = r.negate  ? "yes" : "no"
             let wt    = String(format: "%.1f", r.weight)
             let match: String
             if !r.enabled {
@@ -71,7 +72,7 @@ struct RulesList: AsyncParsableCommand {
             } else {
                 match = "?"   // not yet evaluated (backend just started)
             }
-            print("\(col(r.id.uuidString, 36))  \(col(r.name, 20))  \(col(r.sensorID, 28))  \(col(r.readingKey, 16))  \(col(r.operatorID, 10))  \(col(r.comparand.description, 20))  \(col(wt, 5)) \(col(en, 4)) \(match)")
+            print("\(col(r.id.uuidString, 36))  \(col(r.name, 20))  \(col(r.sensorID, 28))  \(col(r.readingKey, 16))  \(col(r.operatorID, 10))  \(col(r.comparand.description, 20))  \(col(wt, 5)) \(col(neg, 4)) \(col(en, 4)) \(match)")
         }
     }
 }
@@ -102,8 +103,11 @@ struct RulesAdd: AsyncParsableCommand {
     @Option(name: .long, help: "Rule display name (defaults to '<key> <op> <value>').")
     var name: String?
 
-    @Option(name: .long, help: "Confidence weight added when this rule matches (default 1.0).")
+    @Option(name: .long, help: "Confidence weight (0.0–1.0) added when this rule matches (default 1.0).")
     var weight: Double = 1.0
+
+    @Flag(name: .long, help: "Invert the match: rule contributes confidence when the condition is absent.")
+    var negate: Bool = false
 
     @Option(name: .long, help: "Evaluator plugin ID (default: com.controlplane.evaluator.basic).")
     var evaluator: String = "com.controlplane.evaluator.basic"
@@ -124,7 +128,8 @@ struct RulesAdd: AsyncParsableCommand {
             operatorID: op,
             comparand: comparand,
             evaluatorID: evaluator,
-            weight: weight
+            weight: weight,
+            negate: negate
         )
 
         if json {
@@ -180,7 +185,7 @@ struct RulesEnable: AsyncParsableCommand {
         _ = try await client.updateRule(
             id: uuid, name: r.name, sensorID: r.sensorID, readingKey: r.readingKey,
             operatorID: r.operatorID, comparand: r.comparand,
-            evaluatorID: r.evaluatorID, weight: r.weight, enabled: true
+            evaluatorID: r.evaluatorID, weight: r.weight, negate: r.negate, enabled: true
         )
         print("Rule \(id) enabled.")
     }
@@ -199,7 +204,7 @@ struct RulesDisable: AsyncParsableCommand {
         _ = try await client.updateRule(
             id: uuid, name: r.name, sensorID: r.sensorID, readingKey: r.readingKey,
             operatorID: r.operatorID, comparand: r.comparand,
-            evaluatorID: r.evaluatorID, weight: r.weight, enabled: false
+            evaluatorID: r.evaluatorID, weight: r.weight, negate: r.negate, enabled: false
         )
         print("Rule \(id) disabled.")
     }
@@ -282,6 +287,7 @@ private extension Rule {
         Comparand: \(comparand)
         Evaluator: \(evaluatorID)
         Weight:    \(weight)
+        Negate:    \(negate ? "yes" : "no")
         Enabled:   \(enabled ? "yes" : "no")
         Created:   \(df.string(from: createdAt))
         """

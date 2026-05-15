@@ -45,9 +45,18 @@ public protocol EvaluatorPlugin: ControlPlanePlugin {
 
 /// A single condition that contributes confidence toward activating a profile.
 ///
-/// A profile can have many rules; each matching rule adds its `weight` to the
-/// profile's confidence score. When the score reaches the profile's
-/// `confidenceThreshold`, the profile becomes active.
+/// Confidence is combined across rules using a multiplicative inverse (unconfidence) model:
+///
+///     unconfidence = ∏(1 − weight)  for each matching rule
+///     profile confidence = 1 − unconfidence
+///
+/// This means two rules each with weight 0.6 produce combined confidence
+/// 1 − (0.4 × 0.4) = 0.84, reflecting how independent signals accumulate.
+///
+/// When `negate` is true the rule's raw match result is inverted before
+/// contributing to confidence — the rule "matches" when the underlying
+/// sensor condition is *absent*. This lets you express disqualifying
+/// conditions such as "corporate VPN is NOT connected".
 public struct Rule: Identifiable, Codable, Sendable, Equatable {
     public let id: UUID
     public var name: String
@@ -63,8 +72,13 @@ public struct Rule: Identifiable, Codable, Sendable, Equatable {
     public var comparand: ObservationValue
     /// Which evaluator plugin performs the comparison. Defaults to the built-in basic evaluator.
     public var evaluatorID: String
-    /// Confidence points added to the profile when this rule matches.
+    /// Confidence weight (0.0–1.0) contributed to the profile when this rule matches.
+    /// A weight of 1.0 means a single matching rule brings the profile to full confidence.
+    /// Lower values require additional matching rules to reach the profile's threshold.
     public var weight: Double
+    /// When true, the rule's match result is inverted: it contributes confidence
+    /// when the sensor condition is *not* met.
+    public var negate: Bool
     public var enabled: Bool
     public let createdAt: Date
     public var updatedAt: Date
@@ -79,6 +93,7 @@ public struct Rule: Identifiable, Codable, Sendable, Equatable {
         comparand: ObservationValue,
         evaluatorID: String = "com.controlplane.evaluator.basic",
         weight: Double = 1.0,
+        negate: Bool = false,
         enabled: Bool = true,
         createdAt: Date = Date(),
         updatedAt: Date = Date()
@@ -92,6 +107,7 @@ public struct Rule: Identifiable, Codable, Sendable, Equatable {
         self.comparand = comparand
         self.evaluatorID = evaluatorID
         self.weight = weight
+        self.negate = negate
         self.enabled = enabled
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -109,6 +125,7 @@ public struct RuleCreateRequest: Codable, Sendable {
     public var comparand: ObservationValue
     public var evaluatorID: String
     public var weight: Double
+    public var negate: Bool
 
     public init(
         name: String,
@@ -118,7 +135,8 @@ public struct RuleCreateRequest: Codable, Sendable {
         operatorID: String,
         comparand: ObservationValue,
         evaluatorID: String = "com.controlplane.evaluator.basic",
-        weight: Double = 1.0
+        weight: Double = 1.0,
+        negate: Bool = false
     ) {
         self.name = name
         self.profileID = profileID
@@ -128,6 +146,7 @@ public struct RuleCreateRequest: Codable, Sendable {
         self.comparand = comparand
         self.evaluatorID = evaluatorID
         self.weight = weight
+        self.negate = negate
     }
 }
 
@@ -140,6 +159,7 @@ public struct RuleUpdateRequest: Codable, Sendable {
     public var comparand: ObservationValue
     public var evaluatorID: String
     public var weight: Double
+    public var negate: Bool
     public var enabled: Bool
 
     public init(
@@ -150,6 +170,7 @@ public struct RuleUpdateRequest: Codable, Sendable {
         comparand: ObservationValue,
         evaluatorID: String = "com.controlplane.evaluator.basic",
         weight: Double = 1.0,
+        negate: Bool = false,
         enabled: Bool = true
     ) {
         self.name = name
@@ -159,6 +180,7 @@ public struct RuleUpdateRequest: Codable, Sendable {
         self.comparand = comparand
         self.evaluatorID = evaluatorID
         self.weight = weight
+        self.negate = negate
         self.enabled = enabled
     }
 }

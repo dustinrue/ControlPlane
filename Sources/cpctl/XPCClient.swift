@@ -147,12 +147,13 @@ final class XPCClient {
         operatorID: String,
         comparand: ObservationValue,
         evaluatorID: String = "com.controlplane.evaluator.basic",
-        weight: Double = 1.0
+        weight: Double = 1.0,
+        negate: Bool = false
     ) async throws -> Rule {
         let req = RuleCreateRequest(
             name: name, profileID: profileID, sensorID: sensorID,
             readingKey: readingKey, operatorID: operatorID, comparand: comparand,
-            evaluatorID: evaluatorID, weight: weight
+            evaluatorID: evaluatorID, weight: weight, negate: negate
         )
         return try await send(method: "ruleCreate", body: req)
     }
@@ -170,12 +171,13 @@ final class XPCClient {
         comparand: ObservationValue,
         evaluatorID: String,
         weight: Double,
+        negate: Bool,
         enabled: Bool
     ) async throws -> Rule {
         let req = RuleUpdateRequest(
             name: name, sensorID: sensorID, readingKey: readingKey,
             operatorID: operatorID, comparand: comparand,
-            evaluatorID: evaluatorID, weight: weight, enabled: enabled
+            evaluatorID: evaluatorID, weight: weight, negate: negate, enabled: enabled
         )
         return try await send(method: "ruleUpdate", string1: id.uuidString, body: req)
     }
