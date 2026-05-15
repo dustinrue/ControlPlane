@@ -99,10 +99,33 @@ class NLParser: ObservableObject {
         isLoading = false
     }
 
+    // MARK: - Known action vocabulary (mirrors ControlPlaneVocabulary.swift)
+
+    private static let knownActionIDs: Set<String> = [
+        "com.controlplane.action.open",
+        "com.controlplane.action.openurl",
+        "com.controlplane.action.openandhide",
+        "com.controlplane.action.quitapplication",
+        "com.controlplane.action.shellscript",
+        "com.controlplane.action.shortcut",
+        "com.controlplane.action.speak",
+        "com.controlplane.action.mountvolume",
+        "com.controlplane.action.unmountvolume",
+        "com.controlplane.action.desktopbackground",
+        "com.controlplane.action.togglewifi",
+        "com.controlplane.action.starttimemachine",
+        "com.controlplane.action.preventdisplaysleep",
+        "com.controlplane.action.preventsystemsleep",
+        "com.controlplane.action.startscreensaver",
+        "com.controlplane.action.lockkeychain",
+        "com.controlplane.action.networklocation",
+        "com.controlplane.action.defaultprinter",
+    ]
+
     // MARK: - JSON extraction
 
-    /// Extracts JSON from the model response and decodes it.
-    /// Records the cleaned text in `decodedAttempt` so failures can be debugged.
+    /// Extracts JSON from the model response, decodes it, then filters out any
+    /// actions whose actionID isn't in the known vocabulary (hallucinations).
     private func decodeConfig(from text: String) throws -> ParsedConfig {
         let cleaned = extractJSON(from: text)
         decodedAttempt = cleaned
@@ -110,7 +133,15 @@ class NLParser: ObservableObject {
             throw NSError(domain: "NLConfig", code: 1,
                           userInfo: [NSLocalizedDescriptionKey: "Could not encode model response as UTF-8"])
         }
-        return try JSONDecoder().decode(ParsedConfig.self, from: data)
+        var config = try JSONDecoder().decode(ParsedConfig.self, from: data)
+        // Strip hallucinated action IDs the model invented outside the vocabulary.
+        let before = config.actions.count
+        config.actions = config.actions.filter { NLParser.knownActionIDs.contains($0.actionID) }
+        if config.actions.count < before {
+            let dropped = before - config.actions.count
+            print("[NLParser] Dropped \(dropped) action(s) with unknown actionID — model hallucinated outside vocabulary")
+        }
+        return config
     }
 
     /// Three-stage extraction: code fences → brace scan → raw fallback.

@@ -190,7 +190,7 @@ enum ControlPlaneVocabulary {
     Input: "create a rule that when I am connected to megahertz to activate my Work profile. It should have 100% confidence"
     → createProfile: false  (user said "my Work profile" and is adding a rule to it, not creating it)
     → One rule: wifi sensor, ssid key, equals operator, comparandValue "Megahertz", weight 1.0
-    → No actions
+    → actions: []  ← EMPTY. The user said nothing about opening apps, running scripts, or any other effect. Do not add actions.
 
     Input: "Lock my keychain and turn off Wi-Fi when my screen locks"
     → One rule: screenlock sensor, locked key, isTrue operator (screen locking is the CONDITION)
