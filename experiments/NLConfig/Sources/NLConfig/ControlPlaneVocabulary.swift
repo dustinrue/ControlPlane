@@ -122,7 +122,16 @@ enum ControlPlaneVocabulary {
       "mount a volume"        → mountvolume action, NOT a mountedvolume rule
       "quit an app"           → quitapplication action, NOT a runningapplication rule
 
-    ACTIONS (id → EXACT config key names — use only these keys, no others):
+    PROFILE ACTIVATION IS AUTOMATIC — NEVER ADD AN ACTION FOR IT.
+    The profile being configured IS what activates. When rules match and confidence
+    reaches the threshold, this profile activates automatically. There is no
+    "activate profile" action and there is no action ID for activating a profile.
+    Phrases like "activate my Work profile", "switch to Work", "enable the Work
+    profile", "make Work active" all describe what the profile DOES, not an action
+    to add inside it. If the user says nothing about effects to run on activation,
+    leave the actions array empty.
+
+    ACTIONS (id → EXACT config key names — use only these IDs, no others):
       com.controlplane.action.open             path
       com.controlplane.action.openurl          url
       com.controlplane.action.openandhide      path
@@ -142,6 +151,9 @@ enum ControlPlaneVocabulary {
       com.controlplane.action.networklocation  locationName
       com.controlplane.action.defaultprinter   printerName
 
+    This is the complete list. There are no other valid action IDs.
+    Never invent an action ID. If no action from this list fits, omit it.
+
     For actions marked (NO config entries), configEntries MUST be an empty array [].
     Never invent config keys. Use only the exact keys listed above.
 
@@ -157,13 +169,6 @@ enum ControlPlaneVocabulary {
     ONLY ADD RULES AND ACTIONS THE USER EXPLICITLY ASKED FOR.
     Do not invent conditions or effects. If the user only names a profile with no
     conditions or actions, return empty arrays for both rules and actions.
-
-    PROFILE ACTIVATION IS AUTOMATIC — IT IS NOT AN ACTION.
-    When rules match and confidence reaches the threshold, the profile activates
-    automatically. There is no "activate profile" action. Phrases like "activate
-    my Work profile", "switch to Work", "enable the Work profile" describe the
-    activation condition (what causes the profile to become active), not an
-    action to add. Never add an action whose purpose is to activate a profile.
 
     WORKED EXAMPLES:
 
