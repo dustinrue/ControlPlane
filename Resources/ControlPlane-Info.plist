@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.controlplane.app</string>
+    <key>CFBundleName</key>
+    <string>ControlPlane</string>
+    <key>CFBundleDisplayName</key>
+    <string>ControlPlane</string>
+    <key>CFBundleExecutable</key>
+    <string>ControlPlane</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+
+    <!-- Standard app bundle type -->
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <!-- Menu bar app: no Dock icon, no App Switcher entry -->
+    <key>LSUIElement</key>
+    <true/>
+
+    <!-- Required for NSApplication to initialise correctly -->
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+
+    <!-- App icon (shown in notifications, About box, etc.) -->
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+
+    <!-- Location Services usage strings (shown in System Settings) -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>ControlPlane reads your Wi-Fi network name and scans for nearby networks to determine which profile is active.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>ControlPlane reads your Wi-Fi network name and scans for nearby networks to determine which profile is active.</string>
+
+    <!-- Bluetooth usage string (shown in System Settings when sensor accesses Bluetooth) -->
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>ControlPlane monitors nearby and connected Bluetooth devices to determine which profile is active.</string>
+</dict>
+</plist>

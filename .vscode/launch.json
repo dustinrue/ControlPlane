@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ControlPlane}",
+            "name": "Debug ControlPlane",
+            "target": "ControlPlane",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug ControlPlane"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ControlPlane}",
+            "name": "Release ControlPlane",
+            "target": "ControlPlane",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release ControlPlane"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ControlPlane}",
+            "name": "Debug cpctl",
+            "target": "cpctl",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug cpctl"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ControlPlane}",
+            "name": "Release cpctl",
+            "target": "cpctl",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release cpctl"
+        }
+    ]
+}
