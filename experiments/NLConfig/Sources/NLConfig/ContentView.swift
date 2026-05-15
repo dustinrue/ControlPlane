@@ -266,8 +266,13 @@ struct ContentView: View {
 
     private func cpctlCommands(for config: ParsedConfig) -> String {
         var lines: [String] = []
-        lines.append("# Create profile")
-        lines.append("cpctl profiles add \"\(config.profileName)\" --threshold \(String(format: "%.2f", config.confidenceThreshold))")
+        if config.createProfile {
+            lines.append("# Create profile")
+            lines.append("cpctl profiles add \"\(config.profileName)\" --threshold \(String(format: "%.2f", config.confidenceThreshold))")
+        } else {
+            lines.append("# Profile '\(config.profileName)' assumed to already exist")
+            lines.append("# To update its threshold: cpctl profiles update \"\(config.profileName)\" --threshold \(String(format: "%.2f", config.confidenceThreshold))")
+        }
         lines.append("")
         lines.append("# Add rules")
         for rule in config.rules {

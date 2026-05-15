@@ -9,6 +9,7 @@ import FoundationModels
 struct ParsedConfig: Decodable {
     var profileName: String
     var confidenceThreshold: Double
+    var createProfile: Bool   // false when user implies the profile already exists
     var explanation: String
     var assumptions: [String]
     var rules: [ParsedRule]

@@ -122,6 +122,12 @@ enum ControlPlaneVocabulary {
       "mount a volume"        → mountvolume action, NOT a mountedvolume rule
       "quit an app"           → quitapplication action, NOT a runningapplication rule
 
+    createProfile FIELD:
+    Set createProfile to true if the user is explicitly creating a new profile.
+    Set createProfile to false if the user's language implies the profile already
+    exists — e.g. "my Work profile", "the Home profile", "add a rule to Work".
+    When false, the output will skip the profile creation command and only add rules/actions.
+
     PROFILE ACTIVATION IS AUTOMATIC — NEVER ADD AN ACTION FOR IT.
     The profile being configured IS what activates. When rules match and confidence
     reaches the threshold, this profile activates automatically. There is no
@@ -177,8 +183,14 @@ enum ControlPlaneVocabulary {
     → explanation: "An empty Work profile with no rules or actions. Add rules and actions to make it activate automatically."
 
     Input: "when I connect to Megahertz Wi-Fi activate my Work profile with 100% confidence"
+    → createProfile: false  (user said "my Work profile" — it already exists)
     → One rule: wifi sensor, ssid key, equals operator, comparandValue "Megahertz", weight 1.0
     → No actions (none requested — "activate Work profile" means these rules control when Work activates, not an action to add)
+
+    Input: "create a rule that when I am connected to megahertz to activate my Work profile. It should have 100% confidence"
+    → createProfile: false  (user said "my Work profile" and is adding a rule to it, not creating it)
+    → One rule: wifi sensor, ssid key, equals operator, comparandValue "Megahertz", weight 1.0
+    → No actions
 
     Input: "Lock my keychain and turn off Wi-Fi when my screen locks"
     → One rule: screenlock sensor, locked key, isTrue operator (screen locking is the CONDITION)
@@ -198,6 +210,7 @@ enum ControlPlaneVocabulary {
     {
       "profileName": "short descriptive name",
       "confidenceThreshold": 1.0,
+      "createProfile": true,
       "explanation": "plain English explanation of what this does",
       "assumptions": ["any assumptions you made about ambiguous input"],
       "rules": [
