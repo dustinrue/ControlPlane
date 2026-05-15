@@ -6,24 +6,32 @@ import ControlPlaneSDK
 /// Sensor that observes the current Wi-Fi connection state using CoreWLAN.
 ///
 /// Always emits: connected, SSID, BSSID, RSSI, security type.
-/// Network scan (visible_networks): always runs when not connected; when connected,
-/// controlled by `scanWhileConnected` (default false).
+/// Network scan (visible_networks): only runs when a rule references the
+/// "visible_networks" reading key. The backend calls `setMonitoredKeys(_:)`
+/// after each rule change; if no rule uses "visible_networks" the scan loop
+/// is stopped entirely, eliminating unnecessary background wakeups.
+/// When scanning is active and the device is connected, `scanWhileConnected`
+/// controls whether scans continue (default false).
 ///
 /// SSID and BSSID require Location Services permission on macOS 10.15+. The sensor
 /// requests authorization automatically on start via CLLocationManager. If permission
 /// is denied, ssid/bssid are emitted as empty strings.
-public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushSensor {
+public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushSensor, DynamicKeySensor {
     public var pluginIdentifier: String { "com.controlplane.sensors.wifi" }
     public var pluginDisplayName: String { "Wi-Fi" }
     public var pluginVersion: String { "1.0.0" }
     public var pluginCategory: String { "sensor" }
 
     /// When false (default), network scanning is suppressed while connected.
-    /// Scanning always runs when not connected regardless of this flag.
+    /// Only relevant when scanning is active (i.e. a rule references visible_networks).
     public var scanWhileConnected: Bool = false
 
     /// Injected by SensorCoordinator. Called after every snapshot update.
     public var onSnapshotChanged: (@Sendable () -> Void)?
+
+    /// True only when at least one enabled rule references the "visible_networks" key.
+    /// Controlled by setMonitoredKeys(_:) — do not set directly.
+    private var scanEnabled: Bool = false
 
     private let client = CWWiFiClient.shared()
     private var interface: CWInterface?
@@ -57,7 +65,9 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
         requestLocationAuthorization()
         interface = client.interface()
         subscribeToEvents()
-        startScanLoop()
+        // Scan loop is NOT started here. It starts only when setMonitoredKeys(_:)
+        // is called with a key set that includes "visible_networks". This avoids
+        // unnecessary background wakeups when no rule uses that reading.
         refreshSnapshot()
     }
 
@@ -133,7 +143,35 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
         }
     }
 
+    // MARK: - DynamicKeySensor
+
+    /// Called by the backend after every rule change.
+    /// Starts the scan loop when any rule references "visible_networks";
+    /// stops it (and clears stale results) when no rule does.
+    public func setMonitoredKeys(_ keys: [String]) {
+        let needsScan = keys.contains("visible_networks")
+        guard needsScan != scanEnabled else { return }
+        scanEnabled = needsScan
+
+        if scanEnabled {
+            print("[WiFiSensor] visible_networks referenced by a rule — starting scan loop")
+            startScanLoop()
+        } else {
+            print("[WiFiSensor] no rules reference visible_networks — stopping scan loop")
+            scanTask?.cancel()
+            scanTask = nil
+            // Clear any stale scan results from the snapshot.
+            let changed = lock.withLock {
+                let had = !_visibleNetworks.isEmpty
+                _visibleNetworks = []
+                return had
+            }
+            if changed { refreshSnapshot() }
+        }
+    }
+
     private func runScanIfNeeded() async {
+        guard scanEnabled else { return }
         guard let iface = interface else { return }
         let connected = iface.serviceActive()
 
