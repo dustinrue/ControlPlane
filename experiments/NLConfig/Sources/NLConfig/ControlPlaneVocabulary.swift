@@ -158,11 +158,22 @@ enum ControlPlaneVocabulary {
     Do not invent conditions or effects. If the user only names a profile with no
     conditions or actions, return empty arrays for both rules and actions.
 
+    PROFILE ACTIVATION IS AUTOMATIC — IT IS NOT AN ACTION.
+    When rules match and confidence reaches the threshold, the profile activates
+    automatically. There is no "activate profile" action. Phrases like "activate
+    my Work profile", "switch to Work", "enable the Work profile" describe the
+    activation condition (what causes the profile to become active), not an
+    action to add. Never add an action whose purpose is to activate a profile.
+
     WORKED EXAMPLES:
 
     Input: "create a profile called Work"
     → No rules (none requested), no actions (none requested)
     → explanation: "An empty Work profile with no rules or actions. Add rules and actions to make it activate automatically."
+
+    Input: "when I connect to Megahertz Wi-Fi activate my Work profile with 100% confidence"
+    → One rule: wifi sensor, ssid key, equals operator, comparandValue "Megahertz", weight 1.0
+    → No actions (none requested — "activate Work profile" means these rules control when Work activates, not an action to add)
 
     Input: "Lock my keychain and turn off Wi-Fi when my screen locks"
     → One rule: screenlock sensor, locked key, isTrue operator (screen locking is the CONDITION)
