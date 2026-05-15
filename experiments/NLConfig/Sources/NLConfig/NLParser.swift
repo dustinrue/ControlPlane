@@ -110,11 +110,15 @@ class NLParser: ObservableObject {
 
     private func stripCodeFences(_ text: String) -> String {
         var s = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        // Strip ```json ... ``` or ``` ... ```
-        if s.hasPrefix("```") {
-            if let end = s.range(of: "```", options: .backwards), end.lowerBound != s.startIndex {
-                let inner = s[s.index(s.startIndex, offsetBy: 3)..<end.lowerBound]
-                // Drop optional language tag on first line
+
+        // The model sometimes prefaces with prose before the code fence.
+        // Find the first ``` anywhere in the response and discard everything before it.
+        if let fenceStart = s.range(of: "```") {
+            // Also find the closing fence (last ```)
+            if let fenceEnd = s.range(of: "```", options: .backwards),
+               fenceEnd.lowerBound != fenceStart.lowerBound {
+                let inner = s[fenceStart.upperBound..<fenceEnd.lowerBound]
+                // Drop optional language tag (e.g. "json\n") on the first line
                 if let newline = inner.firstIndex(of: "\n") {
                     s = String(inner[inner.index(after: newline)...])
                 } else {
