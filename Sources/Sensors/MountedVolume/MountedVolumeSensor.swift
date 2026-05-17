@@ -19,14 +19,18 @@ public final class MountedVolumeSensor: BaseSensor {
             forName: NSWorkspace.didMountNotification,
             object: nil,
             queue: nil
-        ) { [weak self] _ in
+        ) { [weak self] notification in
+            let path = (notification.userInfo?["NSDevicePath"] as? String) ?? "unknown"
+            NSLog("[MountedVolume] didMountNotification — path: %@", path)
             DispatchQueue.main.async { self?.refreshSnapshot() }
         }
         unmountObserver = NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.didUnmountNotification,
             object: nil,
             queue: nil
-        ) { [weak self] _ in
+        ) { [weak self] notification in
+            let path = (notification.userInfo?["NSDevicePath"] as? String) ?? "unknown"
+            NSLog("[MountedVolume] didUnmountNotification — path: %@", path)
             DispatchQueue.main.async { self?.refreshSnapshot() }
         }
         DispatchQueue.main.sync { refreshSnapshot() }
@@ -50,6 +54,7 @@ public final class MountedVolumeSensor: BaseSensor {
             options: []
         ) ?? []
         let names = urls.map { $0.lastPathComponent }
+        NSLog("[MountedVolume] refreshSnapshot — volumes: %@", names.joined(separator: ", "))
         var readings: [SensorReading] = [
             SensorReading(key: "mounted", label: "Mounted Volumes", value: .strings(names))
         ]

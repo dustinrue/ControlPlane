@@ -165,8 +165,13 @@ final class Backend {
     }
 
     /// Queries all rules and pushes each sensor's monitored key set to any
-    /// DynamicKeySensor that has rules referencing it.
-    /// Call this after any rule create, update, or delete.
+    /// DynamicKeySensor that has rules referencing it, then forces an immediate
+    /// rule evaluation with current sensor snapshots.
+    ///
+    /// Called after any rule create, update, or delete. The explicit
+    /// triggerSnapshotCallback() at the end ensures that rule changes take effect
+    /// immediately even when no dynamic sensor happens to fire on its own (e.g.
+    /// a MountedVolume or WiFi rule that was just edited).
     func refreshDynamicSensorKeys() async {
         do {
             let rules = try await ruleStore.list()
@@ -184,6 +189,10 @@ final class Backend {
         } catch {
             log("refreshDynamicSensorKeys error: \(error)")
         }
+        // Force an evaluation with current snapshots so that rule edits (negate
+        // toggle, weight change, enable/disable) take effect immediately regardless
+        // of whether any sensor happened to push a new snapshot on its own.
+        await sensorCoordinator.triggerSnapshotCallback()
     }
 
     private func registerSensor(_ sensor: any SensorPlugin) async {

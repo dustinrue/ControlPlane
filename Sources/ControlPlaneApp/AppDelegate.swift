@@ -1,11 +1,18 @@
 import AppKit
+import Combine
 import UserNotifications
 import ControlPlaneSDK
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var statusItem: NSStatusItem?
     private let backend = Backend()
+    private var store: ControlPlaneStore!
+    private var cancellables = Set<AnyCancellable>()
+
+    /// Kept so we can refresh its submenu without rebuilding the whole menu.
+    private var runActionsMenuItem: NSMenuItem?
 
     // MARK: - Lifecycle
 
@@ -13,7 +20,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupNotifications()
         setupStatusItem()
         backend.start()
-        observeActiveProfiles()
+
+        // Create the observable store and register it as the active-profile observer.
+        // The store's setup() calls profileActivationManager.setOnChange, so
+        // AppDelegate observes store.$activeProfiles via Combine instead of
+        // registering its own callback directly.
+        store = ControlPlaneStore(backend: backend)
+
+        store.$activeProfiles
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] active in self?.rebuildProfileSection(active) }
+            .store(in: &cancellables)
+
+        // Rebuild the Run Actions submenu whenever actions, profiles, or action types change.
+        store.$profileActions
+            .combineLatest(store.$profiles, store.$actionTypes)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.rebuildRunActionsMenu() }
+            .store(in: &cancellables)
+
+        Task { await store.setup() }
+
         CpctlInstaller.installIfNeeded()
     }
 
@@ -21,51 +48,38 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setupNotifications() {
         let center = UNUserNotificationCenter.current()
-
-        // Delegate must be set before any notification is delivered.
         center.delegate = self
-
-        // Discard any notifications that were queued by a previous instance
-        // but not yet delivered (e.g. time-triggered notifications left over
-        // from a crash or rapid restart during development).
         center.removeAllPendingNotificationRequests()
-
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error { log("Notification authorization error: \(error)") }
             log("Notification permission: \(granted ? "granted" : "denied")")
-            if granted {
-                Notifier.startup()
-            }
-        }
-    }
-
-    // MARK: - Active profile observation
-
-    private func observeActiveProfiles() {
-        Task {
-            await backend.profileActivationManager.setOnChange { [weak self] active in
-                DispatchQueue.main.async { self?.rebuildProfileSection(active) }
-            }
+            if granted { Notifier.startup() }
         }
     }
 
     // MARK: - Status Item
 
     private func setupStatusItem() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         guard let button = statusItem?.button else { return }
 
-        // Use the "airplane" SF Symbol as a template image — it renders in monochrome,
-        // scales to any menu-bar size, and adapts to dark/light mode automatically.
-        let config = NSImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        let config = NSImage.SymbolConfiguration(pointSize: 13, weight: .regular)
         if let image = NSImage(systemSymbolName: "airplane", accessibilityDescription: "ControlPlane")?
                            .withSymbolConfiguration(config) {
             button.image = image
+            button.imagePosition = .imageLeft
         }
 
         button.setAccessibilityLabel("ControlPlane")
         statusItem?.menu = buildMenu(active: [])
     }
+
+    private func updateStatusTitle(_ active: [ActiveProfile]) {
+        guard let button = statusItem?.button else { return }
+        button.title = active.isEmpty ? "" : " " + active.map(\.profile.name).joined(separator: ", ")
+    }
+
+    // MARK: - Menu construction
 
     private func buildMenu(active: [ActiveProfile]) -> NSMenu {
         let menu = NSMenu()
@@ -75,6 +89,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(header)
 
         menu.addItem(.separator())
+
+        menu.addItem(
+            NSMenuItem(title: "Preferences…",
+                       action: #selector(openPreferences),
+                       keyEquivalent: ",")
+        )
+
+        // Run Actions flyout — submenu is populated by rebuildRunActionsMenu().
+        let runItem = NSMenuItem(title: "Run Action", action: nil, keyEquivalent: "")
+        runItem.submenu = NSMenu(title: "Run Action")
+        runActionsMenuItem = runItem
+        menu.addItem(runItem)
+
+        // tag 2 — anchor for rebuildProfileSection insertion.
+        let profileSeparator = NSMenuItem.separator()
+        profileSeparator.tag = 2
+        menu.addItem(profileSeparator)
 
         if active.isEmpty {
             let item = NSMenuItem(title: "No active profile", action: nil, keyEquivalent: "")
@@ -100,12 +131,87 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return menu
     }
 
+    // MARK: - Run Actions submenu
+
+    private func rebuildRunActionsMenu() {
+        guard let submenu = runActionsMenuItem?.submenu else { return }
+        submenu.removeAllItems()
+
+        // Sort by profile name, then by creation date within a profile.
+        let actions = store.profileActions.sorted { a, b in
+            let nameA = store.profiles.first { $0.id == a.profileID }?.name ?? ""
+            let nameB = store.profiles.first { $0.id == b.profileID }?.name ?? ""
+            return nameA == nameB ? a.createdAt < b.createdAt : nameA < nameB
+        }
+
+        if actions.isEmpty {
+            let empty = NSMenuItem(title: "No actions configured", action: nil, keyEquivalent: "")
+            empty.isEnabled = false
+            submenu.addItem(empty)
+            return
+        }
+
+        // Group by profile with a section header for each.
+        var lastProfileID: UUID? = nil
+        for action in actions {
+            let profileName = store.profiles.first { $0.id == action.profileID }?.name ?? "Unknown Profile"
+            let typeName    = store.actionType(for: action.actionPluginID)?.displayName ?? action.actionPluginID
+            let trigger     = action.trigger == ActionTrigger.onActivate ? "activate" : "deactivate"
+
+            if action.profileID != lastProfileID {
+                if lastProfileID != nil { submenu.addItem(.separator()) }
+                let header = NSMenuItem(title: profileName, action: nil, keyEquivalent: "")
+                header.isEnabled = false
+                submenu.addItem(header)
+                lastProfileID = action.profileID
+            }
+
+            let title = "  \(typeName) (\(trigger))"
+            let item = NSMenuItem(title: title, action: #selector(runActionItem(_:)), keyEquivalent: "")
+            item.representedObject = action
+            item.target = self
+            if !action.enabled {
+                item.isEnabled = false
+                item.title = title + " [disabled]"
+            }
+            submenu.addItem(item)
+        }
+    }
+
+    @objc private func runActionItem(_ sender: NSMenuItem) {
+        guard let action = sender.representedObject as? ProfileAction else { return }
+        // Access @MainActor-isolated store on the main actor, then hop to a plain
+        // Task for the async plugin execution.
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            guard let profile = self.store.profiles.first(where: { $0.id == action.profileID }) else {
+                log("Run Action: profile \(action.profileID) not found")
+                return
+            }
+            guard let plugin = await self.backend.actionRegistry.plugin(for: action.actionPluginID) else {
+                log("Run Action: plugin '\(action.actionPluginID)' not loaded")
+                return
+            }
+            do {
+                log("Run Action: executing \(action.actionPluginID) [\(action.trigger.rawValue)] for \"\(profile.name)\"")
+                try await plugin.execute(trigger: action.trigger, profile: profile, config: action.config)
+                log("Run Action: done")
+            } catch {
+                log("Run Action failed: \(error)")
+            }
+        }
+    }
+
+    // MARK: - Profile section
+
     private func rebuildProfileSection(_ active: [ActiveProfile]) {
+        updateStatusTitle(active)
+
         guard let menu = statusItem?.menu else { return }
 
         menu.items.filter { $0.tag == 1 }.forEach { menu.removeItem($0) }
 
-        guard let separatorIndex = menu.items.firstIndex(where: { $0.isSeparatorItem }) else { return }
+        guard let separatorIndex = menu.items.firstIndex(where: { $0.tag == 2 }) else { return }
         let insertAt = separatorIndex + 1
 
         if active.isEmpty {
@@ -122,13 +228,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
+
+    // MARK: - Actions
+
+    @objc private func openPreferences() {
+        Task { @MainActor in
+            PreferencesWindowController.show(store: store)
+        }
+    }
 }
 
 // MARK: - UNUserNotificationCenterDelegate
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    /// Called when a notification is about to be presented while the app is running.
-    /// Returning .banner + .sound ensures the banner pops up even in the foreground.
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
