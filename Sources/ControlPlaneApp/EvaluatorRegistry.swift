@@ -7,7 +7,7 @@ actor EvaluatorRegistry {
 
     func register(_ evaluator: any EvaluatorPlugin) {
         evaluators[evaluator.pluginIdentifier] = evaluator
-        log("Evaluator registered: \(evaluator.pluginIdentifier)")
+        log("Evaluator registered: \(evaluator.pluginIdentifier)", CPLogger.plugins)
     }
 
     func evaluator(for id: String) -> (any EvaluatorPlugin)? {

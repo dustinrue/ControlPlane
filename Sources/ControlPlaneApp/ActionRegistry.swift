@@ -7,7 +7,7 @@ actor ActionRegistry {
 
     func register(_ plugin: any ActionPlugin) {
         plugins[plugin.pluginIdentifier] = plugin
-        log("Action plugin registered: \(plugin.pluginIdentifier)")
+        log("Action plugin registered: \(plugin.pluginIdentifier)", CPLogger.plugins)
     }
 
     func plugin(for id: String) -> (any ActionPlugin)? {

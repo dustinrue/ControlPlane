@@ -1,6 +1,9 @@
 import Foundation
 import IOBluetooth
 import ControlPlaneSDK
+import os
+
+private let btLogger = Logger(subsystem: "com.controlplane.app", category: "BluetoothSensor")
 
 /// Sensor that observes Bluetooth hardware state using IOBluetooth.
 ///
@@ -74,7 +77,7 @@ public final class BluetoothSensor: BaseSensor, DynamicKeySensor {
         guard wasMonitoring != nowMonitoring else { return }
 
         if nowMonitoring {
-            print("[BluetoothSensor] rules reference Bluetooth keys — starting poll loop")
+            btLogger.debug("[BluetoothSensor] rules reference Bluetooth keys — starting poll loop")
             pollTask = Task { [weak self] in
                 while !Task.isCancelled {
                     try? await Task.sleep(nanoseconds: 30_000_000_000)
@@ -83,7 +86,7 @@ public final class BluetoothSensor: BaseSensor, DynamicKeySensor {
                 }
             }
         } else {
-            print("[BluetoothSensor] no rules reference Bluetooth keys — stopping poll loop")
+            btLogger.debug("[BluetoothSensor] no rules reference Bluetooth keys — stopping poll loop")
             pollTask?.cancel()
             pollTask = nil
         }

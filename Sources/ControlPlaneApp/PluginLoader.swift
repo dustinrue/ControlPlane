@@ -24,11 +24,11 @@ final class PluginLoader {
     }
 
     func discoverPlugins() {
-        log("Plugin discovery starting")
+        log("Plugin discovery starting", CPLogger.plugins)
         for (directory, source) in searchDirectories() {
             load(from: directory, source: source)
         }
-        log("Plugin discovery complete")
+        log("Plugin discovery complete", CPLogger.plugins)
     }
 
     // MARK: - Private
@@ -57,7 +57,7 @@ final class PluginLoader {
     private func load(from directory: URL, source: PluginInfo.PluginSource) {
         let fm = FileManager.default
         guard fm.fileExists(atPath: directory.path) else {
-            log("Plugin directory absent (skipping): \(directory.path)")
+            logDebug("Plugin directory absent (skipping): \(directory.path)", CPLogger.plugins)
             return
         }
 
@@ -69,12 +69,12 @@ final class PluginLoader {
                 options: .skipsHiddenFiles
             ).filter { $0.pathExtension == "bundle" }
         } catch {
-            log("Failed to read plugin directory \(directory.path): \(error.localizedDescription)")
+            logError("Failed to read plugin directory \(directory.path): \(error.localizedDescription)", CPLogger.plugins)
             return
         }
 
         if bundles.isEmpty {
-            log("No plugins in \(directory.path)")
+            logDebug("No plugins in \(directory.path)", CPLogger.plugins)
             return
         }
 
@@ -85,29 +85,29 @@ final class PluginLoader {
 
     private func loadBundle(at url: URL, source: PluginInfo.PluginSource) {
         guard let bundle = Bundle(url: url) else {
-            log("Could not create Bundle from \(url.lastPathComponent)")
+            logError("Could not create Bundle from \(url.lastPathComponent)", CPLogger.plugins)
             return
         }
 
         guard bundle.load() else {
-            log("Failed to load bundle \(url.lastPathComponent)")
+            logError("Failed to load bundle \(url.lastPathComponent)", CPLogger.plugins)
             return
         }
 
         guard let principalClass = bundle.principalClass else {
-            log("No NSPrincipalClass declared in \(url.lastPathComponent)")
+            logError("No NSPrincipalClass declared in \(url.lastPathComponent)", CPLogger.plugins)
             return
         }
 
         guard let objectType = principalClass as? NSObject.Type else {
-            log("Principal class in \(url.lastPathComponent) does not subclass NSObject")
+            logError("Principal class in \(url.lastPathComponent) does not subclass NSObject", CPLogger.plugins)
             return
         }
 
         let instance = objectType.init()
 
         guard let plugin = instance as? ControlPlanePlugin else {
-            log("Principal class in \(url.lastPathComponent) does not conform to ControlPlanePlugin")
+            logError("Principal class in \(url.lastPathComponent) does not conform to ControlPlanePlugin", CPLogger.plugins)
             return
         }
 
@@ -121,11 +121,11 @@ final class PluginLoader {
         switch rawCategory {
         case "sensor":
             guard let sensorPlugin = plugin as? (any SensorPlugin) else {
-                log("Plugin \(plugin.pluginIdentifier) declares category 'sensor' but does not conform to SensorPlugin")
+                logError("Plugin \(plugin.pluginIdentifier) declares category 'sensor' but does not conform to SensorPlugin", CPLogger.plugins)
                 return
             }
             guard type(of: sensorPlugin).isApplicable() else {
-                log("Sensor \(plugin.pluginIdentifier) is not applicable on this system — skipping")
+                log("Sensor \(plugin.pluginIdentifier) is not applicable on this system — skipping", CPLogger.plugins)
                 return
             }
             Task { await self.sensors.add(sensorPlugin) }
@@ -133,7 +133,7 @@ final class PluginLoader {
 
         case "action":
             guard plugin is ActionPlugin else {
-                log("Plugin \(plugin.pluginIdentifier) declares category 'action' but does not conform to ActionPlugin")
+                logError("Plugin \(plugin.pluginIdentifier) declares category 'action' but does not conform to ActionPlugin", CPLogger.plugins)
                 return
             }
             category = .action
@@ -142,7 +142,7 @@ final class PluginLoader {
             category = .intelligence
 
         default:
-            log("Unknown plugin category '\(rawCategory)' in \(plugin.pluginIdentifier)")
+            logError("Unknown plugin category '\(rawCategory)' in \(plugin.pluginIdentifier)", CPLogger.plugins)
             return
         }
 
@@ -156,6 +156,6 @@ final class PluginLoader {
 
         Task { await registry.register(info) }
 
-        log("Loaded \(rawCategory) plugin: \(plugin.pluginDisplayName) (\(plugin.pluginIdentifier)) v\(plugin.pluginVersion) [\(source.rawValue)]")
+        log("Loaded \(rawCategory) plugin: \(plugin.pluginDisplayName) (\(plugin.pluginIdentifier)) v\(plugin.pluginVersion) [\(source.rawValue)]", CPLogger.plugins)
     }
 }

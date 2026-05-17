@@ -38,7 +38,7 @@ actor SensorCoordinator {
 
         sensors[id] = sensor
         await sensor.start()
-        log("Started sensor: \(id)")
+        log("Started sensor: \(id)", CPLogger.sensors)
     }
 
     /// Current snapshots from every sensor, sorted by sensor ID.
@@ -67,11 +67,11 @@ actor SensorCoordinator {
     /// at the RuleEngine actor, leaving the profile incorrectly deactivated.
     func triggerSnapshotCallback() async {
         guard let onChange = onSnapshotsUpdated else {
-            log("[SensorCoordinator] triggerSnapshotCallback — onSnapshotsUpdated is nil, skipping")
+            logDebug("[SensorCoordinator] triggerSnapshotCallback — onSnapshotsUpdated is nil, skipping", CPLogger.sensors)
             return
         }
         let snapshots = await allSnapshots()
-        log("[SensorCoordinator] triggerSnapshotCallback — evaluating with \(snapshots.count) snapshots")
+        logDebug("[SensorCoordinator] triggerSnapshotCallback — evaluating with \(snapshots.count) snapshots", CPLogger.sensors)
         await onChange(snapshots)
     }
 
@@ -80,7 +80,7 @@ actor SensorCoordinator {
         for sensor in sensors.values {
             await sensor.refresh()
         }
-        log("Sensor snapshots refreshed")
+        log("Sensor snapshots refreshed", CPLogger.sensors)
         await triggerSnapshotCallback()
     }
 
@@ -105,7 +105,7 @@ actor SensorCoordinator {
         }
         try configurable.setOption(key: key, value: value)
         await configStore.set(key: key, value: value, for: id)
-        log("Set option \(key)=\(value) on sensor \(id)")
+        log("Set option \(key)=\(value) on sensor \(id)", CPLogger.sensors)
     }
 
     /// Returns the IDs of all loaded sensors that conform to DynamicKeySensor.
@@ -127,6 +127,6 @@ actor SensorCoordinator {
             await sensor.stop()
         }
         sensors.removeAll()
-        log("All sensors stopped")
+        log("All sensors stopped", CPLogger.sensors)
     }
 }

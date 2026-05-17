@@ -51,8 +51,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         center.delegate = self
         center.removeAllPendingNotificationRequests()
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
-            if let error { log("Notification authorization error: \(error)") }
-            log("Notification permission: \(granted ? "granted" : "denied")")
+            if let error { logError("Notification authorization error: \(error)", CPLogger.setup) }
+            log("Notification permission: \(granted ? "granted" : "denied")", CPLogger.setup)
             if granted { Notifier.startup() }
         }
     }
@@ -185,19 +185,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         Task { @MainActor [weak self] in
             guard let self else { return }
             guard let profile = self.store.profiles.first(where: { $0.id == action.profileID }) else {
-                log("Run Action: profile \(action.profileID) not found")
+                log("Run Action: profile \(action.profileID) not found", CPLogger.actions)
                 return
             }
             guard let plugin = await self.backend.actionRegistry.plugin(for: action.actionPluginID) else {
-                log("Run Action: plugin '\(action.actionPluginID)' not loaded")
+                log("Run Action: plugin '\(action.actionPluginID)' not loaded", CPLogger.actions)
                 return
             }
             do {
-                log("Run Action: executing \(action.actionPluginID) [\(action.trigger.rawValue)] for \"\(profile.name)\"")
+                log("Run Action: executing \(action.actionPluginID) [\(action.trigger.rawValue)] for \"\(profile.name)\"", CPLogger.actions)
                 try await plugin.execute(trigger: action.trigger, profile: profile, config: action.config)
-                log("Run Action: done")
+                log("Run Action: done", CPLogger.actions)
             } catch {
-                log("Run Action failed: \(error)")
+                logError("Run Action failed: \(error)", CPLogger.actions)
             }
         }
     }

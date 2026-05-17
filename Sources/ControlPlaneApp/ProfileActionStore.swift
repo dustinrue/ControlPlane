@@ -26,7 +26,7 @@ actor ProfileActionStore {
         )
         let record = try ProfileActionRecord(action)
         try await db.dbQueue.write { db in try record.insert(db) }
-        log("ProfileAction created: \(action.id) [\(trigger.rawValue)] plugin=\(actionPluginID)")
+        log("ProfileAction created: \(action.id) [\(trigger.rawValue)] plugin=\(actionPluginID)", CPLogger.actions)
         return action
     }
 
@@ -59,7 +59,7 @@ actor ProfileActionStore {
         )
         let record = try ProfileActionRecord(updated)
         try await db.dbQueue.write { db in try record.update(db) }
-        log("ProfileAction updated: \(id)")
+        log("ProfileAction updated: \(id)", CPLogger.actions)
         return updated
     }
 
@@ -70,7 +70,7 @@ actor ProfileActionStore {
             }
             try ProfileActionRecord.deleteOne(db, key: id.uuidString)
         }
-        log("ProfileAction deleted: \(id)")
+        log("ProfileAction deleted: \(id)", CPLogger.actions)
     }
 
     func list(forProfile profileID: UUID) async throws -> [ProfileAction] {
