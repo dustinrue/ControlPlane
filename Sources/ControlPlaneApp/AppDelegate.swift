@@ -56,19 +56,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Status Item
 
     private func setupStatusItem() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        // Variable length so the button can grow to show the active profile name.
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         guard let button = statusItem?.button else { return }
 
-        // Use the "airplane" SF Symbol as a template image — it renders in monochrome,
-        // scales to any menu-bar size, and adapts to dark/light mode automatically.
-        let config = NSImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        // Airplane SF Symbol — template image adapts to dark/light mode automatically.
+        let config = NSImage.SymbolConfiguration(pointSize: 13, weight: .regular)
         if let image = NSImage(systemSymbolName: "airplane", accessibilityDescription: "ControlPlane")?
                            .withSymbolConfiguration(config) {
             button.image = image
+            button.imagePosition = .imageLeft
         }
 
         button.setAccessibilityLabel("ControlPlane")
         statusItem?.menu = buildMenu(active: [])
+    }
+
+    /// Update the button title to show the active profile name(s) next to the icon.
+    private func updateStatusTitle(_ active: [ActiveProfile]) {
+        guard let button = statusItem?.button else { return }
+        if active.isEmpty {
+            button.title = ""
+        } else {
+            button.title = " " + active.map(\.profile.name).joined(separator: ", ")
+        }
     }
 
     @objc private func openPreferences() {
@@ -125,6 +136,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func rebuildProfileSection(_ active: [ActiveProfile]) {
+        updateStatusTitle(active)
+
         guard let menu = statusItem?.menu else { return }
 
         menu.items.filter { $0.tag == 1 }.forEach { menu.removeItem($0) }
