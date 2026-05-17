@@ -1,9 +1,13 @@
 import SwiftUI
+import AppKit
+import UniformTypeIdentifiers
 import ControlPlaneSDK
 
 /// Sheet for creating a new action on a profile.
 ///
 /// Picks action type → trigger → fills in config fields from configDescriptors.
+/// Config keys that represent file-system paths get a Browse button in addition
+/// to the text field; the panel is scoped appropriately for each action type.
 struct CreateActionView: View {
 
     let profile: Profile
@@ -22,12 +26,10 @@ struct CreateActionView: View {
 
     private var canSave: Bool {
         guard let t = selectedType else { return false }
-        // All required fields must be filled
         return t.configDescriptors
             .filter { $0.required }
             .allSatisfy { desc in
-                let v = configValues[desc.key] ?? ""
-                return !v.trimmingCharacters(in: .whitespaces).isEmpty
+                !(configValues[desc.key] ?? "").trimmingCharacters(in: .whitespaces).isEmpty == false
             }
     }
 
@@ -37,7 +39,6 @@ struct CreateActionView: View {
                 .font(.headline)
 
             Form {
-                // --- Action type ---
                 Section {
                     Picker("Action Type", selection: $actionTypeID) {
                         Text("Choose…").tag("")
@@ -47,7 +48,6 @@ struct CreateActionView: View {
                     }
                     .onChange(of: actionTypeID) { _ in
                         configValues = [:]
-                        // Pre-fill defaults
                         if let t = selectedType {
                             for desc in t.configDescriptors {
                                 if let def = desc.defaultValue {
@@ -56,30 +56,22 @@ struct CreateActionView: View {
                             }
                         }
                     }
-                } header: {
-                    Text("Type")
-                }
+                } header: { Text("Type") }
 
-                // --- Trigger ---
                 Section {
                     Picker("Trigger", selection: $trigger) {
                         Text("On Activate").tag(ActionTrigger.onActivate)
                         Text("On Deactivate").tag(ActionTrigger.onDeactivate)
                     }
                     .pickerStyle(.segmented)
-                } header: {
-                    Text("Trigger")
-                }
+                } header: { Text("Trigger") }
 
-                // --- Config fields ---
                 if let t = selectedType, !t.configDescriptors.isEmpty {
                     Section {
                         ForEach(t.configDescriptors, id: \.key) { desc in
                             configField(desc)
                         }
-                    } header: {
-                        Text("Configuration")
-                    }
+                    } header: { Text("Configuration") }
                 }
             }
             .formStyle(.grouped)
@@ -94,9 +86,10 @@ struct CreateActionView: View {
             }
         }
         .padding(20)
-        .frame(width: 440, height: 420)
+        .frame(width: 480, height: 440)
         .onAppear {
-            if actionTypeID.isEmpty, let first = store.actionTypes.sorted(by: { $0.displayName < $1.displayName }).first {
+            if actionTypeID.isEmpty,
+               let first = store.actionTypes.sorted(by: { $0.displayName < $1.displayName }).first {
                 actionTypeID = first.id
                 for desc in first.configDescriptors {
                     if let def = desc.defaultValue { configValues[desc.key] = def }
@@ -111,14 +104,34 @@ struct CreateActionView: View {
     private func configField(_ desc: ActionConfigDescriptor) -> some View {
         LabeledContent(desc.label) {
             VStack(alignment: .leading, spacing: 4) {
-                TextField(
-                    desc.defaultValue ?? (desc.required ? "Required" : "Optional"),
-                    text: Binding(
-                        get: { configValues[desc.key] ?? "" },
-                        set: { configValues[desc.key] = $0 }
+                if let panelConfig = pathPanelConfig(for: desc.key) {
+                    // Path field: text box + Browse button side by side
+                    HStack(spacing: 6) {
+                        TextField(
+                            desc.defaultValue ?? "/path/to/file",
+                            text: Binding(
+                                get: { configValues[desc.key] ?? "" },
+                                set: { configValues[desc.key] = $0 }
+                            )
+                        )
+                        .textFieldStyle(.roundedBorder)
+
+                        Button("Browse…") {
+                            browse(config: panelConfig, key: desc.key)
+                        }
+                        .controlSize(.small)
+                    }
+                } else {
+                    TextField(
+                        desc.defaultValue ?? (desc.required ? "Required" : "Optional"),
+                        text: Binding(
+                            get: { configValues[desc.key] ?? "" },
+                            set: { configValues[desc.key] = $0 }
+                        )
                     )
-                )
-                .textFieldStyle(.roundedBorder)
+                    .textFieldStyle(.roundedBorder)
+                }
+
                 if !desc.description.isEmpty {
                     Text(desc.description)
                         .font(.caption)
@@ -128,10 +141,92 @@ struct CreateActionView: View {
         }
     }
 
+    // MARK: - Path panel configuration
+
+    /// Per-action, per-key panel settings.  Returns nil for non-path fields.
+    private func pathPanelConfig(for key: String) -> PathPanelConfig? {
+        switch actionTypeID {
+        case "com.controlplane.action.open":
+            if key == "path" {
+                return PathPanelConfig(
+                    title: "Choose a file or application to open",
+                    canChooseFiles: true,
+                    canChooseDirectories: true,
+                    allowedTypes: nil          // any file or .app bundle
+                )
+            }
+
+        case "com.controlplane.action.openandhide":
+            if key == "path" {
+                return PathPanelConfig(
+                    title: "Choose an application to open and hide",
+                    canChooseFiles: false,
+                    canChooseDirectories: true,
+                    allowedTypes: [.applicationBundle]
+                )
+            }
+
+        case "com.controlplane.action.shellscript":
+            if key == "scriptPath" {
+                return PathPanelConfig(
+                    title: "Choose a shell script",
+                    canChooseFiles: true,
+                    canChooseDirectories: false,
+                    allowedTypes: [.shellScript, .unixExecutable, .plainText]
+                )
+            }
+
+        case "com.controlplane.action.desktopbackground":
+            if key == "imagePath" {
+                return PathPanelConfig(
+                    title: "Choose a background image",
+                    canChooseFiles: true,
+                    canChooseDirectories: false,
+                    allowedTypes: [.image]
+                )
+            }
+
+        case "com.controlplane.action.unmountvolume":
+            if key == "volumePath" {
+                return PathPanelConfig(
+                    title: "Choose a volume to unmount",
+                    canChooseFiles: false,
+                    canChooseDirectories: true,
+                    allowedTypes: nil,
+                    directoryURL: URL(fileURLWithPath: "/Volumes")
+                )
+            }
+
+        default:
+            break
+        }
+        return nil
+    }
+
+    private func browse(config: PathPanelConfig, key: String) {
+        let panel = NSOpenPanel()
+        panel.title = config.title
+        panel.canChooseFiles = config.canChooseFiles
+        panel.canChooseDirectories = config.canChooseDirectories
+        panel.allowsMultipleSelection = false
+        panel.canCreateDirectories = false
+        if let types = config.allowedTypes {
+            panel.allowedContentTypes = types
+        }
+        if let dir = config.directoryURL {
+            panel.directoryURL = dir
+        }
+        if panel.runModal() == .OK, let url = panel.url {
+            configValues[key] = url.path
+        }
+    }
+
     // MARK: - Save
 
     private func save() {
-        let cleanedConfig = configValues.filter { !$0.value.trimmingCharacters(in: .whitespaces).isEmpty }
+        let cleanedConfig = configValues.filter {
+            !$0.value.trimmingCharacters(in: .whitespaces).isEmpty
+        }
         Task {
             await store.createProfileAction(
                 profileID: profile.id,
@@ -143,4 +238,14 @@ struct CreateActionView: View {
             dismiss()
         }
     }
+}
+
+// MARK: - Path panel configuration struct
+
+private struct PathPanelConfig {
+    let title: String
+    let canChooseFiles: Bool
+    let canChooseDirectories: Bool
+    let allowedTypes: [UTType]?
+    var directoryURL: URL? = nil
 }
