@@ -37,12 +37,6 @@ struct ProfileDetailView: View {
                     .tag(1)
             }
         }
-        // Sync local editing state when the profile prop changes (different profile selected)
-        .onChange(of: profile.id) { _ in
-            editName      = profile.name
-            editThreshold = profile.confidenceThreshold
-            editExclusive = profile.exclusive
-        }
     }
 
     // MARK: - Header

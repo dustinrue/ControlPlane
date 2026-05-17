@@ -19,6 +19,7 @@ struct ProfilesTabView: View {
 
             if let profile = selectedProfile {
                 ProfileDetailView(profile: profile, store: store)
+                    .id(profile.id)   // force fresh view (and fresh @State) on selection change
             } else {
                 VStack(spacing: 8) {
                     Image(systemName: "person.2")
