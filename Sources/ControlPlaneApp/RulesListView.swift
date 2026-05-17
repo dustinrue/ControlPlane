@@ -68,6 +68,11 @@ struct RulesListView: View {
             }
             .width(24)
 
+            TableColumn("") { rule in
+                matchIndicator(for: rule)
+            }
+            .width(20)
+
             TableColumn("Name") { rule in
                 Text(rule.name).lineLimit(1)
             }
@@ -170,6 +175,26 @@ struct RulesListView: View {
 
     private func operatorLabel(_ id: String) -> String {
         store.operators.first { $0.id == id }?.label ?? id
+    }
+
+    /// Small SF-Symbol dot indicating whether this rule is currently matching.
+    /// Disabled rules show nothing; enabled rules show green (match) or red (no match).
+    /// A dashed circle is shown before the first evaluation result arrives.
+    @ViewBuilder
+    private func matchIndicator(for rule: Rule) -> some View {
+        if !rule.enabled {
+            // Disabled rules contribute nothing — don't show a state indicator.
+            Color.clear
+        } else if let matched = store.ruleMatches[rule.id] {
+            Image(systemName: matched ? "checkmark.circle.fill" : "xmark.circle.fill")
+                .foregroundStyle(matched ? .green : .red)
+                .help(matched ? "Rule is currently matching" : "Rule is not matching")
+        } else {
+            // No evaluation result yet (app just launched or rule just created).
+            Image(systemName: "circle.dotted")
+                .foregroundStyle(.tertiary)
+                .help("Awaiting evaluation")
+        }
     }
 }
 

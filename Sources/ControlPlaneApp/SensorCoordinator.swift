@@ -58,10 +58,21 @@ actor SensorCoordinator {
 
     /// Fire the snapshot callback with the current snapshots from all sensors.
     /// Called by PushSensor callbacks and by refreshAllSensors.
+    ///
+    /// The callback is awaited directly (not wrapped in a new Task) so that
+    /// successive calls from rapid sensor events — e.g. unmount immediately
+    /// followed by remount — are serialised through the actor and evaluated in
+    /// the order they arrived.  Spawning an unstructured Task here caused the
+    /// unmount evaluation to sometimes win a race against the remount evaluation
+    /// at the RuleEngine actor, leaving the profile incorrectly deactivated.
     func triggerSnapshotCallback() async {
-        guard let onChange = onSnapshotsUpdated else { return }
+        guard let onChange = onSnapshotsUpdated else {
+            log("[SensorCoordinator] triggerSnapshotCallback — onSnapshotsUpdated is nil, skipping")
+            return
+        }
         let snapshots = await allSnapshots()
-        Task { await onChange(snapshots) }
+        log("[SensorCoordinator] triggerSnapshotCallback — evaluating with \(snapshots.count) snapshots")
+        await onChange(snapshots)
     }
 
     /// Ask every sensor to re-read hardware state — called after location authorization changes.

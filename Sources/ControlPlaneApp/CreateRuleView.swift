@@ -83,6 +83,22 @@ struct CreateRuleView: View {
         sensorID == "com.controlplane.sensors.bluetooth"
     }
 
+    private var isRunningApplication: Bool {
+        sensorID == "com.controlplane.sensors.runningapplication"
+    }
+
+    /// All regular user-facing applications currently running, sorted by display name.
+    private var runningUserApps: [(name: String, bundleID: String)] {
+        NSWorkspace.shared.runningApplications
+            .compactMap { app -> (String, String)? in
+                guard app.activationPolicy == .regular,
+                      let name = app.localizedName,
+                      let bid  = app.bundleIdentifier else { return nil }
+                return (name, bid)
+            }
+            .sorted { $0.0 < $1.0 }
+    }
+
     /// Per-MAC readings from the Bluetooth snapshot (excludes the "devices" and "powered" keys).
     private var bluetoothDeviceReadings: [SensorReading] {
         guard isBluetooth, let snap = selectedSnapshot else { return [] }
@@ -106,6 +122,11 @@ struct CreateRuleView: View {
         if let r = selectedReading { return store.valueType(r.value) }
         // All current dynamic sensors emit booleans
         if isDynamic { return "boolean" }
+        // When editing an existing rule whose reading is not currently present
+        // (e.g. a mounted volume that is unmounted, or a USB device not connected),
+        // preserve the comparand type from the stored rule rather than falling back
+        // to "string" — a type mismatch causes equals() to return false at eval time.
+        if let existing = existingRule { return store.valueType(existing.comparand) }
         return "string"
     }
 
@@ -186,6 +207,8 @@ struct CreateRuleView: View {
             Section {
                 if isBluetooth {
                     bluetoothDevicePicker
+                } else if isRunningApplication {
+                    runningApplicationPicker
                 } else if isDynamic {
                     dynamicKeyField
                 } else if let snap = selectedSnapshot {
@@ -243,6 +266,42 @@ struct CreateRuleView: View {
                 }
             }
         }
+    }
+
+    /// Picker of currently running regular (user-facing) applications.
+    /// The rule's readingKey is the bundle identifier; we show the localised app name.
+    @ViewBuilder
+    private var runningApplicationPicker: some View {
+        let apps = runningUserApps
+        if apps.isEmpty {
+            Text("No user applications are currently running")
+                .foregroundStyle(.secondary)
+                .font(.callout)
+        } else {
+            Picker("Application", selection: $readingKey) {
+                Text("Choose…").tag("")
+                ForEach(apps, id: \.bundleID) { app in
+                    Text(app.name).tag(app.bundleID)
+                }
+            }
+            .onChange(of: readingKey) { _ in
+                resetBelowKey()
+                if !readingKey.isEmpty {
+                    comparandString = "true"
+                    seedOperator()
+                }
+            }
+        }
+
+        // Always show the bundle ID — acts as a display label when picked from the list,
+        // and as a manual-entry fallback for apps that are not currently running.
+        LabeledContent("Bundle ID") {
+            TextField("com.apple.safari", text: $readingKey)
+                .textFieldStyle(.roundedBorder)
+        }
+        Text("Only running apps appear in the list above. Type a bundle ID directly for apps that are not currently open.")
+            .font(.caption)
+            .foregroundStyle(.secondary)
     }
 
     /// Free-text entry for dynamic sensors (the key IS the path / bundle ID / hostname).
@@ -336,28 +395,83 @@ struct CreateRuleView: View {
 
     // MARK: - Comparand field
 
+    /// Friendly true/false labels for the boolean comparand picker, tailored to each sensor.
+    private var booleanLabels: (trueLabel: String, falseLabel: String) {
+        switch sensorID {
+        case "com.controlplane.sensors.networklink":
+            return ("Connected", "Not connected")
+        case "com.controlplane.sensors.bluetooth":
+            // "powered" key describes the adapter state; MAC keys describe device connections.
+            return readingKey == "powered"
+                ? ("Powered on", "Powered off")
+                : ("Connected", "Not connected")
+        case "com.controlplane.sensors.usb":
+            return ("Connected", "Not connected")
+        case "com.controlplane.sensors.mountedvolume":
+            return ("Mounted", "Not mounted")
+        case "com.controlplane.sensors.filepresence":
+            return ("Present", "Not present")
+        case "com.controlplane.sensors.runningapplication":
+            return ("Running", "Not running")
+        case "com.controlplane.sensors.hostavailability":
+            return ("Reachable", "Not reachable")
+        case "com.controlplane.sensors.screenlock":
+            return ("Locked", "Unlocked")
+        case "com.controlplane.sensors.laptoplid":
+            return ("Closed", "Open")
+        case "com.controlplane.sensors.power":
+            return ("Yes", "No")
+        default:
+            return ("true", "false")
+        }
+    }
+
+    /// Fixed options for string readings whose values come from a closed set.
+    /// Returns nil when the reading accepts free-form text.
+    private var enumeratedStringOptions: [(label: String, value: String)]? {
+        switch (sensorID, readingKey) {
+        case ("com.controlplane.sensors.power", "source"):
+            return [("AC Power (plugged in)", "ac"),
+                    ("Battery (unplugged)",   "battery")]
+        default:
+            return nil
+        }
+    }
+
     @ViewBuilder
     private var comparandField: some View {
-        switch valueType {
-        case "boolean":
+        if let options = enumeratedStringOptions {
+            // Closed-set string reading — show a radio-style picker instead of a text field.
             Picker("Value", selection: $comparandString) {
-                Text("true  (exists / running / reachable)").tag("true")
-                Text("false (absent / stopped / unreachable)").tag("false")
+                ForEach(options, id: \.value) { opt in
+                    Text(opt.label).tag(opt.value)
+                }
             }
             .pickerStyle(.radioGroup)
-            .onAppear { if comparandString.isEmpty { comparandString = "true" } }
+            .onAppear { if comparandString.isEmpty { comparandString = options.first?.value ?? "" } }
+        } else {
+            switch valueType {
+            case "boolean":
+                let labels = booleanLabels
+                Picker("Value", selection: $comparandString) {
+                    Text(labels.trueLabel).tag("true")
+                    Text(labels.falseLabel).tag("false")
+                }
+                .pickerStyle(.radioGroup)
+                .onAppear { if comparandString.isEmpty { comparandString = "true" } }
 
-        case "number":
-            LabeledContent("Value") {
-                TextField("e.g. 42", text: $comparandString)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(maxWidth: 120)
-            }
+            case "number":
+                LabeledContent("Value") {
+                    TextField("e.g. 42", text: $comparandString)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 120)
+                }
 
-        default: // string, strings
-            LabeledContent("Value") {
-                TextField("e.g. MyWifi", text: $comparandString)
-                    .textFieldStyle(.roundedBorder)
+            default: // string, strings
+                LabeledContent("Value") {
+                    TextField("e.g. MyWifi", text: $comparandString)
+                        .textFieldStyle(.roundedBorder)
+                }
             }
         }
     }

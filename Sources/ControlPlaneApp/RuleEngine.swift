@@ -18,6 +18,15 @@ actor RuleEngine {
     /// Populated after each `evaluate(snapshots:)` call.
     private(set) var currentRuleMatches: [UUID: Bool] = [:]
 
+    /// Called after every evaluation with the latest rule-match state and
+    /// per-profile confidence scores (including profiles below their threshold).
+    /// Keyed by rule / profile UUID respectively.
+    private var onEvaluated: (@Sendable ([UUID: Bool], [UUID: Double]) -> Void)?
+
+    func setOnEvaluated(_ callback: @escaping @Sendable ([UUID: Bool], [UUID: Double]) -> Void) {
+        onEvaluated = callback
+    }
+
     init(
         ruleStore: RuleStore,
         profileStore: ProfileStore,
@@ -57,7 +66,10 @@ actor RuleEngine {
         var ruleMatches: [UUID: Bool] = [:]
 
         for rule in rules where rule.enabled {
-            guard let snapshot = snapshotIndex[rule.sensorID] else { continue }
+            guard let snapshot = snapshotIndex[rule.sensorID] else {
+                log("[RuleEngine] rule '\(rule.name)' — no snapshot for sensor \(rule.sensorID), skipping")
+                continue
+            }
             let reading = snapshot.readings.first(where: { $0.key == rule.readingKey })?.value
 
             guard let evaluator = await evaluatorRegistry.evaluator(for: rule.evaluatorID) else {
@@ -69,6 +81,8 @@ actor RuleEngine {
             // Apply negation: a negated rule contributes when the condition is absent.
             let matched = rule.negate ? !rawMatch : rawMatch
             ruleMatches[rule.id] = matched
+
+            log("[RuleEngine] rule '\(rule.name)' — key='\(rule.readingKey)' reading=\(String(describing: reading)) op=\(rule.operatorID) comparand=\(rule.comparand) negate=\(rule.negate) → matched=\(matched)")
 
             if matched {
                 let current = unconfidence[rule.profileID, default: 1.0]
@@ -82,11 +96,28 @@ actor RuleEngine {
         let active = unconfidence.compactMap { (profileID, unc) -> ActiveProfile? in
             let score = 1.0 - unc
             guard let profile = profileIndex[profileID],
-                  score >= profile.confidenceThreshold else { return nil }
+                  score >= profile.confidenceThreshold else {
+                let name = profileIndex[profileID]?.name ?? profileID.uuidString
+                log("[RuleEngine] profile '\(name)' — confidence \(1.0 - unc) below threshold \(profileIndex[profileID]?.confidenceThreshold ?? -1), not activating")
+                return nil
+            }
             return ActiveProfile(profile: profile, confidence: score)
         }.sorted { $0.confidence > $1.confidence }
 
         currentActiveProfiles = active
+
+        // Build a confidence score for every profile, defaulting to 0.0 for profiles
+        // that had no matching rules (their unconfidence entry was never written).
+        // This lets the UI show progress toward the threshold even for inactive profiles.
+        if let callback = onEvaluated {
+            var profileConfidences: [UUID: Double] = [:]
+            for profile in profiles {
+                let unc = unconfidence[profile.id, default: 1.0]
+                profileConfidences[profile.id] = 1.0 - unc
+            }
+            callback(ruleMatches, profileConfidences)
+        }
+
         return active
     }
 }

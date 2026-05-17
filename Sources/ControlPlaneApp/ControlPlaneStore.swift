@@ -20,6 +20,14 @@ final class ControlPlaneStore: ObservableObject {
     @Published var activeProfiles: [ActiveProfile] = []
     @Published var errorMessage: String?
 
+    /// Most recent per-rule match state from the last rule engine evaluation.
+    /// Keyed by rule UUID. Only contains entries for enabled rules.
+    @Published var ruleMatches: [UUID: Bool] = [:]
+
+    /// Current confidence score for every profile, including those below their threshold.
+    /// Profiles with no matching rules have a score of 0.0.
+    @Published var profileConfidences: [UUID: Double] = [:]
+
     /// IDs of sensors that are DynamicKeySensor — their reading keys come from
     /// rules rather than from the snapshot, so the UI must let the user type a key.
     @Published var dynamicSensorIDs: Set<String> = []
@@ -46,6 +54,15 @@ final class ControlPlaneStore: ObservableObject {
         await backend.profileActivationManager.setOnChange { [weak self] active in
             Task { @MainActor [weak self] in
                 self?.activeProfiles = active
+            }
+        }
+
+        // Register for rule-engine evaluation results so the UI can show live
+        // per-rule match state and per-profile confidence scores in real time.
+        await backend.ruleEngine.setOnEvaluated { [weak self] matches, confidences in
+            Task { @MainActor [weak self] in
+                self?.ruleMatches = matches
+                self?.profileConfidences = confidences
             }
         }
 
@@ -284,6 +301,12 @@ final class ControlPlaneStore: ObservableObject {
 
     func confidence(for profileID: UUID) -> Double? {
         activeProfiles.first { $0.profile.id == profileID }?.confidence
+    }
+
+    /// Current combined confidence for a profile, even if it is below its activation
+    /// threshold. Returns 0.0 before the first rule evaluation or when no rules match.
+    func currentConfidence(for profileID: UUID) -> Double {
+        profileConfidences[profileID] ?? 0.0
     }
 
     func actionType(for id: String) -> ActionTypeInfo? {

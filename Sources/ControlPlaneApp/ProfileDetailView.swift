@@ -86,11 +86,7 @@ struct ProfileDetailView: View {
                         .font(.callout)
                         .foregroundStyle(isActive ? .primary : .secondary)
                 }
-                if let conf = store.confidence(for: profile.id) {
-                    Text(String(format: "Confidence: %.2f", conf))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                confidenceBadge
             }
 
             if editName != profile.name || editThreshold != profile.confidenceThreshold {
@@ -100,6 +96,24 @@ struct ProfileDetailView: View {
             }
         }
         .padding()
+    }
+
+    /// Shows current combined confidence vs the activation threshold.
+    /// Visible at all times so the user can see how close a profile is to activating.
+    private var confidenceBadge: some View {
+        let current   = store.currentConfidence(for: profile.id)
+        let threshold = profile.confidenceThreshold
+        let fraction  = threshold > 0 ? current / threshold : 0
+
+        let color: Color = isActive   ? .green
+                         : fraction >= 0.5 ? .orange
+                         : .secondary
+
+        return Text(String(format: "%.2f / %.2f", current, threshold))
+            .font(.caption)
+            .monospacedDigit()
+            .foregroundStyle(color)
+            .help("Current confidence / required threshold")
     }
 
     private func saveIfChanged() {
