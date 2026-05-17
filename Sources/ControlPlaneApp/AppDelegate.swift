@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import UserNotifications
 import ControlPlaneSDK
 
@@ -6,6 +7,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var statusItem: NSStatusItem?
     private let backend = Backend()
+    private var store: ControlPlaneStore!
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Lifecycle
 
@@ -13,7 +16,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupNotifications()
         setupStatusItem()
         backend.start()
-        observeActiveProfiles()
+
+        // Create the observable store and register it as the active-profile observer.
+        // The store's setup() calls profileActivationManager.setOnChange, so
+        // AppDelegate observes store.$activeProfiles via Combine instead of
+        // registering its own callback directly.
+        store = ControlPlaneStore(backend: backend)
+        store.$activeProfiles
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] active in self?.rebuildProfileSection(active) }
+            .store(in: &cancellables)
+        Task { await store.setup() }
+
         CpctlInstaller.installIfNeeded()
     }
 
@@ -39,16 +53,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    // MARK: - Active profile observation
-
-    private func observeActiveProfiles() {
-        Task {
-            await backend.profileActivationManager.setOnChange { [weak self] active in
-                DispatchQueue.main.async { self?.rebuildProfileSection(active) }
-            }
-        }
-    }
-
     // MARK: - Status Item
 
     private func setupStatusItem() {
@@ -67,6 +71,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem?.menu = buildMenu(active: [])
     }
 
+    @objc private func openPreferences() {
+        // NSMenuItem actions are always dispatched on the main thread;
+        // wrap in a MainActor Task to satisfy the static isolation check.
+        Task { @MainActor in
+            PreferencesWindowController.show(store: store)
+        }
+    }
+
     private func buildMenu(active: [ActiveProfile]) -> NSMenu {
         let menu = NSMenu()
 
@@ -75,6 +87,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(header)
 
         menu.addItem(.separator())
+
+        menu.addItem(
+            NSMenuItem(title: "Preferences…",
+                       action: #selector(openPreferences),
+                       keyEquivalent: ",")
+        )
+
+        // tag 2 marks the separator just before the profile items so
+        // rebuildProfileSection can find the right insertion point.
+        let profileSeparator = NSMenuItem.separator()
+        profileSeparator.tag = 2
+        menu.addItem(profileSeparator)
 
         if active.isEmpty {
             let item = NSMenuItem(title: "No active profile", action: nil, keyEquivalent: "")
@@ -105,7 +129,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.items.filter { $0.tag == 1 }.forEach { menu.removeItem($0) }
 
-        guard let separatorIndex = menu.items.firstIndex(where: { $0.isSeparatorItem }) else { return }
+        // Find the separator tagged 2 (the one right before the profile items).
+        guard let separatorIndex = menu.items.firstIndex(where: { $0.tag == 2 }) else { return }
         let insertAt = separatorIndex + 1
 
         if active.isEmpty {

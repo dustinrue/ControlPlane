@@ -345,6 +345,7 @@ let package = Package(
             path: "Sources/ControlPlaneApp",
             linkerSettings: [
                 .linkedFramework("AppKit"),
+                .linkedFramework("SwiftUI"),
                 .linkedFramework("CoreLocation"),
                 .linkedFramework("UserNotifications"),
                 .linkedFramework("ServiceManagement"),

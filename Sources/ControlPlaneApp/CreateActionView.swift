@@ -1,0 +1,146 @@
+import SwiftUI
+import ControlPlaneSDK
+
+/// Sheet for creating a new action on a profile.
+///
+/// Picks action type → trigger → fills in config fields from configDescriptors.
+struct CreateActionView: View {
+
+    let profile: Profile
+    @ObservedObject var store: ControlPlaneStore
+    let onSave: () -> Void
+
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var actionTypeID = ""
+    @State private var trigger: ActionTrigger = .onActivate
+    @State private var configValues: [String: String] = [:]
+
+    private var selectedType: ActionTypeInfo? {
+        store.actionTypes.first { $0.id == actionTypeID }
+    }
+
+    private var canSave: Bool {
+        guard let t = selectedType else { return false }
+        // All required fields must be filled
+        return t.configDescriptors
+            .filter { $0.required }
+            .allSatisfy { desc in
+                let v = configValues[desc.key] ?? ""
+                return !v.trimmingCharacters(in: .whitespaces).isEmpty
+            }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("New Action")
+                .font(.headline)
+
+            Form {
+                // --- Action type ---
+                Section {
+                    Picker("Action Type", selection: $actionTypeID) {
+                        Text("Choose…").tag("")
+                        ForEach(store.actionTypes.sorted(by: { $0.displayName < $1.displayName })) { t in
+                            Text(t.displayName).tag(t.id)
+                        }
+                    }
+                    .onChange(of: actionTypeID) { _ in
+                        configValues = [:]
+                        // Pre-fill defaults
+                        if let t = selectedType {
+                            for desc in t.configDescriptors {
+                                if let def = desc.defaultValue {
+                                    configValues[desc.key] = def
+                                }
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Type")
+                }
+
+                // --- Trigger ---
+                Section {
+                    Picker("Trigger", selection: $trigger) {
+                        Text("On Activate").tag(ActionTrigger.onActivate)
+                        Text("On Deactivate").tag(ActionTrigger.onDeactivate)
+                    }
+                    .pickerStyle(.segmented)
+                } header: {
+                    Text("Trigger")
+                }
+
+                // --- Config fields ---
+                if let t = selectedType, !t.configDescriptors.isEmpty {
+                    Section {
+                        ForEach(t.configDescriptors, id: \.key) { desc in
+                            configField(desc)
+                        }
+                    } header: {
+                        Text("Configuration")
+                    }
+                }
+            }
+            .formStyle(.grouped)
+
+            HStack {
+                Spacer()
+                Button("Cancel") { dismiss() }
+                    .keyboardShortcut(.cancelAction)
+                Button("Add Action") { save() }
+                    .keyboardShortcut(.defaultAction)
+                    .disabled(!canSave)
+            }
+        }
+        .padding(20)
+        .frame(width: 440, height: 420)
+        .onAppear {
+            if actionTypeID.isEmpty, let first = store.actionTypes.sorted(by: { $0.displayName < $1.displayName }).first {
+                actionTypeID = first.id
+                for desc in first.configDescriptors {
+                    if let def = desc.defaultValue { configValues[desc.key] = def }
+                }
+            }
+        }
+    }
+
+    // MARK: - Config field
+
+    @ViewBuilder
+    private func configField(_ desc: ActionConfigDescriptor) -> some View {
+        LabeledContent(desc.label) {
+            VStack(alignment: .leading, spacing: 4) {
+                TextField(
+                    desc.defaultValue ?? (desc.required ? "Required" : "Optional"),
+                    text: Binding(
+                        get: { configValues[desc.key] ?? "" },
+                        set: { configValues[desc.key] = $0 }
+                    )
+                )
+                .textFieldStyle(.roundedBorder)
+                if !desc.description.isEmpty {
+                    Text(desc.description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+
+    // MARK: - Save
+
+    private func save() {
+        let cleanedConfig = configValues.filter { !$0.value.trimmingCharacters(in: .whitespaces).isEmpty }
+        Task {
+            await store.createProfileAction(
+                profileID: profile.id,
+                actionPluginID: actionTypeID,
+                trigger: trigger,
+                config: cleanedConfig
+            )
+            onSave()
+            dismiss()
+        }
+    }
+}
