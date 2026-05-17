@@ -29,7 +29,8 @@ struct CreateActionView: View {
         return t.configDescriptors
             .filter { $0.required }
             .allSatisfy { desc in
-                !(configValues[desc.key] ?? "").trimmingCharacters(in: .whitespaces).isEmpty == false
+                let v = configValues[desc.key] ?? ""
+                return !v.trimmingCharacters(in: .whitespaces).isEmpty
             }
     }
 
