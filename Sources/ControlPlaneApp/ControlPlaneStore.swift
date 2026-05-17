@@ -20,6 +20,10 @@ final class ControlPlaneStore: ObservableObject {
     @Published var activeProfiles: [ActiveProfile] = []
     @Published var errorMessage: String?
 
+    /// IDs of sensors that are DynamicKeySensor — their reading keys come from
+    /// rules rather than from the snapshot, so the UI must let the user type a key.
+    @Published var dynamicSensorIDs: Set<String> = []
+
     // MARK: - Internal
 
     let backend: Backend
@@ -63,6 +67,9 @@ final class ControlPlaneStore: ObservableObject {
 
         let evals = await backend.evaluatorRegistry.list()
         operators = evals.flatMap { $0.operators }
+
+        let dynIDs = await backend.sensorCoordinator.dynamicSensorIDs()
+        dynamicSensorIDs = Set(dynIDs)
 
         await refreshSnapshots()
         await refreshProfileActions()
