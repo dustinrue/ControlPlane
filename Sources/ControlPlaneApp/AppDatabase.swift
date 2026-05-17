@@ -29,7 +29,7 @@ final class AppDatabase {
         let queue = try DatabaseQueue(path: dbURL.path, configuration: config)
         let appDB = AppDatabase(queue)
         try appDB.runMigrations()
-        log("Database open: \(dbURL.path)")
+        log("Database open: \(dbURL.path)", CPLogger.setup)
         return appDB
     }
 

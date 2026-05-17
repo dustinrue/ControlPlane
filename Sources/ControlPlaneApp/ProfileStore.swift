@@ -21,7 +21,7 @@ actor ProfileStore {
         let profile = Profile(name: name, parentID: parentID, exclusive: exclusive, confidenceThreshold: confidenceThreshold)
         let record = ProfileRecord(profile)
         try await db.dbQueue.write { db in try record.insert(db) }
-        log("Profile created: \(profile.id) \"\(profile.name)\"")
+        log("Profile created: \(profile.id) \"\(profile.name)\"", CPLogger.profiles)
         return profile
     }
 
@@ -50,7 +50,7 @@ actor ProfileStore {
         try await db.dbQueue.write { db in
             try record.update(db)
         }
-        log("Profile updated: \(id) \"\(updated.name)\"")
+        log("Profile updated: \(id) \"\(updated.name)\"", CPLogger.profiles)
         return updated
     }
 
@@ -61,7 +61,7 @@ actor ProfileStore {
             }
             try ProfileRecord.deleteOne(db, key: id.uuidString)
         }
-        log("Profile deleted: \(id)")
+        log("Profile deleted: \(id)", CPLogger.profiles)
     }
 
     func findByName(_ name: String) async throws -> Profile? {

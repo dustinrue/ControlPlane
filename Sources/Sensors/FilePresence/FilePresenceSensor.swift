@@ -1,5 +1,8 @@
 import Foundation
 import ControlPlaneSDK
+import os
+
+private let fileLogger = Logger(subsystem: "com.controlplane.app", category: "FilePresenceSensor")
 
 /// Sensor that reports whether files exist at paths referenced by rules.
 ///
@@ -140,7 +143,7 @@ public final class FilePresenceSensor: NSObject, SensorPlugin, DynamicKeySensor,
         // the file system from unmounting.
         let fd = open(dir, O_EVTONLY)
         guard fd >= 0 else {
-            print("[FilePresenceSensor] cannot watch directory \(dir): open failed (errno \(errno))")
+            fileLogger.debug("[FilePresenceSensor] cannot watch directory \(dir, privacy: .public): open failed (errno \(errno))")
             return
         }
 
@@ -171,7 +174,7 @@ public final class FilePresenceSensor: NSObject, SensorPlugin, DynamicKeySensor,
         source.resume()
 
         directoryWatches[dir] = (fd: fd, source: source)
-        print("[FilePresenceSensor] watching directory: \(dir)")
+        fileLogger.debug("[FilePresenceSensor] watching directory: \(dir, privacy: .public)")
     }
 
     /// Cancel and remove the watch for `dir`. Must be called on `watchQueue`.
@@ -179,7 +182,7 @@ public final class FilePresenceSensor: NSObject, SensorPlugin, DynamicKeySensor,
         guard let entry = directoryWatches.removeValue(forKey: dir) else { return }
         entry.source.cancel()
         // fd is closed in the cancel handler set up in addWatch.
-        print("[FilePresenceSensor] stopped watching directory: \(dir)")
+        fileLogger.debug("[FilePresenceSensor] stopped watching directory: \(dir, privacy: .public)")
     }
 
     /// Cancel all active watches. Safe to call from any thread.

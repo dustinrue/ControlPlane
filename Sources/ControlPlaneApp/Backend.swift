@@ -75,7 +75,7 @@ final class Backend {
     }
 
     func start() {
-        log("Starting ControlPlane backend (pid \(ProcessInfo.processInfo.processIdentifier))")
+        log("Starting ControlPlane backend (pid \(ProcessInfo.processInfo.processIdentifier))", CPLogger.general)
         locationAuthorizer.onAuthorized = { [weak self] in
             guard let self else { return }
             Task { await self.sensorCoordinator.refreshAllSensors() }
@@ -95,11 +95,11 @@ final class Backend {
                     let active = try await self.ruleEngine.evaluate(snapshots: snapshots)
                     await self.profileActivationManager.update(active)
                 } catch {
-                    log("Rule evaluation error: \(error)")
+                    logError("Rule evaluation error: \(error)", CPLogger.rules)
                 }
             }
         }
-        log("Backend ready")
+        log("Backend ready", CPLogger.general)
     }
 
     private func registerStaticEvaluators() {
@@ -187,7 +187,7 @@ final class Backend {
                 await sensorCoordinator.setMonitoredKeys(keys, forSensor: id)
             }
         } catch {
-            log("refreshDynamicSensorKeys error: \(error)")
+            logError("refreshDynamicSensorKeys error: \(error)", CPLogger.rules)
         }
         // Force an evaluation with current snapshots so that rule edits (negate
         // toggle, weight change, enable/disable) take effect immediately regardless
@@ -197,7 +197,7 @@ final class Backend {
 
     private func registerSensor(_ sensor: any SensorPlugin) async {
         guard type(of: sensor).isApplicable() else {
-            log("Sensor \(sensor.pluginIdentifier) is not applicable on this system — skipping")
+            log("Sensor \(sensor.pluginIdentifier) is not applicable on this system — skipping", CPLogger.sensors)
             return
         }
         let info = PluginInfo(
@@ -227,11 +227,8 @@ final class Backend {
         let server = SocketServer(handler: handler)
         server.start()
         socketServer = server
-        log("Socket server active at \(CPSocketPath)")
+        log("Socket server active at \(CPSocketPath)", CPLogger.socket)
     }
 }
 
-func log(_ message: String) {
-    let ts = ISO8601DateFormatter().string(from: Date())
-    print("[\(ts)] [ControlPlane] \(message)")
-}
+// log() / logDebug() / logError() are defined in CPLogger.swift

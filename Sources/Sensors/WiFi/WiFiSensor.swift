@@ -2,6 +2,9 @@ import Foundation
 import CoreWLAN
 import CoreLocation
 import ControlPlaneSDK
+import os
+
+private let wifiLogger = Logger(subsystem: "com.controlplane.app", category: "WiFiSensor")
 
 /// Sensor that observes the current Wi-Fi connection state using CoreWLAN.
 ///
@@ -104,18 +107,18 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
 
             switch mgr.authorizationStatus {
             case .authorizedAlways:
-                print("[WiFiSensor] Location: already authorized (always)")
+                wifiLogger.debug("[WiFiSensor] Location: already authorized (always)")
                 // Already authorized — re-fetch interface so CoreWLAN picks up
                 // the auth state and starts returning SSID/BSSID.
                 self.interface = self.client.interface()
                 self.refreshSnapshot()
             case .notDetermined:
-                print("[WiFiSensor] Location: requesting always authorization")
+                wifiLogger.debug("[WiFiSensor] Location: requesting always authorization")
                 mgr.requestAlwaysAuthorization()
             case .denied, .restricted:
-                print("[WiFiSensor] Location: denied/restricted — SSID/BSSID will be empty")
+                wifiLogger.debug("[WiFiSensor] Location: denied/restricted — SSID/BSSID will be empty")
             @unknown default:
-                print("[WiFiSensor] Location: unknown status (\(mgr.authorizationStatus.rawValue))")
+                wifiLogger.debug("[WiFiSensor] Location: unknown status (\(mgr.authorizationStatus.rawValue))")
             }
         }
     }
@@ -154,10 +157,10 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
         scanEnabled = needsScan
 
         if scanEnabled {
-            print("[WiFiSensor] visible_networks referenced by a rule — starting scan loop")
+            wifiLogger.debug("[WiFiSensor] visible_networks referenced by a rule — starting scan loop")
             startScanLoop()
         } else {
-            print("[WiFiSensor] no rules reference visible_networks — stopping scan loop")
+            wifiLogger.debug("[WiFiSensor] no rules reference visible_networks — stopping scan loop")
             scanTask?.cancel()
             scanTask = nil
             // Clear any stale scan results from the snapshot.
@@ -186,7 +189,7 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
             return
         }
 
-        print("[WiFiSensor] starting network scan (connected=\(connected), scanWhileConnected=\(scanWhileConnected))")
+        wifiLogger.debug("[WiFiSensor] starting network scan (connected=\(connected), scanWhileConnected=\(scanWhileConnected))")
         do {
             let networks = try iface.scanForNetworks(withName: nil)
             let sorted = networks
@@ -195,10 +198,10 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
                     return (ssid, n.rssiValue)
                 }
                 .sorted { $0.1 > $1.1 }   // strongest signal first
-            print("[WiFiSensor] scan found \(sorted.count) network(s)")
+            wifiLogger.debug("[WiFiSensor] scan found \(sorted.count) network(s)")
             lock.withLock { _visibleNetworks = sorted }
         } catch {
-            print("[WiFiSensor] scanForNetworks failed: \(error.localizedDescription)")
+            wifiLogger.debug("[WiFiSensor] scanForNetworks failed: \(error.localizedDescription)")
             lock.withLock { _visibleNetworks = [] }
         }
         refreshSnapshot()
@@ -358,7 +361,7 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
 extension WiFiSensor: CLLocationManagerDelegate {
     public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
-        print("[WiFiSensor] Location authorization changed: \(status.rawValue)")
+        wifiLogger.debug("[WiFiSensor] Location authorization changed: \(status.rawValue)")
         switch status {
         case .authorizedAlways:
             // Re-fetch the interface — CWWiFiClient caches the auth state and
@@ -367,7 +370,7 @@ extension WiFiSensor: CLLocationManagerDelegate {
             refreshSnapshot()
             Task { await self.runScanIfNeeded() }
         case .denied, .restricted:
-            print("[WiFiSensor] Location denied — SSID/BSSID will remain empty")
+            wifiLogger.debug("[WiFiSensor] Location denied — SSID/BSSID will remain empty")
             refreshSnapshot()
         default:
             break

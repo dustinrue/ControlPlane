@@ -67,13 +67,13 @@ actor RuleEngine {
 
         for rule in rules where rule.enabled {
             guard let snapshot = snapshotIndex[rule.sensorID] else {
-                log("[RuleEngine] rule '\(rule.name)' — no snapshot for sensor \(rule.sensorID), skipping")
+                log("[RuleEngine] rule '\(rule.name)' — no snapshot for sensor \(rule.sensorID), skipping", CPLogger.rules)
                 continue
             }
             let reading = snapshot.readings.first(where: { $0.key == rule.readingKey })?.value
 
             guard let evaluator = await evaluatorRegistry.evaluator(for: rule.evaluatorID) else {
-                log("Warning: evaluator '\(rule.evaluatorID)' not found for rule \(rule.id) — skipping")
+                log("Warning: evaluator '\(rule.evaluatorID)' not found for rule \(rule.id) — skipping", CPLogger.rules)
                 continue
             }
 
@@ -82,7 +82,7 @@ actor RuleEngine {
             let matched = rule.negate ? !rawMatch : rawMatch
             ruleMatches[rule.id] = matched
 
-            log("[RuleEngine] rule '\(rule.name)' — key='\(rule.readingKey)' reading=\(String(describing: reading)) op=\(rule.operatorID) comparand=\(rule.comparand) negate=\(rule.negate) → matched=\(matched)")
+            logDebug("[RuleEngine] rule '\(rule.name)' — key='\(rule.readingKey)' reading=\(String(describing: reading)) op=\(rule.operatorID) comparand=\(rule.comparand) negate=\(rule.negate) → matched=\(matched)", CPLogger.rules)
 
             if matched {
                 let current = unconfidence[rule.profileID, default: 1.0]
@@ -98,7 +98,7 @@ actor RuleEngine {
             guard let profile = profileIndex[profileID],
                   score >= profile.confidenceThreshold else {
                 let name = profileIndex[profileID]?.name ?? profileID.uuidString
-                log("[RuleEngine] profile '\(name)' — confidence \(1.0 - unc) below threshold \(profileIndex[profileID]?.confidenceThreshold ?? -1), not activating")
+                logDebug("[RuleEngine] profile '\(name)' — confidence \(1.0 - unc) below threshold \(profileIndex[profileID]?.confidenceThreshold ?? -1), not activating", CPLogger.rules)
                 return nil
             }
             return ActiveProfile(profile: profile, confidence: score)

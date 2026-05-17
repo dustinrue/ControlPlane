@@ -19,12 +19,12 @@ final class LocationAuthorizer: NSObject, CLLocationManagerDelegate {
     func requestIfNeeded() {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorized:
-            log("Location: already authorized")
+            log("Location: already authorized", CPLogger.setup)
         case .notDetermined:
-            log("Location: requesting authorization")
+            log("Location: requesting authorization", CPLogger.setup)
             manager.requestAlwaysAuthorization()
         case .denied, .restricted:
-            log("Location: denied — Wi-Fi SSID and network scan will be unavailable")
+            log("Location: denied — Wi-Fi SSID and network scan will be unavailable", CPLogger.setup)
         @unknown default:
             manager.requestAlwaysAuthorization()
         }
@@ -33,10 +33,10 @@ final class LocationAuthorizer: NSObject, CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorized:
-            log("Location: authorized")
+            log("Location: authorized", CPLogger.setup)
             onAuthorized?()
         case .denied, .restricted:
-            log("Location: denied — Wi-Fi SSID and network scan will be unavailable")
+            log("Location: denied — Wi-Fi SSID and network scan will be unavailable", CPLogger.setup)
         case .notDetermined:
             break
         @unknown default:

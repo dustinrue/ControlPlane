@@ -34,14 +34,14 @@ actor ProfileActivationManager {
 
         // Fire actions after state is committed (suspension points are safe here).
         for ap in activated {
-            log("Profile activated: \"\(ap.profile.name)\" (confidence \(String(format: "%.2f", ap.confidence)))")
+            log("Profile activated: \"\(ap.profile.name)\" (confidence \(String(format: "%.2f", ap.confidence)))", CPLogger.profiles)
             try? await profileStore.recordActivation(ap.profile.id)
             Notifier.profileActivated(ap.profile)
             await runActions(for: ap.profile, trigger: .onActivate)
         }
 
         for ap in deactivated {
-            log("Profile deactivated: \"\(ap.profile.name)\"")
+            log("Profile deactivated: \"\(ap.profile.name)\"", CPLogger.profiles)
             try? await profileStore.recordDeactivation(ap.profile.id)
             Notifier.profileDeactivated(ap.profile)
             await runActions(for: ap.profile, trigger: .onDeactivate)
@@ -65,21 +65,21 @@ actor ProfileActivationManager {
         do {
             actions = try await actionStore.list(forProfile: profile.id)
         } catch {
-            log("Failed to load actions for profile \(profile.id): \(error)")
+            logError("Failed to load actions for profile \(profile.id): \(error)", CPLogger.profiles)
             return
         }
 
         for action in actions where action.enabled && action.trigger == trigger {
             guard let plugin = await actionRegistry.plugin(for: action.actionPluginID) else {
-                log("Action plugin '\(action.actionPluginID)' not loaded — skipping action \(action.id)")
+                log("Action plugin '\(action.actionPluginID)' not loaded — skipping action \(action.id)", CPLogger.actions)
                 continue
             }
             do {
                 try await plugin.execute(trigger: trigger, profile: profile, config: action.config)
                 try? await actionStore.recordTriggered(action.id)
-                log("Action \(action.id) [\(action.actionPluginID)] executed for \"\(profile.name)\"")
+                log("Action \(action.id) [\(action.actionPluginID)] executed for \"\(profile.name)\"", CPLogger.actions)
             } catch {
-                log("Action \(action.id) failed: \(error)")
+                logError("Action \(action.id) failed: \(error)", CPLogger.actions)
             }
         }
     }

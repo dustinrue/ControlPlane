@@ -23,7 +23,7 @@ final class SocketServer {
 
         serverFd = socket(AF_UNIX, SOCK_STREAM, 0)
         guard serverFd >= 0 else {
-            log("SocketServer: socket() failed (errno \(errno))")
+            logError("SocketServer: socket() failed (errno \(errno))", CPLogger.socket)
             return
         }
 
@@ -44,13 +44,13 @@ final class SocketServer {
             }
         }
         guard bound == 0 else {
-            log("SocketServer: bind() failed (errno \(errno))")
+            logError("SocketServer: bind() failed (errno \(errno))", CPLogger.socket)
             close(serverFd)
             return
         }
 
         listen(serverFd, 10)
-        log("SocketServer: listening at \(socketPath)")
+        log("SocketServer: listening at \(socketPath)", CPLogger.socket)
 
         // Accept loop on a dedicated background thread — accept(2) blocks.
         let capFd = serverFd
@@ -89,7 +89,7 @@ final class SocketServer {
             do {
                 req = try dec.decode(CPRequest.self, from: raw)
             } catch {
-                log("SocketServer: malformed request — \(error)")
+                logError("SocketServer: malformed request — \(error)", CPLogger.socket)
                 break
             }
 
@@ -99,7 +99,7 @@ final class SocketServer {
                 let frame = try frameMessage(response)
                 if !writeAll(fd: clientFd, data: frame) { break }
             } catch {
-                log("SocketServer: failed to encode response — \(error)")
+                logError("SocketServer: failed to encode response — \(error)", CPLogger.socket)
                 break
             }
         }

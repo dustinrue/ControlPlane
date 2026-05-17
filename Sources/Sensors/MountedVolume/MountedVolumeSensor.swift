@@ -1,6 +1,9 @@
 import Foundation
 import AppKit
 import ControlPlaneSDK
+import os
+
+private let volumeLogger = Logger(subsystem: "com.controlplane.app", category: "MountedVolumeSensor")
 
 public final class MountedVolumeSensor: BaseSensor {
 
@@ -21,7 +24,7 @@ public final class MountedVolumeSensor: BaseSensor {
             queue: nil
         ) { [weak self] notification in
             let path = (notification.userInfo?["NSDevicePath"] as? String) ?? "unknown"
-            NSLog("[MountedVolume] didMountNotification — path: %@", path)
+            volumeLogger.info("[MountedVolume] didMountNotification — path: \(path, privacy: .public)")
             DispatchQueue.main.async { self?.refreshSnapshot() }
         }
         unmountObserver = NSWorkspace.shared.notificationCenter.addObserver(
@@ -30,7 +33,7 @@ public final class MountedVolumeSensor: BaseSensor {
             queue: nil
         ) { [weak self] notification in
             let path = (notification.userInfo?["NSDevicePath"] as? String) ?? "unknown"
-            NSLog("[MountedVolume] didUnmountNotification — path: %@", path)
+            volumeLogger.info("[MountedVolume] didUnmountNotification — path: \(path, privacy: .public)")
             DispatchQueue.main.async { self?.refreshSnapshot() }
         }
         DispatchQueue.main.sync { refreshSnapshot() }
@@ -54,7 +57,7 @@ public final class MountedVolumeSensor: BaseSensor {
             options: []
         ) ?? []
         let names = urls.map { $0.lastPathComponent }
-        NSLog("[MountedVolume] refreshSnapshot — volumes: %@", names.joined(separator: ", "))
+        volumeLogger.info("[MountedVolume] refreshSnapshot — volumes: \(names.joined(separator: ", "), privacy: .public)")
         var readings: [SensorReading] = [
             SensorReading(key: "mounted", label: "Mounted Volumes", value: .strings(names))
         ]

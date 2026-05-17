@@ -38,7 +38,7 @@ actor RuleStore {
         try await db.dbQueue.write { db in
             try record.insert(db)
         }
-        log("Rule created: \(rule.id) \"\(rule.name)\"")
+        log("Rule created: \(rule.id) \"\(rule.name)\"", CPLogger.rules)
         return rule
     }
 
@@ -83,7 +83,7 @@ actor RuleStore {
         try await db.dbQueue.write { db in
             try record.update(db)
         }
-        log("Rule updated: \(id) \"\(updated.name)\"")
+        log("Rule updated: \(id) \"\(updated.name)\"", CPLogger.rules)
         return updated
     }
 
@@ -94,7 +94,7 @@ actor RuleStore {
             }
             try RuleRecord.deleteOne(db, key: id.uuidString)
         }
-        log("Rule deleted: \(id)")
+        log("Rule deleted: \(id)", CPLogger.rules)
     }
 
     func list() async throws -> [Rule] {

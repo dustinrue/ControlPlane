@@ -12,6 +12,9 @@ struct PreferencesView: View {
 
     var body: some View {
         TabView {
+            GeneralSettingsView()
+                .tabItem { Label("General", systemImage: "gear") }
+
             SensorsTabView(store: store)
                 .tabItem { Label("Sensors", systemImage: "waveform") }
 

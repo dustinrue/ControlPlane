@@ -29,7 +29,7 @@ actor SensorConfigStore {
                [String: [String: SensorOptionValue]].self, from: raw
            ) {
             data = parsed
-            log("Sensor config loaded from \(url.path)")
+            log("Sensor config loaded from \(url.path)", CPLogger.setup)
         } else {
             data = [:]
         }
@@ -55,7 +55,7 @@ actor SensorConfigStore {
             let raw = try encoder.encode(data)
             try raw.write(to: fileURL, options: .atomic)
         } catch {
-            log("Failed to save sensor config: \(error.localizedDescription)")
+            logError("Failed to save sensor config: \(error.localizedDescription)", CPLogger.setup)
         }
     }
 }

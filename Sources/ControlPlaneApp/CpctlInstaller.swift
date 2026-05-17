@@ -16,13 +16,13 @@ enum CpctlInstaller {
 
     static func installIfNeeded() {
         if FileManager.default.fileExists(atPath: installPath) {
-            log("cpctl already installed at \(installPath)")
+            log("cpctl already installed at \(installPath)", CPLogger.setup)
             return
         }
 
         // Bundle.main.path(forAuxiliaryExecutable:) resolves Contents/MacOS/<name>
         guard let bundled = Bundle.main.path(forAuxiliaryExecutable: "cpctl") else {
-            log("cpctl not found in app bundle — skipping auto-install")
+            log("cpctl not found in app bundle — skipping auto-install", CPLogger.setup)
             return
         }
 
@@ -34,13 +34,13 @@ enum CpctlInstaller {
             )
             try FileManager.default.copyItem(atPath: bundled, toPath: installPath)
             codesign(path: installPath)
-            log("cpctl installed to \(installPath)")
+            log("cpctl installed to \(installPath)", CPLogger.setup)
             Notifier.send(
                 title: "cpctl installed",
                 body: "Command-line tool is available at \(installPath)"
             )
         } catch {
-            log("cpctl auto-install failed: \(error)")
+            logError("cpctl auto-install failed: \(error)", CPLogger.setup)
         }
     }
 
@@ -55,7 +55,7 @@ enum CpctlInstaller {
         try? proc.run()
         proc.waitUntilExit()
         if proc.terminationStatus != 0 {
-            log("cpctl codesign exited \(proc.terminationStatus) — binary may still work")
+            log("cpctl codesign exited \(proc.terminationStatus) — binary may still work", CPLogger.setup)
         }
     }
 }
