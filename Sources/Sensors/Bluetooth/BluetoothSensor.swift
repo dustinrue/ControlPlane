@@ -104,17 +104,25 @@ public final class BluetoothSensor: BaseSensor, DynamicKeySensor {
 
     private func refreshSnapshot() {
         let paired    = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] ?? []
-        let connected = paired.filter { $0.isConnected() }
-        let names     = connected.compactMap { $0.name }
+        let connected = Set(paired.filter { $0.isConnected() }.compactMap { $0.addressString })
+        let connectedNames = paired.filter { $0.isConnected() }.compactMap { $0.name }
         let powered   = IOBluetoothHostController.default()?.powerState == kBluetoothHCIPowerStateON
 
         var readings: [SensorReading] = [
-            SensorReading(key: "devices", label: "Connected Devices", value: .strings(names)),
+            SensorReading(key: "devices", label: "Connected Devices", value: .strings(connectedNames)),
             SensorReading(key: "powered", label: "Bluetooth Powered",  value: .boolean(powered)),
         ]
-        for device in connected {
+        // Emit one reading per paired device — connected (true) or not (false).
+        // This lets rules target any paired device, not just currently connected ones,
+        // and gives the UI a full device list with live connection status.
+        for device in paired {
             if let addr = device.addressString {
-                readings.append(SensorReading(key: addr, label: device.name ?? addr, value: .boolean(true)))
+                let isConnected = connected.contains(addr)
+                readings.append(SensorReading(
+                    key: addr,
+                    label: device.name ?? addr,
+                    value: .boolean(isConnected)
+                ))
             }
         }
         publishSnapshot(readings: readings)

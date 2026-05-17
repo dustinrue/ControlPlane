@@ -9,6 +9,10 @@ import ControlPlaneSDK
 /// Dynamic sensors (FilePresence, RunningApplication, HostAvailability, USB)
 /// don't emit readings until rules reference them. For those sensors the
 /// reading key is entered as free text (with a Browse button for FilePresence).
+///
+/// Bluetooth is special: it IS dynamic but emits per-MAC readings for every
+/// paired device. Those readings are shown as a device picker with a live
+/// connected/disconnected indicator instead of a free-text MAC address field.
 struct CreateRuleView: View {
 
     let profile: Profile
@@ -35,19 +39,32 @@ struct CreateRuleView: View {
         sensorID == "com.controlplane.sensors.filepresence"
     }
 
+    private var isBluetooth: Bool {
+        sensorID == "com.controlplane.sensors.bluetooth"
+    }
+
+    /// Per-MAC readings from the Bluetooth snapshot (excludes the "devices" and "powered" keys).
+    private var bluetoothDeviceReadings: [SensorReading] {
+        guard isBluetooth, let snap = selectedSnapshot else { return [] }
+        return snap.readings.filter { $0.key != "devices" && $0.key != "powered" }
+    }
+
     private var selectedSnapshot: SensorSnapshot? {
         store.snapshot(for: sensorID)
     }
 
     private var selectedReading: SensorReading? {
-        guard !isDynamic else { return nil }
+        // Bluetooth and other dynamic sensors: look up by key in snapshot
+        if isDynamic {
+            return selectedSnapshot?.readings.first { $0.key == readingKey }
+        }
         return selectedSnapshot?.readings.first { $0.key == readingKey }
     }
 
     /// The ObservationValue type string for the current reading.
     private var valueType: String {
         if let r = selectedReading { return store.valueType(r.value) }
-        // Dynamic sensors always emit booleans (file exists, app running, host reachable…)
+        // All current dynamic sensors emit booleans
         if isDynamic { return "boolean" }
         return "string"
     }
@@ -121,12 +138,64 @@ struct CreateRuleView: View {
     private var readingKeySection: some View {
         if !sensorID.isEmpty {
             Section {
-                if isDynamic {
+                if isBluetooth {
+                    bluetoothDevicePicker
+                } else if isDynamic {
                     dynamicKeyField
                 } else if let snap = selectedSnapshot {
                     staticKeyPicker(snap)
                 }
             } header: { Text("Reading") }
+        }
+    }
+
+    /// Picker showing all paired Bluetooth devices with a live connected/disconnected indicator.
+    @ViewBuilder
+    private var bluetoothDevicePicker: some View {
+        if bluetoothDeviceReadings.isEmpty {
+            Text("No paired Bluetooth devices found")
+                .foregroundStyle(.secondary)
+                .font(.callout)
+        } else {
+            Picker("Device", selection: $readingKey) {
+                Text("Choose…").tag("")
+                ForEach(bluetoothDeviceReadings, id: \.key) { reading in
+                    let isConnected = reading.value == .boolean(true)
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(isConnected ? Color.green : Color.secondary.opacity(0.4))
+                            .frame(width: 8, height: 8)
+                        Text(reading.label)
+                        Text(reading.key)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(isConnected ? "Connected" : "Not connected")
+                            .font(.caption)
+                            .foregroundStyle(isConnected ? .green : .secondary)
+                    }
+                    .tag(reading.key)
+                }
+            }
+            .onChange(of: readingKey) { _ in
+                resetBelowKey()
+                comparandString = "true"
+                seedOperator()
+            }
+
+            if !readingKey.isEmpty {
+                let device = bluetoothDeviceReadings.first { $0.key == readingKey }
+                let isConnected = device?.value == .boolean(true)
+                LabeledContent("Status") {
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(isConnected ? Color.green : Color.secondary.opacity(0.4))
+                            .frame(width: 8, height: 8)
+                        Text(isConnected ? "Currently connected" : "Not currently connected")
+                            .foregroundStyle(isConnected ? .primary : .secondary)
+                    }
+                }
+            }
         }
     }
 
