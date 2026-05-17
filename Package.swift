@@ -63,7 +63,10 @@ let package = Package(
 
         .target(
             name: "ControlPlaneSDK",
-            path: "Sources/ControlPlaneSDK"
+            path: "Sources/ControlPlaneSDK",
+            linkerSettings: [
+                .linkedFramework("SystemConfiguration"),
+            ]
         ),
 
         // MARK: - Sensor plugins

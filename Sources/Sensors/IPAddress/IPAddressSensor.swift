@@ -56,6 +56,7 @@ public final class IPAddressSensor: BaseSensor {
     private func refreshSnapshot() {
         guard let store else { return }
 
+        let friendlyNames = buildFriendlyInterfaceNames()
         var readings: [SensorReading] = []
         var allAddresses: [String] = []
         var ifaceAddresses: [String: (ipv4: String, ipv6: String)] = [:]
@@ -89,10 +90,12 @@ public final class IPAddressSensor: BaseSensor {
         }
 
         for (iface, addrs) in ifaceAddresses {
-            readings.append(SensorReading(key: "\(iface).ipv4", label: "\(iface) IPv4", value: .string(addrs.ipv4)))
-            readings.append(SensorReading(key: "\(iface).ipv6", label: "\(iface) IPv6", value: .string(addrs.ipv6)))
+            let base = friendlyNames[iface] ?? iface
+            readings.append(SensorReading(key: "\(iface).ipv4", label: "\(base) (IPv4)", value: .string(addrs.ipv4)))
+            readings.append(SensorReading(key: "\(iface).ipv6", label: "\(base) (IPv6)", value: .string(addrs.ipv6)))
         }
         readings.append(SensorReading(key: "allAddresses", label: "All Addresses", value: .strings(allAddresses)))
         publishSnapshot(readings: readings)
     }
+
 }
