@@ -35,3 +35,6 @@ xcuserdata/
 
 # Generated app bundles (produced by `make run`)
 *.app/
+
+# ControlPlane plugin bundles (built artefacts, not source)
+*.plugin
