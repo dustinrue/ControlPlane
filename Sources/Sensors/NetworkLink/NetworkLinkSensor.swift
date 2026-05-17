@@ -58,6 +58,7 @@ public final class NetworkLinkSensor: BaseSensor {
         let pattern = "State:/Network/Interface/.*/Link" as CFString
         let keys = SCDynamicStoreCopyKeyList(store, pattern) as? [String] ?? []
 
+        let friendlyNames = buildFriendlyInterfaceNames()
         var readings: [SensorReading] = []
         var activeInterfaces: [String] = []
 
@@ -71,7 +72,8 @@ public final class NetworkLinkSensor: BaseSensor {
                let active = val["Active"] as? Bool {
                 isActive = active
             }
-            readings.append(SensorReading(key: iface, label: iface, value: .boolean(isActive)))
+            let label = friendlyNames[iface] ?? iface
+            readings.append(SensorReading(key: iface, label: label, value: .boolean(isActive)))
             if isActive { activeInterfaces.append(iface) }
         }
         readings.append(SensorReading(key: "activeInterfaces", label: "Active Interfaces", value: .strings(activeInterfaces)))
