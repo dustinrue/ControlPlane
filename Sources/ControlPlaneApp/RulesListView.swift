@@ -1,16 +1,26 @@
 import SwiftUI
+import AppKit
 import ControlPlaneSDK
 
-/// Lists the rules attached to a profile, with controls to add / remove / toggle.
+/// Lists the rules attached to a profile, with controls to add / edit / remove / toggle.
 struct RulesListView: View {
 
     let profile: Profile
     @ObservedObject var store: ControlPlaneStore
 
-    @State private var selectedRuleIDs = Set<UUID>()
+    @State private var selectedRuleIDs  = Set<UUID>()
     @State private var showingCreateRule = false
+    @State private var editingRule: Rule? = nil
 
     private var rules: [Rule] { store.rules(for: profile.id) }
+
+    /// The single selected rule, or nil if zero or more than one row is selected.
+    private var singleSelection: Rule? {
+        guard selectedRuleIDs.count == 1,
+              let id = selectedRuleIDs.first
+        else { return nil }
+        return rules.first { $0.id == id }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -23,9 +33,10 @@ struct RulesListView: View {
             toolbar
         }
         .sheet(isPresented: $showingCreateRule) {
-            CreateRuleView(profile: profile, store: store) {
-                // nothing extra on save
-            }
+            CreateRuleView(profile: profile, store: store)
+        }
+        .sheet(item: $editingRule) { rule in
+            CreateRuleView(profile: profile, store: store, existingRule: rule)
         }
     }
 
@@ -90,16 +101,25 @@ struct RulesListView: View {
             .width(50)
         }
         .contextMenu(forSelectionType: UUID.self) { ids in
+            if ids.count == 1, let rule = rules.first(where: { ids.contains($0.id) }) {
+                Button("Edit Rule") { editingRule = rule }
+                Divider()
+            }
             Button("Delete", role: .destructive) {
                 let toDelete = rules.filter { ids.contains($0.id) }
                 Task {
-                    for rule in toDelete {
-                        await store.deleteRule(rule)
-                    }
+                    for rule in toDelete { await store.deleteRule(rule) }
                     selectedRuleIDs.removeAll()
                 }
             }
         }
+        // Double-click: sets the NSTableView's doubleAction via an invisible background view.
+        .background(
+            TableDoubleClickHandler {
+                guard let rule = singleSelection else { return }
+                editingRule = rule
+            }
+        )
     }
 
     // MARK: - Toolbar
@@ -125,6 +145,16 @@ struct RulesListView: View {
             .disabled(selectedRuleIDs.isEmpty)
             .help("Remove selected rules")
 
+            Button(action: {
+                guard let rule = singleSelection else { return }
+                editingRule = rule
+            }) {
+                Image(systemName: "pencil").frame(width: 28, height: 24)
+            }
+            .buttonStyle(.borderless)
+            .disabled(singleSelection == nil)
+            .help("Edit selected rule")
+
             Spacer()
 
             Text("\(rules.count) rule\(rules.count == 1 ? "" : "s")")
@@ -140,5 +170,51 @@ struct RulesListView: View {
 
     private func operatorLabel(_ id: String) -> String {
         store.operators.first { $0.id == id }?.label ?? id
+    }
+}
+
+// MARK: - Double-click handler
+
+/// Invisible background view that walks up to the enclosing NSTableView and
+/// wires its doubleAction to our closure.
+private struct TableDoubleClickHandler: NSViewRepresentable {
+
+    let onDoubleClick: () -> Void
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    func makeNSView(context: Context) -> NSView {
+        context.coordinator.onDoubleClick = onDoubleClick
+        return NSView()
+    }
+
+    func updateNSView(_ nsView: NSView, context: Context) {
+        context.coordinator.onDoubleClick = onDoubleClick
+        // Schedule on the next run-loop pass so the view is in the hierarchy.
+        DispatchQueue.main.async {
+            guard let tableView = nsView.enclosingTableView else { return }
+            tableView.doubleAction = #selector(Coordinator.handleDoubleClick(_:))
+            tableView.target = context.coordinator
+        }
+    }
+
+    final class Coordinator: NSObject {
+        var onDoubleClick: (() -> Void)?
+
+        @objc func handleDoubleClick(_ sender: Any?) {
+            onDoubleClick?()
+        }
+    }
+}
+
+private extension NSView {
+    /// Walk the superview chain to find the nearest enclosing NSTableView.
+    var enclosingTableView: NSTableView? {
+        var view: NSView? = superview
+        while let v = view {
+            if let table = v as? NSTableView { return table }
+            view = v.superview
+        }
+        return nil
     }
 }

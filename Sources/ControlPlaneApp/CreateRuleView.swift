@@ -2,9 +2,9 @@ import SwiftUI
 import AppKit
 import ControlPlaneSDK
 
-/// Sheet for creating a new rule on a profile.
+/// Sheet for creating or editing a rule on a profile.
 ///
-/// Sensor → reading key → operator → comparand → weight → name.
+/// Pass `existingRule` to open in edit mode; omit it (nil) for create mode.
 ///
 /// Dynamic sensors (FilePresence, RunningApplication, HostAvailability, USB)
 /// don't emit readings until rules reference them. For those sensors the
@@ -17,6 +17,8 @@ struct CreateRuleView: View {
 
     let profile: Profile
     @ObservedObject var store: ControlPlaneStore
+    /// When non-nil the sheet operates in edit mode, pre-populating all fields.
+    let existingRule: Rule?
     let onSave: () -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -28,6 +30,44 @@ struct CreateRuleView: View {
     @State private var comparandString = ""
     @State private var weight          = 1.0
     @State private var negate          = false
+    @State private var ruleEnabled     = true
+
+    private var isEditing: Bool { existingRule != nil }
+
+    init(
+        profile: Profile,
+        store: ControlPlaneStore,
+        existingRule: Rule? = nil,
+        onSave: @escaping () -> Void = {}
+    ) {
+        self.profile      = profile
+        self.store        = store
+        self.existingRule = existingRule
+        self.onSave       = onSave
+
+        // Pre-populate @State from the existing rule.
+        if let r = existingRule {
+            _ruleName        = State(initialValue: r.name)
+            _sensorID        = State(initialValue: r.sensorID)
+            _readingKey      = State(initialValue: r.readingKey)
+            _operatorID      = State(initialValue: r.operatorID)
+            _comparandString = State(initialValue: Self.comparandToString(r.comparand))
+            _weight          = State(initialValue: r.weight)
+            _negate          = State(initialValue: r.negate)
+            _ruleEnabled     = State(initialValue: r.enabled)
+        }
+    }
+
+    /// Convert an ObservationValue back to its editable string representation.
+    private static func comparandToString(_ value: ObservationValue) -> String {
+        switch value {
+        case .boolean(let b): return b ? "true" : "false"
+        case .number(let n):
+            return n.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(n)) : String(n)
+        case .strings(let arr): return arr.joined(separator: ", ")
+        case .string(let s): return s
+        }
+    }
 
     // MARK: - Derived
 
@@ -84,7 +124,7 @@ struct CreateRuleView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("New Rule")
+            Text(isEditing ? "Edit Rule" : "New Rule")
                 .font(.headline)
 
             Form {
@@ -95,6 +135,11 @@ struct CreateRuleView: View {
                     weightSection
                 }
                 nameSection
+                if isEditing {
+                    Section {
+                        Toggle("Enabled", isOn: $ruleEnabled)
+                    } header: { Text("Status") }
+                }
             }
             .formStyle(.grouped)
 
@@ -104,14 +149,15 @@ struct CreateRuleView: View {
                 Spacer()
                 Button("Cancel") { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button("Add Rule") { save() }
+                Button(isEditing ? "Save Changes" : "Add Rule") { save() }
                     .keyboardShortcut(.defaultAction)
                     .disabled(!canSave)
             }
         }
         .padding(20)
-        .frame(width: 500, height: 580)
-        .onAppear { seedInitialSensor() }
+        .frame(width: 500, height: isEditing ? 620 : 580)
+        // Only seed sensor when creating; editing starts fully pre-populated.
+        .onAppear { if !isEditing { seedInitialSensor() } }
     }
 
     // MARK: - Sections
@@ -421,16 +467,30 @@ struct CreateRuleView: View {
         guard let comparand = makeComparand() else { return }
 
         Task {
-            await store.createRule(
-                name: name,
-                profileID: profile.id,
-                sensorID: sensorID,
-                readingKey: trimmedKey,
-                operatorID: operatorID,
-                comparand: comparand,
-                weight: weight,
-                negate: negate
-            )
+            if let existing = existingRule {
+                await store.updateRule(
+                    existing,
+                    name: name,
+                    sensorID: sensorID,
+                    readingKey: trimmedKey,
+                    operatorID: operatorID,
+                    comparand: comparand,
+                    weight: weight,
+                    negate: negate,
+                    enabled: ruleEnabled
+                )
+            } else {
+                await store.createRule(
+                    name: name,
+                    profileID: profile.id,
+                    sensorID: sensorID,
+                    readingKey: trimmedKey,
+                    operatorID: operatorID,
+                    comparand: comparand,
+                    weight: weight,
+                    negate: negate
+                )
+            }
             onSave()
             dismiss()
         }

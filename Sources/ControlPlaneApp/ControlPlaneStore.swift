@@ -174,6 +174,32 @@ final class ControlPlaneStore: ObservableObject {
         }
     }
 
+    func updateRule(
+        _ rule: Rule,
+        name: String,
+        sensorID: String,
+        readingKey: String,
+        operatorID: String,
+        comparand: ObservationValue,
+        weight: Double,
+        negate: Bool,
+        enabled: Bool
+    ) async {
+        do {
+            let updated = try await backend.ruleStore.update(
+                id: rule.id, name: name, sensorID: sensorID,
+                readingKey: readingKey, operatorID: operatorID, comparand: comparand,
+                evaluatorID: rule.evaluatorID, weight: weight, negate: negate, enabled: enabled
+            )
+            if let idx = rules.firstIndex(where: { $0.id == rule.id }) {
+                rules[idx] = updated
+            }
+            await backend.refreshDynamicSensorKeys()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
     func deleteRule(_ rule: Rule) async {
         do {
             try await backend.ruleStore.delete(rule.id)
