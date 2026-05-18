@@ -89,48 +89,63 @@ Rename "Preferences" → "Settings" (follows Apple HIG; tracked in Issue #540).
 Three-panel horizontal split view:
 
 ```
-┌──────────────┬────────────────────────┬──────────────────────┐
-│ Profile list │  Profile detail        │  Rules for profile   │
-│              │  (name, threshold,     │                      │
-│ ○ Home       │   confidence badge)    │  [match] Rule name   │
-│ ● Work  ←sel │                        │  [match] Rule name   │
-│ ○ Weekend    │                        │  [match] Rule name   │
-│              │                        │  …                   │
-│ [+] [−]      │  Actions assigned:     │                      │
-│              │  • Open Safari (act.)  │                      │
-│              │  • Run Script  (deact) │  [+] [−] [✏]        │
-└──────────────┴────────────────────────┴──────────────────────┘
+┌──────────────────┬──────────────────────────────┬──────────────────────────┐
+│ Profiles         │ Work                         │ Actions                  │
+├──────────────────┼──────────────────────────────┼──────────────────────────┤
+│                  │                              │                          │
+│ ○  Home    0.12  │  Name                        │  On Activate             │
+│ ●  Work    0.95  │  ┌──────────────────────┐   │  ☑  Connect VPN          │
+│ ○  Weekend 0.00  │  │ Work                 │   │  ☑  Open Finder          │
+│ 🔒 Travel  —     │  └──────────────────────┘   │  ☐  Set Default Printer  │
+│                  │                              │  ☐  Say Good Morning     │
+│                  │  Confidence Threshold        │  ☐  Start Time Machine   │
+│                  │  ├──────────●────┤  0.75     │                          │
+│                  │                              │  On Deactivate           │
+│                  │  ☐  Exclusive profile        │  ☑  Disconnect VPN       │
+│                  │                              │  ☐  Speak Goodbye        │
+│                  │  Confidence                  │  ☐  Lock Keychain        │
+│                  │  ┌──────────────────────┐   │  ☐  Unmount NAS          │
+│                  │  │  0.95 / 1.00   ████▓ │   │                          │
+│                  │  └──────────────────────┘   │                          │
+│                  │                              │                          │
+│                  │  Rules                       │                          │
+│                  │  ✓  WiFi = CorpNet    1.00   │                          │
+│                  │  ✓  IP starts 10.     0.75   │                          │
+│                  │  ✗  VPN connected     0.50   │                          │
+│                  │  ✓  Mon–Fri 9–18      0.25   │                          │
+│                  │                              │                          │
+├──────────────────┼──────────────────────────────┼──────────────────────────┤
+│  [+]  [−]        │  [+]  [−]  [✏]              │                          │
+└──────────────────┴──────────────────────────────┴──────────────────────────┘
 ```
 
-**Panel 1 — Profile list (left, ~200 px)**
-- Each row: active/inactive dot + profile name + current confidence score
-  (shown as `0.84 / 1.00` using the live `profileConfidences` data — same as
-  the current sidebar).
-- Locked profiles get an additional 🔒 indicator.
+**Panel 1 — Profile list (left, ~1/3 of window width)**
+- Each row: active/inactive dot + profile name + current confidence score.
+- Locked profiles get an additional 🔒 indicator (confidence shown as `—`).
 - `[+]` / `[−]` toolbar buttons at the bottom.
 - Right-click context menu: Rename, Delete, Duplicate **[OPEN]**.
 
-**Panel 2 — Profile detail (centre, fixed ~280 px)**
+**Panel 2 — Profile detail (centre, fills remaining space with panel 3)**
 - Editable name field (save on Return / focus-out).
-- Confidence threshold slider (same as current).
+- Confidence threshold slider.
 - Exclusive toggle.
-- Live confidence badge: `0.84 / 1.00` coloured green/orange/grey.
-- **Assigned actions list** — a compact, read-only list of actions linked to
-  this profile, showing action display name + trigger (on activate /
-  on deactivate). Each row has a small `×` to remove the link.
-  An `[+ Add Action]` button opens a sheet to link an action from the global
-  library (see §4).
+- Live confidence badge: `0.95 / 1.00` coloured green/orange/grey.
+- **Rules list** — live match-state column (`✓`/`✗`), rule name, weight.
+  `[+]` / `[−]` / `[✏]` toolbar at the bottom to manage rules for this profile.
 
-**Panel 3 — Rules (right, fills remaining space)**
-- Identical to the current `RulesListView` including the live match-state
-  column and the `[+]` / `[−]` / `[✏]` toolbar.
-- No inner tabs — rules live directly in this panel.
+**Panel 3 — Actions (right, fixed width)**
+- Lists every action in the global library, grouped into two sections:
+  **On Activate** and **On Deactivate**.
+- Each action has a checkbox. Checking it links that action to the selected
+  profile for that trigger; unchecking removes the link.
+- Actions are defined and managed exclusively on the **Actions tab** — there
+  is no add/edit/delete affordance here.
 
-**[OPEN]** Should the three-panel split be resizable or should panel 2 have a
-fixed width? Suggested: panel 1 and 2 fixed, panel 3 fills.
+**[OPEN]** Should the three-panel split be resizable or should panels 1 and 3
+have fixed widths with panel 2 filling the rest?
 
-**[OPEN]** Where does the "Duplicate profile" feature live? Useful for creating
-a variant of an existing profile. Right-click context menu is the natural place.
+**[OPEN]** Where does the "Duplicate profile" feature live? Right-click context
+menu on the profile list row is the natural place.
 
 ---
 
