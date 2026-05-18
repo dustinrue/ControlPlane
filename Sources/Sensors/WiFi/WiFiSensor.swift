@@ -189,7 +189,7 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
             return
         }
 
-        wifiLogger.debug("[WiFiSensor] starting network scan (connected=\(connected), scanWhileConnected=\(scanWhileConnected))")
+        wifiLogger.debug("[WiFiSensor] starting network scan (connected=\(connected), scanWhileConnected=\(self.scanWhileConnected))")
         do {
             let networks = try iface.scanForNetworks(withName: nil)
             let sorted = networks
