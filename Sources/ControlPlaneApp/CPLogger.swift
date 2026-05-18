@@ -1,3 +1,4 @@
+import Foundation
 import os
 
 // MARK: - Log Level
