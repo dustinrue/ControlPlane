@@ -194,10 +194,7 @@ let package = Package(
         .target(
             name: "HostAvailabilitySensor",
             dependencies: ["ControlPlaneSDK"],
-            path: "Sources/Sensors/HostAvailability",
-            linkerSettings: [
-                .linkedFramework("SystemConfiguration"),
-            ]
+            path: "Sources/Sensors/HostAvailability"
         ),
 
         // MARK: - Evaluator plugins

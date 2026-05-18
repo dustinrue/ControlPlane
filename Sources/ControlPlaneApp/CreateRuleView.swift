@@ -87,6 +87,16 @@ struct CreateRuleView: View {
         sensorID == "com.controlplane.sensors.runningapplication"
     }
 
+    private var isBonjourSensor: Bool {
+        sensorID == "com.controlplane.sensors.hostavailability"
+    }
+
+    /// All device names currently discovered by HostAvailabilitySensor, sorted.
+    private var discoveredBonjourDevices: [String] {
+        guard isBonjourSensor else { return [] }
+        return (selectedSnapshot?.readings.map(\.label) ?? []).sorted()
+    }
+
     /// All regular user-facing applications currently running, sorted by display name.
     private var runningUserApps: [(name: String, bundleID: String)] {
         NSWorkspace.shared.runningApplications
@@ -209,6 +219,8 @@ struct CreateRuleView: View {
                     bluetoothDevicePicker
                 } else if isRunningApplication {
                     runningApplicationPicker
+                } else if isBonjourSensor {
+                    bonjourDevicePicker
                 } else if isDynamic {
                     dynamicKeyField
                 } else if let snap = selectedSnapshot {
@@ -300,6 +312,41 @@ struct CreateRuleView: View {
                 .textFieldStyle(.roundedBorder)
         }
         Text("Only running apps appear in the list above. Type a bundle ID directly for apps that are not currently open.")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+    }
+
+    /// Picker of Bonjour/mDNS devices currently visible on the local network.
+    /// The rule's readingKey is the device's friendly Bonjour name (e.g. "My NAS").
+    @ViewBuilder
+    private var bonjourDevicePicker: some View {
+        let devices = discoveredBonjourDevices
+        if devices.isEmpty {
+            Text("No Bonjour devices found on the network yet")
+                .foregroundStyle(.secondary)
+                .font(.callout)
+        } else {
+            Picker("Device", selection: $readingKey) {
+                Text("Choose…").tag("")
+                ForEach(devices, id: \.self) { name in
+                    Text(name).tag(name)
+                }
+            }
+            .onChange(of: readingKey) { _ in
+                resetBelowKey()
+                if !readingKey.isEmpty {
+                    comparandString = "true"
+                    seedOperator()
+                }
+            }
+        }
+
+        // Manual-entry fallback for devices not currently advertising.
+        LabeledContent("Device name") {
+            TextField("My NAS", text: $readingKey)
+                .textFieldStyle(.roundedBorder)
+        }
+        Text("Devices appear when they are advertising Bonjour services (same as Finder's Network sidebar). Enter a name manually for devices not currently on the network.")
             .font(.caption)
             .foregroundStyle(.secondary)
     }
@@ -414,7 +461,7 @@ struct CreateRuleView: View {
         case "com.controlplane.sensors.runningapplication":
             return ("Running", "Not running")
         case "com.controlplane.sensors.hostavailability":
-            return ("Reachable", "Not reachable")
+            return ("Present", "Not present")
         case "com.controlplane.sensors.screenlock":
             return ("Locked", "Unlocked")
         case "com.controlplane.sensors.laptoplid":
@@ -503,7 +550,7 @@ struct CreateRuleView: View {
         case "com.controlplane.sensors.runningapplication":
             return "com.apple.safari"
         case "com.controlplane.sensors.hostavailability":
-            return "server.local"
+            return "My NAS"
         case "com.controlplane.sensors.usb":
             return "vendorID:productID  e.g. 05ac:12a8"
         default:
@@ -518,7 +565,7 @@ struct CreateRuleView: View {
         case "com.controlplane.sensors.runningapplication":
             return "Bundle identifier of the application (e.g. com.apple.safari)."
         case "com.controlplane.sensors.hostavailability":
-            return "Hostname or IP address to ping."
+            return "Device name as shown in Finder's Network sidebar."
         case "com.controlplane.sensors.usb":
             return "USB vendor and product ID in hex, colon-separated."
         default:
