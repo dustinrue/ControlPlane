@@ -241,9 +241,81 @@ ships publicly, a proper migration path can be added at that time.
 
 ## 5. Sensors Tab
 
-Unchanged from current implementation. Displays all loaded sensors, their current
-snapshot readings, and per-sensor configuration (where applicable). Remains the
-third tab.
+Two-panel layout: sensor list on the left, live readings on the right. The right
+panel gains a **Create Rule** affordance on every reading row.
+
+```
+┌──────────────────────┬────────────────────────────────────────────────────┐
+│                      │ WiFi                                   ● Active    │
+│  ● Active Applicat.  ├────────────────────────────────────────────────────┤
+│  ● Audio Output      │ Key               Label          Value             │
+│  ● Bluetooth         │ ─────────────     ───────────    ──────────────── │
+│  ● DNS               │ ssid              SSID           "CorpNet"    [+]  │
+│  ● File Presence     │ bssid             BSSID          "a4:3e:51…"  [+]  │
+│  ● Host Availabil.   │ connected         Connected      true         [+]  │
+│  ● IP Address        │ security          Security       "WPA2 Pers…" [+]  │
+│  ● Laptop Lid        │ channel           Channel        6            [+]  │
+│  ● Mounted Volume    │ rssi              Signal (dBm)   -52          [+]  │
+│  ● Monitor           │ country           Country        "US"         [+]  │
+│  ● Network Link      │                                                    │
+│  ● Power             │                                                    │
+│  ● Running Appl.     │                                                    │
+│  ● Screen Lock       │                                                    │
+│  ● Time of Day       │                                                    │
+│  ○ USB               │                                                    │
+│  ● WiFi          ←   │                                                    │
+├──────────────────────┼────────────────────────────────────────────────────┤
+│  17 sensors    [↺]   │ Captured: 20:14:32                                 │
+└──────────────────────┴────────────────────────────────────────────────────┘
+```
+
+### Create Rule from reading
+
+Each row in the readings table has a `[+]` button (shown on hover; always visible
+on the selected row). Clicking it opens a modal sheet pre-filled with the sensor,
+key, operator, and current value — the user only needs to choose a profile, set
+weight, and optionally negate.
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Create Rule                                        │
+│  WiFi → SSID equals "CorpNet"                       │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  Profile                                            │
+│  [ Work                                       ▾ ]   │
+│  [ + New Profile…                               ]   │
+│                                                     │
+│  ──────────────────────────────────────────────     │
+│                                                     │
+│  ☐  Negate  (rule matches when WiFi is NOT          │
+│              "CorpNet")                             │
+│                                                     │
+│  Confidence Weight                                  │
+│  ├────────────────●──────────┤  1.0                 │
+│  0.1                       2.0                      │
+│                                                     │
+│  ──────────────────────────────────────────────     │
+│                                                     │
+│  Preview                                            │
+│  ┌─────────────────────────────────────────────┐   │
+│  │ WiFi SSID equals "CorpNet"  (weight 1.0)    │   │
+│  └─────────────────────────────────────────────┘   │
+│                                                     │
+│                      [ Cancel ]  [ Save Rule ]     │
+└─────────────────────────────────────────────────────┘
+```
+
+**New Profile inline expansion** — clicking `[ + New Profile… ]` expands an
+inline form (name field + Cancel / Create buttons) directly inside the sheet.
+On Create the new profile is saved and auto-selected in the picker.
+
+**Implementation notes:**
+- `[+]` button is a new `TableColumn` (trailing, fixed narrow width).
+- Sheet is a new `QuickCreateRuleView` that takes a pre-filled `SensorReading`
+  and `SensorSnapshot` (for sensor ID and display name). It does not re-expose
+  the sensor/key/operator/comparand pickers — those are shown read-only.
+- On save, calls the same `RuleStore.insert` path as `CreateRuleView`.
 
 ---
 
