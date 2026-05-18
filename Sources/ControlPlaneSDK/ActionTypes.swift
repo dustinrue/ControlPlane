@@ -53,7 +53,76 @@ public struct ActionTypeInfo: Codable, Sendable, Identifiable {
     }
 }
 
-// MARK: - Stored action instance
+// MARK: - Action (global reusable definition)
+
+/// A named, reusable action definition stored in the global library.
+/// Not tied to any profile — profiles reference actions via `ProfileActionLink`.
+public struct Action: Identifiable, Sendable, Equatable {
+    public let id: UUID
+    /// Human-readable name chosen by the user (e.g. "Connect VPN").
+    public var name: String
+    /// Which action plugin executes this (e.g. "com.controlplane.action.shellscript").
+    public var actionPluginID: String
+    /// Plugin-specific key/value configuration.
+    public var config: [String: String]
+    public var enabled: Bool
+    public let createdAt: Date
+    public var updatedAt: Date
+
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        actionPluginID: String,
+        config: [String: String] = [:],
+        enabled: Bool = true,
+        createdAt: Date = Date(),
+        updatedAt: Date = Date()
+    ) {
+        self.id = id
+        self.name = name
+        self.actionPluginID = actionPluginID
+        self.config = config
+        self.enabled = enabled
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
+}
+
+// MARK: - ProfileActionLink (profile ↔ action assignment)
+
+/// Links a global `Action` to a `Profile` with a trigger and enabled flag.
+/// Replaces the old `ProfileAction` which embedded the action definition inline.
+public struct ProfileActionLink: Identifiable, Sendable, Equatable {
+    public let id: UUID
+    public var profileID: UUID
+    public var actionID: UUID
+    /// When this action fires relative to the profile.
+    public var trigger: ActionTrigger
+    public var enabled: Bool
+    public let createdAt: Date
+    /// When this link was most recently executed. Nil until first execution.
+    public var lastTriggeredAt: Date?
+
+    public init(
+        id: UUID = UUID(),
+        profileID: UUID,
+        actionID: UUID,
+        trigger: ActionTrigger,
+        enabled: Bool = true,
+        createdAt: Date = Date(),
+        lastTriggeredAt: Date? = nil
+    ) {
+        self.id = id
+        self.profileID = profileID
+        self.actionID = actionID
+        self.trigger = trigger
+        self.enabled = enabled
+        self.createdAt = createdAt
+        self.lastTriggeredAt = lastTriggeredAt
+    }
+}
+
+// MARK: - ProfileAction (legacy alias — kept for backward compat during transition)
 
 /// A specific action attached to a profile, stored in the database.
 /// When the profile transitions, the backend executes this action via the plugin

@@ -52,9 +52,12 @@ final class Backend {
         profileStore: profileStore,
         evaluatorRegistry: evaluatorRegistry
     )
-    lazy var profileActionStore = ProfileActionStore(db: appDatabase)
+    lazy var profileActionStore      = ProfileActionStore(db: appDatabase)
+    lazy var actionStore             = ActionStore(db: appDatabase)
+    lazy var profileActionLinkStore  = ProfileActionLinkStore(db: appDatabase)
     lazy var profileActivationManager = ProfileActivationManager(
-        actionStore: profileActionStore,
+        linkStore: profileActionLinkStore,
+        actionStore: actionStore,
         actionRegistry: actionRegistry,
         profileStore: profileStore
     )
