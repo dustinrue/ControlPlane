@@ -14,7 +14,7 @@ import ControlPlaneSDK
 ///   rule run.  Sensors with no rules are stopped to keep CPU usage near zero.
 ///
 /// `Backend` calls `applyRunPolicy(neededIDs:)` after rules change and after the
-/// settings window closes.  `PreferencesWindowController` calls `startAll()` when
+/// settings window closes.  `SettingsWindowController` calls `startAll()` when
 /// the window opens and `applyRunPolicy(neededIDs:)` when it closes.
 actor SensorCoordinator {
     /// All registered sensor instances, whether running or not.

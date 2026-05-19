@@ -3,7 +3,7 @@ import ControlPlaneSDK
 
 /// Root view for the Settings window.
 /// Tab order follows the GUI plan: Profiles → Actions → Sensors → General.
-struct PreferencesView: View {
+struct SettingsView: View {
 
     @StateObject private var store: ControlPlaneStore
 

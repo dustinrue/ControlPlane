@@ -91,8 +91,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(.separator())
 
         menu.addItem(
-            NSMenuItem(title: "Preferences…",
-                       action: #selector(openPreferences),
+            NSMenuItem(title: "Settings…",
+                       action: #selector(openSettings),
                        keyEquivalent: ",")
         )
 
@@ -231,9 +231,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Actions
 
-    @objc private func openPreferences() {
+    @objc private func openSettings() {
         Task { @MainActor in
-            PreferencesWindowController.show(
+            SettingsWindowController.show(
                 store: store,
                 onOpen: { [weak self] in
                     guard let self else { return }
