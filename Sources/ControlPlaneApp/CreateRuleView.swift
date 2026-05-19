@@ -96,6 +96,21 @@ struct CreateRuleView: View {
         sensorID == "com.controlplane.sensors.wifi"
     }
 
+    /// True when the user is building a "connected to network X" WiFi rule —
+    /// i.e. the reading key has been locked to "ssid" by the network picker.
+    private var isWiFiSSIDRule: Bool {
+        isWiFi && readingKey == "ssid"
+    }
+
+    /// Binding that maps the `negate` flag to the user-facing
+    /// "Connected" / "Disconnected" selection.
+    private var wifiConnectionBinding: Binding<String> {
+        Binding(
+            get: { negate ? "disconnected" : "connected" },
+            set: { negate = ($0 == "disconnected") }
+        )
+    }
+
     // MARK: - WiFi scan state
 
     @State private var scannedSSIDs: [String] = []
@@ -155,10 +170,13 @@ struct CreateRuleView: View {
     }
 
     private var canSave: Bool {
-        !sensorID.isEmpty
-            && !readingKey.trimmingCharacters(in: .whitespaces).isEmpty
-            && !operatorID.isEmpty
-            && !comparandString.isEmpty
+        guard !sensorID.isEmpty,
+              !readingKey.trimmingCharacters(in: .whitespaces).isEmpty,
+              !comparandString.isEmpty else { return false }
+        // For WiFi SSID rules the operator is always "equals" and is seeded
+        // automatically, so we don't gate saving on it.
+        if isWiFiSSIDRule { return true }
+        return !operatorID.isEmpty
     }
 
     // MARK: - Body
@@ -172,7 +190,11 @@ struct CreateRuleView: View {
                 sensorSection
                 readingKeySection
                 if !readingKey.trimmingCharacters(in: .whitespaces).isEmpty {
-                    conditionSection
+                    if isWiFiSSIDRule {
+                        wifiConditionSection
+                    } else {
+                        conditionSection
+                    }
                     weightSection
                 }
                 nameSection
@@ -466,7 +488,7 @@ struct CreateRuleView: View {
         .controlSize(.small)
         .disabled(isScanning)
 
-        Text("Choose the network this rule triggers on. Enable \"Negate\" in the Condition section to trigger when NOT connected to the selected network.")
+        Text("Choose the network this rule triggers on. Select \"Connected\" or \"Disconnected\" in the Condition section below.")
             .font(.caption)
             .foregroundStyle(.secondary)
     }
@@ -544,6 +566,20 @@ struct CreateRuleView: View {
                 }
             }
         }
+    }
+
+    /// Simplified condition section for Wi-Fi SSID rules.
+    /// Presents "Connected" / "Disconnected" instead of exposing the
+    /// negate flag and operator picker to the user.
+    @ViewBuilder
+    private var wifiConditionSection: some View {
+        Section {
+            Picker("State", selection: wifiConnectionBinding) {
+                Text("Connected").tag("connected")
+                Text("Disconnected").tag("disconnected")
+            }
+            .pickerStyle(.radioGroup)
+        } header: { Text("Condition") }
     }
 
     @ViewBuilder
@@ -670,19 +706,26 @@ struct CreateRuleView: View {
 
     // MARK: - Rule preview
 
+    private var rulePreviewText: String {
+        if isWiFiSSIDRule {
+            let state = negate ? "Disconnected from" : "Connected to"
+            return "Wi-Fi: \(state) \"\(comparandString)\"" +
+                   "  (weight \(String(format: "%.1f", weight)))"
+        }
+        let neg        = negate ? "NOT " : ""
+        let opLabel    = store.operators.first { $0.id == operatorID }?.label ?? operatorID
+        let sensorName = store.snapshot(for: sensorID)?.displayName ?? sensorID
+        return "\(neg)\(sensorName) › \(readingKey.isEmpty ? "…" : readingKey)" +
+               " \(opLabel) \"\(comparandString)\"" +
+               "  (weight \(String(format: "%.1f", weight)))"
+    }
+
     private var rulePreview: some View {
         GroupBox("Preview") {
-            let neg       = negate ? "NOT " : ""
-            let opLabel   = store.operators.first { $0.id == operatorID }?.label ?? operatorID
-            let sensorName = store.snapshot(for: sensorID)?.displayName ?? sensorID
-            Text(
-                "\(neg)\(sensorName) › \(readingKey.isEmpty ? "…" : readingKey)" +
-                " \(opLabel) \"\(comparandString)\"" +
-                "  (weight \(String(format: "%.1f", weight)))"
-            )
-            .font(.system(.body, design: .monospaced))
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            Text(rulePreviewText)
+                .font(.system(.body, design: .monospaced))
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
