@@ -154,6 +154,17 @@ actor SensorCoordinator {
         await triggerSnapshotCallback()
     }
 
+    /// Refresh every *registered* sensor (running or stopped) so snapshots are
+    /// current before being returned to an on-demand caller such as `cpctl sensors readings`.
+    /// Unlike `refreshAllSensors()` this does NOT fire the snapshot callback — the
+    /// caller is just reading, not triggering rule evaluation.
+    func refreshForQuery() async {
+        for (id, sensor) in sensors {
+            await sensor.refresh()
+            logDebug("Refreshed sensor for query: \(id)", CPLogger.sensors)
+        }
+    }
+
     // MARK: - Configuration
 
     func getOptions(for id: String) throws -> [SensorOptionDescriptor] {
