@@ -137,7 +137,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard let submenu = runActionsMenuItem?.submenu else { return }
         submenu.removeAllItems()
 
-        // Build (link, action, profileName) tuples, sorted by profile name then action name.
+        let allActions = store.actions.sorted { $0.name < $1.name }
+        if allActions.isEmpty {
+            let empty = NSMenuItem(title: "No actions configured", action: nil, keyEquivalent: "")
+            empty.isEnabled = false
+            submenu.addItem(empty)
+            return
+        }
+
+        // --- Section 1: actions linked to profiles, grouped by profile name ---
+        let linkedActionIDs = Set(store.profileActionLinks.map(\.actionID))
         let rows: [(link: ProfileActionLink, action: Action, profileName: String)] =
             store.profileActionLinks.compactMap { link in
                 guard let action = store.actions.first(where: { $0.id == link.actionID }),
@@ -151,14 +160,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     : a.profileName < b.profileName
             }
 
-        if rows.isEmpty {
-            let empty = NSMenuItem(title: "No actions configured", action: nil, keyEquivalent: "")
-            empty.isEnabled = false
-            submenu.addItem(empty)
-            return
-        }
-
-        // Group by profile with a section header for each.
         var lastProfileName: String? = nil
         for row in rows {
             if row.profileName != lastProfileName {
@@ -173,7 +174,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let typeName = store.actionType(for: row.action.actionPluginID)?.displayName
                            ?? row.action.actionPluginID
             let title    = "  \(row.action.name)  (\(typeName), \(trigger))"
-            let item     = NSMenuItem(title: title, action: #selector(runActionItem(_:)), keyEquivalent: "")
+            let item     = NSMenuItem(title: title, action: #selector(runLinkedActionItem(_:)), keyEquivalent: "")
             item.representedObject = row.link
             item.target = self
             let isEnabled = row.link.enabled && row.action.enabled
@@ -183,9 +184,32 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
             submenu.addItem(item)
         }
+
+        // --- Section 2: actions NOT linked to any profile ---
+        let standaloneActions = allActions.filter { !linkedActionIDs.contains($0.id) }
+        if !standaloneActions.isEmpty {
+            if lastProfileName != nil { submenu.addItem(.separator()) }
+            let header = NSMenuItem(title: "Standalone", action: nil, keyEquivalent: "")
+            header.isEnabled = false
+            submenu.addItem(header)
+
+            for action in standaloneActions {
+                let typeName = store.actionType(for: action.actionPluginID)?.displayName
+                               ?? action.actionPluginID
+                let title    = "  \(action.name)  (\(typeName))"
+                let item     = NSMenuItem(title: title, action: #selector(runStandaloneActionItem(_:)), keyEquivalent: "")
+                item.representedObject = action
+                item.target = self
+                if !action.enabled {
+                    item.isEnabled = false
+                    item.title = title + " [disabled]"
+                }
+                submenu.addItem(item)
+            }
+        }
     }
 
-    @objc private func runActionItem(_ sender: NSMenuItem) {
+    @objc private func runLinkedActionItem(_ sender: NSMenuItem) {
         guard let link = sender.representedObject as? ProfileActionLink else { return }
         Task { @MainActor [weak self] in
             guard let self else { return }
@@ -204,6 +228,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 log("Run Action: executing \(action.name) [\(link.trigger.rawValue)] for \"\(profile.name)\"", CPLogger.actions)
                 try await plugin.execute(trigger: link.trigger, profile: profile, config: action.config)
+                log("Run Action: done", CPLogger.actions)
+            } catch {
+                logError("Run Action failed: \(error)", CPLogger.actions)
+            }
+        }
+    }
+
+    @objc private func runStandaloneActionItem(_ sender: NSMenuItem) {
+        guard let action = sender.representedObject as? Action else { return }
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            guard let plugin = await self.backend.actionRegistry.plugin(for: action.actionPluginID) else {
+                log("Run Action: plugin '\(action.actionPluginID)' not loaded", CPLogger.actions)
+                return
+            }
+            // Standalone actions have no profile context; use a placeholder so the
+            // execute signature is satisfied. Most action plugins ignore these params.
+            let placeholder = Profile(name: "Manual", exclusive: false, confidenceThreshold: 1.0)
+            do {
+                log("Run Action: executing standalone \(action.name)", CPLogger.actions)
+                try await plugin.execute(trigger: .onActivate, profile: placeholder, config: action.config)
                 log("Run Action: done", CPLogger.actions)
             } catch {
                 logError("Run Action failed: \(error)", CPLogger.actions)
