@@ -236,6 +236,10 @@ struct CreateRuleView: View {
             if sensorID == "com.controlplane.sensors.wifi" {
                 Task { await scanForWiFiNetworks() }
             }
+            // Refresh USB snapshot so the picker shows devices connected right now.
+            if sensorID == "com.controlplane.sensors.usb" {
+                Task { await store.refreshSnapshots() }
+            }
         }
     }
 
@@ -256,11 +260,14 @@ struct CreateRuleView: View {
                 }
             }
             .onChange(of: sensorID) { _ in
-            resetBelowSensor()
-            if sensorID == "com.controlplane.sensors.wifi" {
-                Task { await scanForWiFiNetworks() }
+                resetBelowSensor()
+                if sensorID == "com.controlplane.sensors.wifi" {
+                    Task { await scanForWiFiNetworks() }
+                }
+                if sensorID == "com.controlplane.sensors.usb" {
+                    Task { await store.refreshSnapshots() }
+                }
             }
-        }
         } header: { Text("Sensor") }
     }
 
