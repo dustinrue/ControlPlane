@@ -222,22 +222,8 @@ struct CreateOrEditActionView: View {
                     Text("General")
                 }
 
-                if !selectedPluginID.isEmpty,
-                   let typeInfo = store.actionType(for: selectedPluginID),
-                   !typeInfo.configDescriptors.isEmpty {
-                    Section {
-                        ForEach(typeInfo.configDescriptors, id: \.key) { descriptor in
-                            LabeledContent(descriptor.label) {
-                                TextField(descriptor.defaultValue ?? "", text: Binding(
-                                    get: { config[descriptor.key] ?? "" },
-                                    set: { config[descriptor.key] = $0.isEmpty ? nil : $0 }
-                                ))
-                                .textFieldStyle(.roundedBorder)
-                            }
-                        }
-                    } header: {
-                        Text("Configuration")
-                    }
+                if !selectedPluginID.isEmpty {
+                    ActionConfigForm(pluginID: selectedPluginID, config: $config)
                 }
             }
             .formStyle(.grouped)
