@@ -429,15 +429,15 @@ struct CreateRuleView: View {
 
     /// Picker showing every connected USB device by its human-readable name.
     /// Selecting a device writes the vendorID:productID key into `readingKey`.
+    /// No manual text field — if nothing is connected the picker is shown
+    /// disabled with a "No devices connected" placeholder.
     @ViewBuilder
     private var usbDevicePicker: some View {
         let readings = usbDeviceReadings
-        if readings.isEmpty {
-            Text("No USB devices detected")
-                .foregroundStyle(.secondary)
-                .font(.callout)
-        } else {
-            Picker("Device", selection: $readingKey) {
+        Picker("Device", selection: $readingKey) {
+            if readings.isEmpty {
+                Text("No devices connected").tag("").disabled(true)
+            } else {
                 Text("Choose…").tag("")
                 ForEach(readings, id: \.key) { reading in
                     let isConnected = reading.value == .boolean(true)
@@ -454,18 +454,19 @@ struct CreateRuleView: View {
                     .tag(reading.key)
                 }
             }
-            .onChange(of: readingKey) { _ in
-                resetBelowKey()
-                if !readingKey.isEmpty {
-                    comparandString = "true"
-                    seedOperator()
-                }
+        }
+        .disabled(readings.isEmpty)
+        .onChange(of: readingKey) { _ in
+            resetBelowKey()
+            if !readingKey.isEmpty {
+                comparandString = "true"
+                seedOperator()
             }
-            .onAppear {
-                // When editing, seed operator so the form is valid immediately.
-                if !readingKey.isEmpty && operatorID.isEmpty { seedOperator() }
-                if !readingKey.isEmpty && comparandString.isEmpty { comparandString = "true" }
-            }
+        }
+        .onAppear {
+            // When editing, seed operator so the form is valid immediately.
+            if !readingKey.isEmpty && operatorID.isEmpty { seedOperator() }
+            if !readingKey.isEmpty && comparandString.isEmpty { comparandString = "true" }
         }
 
         if !readingKey.isEmpty {
@@ -476,22 +477,6 @@ struct CreateRuleView: View {
                     .textSelection(.enabled)
             }
         }
-
-        // Fallback for devices not currently plugged in.
-        LabeledContent("Not connected?") {
-            TextField("05ac:12a8", text: $readingKey)
-                .textFieldStyle(.roundedBorder)
-                .onChange(of: readingKey) { _ in
-                    resetBelowKey()
-                    if !readingKey.isEmpty {
-                        comparandString = "true"
-                        seedOperator()
-                    }
-                }
-        }
-        Text("Devices appear when plugged in. Enter a vendor:product ID manually for devices not currently connected.")
-            .font(.caption)
-            .foregroundStyle(.secondary)
     }
 
     // MARK: - WiFi network picker
