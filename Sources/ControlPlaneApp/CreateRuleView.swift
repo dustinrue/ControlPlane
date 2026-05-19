@@ -96,6 +96,12 @@ struct CreateRuleView: View {
         sensorID == "com.controlplane.sensors.usb"
     }
 
+    /// True when the user has picked a specific USB device (readingKey is a
+    /// vendorID:productID hex key, not the "devices" summary key).
+    private var isUSBDeviceRule: Bool {
+        isUSB && !readingKey.isEmpty && readingKey != "devices"
+    }
+
     private var isWiFi: Bool {
         sensorID == "com.controlplane.sensors.wifi"
     }
@@ -177,9 +183,9 @@ struct CreateRuleView: View {
         guard !sensorID.isEmpty,
               !readingKey.trimmingCharacters(in: .whitespaces).isEmpty,
               !comparandString.isEmpty else { return false }
-        // For WiFi SSID rules the operator is always "equals" and is seeded
-        // automatically, so we don't gate saving on it.
-        if isWiFiSSIDRule { return true }
+        // For WiFi SSID and USB device rules the operator is always "equals" and is
+        // seeded automatically — don't gate saving on the operatorID being set.
+        if isWiFiSSIDRule || isUSBDeviceRule { return true }
         return !operatorID.isEmpty
     }
 
@@ -194,7 +200,7 @@ struct CreateRuleView: View {
                 sensorSection
                 readingKeySection
                 if !readingKey.trimmingCharacters(in: .whitespaces).isEmpty {
-                    if isWiFiSSIDRule {
+                    if isWiFiSSIDRule || isUSBDeviceRule {
                         wifiConditionSection
                     } else {
                         conditionSection
@@ -797,9 +803,9 @@ struct CreateRuleView: View {
             return "Wi-Fi: \(state) \"\(comparandString)\"" +
                    "  (weight \(String(format: "%.1f", weight)))"
         }
-        if isUSB && !readingKey.isEmpty {
+        if isUSBDeviceRule {
             let deviceLabel = selectedSnapshot?.readings.first { $0.key == readingKey }?.label ?? readingKey
-            let state = comparandString == "true" ? "Connected" : "Not connected"
+            let state = negate ? "Not connected" : "Connected"
             return "USB Device › \(deviceLabel)  \(state)" +
                    "  (weight \(String(format: "%.1f", weight)))"
         }
