@@ -18,10 +18,14 @@ ICON       := Resources/AppIcon.icns
 ## Default: build universal binaries and install cpctl
 all: build install
 
-## Build for arm64 and x86_64, then lipo into universal binaries
+## Build for arm64 and x86_64, then lipo into universal binaries.
+## Each product is built with a separate invocation so SPM cannot silently
+## skip one when multiple --product flags are passed on some toolchain versions.
 build:
-	$(SWIFT) build -c $(CONFIG) --arch arm64  --product ControlPlane --product cpctl
-	$(SWIFT) build -c $(CONFIG) --arch x86_64 --product ControlPlane --product cpctl
+	$(SWIFT) build -c $(CONFIG) --arch arm64  --product ControlPlane
+	$(SWIFT) build -c $(CONFIG) --arch arm64  --product cpctl
+	$(SWIFT) build -c $(CONFIG) --arch x86_64 --product ControlPlane
+	$(SWIFT) build -c $(CONFIG) --arch x86_64 --product cpctl
 	@mkdir -p $(UNIV_DIR)
 	lipo -create $(BIN_ARM)/ControlPlane $(BIN_X86)/ControlPlane -output $(UNIV_DIR)/ControlPlane
 	lipo -create $(BIN_ARM)/cpctl        $(BIN_X86)/cpctl        -output $(UNIV_DIR)/cpctl
@@ -49,7 +53,9 @@ run: build install
 	open "$(APP_BUNDLE)"
 	@echo "ControlPlane running from $(APP_BUNDLE)"
 
-## Remove all build artifacts
+## Remove all build artifacts.
+## Uses rm -rf instead of 'swift package clean' to guarantee a truly clean
+## state — swift package clean can leave stale SPM metadata that causes the
+## next build to produce only some products.
 clean:
-	$(SWIFT) package clean
-	rm -rf .build/universal
+	rm -rf .build
