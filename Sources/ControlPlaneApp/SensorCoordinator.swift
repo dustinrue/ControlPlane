@@ -154,14 +154,48 @@ actor SensorCoordinator {
         await triggerSnapshotCallback()
     }
 
-    /// Refresh every *registered* sensor (running or stopped) so snapshots are
-    /// current before being returned to an on-demand caller such as `cpctl sensors readings`.
-    /// Unlike `refreshAllSensors()` this does NOT fire the snapshot callback — the
-    /// caller is just reading, not triggering rule evaluation.
+    /// Ensure every registered sensor has fresh data before an on-demand read
+    /// (e.g. `cpctl sensors readings`).
+    ///
+    /// - Running sensors: `refresh()` is called so sensors that override it
+    ///   (WiFiSensor, FilePresenceSensor) re-read hardware state.
+    /// - Stopped sensors: `start()` is called so they populate their snapshot
+    ///   via `refreshSnapshot()` (which most sensors call synchronously at the
+    ///   top of `start()`).  They are then stopped in a background task *after*
+    ///   the caller collects the snapshot, so the response always contains their
+    ///   current state rather than an empty inactive snapshot.
+    ///
+    /// Sensors with deferred initialisation (e.g. BluetoothSensor's 2-second
+    /// TCC delay) will still show as inactive — their `start()` returns
+    /// immediately but data is not ready yet.  That is acceptable for a query.
     func refreshForQuery() async {
+        var temporarilyStarted: [String] = []
+
         for (id, sensor) in sensors {
-            await sensor.refresh()
-            logDebug("Refreshed sensor for query: \(id)", CPLogger.sensors)
+            if runningSensors.contains(id) {
+                // Already running — just request a fresh read.
+                await sensor.refresh()
+            } else {
+                // Stopped — start() will call refreshSnapshot() for most sensors.
+                await sensor.start()
+                temporarilyStarted.append(id)
+                logDebug("Temporarily started sensor for query: \(id)", CPLogger.sensors)
+            }
+        }
+
+        // Stop the temporarily-started sensors after the caller returns the
+        // response.  We use an unstructured Task so this doesn't block the
+        // snapshot collection that happens immediately after this function returns.
+        if !temporarilyStarted.isEmpty {
+            let sensorsCopy = sensors
+            Task {
+                for id in temporarilyStarted {
+                    if let sensor = sensorsCopy[id] {
+                        await sensor.stop()
+                        logDebug("Stopped temporary query sensor: \(id)", CPLogger.sensors)
+                    }
+                }
+            }
         }
     }
 
