@@ -32,9 +32,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             .sink { [weak self] active in self?.rebuildProfileSection(active) }
             .store(in: &cancellables)
 
-        // Rebuild the Run Actions submenu whenever actions, profiles, or action types change.
-        store.$profileActions
-            .combineLatest(store.$profiles, store.$actionTypes)
+        // Rebuild the Run Actions submenu whenever actions, links, profiles, or action types change.
+        store.$actions
+            .combineLatest(store.$profileActionLinks, store.$profiles, store.$actionTypes)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.rebuildRunActionsMenu() }
             .store(in: &cancellables)
@@ -137,14 +137,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard let submenu = runActionsMenuItem?.submenu else { return }
         submenu.removeAllItems()
 
-        // Sort by profile name, then by creation date within a profile.
-        let actions = store.profileActions.sorted { a, b in
-            let nameA = store.profiles.first { $0.id == a.profileID }?.name ?? ""
-            let nameB = store.profiles.first { $0.id == b.profileID }?.name ?? ""
-            return nameA == nameB ? a.createdAt < b.createdAt : nameA < nameB
-        }
+        // Build (link, action, profileName) tuples, sorted by profile name then action name.
+        let rows: [(link: ProfileActionLink, action: Action, profileName: String)] =
+            store.profileActionLinks.compactMap { link in
+                guard let action = store.actions.first(where: { $0.id == link.actionID }),
+                      let profile = store.profiles.first(where: { $0.id == link.profileID })
+                else { return nil }
+                return (link, action, profile.name)
+            }
+            .sorted { a, b in
+                a.profileName == b.profileName
+                    ? a.action.name < b.action.name
+                    : a.profileName < b.profileName
+            }
 
-        if actions.isEmpty {
+        if rows.isEmpty {
             let empty = NSMenuItem(title: "No actions configured", action: nil, keyEquivalent: "")
             empty.isEnabled = false
             submenu.addItem(empty)
@@ -152,25 +159,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // Group by profile with a section header for each.
-        var lastProfileID: UUID? = nil
-        for action in actions {
-            let profileName = store.profiles.first { $0.id == action.profileID }?.name ?? "Unknown Profile"
-            let typeName    = store.actionType(for: action.actionPluginID)?.displayName ?? action.actionPluginID
-            let trigger     = action.trigger == ActionTrigger.onActivate ? "activate" : "deactivate"
-
-            if action.profileID != lastProfileID {
-                if lastProfileID != nil { submenu.addItem(.separator()) }
-                let header = NSMenuItem(title: profileName, action: nil, keyEquivalent: "")
+        var lastProfileName: String? = nil
+        for row in rows {
+            if row.profileName != lastProfileName {
+                if lastProfileName != nil { submenu.addItem(.separator()) }
+                let header = NSMenuItem(title: row.profileName, action: nil, keyEquivalent: "")
                 header.isEnabled = false
                 submenu.addItem(header)
-                lastProfileID = action.profileID
+                lastProfileName = row.profileName
             }
 
-            let title = "  \(typeName) (\(trigger))"
-            let item = NSMenuItem(title: title, action: #selector(runActionItem(_:)), keyEquivalent: "")
-            item.representedObject = action
+            let trigger  = row.link.trigger == .onActivate ? "activate" : "deactivate"
+            let typeName = store.actionType(for: row.action.actionPluginID)?.displayName
+                           ?? row.action.actionPluginID
+            let title    = "  \(row.action.name)  (\(typeName), \(trigger))"
+            let item     = NSMenuItem(title: title, action: #selector(runActionItem(_:)), keyEquivalent: "")
+            item.representedObject = row.link
             item.target = self
-            if !action.enabled {
+            let isEnabled = row.link.enabled && row.action.enabled
+            if !isEnabled {
                 item.isEnabled = false
                 item.title = title + " [disabled]"
             }
@@ -179,13 +186,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func runActionItem(_ sender: NSMenuItem) {
-        guard let action = sender.representedObject as? ProfileAction else { return }
-        // Access @MainActor-isolated store on the main actor, then hop to a plain
-        // Task for the async plugin execution.
+        guard let link = sender.representedObject as? ProfileActionLink else { return }
         Task { @MainActor [weak self] in
             guard let self else { return }
-            guard let profile = self.store.profiles.first(where: { $0.id == action.profileID }) else {
-                log("Run Action: profile \(action.profileID) not found", CPLogger.actions)
+            guard let action = self.store.actions.first(where: { $0.id == link.actionID }) else {
+                log("Run Action: action \(link.actionID) not found", CPLogger.actions)
+                return
+            }
+            guard let profile = self.store.profiles.first(where: { $0.id == link.profileID }) else {
+                log("Run Action: profile \(link.profileID) not found", CPLogger.actions)
                 return
             }
             guard let plugin = await self.backend.actionRegistry.plugin(for: action.actionPluginID) else {
@@ -193,8 +202,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 return
             }
             do {
-                log("Run Action: executing \(action.actionPluginID) [\(action.trigger.rawValue)] for \"\(profile.name)\"", CPLogger.actions)
-                try await plugin.execute(trigger: action.trigger, profile: profile, config: action.config)
+                log("Run Action: executing \(action.name) [\(link.trigger.rawValue)] for \"\(profile.name)\"", CPLogger.actions)
+                try await plugin.execute(trigger: link.trigger, profile: profile, config: action.config)
                 log("Run Action: done", CPLogger.actions)
             } catch {
                 logError("Run Action failed: \(error)", CPLogger.actions)
