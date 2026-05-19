@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 import ControlPlaneSDK
 import WiFiSensor
 import FilePresenceSensor
@@ -63,6 +64,7 @@ final class Backend {
     )
     let startedAt = Date()
     private let locationAuthorizer = LocationAuthorizer()
+    private var sleepWakeObserver: NSObjectProtocol?
 
     private lazy var pluginLoader = PluginLoader(registry: pluginRegistry, sensors: sensorCoordinator)
     private var socketServer: SocketServer?
@@ -84,6 +86,20 @@ final class Backend {
             Task { await self.sensorCoordinator.refreshAllSensors() }
         }
         locationAuthorizer.requestIfNeeded()
+        // Refresh all sensors when the system wakes from sleep.
+        // Network state (WiFi SSID, link status, IP addresses) may have changed
+        // while asleep; the sensor-level callbacks will also fire as interfaces
+        // come back up, but an explicit refresh eliminates the stale-data window
+        // between wake and the first hardware event.
+        sleepWakeObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didWakeNotification,
+            object: nil as AnyObject?,
+            queue: nil as OperationQueue?
+        ) { [weak self] (_: Notification) in
+            guard let self else { return }
+            log("System woke from sleep — refreshing all sensors", CPLogger.sensors)
+            Task { await self.sensorCoordinator.refreshAllSensors() }
+        }
         setupSocketServer()
         registerStaticEvaluators()
         registerStaticActions()
