@@ -233,7 +233,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openPreferences() {
         Task { @MainActor in
-            PreferencesWindowController.show(store: store)
+            PreferencesWindowController.show(
+                store: store,
+                onOpen: { [weak self] in
+                    guard let self else { return }
+                    Task { await self.backend.applyRunPolicy(settingsOpen: true) }
+                },
+                onClose: { [weak self] in
+                    guard let self else { return }
+                    Task { await self.backend.applyRunPolicy(settingsOpen: false) }
+                }
+            )
         }
     }
 }

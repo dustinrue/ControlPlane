@@ -2,8 +2,26 @@ import Foundation
 import ControlPlaneSDK
 
 /// Manages the lifecycle of all loaded SensorPlugin instances and vends snapshots on demand.
+///
+/// ## Run policy
+///
+/// All registered sensors are always *known* to the coordinator, but only a
+/// subset may be *running* at any given time.  The policy is:
+///
+/// - **Settings window open**: all sensors run (so the Sensors tab shows live
+///   readings and the user can create rules for any sensor).
+/// - **Settings window closed**: only sensors referenced by at least one enabled
+///   rule run.  Sensors with no rules are stopped to keep CPU usage near zero.
+///
+/// `Backend` calls `applyRunPolicy(neededIDs:)` after rules change and after the
+/// settings window closes.  `PreferencesWindowController` calls `startAll()` when
+/// the window opens and `applyRunPolicy(neededIDs:)` when it closes.
 actor SensorCoordinator {
+    /// All registered sensor instances, whether running or not.
     private var sensors: [String: any SensorPlugin] = [:]
+    /// IDs of sensors that are currently started.
+    private var runningSensors: Set<String> = []
+
     private let configStore: SensorConfigStore
 
     private var onSnapshotsUpdated: (@Sendable ([SensorSnapshot]) async -> Void)?
@@ -16,8 +34,11 @@ actor SensorCoordinator {
         self.configStore = configStore
     }
 
-    /// Register a sensor, apply any persisted options, then start it.
-    func add(_ sensor: any SensorPlugin) async {
+    // MARK: - Registration
+
+    /// Register a sensor and wire its push callback, but do NOT start it yet.
+    /// Call `applyRunPolicy(neededIDs:)` or `startAll()` afterwards.
+    func register(_ sensor: any SensorPlugin) async {
         let id = sensor.pluginIdentifier
 
         if let configurable = sensor as? any ConfigurableSensor {
@@ -27,9 +48,6 @@ actor SensorCoordinator {
             }
         }
 
-        // If the sensor supports push notifications, inject a callback so
-        // changes it detects internally (kqueue events, CoreWLAN notifications, …)
-        // drive the rule engine in real time without polling.
         if let push = sensor as? any PushSensor {
             push.onSnapshotChanged = { [weak self] in
                 Task { await self?.triggerSnapshotCallback() }
@@ -37,11 +55,63 @@ actor SensorCoordinator {
         }
 
         sensors[id] = sensor
+        logDebug("Registered sensor: \(id)", CPLogger.sensors)
+    }
+
+    // MARK: - Run policy
+
+    /// Start all registered sensors. Used when the settings window opens so
+    /// the user sees live readings for every sensor.
+    func startAll() async {
+        for (id, sensor) in sensors where !runningSensors.contains(id) {
+            await sensor.start()
+            runningSensors.insert(id)
+            log("Started sensor (settings open): \(id)", CPLogger.sensors)
+        }
+    }
+
+    /// Start sensors in `neededIDs`, stop all others.
+    /// Called after rules change or after the settings window closes.
+    func applyRunPolicy(neededIDs: Set<String>) async {
+        // Stop sensors that are running but no longer needed.
+        for id in runningSensors where !neededIDs.contains(id) {
+            if let sensor = sensors[id] {
+                await sensor.stop()
+                log("Stopped idle sensor (no rules): \(id)", CPLogger.sensors)
+            }
+            runningSensors.remove(id)
+        }
+        // Start sensors that are needed but not yet running.
+        for id in neededIDs {
+            guard !runningSensors.contains(id), let sensor = sensors[id] else { continue }
+            await sensor.start()
+            runningSensors.insert(id)
+            log("Started sensor (has rules): \(id)", CPLogger.sensors)
+        }
+    }
+
+    /// Legacy entry point kept for compatibility — registers and immediately starts.
+    func add(_ sensor: any SensorPlugin) async {
+        await register(sensor)
+        let id = sensor.pluginIdentifier
         await sensor.start()
+        runningSensors.insert(id)
         log("Started sensor: \(id)", CPLogger.sensors)
     }
 
-    /// Current snapshots from every sensor, sorted by sensor ID.
+    /// Returns the IDs of all registered sensors (running or not).
+    func allRegisteredIDs() -> Set<String> {
+        Set(sensors.keys)
+    }
+
+    /// Returns the IDs of currently running sensors.
+    func runningIDs() -> Set<String> {
+        runningSensors
+    }
+
+    /// Current snapshots from every *registered* sensor, sorted by sensor ID.
+    /// Stopped sensors are included with isActive = false so the Sensors tab
+    /// can still list them (they just show as inactive).
     func allSnapshots() async -> [SensorSnapshot] {
         var result: [SensorSnapshot] = []
         for sensor in sensors.values {
@@ -50,7 +120,7 @@ actor SensorCoordinator {
         return result.sorted { $0.sensorID < $1.sensorID }
     }
 
-    /// Snapshot for a single sensor, or nil if that ID is not loaded.
+    /// Snapshot for a single sensor, or nil if that ID is not registered.
     func snapshot(for id: String) async -> SensorSnapshot? {
         guard let sensor = sensors[id] else { return nil }
         return await sensor.currentSnapshot()

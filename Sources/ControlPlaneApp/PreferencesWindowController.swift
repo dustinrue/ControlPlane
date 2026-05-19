@@ -1,14 +1,25 @@
 import AppKit
 import SwiftUI
 
-/// Manages the single Preferences window. Call `show(store:)` from any context —
-/// it opens the window if not already visible, or brings it to front if it is.
+/// Manages the single Preferences window. Call `show(store:onOpen:onClose:)` from
+/// any context — it opens the window if not already visible, or brings it to front
+/// if it is.  `onOpen` fires when the window first becomes visible; `onClose` fires
+/// when the user dismisses it.
 @MainActor
 final class PreferencesWindowController: NSWindowController, NSWindowDelegate {
 
     private static var shared: PreferencesWindowController?
 
-    static func show(store: ControlPlaneStore) {
+    /// Called the first time the window is shown (not on subsequent bringToFront calls).
+    var onOpen: (() -> Void)?
+    /// Called when the window is closed.
+    var onClose: (() -> Void)?
+
+    static func show(
+        store: ControlPlaneStore,
+        onOpen: (() -> Void)? = nil,
+        onClose: (() -> Void)? = nil
+    ) {
         if shared == nil {
             let hostingController = NSHostingController(rootView: PreferencesView(store: store))
             let window = NSWindow(contentViewController: hostingController)
@@ -20,8 +31,13 @@ final class PreferencesWindowController: NSWindowController, NSWindowDelegate {
             window.isReleasedWhenClosed = false
 
             let controller = PreferencesWindowController(window: window)
+            controller.onOpen = onOpen
+            controller.onClose = onClose
             window.delegate = controller
             shared = controller
+
+            // Fire onOpen the first time the window is created and shown.
+            onOpen?()
         }
 
         shared?.showWindow(nil)
@@ -32,6 +48,7 @@ final class PreferencesWindowController: NSWindowController, NSWindowDelegate {
     // MARK: - NSWindowDelegate
 
     func windowWillClose(_ notification: Notification) {
+        onClose?()
         PreferencesWindowController.shared = nil
     }
 }
