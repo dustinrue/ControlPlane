@@ -1,6 +1,7 @@
 import Foundation
 import CoreWLAN
 import CoreLocation
+import Network
 import ControlPlaneSDK
 import os
 
@@ -40,6 +41,7 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
     private var interface: CWInterface?
     private var observers: [NSObjectProtocol] = []
     private var scanTask: Task<Void, Never>?
+    private var pathMonitor: NWPathMonitor?
 
     // CLLocationManager is required to trigger the macOS location permission
     // prompt and to unlock SSID/BSSID access from CoreWLAN.
@@ -68,6 +70,7 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
         requestLocationAuthorization()
         interface = client.interface()
         subscribeToEvents()
+        startPathMonitor()
         // Scan loop is NOT started here. It starts only when setMonitoredKeys(_:)
         // is called with a key set that includes "visible_networks". This avoids
         // unnecessary background wakeups when no rule uses that reading.
@@ -77,6 +80,8 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
     public func stop() async {
         scanTask?.cancel()
         scanTask = nil
+        pathMonitor?.cancel()
+        pathMonitor = nil
         try? client.stopMonitoringAllEvents()
         for observer in observers { NotificationCenter.default.removeObserver(observer) }
         observers.removeAll()
@@ -215,21 +220,44 @@ public final class WiFiSensor: NSObject, SensorPlugin, ConfigurableSensor, PushS
 
         // The notification names are deprecated as API entry points but remain the only
         // Swift-accessible notification bridge for CWWiFiClient on macOS 14.
+        //
+        // IMPORTANT: use object: nil (not object: client).  On macOS 12+, CoreWLAN
+        // posts these notifications with the CWInterface as the object — not the
+        // CWWiFiClient — so filtering by client silently drops every notification.
         let notificationNames: [Notification.Name] = [
             .CWSSIDDidChange, .CWBSSIDDidChange, .CWLinkDidChange, .CWModeDidChange,
         ]
         for name in notificationNames {
             let observer = NotificationCenter.default.addObserver(
-                forName: name, object: client, queue: nil
+                forName: name, object: nil, queue: nil
             ) { [weak self] _ in
-                // On link-state change, trigger a scan cycle immediately so visible_networks
-                // reflects reality (e.g. just disconnected → start scanning right away).
                 guard let self else { return }
                 self.refreshSnapshot()
                 Task { await self.runScanIfNeeded() }
             }
             observers.append(observer)
         }
+    }
+
+    /// Start an NWPathMonitor watching the WiFi interface type.
+    ///
+    /// NWPathMonitor is the modern, reliable API for detecting network-path
+    /// changes. It fires immediately with the current state and again whenever
+    /// the WiFi path changes (connect, disconnect, interface goes down).
+    /// This supplements the CoreWLAN notifications, which are unreliable on
+    /// macOS 12+ because they are posted with the CWInterface as the object
+    /// rather than the CWWiFiClient.
+    private func startPathMonitor() {
+        let monitor = NWPathMonitor(requiredInterfaceType: .wifi)
+        monitor.pathUpdateHandler = { [weak self] _ in
+            // pathUpdateHandler fires on the monitor queue; dispatch to main
+            // so refreshSnapshot() can safely access the CWInterface property.
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshSnapshot()
+            }
+        }
+        monitor.start(queue: DispatchQueue.global(qos: .utility))
+        pathMonitor = monitor
     }
 
     private func refreshSnapshot() {
