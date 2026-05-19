@@ -209,7 +209,7 @@ All new sensors extend `BaseSensor` (in `ControlPlaneSDK`). `BaseSensor` impleme
 | `RunningApplicationSensor` | `RunningApplicationSensor` | `com.controlplane.sensors.runningapplication` | Push+Dynamic | Keys are bundle IDs; reading per key → boolean |
 | `MountedVolumeSensor` | `MountedVolumeSensor` | `com.controlplane.sensors.mountedvolume` | Push | NSWorkspace mount/unmount; reads `mounted` (strings) + per-volume boolean |
 | `ScreenLockSensor` | `ScreenLockSensor` | `com.controlplane.sensors.screenlock` | Push | DistributedNotificationCenter; reads `locked` boolean |
-| `USBSensor` | `USBSensor` | `com.controlplane.sensors.usb` | Push+Dynamic | IOKit; keys are `"vendorID:productID"`; reads `devices` strings |
+| `USBSensor` | `USBSensor` | `com.controlplane.sensors.usb` | Push+Dynamic | IOKit; keys are lowercase hex `"vvvv:pppp"` (e.g. `"05ac:12a8"`); emits one boolean reading per connected device (label = product name) plus `devices` strings summary |
 | `BluetoothSensor` | `BluetoothSensor` | `com.controlplane.sensors.bluetooth` | Push | IOBluetooth; reads `powered`, `devices`, per-MAC boolean |
 | `NetworkLinkSensor` | `NetworkLinkSensor` | `com.controlplane.sensors.networklink` | Push | SCDynamicStore; reads per-interface boolean + `activeInterfaces` |
 | `IPAddressSensor` | `IPAddressSensor` | `com.controlplane.sensors.ipaddress` | Push | SCDynamicStore; reads `<iface>.ipv4`, `<iface>.ipv6`, `allAddresses` |

@@ -92,6 +92,10 @@ struct CreateRuleView: View {
         sensorID == "com.controlplane.sensors.hostavailability"
     }
 
+    private var isUSB: Bool {
+        sensorID == "com.controlplane.sensors.usb"
+    }
+
     private var isWiFi: Bool {
         sensorID == "com.controlplane.sensors.wifi"
     }
@@ -266,6 +270,8 @@ struct CreateRuleView: View {
                     runningApplicationPicker
                 } else if isBonjourSensor {
                     bonjourDevicePicker
+                } else if isUSB {
+                    usbDevicePicker
                 } else if isDynamic {
                     dynamicKeyField
                 } else if let snap = selectedSnapshot {
@@ -392,6 +398,85 @@ struct CreateRuleView: View {
                 .textFieldStyle(.roundedBorder)
         }
         Text("Devices appear when they are advertising Bonjour services (same as Finder's Network sidebar). Enter a name manually for devices not currently on the network.")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+    }
+
+    // MARK: - USB device picker
+
+    /// Per-device readings from the USB snapshot: all connected devices plus any
+    /// watched-but-disconnected devices emitted by the sensor.  Excludes the "devices"
+    /// summary reading so the picker only shows individual device rows.
+    private var usbDeviceReadings: [SensorReading] {
+        guard isUSB, let snap = selectedSnapshot else { return [] }
+        return snap.readings
+            .filter { $0.key != "devices" }
+            .sorted { $0.label < $1.label }
+    }
+
+    /// Picker showing every connected USB device by its human-readable name.
+    /// Selecting a device writes the vendorID:productID key into `readingKey`.
+    @ViewBuilder
+    private var usbDevicePicker: some View {
+        let readings = usbDeviceReadings
+        if readings.isEmpty {
+            Text("No USB devices detected")
+                .foregroundStyle(.secondary)
+                .font(.callout)
+        } else {
+            Picker("Device", selection: $readingKey) {
+                Text("Choose…").tag("")
+                ForEach(readings, id: \.key) { reading in
+                    let isConnected = reading.value == .boolean(true)
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(isConnected ? Color.green : Color.secondary.opacity(0.4))
+                            .frame(width: 8, height: 8)
+                        Text(reading.label)
+                        Spacer()
+                        Text(isConnected ? "Connected" : "Not connected")
+                            .font(.caption)
+                            .foregroundStyle(isConnected ? .green : .secondary)
+                    }
+                    .tag(reading.key)
+                }
+            }
+            .onChange(of: readingKey) { _ in
+                resetBelowKey()
+                if !readingKey.isEmpty {
+                    comparandString = "true"
+                    seedOperator()
+                }
+            }
+            .onAppear {
+                // When editing, seed operator so the form is valid immediately.
+                if !readingKey.isEmpty && operatorID.isEmpty { seedOperator() }
+                if !readingKey.isEmpty && comparandString.isEmpty { comparandString = "true" }
+            }
+        }
+
+        if !readingKey.isEmpty {
+            LabeledContent("Device ID") {
+                Text(readingKey)
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
+            }
+        }
+
+        // Fallback for devices not currently plugged in.
+        LabeledContent("Not connected?") {
+            TextField("05ac:12a8", text: $readingKey)
+                .textFieldStyle(.roundedBorder)
+                .onChange(of: readingKey) { _ in
+                    resetBelowKey()
+                    if !readingKey.isEmpty {
+                        comparandString = "true"
+                        seedOperator()
+                    }
+                }
+        }
+        Text("Devices appear when plugged in. Enter a vendor:product ID manually for devices not currently connected.")
             .font(.caption)
             .foregroundStyle(.secondary)
     }
@@ -712,6 +797,12 @@ struct CreateRuleView: View {
             return "Wi-Fi: \(state) \"\(comparandString)\"" +
                    "  (weight \(String(format: "%.1f", weight)))"
         }
+        if isUSB && !readingKey.isEmpty {
+            let deviceLabel = selectedSnapshot?.readings.first { $0.key == readingKey }?.label ?? readingKey
+            let state = comparandString == "true" ? "Connected" : "Not connected"
+            return "USB Device › \(deviceLabel)  \(state)" +
+                   "  (weight \(String(format: "%.1f", weight)))"
+        }
         let neg        = negate ? "NOT " : ""
         let opLabel    = store.operators.first { $0.id == operatorID }?.label ?? operatorID
         let sensorName = store.snapshot(for: sensorID)?.displayName ?? sensorID
@@ -739,8 +830,6 @@ struct CreateRuleView: View {
             return "com.apple.safari"
         case "com.controlplane.sensors.hostavailability":
             return "My NAS"
-        case "com.controlplane.sensors.usb":
-            return "vendorID:productID  e.g. 05ac:12a8"
         default:
             return "key"
         }
@@ -754,8 +843,6 @@ struct CreateRuleView: View {
             return "Bundle identifier of the application (e.g. com.apple.safari)."
         case "com.controlplane.sensors.hostavailability":
             return "Device name as shown in Finder's Network sidebar."
-        case "com.controlplane.sensors.usb":
-            return "USB vendor and product ID in hex, colon-separated."
         default:
             return "Reading key for this sensor."
         }
