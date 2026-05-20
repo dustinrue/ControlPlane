@@ -13,7 +13,7 @@ APP_BINARY := $(APP_BUNDLE)/Contents/MacOS/ControlPlane
 INFO_PLIST := Resources/ControlPlane-Info.plist
 ICON       := Resources/AppIcon.icns
 
-.PHONY: all build install run clean
+.PHONY: all build install run bundle clean
 
 ## Default: build universal binaries and install cpctl
 all: build install
@@ -52,6 +52,18 @@ run: build install
 	-pkill -x ControlPlane 2>/dev/null; sleep 0.5
 	open "$(APP_BUNDLE)"
 	@echo "ControlPlane running from $(APP_BUNDLE)"
+
+## Assemble the app bundle and sign it ad-hoc, without launching.
+## Used by CI to produce a downloadable artifact.
+bundle: build
+	@mkdir -p "$(APP_BUNDLE)/Contents/MacOS"
+	@mkdir -p "$(APP_BUNDLE)/Contents/Resources"
+	cp $(INFO_PLIST) "$(APP_BUNDLE)/Contents/Info.plist"
+	cp $(UNIV_DIR)/ControlPlane "$(APP_BINARY)"
+	cp $(UNIV_DIR)/cpctl "$(APP_BUNDLE)/Contents/MacOS/cpctl"
+	cp $(ICON) "$(APP_BUNDLE)/Contents/Resources/AppIcon.icns"
+	codesign --force --deep --sign - --identifier "com.controlplane.app" "$(APP_BUNDLE)"
+	@echo "Bundle assembled → $(APP_BUNDLE)"
 
 ## Remove all build artifacts.
 ## Uses rm -rf instead of 'swift package clean' to guarantee a truly clean
