@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import CoreWLAN
 import ControlPlaneSDK
 
 /// Sheet for creating or editing a rule on a profile.
@@ -91,6 +92,40 @@ struct CreateRuleView: View {
         sensorID == "com.controlplane.sensors.hostavailability"
     }
 
+    private var isUSB: Bool {
+        sensorID == "com.controlplane.sensors.usb"
+    }
+
+    /// True when the user has picked a specific USB device (readingKey is a
+    /// vendorID:productID hex key, not the "devices" summary key).
+    private var isUSBDeviceRule: Bool {
+        isUSB && !readingKey.isEmpty && readingKey != "devices"
+    }
+
+    private var isWiFi: Bool {
+        sensorID == "com.controlplane.sensors.wifi"
+    }
+
+    /// True when the user is building a "connected to network X" WiFi rule —
+    /// i.e. the reading key has been locked to "ssid" by the network picker.
+    private var isWiFiSSIDRule: Bool {
+        isWiFi && readingKey == "ssid"
+    }
+
+    /// Binding that maps the `negate` flag to the user-facing
+    /// "Connected" / "Disconnected" selection.
+    private var wifiConnectionBinding: Binding<String> {
+        Binding(
+            get: { negate ? "disconnected" : "connected" },
+            set: { negate = ($0 == "disconnected") }
+        )
+    }
+
+    // MARK: - WiFi scan state
+
+    @State private var scannedSSIDs: [String] = []
+    @State private var isScanning: Bool = false
+
     /// All device names currently discovered by HostAvailabilitySensor, sorted.
     private var discoveredBonjourDevices: [String] {
         guard isBonjourSensor else { return [] }
@@ -145,10 +180,13 @@ struct CreateRuleView: View {
     }
 
     private var canSave: Bool {
-        !sensorID.isEmpty
-            && !readingKey.trimmingCharacters(in: .whitespaces).isEmpty
-            && !operatorID.isEmpty
-            && !comparandString.isEmpty
+        guard !sensorID.isEmpty,
+              !readingKey.trimmingCharacters(in: .whitespaces).isEmpty,
+              !comparandString.isEmpty else { return false }
+        // For WiFi SSID and USB device rules the operator is always "equals" and is
+        // seeded automatically — don't gate saving on the operatorID being set.
+        if isWiFiSSIDRule || isUSBDeviceRule { return true }
+        return !operatorID.isEmpty
     }
 
     // MARK: - Body
@@ -162,7 +200,11 @@ struct CreateRuleView: View {
                 sensorSection
                 readingKeySection
                 if !readingKey.trimmingCharacters(in: .whitespaces).isEmpty {
-                    conditionSection
+                    if isWiFiSSIDRule || isUSBDeviceRule {
+                        wifiConditionSection
+                    } else {
+                        conditionSection
+                    }
                     weightSection
                 }
                 nameSection
@@ -188,7 +230,17 @@ struct CreateRuleView: View {
         .padding(20)
         .frame(width: 500, height: isEditing ? 620 : 580)
         // Only seed sensor when creating; editing starts fully pre-populated.
-        .onAppear { if !isEditing { seedInitialSensor() } }
+        .onAppear {
+            if !isEditing { seedInitialSensor() }
+            // Scan for WiFi networks whenever this sheet opens for a WiFi rule.
+            if sensorID == "com.controlplane.sensors.wifi" {
+                Task { await scanForWiFiNetworks() }
+            }
+            // Refresh USB snapshot so the picker shows devices connected right now.
+            if sensorID == "com.controlplane.sensors.usb" {
+                Task { await store.refreshSnapshots() }
+            }
+        }
     }
 
     // MARK: - Sections
@@ -207,7 +259,15 @@ struct CreateRuleView: View {
                     .tag(snap.sensorID)
                 }
             }
-            .onChange(of: sensorID) { _ in resetBelowSensor() }
+            .onChange(of: sensorID) { _ in
+                resetBelowSensor()
+                if sensorID == "com.controlplane.sensors.wifi" {
+                    Task { await scanForWiFiNetworks() }
+                }
+                if sensorID == "com.controlplane.sensors.usb" {
+                    Task { await store.refreshSnapshots() }
+                }
+            }
         } header: { Text("Sensor") }
     }
 
@@ -217,10 +277,14 @@ struct CreateRuleView: View {
             Section {
                 if isBluetooth {
                     bluetoothDevicePicker
+                } else if isWiFi {
+                    wifiNetworkPicker
                 } else if isRunningApplication {
                     runningApplicationPicker
                 } else if isBonjourSensor {
                     bonjourDevicePicker
+                } else if isUSB {
+                    usbDevicePicker
                 } else if isDynamic {
                     dynamicKeyField
                 } else if let snap = selectedSnapshot {
@@ -351,6 +415,192 @@ struct CreateRuleView: View {
             .foregroundStyle(.secondary)
     }
 
+    // MARK: - USB device picker
+
+    /// Per-device readings from the USB snapshot: all connected devices plus any
+    /// watched-but-disconnected devices emitted by the sensor.  Excludes the "devices"
+    /// summary reading so the picker only shows individual device rows.
+    private var usbDeviceReadings: [SensorReading] {
+        guard isUSB, let snap = selectedSnapshot else { return [] }
+        return snap.readings
+            .filter { $0.key != "devices" }
+            .sorted { $0.label < $1.label }
+    }
+
+    /// Picker showing every connected USB device by its human-readable name.
+    /// Selecting a device writes the vendorID:productID key into `readingKey`.
+    /// No manual text field — if nothing is connected the picker is shown
+    /// disabled with a "No devices connected" placeholder.
+    @ViewBuilder
+    private var usbDevicePicker: some View {
+        let readings = usbDeviceReadings
+        Picker("Device", selection: $readingKey) {
+            if readings.isEmpty {
+                Text("No devices connected").tag("").disabled(true)
+            } else {
+                Text("Choose…").tag("")
+                ForEach(readings, id: \.key) { reading in
+                    let isConnected = reading.value == .boolean(true)
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(isConnected ? Color.green : Color.secondary.opacity(0.4))
+                            .frame(width: 8, height: 8)
+                        Text(reading.label)
+                        Spacer()
+                        Text(isConnected ? "Connected" : "Not connected")
+                            .font(.caption)
+                            .foregroundStyle(isConnected ? .green : .secondary)
+                    }
+                    .tag(reading.key)
+                }
+            }
+        }
+        .disabled(readings.isEmpty)
+        .onChange(of: readingKey) { _ in
+            resetBelowKey()
+            if !readingKey.isEmpty {
+                comparandString = "true"
+                seedOperator()
+            }
+        }
+        .onAppear {
+            // When editing, seed operator so the form is valid immediately.
+            if !readingKey.isEmpty && operatorID.isEmpty { seedOperator() }
+            if !readingKey.isEmpty && comparandString.isEmpty { comparandString = "true" }
+        }
+
+        if !readingKey.isEmpty {
+            LabeledContent("Device ID") {
+                Text(readingKey)
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
+            }
+        }
+    }
+
+    // MARK: - WiFi network picker
+
+    /// Picker for the Wi-Fi sensor.
+    ///
+    /// The rule's readingKey is always "ssid" and the comparand is the selected
+    /// network name (e.g. "MyHomeWiFi").  A one-shot CoreWLAN scan is run when
+    /// the sheet opens so the user sees nearby networks in a dropdown rather than
+    /// having to type an SSID by hand.
+    @ViewBuilder
+    private var wifiNetworkPicker: some View {
+        // SSID currently reported by the live Wi-Fi snapshot.
+        let liveSSID: String = {
+            guard let r = selectedSnapshot?.readings.first(where: { $0.key == "ssid" }),
+                  case .string(let s) = r.value, !s.isEmpty else { return "" }
+            return s
+        }()
+        let isConnected = selectedSnapshot?.readings.first(where: { $0.key == "connected" })?.value
+            == .boolean(true)
+
+        // Merge scan results with the live SSID and (when editing) the existing comparand
+        // so the picker always shows at least the relevant network even if it is not
+        // currently nearby.
+        let allNetworks: [String] = {
+            var seen = Set<String>()
+            var list = scannedSSIDs
+            if !liveSSID.isEmpty     { list.append(liveSSID)     }
+            if !comparandString.isEmpty { list.append(comparandString) }
+            return list.filter { seen.insert($0).inserted }.sorted()
+        }()
+
+        if isScanning {
+            LabeledContent("Network") {
+                HStack(spacing: 6) {
+                    ProgressView().controlSize(.small)
+                    Text("Scanning for networks…").foregroundStyle(.secondary)
+                }
+            }
+        } else if allNetworks.isEmpty {
+            Text("No Wi-Fi networks found. Make sure Wi-Fi is turned on.")
+                .foregroundStyle(.secondary)
+                .font(.callout)
+        } else {
+            Picker("Network", selection: $comparandString) {
+                Text("Choose…").tag("")
+                ForEach(allNetworks, id: \.self) { ssid in
+                    HStack(spacing: 6) {
+                        if ssid == liveSSID && isConnected {
+                            Image(systemName: "wifi")
+                                .imageScale(.small)
+                                .foregroundStyle(.green)
+                        }
+                        Text(ssid)
+                        if ssid == liveSSID && isConnected {
+                            Text("(connected)")
+                                .font(.caption)
+                                .foregroundStyle(.green)
+                        }
+                    }
+                    .tag(ssid)
+                }
+            }
+            .onChange(of: comparandString) { ssid in
+                guard !ssid.isEmpty else { return }
+                // Lock in the reading key and seed the equals operator so
+                // canSave and the preview both reflect the selection.
+                readingKey = "ssid"
+                if operatorID.isEmpty {
+                    operatorID = store.operators(for: "string")
+                        .first { $0.id == "equals" }?.id
+                        ?? store.operators(for: "string").first?.id ?? ""
+                }
+            }
+            .onAppear {
+                // When editing, pre-seed readingKey + operator from the
+                // existing comparand so the form is valid immediately.
+                if !comparandString.isEmpty {
+                    readingKey = "ssid"
+                    if operatorID.isEmpty {
+                        operatorID = store.operators(for: "string")
+                            .first { $0.id == "equals" }?.id
+                            ?? store.operators(for: "string").first?.id ?? ""
+                    }
+                }
+            }
+        }
+
+        Button(isScanning ? "Scanning…" : "Scan again") {
+            Task { await scanForWiFiNetworks() }
+        }
+        .controlSize(.small)
+        .disabled(isScanning)
+
+        Text("Choose the network this rule triggers on. Select \"Connected\" or \"Disconnected\" in the Condition section below.")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+    }
+
+    /// Run a one-shot CoreWLAN scan and store the discovered SSIDs.
+    /// Must be called from an async context; the actual scan runs on a
+    /// detached task so it doesn't block the main actor.
+    private func scanForWiFiNetworks() async {
+        isScanning = true
+        let results: [String] = await Task.detached(priority: .userInitiated) {
+            // CWWiFiClient.shared() is safe to call off the main thread for
+            // the interface lookup; scanForNetworks runs synchronously here.
+            let iface = CWWiFiClient.shared().interface()
+            guard let iface else { return [] }
+            do {
+                let networks = try iface.scanForNetworks(withName: nil)
+                var seen = Set<String>()
+                return networks
+                    .compactMap { $0.ssid }
+                    .filter { !$0.isEmpty && seen.insert($0).inserted }
+                    .sorted()
+            } catch {
+                return []
+            }
+        }.value
+        scannedSSIDs = results
+        isScanning = false
+    }
+
     /// Free-text entry for dynamic sensors (the key IS the path / bundle ID / hostname).
     private var dynamicKeyField: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -399,6 +649,20 @@ struct CreateRuleView: View {
                 }
             }
         }
+    }
+
+    /// Simplified condition section for Wi-Fi SSID rules.
+    /// Presents "Connected" / "Disconnected" instead of exposing the
+    /// negate flag and operator picker to the user.
+    @ViewBuilder
+    private var wifiConditionSection: some View {
+        Section {
+            Picker("State", selection: wifiConnectionBinding) {
+                Text("Connected").tag("connected")
+                Text("Disconnected").tag("disconnected")
+            }
+            .pickerStyle(.radioGroup)
+        } header: { Text("Condition") }
     }
 
     @ViewBuilder
@@ -525,19 +789,32 @@ struct CreateRuleView: View {
 
     // MARK: - Rule preview
 
+    private var rulePreviewText: String {
+        if isWiFiSSIDRule {
+            let state = negate ? "Disconnected from" : "Connected to"
+            return "Wi-Fi: \(state) \"\(comparandString)\"" +
+                   "  (weight \(String(format: "%.1f", weight)))"
+        }
+        if isUSBDeviceRule {
+            let deviceLabel = selectedSnapshot?.readings.first { $0.key == readingKey }?.label ?? readingKey
+            let state = negate ? "Not connected" : "Connected"
+            return "USB Device › \(deviceLabel)  \(state)" +
+                   "  (weight \(String(format: "%.1f", weight)))"
+        }
+        let neg        = negate ? "NOT " : ""
+        let opLabel    = store.operators.first { $0.id == operatorID }?.label ?? operatorID
+        let sensorName = store.snapshot(for: sensorID)?.displayName ?? sensorID
+        return "\(neg)\(sensorName) › \(readingKey.isEmpty ? "…" : readingKey)" +
+               " \(opLabel) \"\(comparandString)\"" +
+               "  (weight \(String(format: "%.1f", weight)))"
+    }
+
     private var rulePreview: some View {
         GroupBox("Preview") {
-            let neg       = negate ? "NOT " : ""
-            let opLabel   = store.operators.first { $0.id == operatorID }?.label ?? operatorID
-            let sensorName = store.snapshot(for: sensorID)?.displayName ?? sensorID
-            Text(
-                "\(neg)\(sensorName) › \(readingKey.isEmpty ? "…" : readingKey)" +
-                " \(opLabel) \"\(comparandString)\"" +
-                "  (weight \(String(format: "%.1f", weight)))"
-            )
-            .font(.system(.body, design: .monospaced))
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            Text(rulePreviewText)
+                .font(.system(.body, design: .monospaced))
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -551,8 +828,6 @@ struct CreateRuleView: View {
             return "com.apple.safari"
         case "com.controlplane.sensors.hostavailability":
             return "My NAS"
-        case "com.controlplane.sensors.usb":
-            return "vendorID:productID  e.g. 05ac:12a8"
         default:
             return "key"
         }
@@ -566,8 +841,6 @@ struct CreateRuleView: View {
             return "Bundle identifier of the application (e.g. com.apple.safari)."
         case "com.controlplane.sensors.hostavailability":
             return "Device name as shown in Finder's Network sidebar."
-        case "com.controlplane.sensors.usb":
-            return "USB vendor and product ID in hex, colon-separated."
         default:
             return "Reading key for this sensor."
         }

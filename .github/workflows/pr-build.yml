@@ -1,0 +1,38 @@
+name: PR Build
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache SPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: .build/checkouts
+          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build and assemble bundle
+        run: make bundle
+
+      - name: Zip app bundle
+        run: |
+          cd .build/universal/debug
+          zip -r ControlPlane.zip ControlPlane.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ControlPlane-PR${{ github.event.pull_request.number }}
+          path: .build/universal/debug/ControlPlane.zip
+          retention-days: 14

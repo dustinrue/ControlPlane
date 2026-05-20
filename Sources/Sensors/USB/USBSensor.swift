@@ -150,18 +150,42 @@ public final class USBSensor: BaseSensor, DynamicKeySensor {
 
     private func refreshSnapshot() {
         let devices = devLock.withLock { connectedDevices }
+
+        // Summary "devices" reading lists all product names.
         let deviceNames = devices.map { $0.name }
         var readings: [SensorReading] = [
             SensorReading(key: "devices", label: "Connected Devices", value: .strings(deviceNames))
         ]
-        for key in watchedKeys {
-            let parts = key.split(separator: ":", maxSplits: 1).map(String.init)
-            guard parts.count == 2,
-                  let vid = Int(parts[0]),
-                  let pid = Int(parts[1]) else { continue }
-            let connected = devices.contains { $0.vendorID == vid && $0.productID == pid }
-            readings.append(SensorReading(key: key, label: key, value: .boolean(connected)))
+
+        // Count occurrences of each name so duplicates can be disambiguated.
+        var nameCounts: [String: Int] = [:]
+        for d in devices { nameCounts[d.name, default: 0] += 1 }
+
+        // One reading per unique vendorID:productID key, value = .boolean(true) for
+        // every device currently connected.  Duplicate IDs (same VID/PID, multiple units)
+        // are collapsed into a single reading — the rule engine only needs to know
+        // whether at least one matching device is present.
+        var emittedKeys = Set<String>()
+        for device in devices {
+            let key = deviceKey(device)
+            guard emittedKeys.insert(key).inserted else { continue }
+            let label = (nameCounts[device.name] ?? 0) > 1
+                ? "\(device.name) (\(key))"
+                : device.name
+            readings.append(SensorReading(key: key, label: label, value: .boolean(true)))
         }
+
+        // Watched keys that are not currently connected → boolean(false).
+        // This ensures the rule engine always gets a value to evaluate.
+        for key in watchedKeys where !emittedKeys.contains(key) {
+            readings.append(SensorReading(key: key, label: key, value: .boolean(false)))
+        }
+
         publishSnapshot(readings: readings)
+    }
+
+    /// Formats a USBDevice's identifiers as lowercase hex: "05ac:12a8".
+    private func deviceKey(_ device: USBDevice) -> String {
+        String(format: "%04x:%04x", device.vendorID, device.productID)
     }
 }

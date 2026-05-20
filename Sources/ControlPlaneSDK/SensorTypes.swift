@@ -9,7 +9,7 @@ import Foundation
 ///   - boolean: connected, power on, lid open, adapter plugged in, …
 ///   - number:  RSSI, battery %, light level, …
 ///   - strings: set of visible SSIDs, set of visible BSSIDs, USB device names, …
-public enum ObservationValue: Sendable, Equatable {
+public enum ObservationValue: Sendable, Equatable, Hashable {
     case string(String)
     case boolean(Bool)
     case number(Double)
@@ -63,7 +63,9 @@ extension ObservationValue: CustomStringConvertible {
 // MARK: - Single reading
 
 /// One named observation emitted by a sensor.
-public struct SensorReading: Codable, Sendable, Equatable {
+public struct SensorReading: Codable, Sendable, Equatable, Hashable, Identifiable {
+    /// Unique identity for SwiftUI use — derived from the key.
+    public var id: String { key }
     /// Machine key used in rule matching, e.g. "ssid", "bssid", "connected".
     public let key: String
     /// Human-readable label for display, e.g. "Connected SSID".

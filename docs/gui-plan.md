@@ -89,48 +89,63 @@ Rename "Preferences" → "Settings" (follows Apple HIG; tracked in Issue #540).
 Three-panel horizontal split view:
 
 ```
-┌──────────────┬────────────────────────┬──────────────────────┐
-│ Profile list │  Profile detail        │  Rules for profile   │
-│              │  (name, threshold,     │                      │
-│ ○ Home       │   confidence badge)    │  [match] Rule name   │
-│ ● Work  ←sel │                        │  [match] Rule name   │
-│ ○ Weekend    │                        │  [match] Rule name   │
-│              │                        │  …                   │
-│ [+] [−]      │  Actions assigned:     │                      │
-│              │  • Open Safari (act.)  │                      │
-│              │  • Run Script  (deact) │  [+] [−] [✏]        │
-└──────────────┴────────────────────────┴──────────────────────┘
+┌──────────────────┬──────────────────────────────┬──────────────────────────┐
+│ Profiles         │ Work                         │ Actions                  │
+├──────────────────┼──────────────────────────────┼──────────────────────────┤
+│                  │                              │                          │
+│ ○  Home    0.12  │  Name                        │  On Activate             │
+│ ●  Work    0.95  │  ┌──────────────────────┐   │  ☑  Connect VPN          │
+│ ○  Weekend 0.00  │  │ Work                 │   │  ☑  Open Finder          │
+│ 🔒 Travel  —     │  └──────────────────────┘   │  ☐  Set Default Printer  │
+│                  │                              │  ☐  Say Good Morning     │
+│                  │  Confidence Threshold        │  ☐  Start Time Machine   │
+│                  │  ├──────────●────┤  0.75     │                          │
+│                  │                              │  On Deactivate           │
+│                  │  ☐  Exclusive profile        │  ☑  Disconnect VPN       │
+│                  │                              │  ☐  Speak Goodbye        │
+│                  │  Confidence                  │  ☐  Lock Keychain        │
+│                  │  ┌──────────────────────┐   │  ☐  Unmount NAS          │
+│                  │  │  0.95 / 1.00   ████▓ │   │                          │
+│                  │  └──────────────────────┘   │                          │
+│                  │                              │                          │
+│                  │  Rules                       │                          │
+│                  │  ✓  WiFi = CorpNet    1.00   │                          │
+│                  │  ✓  IP starts 10.     0.75   │                          │
+│                  │  ✗  VPN connected     0.50   │                          │
+│                  │  ✓  Mon–Fri 9–18      0.25   │                          │
+│                  │                              │                          │
+├──────────────────┼──────────────────────────────┼──────────────────────────┤
+│  [+]  [−]        │  [+]  [−]  [✏]              │                          │
+└──────────────────┴──────────────────────────────┴──────────────────────────┘
 ```
 
-**Panel 1 — Profile list (left, ~200 px)**
-- Each row: active/inactive dot + profile name + current confidence score
-  (shown as `0.84 / 1.00` using the live `profileConfidences` data — same as
-  the current sidebar).
-- Locked profiles get an additional 🔒 indicator.
+**Panel 1 — Profile list (left, ~1/3 of window width)**
+- Each row: active/inactive dot + profile name + current confidence score.
+- Locked profiles get an additional 🔒 indicator (confidence shown as `—`).
 - `[+]` / `[−]` toolbar buttons at the bottom.
 - Right-click context menu: Rename, Delete, Duplicate **[OPEN]**.
 
-**Panel 2 — Profile detail (centre, fixed ~280 px)**
+**Panel 2 — Profile detail (centre, fills remaining space with panel 3)**
 - Editable name field (save on Return / focus-out).
-- Confidence threshold slider (same as current).
+- Confidence threshold slider.
 - Exclusive toggle.
-- Live confidence badge: `0.84 / 1.00` coloured green/orange/grey.
-- **Assigned actions list** — a compact, read-only list of actions linked to
-  this profile, showing action display name + trigger (on activate /
-  on deactivate). Each row has a small `×` to remove the link.
-  An `[+ Add Action]` button opens a sheet to link an action from the global
-  library (see §4).
+- Live confidence badge: `0.95 / 1.00` coloured green/orange/grey.
+- **Rules list** — live match-state column (`✓`/`✗`), rule name, weight.
+  `[+]` / `[−]` / `[✏]` toolbar at the bottom to manage rules for this profile.
 
-**Panel 3 — Rules (right, fills remaining space)**
-- Identical to the current `RulesListView` including the live match-state
-  column and the `[+]` / `[−]` / `[✏]` toolbar.
-- No inner tabs — rules live directly in this panel.
+**Panel 3 — Actions (right, fixed width)**
+- Lists every action in the global library, grouped into two sections:
+  **On Activate** and **On Deactivate**.
+- Each action has a checkbox. Checking it links that action to the selected
+  profile for that trigger; unchecking removes the link.
+- Actions are defined and managed exclusively on the **Actions tab** — there
+  is no add/edit/delete affordance here.
 
-**[OPEN]** Should the three-panel split be resizable or should panel 2 have a
-fixed width? Suggested: panel 1 and 2 fixed, panel 3 fills.
+**[OPEN]** Should the three-panel split be resizable or should panels 1 and 3
+have fixed widths with panel 2 filling the rest?
 
-**[OPEN]** Where does the "Duplicate profile" feature live? Useful for creating
-a variant of an existing profile. Right-click context menu is the natural place.
+**[OPEN]** Where does the "Duplicate profile" feature live? Right-click context
+menu on the profile list row is the natural place.
 
 ---
 
@@ -226,9 +241,81 @@ ships publicly, a proper migration path can be added at that time.
 
 ## 5. Sensors Tab
 
-Unchanged from current implementation. Displays all loaded sensors, their current
-snapshot readings, and per-sensor configuration (where applicable). Remains the
-third tab.
+Two-panel layout: sensor list on the left, live readings on the right. The right
+panel gains a **Create Rule** affordance on every reading row.
+
+```
+┌──────────────────────┬────────────────────────────────────────────────────┐
+│                      │ WiFi                                   ● Active    │
+│  ● Active Applicat.  ├────────────────────────────────────────────────────┤
+│  ● Audio Output      │ Key               Label          Value             │
+│  ● Bluetooth         │ ─────────────     ───────────    ──────────────── │
+│  ● DNS               │ ssid              SSID           "CorpNet"    [+]  │
+│  ● File Presence     │ bssid             BSSID          "a4:3e:51…"  [+]  │
+│  ● Host Availabil.   │ connected         Connected      true         [+]  │
+│  ● IP Address        │ security          Security       "WPA2 Pers…" [+]  │
+│  ● Laptop Lid        │ channel           Channel        6            [+]  │
+│  ● Mounted Volume    │ rssi              Signal (dBm)   -52          [+]  │
+│  ● Monitor           │ country           Country        "US"         [+]  │
+│  ● Network Link      │                                                    │
+│  ● Power             │                                                    │
+│  ● Running Appl.     │                                                    │
+│  ● Screen Lock       │                                                    │
+│  ● Time of Day       │                                                    │
+│  ○ USB               │                                                    │
+│  ● WiFi          ←   │                                                    │
+├──────────────────────┼────────────────────────────────────────────────────┤
+│  17 sensors    [↺]   │ Captured: 20:14:32                                 │
+└──────────────────────┴────────────────────────────────────────────────────┘
+```
+
+### Create Rule from reading
+
+Each row in the readings table has a `[+]` button (shown on hover; always visible
+on the selected row). Clicking it opens a modal sheet pre-filled with the sensor,
+key, operator, and current value — the user only needs to choose a profile, set
+weight, and optionally negate.
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Create Rule                                        │
+│  WiFi → SSID equals "CorpNet"                       │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  Profile                                            │
+│  [ Work                                       ▾ ]   │
+│  [ + New Profile…                               ]   │
+│                                                     │
+│  ──────────────────────────────────────────────     │
+│                                                     │
+│  ☐  Negate  (rule matches when WiFi is NOT          │
+│              "CorpNet")                             │
+│                                                     │
+│  Confidence Weight                                  │
+│  ├────────────────●──────────┤  1.0                 │
+│  0.1                       2.0                      │
+│                                                     │
+│  ──────────────────────────────────────────────     │
+│                                                     │
+│  Preview                                            │
+│  ┌─────────────────────────────────────────────┐   │
+│  │ WiFi SSID equals "CorpNet"  (weight 1.0)    │   │
+│  └─────────────────────────────────────────────┘   │
+│                                                     │
+│                      [ Cancel ]  [ Save Rule ]     │
+└─────────────────────────────────────────────────────┘
+```
+
+**New Profile inline expansion** — clicking `[ + New Profile… ]` expands an
+inline form (name field + Cancel / Create buttons) directly inside the sheet.
+On Create the new profile is saved and auto-selected in the picker.
+
+**Implementation notes:**
+- `[+]` button is a new `TableColumn` (trailing, fixed narrow width).
+- Sheet is a new `QuickCreateRuleView` that takes a pre-filled `SensorReading`
+  and `SensorSnapshot` (for sensor ID and display name). It does not re-expose
+  the sensor/key/operator/comparand pickers — those are shown read-only.
+- On save, calls the same `RuleStore.insert` path as `CreateRuleView`.
 
 ---
 

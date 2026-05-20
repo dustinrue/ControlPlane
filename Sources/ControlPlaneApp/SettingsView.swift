@@ -1,8 +1,9 @@
 import SwiftUI
 import ControlPlaneSDK
 
-/// Root view for the Preferences window. Hosts a tab picker for Sensors and Profiles.
-struct PreferencesView: View {
+/// Root view for the Settings window.
+/// Tab order follows the GUI plan: Profiles → Actions → Sensors → General.
+struct SettingsView: View {
 
     @StateObject private var store: ControlPlaneStore
 
@@ -12,16 +13,19 @@ struct PreferencesView: View {
 
     var body: some View {
         TabView {
-            GeneralSettingsView()
-                .tabItem { Label("General", systemImage: "gear") }
+            ProfilesTabView(store: store)
+                .tabItem { Label("Profiles", systemImage: "person.2") }
+
+            ActionsTabView(store: store)
+                .tabItem { Label("Actions", systemImage: "bolt") }
 
             SensorsTabView(store: store)
                 .tabItem { Label("Sensors", systemImage: "waveform") }
 
-            ProfilesTabView(store: store)
-                .tabItem { Label("Profiles", systemImage: "person.2") }
+            GeneralSettingsView()
+                .tabItem { Label("General", systemImage: "gear") }
         }
-        .frame(minWidth: 700, minHeight: 450)
+        .frame(minWidth: 860, minHeight: 520)
         .task { await store.refresh() }
         .alert("Error", isPresented: Binding(
             get: { store.errorMessage != nil },

@@ -241,12 +241,4 @@ struct CreateActionView: View {
     }
 }
 
-// MARK: - Path panel configuration struct
-
-private struct PathPanelConfig {
-    let title: String
-    let canChooseFiles: Bool
-    let canChooseDirectories: Bool
-    let allowedTypes: [UTType]?
-    var directoryURL: URL? = nil
-}
+// PathPanelConfig is defined in ActionConfigForm.swift

@@ -10,7 +10,7 @@ struct ActionsListView: View {
     @State private var selectedActionIDs = Set<UUID>()
     @State private var showingCreateAction = false
 
-    private var actions: [ProfileAction] { store.actions(for: profile.id) }
+    private var actions: [ProfileAction] { store.legacyActions(for: profile.id) }
 
     var body: some View {
         VStack(spacing: 0) {

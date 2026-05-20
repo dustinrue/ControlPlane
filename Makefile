@@ -13,15 +13,19 @@ APP_BINARY := $(APP_BUNDLE)/Contents/MacOS/ControlPlane
 INFO_PLIST := Resources/ControlPlane-Info.plist
 ICON       := Resources/AppIcon.icns
 
-.PHONY: all build install run clean
+.PHONY: all build install run bundle clean
 
 ## Default: build universal binaries and install cpctl
 all: build install
 
-## Build for arm64 and x86_64, then lipo into universal binaries
+## Build for arm64 and x86_64, then lipo into universal binaries.
+## Each product is built with a separate invocation so SPM cannot silently
+## skip one when multiple --product flags are passed on some toolchain versions.
 build:
-	$(SWIFT) build -c $(CONFIG) --arch arm64  --product ControlPlane --product cpctl
-	$(SWIFT) build -c $(CONFIG) --arch x86_64 --product ControlPlane --product cpctl
+	$(SWIFT) build -c $(CONFIG) --arch arm64  --product ControlPlane
+	$(SWIFT) build -c $(CONFIG) --arch arm64  --product cpctl
+	$(SWIFT) build -c $(CONFIG) --arch x86_64 --product ControlPlane
+	$(SWIFT) build -c $(CONFIG) --arch x86_64 --product cpctl
 	@mkdir -p $(UNIV_DIR)
 	lipo -create $(BIN_ARM)/ControlPlane $(BIN_X86)/ControlPlane -output $(UNIV_DIR)/ControlPlane
 	lipo -create $(BIN_ARM)/cpctl        $(BIN_X86)/cpctl        -output $(UNIV_DIR)/cpctl
@@ -49,7 +53,21 @@ run: build install
 	open "$(APP_BUNDLE)"
 	@echo "ControlPlane running from $(APP_BUNDLE)"
 
-## Remove all build artifacts
+## Assemble the app bundle and sign it ad-hoc, without launching.
+## Used by CI to produce a downloadable artifact.
+bundle: build
+	@mkdir -p "$(APP_BUNDLE)/Contents/MacOS"
+	@mkdir -p "$(APP_BUNDLE)/Contents/Resources"
+	cp $(INFO_PLIST) "$(APP_BUNDLE)/Contents/Info.plist"
+	cp $(UNIV_DIR)/ControlPlane "$(APP_BINARY)"
+	cp $(UNIV_DIR)/cpctl "$(APP_BUNDLE)/Contents/MacOS/cpctl"
+	cp $(ICON) "$(APP_BUNDLE)/Contents/Resources/AppIcon.icns"
+	codesign --force --deep --sign - --identifier "com.controlplane.app" "$(APP_BUNDLE)"
+	@echo "Bundle assembled → $(APP_BUNDLE)"
+
+## Remove all build artifacts.
+## Uses rm -rf instead of 'swift package clean' to guarantee a truly clean
+## state — swift package clean can leave stale SPM metadata that causes the
+## next build to produce only some products.
 clean:
-	$(SWIFT) package clean
-	rm -rf .build/universal
+	rm -rf .build
