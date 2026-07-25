@@ -53,6 +53,13 @@ public final class NetworkLinkSensor: BaseSensor {
         publishInactive()
     }
 
+    /// Re-read current link state on demand (e.g. after system wake).
+    /// The SCDynamicStore callback fires when keys change, but an explicit
+    /// refresh ensures the snapshot is correct before the first callback arrives.
+    public override func refresh() async {
+        refreshSnapshot()
+    }
+
     private func refreshSnapshot() {
         guard let store else { return }
         let pattern = "State:/Network/Interface/.*/Link" as CFString

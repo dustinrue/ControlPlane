@@ -14,6 +14,10 @@ final class ControlPlaneStore: ObservableObject {
     @Published var profiles: [Profile] = []
     @Published var rules: [Rule] = []
     @Published var profileActions: [ProfileAction] = []
+    /// Global reusable action definitions.
+    @Published var actions: [Action] = []
+    /// Profile ↔ action assignments.
+    @Published var profileActionLinks: [ProfileActionLink] = []
     @Published var snapshots: [SensorSnapshot] = []
     @Published var actionTypes: [ActionTypeInfo] = []
     @Published var operators: [OperatorDescriptor] = []
@@ -90,6 +94,8 @@ final class ControlPlaneStore: ObservableObject {
 
         await refreshSnapshots()
         await refreshProfileActions()
+        await refreshActions()
+        await refreshProfileActionLinks()
     }
 
     func refreshSnapshots() async {
@@ -100,13 +106,23 @@ final class ControlPlaneStore: ObservableObject {
         do {
             var all: [ProfileAction] = []
             for p in profiles {
-                let actions = try await backend.profileActionStore.list(forProfile: p.id)
-                all += actions
+                let acts = try await backend.profileActionStore.list(forProfile: p.id)
+                all += acts
             }
             profileActions = all
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+
+    func refreshActions() async {
+        do { actions = try await backend.actionStore.listAll() }
+        catch { errorMessage = error.localizedDescription }
+    }
+
+    func refreshProfileActionLinks() async {
+        do { profileActionLinks = try await backend.profileActionLinkStore.listAll() }
+        catch { errorMessage = error.localizedDescription }
     }
 
     /// Poll sensor snapshots every 2 s so the Sensors tab stays live.
@@ -161,6 +177,7 @@ final class ControlPlaneStore: ObservableObject {
             profiles.removeAll { $0.id == profile.id }
             rules.removeAll { $0.profileID == profile.id }
             profileActions.removeAll { $0.profileID == profile.id }
+            profileActionLinks.removeAll { $0.profileID == profile.id }
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -243,7 +260,79 @@ final class ControlPlaneStore: ObservableObject {
         }
     }
 
-    // MARK: - ProfileAction CRUD
+    // MARK: - Action CRUD (global library)
+
+    func createAction(name: String, actionPluginID: String, config: [String: String]) async {
+        do {
+            let a = try await backend.actionStore.create(name: name, actionPluginID: actionPluginID, config: config)
+            actions.append(a)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func updateAction(_ action: Action, name: String, actionPluginID: String, config: [String: String], enabled: Bool) async {
+        do {
+            let updated = try await backend.actionStore.update(
+                id: action.id, name: name, actionPluginID: actionPluginID,
+                config: config, enabled: enabled
+            )
+            if let idx = actions.firstIndex(where: { $0.id == action.id }) {
+                actions[idx] = updated
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func deleteAction(_ action: Action) async {
+        do {
+            try await backend.actionStore.delete(action.id)
+            actions.removeAll { $0.id == action.id }
+            profileActionLinks.removeAll { $0.actionID == action.id }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    // MARK: - ProfileActionLink CRUD
+
+    func linkAction(_ action: Action, to profile: Profile, trigger: ActionTrigger) async {
+        // Prevent duplicate links for same profile/action/trigger combination.
+        guard !profileActionLinks.contains(where: {
+            $0.profileID == profile.id && $0.actionID == action.id && $0.trigger == trigger
+        }) else { return }
+        do {
+            let link = try await backend.profileActionLinkStore.link(
+                profileID: profile.id, actionID: action.id, trigger: trigger
+            )
+            profileActionLinks.append(link)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func unlinkAction(_ link: ProfileActionLink) async {
+        do {
+            try await backend.profileActionLinkStore.unlink(link.id)
+            profileActionLinks.removeAll { $0.id == link.id }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func setProfileActionLinkEnabled(_ link: ProfileActionLink, enabled: Bool) async {
+        do {
+            try await backend.profileActionLinkStore.setEnabled(link.id, enabled: enabled)
+            if let idx = profileActionLinks.firstIndex(where: { $0.id == link.id }) {
+                profileActionLinks[idx].enabled = enabled
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    // MARK: - ProfileAction CRUD (legacy — used by old ActionsListView)
 
     func createProfileAction(
         profileID: UUID,
@@ -291,8 +380,22 @@ final class ControlPlaneStore: ObservableObject {
         rules.filter { $0.profileID == profileID }.sorted { $0.createdAt < $1.createdAt }
     }
 
-    func actions(for profileID: UUID) -> [ProfileAction] {
+    func legacyActions(for profileID: UUID) -> [ProfileAction] {
         profileActions.filter { $0.profileID == profileID }.sorted { $0.createdAt < $1.createdAt }
+    }
+
+    /// Returns the `ProfileActionLink` for a given profile/action/trigger, if it exists.
+    func link(profileID: UUID, actionID: UUID, trigger: ActionTrigger) -> ProfileActionLink? {
+        profileActionLinks.first {
+            $0.profileID == profileID && $0.actionID == actionID && $0.trigger == trigger
+        }
+    }
+
+    /// All profiles that have at least one link to the given action.
+    func profileNames(linkedTo action: Action) -> String {
+        let linkedIDs = Set(profileActionLinks.filter { $0.actionID == action.id }.map(\.profileID))
+        let names = profiles.filter { linkedIDs.contains($0.id) }.map(\.name).sorted()
+        return names.joined(separator: ", ")
     }
 
     func isActive(_ profileID: UUID) -> Bool {

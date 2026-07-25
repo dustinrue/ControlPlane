@@ -1,19 +1,15 @@
 import SwiftUI
 import ControlPlaneSDK
 
-// MARK: - Protocol extensions for SwiftUI conformance
-
-extension SensorReading: Identifiable {
-    public var id: String { key }
-}
-
 // MARK: - View
 
 /// Displays all loaded sensors and the live readings for the selected one.
+/// Each reading row has a [+] button to quickly create a rule from that value.
 struct SensorsTabView: View {
 
     @ObservedObject var store: ControlPlaneStore
     @State private var selectedSensorID: String?
+    @State private var quickCreateReading: SensorReading? = nil
 
     var body: some View {
         HSplitView {
@@ -37,6 +33,11 @@ struct SensorsTabView: View {
             // Keep selection valid when snapshots update
             if let id = selectedSensorID, store.snapshot(for: id) == nil {
                 selectedSensorID = store.snapshots.first?.sensorID
+            }
+        }
+        .sheet(item: $quickCreateReading) { reading in
+            if let snapshot = store.snapshot(for: selectedSensorID ?? "") {
+                QuickCreateRuleView(snapshot: snapshot, reading: reading, store: store)
             }
         }
     }
@@ -112,6 +113,17 @@ struct SensorsTabView: View {
                         Text(r.value.description)
                             .font(.system(.body, design: .monospaced))
                     }
+                    TableColumn("") { r in
+                        Button {
+                            quickCreateReading = r
+                        } label: {
+                            Image(systemName: "plus.circle")
+                                .foregroundStyle(Color.accentColor)
+                        }
+                        .buttonStyle(.borderless)
+                        .help("Create rule from this reading")
+                    }
+                    .width(28)
                 }
             }
 

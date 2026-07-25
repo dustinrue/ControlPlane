@@ -32,9 +32,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             .sink { [weak self] active in self?.rebuildProfileSection(active) }
             .store(in: &cancellables)
 
-        // Rebuild the Run Actions submenu whenever actions, profiles, or action types change.
-        store.$profileActions
-            .combineLatest(store.$profiles, store.$actionTypes)
+        // Rebuild the Run Actions submenu whenever actions or action types change.
+        store.$actions
+            .combineLatest(store.$actionTypes)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.rebuildRunActionsMenu() }
             .store(in: &cancellables)
@@ -91,8 +91,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(.separator())
 
         menu.addItem(
-            NSMenuItem(title: "Preferences…",
-                       action: #selector(openPreferences),
+            NSMenuItem(title: "Settings…",
+                       action: #selector(openSettings),
                        keyEquivalent: ",")
         )
 
@@ -137,37 +137,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard let submenu = runActionsMenuItem?.submenu else { return }
         submenu.removeAllItems()
 
-        // Sort by profile name, then by creation date within a profile.
-        let actions = store.profileActions.sorted { a, b in
-            let nameA = store.profiles.first { $0.id == a.profileID }?.name ?? ""
-            let nameB = store.profiles.first { $0.id == b.profileID }?.name ?? ""
-            return nameA == nameB ? a.createdAt < b.createdAt : nameA < nameB
-        }
-
-        if actions.isEmpty {
+        let allActions = store.actions.sorted { $0.name < $1.name }
+        guard !allActions.isEmpty else {
             let empty = NSMenuItem(title: "No actions configured", action: nil, keyEquivalent: "")
             empty.isEnabled = false
             submenu.addItem(empty)
             return
         }
 
-        // Group by profile with a section header for each.
-        var lastProfileID: UUID? = nil
-        for action in actions {
-            let profileName = store.profiles.first { $0.id == action.profileID }?.name ?? "Unknown Profile"
-            let typeName    = store.actionType(for: action.actionPluginID)?.displayName ?? action.actionPluginID
-            let trigger     = action.trigger == ActionTrigger.onActivate ? "activate" : "deactivate"
-
-            if action.profileID != lastProfileID {
-                if lastProfileID != nil { submenu.addItem(.separator()) }
-                let header = NSMenuItem(title: profileName, action: nil, keyEquivalent: "")
-                header.isEnabled = false
-                submenu.addItem(header)
-                lastProfileID = action.profileID
-            }
-
-            let title = "  \(typeName) (\(trigger))"
-            let item = NSMenuItem(title: title, action: #selector(runActionItem(_:)), keyEquivalent: "")
+        for action in allActions {
+            let typeName = store.actionType(for: action.actionPluginID)?.displayName
+                           ?? action.actionPluginID
+            let title = "\(action.name)  (\(typeName))"
+            let item  = NSMenuItem(title: title, action: #selector(runActionItem(_:)), keyEquivalent: "")
             item.representedObject = action
             item.target = self
             if !action.enabled {
@@ -179,22 +161,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func runActionItem(_ sender: NSMenuItem) {
-        guard let action = sender.representedObject as? ProfileAction else { return }
-        // Access @MainActor-isolated store on the main actor, then hop to a plain
-        // Task for the async plugin execution.
+        guard let action = sender.representedObject as? Action else { return }
         Task { @MainActor [weak self] in
             guard let self else { return }
-            guard let profile = self.store.profiles.first(where: { $0.id == action.profileID }) else {
-                log("Run Action: profile \(action.profileID) not found", CPLogger.actions)
-                return
-            }
             guard let plugin = await self.backend.actionRegistry.plugin(for: action.actionPluginID) else {
                 log("Run Action: plugin '\(action.actionPluginID)' not loaded", CPLogger.actions)
                 return
             }
+            // No profile context for on-demand execution; use a placeholder.
+            // Most action plugins ignore the trigger and profile parameters.
+            let placeholder = Profile(name: "Manual", exclusive: false, confidenceThreshold: 1.0)
             do {
-                log("Run Action: executing \(action.actionPluginID) [\(action.trigger.rawValue)] for \"\(profile.name)\"", CPLogger.actions)
-                try await plugin.execute(trigger: action.trigger, profile: profile, config: action.config)
+                log("Run Action: executing \(action.name)", CPLogger.actions)
+                try await plugin.execute(trigger: .onActivate, profile: placeholder, config: action.config)
                 log("Run Action: done", CPLogger.actions)
             } catch {
                 logError("Run Action failed: \(error)", CPLogger.actions)
@@ -231,9 +210,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Actions
 
-    @objc private func openPreferences() {
+    @objc private func openSettings() {
         Task { @MainActor in
-            PreferencesWindowController.show(store: store)
+            SettingsWindowController.show(
+                store: store,
+                onOpen: { [weak self] in
+                    guard let self else { return }
+                    Task { await self.backend.applyRunPolicy(settingsOpen: true) }
+                },
+                onClose: { [weak self] in
+                    guard let self else { return }
+                    Task { await self.backend.applyRunPolicy(settingsOpen: false) }
+                }
+            )
         }
     }
 }

@@ -131,6 +131,34 @@ final class AppDatabase {
             }
         }
 
+        migrator.registerMigration("v7_global_actions") { db in
+            // Global action library — action definitions decoupled from profiles.
+            try db.create(table: "actions") { t in
+                t.column("id", .text).primaryKey()
+                t.column("name", .text).notNull()
+                t.column("actionPluginId", .text).notNull()
+                // JSON-encoded [String: String] config dictionary
+                t.column("config", .text).notNull().defaults(to: "{}")
+                t.column("enabled", .boolean).notNull().defaults(to: true)
+                t.column("createdAt", .text).notNull()
+                t.column("updatedAt", .text).notNull()
+            }
+
+            // Profile ↔ action links — replaces profileActions.
+            try db.create(table: "profileActionLinks") { t in
+                t.column("id", .text).primaryKey()
+                t.column("profileId", .text).notNull()
+                    .references("profiles", onDelete: .cascade)
+                t.column("actionId", .text).notNull()
+                    .references("actions", onDelete: .cascade)
+                // "onActivate" | "onDeactivate"
+                t.column("trigger", .text).notNull()
+                t.column("enabled", .boolean).notNull().defaults(to: true)
+                t.column("createdAt", .text).notNull()
+                t.column("lastTriggeredAt", .text)
+            }
+        }
+
         try migrator.migrate(dbQueue)
     }
 

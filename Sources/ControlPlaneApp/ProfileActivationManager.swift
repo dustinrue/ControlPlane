@@ -5,14 +5,21 @@ import ControlPlaneSDK
 /// actions attached to each profile when it transitions in or out.
 actor ProfileActivationManager {
     private var active: [UUID: ActiveProfile] = [:]
-    private let actionStore: ProfileActionStore
+    private let linkStore: ProfileActionLinkStore
+    private let actionStore: ActionStore
     private let actionRegistry: ActionRegistry
     private let profileStore: ProfileStore
 
     /// Called (from any thread) whenever the active profile set changes.
     var onActiveProfilesChanged: (@Sendable ([ActiveProfile]) -> Void)?
 
-    init(actionStore: ProfileActionStore, actionRegistry: ActionRegistry, profileStore: ProfileStore) {
+    init(
+        linkStore: ProfileActionLinkStore,
+        actionStore: ActionStore,
+        actionRegistry: ActionRegistry,
+        profileStore: ProfileStore
+    ) {
+        self.linkStore = linkStore
         self.actionStore = actionStore
         self.actionRegistry = actionRegistry
         self.profileStore = profileStore
@@ -61,25 +68,33 @@ actor ProfileActivationManager {
     // MARK: - Private
 
     private func runActions(for profile: Profile, trigger: ActionTrigger) async {
-        let actions: [ProfileAction]
+        let links: [ProfileActionLink]
         do {
-            actions = try await actionStore.list(forProfile: profile.id)
+            links = try await linkStore.list(forProfile: profile.id)
         } catch {
-            logError("Failed to load actions for profile \(profile.id): \(error)", CPLogger.profiles)
+            logError("Failed to load action links for profile \(profile.id): \(error)", CPLogger.profiles)
             return
         }
 
-        for action in actions where action.enabled && action.trigger == trigger {
+        for link in links where link.enabled && link.trigger == trigger {
+            let action: Action
+            do {
+                action = try await actionStore.get(link.actionID)
+            } catch {
+                logError("Action \(link.actionID) not found for link \(link.id): \(error)", CPLogger.actions)
+                continue
+            }
+            guard action.enabled else { continue }
             guard let plugin = await actionRegistry.plugin(for: action.actionPluginID) else {
-                log("Action plugin '\(action.actionPluginID)' not loaded — skipping action \(action.id)", CPLogger.actions)
+                log("Action plugin '\(action.actionPluginID)' not loaded — skipping link \(link.id)", CPLogger.actions)
                 continue
             }
             do {
                 try await plugin.execute(trigger: trigger, profile: profile, config: action.config)
-                try? await actionStore.recordTriggered(action.id)
-                log("Action \(action.id) [\(action.actionPluginID)] executed for \"\(profile.name)\"", CPLogger.actions)
+                try? await linkStore.recordTriggered(link.id)
+                log("Action \(action.id) [\(action.actionPluginID)] '\(action.name)' executed for \"\(profile.name)\"", CPLogger.actions)
             } catch {
-                logError("Action \(action.id) failed: \(error)", CPLogger.actions)
+                logError("Action \(action.id) '\(action.name)' failed: \(error)", CPLogger.actions)
             }
         }
     }

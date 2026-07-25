@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 import ControlPlaneSDK
 import WiFiSensor
 import FilePresenceSensor
@@ -52,14 +53,18 @@ final class Backend {
         profileStore: profileStore,
         evaluatorRegistry: evaluatorRegistry
     )
-    lazy var profileActionStore = ProfileActionStore(db: appDatabase)
+    lazy var profileActionStore      = ProfileActionStore(db: appDatabase)
+    lazy var actionStore             = ActionStore(db: appDatabase)
+    lazy var profileActionLinkStore  = ProfileActionLinkStore(db: appDatabase)
     lazy var profileActivationManager = ProfileActivationManager(
-        actionStore: profileActionStore,
+        linkStore: profileActionLinkStore,
+        actionStore: actionStore,
         actionRegistry: actionRegistry,
         profileStore: profileStore
     )
     let startedAt = Date()
     private let locationAuthorizer = LocationAuthorizer()
+    private var sleepWakeObserver: NSObjectProtocol?
 
     private lazy var pluginLoader = PluginLoader(registry: pluginRegistry, sensors: sensorCoordinator)
     private var socketServer: SocketServer?
@@ -81,6 +86,20 @@ final class Backend {
             Task { await self.sensorCoordinator.refreshAllSensors() }
         }
         locationAuthorizer.requestIfNeeded()
+        // Refresh all sensors when the system wakes from sleep.
+        // Network state (WiFi SSID, link status, IP addresses) may have changed
+        // while asleep; the sensor-level callbacks will also fire as interfaces
+        // come back up, but an explicit refresh eliminates the stale-data window
+        // between wake and the first hardware event.
+        sleepWakeObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didWakeNotification,
+            object: nil as AnyObject?,
+            queue: nil as OperationQueue?
+        ) { [weak self] (_: Notification) in
+            guard let self else { return }
+            log("System woke from sleep — refreshing all sensors", CPLogger.sensors)
+            Task { await self.sensorCoordinator.refreshAllSensors() }
+        }
         setupSocketServer()
         registerStaticEvaluators()
         registerStaticActions()
@@ -159,8 +178,10 @@ final class Backend {
             if LaptopLidSensor.isApplicable() {
                 await registerSensor(LaptopLidSensor())
             }
-            // After sensors are registered, push current rule keys to any dynamic sensors.
+            // After sensors are registered, push current rule keys to any dynamic sensors
+            // and apply the run policy (only start sensors that have rules).
             await refreshDynamicSensorKeys()
+            await applyRunPolicy(settingsOpen: false)
         }
     }
 
@@ -189,10 +210,39 @@ final class Backend {
         } catch {
             logError("refreshDynamicSensorKeys error: \(error)", CPLogger.rules)
         }
+        // Re-apply the run policy — a rule might have been added to or removed
+        // from a sensor, changing which sensors need to be running.
+        await applyRunPolicy(settingsOpen: false)
         // Force an evaluation with current snapshots so that rule edits (negate
         // toggle, weight change, enable/disable) take effect immediately regardless
         // of whether any sensor happened to push a new snapshot on its own.
         await sensorCoordinator.triggerSnapshotCallback()
+    }
+
+    /// Returns the set of sensor IDs that are referenced by at least one enabled rule.
+    func sensorIDsNeededForRules() async -> Set<String> {
+        do {
+            let rules = try await ruleStore.list()
+            return Set(rules.filter(\.enabled).map(\.sensorID))
+        } catch {
+            logError("sensorIDsNeededForRules error: \(error)", CPLogger.rules)
+            return []
+        }
+    }
+
+    /// Apply the sensor run policy.
+    ///
+    /// - `settingsOpen = true`:  start all registered sensors so the user sees
+    ///   live readings for every sensor while configuring rules.
+    /// - `settingsOpen = false`: stop sensors that have no enabled rules; only
+    ///   sensors referenced by at least one enabled rule keep running.
+    func applyRunPolicy(settingsOpen: Bool) async {
+        if settingsOpen {
+            await sensorCoordinator.startAll()
+        } else {
+            let neededIDs = await sensorIDsNeededForRules()
+            await sensorCoordinator.applyRunPolicy(neededIDs: neededIDs)
+        }
     }
 
     private func registerSensor(_ sensor: any SensorPlugin) async {
@@ -208,7 +258,7 @@ final class Backend {
             source: .bundled
         )
         await pluginRegistry.register(info)
-        await sensorCoordinator.add(sensor)
+        await sensorCoordinator.register(sensor)
     }
 
     private func setupSocketServer() {

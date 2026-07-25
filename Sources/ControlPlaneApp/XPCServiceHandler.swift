@@ -208,10 +208,12 @@ final class RequestHandler {
     // MARK: - Sensors
 
     private func sensorListReadings() async throws -> Data {
-        try encoder.encode(await sensors.allSnapshots())
+        await sensors.refreshForQuery()
+        return try encoder.encode(await sensors.allSnapshots())
     }
 
     private func sensorGetReadings(id: String) async throws -> Data {
+        await sensors.refreshForQuery()
         guard let snap = await sensors.snapshot(for: id) else {
             throw CPError.invalidData("No sensor loaded with identifier '\(id)'")
         }
