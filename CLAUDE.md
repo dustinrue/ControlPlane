@@ -217,12 +217,17 @@ All new sensors extend `BaseSensor` (in `ControlPlaneSDK`). `BaseSensor` impleme
 | `AudioOutputSensor` | `AudioOutputSensor` | `com.controlplane.sensors.audiooutput` | Push | CoreAudio; reads `outputDevice`, `outputDeviceUID` |
 | `LaptopLidSensor` | `LaptopLidSensor` | `com.controlplane.sensors.laptoplid` | Push | IOKit PM; reads `lidClosed`; `isApplicable()` checks `AppleClamshellExists` |
 | `TimeOfDaySensor` | `TimeOfDaySensor` | `com.controlplane.sensors.timeofday` | Poll (1 min) | Reads `hour`, `minute`, `time` (HH:mm), `dayOfWeek` |
-| `HostAvailabilitySensor` | `HostAvailabilitySensor` | `com.controlplane.sensors.hostavailability` | Push+Dynamic | SCNetworkReachability per hostname; keys are hostnames |
+| `HostAvailabilitySensor` | `HostAvailabilitySensor` | `com.controlplane.sensors.hostavailability` | Push+Dynamic | Bonjour/mDNS browsing (`_smb`, `_afpovertcp`, `_device-info`, `_workstation`, `_ssh`); keys are advertised device names |
 
-Sensors intentionally NOT ported: FireWire (dead technology), Bonjour (complex, niche),
-ShellScript evidence source (polling, overlap with ShellScriptAction), Light (private API),
-ScreenSaver time/RemoteDesktop (niche), ContextEvidenceSource (ControlPlane-internal),
-StressTest (internal only).
+`HostAvailabilitySensor` is Bonjour-based as of #549: it browses mDNS service
+advertisements on the local link rather than probing a hostname. It therefore only sees
+devices that advertise one of the service types above, and cannot answer "is this
+arbitrary host reachable" — the legacy `HostAvailabilityEvidenceSource` could.
+
+Sensors intentionally NOT ported: FireWire (dead technology), ShellScript evidence
+source (polling, overlap with ShellScriptAction), Light (private API — still no public
+ambient-light API on macOS), ScreenSaver time/RemoteDesktop (niche),
+ContextEvidenceSource (ControlPlane-internal), StressTest (internal only).
 
 ## Implemented action plugins
 

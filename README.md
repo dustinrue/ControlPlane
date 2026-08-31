@@ -47,7 +47,7 @@ Bluetooth "AirPods" connected → +1.0 confidence
 | Screen Lock | Locked/unlocked state |
 | Laptop Lid | Open/closed state |
 | Audio Output | Active output device |
-| Host Availability | Whether a hostname is reachable |
+| Host Availability | Whether a Bonjour/mDNS device is present on the local network |
 | Time of Day | Hour, minute, day of week |
 | File Presence | Whether a file or directory exists |
 
@@ -100,7 +100,7 @@ make run
 
 ### cpctl
 
-ControlPlane ships with `cpctl`, a command-line interface for managing profiles, rules, and actions without a GUI. On first launch the app installs it to `~/.local/bin/cpctl`.
+ControlPlane ships with `cpctl`, a command-line interface for managing profiles, rules, and actions from the terminal or from scripts. On first launch the app installs it to `~/.local/bin/cpctl`.
 
 ```bash
 cpctl status
@@ -115,12 +115,15 @@ cpctl --help
 
 ## Status
 
-This rewrite is **alpha**. The core engine is functional — sensors run, rules evaluate, profiles activate, actions fire — but the following are not yet complete:
+This rewrite is **alpha**. The core engine is functional — sensors run, rules evaluate, profiles activate, actions fire — and profiles, rules, and actions can be managed from the Preferences window or from `cpctl`. The following are not yet complete:
 
-- **No GUI** beyond the menu bar icon. All configuration is done via `cpctl`.
+- **No manual profile override.** Profiles activate only from sensor input; you cannot pin one.
+- **No switch smoothing.** A flapping sensor re-fires actions on every evaluation.
 - **No auto-update** mechanism.
 - **No code signing or notarization** for distribution builds.
 - The database schema may change between versions with no migration path.
+- **Preferences covers profiles, rules, and actions.** The Sensors tab is a read-only
+  reading inspector — per-sensor configuration is not yet editable in the GUI.
 
 The original Objective-C ControlPlane is preserved on the [`master`](https://github.com/dustinrue/ControlPlane/tree/master) branch for reference.
 
