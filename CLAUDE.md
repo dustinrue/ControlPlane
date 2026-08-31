@@ -4,7 +4,7 @@ Modern Swift rewrite of the original ControlPlane macOS app. Activates user-defi
 profiles based on environmental sensor readings using a confidence/weight model.
 
 **Original app** (for reference when porting features):
-`/Users/dustin/Development/personal/ControlPlane/`
+`/Users/nrosier/Development/ControlPlane Legacy`
 Consult it to understand existing behaviour, condition types, action types, and UI
 conventions before implementing anything new.
 
